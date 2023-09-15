@@ -1,0 +1,12 @@
+[book]
+authors = ["Seasawher"]
+language = "en"
+multilingual = false
+src = "src"
+title = "Lean4 基本のタクティク"
+
+[build]
+build-dir = "book"
+
+[output.html]
+additional-js = ["highlight.js"]
