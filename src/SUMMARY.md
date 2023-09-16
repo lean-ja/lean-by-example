@@ -15,7 +15,7 @@
 - [「または」を適用する: cases](./cases.md)
 - [「または」を示す: left, right](./left_right.md)
 - [存在を示す: exists](./exists.md)
-- [仮定から明らか: assumption]()
+- [仮定をそのまま使う: assumption](./assumption.md)
 
 # 証明の構造化
 
