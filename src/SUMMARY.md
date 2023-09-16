@@ -20,7 +20,7 @@
 # 証明の構造化
 
 * [補題を用意する: have](./have.md)
-* [場合分け: by_cases]()
+* [排中律: by_cases](./by_cases.md)
 * [十分条件に帰着させる: suffices]()
 * [帰納法: induction]()
 * [矛盾: contradiction]()
