@@ -24,6 +24,7 @@
 * [十分条件に帰着させる: suffices](./suffices.md)
 * [帰納法: induction](./induction.md)
 * [矛盾: contradiction](./contradiction.md)
+* [背理法: by_contra](./by_contra.md)
 - [定義から自明: trivial](./trivial.md)
 
 # 等式・同値
