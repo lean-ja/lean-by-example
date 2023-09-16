@@ -23,7 +23,7 @@
 * [排中律: by_cases](./by_cases.md)
 * [十分条件に帰着させる: suffices](./suffices.md)
 * [帰納法: induction](./induction.md)
-* [矛盾: contradiction]()
+* [矛盾: contradiction](./contradiction.md)
 
 # 等式・同値
 
