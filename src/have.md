@@ -27,5 +27,5 @@
 次のように，`∃ x: X, P x` という命題から，条件を満たす `x` を取り出すことができます．`x: X` と `hx: P x` がローカルコンテキストに追加されます．
 
 ```lean
-{{#include ../Examples/Have.lean:exists}}
+{{#include ../Examples/Mathlib/Have.lean:exists}}
 ```
