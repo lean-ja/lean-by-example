@@ -17,7 +17,7 @@
 - [存在を示す: exists](./exists.md)
 - [仮定をそのまま使う: assumption](./assumption.md)
 
-# 証明の構造化
+# 証明のイディオム
 
 * [補題を用意する: have](./have.md)
 * [排中律: by_cases](./by_cases.md)
