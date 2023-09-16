@@ -10,7 +10,7 @@
 
 - [証明を構成する: exact](./exact.md)
 - [「ならば」を適用する: apply](./apply.md)
-- [「ならば」や「すべての」を示す: intro]()
+- [「ならば」や「すべての」を示す: intro](./intro.md)
 - [「かつ」を示す: constructor](./constructor.md)
 - [「または」を適用する: cases](./cases.md)
 - [「または」を示す: left, right]()
