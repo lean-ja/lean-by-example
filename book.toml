@@ -3,10 +3,12 @@ authors = ["Seasawher"]
 language = "en"
 multilingual = false
 src = "src"
-title = "Lean4 基本のタクティク"
+title = "Lean4 タクティク逆引きリスト"
 
 [build]
+create-missing = false
 build-dir = "book"
 
 [output.html]
 additional-js = ["highlight.js"]
+no-section-label = true
