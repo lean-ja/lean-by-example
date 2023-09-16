@@ -7,7 +7,3 @@ example (a b c d e f : Nat) (h : a * b = c * d) (h' : e = f) : a * (b * e) = c *
 
   -- 結合法則を使う
   rw [Nat.mul_assoc]
-
-example (a b c d e f : Nat) (h : a * b = c * d) (h' : e = f) : a * (b * e) = c * (d * f) := by
-  rw [h']
-  simp [← Nat.mul_assoc, h]
