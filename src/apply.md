@@ -1,6 +1,6 @@
 # apply
 
-ゴールが `Q` で，ローカルコンテキストに `h: P → Q` があるときに，`apply h` を実行するとゴールが `P` に書き換わります．
+ゴールが `⊢ Q` で，ローカルコンテキストに `h: P → Q` があるときに，`apply h` を実行するとゴールが `⊢ P` に書き換わります．
 
 ```lean
 {{#include ../Examples/Apply.lean:first}}
@@ -14,7 +14,7 @@
 
 ## ¬ について
 
-また，Lean では `¬ P` は `P → False` として実装されているため，ゴールが `P` であるときに `hn: ¬P` に対して `apply hn` とするとゴールが `P` に書き換わります．
+また，Lean では否定 `¬ P` は `P → False` として実装されているため，ゴールが `⊢ False` であるときに `hn: ¬P` に対して `apply hn` とするとゴールが `⊢ P` に書き換わります．
 
 ```lean
 {{#include ../Examples/Apply.lean:not}}
