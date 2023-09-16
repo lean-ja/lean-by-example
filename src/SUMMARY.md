@@ -24,11 +24,12 @@
 * [十分条件に帰着させる: suffices](./suffices.md)
 * [帰納法: induction](./induction.md)
 * [矛盾: contradiction](./contradiction.md)
+- [定義から自明: trivial](./trivial.md)
 
 # 等式・同値
 
-- [定義から明らか: rfl]()
-- [言い換え: rw]()
+- [定義から: rfl]()
+- [言い換え: rw](./rw.md)
 
 # 集合・関数
 
