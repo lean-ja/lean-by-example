@@ -13,7 +13,7 @@
 - [「ならば」や「すべての」を示す: intro](./intro.md)
 - [「かつ」を示す: constructor](./constructor.md)
 - [「または」を適用する: cases](./cases.md)
-- [「または」を示す: left, right]()
+- [「または」を示す: left, right](./left_right.md)
 - [存在を示す: exists]()
 - [仮定から明らか: assumption]()
 
