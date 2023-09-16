@@ -1,11 +1,11 @@
 -- ANCHOR: first
-example (hp: P) (hq: Q) : P ∧ Q := by
+example (hP: P) (hQ: Q) : P ∧ Q := by
   -- goal が `left` と `right` に分割される
   constructor
   · -- `P` を示す
-    exact hp
+    exact hP
   · -- `Q` を示す
-    exact hq
+    exact hQ
 -- ANCHOR_END: first
 
 
