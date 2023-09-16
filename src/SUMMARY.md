@@ -14,7 +14,7 @@
 - [「かつ」を示す: constructor](./constructor.md)
 - [「または」を適用する: cases](./cases.md)
 - [「または」を示す: left, right](./left_right.md)
-- [存在を示す: exists]()
+- [存在を示す: exists](./exists.md)
 - [仮定から明らか: assumption]()
 
 # 証明の構造化
