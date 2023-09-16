@@ -11,6 +11,20 @@ example (hPQ: P → Q) (hQR: Q → R) : P → R := by
 -- ANCHOR_END: first
 
 
+-- ANCHOR: forall
+example (P Q : Nat → Prop) (h : ∀ n, P n ↔ Q n) : ∀ y, P (y + 1) → Q (y + 1) := by
+  -- 任意の `y` について示すので，`intro` で `y` を導入する
+  -- そして `P (y + 1) → Q(y + 1)` を示したいので，`P (y + 1)` を仮定する
+  intro y hyP
+
+  -- 同値を使ってゴールを書き換える
+  rw [← h]
+
+  -- 仮定 `P (y + 1)` より従う
+  assumption
+-- ANCHOR_END: forall
+
+
 -- ANCHOR: neg
 example (h: P → Q) : ¬Q → ¬P := by
   -- 示したいことが `¬Q → ¬P` なので，`¬Q` だと仮定する

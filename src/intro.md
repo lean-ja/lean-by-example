@@ -18,6 +18,12 @@
 {{#include ../Examples/Intro.lean:first}}
 ```
 
+もう一つ使用例を挙げておきます：
+
+```lean
+{{#include ../Examples/Intro.lean:forall}}
+```
+
 ## 否定(¬) について
 
 Lean では否定 `¬ P` は `P → False` として定義されているので，ゴールが `¬ P` のときに `intro` すると `P` が仮定に追加されて，ゴールが `False` に変わります．
