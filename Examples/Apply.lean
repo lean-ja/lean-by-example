@@ -1,5 +1,5 @@
 -- ANCHOR: first
-/-- `P → Q` かつ `P` ならば `Q` -/
+-- `P → Q` かつ `P` ならば `Q`
 example (h: P → Q) (hP: P) : Q := by
   -- ゴールが `P` に変わる
   apply h
@@ -9,14 +9,14 @@ example (h: P → Q) (hP: P) : Q := by
 
 
 -- ANCHOR: exact
-/-- `P → Q` かつ `P` ならば `Q` -/
+-- `P → Q` かつ `P` ならば `Q`
 example (h: P → Q) (hP: P) : Q := by
   exact h hP
 -- ANCHOR_END: exact
 
 
 -- ANCHOR: not
-/-- 矛盾 -/
+-- 矛盾
 example (hn: ¬ P) (hP: P) : False := by
   -- ゴールが `P` に変わる
   apply hn
@@ -26,7 +26,7 @@ example (hn: ¬ P) (hP: P) : False := by
 
 
 -- ANCHOR: alt
-/-- `P → Q` かつ `P` ならば `Q` -/
+-- `P → Q` かつ `P` ならば `Q`
 example (h: P → Q) (hP: P) : Q := by
   apply h
   apply hP
