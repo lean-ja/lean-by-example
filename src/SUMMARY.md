@@ -11,7 +11,7 @@
 - [証明を構成する: exact](./exact.md)
 - [「ならば」を適用する: apply](./apply.md)
 - [「ならば」や「すべての」を示す: intro]()
-- [「かつ」を示す: constructor]()
+- [「かつ」を示す: constructor](./constructor.md)
 - [「または」を適用する: cases](./cases.md)
 - [「または」を示す: left, right]()
 - [存在を示す: exists]()
