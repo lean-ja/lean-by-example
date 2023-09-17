@@ -8,6 +8,10 @@ example (hP: P) (hQ: Q) : P ∧ Q := by
     exact hQ
 -- ANCHOR_END: first
 
+-- ANCHOR: split
+example (h: P ∧ Q) : P := by
+  exact h.left
+-- ANCHOR_END: split
 
 -- ANCHOR: iff
 example (x : Nat) : x = 0 ↔ x + 1 = 1 := by
