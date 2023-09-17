@@ -1,6 +1,6 @@
 # Summary
 
-[はじめに]()
+[Lean4 タクティク逆引きリスト](./README.md)
 
 - [証明したことにする: sorry](./sorry.md)
 - [示すべきことを宣言する: show](./show.md)
