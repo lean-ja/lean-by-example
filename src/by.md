@@ -8,7 +8,7 @@
 
 ## by?
 
-これは Mathlib4 に依存したタクティクですが，`by?` を使えばタクティクモードで構成した証明を直接構成した証明に変換してくれます．
+これは `Std.Tactic.ShowTerm` に依存した例ですが，`by?` を使えばタクティクモードで構成した証明を直接構成した証明に変換してくれます．
 
 ```lean
 {{#include ../Examples/Mathlib/By.lean:question}}

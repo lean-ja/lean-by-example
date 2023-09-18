@@ -1,7 +1,6 @@
 import Mathlib.Tactic.Ring
 
 -- ANCHOR: exists
--- 注意：この例は mathlib4 に依存しています
 
 -- `x`が偶数のとき`3 * x`も偶数
 example (x : ℕ) (hx : ∃ y, x = 2 * y) : ∃ z, 3 * x = 2 * z := by
