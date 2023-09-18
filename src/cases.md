@@ -13,3 +13,10 @@
 ```lean
 {{#include ../Examples/Cases.lean:no_case}}
 ```
+
+## rcases
+
+`rcases` はパターンに従って `cases` を再帰的(recursive)に適用するタクティクです．
+
+パターンマッチにより分岐した仮定に名前を付けることができます．
+
