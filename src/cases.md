@@ -14,9 +14,10 @@
 {{#include ../Examples/Cases.lean:no_case}}
 ```
 
-## rcases
+## cases'
 
-`rcases` はパターンに従って `cases` を再帰的(recursive)に適用するタクティクです．
+`Mathlib.Tactic.Cases` に依存したタクティクですが，`cases'` を使用すると分解した仮定に簡潔に名前をつけることができます．
 
-パターンマッチにより分岐した仮定に名前を付けることができます．
-
+```lean
+{{#include ../Examples/Cases.lean:dash}}
+```
