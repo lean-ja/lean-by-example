@@ -14,7 +14,7 @@
 {{#include ../Examples/Apply.lean:exact}}
 ```
 
-## 否定(¬) について
+## 否定 ¬ について
 
 また，Lean では否定 `¬ P` は `P → False` として実装されているため，ゴールが `⊢ False` であるときに `hn: ¬P` に対して `apply hn` とするとゴールが `⊢ P` に書き換わります．
 
