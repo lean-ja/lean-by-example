@@ -1,4 +1,5 @@
-import Mathlib.Tactic
+import Mathlib.Tactic.LeftRight
+
 
 -- ANCHOR: first
 example (hP: P) : P ∨ Q := by

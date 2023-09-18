@@ -1,5 +1,8 @@
--- `induction` は mathlib 依存ではないが，例のために mathlib を import しておく
-import Mathlib.Tactic
+-- `induction'` のために必要
+import Mathlib.Tactic.Cases
+
+import Mathlib.Tactic.Positivity
+
 
 -- ANCHOR: first
 -- 注意：この例は mathlib 依存です

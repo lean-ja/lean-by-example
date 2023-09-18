@@ -1,5 +1,4 @@
--- `have` というタクティクは mathlib 依存ではないが，具体例のためにインポートする
-import Mathlib.Tactic
+import Mathlib.Tactic.Ring
 
 -- ANCHOR: exists
 -- 注意：この例は mathlib4 に依存しています

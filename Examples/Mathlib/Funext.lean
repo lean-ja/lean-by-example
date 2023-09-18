@@ -1,5 +1,4 @@
--- `funext` 自体は mathlib に依存しないが，例のために必要
-import Mathlib.Tactic
+import Mathlib.Tactic.Ring
 
 -- ANCHOR: first
 def f := fun (x : Nat) ↦ x + x

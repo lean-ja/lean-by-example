@@ -1,4 +1,9 @@
-import Mathlib.Tactic
+import Aesop
+import Std.Tactic.Ext
+
+-- `ext` タクティクで集合の等号を展開するために必要
+import Mathlib.Data.SetLike.Basic
+
 
 -- ANCHOR: first
 variable {α : Type}

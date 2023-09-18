@@ -1,4 +1,4 @@
-import Mathlib.Tactic
+import Mathlib.Tactic.ByContra
 
 
 -- ANCHOR: first

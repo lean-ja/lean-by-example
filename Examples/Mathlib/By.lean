@@ -1,5 +1,5 @@
--- `by` 自体は mathlib に依存しないが，`by?` のために必要
-import Mathlib.Tactic
+-- `by?` を使用するのに必要
+import Std.Tactic.ShowTerm
 
 -- ANCHOR: first
 -- `P → R` というのは `P` の証明を与えられたときに `R` の証明を返す関数の型
