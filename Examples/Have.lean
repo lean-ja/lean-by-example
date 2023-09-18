@@ -29,7 +29,8 @@ example (x : ℕ) (hx : ∃ y, x = 2 * y) : ∃ z, 3 * x = 2 * z := by
 -- ANCHOR: and
 example (hPQ: P ∧ Q) : P := by
   -- `P ∧ Q` という仮定を分解する
-  have ⟨ hP, hQ ⟩ := hPQ
+  -- `hQ: Q` は不要なのでアンダースコアに置き換える
+  have ⟨ hP, _ ⟩ := hPQ
 
   assumption
 -- ANCHOR_END: and
