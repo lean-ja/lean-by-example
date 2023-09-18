@@ -5,8 +5,6 @@ import Mathlib.Tactic.Positivity
 
 
 -- ANCHOR: first
--- 注意：この例は mathlib 依存です
-
 -- 階乗関数
 def fac : Nat → Nat
   | 0 => 1

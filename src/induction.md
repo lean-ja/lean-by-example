@@ -20,7 +20,7 @@ inductive Nat
 の２つのゴールです．
 
 ```lean
-{{#include ../Examples/Mathlib/Induction.lean:first}}
+{{#include ../Examples/Induction.lean:first}}
 ```
 
 ## induction'
@@ -28,5 +28,5 @@ inductive Nat
 `Mathlib.Tactic.Cases` 依存のタクティクですが，`induction'` というタクティクもあります．こちらは箇条書きによる，より簡潔な書き方が可能です．
 
 ```lean
-{{#include ../Examples/Mathlib/Induction.lean:dash}}
+{{#include ../Examples/Induction.lean:dash}}
 ```

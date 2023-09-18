@@ -5,5 +5,5 @@
 ゴールが `⊢ P` であるときに `by_contra h` を実行すると，`h : ¬ P` がローカルコンテキストに追加されて，同時にゴールが `⊢ False` になります．
 
 ```lean
-{{#include ../Examples/Mathlib/ByContra.lean:first}}
+{{#include ../Examples/ByContra.lean:first}}
 ```
