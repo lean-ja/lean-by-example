@@ -48,3 +48,5 @@
 - [簡約: simp](./simp.md)
 - [自動検索: apply?]()
 - [自動証明: aesop]()
+- [環の等式を示す: ring]()
+- [不等式を示す: linarith]()
