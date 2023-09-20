@@ -1,6 +1,8 @@
 -- `cases'` を使用するために必要
 import Mathlib.Tactic.Cases
 
+import Std.Tactic.RCases
+
 
 -- ANCHOR: first
 example : P ∨ Q → (P → R) → (Q → R) → R := by
@@ -43,3 +45,26 @@ example : P ∨ Q → (P → R) → (Q → R) → R := by
   · apply hPR hP
   · apply hQR hQ
 -- ANCHOR_END: dash
+
+
+-- ANCHOR: rcases
+variable (P Q R : Prop)
+
+example : P ∨ Q → (P → R) → (Q → R) → R := by
+  intro h hPR hQR
+
+  -- 場合分けをする
+  rcases h with hP | hQ
+  · apply hPR hP
+  · apply hQR hQ
+
+example : P ∧ Q → Q ∧ P := by
+  -- `h: P ∧ Q` と仮定する
+  intro h
+
+  -- `h: P ∧ Q` を `hP: P` と `hQ: Q` に分解する
+  rcases h with ⟨hP, hQ⟩
+
+  -- `Q ∧ P` を証明する
+  exact ⟨hQ, hP⟩
+-- ANCHOR_END: rcases

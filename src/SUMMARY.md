@@ -2,51 +2,33 @@
 
 [Lean4 タクティク逆引きリスト](./README.md)
 
-- [証明したことにする: sorry](./sorry.md)
-- [示すべきことを宣言する: show](./show.md)
-- [証明終了を宣言する: done](./done.md)
-
-# 論理
-
-- [証明を構成する: exact](./exact.md)
-- [「ならば」を適用する: apply](./apply.md)
-- [「ならば」や「すべての」を示す: intro](./intro.md)
-- [「かつ」を示す: constructor](./constructor.md)
-- [「または」を適用する: cases](./cases.md)
-- [「または」を示す: left, right](./left_right.md)
-- [存在を示す: exists](./exists.md)
-- [仮定をそのまま使う: assumption](./assumption.md)
-
-# 証明のイディオム
-
-* [補題を用意する: have](./have.md)
-* [排中律: by_cases](./by_cases.md)
-* [十分条件に帰着させる: suffices](./suffices.md)
-* [帰納法: induction](./induction.md)
-* [矛盾: contradiction](./contradiction.md)
-* [背理法: by_contra](./by_contra.md)
-- [定義から自明: trivial](./trivial.md)
-
-# 等式・同値
-
-- [定義から: rfl](./rfl.md)
-- [言い換え: rw](./rw.md)
-
-# 集合・関数
-
-- [集合の元を取る: ext](./ext.md)
-- [関数の引数を取る: funext](./funext.md)
-
-# モード切替
-
-- [計算モードに入る: calc](./calc.md)
-- [変換モードに入る: conv](./conv.md)
-- [タクティクモードに入る: by](./by.md)
-
-# 自動化
-
-- [簡約: simp](./simp.md)
-- [自動検索: apply?]()
-- [自動証明: aesop]()
-- [環の等式を示す: ring]()
-- [不等式を示す: linarith]()
+- [aesop: ルーティン自動化]()
+- [apply: 含意→を使う](./apply.md)
+- [apply?: ライブラリ検索]()
+- [assumption: 仮定をそのまま使う](./assumption.md)
+- [by_cases: 排中律](./by_cases.md)
+- [by_contra: 背理法](./by_contra.md)
+- [by: タクティクモードに入る](./by.md)
+- [calc: 計算モードに入る](./calc.md)
+- [cases: 論理和∨を使う](./cases.md)
+- [constructor: 論理積∧を示す](./constructor.md)
+- [contradiction: 矛盾](./contradiction.md)
+- [conv: 変換モードに入る](./conv.md)
+- [done: 証明終了を宣言](./done.md)
+- [exact: 証明を直接構成](./exact.md)
+- [exists: 存在∃を示す](./exists.md)
+- [ext: 外延性を使う](./ext.md)
+- [funext: 関数等式を示す](./funext.md)
+- [have: 補題を用意する](./have.md)
+- [induction: 帰納法](./induction.md)
+- [intro: 含意→や全称∀を示す](./intro.md)
+- [left, right: 論理和∨を示す](./left_right.md)
+- [linarith: 不等式を示す]()
+- [rfl: 定義そのまま](./rfl.md)
+- [ring: 環の等式を示す]()
+- [rw: 同値変形](./rw.md)
+- [show: 示すべきことを宣言](./show.md)
+- [simp: 簡約](./simp.md)
+- [sorry: 証明したことにする](./sorry.md)
+- [suffices: 十分条件に帰着](./suffices.md)
+- [trivial: 自明](./trivial.md)
