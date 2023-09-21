@@ -2,7 +2,7 @@
 
 [Lean4 タクティク逆引きリスト](./README.md)
 
-- [aesop: ルーティン自動化]()
+- [aesop: ルーチン自動化](./aesop.md)
 - [apply: 含意→を使う](./apply.md)
 - [apply?: ライブラリ検索]()
 - [assumption: 仮定をそのまま使う](./assumption.md)
