@@ -4,7 +4,7 @@
 
 - [aesop: ルーチン自動化](./aesop.md)
 - [apply: 含意→を使う](./apply.md)
-- [apply?: ライブラリ検索]()
+- [apply?: ライブラリ検索](./apply_question.md)
 - [assumption: 仮定をそのまま使う](./assumption.md)
 - [by_cases: 排中律](./by_cases.md)
 - [by_contra: 背理法](./by_contra.md)
