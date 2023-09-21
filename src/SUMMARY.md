@@ -2,6 +2,8 @@
 
 [Lean4 タクティク逆引きリスト](./README.md)
 
+---
+
 - [aesop: ルーチン自動化](./aesop.md)
 - [apply: 含意→を使う](./apply.md)
 - [apply?: ライブラリ検索](./apply_question.md)
@@ -23,12 +25,13 @@
 - [induction: 帰納法](./induction.md)
 - [intro: 含意→や全称∀を示す](./intro.md)
 - [left, right: 論理和∨を示す](./left_right.md)
-- [linarith: 不等式を示す]()
 - [rfl: 定義そのまま](./rfl.md)
-- [ring: 環の等式を示す]()
 - [rw: 同値変形](./rw.md)
 - [show: 示すべきことを宣言](./show.md)
 - [simp: 簡約](./simp.md)
 - [sorry: 証明したことにする](./sorry.md)
 - [suffices: 十分条件に帰着](./suffices.md)
 - [trivial: 自明](./trivial.md)
+<!-- - [linarith: 線形不等式を示す]() -->
+<!-- - [rel: 不等式を使う]() -->
+<!-- - [ring: 環の等式を示す]() -->
