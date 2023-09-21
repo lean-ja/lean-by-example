@@ -26,12 +26,10 @@
 - [intro: 含意→や全称∀を示す](./intro.md)
 - [left, right: 論理和∨を示す](./left_right.md)
 - [rfl: 定義そのまま](./rfl.md)
+- [ring: 環の等式を示す](./ring.md)
 - [rw: 同値変形](./rw.md)
 - [show: 示すべきことを宣言](./show.md)
 - [simp: 簡約](./simp.md)
 - [sorry: 証明したことにする](./sorry.md)
 - [suffices: 十分条件に帰着](./suffices.md)
 - [trivial: 自明](./trivial.md)
-<!-- - [linarith: 線形不等式を示す]() -->
-<!-- - [rel: 不等式を使う]() -->
-<!-- - [ring: 環の等式を示す]() -->
