@@ -1,2 +1,2 @@
-example (hP: P) (hQ: Q) : P := by
+example (hP: P) (_: Q) : P := by
   assumption
