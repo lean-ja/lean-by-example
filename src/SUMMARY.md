@@ -25,6 +25,7 @@
 - [induction: 帰納法](./induction.md)
 - [intro: 含意→や全称∀を示す](./intro.md)
 - [left, right: 論理和∨を示す](./left_right.md)
+- [rel: 不等式を使う](./rel.md)
 - [rfl: 定義そのまま](./rfl.md)
 - [ring: 環の等式を示す](./ring.md)
 - [rw: 同値変形](./rw.md)
