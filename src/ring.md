@@ -1,6 +1,8 @@
 # ring
 
-`ring` は，可換環の等式を示します．`Mathlib.Tactic.Ring` に依存しています．
+needs: `import Mathlib.Tactic.Ring`
+
+`ring` は，可換環の等式を示します．
 
 ```lean
 {{#include ../Examples/Ring.lean:first}}

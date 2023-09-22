@@ -16,7 +16,9 @@
 
 ## cases'
 
-`Mathlib.Tactic.Cases` に依存したタクティクですが，`cases'` を使用すると分解した仮定に簡潔に名前をつけることができます．
+needs: `import Mathlib.Tactic.Cases`
+
+`cases'` を使用すると分解した仮定に簡潔に名前をつけることができます．
 
 ```lean
 {{#include ../Examples/Cases.lean:dash}}
@@ -24,7 +26,9 @@
 
 ## rcases
 
-`Std.Tactic.RCases` に依存したタクティクですが，`rcases` は `cases` をパターンに従って再帰的(recursive)に適用します．論理和∨以外にも使うことができます．
+needs: `import Std.Tactic.RCases`
+
+`rcases` は `cases` をパターンに従って再帰的(recursive)に適用します．論理和∨以外にも使うことができます．
 
 ```lean
 {{#include ../Examples/Cases.lean:rcases}}

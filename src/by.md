@@ -8,7 +8,9 @@
 
 ## by?
 
-これは `Std.Tactic.ShowTerm` に依存した例ですが，`by?` を使えばタクティクモードで構成した証明を直接構成した証明に変換してくれます．
+needs: `import Std.Tactic.ShowTerm`
+
+`by?` を使うとタクティクモードで構成した証明を直接構成した証明に変換してくれます．
 
 ```lean
 {{#include ../Examples/By.lean:question}}

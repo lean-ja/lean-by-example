@@ -1,6 +1,8 @@
 # left, right
 
-ゴールが `⊢ P ∨ Q` であるとき，`left` はゴールを `⊢ P` に，`right` はゴールを `⊢ Q` に変えます．`Mathlib.Tactic.LeftRight` に依存しているタクティクです．
+needs: `import Mathlib.Tactic.LeftRight`
+
+ゴールが `⊢ P ∨ Q` であるとき，`left` はゴールを `⊢ P` に，`right` はゴールを `⊢ Q` に変えます．
 
 ```lean
 {{#include ../Examples/LeftRight.lean:first}}

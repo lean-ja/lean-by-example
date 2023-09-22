@@ -25,7 +25,9 @@ inductive Nat
 
 ## induction'
 
-`Mathlib.Tactic.Cases` 依存のタクティクですが，`induction'` というタクティクもあります．こちらは箇条書きによる，より簡潔な書き方が可能です．
+needs: `import Mathlib.Tactic.Cases`
+
+`induction'` というタクティクもあります．こちらは箇条書きによる，より簡潔な書き方が可能です．
 
 ```lean
 {{#include ../Examples/Induction.lean:dash}}

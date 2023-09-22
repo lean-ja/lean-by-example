@@ -1,6 +1,8 @@
 # aesop
 
-`aesop` は，`intro` や `simp` を使用してルーチンな証明を自動で行おうとします．`Aesop` ライブラリに依存しています．
+needs: `import Aesop`
+
+`aesop` は，`intro` や `simp` を使用してルーチンな証明を自動で行おうとします．
 
 ```lean
 {{#include ../Examples/Aesop.lean:first}}

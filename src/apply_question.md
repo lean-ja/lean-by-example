@@ -1,6 +1,8 @@
 # apply?
 
-`apply?` は，ゴールを閉じるのに必要な命題をライブラリから検索してきて，提案してくれるタクティクです．`Mathlib.Tactic.LibrarySearch` に依存しています．
+needs: `import Mathlib.Tactic.LibrarySearch`
+
+`apply?` は，ゴールを閉じるのに必要な命題をライブラリから検索してきて，提案してくれるタクティクです．
 
 ```lean
 {{#include ../Examples/ApplyQuestion.lean:first}}
