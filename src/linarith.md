@@ -7,3 +7,9 @@ needs: `import Mathlib.Tactic.Linarith`
 ```lean
 {{#include ../Examples/Linarith.lean:first}}
 ```
+
+`linarith` はローカルコンテキストを読み取ってくれるので，`linarith` が通らないとき補題を追加してあげると通るようになることがあります．
+
+```lean
+{{#include ../Examples/Linarith.lean:id}}
+```
