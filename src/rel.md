@@ -2,7 +2,9 @@
 
 needs: `import Mathlib.Tactic.GCongr`
 
-`rel` は，不等式を代入して適用し，不等式を示します．関係(relation)を示すことからその名前があるようです．
+named after: 関係(relation)
+
+`rel` は，不等式を代入して適用し，不等式を示します．
 
 ```lean
 {{#include ../Examples/Rel.lean:first}}

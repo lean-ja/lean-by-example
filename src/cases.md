@@ -28,7 +28,9 @@ needs: `import Mathlib.Tactic.Cases`
 
 needs: `import Std.Tactic.RCases`
 
-`rcases` は `cases` をパターンに従って再帰的(recursive)に適用します．論理和∨以外にも使うことができます．
+named after: 再帰的(recursive) cases
+
+`rcases` は `cases` をパターンに従って再帰的に適用します．論理和∨以外にも使うことができます．
 
 ```lean
 {{#include ../Examples/Cases.lean:rcases}}
