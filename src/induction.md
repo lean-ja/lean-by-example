@@ -5,9 +5,7 @@
 自然数を例に説明します．Lean では自然数は次のように帰納的に定義されています.
 
 ```lean
-inductive Nat
-  | zero : Nat
-  | succ (n : Nat) : Nat
+{{#include ../Examples/Induction.lean:nat}}
 ```
 
 `succ` は後者関数と呼ばれる関数で，`n + 1 := succ n` です．

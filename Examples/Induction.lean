@@ -3,6 +3,15 @@ import Mathlib.Tactic.Cases
 
 import Mathlib.Tactic.Positivity
 
+namespace Examples
+
+-- ANCHOR: nat
+inductive Nat
+  | zero : Nat
+  | succ (n : Nat) : Nat
+-- ANCHOR_END: nat
+
+end Examples
 
 -- ANCHOR: first
 -- 階乗関数
