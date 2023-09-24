@@ -1,8 +1,10 @@
 -- ANCHOR: first
 -- `P → Q` かつ `P` ならば `Q`
 example (h: P → Q) (hP: P) : Q := by
-  -- ゴールが `P` に変わる
   apply h
+
+  -- ゴールが `P` に変わっている
+  show P
 
   exact hP
 -- ANCHOR_END: first

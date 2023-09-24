@@ -1,3 +1,5 @@
+import Std.Tactic.GuardExpr
+
 -- ANCHOR: first
 example (P: Prop) : ¬¬P → P := by
   intro hnnP
@@ -7,9 +9,13 @@ example (P: Prop) : ¬¬P → P := by
 
   case inl =>
     -- `P` が成り立つとき
+    guard_hyp hP : P
+
     assumption
 
   case inr =>
-    -- `P` が成り立たないとき
+    -- `¬ P` が成り立つとき
+    guard_hyp hP : ¬P
+
     contradiction
 -- ANCHOR_END: first
