@@ -6,6 +6,7 @@ import Examples.By
 import Examples.ByCases
 import Examples.ByContra
 import Examples.Cases
+import Examples.Choose
 import Examples.Constructor
 import Examples.Contradiction
 import Examples.Convert
