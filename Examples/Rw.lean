@@ -1,8 +1,6 @@
--- ANCHOR: nth_rewrite_import
 import Mathlib.Algebra.Group.Basic
 import Mathlib.Tactic.NthRewrite
 
--- ANCHOR_END: nth_rewrite_import
 
 -- ANCHOR: rw
 example (a b c d e f : Nat) (h : a * b = c * d) (h' : e = f) : a * (b * e) = c * (d * f) := by

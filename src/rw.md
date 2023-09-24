@@ -19,12 +19,10 @@
 
 ## nth_rewrite
 
-`nth_rewrite`は特定の項のみを書き換えるタクティクです．
+needs: `import Mathlib.Tactic.NthRewrite`
 
-項の指定は対象の式中に現れる順番を1始まりで指定します．
-指定された順番が式中の対象の項の数よりも多い場合はエラーになります．
+`rw` はマッチした項をすべて置き換えてしまいます．特定の項だけを書き換えたいとき，`nth_rewrite` が使用できます．対象の式中に現れる順番を1始まりで指定することで，項を指定します．指定された順番が式中の対象の項の数よりも多い場合はエラーになります．
 
 ```lean
-{{#include ../Examples/Rw.lean:nth_rewrite_import}}
 {{#include ../Examples/Rw.lean:nth_rewrite}}
 ```
