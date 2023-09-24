@@ -8,6 +8,7 @@ import Examples.ByContra
 import Examples.Cases
 import Examples.Constructor
 import Examples.Contradiction
+import Examples.Convert
 import Examples.Exact
 import Examples.Exists
 import Examples.Ext
