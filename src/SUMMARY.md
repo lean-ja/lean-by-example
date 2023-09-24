@@ -16,6 +16,7 @@
 - [constructor: 論理積∧を示す](./constructor.md)
 - [contradiction: 矛盾](./contradiction.md)
 - [conv: 変換モードに入る](./conv.md)
+- [convert: 惜しい補題を使う](./convert.md)
 - [done: 証明終了を宣言](./done.md)
 - [exact: 証明を直接構成](./exact.md)
 - [exists: 存在∃を示す](./exists.md)
