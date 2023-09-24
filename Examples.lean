@@ -17,6 +17,7 @@ import Examples.Induction
 import Examples.Intro
 import Examples.LeftRight
 import Examples.Linarith
+import Examples.NthRewrite
 import Examples.Rel
 import Examples.Rfl
 import Examples.Ring

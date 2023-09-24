@@ -16,3 +16,14 @@
 ```lean
 {{#include ../Examples/Rw.lean}}
 ```
+
+## nth_rewrite
+
+`nth_rewrite`は特定の項のみを書き換えるタクティクです．
+
+項の指定は対象の式中に現れる順番を1始まりで指定します.
+指定された順番が式中の対象の項の数よりも多い場合はエラーになります.
+
+```lean
+{{#include ../Examples/NthRewrite.lean}}
+```
