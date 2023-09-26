@@ -20,3 +20,9 @@ example : id x ≤ x := by
   -- `id x = x` だと教えてあげると `linarith` で示せる
   linarith
 -- ANCHOR_END: id
+
+
+-- ANCHOR: general
+example (h1: x = 2 * y) (h2 : - x + 2 * y = 1) : False := by
+  linarith
+-- ANCHOR_END: general
