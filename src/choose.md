@@ -10,7 +10,7 @@ needs: `import Mathlib.Tactic.Choose`
 
 ## 補足
 
-`choose` が自動で示してくれることは選択公理 `Classical.choice` を使って手動で示すことができます．たとえば次のようになります．
+`choose` が自動で示してくれることは選択原理 `Classical.choice` を使って手動で示すことができます．たとえば次のようになります．
 
 ```lean
 {{#include ../Examples/Choose.lean:no_choose}}
