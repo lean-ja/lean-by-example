@@ -31,7 +31,7 @@
 - [push_neg: ドモルガン](./push_neg.md)
 - [refine: プレースホルダを使う](./refine.md)
 - [rel: 不等式を使う](./rel.md)
-- [rfl: 定義そのまま](./rfl.md)
+- [rfl: 関係の反射性を示す](./rfl.md)
 - [ring: 環の等式を示す](./ring.md)
 - [rw: 同値変形](./rw.md)
 - [show: 示すべきことを宣言](./show.md)

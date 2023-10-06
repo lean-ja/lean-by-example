@@ -21,7 +21,8 @@ import Examples.LeftRight
 import Examples.Linarith
 import Examples.Refine
 import Examples.Rel
-import Examples.Rfl
+import Examples.Rfl.Refl
+import Examples.Rfl.Rfl
 import Examples.Ring
 import Examples.Rw
 import Examples.Show
