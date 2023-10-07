@@ -1,7 +1,7 @@
--- 自明に正しい等式
+variable (α : Type)
+
 example : 1 + 1 = 2 := by rfl
 
--- 変数を含む等式
-example (x : Nat) : x = x := by rfl
+example (x : α) : x = x := by rfl
 
-example (P : Prop) : P = P := by rfl
+example : (2 ^ 70 + 3 ^ 70) % 13 = 0 := by rfl
