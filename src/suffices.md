@@ -10,7 +10,7 @@
 `apply` と似ていますが，`apply` と違って「十分条件になっていること」の証明が明らかでないときにも使うことができます．
 
 ```lean
-{{#include ../Examples/Suffices.lean}}
+{{#include ../Examples/Suffices.lean:first}}
 ```
 
 `suffices Q from ...` という形式の場合は，証明を直接構成することが必要です．`suffices Q from by ...` とすると，タクティクによって証明を構成するモードになります．
