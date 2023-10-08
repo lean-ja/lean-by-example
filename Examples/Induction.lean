@@ -41,3 +41,19 @@ example (n : Nat) : 0 < fac n := by
   · simp [fac]
     positivity
 -- ANCHOR_END: dash
+
+
+-- ANCHOR: strong
+variable (P : Nat → Prop)
+
+example (n : Nat) : P n := by
+  -- `n` についての強い帰納法で示す
+  induction' n using Nat.strong_induction_on with n ih
+
+  -- 仮定が追加される
+  guard_hyp ih : ∀ (m : ℕ), m < n → P m
+
+  match n with
+  | 0 => sorry
+  | k + 1 => sorry
+-- ANCHOR_END: strong
