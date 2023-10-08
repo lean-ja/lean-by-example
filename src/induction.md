@@ -30,3 +30,17 @@ needs: `import Mathlib.Tactic.Cases`
 ```lean
 {{#include ../Examples/Induction.lean:dash}}
 ```
+
+## 強い帰納法
+
+時には，より強い帰納法が必要なこともあります．強い帰納法とは，たとえば
+
+* `P(0)` を示す
+* `(∀ k < n, P (k)) → P (n)` を示す
+* したがって `∀ n, P (n)` である
+
+という形式で表されるような帰納法のことです．これは超限帰納法の特別な場合です．これを使用するには，`Nat.strong_induction_on` を使って次のようにします．
+
+```lean
+{{#include ../Examples/Induction.lean:strong}}
+```
