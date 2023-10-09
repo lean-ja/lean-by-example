@@ -28,6 +28,7 @@
 - [intro: 含意→や全称∀を示す](./intro.md)
 - [left, right: 論理和∨を示す](./left_right.md)
 - [linarith: 線形(不)等式を示す](./linarith.md)
+- [nlinarith: 非線形な(不)等式を示す](./nlinarith.md)
 - [push_neg: ドモルガン](./push_neg.md)
 - [refine: プレースホルダを使う](./refine.md)
 - [rel: 不等式を使う](./rel.md)
