@@ -22,6 +22,7 @@ import Examples.Linarith
 import Examples.Nlinarith
 import Examples.Refine
 import Examples.Rel
+import Examples.Replace
 import Examples.Rfl.Refl
 import Examples.Rfl.Rfl
 import Examples.Ring
