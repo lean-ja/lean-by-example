@@ -1,4 +1,4 @@
-variable (P Q : Prop)
+variable (P Q R : Prop)
 
 -- ANCHOR: first
 example (hP: P) (hQ: Q) : P ∧ Q := by
@@ -10,3 +10,30 @@ example (hP: P) (hQ: Q) : P ∧ Q := by
 
   exact hP
 -- ANCHOR_END: first
+
+
+-- ANCHOR: constructor
+example (hP: P) (hQ: Q) (hR : R) : P ∧ Q ∧ R := by
+  -- ゴールを３つに分割する
+  refine ⟨?_, ?_, ?_⟩
+
+  · show P
+    exact hP
+  · show Q
+    exact hQ
+  · show R
+    exact hR
+
+-- `constructor` を使った場合
+-- 一度に２つのゴールに分割することしかできない
+example (hP: P) (hQ: Q) (hR : R) : P ∧ Q ∧ R := by
+  constructor
+  · show P
+    exact hP
+  · show Q ∧ R
+    constructor
+    · show Q
+      exact hQ
+    · show R
+      exact hR
+-- ANCHOR: constructor
