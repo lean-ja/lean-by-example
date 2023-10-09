@@ -6,8 +6,6 @@
 {{#include ../Examples/Assumption.lean}}
 ```
 
-## 関連するタクティク
+## exact との関連
 
-### [exact](./exact.md)
-
-`assumption` による証明は，どの仮定を使うか明示すれば `exact` で書き直すことができます．
+`assumption` による証明は，どの仮定を使うか明示すれば [exact](./exact.md) で書き直すことができます．
