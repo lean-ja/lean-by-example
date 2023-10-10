@@ -14,6 +14,7 @@ import Examples.Exact
 import Examples.Exists
 import Examples.Ext
 import Examples.Funext
+import Examples.GuardHyp
 import Examples.Have
 import Examples.Induction
 import Examples.Intro

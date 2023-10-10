@@ -23,6 +23,7 @@
 - [exists: 存在∃を示す](./exists.md)
 - [ext: 外延性を使う](./ext.md)
 - [funext: 関数等式を示す](./funext.md)
+- [guard_hyp: 仮定や補題を確認](./guard_hyp.md)
 - [have: 補題を用意する](./have.md)
 - [induction: 帰納法](./induction.md)
 - [intro: 含意→や全称∀を示す](./intro.md)
