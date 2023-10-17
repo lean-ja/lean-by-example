@@ -21,9 +21,8 @@ open Function
 -- 合成 `g ∘ f` が単射なら，`f` も単射
 example {f : X → Y} {g : Y → Z} (hgfinj : Injective (g ∘ f)) : Injective f := by
   rw [Injective]
-  aesop? says (
+  aesop? says
     intro a₁ a₂ a
     apply hgfinj
     simp_all only [comp_apply]
-  )
 -- ANCHOR_END: aesop
