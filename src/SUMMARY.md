@@ -20,6 +20,7 @@
 - [convert: 惜しい補題を使う](./convert.md)
 - [done: 証明終了を宣言](./done.md)
 - [exact: 証明を直接構成](./exact.md)
+- [exact?: ライブラリ検索](./exact_question.md)
 - [exists: 存在∃を示す](./exists.md)
 - [ext: 外延性を使う](./ext.md)
 - [funext: 関数等式を示す](./funext.md)
