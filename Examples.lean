@@ -29,6 +29,7 @@ import Examples.Rfl.Refl
 import Examples.Rfl.Rfl
 import Examples.Ring
 import Examples.Rw
+import Examples.Says
 import Examples.Show
 import Examples.Simp
 import Examples.Sorry

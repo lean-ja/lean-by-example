@@ -38,6 +38,7 @@
 - [rfl: 関係の反射性を示す](./rfl.md)
 - [ring: 環の等式を示す](./ring.md)
 - [rw: 同値変形](./rw.md)
+- [says: ライブラリ検索タクティクを残す](./says.md)
 - [show: 示すべきことを宣言](./show.md)
 - [simp: 簡約](./simp.md)
 - [sorry: 証明したことにする](./sorry.md)
