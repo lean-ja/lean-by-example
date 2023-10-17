@@ -14,7 +14,7 @@ needs: `import Mathlib.Tactic.LibrarySearch`
 
 `apply?` はあくまで証明を書くときに補助として使うものです．`sorry` と同じように，清書した証明に残してはいけません．
 
-`sorry` と同じと言いましたが，実際 `apply?` は sorryAx [^sorry] を裏で使用します．これは，`#explode` で証明の中身を出力させれば分かります．`sorry` と違って警告の類が出ないので, 気を付けてください．
+`sorry` と同じと言いましたが，実際 `apply?` は sorryAx [^sorry] を裏で使用します．これは，`#explode` で証明の中身を出力させれば分かります．`sorry` を使っているという旨の警告も出ます．
 
 ```lean
 {{#include ../Examples/ApplyQuestion.lean:sorry}}

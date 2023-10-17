@@ -14,7 +14,7 @@ example [Group G] [Group H] (f : G →* H) (a b : G) :
 
 
 -- ANCHOR: sorry
-theorem T (x y : Nat) (h: x ≤ y) : 2 ^ x ≤ 2 ^ y := by
+theorem T (x y : Nat) (_: x ≤ y) : 2 ^ x ≤ 2 ^ y := by
     apply?
 
     -- `apply?` しただけで `done` が通り，示せているように見える
