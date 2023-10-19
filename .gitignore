@@ -1,3 +1,4 @@
 book
 build
 lake-packages
+*.olean
