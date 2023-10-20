@@ -16,8 +16,10 @@ needs: `import Mathlib.Tactic.Says`
 {{#include ../Examples/Says.lean:aesop}}
 ```
 
-## 補足
-
 より詳細には，検索タクティク `X` があり，その提案内容が `Try this: Y` だったとき，`X says` とすると `says` は `Try this: Y` の代わりに `Try this: X says Y` という提案を infoview 上で出します．それをクリックすると，`X says` の内容が `X says Y` で置換されます．そして，`X says Y` が実行されるときには `X` は飛ばされます．
 
-なお，`X says Y` の `Y` のところに，実際には提案されていないタクティクを入れてもエラーにはなりません．したがって `X says Y` は，`X` の提案内容の中に `Try this: Y` があることを保証しません．
+## オプション
+
+* `says.verify : Bool` : `true` にすると，`X says Y` の `Y` のところに，実際には提案されていないタクティクを入れたときにエラーになります．
+
+* `says.no_verify_in_CI : Bool` : `true` にすると，CI 環境で `X says Y` の `Y` の部分が実際に提案されている内容と一致するかのチェックが走らなくなります．
