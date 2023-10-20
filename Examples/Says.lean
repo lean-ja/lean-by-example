@@ -3,7 +3,7 @@ import Mathlib.Init.Function
 import Mathlib.Tactic.LibrarySearch
 import Mathlib.Tactic.Says
 
-set_option says.verify false
+set_option says.no_verify_in_CI true
 
 variable (P Q R S: Prop)
 
