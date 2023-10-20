@@ -3,6 +3,8 @@ import Mathlib.Init.Function
 import Mathlib.Tactic.LibrarySearch
 import Mathlib.Tactic.Says
 
+set_option says.verify false
+
 variable (P Q R S: Prop)
 
 -- ANCHOR: first
