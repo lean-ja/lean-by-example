@@ -8,7 +8,7 @@
 
 タクティクによっては，オプションを設定することで挙動を変更することができます．オプションの設定には，`set_option` を使用します．たとえば，`set_option warningAsError true` と書くと，warning(警告) がエラーとして扱われるようになります．
 
-使用できるオプションの一覧は `#help option` で確認することができます．
+使用できるオプションの一覧は `#help option` または[こちらのリスト](https://github.com/Seasawher/mathlib4-options/blob/main/options.md)で確認することができます．
 
 ## リンク集
 
