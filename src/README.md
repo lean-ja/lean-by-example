@@ -18,4 +18,4 @@
 
 * [数学系のためのLean勉強会](https://github.com/yuma-mizuno/lean-math-workshop) Lean で数学をどのように実装するのか，実際に実装する過程を追うことで学べる教材です．いくつかコード例を拝借させていただきました．
 
-* [Formalizing Mathematics](https://www.ma.imperial.ac.uk/~buzzard/xena/formalising-mathematics-2023/Part_C/Part_C.html) Lean3 による例ですが，よく使うタクティクを平易な解説とともに紹介しているリストです．コード例や解説を参考にさせていただきました．
+* [Lean phrasebook](https://docs.google.com/spreadsheets/d/1Gsn5al4hlpNc_xKoXdU6XGmMyLiX4q-LFesFVsMlANo/edit#gid=0) 英語ですが，数学でのよくある推論ステップが，Lean にどのように翻訳されるかがよくまとめられたリストです．
