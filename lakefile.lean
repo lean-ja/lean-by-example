@@ -8,7 +8,7 @@ package examples {
 }
 
 require mathlib from git
-  "https://github.com/leanprover-community/mathlib4.git" @ "ae7ec61a7b0e120ac9bdbeda6f0047c8059f754f"
+  "https://github.com/leanprover-community/mathlib4.git" @ "3ce43c18f614b76e161f911b75a3e1ef641620ff"
 
 @[default_target]
 lean_lib Examples {
