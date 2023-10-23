@@ -45,3 +45,4 @@
 - [sorry: 証明したことにする](./sorry.md)
 - [suffices: 十分条件に帰着](./suffices.md)
 - [trivial: 自明](./trivial.md)
+- [wlog: 一般性を失わずに特殊化](./wlog.md)

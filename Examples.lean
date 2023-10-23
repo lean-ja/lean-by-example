@@ -36,3 +36,4 @@ import Examples.Simp
 import Examples.Sorry
 import Examples.Suffices
 import Examples.Trivial
+import Examples.Wlog
