@@ -5,7 +5,7 @@
 ---
 
 - [aesop: ルーチン自動化](./aesop.md)
-- [apply_assumption: 仮定から後方推論](./apply_asssumption.md)
+- [apply_assumption: 仮定から後方推論](./apply_assumption.md)
 - [apply: 含意→を使う](./apply.md)
 - [apply?: ライブラリ検索](./apply_question.md)
 - [assumption: 仮定からゴールを閉じる](./assumption.md)
