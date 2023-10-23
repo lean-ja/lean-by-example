@@ -33,3 +33,7 @@
 ```lean
 {{#include ../Examples/Apply.lean:alt}}
 ```
+
+## apply_assumption との関連
+
+`apply` は常にどの命題を使うか明示する必要がありますが，「ゴールに `apply` が適用できるような命題をローカルコンテキストから自動で探す」 [apply_assumption](./apply_assumption.md) というタクティクもあります．
