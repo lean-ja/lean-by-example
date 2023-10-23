@@ -1,5 +1,6 @@
 import Examples.Aesop
 import Examples.Apply
+import Examples.ApplyAssumption
 import Examples.ApplyQuestion
 import Examples.Assumption
 import Examples.By
