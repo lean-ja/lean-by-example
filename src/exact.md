@@ -13,3 +13,7 @@
 ```lean
 {{#include ../Examples/Exact.lean:and}}
 ```
+
+## assumption との関連
+
+`exact` は常にどの命題を使うか明示する必要がありますが，「ゴールを `exact` で閉じることができるような命題をローカルコンテキストから自動で探す」タクティクもあり，それは [assumption](./assumption.md) です．
