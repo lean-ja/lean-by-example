@@ -8,7 +8,7 @@
 - [apply_assumption: 仮定から後方推論](./apply_asssumption.md)
 - [apply: 含意→を使う](./apply.md)
 - [apply?: ライブラリ検索](./apply_question.md)
-- [assumption: 仮定をそのまま使う](./assumption.md)
+- [assumption: 仮定からゴールを閉じる](./assumption.md)
 - [by_cases: 排中律](./by_cases.md)
 - [by_contra: 背理法](./by_contra.md)
 - [by: タクティクモードに入る](./by.md)
