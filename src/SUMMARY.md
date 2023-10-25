@@ -15,6 +15,7 @@
 - [calc: 計算モードに入る](./calc.md)
 - [cases: 論理和∨を使う](./cases.md)
 - [choose: 選択関数を得る](./choose.md)
+- [congr: ゴールの差異に注目する](./congr.md)
 - [constructor: 論理積∧を示す](./constructor.md)
 - [contradiction: 爆発律](./contradiction.md)
 - [conv: 変換モードに入る](./conv.md)
