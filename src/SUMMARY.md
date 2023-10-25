@@ -16,7 +16,7 @@
 - [cases: 論理和∨を使う](./cases.md)
 - [choose: 選択関数を得る](./choose.md)
 - [constructor: 論理積∧を示す](./constructor.md)
-- [contradiction: 矛盾](./contradiction.md)
+- [contradiction: 爆発律](./contradiction.md)
 - [conv: 変換モードに入る](./conv.md)
 - [convert: 惜しい補題を使う](./convert.md)
 - [done: 証明終了を宣言](./done.md)
