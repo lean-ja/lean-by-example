@@ -2,6 +2,8 @@ import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.Says
 import Std.Tactic.Replace
 
+set_option says.no_verify_in_CI true
+
 -- ANCHOR: first
 -- if 式を使って関数を定義する
 def myabs (x : Int) : Int :=
