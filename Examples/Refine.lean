@@ -36,4 +36,4 @@ example (hP: P) (hQ: Q) (hR : R) : P ∧ Q ∧ R := by
       exact hQ
     · show R
       exact hR
--- ANCHOR: constructor
+-- ANCHOR_END: constructor
