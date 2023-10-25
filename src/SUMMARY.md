@@ -44,6 +44,7 @@
 - [show: 示すべきことを宣言](./show.md)
 - [simp: 簡約](./simp.md)
 - [sorry: 証明したことにする](./sorry.md)
+- [split: if 式を示す](./split.md)
 - [suffices: 十分条件に帰着](./suffices.md)
 - [trivial: 自明](./trivial.md)
 - [wlog: 一般性を失わずに特殊化](./wlog.md)
