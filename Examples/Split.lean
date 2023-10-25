@@ -29,9 +29,8 @@ example (x : Int) : myabs (2 * x) = 2 * myabs x := by
     replace h : x ≥ 0 := by linarith [h]
 
     -- `simp` で if を消すことができる
-    simp? [h] says (
+    simp? [h] says
       simp only [ge_iff_le, h, ite_true]
-    )
 
   case inr h =>
     -- `2 * x < 0` の場合
@@ -44,7 +43,6 @@ example (x : Int) : myabs (2 * x) = 2 * myabs x := by
     have hx : ¬ x ≥ 0 := by linarith [h]
 
     -- `simp` で簡約
-    simp? [h, hx] says (
+    simp? [h, hx] says
       simp only [ge_iff_le, hx, ite_false, mul_neg]
-    )
 -- ANCHOR_END: first
