@@ -37,3 +37,16 @@ example (hP: P) (hQ: Q) (hR : R) : P ∧ Q ∧ R := by
     · show R
       exact hR
 -- ANCHOR_END: constructor
+
+
+variable (P Q : Prop)
+
+-- ANCHOR: apply
+example (hPQ : P → Q) (hP : P) : Q := by
+  refine hPQ ?_
+
+  -- ゴールが `⊢ P` になる
+  show P
+
+  refine hP
+-- ANCHOR_END: apply
