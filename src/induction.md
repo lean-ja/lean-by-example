@@ -31,7 +31,15 @@ needs: `import Mathlib.Tactic.Cases`
 {{#include ../Examples/Induction.lean:dash}}
 ```
 
-## 強い帰納法
+### 一般の～についての帰納法
+
+また，`induction'` では「リストの長さに対する帰納法」のようなより複雑な帰納法を行うことができます．
+
+```lean
+{{#include ../Examples/Induction.lean:induction_on_length}}
+```
+
+### 強い帰納法
 
 時には，より強い帰納法が必要なこともあります．強い帰納法とは，たとえば
 

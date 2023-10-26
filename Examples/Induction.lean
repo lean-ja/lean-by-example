@@ -1,6 +1,4 @@
--- `induction'` のために必要
-import Mathlib.Tactic.Cases
-
+import Mathlib.Tactic.Cases -- `induction'` のために必要
 import Mathlib.Tactic.Positivity
 
 namespace Examples
@@ -42,6 +40,30 @@ example (n : Nat) : 0 < fac n := by
     positivity
 -- ANCHOR_END: dash
 
+variable (α : Type)
+
+-- ANCHOR: induction_on_length
+example (l : List α) (P : List α → Prop) : P l := by
+  -- リストの長さに対する帰納法
+  induction' h : l.length generalizing l
+
+  case zero =>
+    -- リストの長さが 0 のとき
+    guard_hyp h: List.length l = 0
+
+    show P l
+    sorry
+
+  case succ n IH =>
+    -- リストの長さが `n + 1` のとき
+    guard_hyp h: List.length l = n + 1
+
+    -- 帰納法の仮定が使える
+    guard_hyp IH: ∀ (l : List α), List.length l = n → P l
+
+    show P l
+    sorry
+-- ANCHOR_END: induction_on_length
 
 -- ANCHOR: strong
 variable (P : Nat → Prop)
