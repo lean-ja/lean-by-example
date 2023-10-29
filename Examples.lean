@@ -37,5 +37,6 @@ import Examples.Simp
 import Examples.Sorry
 import Examples.Split
 import Examples.Suffices
+import Examples.Tauto
 import Examples.Trivial
 import Examples.Wlog
