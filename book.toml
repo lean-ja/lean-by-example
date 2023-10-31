@@ -10,6 +10,6 @@ create-missing = false
 build-dir = "book"
 
 [output.html]
-additional-js = ["highlight.js"]
+additional-js = []
 no-section-label = true
 git-repository-url = "https://github.com/lean-ja/tactic-cheetsheet"
