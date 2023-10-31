@@ -1,6 +1,6 @@
 [book]
 authors = ["Seasawher"]
-language = "en"
+language = "ja"
 multilingual = false
 src = "src"
 title = "Lean4 タクティク逆引きリスト"
