@@ -1,17 +1,7 @@
 # aesop
 
-needs: `import Aesop`
-
-`aesop` は，`intro` や `simp` を使用してルーチンな証明を自動で行おうとします．
+`aesop` は，`intro` や `simp` を使用してルーチンな証明を自動で行う，強力なタクティクです． `aesop?` を使うことにより，中身を見ることも可能です．
 
 ```lean
-{{#include ../Examples/Aesop.lean:first}}
-```
-
-## aesop?
-
-`aesop` が成功したとき，`aesop?` に置き換えると，ゴールを達成するのにどんなタクティクを使用したか教えてくれます．
-
-```lean
-{{#include ../Examples/Aesop.lean:question}}
+{{#include ../Examples/Aesop.lean}}
 ```
