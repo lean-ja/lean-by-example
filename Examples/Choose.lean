@@ -1,23 +1,31 @@
 import Mathlib.Tactic.Choose
 
-variable (X Y : Type)
+variable (X Y : Type) (P : X → Y → Prop)
 
+/-! ## choose -/
 
--- ANCHOR: first
-example (f : X → Y) (hf : ∀ y, ∃ x, f x = y) : ∃ g : Y → X, ∀ y, f (g y) = y := by
-  -- 写像 `g : Y → X` を構成する
-  choose g hg using hf
+theorem choice (h : ∀ x, ∃ y, P x y) : ∃ f : X → Y, ∀ x, P x (f x) := by
+  -- 写像 `f : X → Y` を構成する
+  choose f hf using h
 
-  -- `g` が満たす条件がローカルコンテキストに追加される
-  guard_hyp g: Y → X
-  guard_hyp hg: ∀ (y : Y), f (g y) = y
+  exact ⟨f, hf⟩
 
-  exact ⟨g, hg⟩
--- ANCHOR_END: first
+/-!
+  ## 選択公理
 
+  `choose` は選択公理を使用します．
+  これは `#print axioms` で確認できます．
+-/
 
--- ANCHOR: no_choose
-variable (P : X → Y → Prop)
+/-- info: 'choice' depends on axioms: [Classical.choice] -/
+#guard_msgs in #print axioms choice
+
+/-!
+  ## choose なしで示した場合
+
+  choose が自動で示してくれることを選択原理 Classical.choice を使って
+  手動で示すと例えば以下のようになります．
+-/
 
 noncomputable example (h : ∀ x, ∃ y, P x y) : ∃ f : X → Y, ∀ x, P x (f x) := by
   -- `f` を作る
@@ -34,4 +42,3 @@ noncomputable example (h : ∀ x, ∃ y, P x y) : ∃ f : X → Y, ∀ x, P x (f
     exact (f' x).property
 
   exists f
--- ANCHOR_END: no_choose
