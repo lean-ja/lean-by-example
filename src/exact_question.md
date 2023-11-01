@@ -8,7 +8,7 @@ needs: `import Mathlib.Tactic.LibrarySearch`
 {{#include ../Examples/ExactQuestion.lean:first}}
 ```
 
-[apply?](./apply_question.md) と似ていますが，`apply?` とは異なりゴールを変形するのではなくて `exact` で直接閉じようとします．
+[apply?](./apply_search.md) と似ていますが，`apply?` とは異なりゴールを変形するのではなくて `exact` で直接閉じようとします．
 
 ```lean
 {{#include ../Examples/ExactQuestion.lean:local}}
