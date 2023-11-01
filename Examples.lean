@@ -13,7 +13,7 @@ import Examples.Constructor
 import Examples.Contradiction
 import Examples.Convert
 import Examples.Exact
-import Examples.ExactQuestion
+import Examples.ExactSearch
 import Examples.Exists
 import Examples.Ext
 import Examples.Funext
