@@ -1,17 +1,11 @@
 # rel
 
-needs: `import Mathlib.Tactic.GCongr`
-
 named after: 関係(relation)
 
-`rel` は，不等式を代入して適用し，不等式を示します．
+`rel` は，一般化された合同性を用いてゴールを分解し，命題を代入することで示すタクティクです．ゴールが関係(relation)について述べているときに使用できます．
+
+典型的には不等式を代入して適用し，不等式を示します．
 
 ```lean
-{{#include ../Examples/Rel.lean:first}}
-```
-
-`rel` は，たとえば整数 `x: Int` に対して `0 ≤ x ^ 2` であることを自動的に適用するなど, 多少の推論を行います．
-
-```lean
-{{#include ../Examples/Rel.lean:guess}}
+{{#include ../Examples/Rel.lean}}
 ```
