@@ -1,7 +1,7 @@
 import Examples.Aesop
 import Examples.Apply
 import Examples.ApplyAssumption
-import Examples.ApplyQuestion
+import Examples.ApplySearch
 import Examples.Assumption
 import Examples.By
 import Examples.ByCases
@@ -13,7 +13,7 @@ import Examples.Constructor
 import Examples.Contradiction
 import Examples.Convert
 import Examples.Exact
-import Examples.ExactQuestion
+import Examples.ExactSearch
 import Examples.Exists
 import Examples.Ext
 import Examples.Funext
