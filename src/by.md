@@ -3,15 +3,5 @@
 Lean においては，命題は型で，証明はその項です．命題 `P` の証明を構成するとは項 `h : P` を構成するということです．`by` は，証明の構成をタクティクで行いたいときに使います．
 
 ```lean
-{{#include ../Examples/By.lean:first}}
-```
-
-## by?
-
-needs: `import Std.Tactic.ShowTerm`
-
-`by?` を使うとタクティクモードで構成した証明を直接構成した証明に変換してくれます．
-
-```lean
-{{#include ../Examples/By.lean:question}}
+{{#include ../Examples/By.lean}}
 ```
