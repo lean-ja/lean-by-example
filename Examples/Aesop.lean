@@ -22,13 +22,16 @@ example {f : X → Y} {g : Y → Z} (hgfinj : Injective (g ∘ f)) : Injective f
 
 /-!
   ## aesop?
+
   aesop が成功するとき，aesop? に置き換えると，
   ゴールを達成するのにどんなタクティクを使用したか教えてくれる．
 -/
 
 example {f : X → Y} {g : Y → Z} (hgfinj : Injective (g ∘ f)) : Injective f := by
   rw [Injective]
-  -- `aesop?` は `says` 以下に続く一連のタクティクを示す
+
+  -- 注意: ここでは説明のために `says` を使用するが，
+  -- 単に `aesop?` とするだけで提案が見られる
   aesop? says
     intro a₁ a₂ a
     apply hgfinj

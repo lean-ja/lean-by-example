@@ -1,7 +1,5 @@
 # ext
 
-needs: `import Std.Tactic.Ext`
-
 named after: 外延性(extensionality)
 
 `ext` は，外延性を使うタクティクです．外延性とは，「同じものから作られているものは同じである」という主張のことです．たとえば
