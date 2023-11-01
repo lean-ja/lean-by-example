@@ -3,21 +3,43 @@ import Mathlib.Tactic.Linarith
 
 variable (P Q : Prop)
 
--- ANCHOR: first
+/-! ## push_neg -/
+
 example (h: P → Q) : ¬ (P ∧ ¬ Q) := by
   -- ドモルガン則を適用して，`¬` を内側に押し込む
   push_neg
 
-  -- `¬` を内側に押し込んだ結果，`¬ P ∨ Q` が得られる
-  -- これは `P → Q` と同値
+  -- デフォルトの設定だと `P → Q` に変形される
   show P → Q
 
   exact h
--- ANCHOR_END: first
 
+/-!
+  ## use_distrib
 
--- ANCHOR: all_exists
-example : ¬ ∃ x : Int , ∀ y : Int, (x + y = 0) := by
+  option で `push_neg.use_distrib` を `true` にすると，
+  `¬ (p ∧ q)` を `¬ p ∨ ¬ q` に変形する．
+-/
+
+set_option push_neg.use_distrib true
+
+example (h: P → Q) : ¬ (P ∧ ¬ Q) := by
+  -- ドモルガン則を適用して，`¬` を内側に押し込む
+  push_neg
+
+  -- goal が論理和の形になる
+  show ¬ P ∨ Q
+
+  -- 場合分けで示す
+  by_cases hP : P
+  · right
+    exact h hP
+  · left
+    assumption
+
+/-! ## 量化子に対して使った場合 -/
+
+example : ¬ ∃ (x : ℤ), ∀ (y : ℤ), (x + y = 0) := by
   -- ドモルガン則を適用して，`¬` を内側に押し込む
   push_neg
 
@@ -27,4 +49,3 @@ example : ¬ ∃ x : Int , ∀ y : Int, (x + y = 0) := by
   intro x
   exists (- x + 1)
   linarith
--- ANCHOR_END: all_exists
