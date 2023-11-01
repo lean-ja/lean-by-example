@@ -1,8 +1,6 @@
 # exact?
 
-needs: `import Mathlib.Tactic.LibrarySearch`
-
-`exact?` は，`exact` でゴールを閉じることができないか，ライブラリを検索します．
+`exact?` は，カレントゴールを `exact` で閉じることができないか，ライブラリから検索して提案してくれるタクティクです．閉じることができなければ，エラーになります．
 
 ```lean
 {{#include ../Examples/ExactSearch.lean}}

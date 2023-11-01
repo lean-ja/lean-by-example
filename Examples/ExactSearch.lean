@@ -1,4 +1,4 @@
-import Mathlib.Tactic.LibrarySearch
+import Mathlib.Tactic.LibrarySearch -- `exact?` を使うのに必要
 
 variable (P Q : Prop)
 
