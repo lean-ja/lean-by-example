@@ -1,7 +1,5 @@
 import Mathlib.Tactic.ByContra
 
-
--- ANCHOR: first
 example (h: ¬Q → ¬P) : P → Q := by
   -- `P` であると仮定する
   intro hP
@@ -15,4 +13,3 @@ example (h: ¬Q → ¬P) : P → Q := by
 
   -- これは仮定に矛盾
   contradiction
--- ANCHOR_END: first
