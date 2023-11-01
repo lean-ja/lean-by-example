@@ -2,8 +2,8 @@ import Mathlib.Tactic.Convert
 
 variable (a b c: Nat)
 
+/-! ## convert -/
 
--- ANCHOR: first
 example (f : Nat → Nat) (h : f (a + b) = 0) (hc: a + b = c) : f (c) = 0 := by
   -- `h` はゴールと等しくないので失敗する
   try exact [h]
@@ -15,4 +15,3 @@ example (f : Nat → Nat) (h : f (a + b) = 0) (hc: a + b = c) : f (c) = 0 := by
   show c = a + b
 
   rw [hc]
--- ANCHOR_END: first
