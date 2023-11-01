@@ -2,7 +2,8 @@ import Mathlib.Tactic.SolveByElim
 
 variable (P Q R : Prop)
 
--- ANCHOR: first
+/-! ## apply_assumption -/
+
 example (hPQ : P → Q) : ¬ Q → ¬ P := by
   intro hQn hP
 
@@ -19,11 +20,17 @@ example (hPQ : P → Q) : ¬ Q → ¬ P := by
 
   -- 自動で `hP` を適用
   apply_assumption
+
+  -- 証明終わり
   done
--- ANCHOR_END: first
 
+/-!
+  ## repeat apply_assumption
 
--- ANCHOR: repeat
+  タクティクを繰り返すことを指示するタクティク `repeat` と組み合わせると，
+  「ローカルコンテキストにある仮定を適切に選んで apply, exact することを繰り返し，
+  ゴールを閉じる」ことができます．
+-/
+
 example (hPQ : P → Q) (hQR : Q → R) (hQ : P) : R := by
   repeat apply_assumption
--- ANCHOR_END: repeat
