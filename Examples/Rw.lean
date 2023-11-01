@@ -3,7 +3,8 @@ import Mathlib.Tactic.NthRewrite
 
 
 -- ANCHOR: rw
-example (a b c d e f : Nat) (h : a * b = c * d) (h' : e = f) : a * (b * e) = c * (d * f) := by
+example (a b c d e f : Nat) (h : a * b = c * d) (h' : e = f) :
+    a * (b * e) = c * (d * f) := by
   rw [h']
 
   -- 結合法則を使う
