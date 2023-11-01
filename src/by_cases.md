@@ -5,5 +5,5 @@
 `by_cases h: P` とすると，`P` が成り立つときと成り立たないときのゴールがそれぞれ生成されます．
 
 ```lean
-{{#include ../Examples/ByCases.lean:first}}
+{{#include ../Examples/ByCases.lean}}
 ```
