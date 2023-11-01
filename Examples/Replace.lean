@@ -28,6 +28,6 @@ example : ∀ (n : Int), Even (5 * n) → Even n := by
       _ = 2 * (k - 2 * n) := by ring
 
   exists k - 2 * n
-  nth_rewrite 1 [this]
+  nth_rw 1 [this]
   ring
 -- ANCHOR: first

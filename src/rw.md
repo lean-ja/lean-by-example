@@ -17,12 +17,12 @@
 {{#include ../Examples/Rw.lean:rw}}
 ```
 
-## nth_rewrite
+## nth_rw
 
 needs: `import Mathlib.Tactic.NthRewrite`
 
-`rw` はマッチした項をすべて置き換えてしまいます．特定の項だけを書き換えたいとき，`nth_rewrite` が使用できます．対象の式中に現れる順番を1始まりで指定することで，項を指定します．指定された順番が式中の対象の項の数よりも多い場合はエラーになります．
+`rw` はマッチした項をすべて置き換えてしまいます．特定の項だけを書き換えたいとき，`nth_rw` が使用できます．対象の式中に現れる順番を1始まりで指定することで，項を指定します．指定された順番が式中の対象の項の数よりも多い場合はエラーになります．
 
 ```lean
-{{#include ../Examples/Rw.lean:nth_rewrite}}
+{{#include ../Examples/Rw.lean:nth_rw}}
 ```
