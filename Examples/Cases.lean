@@ -1,10 +1,11 @@
--- `cases'` を使用するために必要
-import Mathlib.Tactic.Cases
+import Mathlib.Tactic.Cases -- `cases'` を使用するために必要
+import Std.Tactic.RCases -- `rcases` を使用するために必要
 
-import Std.Tactic.RCases
+-- `P`, `Q`, `R` を命題とする
+variable (P Q R : Prop)
 
+/-! ## cases -/
 
--- ANCHOR: first
 example : P ∨ Q → (P → R) → (Q → R) → R := by
   -- `h: P ∨ Q`
   intro h hPR hQR
@@ -19,10 +20,13 @@ example : P ∨ Q → (P → R) → (Q → R) → R := by
   -- `Q` が成り立つ場合
   case inr hQ =>
     exact hQR hQ
--- ANCHOR_END: first
 
+/-!
+  ## with を使う書き方
 
--- ANCHOR: no_case
+  `case` を使わずに，`with` を使って次のように書くこともできます
+-/
+
 example : P ∨ Q → (P → R) → (Q → R) → R := by
   -- `h: P ∨ Q`
   intro h hPR hQR
@@ -33,10 +37,33 @@ example : P ∨ Q → (P → R) → (Q → R) → R := by
     exact hPR hP
   | inr hQ =>
     exact hQR hQ
--- ANCHOR_END: no_case
 
+/-!
+  ## 補足
 
--- ANCHOR: dash
+  `cases` は，実際には論理和に限らず
+  inductive type をコンストラクタに分解することができるタクティクです．
+  論理和を分解することができるのも，
+  `Or` が inductive type として定義されているからです．
+-/
+
+-- 名前被りを避ける
+namespace Sample
+
+-- `Or` は以下のように定義されています．
+
+inductive Or (a b : Prop) : Prop where
+  | inl (h : a) : Or a b
+  | inr (h : b) : Or a b
+
+end Sample
+
+/-!
+  ## cases'
+
+  `cases'` を使うとより簡潔に書くことができます．
+-/
+
 example : P ∨ Q → (P → R) → (Q → R) → R := by
   intro h hPR hQR
 
@@ -44,11 +71,12 @@ example : P ∨ Q → (P → R) → (Q → R) → R := by
   cases' h with hP hQ
   · apply hPR hP
   · apply hQR hQ
--- ANCHOR_END: dash
 
+/-!
+  ## rcases
 
--- ANCHOR: rcases
-variable (P Q R : Prop)
+  `rcases` は `cases` をパターンに従って再帰的(recursive)に適用します．
+-/
 
 example : P ∨ Q → (P → R) → (Q → R) → R := by
   intro h hPR hQR
@@ -58,6 +86,7 @@ example : P ∨ Q → (P → R) → (Q → R) → R := by
   · apply hPR hP
   · apply hQR hQ
 
+-- 論理積 ∧ に対しても使えます
 example : P ∧ Q → Q ∧ P := by
   -- `h: P ∧ Q` と仮定する
   intro h
@@ -67,4 +96,3 @@ example : P ∧ Q → Q ∧ P := by
 
   -- `Q ∧ P` を証明する
   exact ⟨hQ, hP⟩
--- ANCHOR_END: rcases
