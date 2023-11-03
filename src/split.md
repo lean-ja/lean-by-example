@@ -12,5 +12,5 @@ if 式を扱う必要が生じるのは，典型的には Lean で定義した�
 というサブゴールです．`split` によって追加される仮定は名前がついているとは限りません．名前がついていなかった場合，`case` などで名前を付けることができます．
 
 ```lean
-{{#include ../Examples/Split.lean:first}}
+{{#include ../Examples/Split.lean}}
 ```

@@ -2,9 +2,11 @@ import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.Says
 import Std.Tactic.Replace
 
+-- `says` のチェックを CI 環境で無効にする
 set_option says.no_verify_in_CI true
 
--- ANCHOR: first
+/-! ## split -/
+
 -- if 式を使って関数を定義する
 def myabs (x : Int) : Int :=
   if x ≥ 0 then x else - x
@@ -45,4 +47,3 @@ example (x : Int) : myabs (2 * x) = 2 * myabs x := by
     -- `simp` で簡約
     simp? [h, hx] says
       simp only [ge_iff_le, hx, ite_false, mul_neg]
--- ANCHOR_END: first
