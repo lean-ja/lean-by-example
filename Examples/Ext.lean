@@ -1,7 +1,7 @@
-import Aesop
+import Aesop -- `aesop` タクティクを使うために必要
 import Mathlib.Data.SetLike.Basic -- `ext` タクティクで集合の等号を展開するために必要
-import Mathlib.Tactic.Says
-import Std.Tactic.Ext
+import Mathlib.Tactic.Says -- `says` タクティクを使うために必要
+import Std.Tactic.Ext -- `ext` タクティクを使うために必要
 
 set_option says.no_verify_in_CI true
 
