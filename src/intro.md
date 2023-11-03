@@ -1,13 +1,11 @@
 # intro
 
-named after: 導入(introduce)
-
 `intro` は数学で慣習的に行われる
 
 * `P → Q` を示すときに最初に `P` を仮定する
 * `∀ x ∈ A, P(x)` を示すときに最初に `x ∈ A` が与えられたと仮定する
 
-といった導入を実行します．
+といった導入(introduction)を行います．
 
 具体的には，`intro` は
 
