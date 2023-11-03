@@ -1,19 +1,11 @@
 # rfl
 
-needs: `import Mathlib.Tactic.Relation.Rfl`
-
-named after: 反射律(reflexivity)
-
-`rfl` は，`refl attribute` の付けられた定理を用いて関係の反射性を示すタクティクです．
-
-```lean
-{{#include ../Examples/Rfl/Rfl.lean:first}}
-```
+`rfl` は，`refl attribute` の付けられた定理を用いて関係の反射性(reflexivity)を示すタクティクです．
 
 `@[refl]` で登録された定理を用いるので，追加でライブラリを import することにより示すことができる命題が増えます．
 
 ```lean
-{{#include ../Examples/Rfl/Rfl.lean:nat}}
+{{#include ../Examples/Rfl/Rfl.lean}}
 ```
 
 ## 補足
