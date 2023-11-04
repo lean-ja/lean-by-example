@@ -17,8 +17,8 @@ theorem choice (h : ∀ x, ∃ y, P x y) : ∃ f : X → Y, ∀ x, P x (f x) := 
   これは `#print axioms` で確認できます．
 -/
 
-/-- info: 'choice' depends on axioms: [Classical.choice] -/
-#guard_msgs in #print axioms choice
+/- 'choice' depends on axioms: [Classical.choice] -/
+#print axioms choice
 
 /-!
   ## choose なしで示した場合

@@ -24,5 +24,5 @@ theorem T (x y : Nat) (_: x ≤ y) : 2 ^ x ≤ 2 ^ y := by
 
 -- 以下に示すように，裏で `sorryAx` が使われている
 
-/-- info: 'T' depends on axioms: [sorryAx] -/
-#guard_msgs in #print axioms T
+/- 'T' depends on axioms: [sorryAx] -/
+#print axioms T
