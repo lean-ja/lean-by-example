@@ -5,5 +5,5 @@
 複数の候補が提案されたときは，どれを選ぶとゴールが何に変わるのか表示されるので，その中から好ましいものを選ぶと良いでしょう．
 
 ```lean
-{{#include ../Examples/ApplySearch.lean}}
+{{#include ../Examples/ApplyQuestion.lean}}
 ```
