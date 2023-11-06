@@ -31,6 +31,7 @@ import Examples.Rfl.Refl
 import Examples.Rfl.Rfl
 import Examples.Ring
 import Examples.Rw
+import Examples.RwSearch
 import Examples.Says
 import Examples.Set
 import Examples.Show

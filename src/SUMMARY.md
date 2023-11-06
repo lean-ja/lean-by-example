@@ -39,6 +39,7 @@
 - [replace: 補題の入れ替え](./replace.md)
 - [rfl: 関係の反射性を示す](./rfl.md)
 - [ring: 環の等式を示す](./ring.md)
+- [rw_search: rw で示せるか検索](./rw_search.md)
 - [rw: 同値変形](./rw.md)
 - [says: タクティク提案の痕跡を残す](./says.md)
 - [set: 定義の導入](./set.md)
