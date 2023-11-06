@@ -32,6 +32,7 @@ import Examples.Rfl.Rfl
 import Examples.Ring
 import Examples.Rw
 import Examples.Says
+import Examples.Set
 import Examples.Show
 import Examples.Simp
 import Examples.Sorry
