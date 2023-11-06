@@ -1,5 +1,4 @@
-import Mathlib.Algebra.Group.Defs
-import Mathlib.Algebra.Hom.Group.Defs
+import Mathlib.Algebra.Algebra.Basic -- 群を使うのに必要
 import Mathlib.Tactic.LibrarySearch -- apply? を使うのに必要
 
 /-- 群準同型は積を保つ -/
