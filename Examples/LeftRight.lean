@@ -1,4 +1,4 @@
-import Mathlib.Tactic.LeftRight
+import Std.Tactic.LeftRight
 
 variable (P Q : Prop)
 
