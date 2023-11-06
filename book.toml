@@ -4,6 +4,7 @@ language = "ja"
 multilingual = false
 src = "src"
 title = "Lean4 タクティク逆引きリスト"
+description = "「普段の数学を Lean でどう実現するのか」という疑問にお答えするための，タクティク逆引きリストです."
 
 [build]
 create-missing = false
