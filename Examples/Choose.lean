@@ -13,12 +13,18 @@ theorem choice (h : ∀ x, ∃ y, P x y) : ∃ f : X → Y, ∀ x, P x (f x) := 
 /-!
   ## 選択公理
 
-  `choose` は選択公理を使用します．
+  `choose` は選択原理 Classical.choice を使用します．
   これは `#print axioms` で確認できます．
+
+  Classical.choice は Lean 版選択公理というべきもので，
+  `Nonempty α` から `α` 型の項を得ることができます．
 -/
 
 /- 'choice' depends on axioms: [Classical.choice] -/
 #print axioms choice
+
+/- @Classical.choice : {α : Sort u_1} → Nonempty α → α -/
+#check @Classical.choice
 
 /-!
   ## choose なしで示した場合
