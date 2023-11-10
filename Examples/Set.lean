@@ -27,6 +27,6 @@ example (x : ℕ) (h : f x = x) : f (f x) = f x := by
   guard_hyp h : y = x
 
   -- `y = f x` であるという事実に名前も付けられる
-  guard_hyp h : y = x
+  guard_hyp yh : y = f x
 
   simp only [h]
