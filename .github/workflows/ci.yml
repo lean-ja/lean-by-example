@@ -48,3 +48,6 @@ jobs:
         run: |
           lake exe cache get
           lake build
+
+      - name: check lib completeness
+        run: lake run import_all?
