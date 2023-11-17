@@ -6,7 +6,7 @@
 
 > この文書は lean-ja が管理しています．
 >
-> 誤りのご指摘，ご提案などは GitHub リポジトリからお願いします．
+> 誤りのご指摘，ご提案などは [GitHub リポジトリ](https://github.com/lean-ja/tactic-cheetsheet)からお願いします．
 > また lean-ja の Discord サーバが[こちら](https://discord.gg/p32ZfnVawh)にあります．
 
 ## 全タクティクのリストを見る方法
