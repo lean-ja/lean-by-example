@@ -6,22 +6,22 @@ import Mathlib.Tactic.Says -- `says` のために必要
 
 /-! ## 帰納法をいつ使うか -/
 
-namespace Examples -- 名前被りを避けるため
 
-  -- 自然数の定義
-  inductive Nat
-    /-- `zero` は自然数 -/
-    | zero : Nat
+-- 自然数の定義を `#print` コマンドで調べてみる
 
-    /-- `n` が自然数なら `succ n` も自然数 -/
-    | succ (n : Nat) : Nat
+/-
+inductive Nat : Type
+number of parameters: 0
+constructors:
+Nat.zero : ℕ (ゼロは自然数)
+Nat.succ : ℕ → ℕ (`n` が自然数なら `succ n` も自然数)
+-/
+#print Nat
 
-  -- 自然数はこのように帰納的に定義されているので，
-  -- 自然数に対して何かを示そうとすると帰納法を使うことが自然な選択といえる
-  -- 一般に，`inductive` などで帰納的に定義されたものを扱うとき
-  -- 帰納法が有用な可能性は高い
-
-end Examples
+-- 自然数はこのように帰納的に定義されているので，
+-- 自然数に対して何かを示そうとすると帰納法を使うことが自然な選択といえる
+-- 一般に， `inductive` などで帰納的に定義されたものを扱うとき
+-- 帰納法が有用な可能性は高い
 
 /-! ## induction -/
 
@@ -35,18 +35,10 @@ example (n : Nat) : 0 < fac n := by
   induction n with
 
   | zero =>
-    simp only [fac]
+    simp [fac]
 
   | succ n ih =>
-    simp? [fac] says
-      simp only [
-        fac,
-        gt_iff_lt,
-        add_pos_iff,
-        or_true,
-        zero_lt_mul_left
-      ]
-    assumption
+    simpa [fac]
 
 /-!
   ## inudction'
@@ -62,18 +54,10 @@ example (n : Nat) : 0 < fac n := by
   induction' n with k ih
 
   case zero =>
-    simp only [fac]
+    simp [fac]
 
   case succ =>
-    simp? [fac] says
-      simp only [
-        fac,
-        gt_iff_lt,
-        add_pos_iff,
-        or_true,
-        zero_lt_mul_left
-      ]
-    assumption
+    simpa [fac]
 
 /-!
   ### 〇〇の～についての帰納法
@@ -107,7 +91,7 @@ example (l : List α) (P : List α → Prop) : P l := by
 /-!
   ### 強い帰納法
 
-  時には，より強い帰納法が必要なこともあります．強い帰納法とは，たとえば
+  時には， より強い帰納法が必要なこともあります． 強い帰納法とは， たとえば
 
   * `P(0)` を示す
   * `(∀ k < n, P (k)) → P (n)` を示す

@@ -47,23 +47,23 @@ example : P ∨ Q → (P → R) → (Q → R) → R := by
   `Or` が inductive type として定義されているからです．
 -/
 
--- 名前被りを避ける
-namespace Sample
+-- `Or` の定義を `#print` コマンドで確認できます.
 
--- `Or` は以下のように定義されています．
-
-inductive Or (a b : Prop) : Prop where
-  | inl (h : a) : Or a b
-  | inr (h : b) : Or a b
-
-end Sample
+/-
+inductive Or : Prop → Prop → Prop
+number of parameters: 2
+constructors:
+Or.inl : ∀ {a b : Prop}, a → a ∨ b
+Or.inr : ∀ {a b : Prop}, b → a ∨ b
+-/
+#print Or
 
 /-!
   ## cases'
 
   `cases'` というタクティクもあります．
   こちらは lean3 の `cases` に近い挙動をします．
-  証明を構造化するため，`cases'` は使用しないことをお勧めします．
+  証明を構造化するため， `cases'` は使用しないことをお勧めします．
 -/
 
 example : P ∨ Q → (P → R) → (Q → R) → R := by
