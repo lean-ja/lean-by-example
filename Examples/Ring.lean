@@ -1,5 +1,4 @@
 import Mathlib.Tactic.Ring -- `ring` のために必要
-import Mathlib.Tactic.Says -- `says` のために必要
 
 variable (x y : ℤ)
 
@@ -32,8 +31,7 @@ example : n - n + n = n := by
   ring_nf
 
   show n - n + n = n
-  simp? says
-    simp only [le_refl, tsub_eq_zero_of_le, zero_add]
+  simp
 
 /-!
   ## ring の中身を見る方法

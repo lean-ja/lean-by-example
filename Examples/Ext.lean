@@ -1,9 +1,6 @@
 import Aesop -- `aesop` タクティクを使うために必要
 import Mathlib.Data.SetLike.Basic -- `ext` タクティクで集合の等号を展開するために必要
-import Mathlib.Tactic.Says -- `says` タクティクを使うために必要
 import Std.Tactic.Ext -- `ext` タクティクを使うために必要
-
-set_option says.no_verify_in_CI true
 
 variable {α : Type}
 
@@ -19,13 +16,7 @@ example : s ∩ t = t ∩ s := by
   -- ` x ∈ s ∩ t ↔ x ∈ t ∩ s` を証明すればよい
   show x ∈ s ∩ t ↔ x ∈ t ∩ s
 
-  aesop? says
-    simp_all only [Set.mem_inter_iff]
-    apply Iff.intro
-    · intro a
-      simp_all only [and_self]
-    · intro a
-      simp_all only [and_self]
+  aesop
 
 /-!
   ## A ⊆ B
@@ -39,5 +30,4 @@ example : (s ∩ t) ⊆ t := by
 
   intro x hx
 
-  simp? says
-    simp_all only [Set.mem_inter_iff]
+  simp_all

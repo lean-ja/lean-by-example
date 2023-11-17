@@ -2,7 +2,6 @@ import Mathlib.Algebra.Algebra.Basic -- `simp` で使う
 import Mathlib.Init.Data.Nat.Lemmas -- 強い帰納法のために必要
 import Mathlib.Order.Basic -- `simp` で使う
 import Mathlib.Tactic.Cases -- `induction'` のために必要
-import Mathlib.Tactic.Says -- `says` のために必要
 
 /-! ## 帰納法をいつ使うか -/
 

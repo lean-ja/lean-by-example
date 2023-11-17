@@ -1,9 +1,5 @@
 import Mathlib.Tactic.Linarith
-import Mathlib.Tactic.Says
 import Std.Tactic.Replace
-
--- `says` のチェックを CI 環境で無効にする
-set_option says.no_verify_in_CI true
 
 /-! ## split -/
 
@@ -31,8 +27,7 @@ example (x : Int) : myabs (2 * x) = 2 * myabs x := by
     replace h : x ≥ 0 := by linarith [h]
 
     -- `simp` で if を消すことができる
-    simp? [h] says
-      simp only [ge_iff_le, h, ite_true]
+    simp [h]
 
   case inr h =>
     -- `2 * x < 0` の場合
@@ -45,5 +40,4 @@ example (x : Int) : myabs (2 * x) = 2 * myabs x := by
     have hx : ¬ x ≥ 0 := by linarith [h]
 
     -- `simp` で簡約
-    simp? [h, hx] says
-      simp only [ge_iff_le, hx, ite_false, mul_neg]
+    simp [h, hx]
