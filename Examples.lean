@@ -15,6 +15,7 @@ import Examples.Congr
 import Examples.Constructor
 import Examples.Contradiction
 import Examples.Convert
+import Examples.Eval
 import Examples.Exact
 import Examples.ExactQuestion
 import Examples.Exists
