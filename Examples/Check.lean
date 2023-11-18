@@ -82,9 +82,15 @@ List.{u} (α : Type u) : Type u
 Type : Type 1 -/
 #check Type
 
-/- この調子でいつまでも続く
-Type 1 : Type 2 -/
+-- Type 1 : Type 2
 #check Type 1
+
+-- 宇宙変数を宣言する
+universe u
+
+/- この調子で限りなく続く
+Type u : Type (u + 1) -/
+#check Type u
 
 /-!
   ## 命題と証明
