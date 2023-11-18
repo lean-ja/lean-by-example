@@ -1,4 +1,4 @@
-import Mathlib.Algebra.Group.Defs -- `add_zero` を使用するため
+import Mathlib.Tactic -- `simp` で利用できる補題を確保するため
 
 variable (X : Type) (f : Int → Int)
 
@@ -8,7 +8,7 @@ example (h : x = 0) : f (2 + x) = f 2 := by
   congr
   show 2 + x = 2
 
-  simp only [h, add_zero]
+  simp [h]
 
 /-! ## congr の再帰の深さを調節する -/
 
