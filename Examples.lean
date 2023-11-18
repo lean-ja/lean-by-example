@@ -47,5 +47,6 @@ import Examples.Sorry
 import Examples.Split
 import Examples.Suffices
 import Examples.Tauto
+import Examples.Time
 import Examples.Trivial
 import Examples.Wlog
