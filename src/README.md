@@ -35,8 +35,6 @@ import Mathlib.Tactic
 
 ## リンク集
 
-* [Mathematics in type Theory 日本語訳](https://zenn.dev/leanja/articles/math_in_type_theory) このリストでは「命題は型，証明はその項」という型理論を基礎として数学を実装する際の事実は既知としています．こういった話に全く馴染みがない方は，まずこちらの記事を読まれると良いと思います．
-
 * [数学系のためのLean勉強会](https://github.com/yuma-mizuno/lean-math-workshop) Lean で数学をどのように実装するのか，実際に実装する過程を追うことで学べる教材です．いくつかコード例を拝借させていただきました．
 
 * [Lean phrasebook](https://docs.google.com/spreadsheets/d/1Gsn5al4hlpNc_xKoXdU6XGmMyLiX4q-LFesFVsMlANo/edit#gid=0) 英語ですが，数学でのよくある推論ステップが，Lean にどのように翻訳されるかがよくまとめられたリストです．
