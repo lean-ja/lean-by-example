@@ -8,6 +8,7 @@ import Examples.By
 import Examples.ByCases
 import Examples.ByContra
 import Examples.Cases
+import Examples.Check
 import Examples.Choose
 import Examples.Clear
 import Examples.Congr

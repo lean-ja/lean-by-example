@@ -4,6 +4,18 @@
 
 ---
 
+# コマンド紹介
+
+- [#check: 型を調べる](./check.md)
+- [#eval: 式を評価する]()
+- [#find: ライブラリ検索]()
+- [#guard: Bool 値のテスト]()
+- [#help: ドキュメントを見る]()
+- [#print: 依存関係を調べるなど]()
+- [#time: 実行時間計測]()
+
+# タクティク紹介
+
 - [aesop: ルーチン自動化](./aesop.md)
 - [apply_assumption: 仮定から後方推論](./apply_assumption.md)
 - [apply: 含意→を使う](./apply.md)
