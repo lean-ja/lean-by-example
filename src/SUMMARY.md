@@ -46,6 +46,7 @@
 - [set: 定義の導入](./set.md)
 - [show: 示すべきことを宣言](./show.md)
 - [simp: 簡約](./simp.md)
+- [slim_check: 反例を見つける](./slim_check.md)
 - [sorry: 証明したことにする](./sorry.md)
 - [split: if 式を含む命題を示す](./split.md)
 - [suffices: 十分条件に帰着](./suffices.md)

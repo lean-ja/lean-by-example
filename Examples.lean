@@ -39,6 +39,7 @@ import Examples.Says
 import Examples.Set
 import Examples.Show
 import Examples.Simp
+import Examples.SlimCheck
 import Examples.Sorry
 import Examples.Split
 import Examples.Suffices
