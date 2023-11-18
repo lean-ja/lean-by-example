@@ -12,6 +12,12 @@ import Mathlib.Tactic
   -----------------
 -/
 
+-- Char.ofNat 97 : Char 文字
+#check 'a'
+
+-- "Hello" : String 文字列
+#check "Hello"
+
 -- 1 : ℕ 自然数
 #check 1
 
