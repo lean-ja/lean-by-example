@@ -29,6 +29,7 @@
 - [funext: 関数等式を示す](./funext.md)
 - [guard_hyp: 仮定や補題を確認](./guard_hyp.md)
 - [have: 補題を用意する](./have.md)
+- [hint: 複数のタクティクを同時に試す](./hint.md)
 - [induction: 帰納法](./induction.md)
 - [intro: 含意→や全称∀を示す](./intro.md)
 - [left, right: 論理和∨を示す](./left_right.md)

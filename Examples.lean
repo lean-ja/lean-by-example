@@ -21,6 +21,7 @@ import Examples.Ext
 import Examples.Funext
 import Examples.GuardHyp
 import Examples.Have
+import Examples.Hint
 import Examples.Induction
 import Examples.Intro
 import Examples.LeftRight
