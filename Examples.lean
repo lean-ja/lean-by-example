@@ -30,6 +30,7 @@ import Examples.Intro
 import Examples.LeftRight
 import Examples.Linarith
 import Examples.Nlinarith
+import Examples.PrintCmd
 import Examples.PushNeg
 import Examples.Refine
 import Examples.Rel
