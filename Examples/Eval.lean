@@ -3,6 +3,7 @@ import Mathlib.Tactic
 /-!
   # eval コマンド
 -/
+namespace eval
 
 /-!
   ## 基本的な式の評価
@@ -46,3 +47,5 @@ def main : IO Unit :=
 
 -- Hello, world!
 #eval main
+
+end eval
