@@ -11,7 +11,7 @@
 - [#find: ライブラリ検索]()
 - [#guard: Bool 値のテスト]()
 - [#help: ドキュメントを見る](./help.md)
-- [#print: 中身を見る]()
+- [#print: 中身を見る](./print_cmd.md)
 - [#time: 実行時間計測](./time.md)
 
 # タクティク紹介
