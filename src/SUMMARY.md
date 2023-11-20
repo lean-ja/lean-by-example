@@ -8,7 +8,7 @@
 
 - [#check: 型を調べる](./check.md)
 - [#eval: 式を評価する](./eval.md)
-- [#find: ライブラリ検索]()
+- [#find: ライブラリ検索](./find.md)
 - [#guard: Bool 値のテスト]()
 - [#help: ドキュメントを見る](./help.md)
 - [#print: 中身を見る](./print_cmd.md)
