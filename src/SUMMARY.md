@@ -9,7 +9,7 @@
 - [#check: 型を調べる](./check.md)
 - [#eval: 式を評価する](./eval.md)
 - [#find: ライブラリ検索](./find.md)
-- [#guard: Bool 値のテスト]()
+- [#guard: Bool 値のテスト](./guard.md)
 - [#help: ドキュメントを見る](./help.md)
 - [#print: 中身を見る](./print_cmd.md)
 - [#time: 実行時間計測](./time.md)

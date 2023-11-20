@@ -21,6 +21,7 @@ import Examples.ExactQuestion
 import Examples.Exists
 import Examples.Ext
 import Examples.Funext
+import Examples.Guard
 import Examples.GuardHyp
 import Examples.Have
 import Examples.Help
