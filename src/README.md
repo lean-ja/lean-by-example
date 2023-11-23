@@ -6,7 +6,7 @@
 
 > この文書は lean-ja が管理しています．開発は主に[@Seasawher](https://github.com/Seasawher)が担当しています．
 >
-> 誤りのご指摘，ご提案などは [GitHub リポジトリ](https://github.com/lean-ja/tactic-cheetsheet)からお願いします．
+> 誤りのご指摘，ご提案などは [GitHub リポジトリ](https://github.com/lean-ja/tactic-cheatsheet)からお願いします．
 > また余裕のある方は，活動が続けられるようにご支援をお願いいたします．
 >
 > lean-ja の Discord サーバが[こちら](https://discord.gg/p32ZfnVawh)にあります．質問や相談などはこちらにどうぞ．
