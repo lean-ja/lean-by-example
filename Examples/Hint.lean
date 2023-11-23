@@ -8,28 +8,28 @@ variable (P Q R : Prop) (a b : ℕ)
 /-! # hint -/
 
 example (h : 1 < 0) : False := by
-  hint says
-    linarith
+  -- linarith
+  hint
 
 example (p : P) (h : P → Q) : Q := by
-  hint says
-    exact h p
+  -- exact h p
+  hint
 
 example (x : P ∧ Q ∧ R ∧ R) : Q ∧ P ∧ R := by
-  hint says
-    simp_all only [and_self]
+  -- simp_all only [and_self]
+  hint
 
 example (h : a < b) : ¬ b < a := by
-  hint says
-    linarith
+  -- linarith
+  hint
 
 example : 37^2 - 35^2 = 72 * 2 := by
-  hint says
-    exact rfl
+  -- exact rfl
+  hint
 
 example : Nat.Prime 37 := by
-  hint says
-    exact (Nat.prime_iff_card_units 37).mpr rfl
+  -- exact (Nat.prime_iff_card_units 37).mpr rfl
+  hint
 
 /-!
   ## タクティクの新規登録
@@ -39,5 +39,5 @@ example : Nat.Prime 37 := by
 register_hint nlinarith
 
 example (h : a ≤ b) : (a + b) ^ 2 ≤ 4 * b ^ 2 := by
-  hint says
-    nlinarith
+  -- nlinarith
+  hint
