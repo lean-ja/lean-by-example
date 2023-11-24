@@ -1,3 +1,4 @@
+import Mathlib.Tactic.Set -- `set` のために必要
 import Mathlib.Tactic.Linarith
 import Std.Tactic.Replace
 
@@ -43,17 +44,20 @@ example (x : Int) : myabs (2 * x) = 2 * myabs x := by
     simp [h, hx]
 
 -- match式を使って関数を定義する
-def mysgn (n: Int) :=
-  match n with
+def mysgn (x : Int) :=
+  match x with
   | Int.negSucc _ => -1
   | Int.ofNat 0 => 0
   | _ => 1
 
-example : ∀n, mysgn (mysgn n) = mysgn n := by
-  intro n
-  -- mysgn n を k と置く (h: mysgn n = k という仮定がついかされる)
-  generalize h: mysgn n = k
+example : mysgn (mysgn x) = mysgn x := by
+  -- mysgn x を k と置く
+  set k := mysgn x with h
   -- h の mysgn の定義を展開する
   unfold mysgn at h
-  -- h の match の結果によって場合分け，すべての場合 (k = -1, 0, 1) に関して mysgn の定義に従い計算すると同じ結果になることが得られる
-  split at h <;> rw [←h] <;> rfl
+  -- h の match の結果によって場合分け
+  -- すべての場合 (k = -1, 0, 1) に関して mysgn の定義に従い計算する
+  split at h
+  all_goals
+    rw [h]
+    rfl
