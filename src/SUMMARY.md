@@ -61,7 +61,7 @@
 - [simp: 簡約](./simp.md)
 - [slim_check: 反例を見つける](./slim_check.md)
 - [sorry: 証明したことにする](./sorry.md)
-- [split: if 式を含む命題を示す](./split.md)
+- [split: if/match 式を含む命題を示す・仮定を場合分けする](./split.md)
 - [suffices: 十分条件に帰着](./suffices.md)
 - [tauto: トートロジーを示す](./tauto.md)
 - [trivial: 自明](./trivial.md)
