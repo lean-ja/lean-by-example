@@ -27,6 +27,7 @@ import Examples.Have
 import Examples.Help
 import Examples.Hint
 import Examples.Induction
+import Examples.Instances
 import Examples.Intro
 import Examples.LeftRight
 import Examples.Linarith

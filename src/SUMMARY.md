@@ -13,6 +13,7 @@
 - [#help: ドキュメントを見る](./help.md)
 - [#print: 中身を見る](./print_cmd.md)
 - [#time: 実行時間計測](./time.md)
+- [#instances: インスタンスを列挙](./instances.md)
 
 # タクティク紹介
 
