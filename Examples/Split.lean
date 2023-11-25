@@ -2,7 +2,7 @@ import Mathlib.Tactic.Set -- `set` のために必要
 import Mathlib.Tactic.Linarith
 import Std.Tactic.Replace
 
-/-! ## split -/
+/-! ## if 式と split -/
 
 -- if 式を使って関数を定義する
 def myabs (x : Int) : Int :=
@@ -42,6 +42,8 @@ example (x : Int) : myabs (2 * x) = 2 * myabs x := by
 
     -- `simp` で簡約
     simp [h, hx]
+
+/-! ## match 式と split -/
 
 -- match式を使って関数を定義する
 def mysgn (x : Int) :=
