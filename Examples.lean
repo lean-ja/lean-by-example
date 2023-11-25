@@ -50,6 +50,7 @@ import Examples.SlimCheck
 import Examples.Sorry
 import Examples.Split
 import Examples.Suffices
+import Examples.Synth
 import Examples.Tauto
 import Examples.Time
 import Examples.Trivial
