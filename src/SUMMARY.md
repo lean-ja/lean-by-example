@@ -17,10 +17,10 @@
 # タクティク紹介
 
 - [aesop: ルーチン自動化](./aesop.md)
-- [apply_assumption: 仮定から後方推論](./apply_assumption.md)
+- [apply_assumption: 仮定を自動で apply](./apply_assumption.md)
 - [apply: 含意→を使う](./apply.md)
 - [apply?: apply できるか検索](./apply_question.md)
-- [assumption: 仮定からゴールを閉じる](./assumption.md)
+- [assumption: 仮定を自動で exact](./assumption.md)
 - [by_cases: 排中律](./by_cases.md)
 - [by_contra: 背理法](./by_contra.md)
 - [by: タクティクモードに入る](./by.md)
@@ -48,7 +48,7 @@
 - [linarith: 線形(不)等式を示す](./linarith.md)
 - [nlinarith: 非線形な(不)等式を示す](./nlinarith.md)
 - [push_neg: ドモルガン](./push_neg.md)
-- [refine: 一般の後方推論](./refine.md)
+- [refine: 後方推論](./refine.md)
 - [rel: 不等式を使う](./rel.md)
 - [replace: 補題の入れ替え](./replace.md)
 - [rfl: 関係の反射性を示す](./rfl.md)
