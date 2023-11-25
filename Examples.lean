@@ -52,4 +52,5 @@ import Examples.Suffices
 import Examples.Tauto
 import Examples.Time
 import Examples.Trivial
+import Examples.Unfold
 import Examples.Wlog

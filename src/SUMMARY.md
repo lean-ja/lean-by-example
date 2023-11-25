@@ -65,4 +65,5 @@
 - [suffices: 十分条件に帰着](./suffices.md)
 - [tauto: トートロジーを示す](./tauto.md)
 - [trivial: 自明](./trivial.md)
+- [unfold: 定義に展開](./unfold.md)
 - [wlog: 一般性を失わずに特殊化](./wlog.md)
