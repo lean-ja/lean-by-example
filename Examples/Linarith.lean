@@ -1,4 +1,5 @@
 import Mathlib.Tactic.Linarith -- `linarith` のために必要
+import Mathlib.Util.Time -- `#time` を使うため
 import Std.Data.Rat.Basic -- `ℚ` のために必要
 
 variable (x y z : ℚ)
@@ -21,3 +22,18 @@ example : id x ≤ x := by
 
   -- `id x = x` だと教えてあげると `linarith` で示せる
   linarith
+
+/-! ## linarith と他のタクティクの使い分け
+  `1 < 2` のような簡単な数値のみの不等式の場合，
+  `norm_num` や `simp_arith` でも証明ができます．
+  しかし，コマンド実行にかかる時間に違いがあります．
+-/
+
+-- 実行環境により正確な実行時間は異なりますが，
+-- `linarith` は比較的重いタクティクです
+
+#time example : 1 < 2 := by simp_arith
+
+#time example : 1 < 2 := by norm_num
+
+#time example : 1 < 2 := by linarith
