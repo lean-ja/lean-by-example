@@ -1,4 +1,5 @@
 import Examples.Aesop
+import Examples.AllGoals
 import Examples.Apply
 import Examples.ApplyAssumption
 import Examples.ApplyAt
