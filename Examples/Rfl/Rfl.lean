@@ -3,6 +3,8 @@ import Mathlib.Tactic.Relation.Rfl
 
 /-! ## rfl -/
 
+universe u
+
 -- `MyEq` という二項関係を定義する
 inductive MyEq {α : Type u} : α → α → Prop
   | refl (a : α) : MyEq a a
