@@ -1,3 +1,5 @@
+variable (P Q : Prop)
+
 -- ANCHOR: first
 -- `P → Q` かつ `P` ならば `Q`
 example (h: P → Q) (hP: P) : Q := by

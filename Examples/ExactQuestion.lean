@@ -3,7 +3,7 @@ import Mathlib.Data.Rat.Floor -- `ℚ` の性質を使うために必要
 import Mathlib.Tactic.LibrarySearch -- `exact?` を使うのに必要
 import Mathlib.Tactic.Says -- `says` を使うために必要
 
-variable (P Q : Prop)
+variable (P Q R : Prop)
 
 /-! ## exact? -/
 

@@ -1,6 +1,6 @@
 import Mathlib.Tactic -- `simp` で利用できる補題を確保するため
 
-variable (X : Type) (f : Int → Int)
+variable (X : Type) (x : Int) (f : Int → Int)
 
 /-! ## congr -/
 

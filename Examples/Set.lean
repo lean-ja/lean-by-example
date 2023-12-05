@@ -4,6 +4,8 @@ import Std.Tactic.GuardExpr -- `guard_hyp` のために必要
 -- 変数が未使用という警告を表示しない
 set_option linter.unusedVariables false
 
+abbrev ℕ := Nat
+
 variable (X : Type) (f : ℕ → ℕ)
 
 example (x : ℕ) (h : f x = x) : f (f x) = f x := by

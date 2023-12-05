@@ -1,5 +1,7 @@
 import Mathlib.Algebra.Algebra.Basic -- `not_lt` などが使えるようにする
 
+variable (P Q : Prop)
+
 /- ## contradiction -/
 
 -- `False`

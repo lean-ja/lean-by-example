@@ -1,6 +1,8 @@
 import Mathlib.Algebra.Algebra.Basic -- 群を使うのに必要
 import Mathlib.Tactic.LibrarySearch -- apply? を使うのに必要
 
+variable (G H : Type)
+
 /-- 群準同型は積を保つ -/
 example [Group G] [Group H] (f : G →* H) (a b : G) :
     f (a * b) = f a * f b := by

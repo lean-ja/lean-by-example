@@ -52,7 +52,7 @@ def mysgn (x : Int) :=
   | Int.ofNat 0 => 0
   | _ => 1
 
-example : mysgn (mysgn x) = mysgn x := by
+example (x : Int) : mysgn (mysgn x) = mysgn x := by
   -- mysgn x を k と置く
   set k := mysgn x with h
   -- h の mysgn の定義を展開する

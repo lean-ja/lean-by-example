@@ -1,3 +1,5 @@
+variable (P Q : Prop)
+
 -- ANCHOR: first
 example (hP: P) : P := by
   exact hP
