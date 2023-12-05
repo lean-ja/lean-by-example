@@ -1,5 +1,7 @@
 import Mathlib.Tactic.ByContra
 
+variable (P Q : Prop)
+
 example (h: ¬Q → ¬P) : P → Q := by
   -- `P` であると仮定する
   intro hP

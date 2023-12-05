@@ -31,11 +31,6 @@ example : ¬(∀ x, S x) → (∃ x, ¬ S x) := by
 
   aesop
 
-/-! ## exact? との比較 -/
-
 -- 対偶
 example (h : P → Q) : ¬ Q → ¬ P := by
-  -- `exact?` では示すことができない
-  try exact?
-
   tauto

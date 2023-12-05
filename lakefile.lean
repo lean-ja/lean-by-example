@@ -1,19 +1,17 @@
 import Lake
 open Lake DSL
 
-package examples {
-  -- https://leanprover.zulipchat.com/#narrow/stream/270676-lean4/topic/.60autoImplicit.20true.60.20is.20evil/near/355145527
-  moreLeanArgs := #["-DrelaxedAutoImplicit=false"]
-  moreServerArgs := #["-DrelaxedAutoImplicit=false"]
-}
+package examples where
+  leanOptions := #[
+    ⟨`autoImplicit, false⟩,
+    ⟨`relaxedAutoImplicit, false⟩]
 
 require mathlib from git
-  "https://github.com/leanprover-community/mathlib4.git" @ "0847db5433fdbb1d19479b86ec43038191b2745b"
+  "https://github.com/leanprover-community/mathlib4.git" @ "ac94cca1865a06e5401a58746ed299936dacb312"
 
 @[default_target]
-lean_lib Examples {
+lean_lib Examples where
   -- add lib config here
-}
 
 /-!
 `import` 文を自動生成するスクリプト

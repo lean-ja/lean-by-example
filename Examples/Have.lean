@@ -1,5 +1,6 @@
 import Mathlib.Tactic.Ring
 
+variable (P Q R : Prop)
 
 -- ANCHOR: first
 example (hPQ: P → Q) (hQR: Q → R) : P → R := by

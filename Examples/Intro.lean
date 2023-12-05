@@ -1,3 +1,5 @@
+variable (P Q R : Prop)
+
 -- ANCHOR: first
 example (hPQ: P → Q) (hQR: Q → R) : P → R := by
   -- 示したいことが `P → R` なので，`P` だと仮定する

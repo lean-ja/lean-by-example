@@ -23,7 +23,7 @@ example (a b c d e f : ℕ) (h : a * b = c * d) (h' : e = f) :
 -/
 
 -- `G` は群
-variable [Group G]
+variable (G : Type) [Group G]
 
 example (a b : G) : a * b⁻¹ = 1 ↔ a = b := by
 

@@ -2,6 +2,8 @@ import Std.Tactic.ShowTerm -- `by?` を使用するのに必要
 
 /-! ## 項による証明 -/
 
+variable (P Q R : Prop)
+
 -- `P → R` というのは `P` の証明を与えられたときに `R` の証明を返す関数の型
 -- したがって，その証明は関数となる
 example (hPQ : P → Q) (hQR : Q → R) : P → R :=
