@@ -10,7 +10,7 @@ variable (X : Type) (f : ℕ → ℕ)
 
 example (x : ℕ) (h : f x = x) : f (f x) = f x := by
   -- `let` を使用した場合
-  try (
+  try
     let y := f x
 
     -- ゴールは `⊢ f (f x) = f x` のままで，
@@ -18,7 +18,6 @@ example (x : ℕ) (h : f x = x) : f (f x) = f x := by
     show f (f x) = f x
 
     fail
-  )
 
   set y := f x with yh
 

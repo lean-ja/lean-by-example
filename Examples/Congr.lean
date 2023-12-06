@@ -16,7 +16,7 @@ example (g : Int → X) (h : x = 0) (hf : ∀ x, f x = f (- x)) :
     g (f (2 + x)) = g (f (- 2)) := by
 
   -- congr の再帰がアグレッシブすぎて上手くいかないことがある
-  try (
+  try
     congr
 
     -- 分解しすぎた
@@ -24,7 +24,6 @@ example (g : Int → X) (h : x = 0) (hf : ∀ x, f x = f (- x)) :
 
     -- これでは示すことができない
     fail
-  )
 
   -- 再帰の深さを数値として指定できる
   congr 1

@@ -28,7 +28,7 @@ variable (G : Type) [Group G]
 example (a b : G) : a * b⁻¹ = 1 ↔ a = b := by
 
   -- `one_mul: 1 * b = b` を使って `b` を `1 * b` に書き換えたい
-  try (
+  try
     -- 仮に普通に `rw` しようとすると…
     rw [← one_mul b]
 
@@ -37,7 +37,6 @@ example (a b : G) : a * b⁻¹ = 1 ↔ a = b := by
 
     -- これは失敗
     fail
-  )
 
   -- `b` は2回出現するが，2番目だけ置き換える
   nth_rw 2 [← one_mul b]
