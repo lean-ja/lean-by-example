@@ -55,5 +55,6 @@ import Examples.Synth
 import Examples.Tauto
 import Examples.Time
 import Examples.Trivial
+import Examples.Try
 import Examples.Unfold
 import Examples.Wlog
