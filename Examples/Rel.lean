@@ -1,4 +1,4 @@
-import Mathlib.Tactic.GCongr
+import Mathlib.Tactic.GCongr -- `rel` を使用するのに必要
 
 variable (a b c d: Nat)
 

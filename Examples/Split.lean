@@ -1,6 +1,6 @@
 import Mathlib.Tactic.Set -- `set` のために必要
-import Mathlib.Tactic.Linarith
-import Std.Tactic.Replace
+import Mathlib.Tactic.Linarith -- `linarith` を使うため
+import Std.Tactic.Replace -- `replace` を使うため
 
 /-! ## if 式と split -/
 

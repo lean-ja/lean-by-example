@@ -1,4 +1,4 @@
-import Mathlib.Tactic.Ring
+import Mathlib.Tactic.Ring -- `ring` のため
 
 variable (P Q R : Prop)
 

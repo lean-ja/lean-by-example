@@ -1,5 +1,5 @@
 import Mathlib.Algebra.Algebra.Basic -- 群を使うのに必要
-import Mathlib.Tactic.LibrarySearch -- apply? を使うのに必要
+import Mathlib.Tactic.LibrarySearch -- `apply?` を使うのに必要
 
 variable (G H : Type)
 

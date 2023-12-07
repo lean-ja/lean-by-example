@@ -1,4 +1,4 @@
-import Aesop
+import Aesop -- `aesop` を使うため
 import Mathlib.Tactic.LibrarySearch -- `exact?` を使うため
 import Mathlib.Tactic.Tauto -- `tauto` を使うのに必要
 

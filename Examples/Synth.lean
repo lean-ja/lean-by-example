@@ -1,5 +1,5 @@
-import Mathlib.Data.Rat.Defs
-import Mathlib.Data.Real.Basic
+import Mathlib.Data.Rat.Defs -- 有理数
+import Mathlib.Data.Real.Basic -- 実数
 
 /-! # synth コマンド -/
 

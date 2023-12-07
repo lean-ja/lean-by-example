@@ -1,4 +1,4 @@
-import Std.Tactic.GuardExpr
+import Std.Tactic.GuardExpr -- `guard_hyp` を使うために必要
 
 variable (P : Prop)
 

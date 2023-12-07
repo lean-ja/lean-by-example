@@ -1,4 +1,4 @@
-import Aesop
+import Aesop -- `aesop` を使用するため
 
 variable (P Q : Prop)
 

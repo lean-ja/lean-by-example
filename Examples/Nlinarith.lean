@@ -1,4 +1,4 @@
-import Mathlib.Tactic.Linarith
+import Mathlib.Tactic.Linarith -- `linarith` や `nlinarith` を使うため
 
 variable (a b : ℕ)
 

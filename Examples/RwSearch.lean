@@ -1,5 +1,5 @@
 import Mathlib.Tactic.RewriteSearch -- `rw_search` のために必要
-import Mathlib.Tactic.Ring
+import Mathlib.Tactic.Ring -- `ring` のために必要
 
 variable (m n : ℕ)
 
