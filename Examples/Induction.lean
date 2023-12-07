@@ -5,6 +5,7 @@ import Mathlib.Tactic.Cases -- `induction'` のために必要
 
 /-! ## 帰納法をいつ使うか -/
 
+namespace Induction
 
 -- 自然数の定義を `#print` コマンドで調べてみる
 
@@ -131,3 +132,5 @@ example : fibonacci = fib := by
   | 0 => rfl
   | 1 => rfl
   | n + 2 => simp_all [fibonacci]
+
+end Induction
