@@ -37,6 +37,7 @@ import Examples.PrintCmd
 import Examples.PushNeg
 import Examples.Refine
 import Examples.Rel
+import Examples.Repeat
 import Examples.Replace
 import Examples.Rfl.Refl
 import Examples.Rfl.Rfl

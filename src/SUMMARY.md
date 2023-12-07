@@ -53,6 +53,7 @@
 - [push_neg: ドモルガン](./push_neg.md)
 - [refine: 後方推論](./refine.md)
 - [rel: 不等式を使う](./rel.md)
+- [repeat: 繰り返し適用](./repeat.md)
 - [replace: 補題の入れ替え](./replace.md)
 - [rfl: 関係の反射性を示す](./rfl.md)
 - [ring: 環の等式を示す](./ring.md)
