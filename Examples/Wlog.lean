@@ -1,22 +1,26 @@
-import Mathlib.Tactic.Abel -- `abel` のために必要
-import Mathlib.Tactic.WLOG -- `wolog` のために必要
+import Mathlib.Data.Int.Cast.Lemmas
+import Mathlib.Tactic.WLOG
 
-variable (a b : ℕ)
+-- `n` と `m` は自然数
+variable {n m : ℕ}
 
-example : a + b = b + a := by
-  -- `a ≤ b` だと仮定しても一般性を失わない
-  wlog h : a ≤ b with H
+example (h : n ≠ m) : 0 < |(n - m : ℤ)| := by
+  -- 一般性を失うことなく `m < n` と仮定して良い
+  wlog hnm : m < n with H
 
+  -- `m < n` の時に成り立つのであれば，そうでないときも成り立つことを示す
   case inr =>
-    -- `a ≤ b` なら成り立つと仮定して，そうでないときにも成り立つことを示す
-    guard_hyp H : ∀ (a b : Nat), a ≤ b → a + b = b + a
-    guard_hyp h : ¬a ≤ b
-    show a + b = b + a
+    -- `m < n` ではないので，`n < m` が成り立つ
+    have : m = n ∨ n < m := Nat.eq_or_lt_of_not_lt hnm
+    replace : n < m := by aesop
 
-    abel
+    -- `m < n` の時に成り立つという仮定を利用できる
+    replace : 0 < |(m - n : ℤ)| := @H m n h.symm this
 
-  -- `a ≤ b` であるときに成り立つことを示す
-  show a + b = b + a
-  guard_hyp h: a ≤ b
+    rw [abs_sub_comm]
+    assumption
 
-  abel
+  -- `m < n` と仮定してよいことがわかったので，
+  -- `m < n` だとして証明する
+  apply abs_pos_of_pos
+  simp_all
