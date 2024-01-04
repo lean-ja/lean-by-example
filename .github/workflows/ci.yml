@@ -14,17 +14,24 @@ on:
       - main
 
 jobs:
-  build:
+  lib_check:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v3
+      - name: checkout
+        uses: actions/checkout@v3
 
       - name: Install elan
         run: |
           curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y --default-toolchain $(cat lean-toolchain)
           echo "$HOME/.elan/bin" >> $GITHUB_PATH
 
+      - name: Check lib completeness
+        run: lake exe importAll Examples check
+
+  build:
+    runs-on: ubuntu-latest
+    needs: lib_check
+    steps:
       # src: https://harry.garrood.me/blog/easy-incremental-haskell-ci-builds-with-ghc-9.4/
       - name: Cache dependencies
         uses: actions/cache@v3
@@ -44,10 +51,8 @@ jobs:
           restore-keys: |
             build-${{ runner.os }}-${{ hashFiles('lean-toolchain') }}
 
-      - name: Test native build
-        run: |
-          lake exe cache get
-          lake build
+      - name: get mathlib cache
+        run: lake exe cache get
 
-      - name: check lib completeness
-        run: lake exe importAll Examples check
+      - name: build
+        run: lake build
