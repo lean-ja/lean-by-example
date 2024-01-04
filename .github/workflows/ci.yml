@@ -50,4 +50,4 @@ jobs:
           lake build
 
       - name: check lib completeness
-        run: lake run import_all?
+        run: lake exe importAll Examples check
