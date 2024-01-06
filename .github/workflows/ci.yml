@@ -26,7 +26,7 @@ jobs:
           echo "$HOME/.elan/bin" >> $GITHUB_PATH
 
       - name: Check lib completeness
-        run: lake exe importAll Examples check
+        run: lake exe import_check Examples
 
       # src: https://harry.garrood.me/blog/easy-incremental-haskell-ci-builds-with-ghc-9.4/
       - name: Cache dependencies
