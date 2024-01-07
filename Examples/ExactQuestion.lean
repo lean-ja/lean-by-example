@@ -45,5 +45,4 @@ example (h : ↑ n < a) : n ≤ Nat.floor a := by
 
   -- 後は `<` から `≤` を示せばよいだけ
   show ↑n ≤ a
-  exact? says
-    exact le_of_lt h
+  exact LT.lt.le h
