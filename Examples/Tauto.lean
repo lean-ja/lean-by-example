@@ -31,6 +31,7 @@ example : ¬(∀ x, S x) → (∃ x, ¬ S x) := by
 
   aesop
 
--- 対偶
-example (h : P → Q) : ¬ Q → ¬ P := by
-  tauto
+-- 対偶は `aesop` でも `tauto` でも示せる
+example (h : P → Q) : ¬ Q → ¬ P := by aesop
+
+example (h : P → Q) : ¬ Q → ¬ P := by tauto
