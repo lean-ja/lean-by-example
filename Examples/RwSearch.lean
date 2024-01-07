@@ -3,6 +3,9 @@ import Mathlib.Tactic.Ring -- `ring` のために必要
 
 variable (m n : ℕ)
 
+-- `says` のチェックを有効にする
+set_option says.verify true
+
 /-! ## rw_search -/
 
 example : (m - n) - n = m - 2 * n := by
@@ -12,9 +15,6 @@ example : (m - n) - n = m - 2 * n := by
   -- `aesop` でも示せない
   try aesop
 
-  -- `exact?` でも示せない
-  try exact?
-
   rw_search says
     rw [Nat.sub_sub, Nat.mul_two]
 
@@ -23,12 +23,6 @@ example : (m - n) - n = m - 2 * n := by
 example (h : n + m = 0) : n = 0 ↔ m = 0 := by
   -- ゴールは等式ではありませんと言われてエラーになる
   try rw_search
-
-  -- これは `exact?` でも示すことができる
-  try
-    exact? says
-      exact eq_zero_iff_eq_zero_of_add_eq_zero h
-    fail
 
   rw? says
     rw [propext (eq_zero_iff_eq_zero_of_add_eq_zero h)]

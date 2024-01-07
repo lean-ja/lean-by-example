@@ -3,8 +3,8 @@ import Mathlib.Init.Function -- `Injection` のために必要
 import Mathlib.Tactic.LibrarySearch -- `exact?` を使うために必要
 import Mathlib.Tactic.Says -- `says` を使うために必要
 
--- `says` のチェックをCIで無効にする
-set_option says.no_verify_in_CI true
+-- `says` のチェックを有効にする
+set_option says.verify true
 
 /-!
   ## says

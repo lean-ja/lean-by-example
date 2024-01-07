@@ -1,6 +1,4 @@
 import Mathlib.Tactic.FieldSimp -- `field_simp` を使うのに必要
-import Mathlib.Tactic.LibrarySearch -- `exact?` を使うのに必要
-import Mathlib.Tactic.RewriteSearch -- `rw_search` のために必要
 import Mathlib.Tactic.Ring -- `ring` を使うのに必要
 
 /-! ## show ... from で証明を構成する -/
@@ -22,8 +20,7 @@ example (h : a * x < b) (ha : a > 0) : x < b / a := by
 
   -- ここで `b = a * r` というまだ示していない補題に基づいて `h` を書き換える
   rw [show b = a * r from ?lem] at h
-  exact? says
-    exact (mul_lt_mul_left ha).mp h
+  exact (mul_lt_mul_left ha).mp h
 
   -- 本来証明項が入るべきところに `?lem` をおいたので，
   -- `case lem` でフォーカスできる
@@ -33,10 +30,7 @@ example (h : a * x < b) (ha : a > 0) : x < b / a := by
 
     -- 分母を払う
     field_simp
-
-    -- `rw_search` でカタをつける
-    rw_search says
-      rw [Rat.mul_comm]
+    ring
 
 /-!
   ## ゴールの状態を確認する

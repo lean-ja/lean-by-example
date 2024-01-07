@@ -5,20 +5,20 @@ import Mathlib.Tactic.Says -- `says` を使うために必要
 
 variable (P Q R : Prop)
 
+-- `says` のチェックを有効にする
+set_option says.verify true
+
 /-! ## exact? -/
 
 -- `exact?` はライブラリ検索を行う
 example (x : Nat) : x < x + 1 := by
-  -- `Try this: exact Nat.lt.base x` と出力される
-  exact?
+  exact? says
+    exact Nat.lt.base x
 
 -- ローカルコンテキストにある仮定を自動で使ってゴールを導いてくれる
 example (hPQ : P → Q) (hQR : Q → R) (hQ : P) : R := by
-  -- `Try this: exact hQR (hPQ hQ)` と出力される
-  exact?
-
-  -- 証明は `exact?` だけで終わっている
-  done
+  exact? says
+    exact hQR (hPQ hQ)
 
 /-!
   ## exact? を使用する際のコツ

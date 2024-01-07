@@ -1,8 +1,5 @@
 import Mathlib.Tactic -- `hint` は検索を伴うので，おおざっぱに import している
 
--- `says` のチェックをCIで無効にする
-set_option says.no_verify_in_CI true
-
 variable (P Q R : Prop) (a b : ℕ)
 
 /-! # hint -/
