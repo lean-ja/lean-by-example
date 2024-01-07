@@ -16,3 +16,7 @@
 ```lean
 {{#include ../Examples/Rw.lean}}
 ```
+
+## rewrite
+
+`rewrite` というタクティクもあります．`rw` とよく似ていて，違いは `rw` が書き換え後に自動的に `rfl` を実行するのに対して，`rewrite` は行わないということです．
