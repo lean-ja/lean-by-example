@@ -18,7 +18,7 @@
 
 # タクティク紹介
 
-- [aesop: ルーチン自動化](./aesop.md)
+- [aesop: 自明な証明の自動探索](./aesop.md)
 - [all_goals: 全てのゴールに対して適用](./all_goals.md)
 - [apply_assumption: 仮定を自動で apply](./apply_assumption.md)
 - [apply: 含意→を使う](./apply.md)
