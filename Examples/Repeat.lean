@@ -1,4 +1,4 @@
-import Mathlib.Tactic.SolveByElim -- `apply_assumption` のために必要
+import Std.Tactic.SolveByElim -- `apply_assumption` のために必要
 
 variable (P Q R S T : Prop)
 
