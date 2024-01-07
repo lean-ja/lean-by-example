@@ -49,4 +49,7 @@ example : (x + y) ^ 2 = x ^ 2 + 2 * x * y + y ^ 2 := by
     (Mathlib.Tactic.Ring.pow_congr
       ...
   -/
-  show_term ring
+  -- コメントを外してみてください
+  -- show_term ring
+
+  ring
