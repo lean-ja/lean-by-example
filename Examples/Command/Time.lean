@@ -1,4 +1,8 @@
-import Mathlib.Util.Time -- `#time` を使うため
+/- # time
+`#time` は，コマンドの実行時間を計測するためのコマンドです．ミリ秒単位で結果を出してくれます．
+-/
+
+import Mathlib.Util.Time
 
 -- フィボナッチ数列の指数時間の実装
 def fibonacci : Nat → Nat
