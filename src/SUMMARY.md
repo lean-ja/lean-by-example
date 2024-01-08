@@ -22,7 +22,7 @@
 - [all_goals: 全ゴールに対して適用](./Tactic/AllGoals.md)
 - [apply_assumption: 仮定を自動で apply](./Tactic/ApplyAssumption.md)
 - [apply: 含意→を使う](./Tactic/Apply.md)
-- [apply?: apply できるか検索](./apply_question.md)
+- [apply?: apply できるか検索](./Tactic/ApplyQuestion.md)
 - [assumption: 仮定を自動で exact](./assumption.md)
 - [by_cases: 排中律](./by_cases.md)
 - [by_contra: 背理法](./by_contra.md)

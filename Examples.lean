@@ -1,4 +1,3 @@
-import Examples.ApplyQuestion
 import Examples.Assumption
 import Examples.By
 import Examples.ByCases
@@ -55,6 +54,7 @@ import Examples.Tactic.Aesop
 import Examples.Tactic.AllGoals
 import Examples.Tactic.Apply
 import Examples.Tactic.ApplyAssumption
+import Examples.Tactic.ApplyQuestion
 import Examples.Tauto
 import Examples.Trivial
 import Examples.Try
