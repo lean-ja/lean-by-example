@@ -1,10 +1,7 @@
-import Mathlib.Tactic --#
+import Std.Tactic.GuardMsgs --#
 
-/-! # print コマンド -/
-
-/-!
-  ## 定義を表示
-  `#print` 単体で使うと，定義を表示することができます．
+/-! # print
+`#print` コマンドには複数の機能がありますが，単体で使うと定義を表示することができます．
 -/
 
 -- inductive Or : Prop → Prop → Prop

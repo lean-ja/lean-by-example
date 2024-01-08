@@ -1,14 +1,14 @@
-import Mathlib.Tactic --#
-
-namespace guard --#
-
-/-!
+/-
   # guard
   `#guard` は与えられた Bool 値が true であることを確かめます．
 -/
+import Std.Tactic.GuardExpr -- `#guard` のために必要
+import Std.Classes.SetNotation -- `⊆` のため --#
+import Std.Data.List.Lemmas -- `List` 関連の補題のため --#
+namespace guard --#
 
 -- 階乗関数
-def fac : ℕ → ℕ
+def fac : Nat → Nat
 | 0 => 1
 | n + 1 => (n + 1) * fac n
 
