@@ -19,7 +19,7 @@
 # タクティク紹介
 
 - [aesop: 自明な証明の自動探索](./Tactic/Aesop.md)
-- [all_goals: 全てのゴールに対して適用](./all_goals.md)
+- [all_goals: 全ゴールに対して適用](./Tactic/AllGoals.md)
 - [apply_assumption: 仮定を自動で apply](./apply_assumption.md)
 - [apply: 含意→を使う](./apply.md)
 - [apply?: apply できるか検索](./apply_question.md)
