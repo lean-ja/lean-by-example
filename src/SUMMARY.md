@@ -6,15 +6,15 @@
 
 # コマンド紹介
 
-- [#check: 型を調べる](./check.md)
-- [#eval: 式を評価する](./eval.md)
-- [#find: ライブラリ検索](./find.md)
-- [#guard: Bool 値のテスト](./guard.md)
-- [#help: ドキュメントを見る](./help.md)
-- [#print: 中身を見る](./print_cmd.md)
-- [#time: 実行時間計測](./time.md)
-- [#instances: インスタンスを列挙](./instances.md)
-- [#synth: インスタンスか調べる](./synth.md)
+- [#check: 型を調べる](./Command/Check.md)
+- [#eval: 式を評価する](./Command/Eval.md)
+- [#find: ライブラリ検索](./Command/Find.md)
+- [#guard: Bool 値のテスト](./Command/Guard.md)
+- [#help: ドキュメントを見る](./Command/Help.md)
+- [#print: 中身を見る](./Command/Print.md)
+- [#time: 実行時間計測](./Command/Time.md)
+- [#instances: インスタンスを列挙](./Command/Instances.md)
+- [#synth: 型クラスの検査](./Command/Synth.md)
 
 # タクティク紹介
 
