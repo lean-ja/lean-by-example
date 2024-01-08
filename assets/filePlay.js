@@ -15,6 +15,9 @@ editButtonLink.ariaLabel = editButtonLink.title;
 // 拡張子が `.md` になっているので `.lean` に修正する
 editButtonLink.href = editButtonLink.href.replace(/\.md$/, '.lean');
 
+// Lean ファイルがあるのは `src` ではなく `Examples` ディレクトリ
+editButtonLink.href = editButtonLink.href.replace('/src/', '/Examples/');
+
 // ボタンをクリックしたときに以下を実行
 editButtonLink.addEventListener('click', async function (e) {
   // デフォルトの挙動をキャンセル
