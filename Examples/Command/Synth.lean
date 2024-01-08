@@ -1,7 +1,5 @@
 import Mathlib.Data.Rat.Defs -- 有理数 --#
 import Mathlib.Data.Real.Basic -- 実数 --#
-
-
 /-! # synth
 型クラス `C` と型 `T` があるとき，`#synth C T` は `T` が `C` のインスタンスになっているかチェックします．もしインスタンスでなかった場合にはエラーになります．
 -/

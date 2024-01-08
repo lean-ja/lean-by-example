@@ -1,11 +1,9 @@
-import Mathlib.Tactic --#
-
-/-! # check
+import Mathlib.Init.Set -- `Set` を使用するため --#
+/- # check
 
 `#check` コマンドは，項の型を表示します．Lean ではすべての項に型があるので，どんな項にも使えます．`#check term` というコマンドで，`term` の型を表示します．逆に `term` の型が `T` であることを確かめるには `example` コマンドを使用して `example : T := term` とします．
--/
 
-/-! ## 基本的な項の型 -/
+## 基本的な項の型 -/
 
 -- 文字
 #check 'a'
@@ -48,11 +46,9 @@ import Mathlib.Tactic --#
   「すべての」項には型があるので，型も型を持ちます．
 -/
 
--- Prop : Type
-#check Prop
+#check (Prop : Type)
 
--- Set ℕ : Type
-#check (Set ℕ)
+#check (Set Nat : Type)
 
 -- Lean では `List` は Type を受け取って，Type を返す関数.
 -- List.{u} (α : Type u) : Type u
@@ -101,14 +97,12 @@ theorem two_eq_add_one : 2 = 1 + 1 := by rfl
 つまり，`P` の証明 `h : P` に対して `Q` の証明を返す関数です．
 -/
 
-lemma tautology : True -> True := fun a ↦ a
+theorem tautology : True -> True := fun a ↦ a
 
-
--- 暗黙の変数を明示的にするために `@` を付けたものの
+-- 暗黙の変数を明示的にするために `@` を付けた.
 -- `tautology : True → True` と出力されるので，
 -- `tautology` は `True → True` という関数であることがわかる
 #check @tautology
-
 
 -- 実際に `trivial : True` を「代入」すると
 -- `tautology trivial : True` となり，
