@@ -1,4 +1,3 @@
-import Examples.Aesop
 import Examples.AllGoals
 import Examples.Apply
 import Examples.ApplyAssumption
@@ -56,6 +55,7 @@ import Examples.SlimCheck
 import Examples.Sorry
 import Examples.Split
 import Examples.Suffices
+import Examples.Tactic.Aesop
 import Examples.Tauto
 import Examples.Trivial
 import Examples.Try
