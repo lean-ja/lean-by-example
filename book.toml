@@ -11,6 +11,7 @@ create-missing = false
 build-dir = "book"
 
 [output.html]
-additional-js = ["assets/leanweb.js", "assets/fzf.umd.js", "assets/elasticlunr.js"]
+additional-js = ["assets/blockPlay.js", "assets/filePlay.js", "assets/fzf.umd.js", "assets/elasticlunr.js"]
 no-section-label = true
 git-repository-url = "https://github.com/lean-ja/tactic-cheatsheet"
+edit-url-template = "https://raw.githubusercontent.com/lean-ja/tactic-cheatsheet/main/{path}"
