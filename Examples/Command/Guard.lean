@@ -24,14 +24,8 @@ example (α : Type) (l : List α) : [] ⊆ l := by simp
 -- Prop 型を持つ
 #check (α : Type) → ∀ (l : List α), [] ⊆ l
 
-/-- error: type mismatch
-  ∀ (α : Type) (l : List α), [] ⊆ l
-has type
-  Prop : Type
-but is expected to have type
-  Bool : Type -/
-#guard_msgs in --#
-#guard (α : Type) → ∀ (l : List α), [] ⊆ l
+-- コメントを外してみよう
+-- #guard (α : Type) → ∀ (l : List α), [] ⊆ l
 
 /-! しかし， `1 + 1 = 2` 等も `#check` で確かめてみると型は `Prop` です．にも関わらず `#guard` に渡してもエラーになりません． これはなぜでしょうか？ -/
 
