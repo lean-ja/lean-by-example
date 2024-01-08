@@ -1,5 +1,4 @@
 import Examples.Apply
-import Examples.ApplyAssumption
 import Examples.ApplyAt
 import Examples.ApplyQuestion
 import Examples.Assumption
@@ -56,6 +55,7 @@ import Examples.Split
 import Examples.Suffices
 import Examples.Tactic.Aesop
 import Examples.Tactic.AllGoals
+import Examples.Tactic.ApplyAssumption
 import Examples.Tauto
 import Examples.Trivial
 import Examples.Try

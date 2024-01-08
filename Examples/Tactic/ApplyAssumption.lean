@@ -1,8 +1,9 @@
+/- # apply_assumption
+`apply_assumption` は，ゴールが `⊢ head` であるときに，`... → ∀ _, ... → head` という形の命題をローカルコンテキストから探し，それを用いてゴールを書き換えます．
+-/
 import Std.Tactic.SolveByElim -- `apply_assumption` を使うため
 
 variable (P Q R : Prop)
-
-/-! ## apply_assumption -/
 
 example (hPQ : P → Q) : ¬ Q → ¬ P := by
   intro hQn hP
@@ -25,10 +26,9 @@ example (hPQ : P → Q) : ¬ Q → ¬ P := by
   done
 
 /-!
-  ## repeat apply_assumption
-
+  ## repeat との組み合わせ
   タクティクを繰り返すことを指示するタクティク `repeat` と組み合わせると，
-  「ローカルコンテキストにある仮定を適切に選んで apply, exact することを繰り返し，
+  「ローカルコンテキストにある仮定を適切に選んで `apply`, `exact` することを繰り返し，
   ゴールを閉じる」ことができます．
 -/
 
