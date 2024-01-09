@@ -26,7 +26,7 @@
 - [assumption: 仮定を自動で exact](./Tactic/Assumption.md)
 - [by_cases: 排中律](./Tactic/ByCases.md)
 - [by_contra: 背理法](./Tactic/ByContra.md)
-- [by: タクティクモードに入る](./by.md)
+- [by: タクティクモードに入る](./Tactic/By.md)
 - [calc: 計算モードに入る](./calc.md)
 - [cases: 論理和∨を使う](./cases.md)
 - [choose: 選択関数を得る](./choose.md)
