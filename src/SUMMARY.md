@@ -24,7 +24,7 @@
 - [apply: 含意→を使う](./Tactic/Apply.md)
 - [apply?: apply できるか検索](./Tactic/ApplyQuestion.md)
 - [assumption: 仮定を自動で exact](./Tactic/Assumption.md)
-- [by_cases: 排中律](./by_cases.md)
+- [by_cases: 排中律](./Tactic/ByCases.md)
 - [by_contra: 背理法](./by_contra.md)
 - [by: タクティクモードに入る](./by.md)
 - [calc: 計算モードに入る](./calc.md)
