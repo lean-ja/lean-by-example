@@ -7,7 +7,6 @@ import Examples.Command.Instances
 import Examples.Command.Print
 import Examples.Command.Synth
 import Examples.Command.Time
-import Examples.Constructor
 import Examples.Contradiction
 import Examples.Convert
 import Examples.Exact
@@ -56,6 +55,7 @@ import Examples.Tactic.Cases
 import Examples.Tactic.Choose
 import Examples.Tactic.Clear
 import Examples.Tactic.Congr
+import Examples.Tactic.Constructor
 import Examples.Tauto
 import Examples.Trivial
 import Examples.Try

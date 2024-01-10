@@ -1,6 +1,7 @@
-variable (P Q : Prop)
+/- # constructor
 
-/-! ## constructor -/
+ゴールが `⊢ P ∧ Q` であるとき，`constructor` を実行すると，ゴールが２つのゴール `⊢ P` と `⊢ Q` に分割されます．-/
+variable (P Q : Prop)
 
 example (hP: P) (hQ: Q) : P ∧ Q := by
   -- goal が `left` と `right` に分割される
@@ -10,7 +11,10 @@ example (hP: P) (hQ: Q) : P ∧ Q := by
   · -- `Q` を示す
     exact hQ
 
-/-! ## case を使う書き方 -/
+/-! ## case を使う書き方
+
+同じ証明を `case` を使って次のように書き直すことができます．
+-/
 
 example (hP: P) (hQ: Q) : P ∧ Q := by
   constructor
@@ -21,7 +25,9 @@ example (hP: P) (hQ: Q) : P ∧ Q := by
   case right =>
     exact hQ
 
-/-! ## 同値を示す -/
+/-! ## 同値を示す
+
+同値 `↔` に対しても，`constructor` は利用できます．-/
 
 example (x : Nat) : x = 0 ↔ x + 1 = 1 := by
   constructor
@@ -31,7 +37,10 @@ example (x : Nat) : x = 0 ↔ x + 1 = 1 := by
   · -- `x + 1 = 1 → x = 0` を示す
     simp_all
 
-/-! ## 逆の，論理積 ∧ を分解する方向 -/
+/-! ## 補足
+
+逆に，論理積 `∧` を分解したい場合は `And.left` や `And.right` を使用します．
+-/
 
 example (h: P ∧ Q) : P := by
   exact h.left
