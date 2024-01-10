@@ -1,4 +1,3 @@
-import Examples.Choose
 import Examples.Clear
 import Examples.Command.Check
 import Examples.Command.Eval
@@ -56,6 +55,7 @@ import Examples.Tactic.ByCases
 import Examples.Tactic.ByContra
 import Examples.Tactic.Calc
 import Examples.Tactic.Cases
+import Examples.Tactic.Choose
 import Examples.Tauto
 import Examples.Trivial
 import Examples.Try
