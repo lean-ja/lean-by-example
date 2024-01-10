@@ -28,7 +28,7 @@
 - [by_contra: 背理法](./Tactic/ByContra.md)
 - [by: タクティクモードに入る](./Tactic/By.md)
 - [calc: 計算モードに入る](./Tactic/Calc.md)
-- [cases: 論理和∨を使う](./cases.md)
+- [cases: 論理和∨を使う](./Tactic/Cases.md)
 - [choose: 選択関数を得る](./choose.md)
 - [clear: 命題や定義を削除する](./clear.md)
 - [congr: ゴールの差異に注目する](./congr.md)

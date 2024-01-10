@@ -1,8 +1,3 @@
-import Examples.Assumption
-import Examples.By
-import Examples.ByCases
-import Examples.ByContra
-import Examples.Cases
 import Examples.Choose
 import Examples.Clear
 import Examples.Command.Check
@@ -55,6 +50,12 @@ import Examples.Tactic.AllGoals
 import Examples.Tactic.Apply
 import Examples.Tactic.ApplyAssumption
 import Examples.Tactic.ApplyQuestion
+import Examples.Tactic.Assumption
+import Examples.Tactic.By
+import Examples.Tactic.ByCases
+import Examples.Tactic.ByContra
+import Examples.Tactic.Calc
+import Examples.Tactic.Cases
 import Examples.Tauto
 import Examples.Trivial
 import Examples.Try
