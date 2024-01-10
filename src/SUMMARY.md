@@ -30,7 +30,7 @@
 - [calc: 計算モードに入る](./Tactic/Calc.md)
 - [cases: 論理和∨を使う](./Tactic/Cases.md)
 - [choose: 選択関数を得る](./Tactic/Choose.md)
-- [clear: 命題や定義を削除する](./clear.md)
+- [clear: 命題や定義を削除する](./Tactic/Clear.md)
 - [congr: ゴールの差異に注目する](./congr.md)
 - [constructor: 論理積∧を示す](./constructor.md)
 - [contradiction: 爆発律](./contradiction.md)
