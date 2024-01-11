@@ -56,6 +56,7 @@ import Examples.Tactic.Clear
 import Examples.Tactic.Congr
 import Examples.Tactic.Constructor
 import Examples.Tactic.Contradiction
+import Examples.Tactic.Conv
 import Examples.Tauto
 import Examples.Trivial
 import Examples.Try
