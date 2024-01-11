@@ -35,7 +35,7 @@
 - [constructor: 論理積∧を示す](./Tactic/Constructor.md)
 - [contradiction: 爆発律](./Tactic/Contradiction.md)
 - [conv: 変換モードに入る](./Tactic/Conv.md)
-- [convert: 惜しい補題を使う](./convert.md)
+- [convert: 惜しい補題を使う](./Tactic/Convert.md)
 - [done: 証明終了を宣言](./done.md)
 - [exact: 証明を直接構成](./exact.md)
 - [exact?: exact できるか検索](./exact_question.md)
