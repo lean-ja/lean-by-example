@@ -57,6 +57,7 @@ import Examples.Tactic.Constructor
 import Examples.Tactic.Contradiction
 import Examples.Tactic.Conv
 import Examples.Tactic.Convert
+import Examples.Tactic.Done
 import Examples.Tauto
 import Examples.Trivial
 import Examples.Try
