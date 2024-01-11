@@ -1,8 +1,12 @@
+/- # contradiction
+
+矛盾からはどんな命題でも証明することができます．これを爆発律(principle of explosion)と呼びますが，`contradiction` は，この爆発律を使ってゴールを閉じるタクティクです．
+
+ローカルコンテキストに `P` と `¬ P` が同時にあるなど，矛盾した状況にあるときにゴールを閉じます．
+-/
 import Mathlib.Algebra.Algebra.Basic -- `not_lt` などが使えるようにする
 
 variable (P Q : Prop)
-
-/- ## contradiction -/
 
 -- `False`
 example (h : False) : P := by contradiction
@@ -16,7 +20,9 @@ example (x : Nat) (h : x ≠ x) : P := by contradiction
 -- 矛盾する仮定
 example (hP : P) (hnP : ¬ P) : Q := by contradiction
 
-/- ## contradiction が通りそうで通らない例 -/
+/- ## 補足
+以下の例では，`contradiction` がいかにも通りそうに見えるのですが，通りません．`contradiction` にはあまり強力な前処理は備わっていないので，注意が必要です．
+-/
 
 variable (n m : ℕ)
 
