@@ -7,7 +7,6 @@ import Examples.Command.Instances
 import Examples.Command.Print
 import Examples.Command.Synth
 import Examples.Command.Time
-import Examples.Have
 import Examples.Hint
 import Examples.Induction
 import Examples.Intro
@@ -58,6 +57,7 @@ import Examples.Tactic.Exists
 import Examples.Tactic.Ext
 import Examples.Tactic.Funext
 import Examples.Tactic.GuardHyp
+import Examples.Tactic.Have
 import Examples.Tauto
 import Examples.Trivial
 import Examples.Try
