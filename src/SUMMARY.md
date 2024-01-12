@@ -42,7 +42,7 @@
 - [exists: 存在∃を示す](./Tactic/Exists.md)
 - [ext: 外延性を使う](./Tactic/Ext.md)
 - [funext: 関数等式を示す](./Tactic/Funext.md)
-- [guard_hyp: 仮定や補題を確認](./guard_hyp.md)
+- [guard_hyp: 仮定や補題を確認](./Tactic/GuardHyp.md)
 - [have: 補題を用意する](./have.md)
 - [hint: 複数のタクティクを同時に試す](./hint.md)
 - [induction: 帰納法](./induction.md)
