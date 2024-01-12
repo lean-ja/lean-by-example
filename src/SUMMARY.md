@@ -47,7 +47,7 @@
 - [hint: 複数のタクティクを同時に試す](./Tactic/Hint.md)
 - [induction: 帰納法](./Tactic/Induction.md)
 - [intro: 含意→や全称∀を示す](./Tactic/Intro.md)
-- [left, right: 論理和∨を示す](./left_right.md)
+- [left, right: 論理和∨を示す](./Tactic/LeftRight.md)
 - [linarith: 線形(不)等式を示す](./linarith.md)
 - [nlinarith: 非線形な(不)等式を示す](./nlinarith.md)
 - [omega: 自然数の線形計画を解く](./omega.md)
