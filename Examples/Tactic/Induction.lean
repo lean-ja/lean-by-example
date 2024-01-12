@@ -1,29 +1,19 @@
-import Mathlib.Algebra.Algebra.Basic -- `simp` で使う
-import Mathlib.Init.Data.Nat.Lemmas -- 強い帰納法のために必要
-import Mathlib.Order.Basic -- `simp` で使う
-import Mathlib.Tactic.Cases -- `induction'` のために必要
+/- # induction
 
-/-! ## 帰納法をいつ使うか -/
+`induction` は，帰納法のためのタクティクです．
 
-namespace Induction
+Lean では自然数 `Nat` は
 
--- 自然数の定義を `#print` コマンドで調べてみる
+* 0 は自然数
+* `succ : Nat → Nat` という関数がある．つまり `n` が自然数ならば `succ n` も自然数
 
-/-
-inductive Nat : Type
-number of parameters: 0
-constructors:
-Nat.zero : ℕ (ゼロは自然数)
-Nat.succ : ℕ → ℕ (`n` が自然数なら `succ n` も自然数)
+というように帰納的に定義されています．このように帰納的に定義されたものに対して何か証明しようとしているとき，帰納法を使うことは自然な選択といえます．
 -/
-#print Nat
-
--- 自然数はこのように帰納的に定義されているので，
--- 自然数に対して何かを示そうとすると帰納法を使うことが自然な選択といえる
--- 一般に， `inductive` などで帰納的に定義されたものを扱うとき
--- 帰納法が有用な可能性は高い
-
-/-! ## induction -/
+import Mathlib.Algebra.Algebra.Basic -- `simp` で使う --#
+import Mathlib.Init.Data.Nat.Lemmas -- 強い帰納法のために必要 --#
+import Mathlib.Order.Basic -- `simp` で使う --#
+import Mathlib.Tactic.Cases -- `induction'` のために必要 --#
+namespace Induction --#
 
 /-- 階乗関数 -/
 def fac : Nat → Nat
@@ -41,11 +31,11 @@ example (n : Nat) : 0 < fac n := by
     simpa [fac]
 
 /-!
-  ## inudction'
+## inudction'
 
-  `induction'` というタクティクもあります．
-  これは Lean3 における `induction` タクティクとより構文が似ていて，
-  高度な帰納法が可能です．
+`induction'` というタクティクもあります．
+これは Lean3 における `induction` タクティクと構文が似ていて，
+高度な帰納法が可能です．
 -/
 
 example (n : Nat) : 0 < fac n := by
@@ -60,9 +50,9 @@ example (n : Nat) : 0 < fac n := by
     simpa [fac]
 
 /-!
-  ### 〇〇の～についての帰納法
+### 〇〇の～についての帰納法
 
-  `induction'` では「リストの長さに対する帰納法」もできます．
+`induction'` では「リストの長さに対する帰納法」もできます．
 -/
 
 variable (α : Type)
@@ -89,16 +79,16 @@ example (l : List α) (P : List α → Prop) : P l := by
     sorry
 
 /-!
-  ### 完全帰納法
+### 完全帰納法
 
-  時には， より強い帰納法が必要なこともあります． 強い帰納法とは， たとえば
+時には， より強い帰納法が必要なこともあります． 強い帰納法とは， たとえば
 
-  * `P(0)` を示す
-  * `(∀ k < n, P (k)) → P (n)` を示す
-  * したがって `∀ n, P (n)` である
+* `P(0)` を示す
+* `(∀ k < n, P (k)) → P (n)` を示す
+* したがって `∀ n, P (n)` である
 
-  という形式で表されるような帰納法のことです．
-  これは超限帰納法の特別な場合で，完全帰納法や累積帰納法とも呼ばれます．
+という形式で表されるような帰納法のことです．
+これは超限帰納法の特別な場合で，完全帰納法や累積帰納法とも呼ばれます．
 -/
 
 /-- フィボナッチ数列の通常の定義をそのまま Lean の関数として書いたもの -/
@@ -133,4 +123,4 @@ example : fibonacci = fib := by
   | 1 => rfl
   | n + 2 => simp_all [fibonacci]
 
-end Induction
+end Induction --#
