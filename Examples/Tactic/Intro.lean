@@ -1,6 +1,20 @@
+/- # intro
+
+`intro` は数学で慣習的に行われる
+
+* `P → Q` を示すときに最初に `P` を仮定する
+* `∀ x ∈ A, P(x)` を示すときに最初に `x ∈ A` が与えられたと仮定する
+
+といった導入(introduction)を行います．
+
+具体的には，`intro` は
+
+* ゴールが `⊢ P → Q` という形であるときに `P` をローカルコンテキストに追加して，ゴールを `⊢ Q` に変える
+* ゴールが `⊢ ∀ x, P x` という形であるときに `x` をローカルコンテキストに追加してゴールを `⊢ P x` に変える
+
+といった挙動をします． -/
 variable (P Q R : Prop)
 
--- ANCHOR: first
 example (hPQ: P → Q) (hQR: Q → R) : P → R := by
   -- 示したいことが `P → R` なので，`P` だと仮定する
   intro hP
@@ -13,10 +27,9 @@ example (hPQ: P → Q) (hQR: Q → R) : P → R := by
 
   -- 仮定 `hQR : Q → R` と `hQ : Q` から `R` が導かれる
   exact hQR hQ
--- ANCHOR_END: first
 
+/-! `intro` は `∀ x, P x` という形のゴールにも使用できます． -/
 
--- ANCHOR: forall
 example (P Q : Nat → Prop) (h : ∀ n, P n ↔ Q n) : ∀ y, P (y + 1) → Q (y + 1) := by
   -- 任意の `y` について示すので，`intro` で `y` を導入する
   -- そして `P (y + 1) → Q(y + 1)` を示したいので，`P (y + 1)` を仮定する
@@ -30,10 +43,13 @@ example (P Q : Nat → Prop) (h : ∀ n, P n ↔ Q n) : ∀ y, P (y + 1) → Q (
 
   -- 仮定 `P (y + 1)` より従う
   assumption
--- ANCHOR_END: forall
 
+/-! ## 否定 ¬ について
 
--- ANCHOR: neg
+Lean では否定 `¬ P` は `P → False` として定義されているので，ゴールが `¬ P` のときに `intro` すると `P` が仮定に追加されて，ゴールが `False` に変わります．
+
+`False` は矛盾を導けば証明できます． -/
+
 example (h: P → Q) : ¬Q → ¬P := by
   -- 示したいことが `¬Q → ¬P` なので，`¬Q` だと仮定する
   -- そうするとゴールが `¬P` になるので，
@@ -48,4 +64,3 @@ example (h: P → Q) : ¬Q → ¬P := by
 
   -- `hQ : Q` と `hnQ : ¬Q` から矛盾が導かれる
   contradiction
--- ANCHOR_END: neg

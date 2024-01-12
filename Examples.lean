@@ -7,7 +7,6 @@ import Examples.Command.Instances
 import Examples.Command.Print
 import Examples.Command.Synth
 import Examples.Command.Time
-import Examples.Intro
 import Examples.LeftRight
 import Examples.Linarith
 import Examples.Nlinarith
@@ -58,6 +57,7 @@ import Examples.Tactic.GuardHyp
 import Examples.Tactic.Have
 import Examples.Tactic.Hint
 import Examples.Tactic.Induction
+import Examples.Tactic.Intro
 import Examples.Tauto
 import Examples.Trivial
 import Examples.Try
