@@ -7,7 +7,6 @@ import Examples.Command.Instances
 import Examples.Command.Print
 import Examples.Command.Synth
 import Examples.Command.Time
-import Examples.ExactQuestion
 import Examples.Exists
 import Examples.Ext
 import Examples.Funext
@@ -58,6 +57,7 @@ import Examples.Tactic.Conv
 import Examples.Tactic.Convert
 import Examples.Tactic.Done
 import Examples.Tactic.Exact
+import Examples.Tactic.ExactQuestion
 import Examples.Tauto
 import Examples.Trivial
 import Examples.Try

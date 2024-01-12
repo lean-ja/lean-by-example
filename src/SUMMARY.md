@@ -38,7 +38,7 @@
 - [convert: 惜しい補題を使う](./Tactic/Convert.md)
 - [done: 証明終了を宣言](./Tactic/Done.md)
 - [exact: 証明を直接構成](./Tactic/Exact.md)
-- [exact?: exact できるか検索](./exact_question.md)
+- [exact?: exact できるか検索](./Tactic/ExactQuestion.md)
 - [exists: 存在∃を示す](./exists.md)
 - [ext: 外延性を使う](./ext.md)
 - [funext: 関数等式を示す](./funext.md)
