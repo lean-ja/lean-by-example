@@ -44,7 +44,7 @@
 - [funext: 関数等式を示す](./Tactic/Funext.md)
 - [guard_hyp: 仮定や補題を確認](./Tactic/GuardHyp.md)
 - [have: 補題を用意する](./Tactic/Have.md)
-- [hint: 複数のタクティクを同時に試す](./hint.md)
+- [hint: 複数のタクティクを同時に試す](./Tactic/Hint.md)
 - [induction: 帰納法](./induction.md)
 - [intro: 含意→や全称∀を示す](./intro.md)
 - [left, right: 論理和∨を示す](./left_right.md)

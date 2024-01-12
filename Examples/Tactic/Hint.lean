@@ -1,8 +1,22 @@
+/- # hint
+
+`hint` は複数のタクティクの中から提案を出してくれるタクティクです．デフォルトでは
+
+* [split](./Split.md)
+* [intro](./Intro.md)
+* [aesop](./Aesop.md)
+* `decide`
+* [exact?](./ExactQuestion.md)
+* `simp_all?`
+* [linarith](./Linarith.md)
+
+の7つのタクティクを同時に試します．
+
+* ゴールを閉じることに成功したものは緑色で示され，
+* 進捗があったものはウィジェットに新しいゴールを示します．-/
 import Mathlib.Tactic -- `hint` は検索を伴うので，おおざっぱに import している
 
 variable (P Q R : Prop) (a b : ℕ)
-
-/-! # hint -/
 
 example (h : 1 < 0) : False := by
   -- linarith
@@ -29,8 +43,9 @@ example : Nat.Prime 37 := by
   hint
 
 /-!
-  ## タクティクの新規登録
-  `register_hint tac` で `tac` を使うように設定できます．
+## タクティクの新規登録
+
+登録されているタクティクに `tac` を追加するには，`register_hint tac` を実行します．
 -/
 
 register_hint nlinarith
