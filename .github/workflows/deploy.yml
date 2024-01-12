@@ -39,7 +39,7 @@ jobs:
           mdbook-version: '0.4.32'
 
       - name: run mdgen
-        run: lake exe mdgen Examples/Command src
+        run: lake exe mdgen Examples src
 
       - name: build by mdbook
         run: mdbook build
