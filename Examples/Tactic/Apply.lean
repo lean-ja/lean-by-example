@@ -35,7 +35,7 @@ example (hn: ¬ P) (hP: P) : False := by
 
 /-!
 ## exact との関連
-[exact](./exact.md) の代わりに `apply` を使うことができます．
+[exact](./Exact.md) の代わりに `apply` を使うことができます．
 -/
 
 example (h: P → Q) (hP: P) : Q := by
