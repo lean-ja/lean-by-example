@@ -40,7 +40,7 @@
 - [exact: 証明を直接構成](./Tactic/Exact.md)
 - [exact?: exact できるか検索](./Tactic/ExactQuestion.md)
 - [exists: 存在∃を示す](./Tactic/Exists.md)
-- [ext: 外延性を使う](./ext.md)
+- [ext: 外延性を使う](./Tactic/Ext.md)
 - [funext: 関数等式を示す](./funext.md)
 - [guard_hyp: 仮定や補題を確認](./guard_hyp.md)
 - [have: 補題を用意する](./have.md)
