@@ -1,7 +1,9 @@
-# https://github.com/marketplace/actions/mdbook-action を元に編集
 name: Deploy to github pages
 
 on:
+  pull_request:
+    branches:
+      - main
   push:
     branches:
       - main
@@ -47,8 +49,8 @@ jobs:
         with:
           path: ./book
 
-  # Deployment job
   deploy:
+    if: github.ref == 'refs/heads/main'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
