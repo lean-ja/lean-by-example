@@ -7,7 +7,6 @@ import Examples.Command.Instances
 import Examples.Command.Print
 import Examples.Command.Synth
 import Examples.Command.Time
-import Examples.Nlinarith
 import Examples.Omega
 import Examples.PushNeg
 import Examples.Refine
@@ -58,6 +57,7 @@ import Examples.Tactic.Induction
 import Examples.Tactic.Intro
 import Examples.Tactic.LeftRight
 import Examples.Tactic.Linarith
+import Examples.Tactic.Nlinarith
 import Examples.Tauto
 import Examples.Trivial
 import Examples.Try
