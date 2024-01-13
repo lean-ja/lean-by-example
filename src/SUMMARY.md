@@ -52,7 +52,7 @@
 - [nlinarith: 非線形な(不)等式を示す](./Tactic/Nlinarith.md)
 - [omega: 自然数の線形計画を解く](./Tactic/Omega.md)
 - [push_neg: ドモルガン](./Tactic/PushNeg.md)
-- [refine: 後方推論](./refine.md)
+- [refine: 後方推論](./Tactic/Refine.md)
 - [rel: 不等式を使う](./rel.md)
 - [repeat: 繰り返し適用](./repeat.md)
 - [replace: 補題の入れ替え](./replace.md)
