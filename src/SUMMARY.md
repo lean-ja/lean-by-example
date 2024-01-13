@@ -54,7 +54,7 @@
 - [push_neg: ドモルガン](./Tactic/PushNeg.md)
 - [refine: 後方推論](./Tactic/Refine.md)
 - [rel: 不等式を使う](./Tactic/Rel.md)
-- [repeat: 繰り返し適用](./repeat.md)
+- [repeat: 繰り返し適用](./Tactic/Repeat.md)
 - [replace: 補題の入れ替え](./replace.md)
 - [rfl: 関係の反射性を示す](./rfl.md)
 - [ring: 環の等式を示す](./ring.md)
