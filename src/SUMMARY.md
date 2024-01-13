@@ -57,7 +57,7 @@
 - [repeat: 繰り返し適用](./Tactic/Repeat.md)
 - [replace: 補題の入れ替え](./Tactic/Replace.md)
 - [rfl: 関係の反射性を示す](./Tactic/Rfl.md)
-- [ring: 環の等式を示す](./ring.md)
+- [ring: 環の等式を示す](./Tactic/Ring.md)
 - [rw_search: rw で示せるか検索](./rw_search.md)
 - [rw: 同値変形](./rw.md)
 - [says: タクティク提案の痕跡を残す](./says.md)

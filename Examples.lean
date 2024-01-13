@@ -7,8 +7,6 @@ import Examples.Command.Instances
 import Examples.Command.Print
 import Examples.Command.Synth
 import Examples.Command.Time
-import Examples.Rfl.Refl
-import Examples.Ring
 import Examples.Rw
 import Examples.RwSearch
 import Examples.Says
@@ -58,6 +56,7 @@ import Examples.Tactic.Rel
 import Examples.Tactic.Repeat
 import Examples.Tactic.Replace
 import Examples.Tactic.Rfl
+import Examples.Tactic.Ring
 import Examples.Tauto
 import Examples.Trivial
 import Examples.Try
