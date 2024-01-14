@@ -60,7 +60,7 @@
 - [ring: 環の等式を示す](./Tactic/Ring.md)
 - [rw_search: rw で示せるか検索](./Tactic/RwSearch.md)
 - [rw: 同値変形](./Tactic/Rw.md)
-- [says: タクティク提案の痕跡を残す](./says.md)
+- [says: タクティク提案の痕跡を残す](./Tactic/Says.md)
 - [set: 定義の導入](./set.md)
 - [show: 示すべきことを宣言](./show.md)
 - [simp: 簡約](./simp.md)
