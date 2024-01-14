@@ -71,5 +71,5 @@
 - [tauto: トートロジーを示す](./Tactic/Tauto.md)
 - [trivial: 自明](./Tactic/Trivial.md)
 - [try: 失敗をエラーにしない](./Tactic/Try.md)
-- [unfold: 定義に展開](./unfold.md)
+- [unfold: 定義に展開](./Tactic/Unfold.md)
 - [wlog: 一般性を失わずに特殊化](./wlog.md)
