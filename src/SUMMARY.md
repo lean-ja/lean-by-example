@@ -63,7 +63,7 @@
 - [says: タクティク提案の痕跡を残す](./Tactic/Says.md)
 - [set: 定義の導入](./Tactic/Set.md)
 - [show: 示すべきことを宣言](./Tactic/Show.md)
-- [simp: 簡約](./simp.md)
+- [simp: 簡約](./Tactic/Simp.md)
 - [slim_check: 反例を見つける](./slim_check.md)
 - [sorry: 証明したことにする](./sorry.md)
 - [split: if/match 式を分解](./split.md)
