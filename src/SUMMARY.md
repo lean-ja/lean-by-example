@@ -62,7 +62,7 @@
 - [rw: 同値変形](./Tactic/Rw.md)
 - [says: タクティク提案の痕跡を残す](./Tactic/Says.md)
 - [set: 定義の導入](./Tactic/Set.md)
-- [show: 示すべきことを宣言](./show.md)
+- [show: 示すべきことを宣言](./Tactic/Show.md)
 - [simp: 簡約](./simp.md)
 - [slim_check: 反例を見つける](./slim_check.md)
 - [sorry: 証明したことにする](./sorry.md)
