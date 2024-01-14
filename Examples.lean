@@ -59,6 +59,6 @@ import Examples.Tactic.Split
 import Examples.Tactic.Suffices
 import Examples.Tactic.Tauto
 import Examples.Tactic.Trivial
-import Examples.Try
+import Examples.Tactic.Try
 import Examples.Unfold
 import Examples.Wlog
