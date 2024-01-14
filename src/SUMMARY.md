@@ -69,7 +69,7 @@
 - [split: if/match 式を分解](./Tactic/Split.md)
 - [suffices: 十分条件に帰着](./Tactic/Suffices.md)
 - [tauto: トートロジーを示す](./Tactic/Tauto.md)
-- [trivial: 自明](./trivial.md)
+- [trivial: 自明](./Tactic/Trivial.md)
 - [try: 失敗をエラーにしない](./try.md)
 - [unfold: 定義に展開](./unfold.md)
 - [wlog: 一般性を失わずに特殊化](./wlog.md)
