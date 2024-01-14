@@ -1,4 +1,10 @@
 {
-  // ある文字数を超えると，コード例がオーバーフローしてしまう
-  "editor.rulers": [80]
+  "editor.insertSpaces": true,
+  "editor.rulers": [80],
+  "editor.tabSize": 2,
+  "editor.wordWrap": "on",
+  "files.eol": "\n",
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "files.trimTrailingWhitespace": true,
 }
