@@ -61,4 +61,4 @@ import Examples.Tactic.Tauto
 import Examples.Tactic.Trivial
 import Examples.Tactic.Try
 import Examples.Tactic.Unfold
-import Examples.Wlog
+import Examples.Tactic.Wlog
