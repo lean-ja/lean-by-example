@@ -7,7 +7,6 @@ import Examples.Command.Instances
 import Examples.Command.Print
 import Examples.Command.Synth
 import Examples.Command.Time
-import Examples.Sorry
 import Examples.Split
 import Examples.Suffices
 import Examples.Tactic.Aesop
@@ -57,6 +56,7 @@ import Examples.Tactic.Set
 import Examples.Tactic.Show
 import Examples.Tactic.Simp
 import Examples.Tactic.SlimCheck
+import Examples.Tactic.Sorry
 import Examples.Tauto
 import Examples.Trivial
 import Examples.Try
