@@ -1,4 +1,4 @@
-# suffices
+/- # suffices
 
 `suffices` は，数学でよくある「～を示せば十分である」という推論を行うタクティクです．
 
@@ -9,8 +9,12 @@
 
 `apply` と似ていますが，`apply` と違って「十分条件になっていること」の証明が明らかでないときにも使うことができます．
 
-`suffices Q from ...` という形式の場合は，証明を直接構成することが必要です．`suffices Q from by ...` とすると，タクティクによって証明を構成するモードになります．
+`suffices Q from ...` という形式の場合は，証明を直接構成することが必要です．`suffices Q from by ...` とすると，タクティクによって証明を構成するモードになります． -/
+import Mathlib.Data.Nat.Order.Lemmas -- 除算 `∣` を使うため
 
-```lean
-{{#include ../Examples/Suffices.lean}}
-```
+example : 13 ∣ (2 ^ 70 + 3 ^ 70) := by
+  -- 余りがゼロであることを示せば十分
+  suffices (2 ^ 70 + 3 ^ 70) % 13 = 0 from by
+    exact Iff.mpr (Nat.dvd_iff_div_mul_eq (2 ^ 70 + 3 ^ 70) 13) rfl
+
+  rfl
