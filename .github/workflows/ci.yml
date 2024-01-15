@@ -28,24 +28,13 @@ jobs:
       - name: Check lib completeness
         run: lake exe import_check Examples
 
-      # src: https://harry.garrood.me/blog/easy-incremental-haskell-ci-builds-with-ghc-9.4/
       - name: Cache dependencies
         uses: actions/cache@v3
         with:
-          path: |
-            ./lake-packages
+          path: .lake
           key: deps-${{ runner.os }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}
           restore-keys: |
             deps-${{ runner.os }}-${{ hashFiles('lean-toolchain') }}
-
-      - name: Cache build
-        uses: actions/cache@v3
-        with:
-          path: |
-            ./build
-          key: build-${{ runner.os }}-${{ hashFiles('lean-toolchain') }}-${{ github.sha }}
-          restore-keys: |
-            build-${{ runner.os }}-${{ hashFiles('lean-toolchain') }}
 
       - name: get mathlib cache
         run: lake exe cache get
