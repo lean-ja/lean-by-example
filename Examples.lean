@@ -31,6 +31,7 @@ import Examples.Tactic.ExactQuestion
 import Examples.Tactic.Exists
 import Examples.Tactic.Ext
 import Examples.Tactic.Funext
+import Examples.Tactic.Gcongr
 import Examples.Tactic.GuardHyp
 import Examples.Tactic.Have
 import Examples.Tactic.Hint
