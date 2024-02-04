@@ -14,7 +14,7 @@ set_option says.verify true --#
 -- `exact?` はライブラリ検索を行う
 example (x : Nat) : x < x + 1 := by
   exact? says
-    exact Nat.lt.base x
+    exact Nat.le.refl
 
 -- ローカルコンテキストにある仮定を自動で使ってゴールを導いてくれる
 example (hPQ : P → Q) (hQR : Q → R) (hQ : P) : R := by
