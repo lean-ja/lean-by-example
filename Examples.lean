@@ -1,4 +1,5 @@
 import Examples.Command.Check
+import Examples.Command.CheckFailure
 import Examples.Command.Eval
 import Examples.Command.Find
 import Examples.Command.Guard
