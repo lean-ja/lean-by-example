@@ -21,7 +21,7 @@ example [Group G] [Group H] (f : G →* H) (a b : G) :
 `sorry` と同じと言いましたが，実際 `apply?` は `sorryAx` を裏で使用します．
 -/
 
-theorem T (x y : Nat) (_: x ≤ y) : 2 ^ x ≤ 2 ^ y := by
+theorem T (x y : Nat) (_: x ≤ y) : 8 ^ x ≤ 16 ^ y := by
   apply?
 
   -- `apply?` しただけで `done` が通り，示せているように見える

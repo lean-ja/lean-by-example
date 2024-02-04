@@ -3,7 +3,7 @@
 `rfl` は，`refl attribute` の付けられた定理を用いて関係の反射性(reflexivity)を示すタクティクです．
 
 `@[refl]` で登録された定理を用いるので，追加でライブラリを import することにより示すことができる命題を増やせます． -/
-import Mathlib.Data.Nat.Basic -- `n ≤ n` を示すために必要
+import Mathlib.Init.Data.Nat.Lemmas -- `n ≤ n` を示すために必要
 import Mathlib.Tactic.Relation.Rfl
 
 universe u

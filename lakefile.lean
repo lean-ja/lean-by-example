@@ -14,7 +14,7 @@ require mdgen from git
   "https://github.com/Seasawher/mdgen" @ "main"
 
 require mathlib from git
-  "https://github.com/leanprover-community/mathlib4.git" @ "526457f3dc192dd9195993e0a48c9374b81af9c7"
+  "https://github.com/leanprover-community/mathlib4.git" @ "c9843f72e402554ba439d7e1f0e1d4a715e2fcdf"
 
 @[default_target]
 lean_lib Examples where
