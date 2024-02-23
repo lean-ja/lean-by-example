@@ -36,6 +36,8 @@ example (n : Nat) : 0 < fac n := by
 `induction'` というタクティクもあります．
 これは Lean3 における `induction` タクティクと構文が似ていて，
 高度な帰納法が可能です．
+
+使用するには `Mathlib.Tactic.Cases` を import する必要があります．
 -/
 
 example (n : Nat) : 0 < fac n := by

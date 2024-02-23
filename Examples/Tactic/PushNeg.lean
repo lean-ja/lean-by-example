@@ -8,7 +8,6 @@
 
 という調子で変形します． -/
 import Mathlib.Tactic.PushNeg
-import Mathlib.Tactic.Use
 
 variable (P Q : Prop)
 
@@ -38,7 +37,7 @@ example : ∃ (x : People), isDrinking x → ∀ (y : People), isDrinking y := b
   case pos =>
     -- すべての人が飲んでいると仮定したので，
     -- 任意の誰かを `x` として取ればよい
-    use default
+    exists default
     intro _
     assumption
 
@@ -49,7 +48,7 @@ example : ∃ (x : People), isDrinking x → ∀ (y : People), isDrinking y := b
 
     -- このとき，飲んでいない人を `x` として取れば前件が偽になるので条件を満たす
     replace ⟨x, h⟩ := h
-    use x
+    exists x
     simp_all
 
 /-!
