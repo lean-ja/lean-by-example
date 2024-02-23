@@ -10,6 +10,7 @@
 - [#check: 型を調べる](./Command/Check.md)
 - [#eval: 式を評価する](./Command/Eval.md)
 - [#find: ライブラリ検索](./Command/Find.md)
+- [#guard_msgs: 出力メッセージのテスト](./Command/GuardMsgs.md)
 - [#guard: Bool 値のテスト](./Command/Guard.md)
 - [#help: ドキュメントを見る](./Command/Help.md)
 - [#instances: インスタンスを列挙](./Command/Instances.md)

@@ -3,6 +3,7 @@ import Examples.Command.CheckFailure
 import Examples.Command.Eval
 import Examples.Command.Find
 import Examples.Command.Guard
+import Examples.Command.GuardMsgs
 import Examples.Command.Help
 import Examples.Command.Instances
 import Examples.Command.Print
