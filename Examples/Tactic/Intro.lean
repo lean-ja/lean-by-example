@@ -64,3 +64,22 @@ example (h: P → Q) : ¬Q → ¬P := by
 
   -- `hQ : Q` と `hnQ : ¬Q` から矛盾が導かれる
   contradiction
+
+/-!
+## 関数の構成
+
+より一般的には，`intro` は関数の構成に使うことができます．
+`intro` が全称命題 `∀ x, P x` や含意 `P → Q` を統一的に扱うことができるのも，これらが Lean 内部で関数として扱われているからです．
+-/
+namespace Intro --#
+
+variable {α : Type}
+
+/-- `intro` による恒等写像の構成 -/
+def f : α → α := by
+  intro x
+  exact x
+
+example (x : α) : f x = id x := by dsimp [f]
+
+end Intro --#
