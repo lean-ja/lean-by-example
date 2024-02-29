@@ -27,7 +27,4 @@ example (h : 2 ≤ a + b) : 1 ≤ a := by
 
 -- Gave up ** times と表示される
 example (h : a = 1) : a ≤ 1 := by
-  -- "no goals to be solved" というエラーを吐く
   try slim_check
-
-  sorry
