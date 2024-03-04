@@ -43,7 +43,7 @@ example (hP : P) (hQ : Q) (hR : R) : (P ∧ Q) ∧ R := by
 
   -- まだ示すべきことが残っている
   show R
-  sorry
+  assumption
 
 example (hP : P) (hQ : Q) (hR : R) : (P ∧ Q) ∧ R := by
   constructor
