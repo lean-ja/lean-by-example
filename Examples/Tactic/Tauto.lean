@@ -15,26 +15,18 @@ example (h : P) : Q → P := by
 example : (P → (Q → R)) → ((P → Q) → (P → R)) := by
   tauto
 
-/-! ## aesop との比較
-トートロジーの中には `aesop` で示せるものも数多くあります．
+-- 否定と同値なら矛盾
+example : (P ↔ ¬ P) → false := by
+  tauto
+
+/-! ## tauto の限界
+ごく簡単なトートロジーの中にも `aesop` で示せないものがあります．
 -/
 
 variable (α : Type) (S : α → Prop)
-
--- 排中律
-example : P ∨ ¬ P := by
-  -- `aesop` では示すことができない
-  try aesop
-
-  tauto
 
 example : ¬(∀ x, S x) → (∃ x, ¬ S x) := by
   -- `tauto` では示せない
   try tauto
 
   aesop
-
--- 対偶は `aesop` でも `tauto` でも示せる
-example (h : P → Q) : ¬ Q → ¬ P := by aesop
-
-example (h : P → Q) : ¬ Q → ¬ P := by tauto
