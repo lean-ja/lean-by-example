@@ -20,7 +20,7 @@ example : (P ↔ ¬ P) → false := by
   tauto
 
 /-! ## tauto の限界
-ごく簡単なトートロジーの中にも `aesop` で示せないものがあります．
+ごく簡単なトートロジーの中にも `tauto` で示せないものがあります．
 -/
 
 variable (α : Type) (S : α → Prop)
