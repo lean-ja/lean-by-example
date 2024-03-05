@@ -1,7 +1,7 @@
 /- # simp
 
 `simp` は，ターゲットを決められた規則に基づいて自動で簡約（simplify）するタクティクです．`@[simp]` と付けることにより簡約に使ってほしい命題を登録することができます．-/
-import Mathlib.Tactic.Says -- `says` を使うために必要
+import Mathlib.Tactic.Says -- `says` を使うために必要 --#
 import Mathlib.Tactic.Tauto -- `tauto` を使うため
 
 variable {P Q R : Prop}
