@@ -19,16 +19,33 @@ example (hPQ: P → Q) (hQR: Q → R) : P → R := by
   -- 示したいことが `P → R` なので，`P` だと仮定する
   intro hP
 
-  -- `R` を示したい
-  show R
-
   -- 仮定 `hPQ : P → Q` と `hP : P` から `Q` が導かれる
   have hQ : Q := hPQ hP
 
   -- 仮定 `hQR : Q → R` と `hQ : Q` から `R` が導かれる
   exact hQR hQ
 
-/-! `intro` は `∀ x, P x` という形のゴールにも使用できます． -/
+/-! `A ∧ B → C` という形の命題や，`A ∨ B → C` という形の命題は次のように扱うこともできます．-/
+
+example (hPR : P → R) (hQR : Q → R) : P ∨ Q → R := by
+  intro
+  -- `P` が成り立つとする
+  | Or.inl hP =>
+    exact hPR hP
+
+  -- `Q` が成り立つとする
+  | Or.inr hQ =>
+    exact hQR hQ
+
+example {S : Prop} (hPR : P → R) (hQR : Q → S) : P ∧ Q → R ∧ S := by
+  -- `P ∧ Q` だと仮定する
+  intro ⟨hP, hQ⟩
+
+  constructor
+  . exact hPR hP
+  . exact hQR hQ
+
+/-! また，`intro` は `∀ x, P x` という形のゴールにも使用できます． -/
 
 example (P Q : Nat → Prop) (h : ∀ n, P n ↔ Q n) : ∀ y, P (y + 1) → Q (y + 1) := by
   -- 任意の `y` について示すので，`intro` で `y` を導入する
