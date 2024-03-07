@@ -45,6 +45,7 @@
 - [exact?: exact できるか検索](./Tactic/ExactQuestion.md)
 - [exists: 存在∃を示す](./Tactic/Exists.md)
 - [ext: 外延性を使う](./Tactic/Ext.md)
+- [field_simp: 分母を払う](./Tactic/FieldSimp.md)
 - [funext: 関数等式を示す](./Tactic/Funext.md)
 - [gcongr: 合同性を用いる](./Tactic/Gcongr.md)
 - [guard_hyp: 仮定や補題を確認](./Tactic/GuardHyp.md)
