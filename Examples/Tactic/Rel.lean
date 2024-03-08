@@ -17,7 +17,7 @@ example (h1 : a ≤ b) (h2 : c ≤ d) : a + c ≤ b + d := by
   example (x : Nat) : Nat := by rel [x]
 
 /-! ## gcongr
-なお，上記の命題は`gcongr` というタクティクを使っても示すことができます．
+なお，基本的に `rel` よりも `gcongr` の方が強いタクティクです. `gcongr` は `rel` とは異なり，ローカルコンテキストから必要な命題を自動的に読み込むことができます．
 -/
 
 example (h1 : a ≤ b) (h2 : c ≤ d) : a + c ≤ b + d := by
