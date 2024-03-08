@@ -2,86 +2,62 @@
 
 `induction` は，帰納法のためのタクティクです．
 
-Lean では自然数 `Nat` は
+たとえば，Lean では自然数 `Nat` は
 
 * 0 は自然数
 * `succ : Nat → Nat` という関数がある．つまり `n` が自然数ならば `succ n` も自然数
 
-というように帰納的に定義されています．このように帰納的に定義されたものに対して何か証明しようとしているとき，帰納法を使うことは自然な選択といえます．
+というように帰納的に定義されています．このように帰納的に定義されたものに対して何か証明しようとしているとき，帰納法を使うことが自然な選択になります．
 -/
-import Mathlib.Algebra.Algebra.Basic -- `simp` で使う --#
-import Mathlib.Init.Data.Nat.Lemmas -- 強い帰納法のために必要 --#
-import Mathlib.Order.Basic -- `simp` で使う --#
-import Mathlib.Tactic.Cases -- `induction'` のために必要 --#
+import Mathlib.Tactic.Ring -- `ring` を使うため
+
 namespace Induction --#
 
-/-- 階乗関数 -/
-def fac : Nat → Nat
-  | 0 => 1
-  | n + 1 => (n + 1) * fac n
+/-- `1` から `n` までの和を計算する関数 -/
+def sum (n : Nat) : Rat :=
+  match n with
+  | 0 => 0
+  | n + 1 => (n + 1) + sum n
 
-example (n : Nat) : 0 < fac n := by
+example (n : Nat) : sum n = n * (n + 1) / 2 := by
   -- `n` についての帰納法で示す
   induction n with
 
+  -- `n = 0` の場合
   | zero =>
-    simp [fac]
+    simp [sum]
 
+  -- `0` から `n` までの自然数で成り立つと仮定する
   | succ n ih =>
-    simpa [fac]
+    -- `sum` の定義を展開し，帰納法の仮定を適用する
+    simp [sum, ih]
 
-/-!
-## inudction'
+    -- 後は可換環の性質から示せる
+    ring
 
-`induction'` というタクティクもあります．
-これは Lean3 における `induction` タクティクと構文が似ていて，
-高度な帰納法が可能です．
-
-使用するには `Mathlib.Tactic.Cases` を import する必要があります．
+/-! ## induction を使用しない帰納法
+Lean では，実は帰納法を使用するのに `induction` を使う必要はありません．場合分けの中で示されたケースを帰納法の仮定として使うことができます．
 -/
 
-example (n : Nat) : 0 < fac n := by
-  -- `ih` は帰納法の仮定
-  -- `k` は `ih` に登場する変数
-  induction' n with k ih
+theorem sum_exp (n : Nat) : sum n = n * (n + 1) / 2 := by
+  match n with
 
-  case zero =>
-    simp [fac]
+  -- `n = 0` の場合
+  | 0 => rfl
 
-  case succ =>
-    simpa [fac]
+  -- `0` から `n` までの自然数で成り立つと仮定する
+  | n + 1 =>
+    -- 仮定から，`n` について成り立つ
+    have ih := sum_exp n
 
-/-!
-### 〇〇の～についての帰納法
+    -- 仮定を適用して展開する
+    simp [sum, ih]
 
-`induction'` では「リストの長さに対する帰納法」もできます．
--/
-
-variable (α : Type)
-
-example (l : List α) (P : List α → Prop) : P l := by
-  -- リストの長さに対する帰納法
-  induction' h : l.length generalizing l
-
-  case zero =>
-    -- リストの長さが 0 のとき
-    guard_hyp h: List.length l = 0
-
-    show P l
-    sorry
-
-  case succ n IH =>
-    -- リストの長さが `n + 1` のとき
-    guard_hyp h: List.length l = n + 1
-
-    -- 帰納法の仮定が使える
-    guard_hyp IH: ∀ (l : List α), List.length l = n → P l
-
-    show P l
-    sorry
+    -- 後は可換環の性質から示せる
+    ring
 
 /-!
-### 完全帰納法
+## 完全帰納法
 
 時には， より強い帰納法が必要なこともあります． 強い帰納法とは， たとえば
 
@@ -114,15 +90,23 @@ where
 theorem fib_add (n : Nat) : fib n + fib (n + 1) = fib (n + 2) := by rfl
 
 /-- `fibonacci` と `fib` は同じ結果を返す -/
-example : fibonacci = fib := by
-  -- 関数が等しいことを示すので，引数 `n` が与えられたとする
-  ext n
-
+theorem fib_eq (n : Nat) : fibonacci n = fib n := by
   -- `n` についての強い帰納法で示す
-  induction' n using Nat.strong_induction_on with n ih
   match n with
   | 0 => rfl
   | 1 => rfl
-  | n + 2 => simp_all [fibonacci]
+  | n + 2 =>
+    -- フィボナッチ数列の定義に基づいて展開する
+    dsimp [fibonacci]
+
+    -- `fib` の漸化式を適用する
+    rw [← fib_add]
+
+    -- 帰納法の仮定から，`n` と `n + 1` については成り立つ
+    have ih_n := fib_eq n
+    have ih_succ := fib_eq $ n + 1
+
+    -- 帰納法の仮定を適用して示す
+    simp [ih_n, ih_succ]
 
 end Induction --#

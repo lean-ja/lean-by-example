@@ -39,6 +39,7 @@ import Examples.Tactic.GuardHyp
 import Examples.Tactic.Have
 import Examples.Tactic.Hint
 import Examples.Tactic.Induction
+import Examples.Tactic.InductionAp
 import Examples.Tactic.Intro
 import Examples.Tactic.LeftRight
 import Examples.Tactic.Linarith
