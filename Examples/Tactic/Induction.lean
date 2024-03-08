@@ -90,6 +90,35 @@ where
 theorem fib_add (n : Nat) : fib n + fib (n + 1) = fib (n + 2) := by rfl
 
 /-- `fibonacci` と `fib` は同じ結果を返す -/
+example (n : Nat) : fibonacci n = fib n := by
+  -- `n` についての強い帰納法で示す
+  induction n using Nat.strong_induction_on with
+  | h n ih =>
+    match n with
+    -- `n = 0` の場合
+    | 0 => rfl
+
+    -- `n = 1` の場合
+    | 1 => rfl
+
+    -- `0` から `n` までの自然数で成り立つとして，`n + 2` について示す
+    | n + 2 =>
+      -- フィボナッチ数列の定義に基づいて展開する
+      dsimp [fibonacci]
+
+      -- `fib` の漸化式を適用する
+      rw [← fib_add]
+
+      -- 帰納法の仮定から，`n` と `n + 1` については成り立つ
+      have ih_n := ih n
+      have ih_succ := ih $ n + 1
+
+      -- 帰納法の仮定を適用して示す
+      simp [ih_n, ih_succ]
+
+/-! なお，完全帰納法も `induction` タクティクを使わずに行うことができます．-/
+
+/-- `fibonacci` と `fib` は同じ結果を返す -/
 theorem fib_eq (n : Nat) : fibonacci n = fib n := by
   -- `n` についての強い帰納法で示す
   match n with
