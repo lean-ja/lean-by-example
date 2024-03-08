@@ -3,6 +3,8 @@
 -/
 import Mathlib.Util.Time
 
+namespace Time
+
 -- フィボナッチ数列の指数時間の実装
 def fibonacci : Nat → Nat
 | 0 => 0
@@ -24,3 +26,5 @@ where
 
 -- 10 ms 程度で終わる
 #time #eval fib 32
+
+end Time

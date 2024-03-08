@@ -6,6 +6,8 @@
 import Mathlib.Tactic.Ring
 import Mathlib.Tactic.Cases -- `induction'` のために必要
 
+namespace InductionAp
+
 /-- `1` から `n` までの和を計算する関数 -/
 def sum (n : Nat) : Rat :=
   match n with
@@ -101,3 +103,5 @@ example : fibonacci = fib := by
   | 0 => rfl
   | 1 => rfl
   | n + 2 => simp_all [fibonacci]
+
+end InductionAp
