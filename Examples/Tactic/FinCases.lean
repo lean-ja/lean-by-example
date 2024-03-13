@@ -1,7 +1,7 @@
 /- # fin_cases
 
 `fin_cases` は有限通りの場合分けを行うタクティクです.
-何度も `cases` をしないと全通りに場合分けできない場合に, 一発で全てのケースを生成することができます.
+何度も `cases` をしないと全通りに場合分けできない場合でも, 一発で全てのケースを生成することができます.
 -/
 
 /-
@@ -61,9 +61,11 @@ example {n : ℕ} (h : n ∈ ({2, 4, 42} : Multiset ℕ)) : 2 ∣ n := by
 
 -- `Fin n` は 0 から n-1 までの整数からなる型で, val : ℕ と isLt : val < n の 2 つのフィールドを持つ
 example (n : Fin 10) (h : n.val ∣ 6) : n = 1 ∨ n = 2 ∨ n = 3 ∨ n = 6 := by
-  -- n.val = 0, ..., n.val = 9 の 9 通りに場合分けする
+  -- n.val = 0, ..., n.val = 9 の 10 通りに場合分けする
   fin_cases n
+
   -- h : n.val ∣ 6 が成り立たないケースは contradiction で示される
   any_goals contradiction
+
   -- 残りのケースについて, n = 1 ∨ n = 2 ∨ n = 3 ∨ n = 6 が成り立つ
   all_goals decide
