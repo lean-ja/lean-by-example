@@ -46,6 +46,7 @@
 - [exists: 存在∃を示す](./Tactic/Exists.md)
 - [ext: 外延性を使う](./Tactic/Ext.md)
 - [field_simp: 分母を払う](./Tactic/FieldSimp.md)
+- [fin_cases: 有限通りの場合分けを行う](./Tactic/FinCases.md)
 - [fun_prop: 関数の諸性質を示す](./Tactic/FunProp.md)
 - [funext: 関数等式を示す](./Tactic/Funext.md)
 - [gcongr: 合同性を用いる](./Tactic/Gcongr.md)
