@@ -33,6 +33,7 @@ import Examples.Tactic.ExactQuestion
 import Examples.Tactic.Exists
 import Examples.Tactic.Ext
 import Examples.Tactic.FieldSimp
+import Examples.Tactic.FinCases
 import Examples.Tactic.FunProp
 import Examples.Tactic.Funext
 import Examples.Tactic.Gcongr
