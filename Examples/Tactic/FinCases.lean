@@ -4,12 +4,30 @@
 何度も `cases` をしないと全通りに場合分けできない場合に, 一発で全てのケースを生成することができます.
 -/
 
-import Mathlib.Tactic.FinCases
-
 /-
 `h : x ∈ [a₁, ..., aₙ]` といった形の仮定に対して `fin_cases h` とすると, 代入 `x = a₁`, ..., `x = aₙ` を施した n 個のゴールが生成されます.
+-/
+
+import Mathlib.Tactic.FinCases
+
+example {n : ℕ} (h : n ∈ [2, 4, 42]) : 2 ∣ n := by
+  fin_cases h
+  /-
+  n に 2, 4, 42 を順に代入した
+
+  ⊢ 2 ∣ 2
+  ⊢ 2 ∣ 4
+  ⊢ 2 ∣ 42
+
+  の 3 つのゴールが生じる
+  -/
+  -- あとはそれぞれのゴールに対して具体的に計算して証明する
+  all_goals decide
+
+/-
 `fin_cases` を使わない場合, 以下のように `cases` を繰り返し用いて一つずつケースを取り出すことになります.
 -/
+
 example {n : ℕ} (h : n ∈ [2, 4, 42]) : 2 ∣ n := by
   cases h
   case head =>
@@ -26,25 +44,9 @@ example {n : ℕ} (h : n ∈ [2, 4, 42]) : 2 ∣ n := by
         cases h
 
 /-
-ここで `fin_cases h` を使うことで, `h : n ∈ [2, 4, 42]` の 3 通りの場合分けを一度に行うことができます.
--/
-example {n : ℕ} (h : n ∈ [2, 4, 42]) : 2 ∣ n := by
-  fin_cases h
-  /-
-  n に 2, 4, 42 を順に代入した
-
-  ⊢ 2 ∣ 2
-  ⊢ 2 ∣ 4
-  ⊢ 2 ∣ 42
-
-  の 3 つのゴールが生じる
-  -/
-  -- あとはそれぞれのゴールに対して具体的に計算して証明する
-  all_goals decide
-
-/-
 `fin_cases` は `List α` のほかに, `Finset α` と `Multiset α` に対して適用可能です.
 -/
+
 example {n : ℕ} (h : n ∈ ({2, 4, 42} : Finset ℕ)) : 2 ∣ n := by
   fin_cases h
   all_goals decide
