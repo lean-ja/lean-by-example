@@ -12,3 +12,11 @@ Lean4 の主要なタクティクを使いたい場面から逆引きできる�
 * Lean コードは，コンパイルが通るようにして `Examples` 配下に配置します．「タクティクが失敗する例」を紹介したいときであっても `try` や `#guard_msgs` などを使ってコンパイルが通るようにしてください．コード例が正しいかチェックする際にその方が楽だからです．
 * import 文は [import-all](https://github.com/Seasawher/import-all) を用いて自動生成することができるよう設定してあります．
 * 本分の markdown ファイルは [mdgen](https://github.com/Seasawher/mdgen) を用いて lean ファイルから生成します．lean ファイルを編集した後，`lake run build` コマンドを実行すれば import 文の更新と markdown の生成と `mdbook build` が一括実行されます．
+
+## スポンサー
+
+このプロジェクトは [Proxima Technology](https://proxima-ai-tech.com/) 様よりご支援を頂いています.
+
+![logo of Proxima Technology](./image/proxima.png)
+
+Proxima Technology（プロキシマテクノロジー）は数学の社会実装を目指し, その⼀環としてモデル予測制御の民主化を掲げているAIスタートアップ企業です．数理科学の⼒で社会を変えることを企業の使命としています．
