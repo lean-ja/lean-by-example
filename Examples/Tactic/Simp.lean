@@ -1,6 +1,7 @@
 /- # simp
 
 `simp` は，ターゲットを決められた規則に基づいて自動で簡約（simplify）するタクティクです．`@[simp]` と付けることにより簡約に使ってほしい命題を登録することができます．-/
+import Mathlib.Tactic.Ring -- `ring` を使うため --#
 import Mathlib.Tactic.Says -- `says` を使うために必要 --#
 import Mathlib.Tactic.Tauto -- `tauto` を使うため
 
@@ -29,6 +30,9 @@ theorem or_and : (P ∨ Q ∨ R) ∧ R ↔ R := by
 -- 一度登録した命題は `simp` で示せるようになる．
 example : (P ∨ Q ∨ R) ∧ R ↔ R := by simp
 
+/-! なお，`@[simp]` で登録した命題は「左辺を右辺に」簡約するルールとして登録されます．
+左辺と右辺を間違えて登録すると，無限ループになって `simp` の動作が破壊されることがあるので注意してください．-/
+
 /-! 既知の `h : P` という命題を使って簡約させたいときは，明示的に `simp [h]` と指定することで可能です．複数個指定することもできます．`simp only [h₁, ... , hₖ]` とすると `h₁, ... , hₖ` だけを使用して簡約を行います．-/
 
 example (h : R) : (P ∨ Q ∨ R) ∧ R := by
@@ -42,7 +46,6 @@ variable {n m : Nat}
 example (h : n + 0 + 0 = m) : n = m := by
   simp at h
   assumption
-
 
 /-! ## simpa
 `simpa` は，`simp` を実行した後 `assumption` を実行するという一連の流れを一つのタクティクにしたものです．`simpa at h` 構文は存在せず，`simpa using h` と書くことに注意してください．-/
