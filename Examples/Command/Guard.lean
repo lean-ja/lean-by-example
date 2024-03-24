@@ -37,7 +37,7 @@ example (α : Type) (l : List α) : [] ⊆ l := by simp
 
 /-!
   ## 決定可能性
-  `Prop` 型であっても， Decidable (決定可能)であれば `Bool` に変換できます．それを自動で行っているので，`Prop` 型の項でもたいていは `#guard` に通せます．
+  `Prop` 型であっても， Decidable (決定可能)であれば `Bool` に変換できます．それを自動で行っているので，`Prop` 型の項でも `#guard` に通せることがあります．
 -/
 
 -- Decidable.decide (p : Prop) [h : Decidable p] : Bool
