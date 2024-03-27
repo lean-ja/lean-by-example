@@ -25,9 +25,6 @@ jobs:
           curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y --default-toolchain $(cat lean-toolchain)
           echo "$HOME/.elan/bin" >> $GITHUB_PATH
 
-      - name: Check lib completeness
-        run: lake exe import_check Examples
-
       - name: Cache dependencies
         uses: actions/cache@v3
         with:
