@@ -38,11 +38,8 @@ jobs:
         with:
           mdbook-version: '0.4.32'
 
-      - name: run mdgen
-        run: lake exe mdgen Examples src
-
-      - name: build by mdbook
-        run: mdbook build
+      - name: build
+        run: lake run build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
