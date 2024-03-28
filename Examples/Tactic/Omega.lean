@@ -49,7 +49,6 @@ example : (a - b) - b = a - 2 * b := by
 
 /-! `omega` は整数や自然数の整除関係を扱うこともできます．-/
 
-variable (m n : Nat)
+example {a b c : ℤ} : 3 ∣ (100 * c + 10 * b + a) ↔ 3 ∣ (c + b + a) := by omega
 
-example (h : m = 2 * n ^ 2 + 4) : 2 ∣ m := by
-  omega
+example {a b c : ℕ} : 3 ∣ (100 * c+ 10 * b + a) ↔ 3 ∣ (c + b + a) := by omega
