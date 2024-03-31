@@ -53,15 +53,15 @@ example (h: P → Q) (hP: P) : Q := by
 -/
 
 example (h : P → Q) (hP : P) : Q := by
-  try
-    -- `hP` に `h` を適用してしまう
-    apply h at hP
+  -- `hP` に `h` を適用してしまう
+  apply h at hP
 
-    -- `hP` が書き換わる
-    guard_hyp hP : Q
+  -- `hP` が書き換わる
+  guard_hyp hP : Q
 
-    fail
+  assumption
 
+example (h : P → Q) (hP : P) : Q := by
   -- `apply at` は `replace` と同じように動作する
   replace hP := h hP
 

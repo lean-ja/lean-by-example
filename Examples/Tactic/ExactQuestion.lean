@@ -33,7 +33,7 @@ variable (n : ℕ) (a : ℚ)
 
 example (h : ↑ n < a) : n ≤ Nat.floor a := by
   -- ここで単に `exact?` しても通らない
-  try exact?
+  fail_if_success exact?
 
   -- 仮定の `<` が強すぎる．
   -- 結論を成り立たせるには `≤` で十分．

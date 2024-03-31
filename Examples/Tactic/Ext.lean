@@ -34,7 +34,7 @@ example : s ∩ t = t ∩ s := by
 
 example : (s ∩ t) ⊆ t := by
   -- `ext` は使えない
-  try ext x
+  fail_if_success ext x
 
   intro x hx
 

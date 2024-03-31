@@ -16,7 +16,7 @@ example : (m - n) - n = m - 2 * n := by
   try ring
 
   -- `aesop` でも示せない
-  try aesop
+  fail_if_success aesop
 
   rw_search says
     rw [Nat.sub_sub, Nat.mul_two]
@@ -26,7 +26,7 @@ example : (m - n) - n = m - 2 * n := by
 
 example (h : n + m = 0) : n = 0 ↔ m = 0 := by
   -- ゴールは等式ではありませんと言われてエラーになる
-  try rw_search
+  fail_if_success rw_search
 
   rw? says
     rw [propext (eq_zero_iff_eq_zero_of_add_eq_zero h)]

@@ -28,7 +28,7 @@ variable (n m : ℕ)
 
 example (hl : n ≤ m) (hg : m < n) : False := by
   -- 明らかに矛盾に見えるが， 通らない
-  try contradiction
+  fail_if_success contradiction
 
   -- 通らない理由は， `n ≤ m` が `¬ m < n` を意味することを
   -- `contradiction` は知らないから．

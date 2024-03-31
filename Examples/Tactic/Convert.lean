@@ -7,7 +7,7 @@ variable (a b c: Nat)
 
 example (f : Nat → Nat) (h : f (a + b) = 0) (hc: a + b = c) : f (c) = 0 := by
   -- `h` はゴールと等しくないので失敗する
-  try exact [h]
+  fail_if_success exact [h]
 
   -- `h` とゴールの差分を新たなゴールにする
   convert h

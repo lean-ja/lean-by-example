@@ -19,7 +19,7 @@ example (n m : Nat) : n * m = ((n + m) ^ 2 - n ^ 2 - m ^ 2 ) / 2 := by
   show x = (x * 2 + n ^ 2 + m ^ 2 - n ^ 2 - m ^ 2) / 2
 
   -- これは `linarith` では示せない
-  try linarith
+  fail_if_success linarith
 
   -- `omega` では示せる
   omega
@@ -30,21 +30,21 @@ variable (a b : Nat)
 
 example (h : (a - b : Int) ≤ 0) : (a - b = 0) := by
   -- `linarith` では示すことができません
-  try linarith
+  fail_if_success linarith
 
   -- `omega` では示すことができます
   omega
 
 example (h : a > 0) : (a - 1) + 1 = a := by
-  try linarith
+  fail_if_success linarith
   omega
 
 example (h : a / 2 < b) : a < 2 * b := by
-  try linarith
+  fail_if_success linarith
   omega
 
 example : (a - b) - b = a - 2 * b := by
-  try linarith
+  fail_if_success linarith
   omega
 
 /-! `omega` は整数や自然数の整除関係を扱うこともできます．-/

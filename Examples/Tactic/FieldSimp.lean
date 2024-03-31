@@ -29,7 +29,7 @@ example {x y z : Rat} (hy : y = z ^ 2 + 1) : (x + 2 * y) / y = x / y + 2 := by
 
 example (n m : Nat) : n * m = ((n + m) ^ 2 - n ^ 2 - m ^ 2 ) / 2 := by
   -- field_simp は動作しない
-  try field_simp
+  fail_if_success field_simp
 
   -- 分母を払う
   symm

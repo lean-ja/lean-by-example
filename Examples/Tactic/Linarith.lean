@@ -18,7 +18,7 @@ example (h1 : 2 * x < 3 * y) (h2 : -4 * x + 2 * z < 0) :
 
 example : id x ≤ x := by
   -- `linarith` で示すことはできない
-  try linarith
+  fail_if_success linarith
 
   have : id x = x := rfl
 

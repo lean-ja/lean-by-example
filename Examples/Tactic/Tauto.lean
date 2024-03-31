@@ -27,6 +27,6 @@ variable (α : Type) (S : α → Prop)
 
 example : ¬(∀ x, S x) → (∃ x, ¬ S x) := by
   -- `tauto` では示せない
-  try tauto
+  fail_if_success tauto
 
   aesop

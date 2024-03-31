@@ -25,7 +25,7 @@ theorem another_result : n + 0 = n := by sorry
 
 example : n + 0 = n := by
   -- `proof_wanted` で宣言した定理は証明なしでは使用できない
-  try rw [result]
+  fail_if_success rw [result]
 
   show n + 0 = n
   rw [another_result]
