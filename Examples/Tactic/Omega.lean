@@ -51,4 +51,4 @@ example : (a - b) - b = a - 2 * b := by
 
 example {a b c : ℤ} : 3 ∣ (100 * c + 10 * b + a) ↔ 3 ∣ (c + b + a) := by omega
 
-example {a b c : ℕ} : 3 ∣ (100 * c+ 10 * b + a) ↔ 3 ∣ (c + b + a) := by omega
+example {a b c : ℕ} : 3 ∣ (100 * c + 10 * b + a) ↔ 3 ∣ (c + b + a) := by omega
