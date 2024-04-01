@@ -5,7 +5,8 @@ import Mathlib.Util.Time
 
 namespace Time
 
--- フィボナッチ数列の指数時間の実装
+-- フィボナッチ数列の遅い実装
+-- `n` に関して指数関数的な時間がかかる
 def fibonacci : Nat → Nat
 | 0 => 0
 | 1 => 1
@@ -14,7 +15,8 @@ def fibonacci : Nat → Nat
 -- 環境にもよるが, 1000ms以上かかってしまうことも
 #time #eval fibonacci 32
 
--- フィボナッチ数列の線形時間の実装
+-- フィボナッチ数列のより速い実装
+-- `n` に関して線形時間で計算できる
 def fib (n : Nat) : Nat :=
   (loop n).1
 where
