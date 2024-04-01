@@ -38,6 +38,7 @@
 - [congr: ゴールの差異に注目する](./Tactic/Congr.md)
 - [constructor: 論理積∧を示す](./Tactic/Constructor.md)
 - [contradiction: 爆発律](./Tactic/Contradiction.md)
+- [contrapose: 対偶をとる](./Tactic/Contrapose.md)
 - [conv: 変換モードに入る](./Tactic/Conv.md)
 - [convert: 惜しい補題を使う](./Tactic/Convert.md)
 - [done: 証明終了を宣言](./Tactic/Done.md)
