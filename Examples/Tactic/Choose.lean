@@ -33,10 +33,12 @@ theorem choice (h : ∀ x, ∃ y, P x y) : ∃ f : X → Y, ∀ x, P x (f x) := 
 
 noncomputable example (h : ∀ x, ∃ y, P x y) : ∃ f : X → Y, ∀ x, P x (f x) := by
   -- `f` を作る
-  let f' : (x : X) → {y // P x y} := fun x ↦
-    have hne_st : Nonempty {y // P x y} :=
-      let ⟨y, py⟩ := h x; ⟨⟨y, py⟩⟩
-    Classical.choice hne_st
+  let f' : (x : X) → {y // P x y} := by
+    intro x
+    have hne_st : Nonempty {y // P x y} := by
+      let ⟨y, py⟩ := h x
+      exact ⟨⟨y, py⟩⟩
+    exact Classical.choice hne_st
 
   let f : X → Y := fun x ↦ (f' x).val
 
