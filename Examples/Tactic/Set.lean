@@ -9,7 +9,6 @@ Lean ではローカル変数の定義には `let` を使いますが，`let` �
 
 こうした不満に対応するのが `set` タクティクです． -/
 import Mathlib.Tactic.Set -- `set` のために必要
-import Std.Tactic.GuardExpr -- `guard_hyp` のために必要
 
 -- 変数が未使用という警告を表示しない
 set_option linter.unusedVariables false
@@ -37,7 +36,8 @@ example (x : ℕ) (h : f x = x) : f (f x) = f x := by
   -- 仮定も書き変わる
   guard_hyp h : y = x
 
-  -- `y = f x` であるという事実に名前も付けられる
+  -- `y = f x` であるという事実に名前も付いている
   guard_hyp yh : y = f x
 
-  simp only [h]
+  rw [h] at *
+  apply yh.symm

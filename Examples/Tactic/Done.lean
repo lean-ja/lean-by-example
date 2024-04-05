@@ -8,7 +8,7 @@ example (h : P → Q) : ¬ P ∨ Q := by
   by_cases hP : P
 
   -- `P` が成り立つ場合
-  case inl =>
+  case pos =>
     -- `P → Q` より `Q` が成り立つ
     have := h hP
 
@@ -19,7 +19,7 @@ example (h : P → Q) : ¬ P ∨ Q := by
     done
 
   -- `P` が成り立たない場合
-  case inr =>
+  case neg =>
     -- `¬ P` が成り立つので，`¬ P ∨ Q` も成り立つ
     exact Or.inl hP
 

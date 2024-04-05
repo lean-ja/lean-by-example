@@ -8,7 +8,6 @@
 import Mathlib.Algebra.Parity -- `Even` のために必要
 import Mathlib.Tactic.NthRewrite -- `nth_rw` のために必要
 import Mathlib.Tactic.Ring -- `ring` のために必要
-import Std.Tactic.Replace -- `replace` のために必要
 
 /-- `5 * n` が偶数なら，`n` も偶数 -/
 example : ∀ (n : ℤ), Even (5 * n) → Even n := by

@@ -9,7 +9,6 @@
 そして，`X says Y` が実行されるときには `X` は飛ばされます．-/
 import Aesop -- `aesop` のために必要 --#
 import Mathlib.Init.Function -- `Injection` のために必要 --#
-import Mathlib.Tactic.LibrarySearch -- `exact?` を使うために必要 --#
 import Mathlib.Tactic.Says -- `says` を使うために必要
 
 -- `says` のチェックを有効にする

@@ -1,13 +1,11 @@
-import Mathlib.Tactic.Cases -- `cases'` を使用するために必要 --#
-import Std.Tactic.RCases -- `rcases` を使用するために必要 --#
-
-/-! # cases
+/- # cases
 
 `cases` は場合分けを行うことができるタクティクです．
 
 たとえば，ローカルコンテキストに `h : P ∨ Q` があるときに `cases h` とすると，仮定に `P` を付け加えたゴール `case inl` と，仮定に `Q` を付け加えたゴール `case inr` を生成します．
 
 補足すると，`inl` と `inr` はそれぞれ `left injection` と `right injection` からその名前があり，`Or` 型のコンストラクタです．-/
+import Mathlib.Tactic.Cases -- `cases'` を使用するために必要 --#
 
 -- `P`, `Q`, `R` を命題とする
 variable (P Q R : Prop)

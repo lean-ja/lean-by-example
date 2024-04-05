@@ -6,7 +6,6 @@
 -/
 import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.Ring
-import Std.Tactic.Omega
 
 example (n m : Nat) : n * m = ((n + m) ^ 2 - n ^ 2 - m ^ 2 ) / 2 := by
   -- `(n + m) ^ 2` を展開する

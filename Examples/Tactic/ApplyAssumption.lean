@@ -1,8 +1,6 @@
 /- # apply_assumption
 `apply_assumption` は，ゴールが `⊢ head` であるときに，`... → ∀ _, ... → head` という形の命題をローカルコンテキストから探し，それを用いてゴールを書き換えます．
 -/
-import Std.Tactic.SolveByElim -- `apply_assumption` を使うため
-
 variable (P Q R : Prop)
 
 example (hPQ : P → Q) : ¬ Q → ¬ P := by
