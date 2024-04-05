@@ -1,6 +1,4 @@
-import Std.Tactic.GuardMsgs --#
-
-/-! # print
+/- # print
 `#print` コマンドには複数の機能がありますが，単体で使うと定義を表示することができます．
 -/
 

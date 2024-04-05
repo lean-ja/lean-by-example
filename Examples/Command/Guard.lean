@@ -2,9 +2,8 @@
   # guard
   `#guard` は与えられた Bool 値が true であることを確かめます．
 -/
-import Std.Tactic.GuardExpr -- `#guard` のために必要
-import Std.Classes.SetNotation -- `⊆` のため --#
-import Std.Data.List.Lemmas -- `List` 関連の補題のため --#
+import Std.Data.List.Lemmas -- リストに対して `⊆` が使えるようにする
+
 namespace guard --#
 
 -- 階乗関数

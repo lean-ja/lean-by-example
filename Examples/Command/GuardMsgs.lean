@@ -4,7 +4,6 @@
 `#guard_msgs` コマンドは，あるコマンドの出力が与えられた文字列と一致するか検証します．
 -/
 import Mathlib.Algebra.Group.Defs -- 逆数を使うために必要 --#
-import Std.Tactic.GuardMsgs -- guard_msgs コマンドを使うために必要
 
 /-- info: 2 -/
 #guard_msgs in

@@ -1,11 +1,9 @@
-import Mathlib.Tactic.ApplyAt -- `apply at` のため --#
-import Std.Tactic.GuardExpr -- `guard_hyp` のため --#
-import Std.Tactic.Replace -- `replace` のため --#
-/-! # apply
+/- # apply
 
 `apply` は含意 `→` をゴールに適用するタクティクです．
 ゴールが `⊢ Q` で，ローカルコンテキストに `h: P → Q` があるときに，`apply h` を実行するとゴールが `⊢ P` に書き換わります．
 -/
+import Mathlib.Tactic.ApplyAt -- `apply at` のため --#
 
 variable (P Q : Prop)
 

@@ -3,7 +3,6 @@
 `exact?` は，カレントゴールを `exact` で閉じることができないか，ライブラリから検索して提案してくれるタクティクです．閉じることができなければ，エラーになります．-/
 import Mathlib.Algebra.Order.Floor -- `Nat.floor` を使うために必要
 import Mathlib.Data.Rat.Floor -- `ℚ` の性質を使うために必要
-import Mathlib.Tactic.LibrarySearch -- `exact?` を使うのに必要
 import Mathlib.Tactic.Says -- `says` を使うために必要
 
 variable (P Q R : Prop)
@@ -14,7 +13,7 @@ set_option says.verify true --#
 -- `exact?` はライブラリ検索を行う
 example (x : Nat) : x < x + 1 := by
   exact? says
-    exact Nat.le.refl
+    exact lt_add_one x
 
 -- ローカルコンテキストにある仮定を自動で使ってゴールを導いてくれる
 example (hPQ : P → Q) (hQR : Q → R) (hQ : P) : R := by

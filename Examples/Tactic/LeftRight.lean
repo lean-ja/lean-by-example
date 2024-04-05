@@ -1,8 +1,6 @@
 /- # left, right
 
 ゴールが `⊢ P ∨ Q` であるとき，`left` はゴールを `⊢ P` に，`right` はゴールを `⊢ Q` に変えます． -/
-import Std.Tactic.LeftRight
-
 variable (P Q : Prop)
 
 example (hP: P) : P ∨ Q := by

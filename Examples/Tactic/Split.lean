@@ -14,7 +14,6 @@ if/match 式を扱う必要が生じるのは，典型的には Lean で定義�
 仮定に対して用いる場合は `split at h` のように利用します． -/
 import Mathlib.Tactic.Set -- `set` のために必要 --#
 import Mathlib.Tactic.Linarith -- `linarith` を使うため --#
-import Std.Tactic.Replace -- `replace` を使うため --#
 
 -- if 式を使って関数を定義する
 def myabs (x : Int) : Int :=
