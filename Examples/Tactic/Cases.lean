@@ -75,7 +75,6 @@ example : P ∨ Q → (P → R) → (Q → R) → R := by
 /-! ## rcases
 
 `rcases` は `cases` をパターンに従って再帰的(recursive)に適用します．
-`Std.Tactic.RCases` の import が必要です．
 -/
 
 example : P ∨ Q → (P → R) → (Q → R) → R := by
