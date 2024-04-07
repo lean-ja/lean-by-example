@@ -2,7 +2,7 @@
 
 `cases'` は `cases` に似ていますが lean3 の `cases` に近い挙動をします．証明を構造化するため， `cases'` は使用しないことをお勧めします．
 -/
-import Mathlib.Tactic.Cases -- `cases'` を使用するために必要 --#
+import Mathlib.Tactic.Cases -- `cases'` を使用するために必要
 
 variable {P Q R : Prop}
 
