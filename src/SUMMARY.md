@@ -24,6 +24,7 @@
 
 - [aesop: 自明な証明の自動探索](./Tactic/Aesop.md)
 - [all_goals: 全ゴールに対して適用](./Tactic/AllGoals.md)
+- [apply .. at: apply を仮定に適用する](./Tactic/ApplyAt.md)
 - [apply_assumption: 仮定を自動で apply](./Tactic/ApplyAssumption.md)
 - [apply: 含意→を使う](./Tactic/Apply.md)
 - [apply?: apply できるか検索](./Tactic/ApplyQuestion.md)
