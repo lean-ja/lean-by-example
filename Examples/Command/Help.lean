@@ -14,13 +14,11 @@
 -/
 import Mathlib.Tactic
 
--- 次のコマンドのコメントを外して実行してみてください．
-
 -- 以下のコマンドで全 tactic のリストが見られます
--- #help tactic
+#help tactic
 
 -- 全 attribute のリストを見るには次のコマンドです
--- #help attr
+#help attr
 
 -- 全コマンドのリストを見るには次のコマンドが使えます
--- #help command
+#help command
