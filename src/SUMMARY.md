@@ -24,6 +24,7 @@
 
 - [aesop: 自明な証明の自動探索](./Tactic/Aesop.md)
 - [all_goals: 全ゴールに対して適用](./Tactic/AllGoals.md)
+- [apply .. at: apply を仮定に適用する](./Tactic/ApplyAt.md)
 - [apply_assumption: 仮定を自動で apply](./Tactic/ApplyAssumption.md)
 - [apply: 含意→を使う](./Tactic/Apply.md)
 - [apply?: apply できるか検索](./Tactic/ApplyQuestion.md)
@@ -33,6 +34,7 @@
 - [by: タクティクモードに入る](./Tactic/By.md)
 - [calc: 計算モードに入る](./Tactic/Calc.md)
 - [cases: 場合分けをする](./Tactic/Cases.md)
+- [cases': Lean3版のcases](./Tactic/CasesAp.md)
 - [choose: 選択関数を得る](./Tactic/Choose.md)
 - [clear: 命題や定義を削除する](./Tactic/Clear.md)
 - [congr: ゴールの差異に注目する](./Tactic/Congr.md)
@@ -60,6 +62,7 @@
 - [left, right: 論理和∨を示す](./Tactic/LeftRight.md)
 - [linarith: 線形(不)等式を示す](./Tactic/Linarith.md)
 - [nlinarith: 非線形な(不)等式を示す](./Tactic/Nlinarith.md)
+- [nth_rw: n 番目の項だけ rw](./Tactic/NthRw.md)
 - [omega: 自然数の線形計画を解く](./Tactic/Omega.md)
 - [push_neg: ドモルガン](./Tactic/PushNeg.md)
 - [refine: 後方推論](./Tactic/Refine.md)
