@@ -34,6 +34,7 @@
 - [by: タクティクモードに入る](./Tactic/By.md)
 - [calc: 計算モードに入る](./Tactic/Calc.md)
 - [cases: 場合分けをする](./Tactic/Cases.md)
+- [cases': Lean3版のcases](./Tactic/CasesAp.md)
 - [choose: 選択関数を得る](./Tactic/Choose.md)
 - [clear: 命題や定義を削除する](./Tactic/Clear.md)
 - [congr: ゴールの差異に注目する](./Tactic/Congr.md)

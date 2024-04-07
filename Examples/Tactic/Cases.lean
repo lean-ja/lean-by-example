@@ -5,7 +5,6 @@
 たとえば，ローカルコンテキストに `h : P ∨ Q` があるときに `cases h` とすると，仮定に `P` を付け加えたゴール `case inl` と，仮定に `Q` を付け加えたゴール `case inr` を生成します．
 
 補足すると，`inl` と `inr` はそれぞれ `left injection` と `right injection` からその名前があり，`Or` 型のコンストラクタです．-/
-import Mathlib.Tactic.Cases -- `cases'` を使用するために必要 --#
 
 -- `P`, `Q`, `R` を命題とする
 variable (P Q R : Prop)
@@ -54,20 +53,6 @@ inductive Or (a b : Prop) : Prop where
   | inr (h : b) : Or a b
 
 end Cases --#
-/-! ## cases'
-
-`cases'` というタクティクもあります．
-こちらは lean3 の `cases` に近い挙動をします．
-証明を構造化するため， `cases'` は使用しないことをお勧めします．
--/
-
-example : P ∨ Q → (P → R) → (Q → R) → R := by
-  intro h hPR hQR
-
-  -- 場合分けをする
-  cases' h with hP hQ
-  · apply hPR hP
-  · apply hQR hQ
 
 /-! ## rcases
 
