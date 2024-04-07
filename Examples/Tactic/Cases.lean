@@ -47,16 +47,13 @@ example : P ∨ Q → (P → R) → (Q → R) → R := by
 `cases` は，実際には論理和に限らず帰納型をコンストラクタに分解することができるタクティクです．
 論理和を分解することができるのも，`Or` が帰納型として定義されているからです．
 -/
+namespace Cases --#
 
--- `Or` の定義を `#print` コマンドで確認できます.
+inductive Or (a b : Prop) : Prop where
+  | inl (h : a) : Or a b
+  | inr (h : b) : Or a b
 
--- inductive Or : Prop → Prop → Prop
--- number of parameters: 2
--- constructors:
--- Or.inl : ∀ {a b : Prop}, a → a ∨ b
--- Or.inr : ∀ {a b : Prop}, b → a ∨ b
-#print Or
-
+end Cases --#
 /-! ## cases'
 
 `cases'` というタクティクもあります．
