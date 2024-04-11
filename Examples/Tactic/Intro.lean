@@ -25,17 +25,11 @@ example (hPQ: P → Q) (hQR: Q → R) : P → R := by
   -- 仮定 `hQR : Q → R` と `hQ : Q` から `R` が導かれる
   exact hQR hQ
 
-/-! `A ∧ B → C` という形の命題や，`A ∨ B → C` という形の命題は次のように扱うこともできます．-/
+/- ## 特定の形の命題に対しての使用法
 
-example (hPR : P → R) (hQR : Q → R) : P ∨ Q → R := by
-  intro
-  -- `P` が成り立つとする
-  | Or.inl hP =>
-    exact hPR hP
-
-  -- `Q` が成り立つとする
-  | Or.inr hQ =>
-    exact hQR hQ
+### `A ∧ B → C`
+前提が論理積の形をしていた場合，匿名コンストラクタで仮定を分解することができます．
+-/
 
 example {S : Prop} (hPR : P → R) (hQR : Q → S) : P ∧ Q → R ∧ S := by
   -- `P ∧ Q` だと仮定する
@@ -45,7 +39,49 @@ example {S : Prop} (hPR : P → R) (hQR : Q → S) : P ∧ Q → R ∧ S := by
   . exact hPR hP
   . exact hQR hQ
 
-/-! また，`intro` は `∀ x, P x` という形のゴールにも使用できます． -/
+/- ### `A ∨ B → C`
+前提が論理和の形をしていた場合，次のように分解することができます．-/
+
+example (hPR : P → R) (hQR : Q → R) : P ∨ Q → R := by
+  intro
+
+  -- `P` が成り立つとする
+  | Or.inl hP =>
+    exact hPR hP
+
+  -- `Q` が成り立つとする
+  | Or.inr hQ =>
+    exact hQR hQ
+
+/- `rcases` を使って分解することも一般的です．-/
+
+example (hPR : P → R) (hQR : Q → R) : P ∨ Q → R := by
+  intro h
+  rcases h with hP | hQ
+
+  -- `P` が成り立つとする
+  case inl =>
+    exact hPR hP
+
+  -- `Q` が成り立つとする
+  case inr =>
+    exact hQR hQ
+
+/- また, `rintro` を使うと上記の `intro` と `rcases` の組み合わせを同時に行うことができます．-/
+
+example (hPR : P → R) (hQR : Q → R) : P ∨ Q → R := by
+  rintro (hP | hQ)
+
+  -- `P` が成り立つとする
+  case inl =>
+    exact hPR hP
+
+  -- `Q` が成り立つとする
+  case inr =>
+    exact hQR hQ
+
+/- ### `∀ x, P x`
+`intro` は `∀ x, P x` という形のゴールにも使用できます．-/
 
 example (P Q : Nat → Prop) (h : ∀ n, P n ↔ Q n) : ∀ y, P (y + 1) → Q (y + 1) := by
   -- 任意の `y` について示すので，`intro` で `y` を導入する
