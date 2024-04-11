@@ -61,6 +61,7 @@
 - [intro: 含意→や全称∀を示す](./Tactic/Intro.md)
 - [left, right: 論理和∨を示す](./Tactic/LeftRight.md)
 - [linarith: 線形(不)等式を示す](./Tactic/Linarith.md)
+- [native_decide: 実行時に判ることを示す](./Tactic/NativeDecide.md)
 - [nlinarith: 非線形な(不)等式を示す](./Tactic/Nlinarith.md)
 - [nth_rw: n 番目の項だけ rw](./Tactic/NthRw.md)
 - [omega: 自然数の線形計画を解く](./Tactic/Omega.md)
