@@ -52,14 +52,15 @@ example : n - n + n = n := by
 -/
 
 example : (x + y) ^ 2 = x ^ 2 + 2 * x * y + y ^ 2 := by
+  try
+    /-
+      以下のような出力が100行以上続く
+      Try this: exact Mathlib.Tactic.Ring.of_eq
+      (Mathlib.Tactic.Ring.pow_congr
+        ...
+    -/
+    show_term ring
 
-  /-
-    以下のような出力が100行以上続く
-    Try this: exact Mathlib.Tactic.Ring.of_eq
-    (Mathlib.Tactic.Ring.pow_congr
-      ...
-  -/
-  -- コメントを外してみてください
-  -- show_term ring
+    fail
 
   ring

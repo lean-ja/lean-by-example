@@ -23,8 +23,16 @@ example (α : Type) (l : List α) : [] ⊆ l := by simp
 -- Prop 型を持つ
 #check (α : Type) → ∀ (l : List α), [] ⊆ l
 
--- コメントを外してみよう
--- #guard (α : Type) → ∀ (l : List α), [] ⊆ l
+/--
+error: type mismatch
+  ∀ (α : Type) (l : List α), [] ⊆ l
+has type
+  Prop : Type
+but is expected to have type
+  Bool : Type
+-/
+#guard_msgs in --#
+#guard (α : Type) → ∀ (l : List α), [] ⊆ l
 
 /-! しかし， `1 + 1 = 2` 等も `#check` で確かめてみると型は `Prop` です．にも関わらず `#guard` に渡してもエラーになりません． これはなぜでしょうか？ -/
 
@@ -39,9 +47,8 @@ example (α : Type) (l : List α) : [] ⊆ l := by simp
   `Prop` 型であっても， Decidable (決定可能)であれば `Bool` に変換できます．それを自動で行っているので，`Prop` 型の項でも `#guard` に通せることがあります．
 -/
 
--- Decidable.decide (p : Prop) [h : Decidable p] : Bool
 -- 決定可能な Prop 型の項を Bool に変換する関数
-#check decide
+#check (decide : (p : Prop) → [_h : Decidable p] → Bool)
 
 -- Bool 型になっている！
 #check decide (1 + 1 = 2)
