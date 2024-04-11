@@ -16,6 +16,7 @@
 * [Moogle](https://www.moogle.ai/) 自然言語で Mathlib から定理や定義が検索できるツール．
 * [Chrome Lean Unicode](https://github.com/arthurpaulino/chrome-lean-unicode) Lean の VSCode 拡張機能が備える，Unicode 入力機能を Chrome で使えるようにする拡張機能．
 * [Lean4 Web](https://live.lean-lang.org/) ブラウザ上で Lean が実行できるプレイグラウンド．
+* [Reservoir](https://reservoir.lean-lang.org/) Lean 公式のパッケージレジストリ．
 
 ## ドキュメントや教材
 
