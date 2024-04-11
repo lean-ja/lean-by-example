@@ -16,3 +16,5 @@ example (hP : P) (hQ : Q) (hR : R) : R := by
   clear hP
 
   exact hR
+
+/- ローカルコンテキストが複雑で `aesop` が通らないときに，`clear` で示したいことに関係のあるもの以外を削除すると `aesop` が通るようになることがあります．-/
