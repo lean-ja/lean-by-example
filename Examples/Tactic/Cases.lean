@@ -56,7 +56,7 @@ end Cases --#
 
 /-! ## rcases
 
-`rcases` は `cases` をパターンに従って再帰的(recursive)に適用します．
+`rcases` は `cases` をパターンに従って再帰的(recursive)に適用します．匿名コンストラクタによる分解が可能であり，`cases` の上位互換という立ち位置です．
 -/
 
 example : P ∨ Q → (P → R) → (Q → R) → R := by
