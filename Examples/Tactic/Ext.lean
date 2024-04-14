@@ -24,17 +24,3 @@ example : s ∩ t = t ∩ s := by
   show x ∈ s ∩ t ↔ x ∈ t ∩ s
 
   aesop
-
-/-!
-## A ⊆ B
-
-`ext` は「元を取る操作」ではありません．`A ⊆ B` を示すために元を取る操作は `intro` でできます．
--/
-
-example : (s ∩ t) ⊆ t := by
-  -- `ext` は使えない
-  fail_if_success ext x
-
-  intro x hx
-
-  simp_all

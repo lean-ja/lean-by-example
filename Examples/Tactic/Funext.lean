@@ -17,10 +17,7 @@ example : f = g := by
   -- `x + x` と `2 * x` が等しいことを証明する
   ring
 
-/-! ## ext との関連
-
-`funext` の代わりに `ext` を使うことができます．
--/
+/- なお `funext` は `ext` で置き換えることができます．-/
 
 example : f = g := by
   -- `ext` で書き換えることができる
