@@ -41,6 +41,12 @@ jobs:
       - name: build
         run: lake run build
 
+      - name: Run Link Checker
+        uses: lycheeverse/lychee-action@v1.9.3
+        with:
+          fail: true
+          args: --base src --offline './src/*.md' './src/**/*.md'
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
