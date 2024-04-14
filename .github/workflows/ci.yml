@@ -1,6 +1,5 @@
 # see: https://github.com/rami3l/plfl/blob/master/.github/workflows/ci.yml
-
-name: Test
+name: Lake Build
 
 # https://docs.github.com/en/actions/using-jobs/using-concurrency#example-only-cancel-in-progress-jobs-or-runs-for-the-current-workflow
 concurrency:

@@ -1,4 +1,4 @@
-name: Deploy to github pages
+name: Link Check and Deploy
 
 on:
   pull_request:
