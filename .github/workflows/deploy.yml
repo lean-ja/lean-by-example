@@ -45,7 +45,7 @@ jobs:
         uses: lycheeverse/lychee-action@v1.9.3
         with:
           fail: true
-          args: --base src './**/*.md'
+          args: --base src './src/*.md'
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
