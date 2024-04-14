@@ -45,6 +45,4 @@ example {f : X → Y} {g : Y → Z} (hgfinj : Injective (g ∘ f)) : Injective f
 * `aesop` はまず `simp_all` を用いてゴールを正規化するため，`simp` が使用する補題は `aesop` にも使用されます．
 
 もっと詳しいことが知りたい方は，[aesopのリポジトリ](https://github.com/leanprover-community/aesop)をご参照ください．
-
-[Test](hoge.md)
 -/
