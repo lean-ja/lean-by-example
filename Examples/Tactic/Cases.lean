@@ -56,8 +56,7 @@ end Cases --#
 
 /-! ## rcases
 
-`rcases` は `cases` をパターンに従って再帰的(recursive)に適用します．匿名コンストラクタによる分解が可能であり，`cases` の上位互換という立ち位置です．
--/
+`rcases` は `cases` をパターンに従って再帰的(recursive)に適用します．`cases` の上位互換という立ち位置です．-/
 
 example : P ∨ Q → (P → R) → (Q → R) → R := by
   intro h hPR hQR
@@ -77,3 +76,25 @@ example : P ∧ Q → Q ∧ P := by
 
   -- `Q ∧ P` を証明する
   exact ⟨hQ, hP⟩
+
+/- `rcases` は一般には `⟨x₁, x₂, ...⟩ | ⟨y₁, y₂, ...⟩ | ...` という記法で帰納型の分解が可能です．-/
+
+inductive Sample where
+  | foo (x y : Nat) : Sample
+  | bar (z : String) : Sample
+
+example (s : Sample) : True := by
+  rcases s with ⟨x, y⟩ | ⟨z⟩
+
+  case foo =>
+    -- `x`, `y` が取り出せている
+    guard_hyp x : Nat
+    guard_hyp y : Nat
+
+    trivial
+
+  case bar =>
+    -- `z` が取り出せている
+    guard_hyp z : String
+
+    trivial
