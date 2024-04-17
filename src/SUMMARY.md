@@ -68,6 +68,7 @@
 - [push_neg: ドモルガン](./Tactic/PushNeg.md)
 - [refine: 後方推論](./Tactic/Refine.md)
 - [rel: 不等式を使う](./Tactic/Rel.md)
+- [rename_i: 死んだ変数に名前を付ける](./Tactic/RenameI.md)
 - [repeat: 繰り返し適用](./Tactic/Repeat.md)
 - [replace: 補題の入れ替え](./Tactic/Replace.md)
 - [rfl: 関係の反射性を示す](./Tactic/Rfl.md)
