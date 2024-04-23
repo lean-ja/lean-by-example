@@ -1,7 +1,8 @@
 /- # gcongr
 
 `gcongr` は合同関係(congruence)を扱うタクティクです．
-ゴールが `=` や `≤` などの2項関係で表されているとき， 左辺と両辺にある「共通のパターン」を取り出し，分解します．
+
+`n` 変数関数 `f` と `n+1` 個の2項関係 `∼`, `~₁`, ... `∼ₙ` に対して, `x₁ ~₁ x₁' → ... xₙ ~ₙ xₙ' → f x₁ ... xₙ ∼ f x₁' ... xₙ'` が成り立つという形の補題を使って，ゴールを簡約化します．
 -/
 import Mathlib.Tactic.GCongr -- `gcongr` を使うため
 import Mathlib.Analysis.SpecialFunctions.Log.Basic -- `log` を使うため
