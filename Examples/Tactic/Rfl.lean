@@ -14,11 +14,9 @@ inductive MyEq {α : Type u} : α → α → Prop
 
 example (n : ℕ) : MyEq n n := by
   -- `rfl` で示すことはできない．
-  -- そもそも `MyEq` が反射的な関係だと仮定していないので，
-  -- どんな方法でも証明できない．
   fail_if_success rfl
 
-  sorry
+  apply MyEq.refl
 
 -- `MyEq` が反射的であることを登録する
 attribute [refl] MyEq.refl
