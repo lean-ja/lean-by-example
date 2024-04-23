@@ -26,9 +26,9 @@ variable (A B C : Set U)
 def mysubset (A B : Set U) : Prop := ∀ x, x ∈ A → x ∈ B
 
 /-- `mysubset` を二項関係らしく書けるようにしたもの. -/
-infix:50 " mys " => mysubset
+infix:50 " ⊆ₘ " => mysubset
 
-example : B ∩ C mys (A ∪ B) ∩ C := by
+example : B ∩ C ⊆ₘ (A ∪ B) ∩ C := by
   -- gcongr が使えない
   fail_if_success gcongr
 
@@ -37,11 +37,11 @@ example : B ∩ C mys (A ∪ B) ∩ C := by
 
 -- `@[gcongr]` で `gcongr` が使える補題を増やす
 @[gcongr]
-lemma inter_subset_inter_left (h : A ⊆ B) : A ∩ C mys B ∩ C := by
+lemma inter_subset_inter_left (h : A ⊆ B) : A ∩ C ⊆ₘ B ∩ C := by
   intro x hx
   aesop
 
-example : B ∩ C mys (A ∪ B) ∩ C := by
+example : B ∩ C ⊆ₘ (A ∪ B) ∩ C := by
   -- gcongr が使えるようになった
   gcongr
 
