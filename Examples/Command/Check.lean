@@ -1,4 +1,3 @@
-import Mathlib.Init.Set -- `Set` を使用するため --#
 /- # check
 
 `#check` コマンドは，項の型を表示します．Lean ではすべての項に型があるので，どんな項にも使えます．`#check term` というコマンドで，`term` の型を表示します．逆に `term` の型が `T` であることを確かめるには `example` コマンドを使用して `example : T := term` とします．
@@ -29,9 +28,6 @@ import Mathlib.Init.Set -- `Set` を使用するため --#
 -- 自然数の配列
 #check #[1, 2, 3]
 
--- 自然数の部分集合
-#check ({1, 2, 3} : Set Nat)
-
 -- 関数
 #check fun x ↦ x + 42
 
@@ -41,21 +37,19 @@ import Mathlib.Init.Set -- `Set` を使用するため --#
 -- 命題
 #check True
 
-/-!
-  ## 型の型
-  「すべての」項には型があるので，型も型を持ちます．
+/-! ## 型の型
+「すべての」項には型があるので，型も型を持ちます．
 -/
 
 #check (Prop : Type)
-
-#check (Set Nat : Type)
 
 -- Lean では `List` は Type を受け取って，Type を返す関数.
 -- List.{u} (α : Type u) : Type u
 #check List
 
--- Set.{u} (α : Type u) : Type u
-#check Set
+-- 配列も同じ．型を型に変換する関数．
+-- Array.{u} (α : Type u) : Type u
+#check Array
 
 -- `Type` 自身も型を持っており…
 -- Type : Type 1
