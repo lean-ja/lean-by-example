@@ -36,7 +36,7 @@ example (n : Nat) : sum n = n * (n + 1) / 2 := by
     ring
 
 /-! ## induction を使用しない帰納法
-Lean では，実は帰納法を使用するのに `induction` を使う必要はありません．場合分けの中で示されたケースを帰納法の仮定として使うことができます．
+Lean では，実は帰納法を使用するのに必ずしも `induction` は必要ありません．場合分けの中で示されたケースを帰納法の仮定として使うことができます．
 -/
 
 theorem sum_exp (n : Nat) : sum n = n * (n + 1) / 2 := by
@@ -55,6 +55,18 @@ theorem sum_exp (n : Nat) : sum n = n * (n + 1) / 2 := by
 
     -- 後は可換環の性質から示せる
     ring
+
+/- `have` で宣言された命題の証明の中では，この方法は使用できません．-/
+
+theorem sample : True := by
+  have h : ∀ n, sum n = n * (n + 1) / 2 := by
+    intro n
+    match n with
+    | 0 => rfl
+    | n + 1 =>
+      fail_if_success have ih := h n
+      sorry
+  trivial
 
 /-!
 ## 完全帰納法
