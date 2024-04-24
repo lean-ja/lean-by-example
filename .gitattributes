@@ -1,2 +1,3 @@
 *.js linguist-documentation=true
 *.css linguist-documentation=true
+*.hbs linguist-documentation=true
