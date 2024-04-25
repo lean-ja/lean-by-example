@@ -20,13 +20,28 @@ def add (a b : Point) : Point :=
 instance : Add Point where
   add := add
 
+@[simp]
+protected theorem x_add (a b : Point) : (a + b).x = a.x + b.x := rfl
+
+@[simp]
+protected theorem y_add (a b : Point) : (a + b).y = a.y + b.y := rfl
+
+@[simp]
+protected theorem z_add (a b : Point) : (a + b).z = a.z + b.z := rfl
+
 /-- `Point` 上の足し算は可換 -/
 protected theorem add_comm (a b : Point) : a + b = b + a := by
-  ext <;> apply Int.add_comm
+  ext
+  all_goals
+    simp
+    apply Int.add_comm
 
 /-- `Point` 上の足し算は結合的 -/
 protected theorem add_assoc (a b c : Point) : a + b + c = a + (b + c) := by
-  ext <;> apply Int.add_assoc
+  ext
+  all_goals
+    simp
+    apply Int.add_assoc
 
 -- `ac_rfl` から使えるように，`Std.Commutative` のインスタンスにする
 instance : Std.Commutative (α := Point) (· + ·) where
