@@ -38,7 +38,7 @@
 - [cases': Lean3版のcases](./Tactic/CasesAp.md)
 - [choose: 選択関数を得る](./Tactic/Choose.md)
 - [clear: 命題や定義を削除する](./Tactic/Clear.md)
-- [congr: ゴールの差異に注目する](./Tactic/Congr.md)
+- [congr: ゴールの関数適用を外す](./Tactic/Congr.md)
 - [constructor: 論理積∧を示す](./Tactic/Constructor.md)
 - [contradiction: 爆発律](./Tactic/Contradiction.md)
 - [contrapose: 対偶をとる](./Tactic/Contrapose.md)
