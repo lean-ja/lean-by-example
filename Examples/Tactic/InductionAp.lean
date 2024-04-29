@@ -8,7 +8,8 @@ import Mathlib.Tactic.Cases -- `induction'` のために必要
 
 namespace InductionAp
 
-/-- `1` から `n` までの和を計算する関数 -/
+/-- `0` から `n` までの和を計算する.
+多項式関数として表現する都合で，返り値は `Rat` にしてある. -/
 def sum (n : Nat) : Rat :=
   match n with
   | 0 => 0
@@ -33,31 +34,112 @@ example (n : Nat) : sum n = n * (n + 1) / 2 := by
 /-!
 ### 〇〇の～についての帰納法
 
-`induction'` では「リストの長さに対する帰納法」もできます．
+関数適用した対象に対する帰納法も行うことができます．
+
+以下の例は, Cantor の対関数 `pair : ℕ × ℕ → ℕ` に対して逆写像 `unpair : ℕ → ℕ × ℕ` が存在することを示しています．証明の中で `pair (m, n)` に対する帰納法を行っています．また，`generalizing` 構文を使うことで，帰納法の仮定の中の変数を全称化する工夫も行っています．
 -/
+namespace Pair --#
 
-variable (α : Type)
+-- `Nat.succ` を `x + 1` に変換するのが面倒なので導入
+@[simp]
+theorem nat_succ_eq_add_one {x : Nat} : Nat.succ x = x + 1 := by rfl
 
-example (l : List α) (P : List α → Prop) : P l := by
-  -- リストの長さに対する帰納法
-  induction' h : l.length generalizing l
+-- `Nat.zero` を `0` に変換するのが面倒なので導入
+@[simp]
+theorem nat_zero_eq_zero : Nat.zero = 0 := by rfl
 
+/-- `0` から `n` までの自然数の和.
+多項式として表現する必要はないので，返り値は自然数. -/
+def sum (n : ℕ) : ℕ :=
+  match n with
+  | 0 => 0
+  | n + 1 => (n + 1) + sum n
+
+@[simp]
+theorem summ_zero_iff_zero {n : ℕ} : sum n = 0 ↔ n = 0 := by
+  constructor <;> intro h
+  case mp =>
+    induction' n with n _ih <;> simp at *
+    simp [sum] at h
+  case mpr =>
+    rw [h, sum]
+
+/-- カントールの対関数 -/
+def pair : ℕ × ℕ → ℕ
+  | (m, n) => sum (m + n) + m
+
+@[simp]
+theorem pair_zero : pair 0 = 0 := by rfl
+
+/-- カントールの対関数の逆関数 -/
+def unpair : ℕ → ℕ × ℕ
+  | 0 => (0, 0)
+  | x + 1 =>
+    let (m, n) := unpair x
+    if n = 0 then
+      (0, m + 1)
+    else
+      (m + 1, n - 1)
+
+@[simp]
+theorem unpair_zero : unpair 0 = 0 := by rfl
+
+theorem unpair_pair_eq_id (m n : ℕ) : unpair (pair (m, n)) = (m, n) := by
+  -- `x = pair (m, n)` として `x` に対する帰納法を利用する
+  induction' h : pair (m, n) with x ih generalizing m n
+  all_goals simp at *
+
+  -- `pair (m, n) = 0` のとき
   case zero =>
-    -- リストの長さが 0 のとき
-    guard_hyp h: List.length l = 0
+    -- `pair` の定義から明らか．
+    simp [pair] at h
+    aesop
 
-    show P l
-    sorry
+  -- `pair (m, n) = x + 1` のとき
+  case succ =>
+    -- `m` がゼロかそうでないかで場合分けする
+    match m with
 
-  case succ n IH =>
-    -- リストの長さが `n + 1` のとき
-    guard_hyp h: List.length l = n + 1
+    -- `m = 0` のとき
+    | 0 =>
+      -- `pair (0, n) = x + 1` により `n > 0` が成り立つ.
+      have npos : n > 0 := by
+        by_contra!; simp at this
+        simp [this] at h
+        contradiction
 
-    -- 帰納法の仮定が使える
-    guard_hyp IH: ∀ (l : List α), List.length l = n → P l
+      -- よって `n = (n - 1) + 1` であり，
+      replace npos : n = (n - 1) + 1 := by omega
+      have : sum n = sum (n - 1) + n := by
+        nth_rw 1 [npos]
+        dsimp [sum]
+        omega
 
-    show P l
-    sorry
+      -- `pair (n - 1, 0) = x` が成り立つ.
+      replace : pair (n - 1, 0) = x := by
+        dsimp [pair] at h ⊢
+        simp at h
+        rw [this] at h
+        omega
+
+      -- 後は帰納法の仮定から従う.
+      specialize ih (n-1) 0 this
+      simp [unpair, ih]
+      symm; assumption
+
+    -- `m = m' + 1` のとき
+    | m' + 1 =>
+      -- `pair` の定義から `pair (m', n + 1) = x` が成り立つ．
+      have : pair (m', n + 1) = x := by
+        simp [pair] at h ⊢
+        rw [show m' + 1 + n = m' + (n + 1) from by ac_rfl] at h
+        omega
+
+      -- 後は帰納法の仮定から従う．
+      specialize ih m' (n + 1) this
+      simp [unpair, ih]
+
+end Pair --#
 
 /-!
 ## 完全帰納法
