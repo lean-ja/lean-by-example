@@ -20,6 +20,18 @@ example (hPQ : P → Q) (hQR : Q → R) (hQ : P) : R := by
   exact? says
     exact hQR (hPQ hQ)
 
+/- `exact? using h` とするとローカルコンテキストにある仮定 `h` を使用してほしいと明示的に指定することができます．-/
+
+example (h1 : P) (_h2 : P) : P := by
+  -- `h1` を指定すると `h2` は使わない
+  exact? using h1 says
+    exact h1
+
+example (_h1 : P) (h2 : P) : P := by
+  -- `h2` を指定すると `h1` は使わない
+  exact? using h2 says
+    exact h2
+
 /-!
 ## exact? を使用する際のコツ
 
