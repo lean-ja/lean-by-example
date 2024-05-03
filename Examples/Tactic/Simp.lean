@@ -39,12 +39,14 @@ example (h : R) : (P ∨ Q ∨ R) ∧ R := by
   simp only [or_and]
   assumption
 
-/-! 何も指定しなければゴールを簡約しますが，ローカルコンテキストにある `h : P` を簡約させたければ `simp at h` と指定することで可能です．全て簡約させたい場合は `simp at *` とします．-/
+/-! 何も指定しなければゴールを簡約しますが，ローカルコンテキストにある `h : P` を簡約させたければ `simp at h` と指定することで可能です．ゴールと `h` の両方を簡約したいときは `simp at h ⊢` とします．
+
+ローカルコンテキストとゴールをまとめて全部簡約したい場合は `simp at *` とします．-/
 
 variable {n m : Nat}
 
-example (h : n + 0 + 0 = m) : n = m := by
-  simp at h
+example (h : n + 0 + 0 = m) : n = m + (0 * n) := by
+  simp at h ⊢
   assumption
 
 /-! ## simpa
