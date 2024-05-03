@@ -4,6 +4,7 @@
 import Mathlib.Tactic.Ring -- `ring` を使うため --#
 import Mathlib.Tactic.Says -- `says` を使うために必要 --#
 import Mathlib.Tactic.Tauto -- `tauto` を使うため
+namespace Simp --#
 
 variable {P Q R : Prop}
 
@@ -33,7 +34,7 @@ example : (P ∨ Q ∨ R) ∧ R ↔ R := by simp
 /-! なお，`@[simp]` で登録した命題は「左辺を右辺に」簡約するルールとして登録されます．
 左辺と右辺を間違えて登録すると，無限ループになって `simp` の動作が破壊されることがあるので注意してください．-/
 
-/-! 既知の `h : P` という命題を使って簡約させたいときは，明示的に `simp [h]` と指定することで可能です．複数個指定することもできます．`simp only [h₁, ... , hₖ]` とすると `h₁, ... , hₖ` だけを使用して簡約を行います．-/
+/-! 既知の `h : P` という命題を使って簡約させたいときは，明示的に `simp [h]` と指定することで可能です．複数個指定することもできます．また `simp only [h₁, ... , hₖ]` とすると `h₁, ... , hₖ` だけを使用して簡約を行います．-/
 
 example (h : R) : (P ∨ Q ∨ R) ∧ R := by
   simp only [or_and]
@@ -83,4 +84,46 @@ example {x y : Nat} : 0 < 1 + x ∧ x + y + 2 ≥ y + 1 := by
 
 ## dsimp
 
-`dsimp` は，定義上(definitionally)等しいもの同士しか簡約しないという制約付きの `simp` です．-/
+`dsimp` は，定義上(definitionally)等しいもの同士しか簡約しないという制約付きの `simp` です．
+
+## simps 属性
+補題を `simp` で使えるようにするのは `@[simp]` タグを付けることで可能ですが，`simps` 属性(または `@[simps]` タグ)を利用すると `simp` で使用するための補題を自動的に生成してくれます．これは [Mathlib/Tactic/Simps](Mathlib/Tactic/Simps/Basic.lean) で定義されている機能であり，使用するにはMathlibの読み込みが必要です．
+
+例えば，ユーザが `Point` という構造体を定義し，`Point` 上の足し算を定義したところを考えましょう．このとき，足し算はフィールドの値の足し算で定義されているため，「`Point` の和の `x` 座標」は `x` 座標の和ですが，これはそのままでは `simp` で示すことができません．`simps` 属性を `Point.add` 関数に付与することで，`simp` で示せるようになります．
+-/
+
+@[ext]
+structure Point where
+  x : Int
+  y : Int
+
+/-- Point の和 -/
+def Point.add (p q : Point) : Point :=
+  { x := p.x + q.x, y := p.y + q.y }
+
+/-- 和の x 座標は x 座標の和 -/
+example (a b : Point) : (Point.add a b).x = a.x + b.x := by
+  -- この状態だと `simp` で示せない
+  fail_if_success simp
+
+  rfl
+
+-- `Point.add` に `simps` 属性を付与する
+attribute [simps] Point.add
+
+example (a b : Point) : (Point.add a b).x = a.x + b.x := by
+  -- simp で示せるようになった
+  simp
+
+/- `@[simps?]` に換えると，生成された補題を確認することができます．-/
+
+/--
+info: [simps.verbose] adding projection Simp.Point.sub_x:
+      ∀ (p q : Simp.Point), (Simp.Point.sub p q).x = p.x - q.x
+[simps.verbose] adding projection Simp.Point.sub_y: ∀ (p q : Simp.Point), (Simp.Point.sub p q).y = p.y - q.y
+-/
+#guard_msgs in --#
+@[simps?] def Point.sub (p q : Point) : Point :=
+  { x := p.x - q.x, y := p.y - q.y }
+
+end Simp --#
