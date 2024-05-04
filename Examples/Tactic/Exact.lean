@@ -13,7 +13,7 @@ example (hP : P) (hQ : Q) : P ∧ Q := by
 
 example (hP : P) (hQ : Q) : P ∧ Q := And.intro hP hQ
 
-/-! なお `And` 構造体なので匿名コンストラクタ記法を用いて次のように書くこともできます．-/
+/-! なお `And` は構造体なので無名コンストラクタ記法を用いて次のように書くこともできます．-/
 
 example (hP : P) (hQ : Q) : P ∧ Q := ⟨hP, hQ⟩
 
