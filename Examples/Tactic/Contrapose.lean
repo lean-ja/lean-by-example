@@ -4,7 +4,7 @@
 ローカルコンテキストに `h : P` という仮定があるときに `contrapose h` を実行すると，ゴールの否定がローカルコンテキストに追加されて，同時にゴールが `⊢ ¬ P` に変わります．
 -/
 import Mathlib.Tactic.Contrapose -- contrapose のために必要
-import Mathlib.Data.Int.Basic
+import Mathlib.Init.Data.Int.Order
 
 namespace Contrapose --#
 

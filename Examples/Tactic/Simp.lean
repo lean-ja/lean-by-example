@@ -121,8 +121,8 @@ example (a b : Point) : (Point.add a b).x = a.x + b.x := by
 
 /--
 info: [simps.verbose] adding projection Simp.Point.sub_x:
-      ∀ (p q : Simp.Point), (Simp.Point.sub p q).x = p.x - q.x
-[simps.verbose] adding projection Simp.Point.sub_y: ∀ (p q : Simp.Point), (Simp.Point.sub p q).y = p.y - q.y
+      ∀ (p q : Simp.Point), (p.sub q).x = p.x - q.x
+[simps.verbose] adding projection Simp.Point.sub_y: ∀ (p q : Simp.Point), (p.sub q).y = p.y - q.y
 -/
 #guard_msgs in --#
 @[simps?] def Point.sub (p q : Point) : Point :=

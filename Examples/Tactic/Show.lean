@@ -38,7 +38,6 @@ example (h : a * x < b) (ha : a > 0) : x < b / a := by
 
     -- 分母を払う
     field_simp
-    ring
 
 /-!
 ## ゴールの状態を確認する
