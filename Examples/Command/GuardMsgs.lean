@@ -14,7 +14,7 @@ import Mathlib.Algebra.Group.Defs -- 逆数を使うために必要 --#
 #guard_msgs in
 #eval (2 + "hello" : String)
 
-/-!
+/-! ## 空白の扱い
 `#guard_msgs` コマンドは空白の数に敏感で，空白の長さによって通ったり通らなかったりします．
 次の例では，`instance` と `Inv α` の間に不自然に空白がありますが，この長さの空白でないとエラーになります．
 -/
@@ -27,4 +27,10 @@ error: failed to synthesize instance   Inv α
 #guard_msgs in
 #check (_ : α)⁻¹
 
-#print Inv
+/- しかし，`whitespace` という引数に `lax` を指定することにより，この空白に関する制限は緩めることができます．-/
+
+/--
+error: failed to synthesize instance Inv α
+-/
+#guard_msgs (whitespace := lax) in
+#check (_ : α)⁻¹
