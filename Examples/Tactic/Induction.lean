@@ -149,4 +149,31 @@ theorem fib_eq (n : Nat) : fibonacci n = fib n := by
     -- 帰納法の仮定を適用して示す
     simp [ih_n, ih_succ]
 
+/- ## 帰納原理の自動生成
+再帰的な関数 `foo` を定義すると，その裏で Lean が帰納原理(induction principle) `foo.induct` を生成します．こうして生成された帰納原理は，`induction .. using foo.induct` という構文で使用することができます．
+-/
+
+-- `fibonacci` 関数に対して自動生成された帰納法の原理
+#print fibonacci.induct
+
+example {n : Nat} : fibonacci n = fib n := by
+  induction n using fibonacci.induct
+
+  case case1 =>
+    rfl
+
+  case case2 =>
+    rfl
+
+  case case3 n ih1 ih2 =>
+    simp [fibonacci, ih1, ih2]
+
+/- 帰納原理が生成されるのは再帰的な関数のみです．再帰的でない関数には生成されません．-/
+
+def bar : Nat → Nat
+  | 0 => 0
+  | _ => 1
+
+#check_failure bar.induct
+
 end Induction --#
