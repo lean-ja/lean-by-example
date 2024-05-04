@@ -30,6 +30,8 @@ has type
   Prop : Type
 but is expected to have type
   Bool : Type
+---
+error: cannot evaluate code because 'sorryAx' uses 'sorry' and/or contains errors
 -/
 #guard_msgs in --#
 #guard (α : Type) → ∀ (l : List α), [] ⊆ l

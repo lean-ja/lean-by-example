@@ -30,7 +30,7 @@ error: failed to synthesize instance   Inv α
 例えば実数 `ℝ` に対して逆数は定義できるだろうと予想されますが，実際 `ℝ` は `Inv` のインスタンスであることが確認できます．
 -/
 
-/-- info: Real.instInvReal -/
+/-- info: Real.instInv -/
 #guard_msgs in --#
 #synth Inv Real
 

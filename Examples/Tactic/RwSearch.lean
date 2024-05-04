@@ -28,5 +28,7 @@ example (h : n + m = 0) : n = 0 ↔ m = 0 := by
   -- ゴールは等式ではありませんと言われてエラーになる
   fail_if_success rw_search
 
-  rw? says
-    rw [propext (eq_zero_iff_eq_zero_of_add_eq_zero h)]
+  -- 複数の候補を出してしまうが，候補は出してくれる
+  rw?
+
+  sorry
