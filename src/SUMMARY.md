@@ -54,6 +54,7 @@
 - [fun_prop: 関数の諸性質を示す](./Tactic/FunProp.md)
 - [funext: 関数等式を示す](./Tactic/Funext.md)
 - [gcongr: 合同性を用いる](./Tactic/Gcongr.md)
+- [generalize: 一般化する](./Tactic/Generalize.md)
 - [guard_hyp: 仮定や補題を確認](./Tactic/GuardHyp.md)
 - [have: 補題を用意する](./Tactic/Have.md)
 - [hint: 複数のタクティクを同時に試す](./Tactic/Hint.md)
