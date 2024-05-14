@@ -1,0 +1,21 @@
+name: Update Lean
+on:
+  schedule:
+    - cron: "0 11 * * 4"
+  workflow_dispatch:
+
+jobs:
+  update_lean:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+      contents: write
+    steps:
+      - name: Update Lean project
+        uses: oliver-butterley/lean-update-action@v1-alpha.3
+        with:
+          #  Allowed values: "silent", "commit", "issue" or "pr". Default: "commit".
+          on_update_succeeds: pr
+          # Allowed values: "silent", "issue" or "fail". Default: "issue".
+          on_update_fails: issue
