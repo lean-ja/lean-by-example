@@ -58,7 +58,7 @@ example (a b c: Point) : (a + b) + c + (a + b) = a + a + b + b + c := by
 /- `ac_rfl` は，上記の構造体 `Point` の例のように，自分で定義した演算が可換で結合的であることを後から簡単に利用できるようにしておきたいときに役立ちます．ここで `@[simp]` タグを付けるのは，可換性や結合法則は項の簡約ではないため上手くいかないということに注意してください．-/
 
 /- ## よくあるエラー
-`ac_rfl` は，可換性と結合性の両方がインスタンスとして登録されていないと使えません．片方だけでは不可です．たとえ可換性だけで示せるゴールであっても，可換性だけを登録していたのでは示せません．
+`ac_rfl` は，可換性と結合性の両方がインスタンスとして登録されていないと使えないことがあります．以下は，可換性だけが登録されているときに，可換性だけで示せそうな命題が示せないという例です．
 -/
 
 @[ext]
@@ -75,9 +75,11 @@ def add (a b : Color) : Color :=
 instance : Add Color where
   add := add
 
+/-- `add` は可換 -/
 protected theorem add_comm (a b : Color) : a + b = b + a := by
   ext <;> apply Nat.add_comm
 
+/-- `add_comm` を `Std.Commutative` に登録する -/
 instance : Std.Commutative (α := Color) (· + ·) where
   comm := Color.add_comm
 
@@ -92,3 +94,6 @@ a b : Color
 #guard_msgs in --#
 example (a b : Color) : a + b = b + a := by
   ac_rfl
+
+end Color
+
