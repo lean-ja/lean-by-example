@@ -1,5 +1,5 @@
 # see: https://github.com/rami3l/plfl/blob/master/.github/workflows/ci.yml
-name: Lake Build
+name: CI
 
 # https://docs.github.com/en/actions/using-jobs/using-concurrency#example-only-cancel-in-progress-jobs-or-runs-for-the-current-workflow
 concurrency:
@@ -17,23 +17,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Install elan
-        run: |
-          curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y --default-toolchain $(cat lean-toolchain)
-          echo "$HOME/.elan/bin" >> $GITHUB_PATH
-
-      - name: Cache dependencies
-        uses: actions/cache@v3
+      - name: lean action
+        uses: leanprover/lean-action
         with:
-          path: .lake
-          key: deps-${{ runner.os }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}
-          restore-keys: |
-            deps-${{ runner.os }}-${{ hashFiles('lean-toolchain') }}
-
-      - name: get mathlib cache
-        run: lake exe cache get
-
-      - name: run 'lake build'
-        run: lake build --quiet
+          test: false
