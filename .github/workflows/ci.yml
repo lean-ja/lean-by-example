@@ -20,6 +20,6 @@ jobs:
         uses: actions/checkout@v4
 
       - name: lean action
-        uses: leanprover/lean-action
+        uses: leanprover/lean-action@v1-alpha
         with:
           test: false
