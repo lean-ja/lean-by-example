@@ -27,3 +27,9 @@ example (hPQ : P → Q) (hQR : Q → R) : P → R := by?
   -- `Try this: fun hP => hQR (hPQ hP)` と提案してくれる
   intro hP
   exact hQR (hPQ hP)
+
+/-- info: Try this: fun hP => hQR (hPQ hP) -/
+#guard_msgs in
+example (hPQ : P → Q) (hQR : Q → R) : P → R := show_term by
+  intro hP
+  exact hQR (hPQ hP)
