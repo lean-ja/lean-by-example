@@ -2,8 +2,7 @@
 `#time` は，コマンドの実行時間を計測するためのコマンドです．ミリ秒単位で結果を出してくれます．
 -/
 import Mathlib.Util.Time
-
-namespace Time
+namespace Time --#
 
 -- フィボナッチ数列の遅い実装
 -- `n` に関して指数関数的な時間がかかる
@@ -29,4 +28,4 @@ where
 -- 10 ms 程度で終わる
 #time #eval fib 32
 
-end Time
+end Time --#
