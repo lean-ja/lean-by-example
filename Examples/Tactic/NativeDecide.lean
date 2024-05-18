@@ -32,5 +32,4 @@ def gcd (m n : Nat) : Nat :=
 theorem native : Nat.gcd 42998431 120019 = 1 := by native_decide
 
 /-- info: 'native' depends on axioms: [propext, Lean.ofReduceBool] -/
-#guard_msgs in --#
-#print axioms native
+#guard_msgs in #print axioms native
