@@ -1,6 +1,6 @@
 /- # omega
 
-`omega` タクティクは，[「The omega test: a fast and practical integer programming algorithm for dependence analysis」](https://doi.org/10.1145/125826.125848)に基づいて実装されたタクティクで，整数や自然数の線形制約を扱う能力を持ちます．
+`omega` タクティクは，[「The omega test: a fast and practical integer programming algorithm for dependence analysis」](https://dl.acm.org/doi/pdf/10.1145/125826.125848)に基づいて実装されたタクティクで，整数や自然数の線形制約を扱う能力を持ちます．
 
 似たタクティクに `linarith` がありますが, `linarith` が有理数や実数を扱うのに長けているのに対して，`omega` は自然数や整数を扱うのに長けています．
 -/
