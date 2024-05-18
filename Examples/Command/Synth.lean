@@ -21,8 +21,7 @@ variable (α : Type)
 /--
 error: failed to synthesize instance   Inv α
 -/
-#guard_msgs in --#
-#check (_ : α)⁻¹
+#guard_msgs in #check (_ : α)⁻¹
 
 /-! 一般の型に対して逆数は定義できないので，エラーになってしまいました．エラーメッセージで `α` は `Inv` のインスタンスではないと言われています．この `Inv` が型クラスです．`Inv` のインスタンスであるような型 `T` に対しては，逆数関数 `(·)⁻¹ : T → T` が定義できるというわけです．-/
 
@@ -31,14 +30,12 @@ error: failed to synthesize instance   Inv α
 -/
 
 /-- info: Real.instInv -/
-#guard_msgs in --#
-#synth Inv Real
+#guard_msgs in #synth Inv Real
 
 /-! 自然数 `ℕ` に対しては逆数が定義されていないと予想されますが，実際 `Inv` のインスタンスになっていません．-/
 
 /-- error: failed to synthesize   Inv ℕ -/
-#guard_msgs in --#
-#synth Inv Nat
+#guard_msgs in #synth Inv Nat
 
 /-! 自分で無理やり `ℕ` を `Inv` のインスタンスにしてみると，通るようになります．ここでは逆数関数を常に `1` になる定数関数としてみましょう．-/
 

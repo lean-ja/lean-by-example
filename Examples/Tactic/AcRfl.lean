@@ -91,9 +91,7 @@ is not definitionally equal to rhs
 a b : Color
 ⊢ a + b = b + a
 -/
-#guard_msgs in --#
-example (a b : Color) : a + b = b + a := by
+#guard_msgs in example (a b : Color) : a + b = b + a := by
   ac_rfl
 
 end Color
-

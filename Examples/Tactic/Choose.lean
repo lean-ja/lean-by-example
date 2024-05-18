@@ -19,12 +19,10 @@ theorem choice (h : ∀ x, ∃ y, P x y) : ∃ f : X → Y, ∀ x, P x (f x) := 
 -/
 
 /-- info: 'choice' depends on axioms: [Classical.choice] -/
-#guard_msgs in --#
-#print axioms choice
+#guard_msgs in #print axioms choice
 
 /-- info: @Classical.choice : {α : Sort u_1} → Nonempty α → α -/
-#guard_msgs in --#
-#check @Classical.choice
+#guard_msgs in #check @Classical.choice
 
 /-! ## choose なしで示した場合
 
