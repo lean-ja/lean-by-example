@@ -2,16 +2,20 @@
 `#print` コマンドには複数の機能がありますが，単体で使うと定義を表示することができます．
 -/
 
--- inductive Or : Prop → Prop → Prop
--- number of parameters: 2
--- constructors:
--- Or.inl : ∀ {a b : Prop}, a → a ∨ b
--- Or.inr : ∀ {a b : Prop}, b → a ∨ b
-#print Or
+/--
+info: inductive Or : Prop → Prop → Prop
+number of parameters: 2
+constructors:
+Or.inl : ∀ {a b : Prop}, a → a ∨ b
+Or.inr : ∀ {a b : Prop}, b → a ∨ b
+-/
+#guard_msgs in #print Or
 
--- theorem Nat.add_succ : ∀ (n m : ℕ), n + Nat.succ m = Nat.succ (n + m) :=
--- fun n m => rfl
-#print Nat.add_succ
+/--
+info: theorem Nat.add_succ : ∀ (n m : Nat), n + m.succ = (n + m).succ :=
+fun n m => rfl
+-/
+#guard_msgs in #print Nat.add_succ
 
 /-!
 ## 依存公理を確認
@@ -23,7 +27,7 @@
 example : ∀ (p : Prop), p ∨ ¬p := Classical.em
 
 /-- info: 'Classical.em' depends on axioms: [Classical.choice, propext, Quot.sound] -/
-#guard_msgs in --#
+#guard_msgs in
 #print axioms Classical.em
 
 /-! また，`sorry` という命題を「証明したことにする」タクティクがありますが，これは `sorryAx` という万能な公理を導入していることが確認できます．-/
@@ -31,5 +35,5 @@ example : ∀ (p : Prop), p ∨ ¬p := Classical.em
 theorem contra : False := by sorry
 
 /-- info: 'contra' depends on axioms: [sorryAx] -/
-#guard_msgs in --#
+#guard_msgs in
 #print axioms contra
