@@ -16,7 +16,7 @@ example (h : 2 ≤ a + b) : 1 ≤ a := by
   (0 shrinks)
   -------------------
   -/
-  try slim_check
+  fail_if_success slim_check
 
   sorry
 
@@ -27,4 +27,4 @@ example (h : 2 ≤ a + b) : 1 ≤ a := by
 
 -- Gave up ** times と表示される
 example (h : a = 1) : a ≤ 1 := by
-  try slim_check
+  slim_check
