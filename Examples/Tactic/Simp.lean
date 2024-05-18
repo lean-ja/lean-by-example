@@ -8,6 +8,13 @@ namespace Simp --#
 
 variable {P Q R : Prop}
 
+example : (P ∨ Q ∨ R) ∧ R ↔ R := by
+  -- simp だけでは証明が終わらない
+  simp
+  show R → P ∨ Q ∨ R
+
+  sorry
+
 @[simp]
 theorem or_and : (P ∨ Q ∨ R) ∧ R ↔ R := by
   constructor
@@ -75,6 +82,14 @@ example : (P ∨ Q ∨ R) ∧ R ↔ R := by
 -/
 
 example {x y : Nat} : 0 < 1 + x ∧ x + y + 2 ≥ y + 1 := by
+  -- `simp` だけでは証明が終わらない
+  simp
+  show y ≤ x + y + 1
+
+  sorry
+
+example {x y : Nat} : 0 < 1 + x ∧ x + y + 2 ≥ y + 1 := by
+  -- config を与えれば一発で終わる
   simp (config := { arith := true, decide := true })
 
 example {x y : Nat} : 0 < 1 + x ∧ x + y + 2 ≥ y + 1 := by
@@ -124,7 +139,7 @@ info: [simps.verbose] adding projection Simp.Point.sub_x:
       ∀ (p q : Simp.Point), (p.sub q).x = p.x - q.x
 [simps.verbose] adding projection Simp.Point.sub_y: ∀ (p q : Simp.Point), (p.sub q).y = p.y - q.y
 -/
-#guard_msgs in --#
+#guard_msgs (whitespace := lax) in
 @[simps?] def Point.sub (p q : Point) : Point :=
   { x := p.x - q.x, y := p.y - q.y }
 
