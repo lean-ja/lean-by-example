@@ -12,6 +12,8 @@ jobs:
       pull-requests: write
       contents: write
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
       - name: Update Lean project
         uses: oliver-butterley/lean-update-action@v1-alpha.3
         with:
