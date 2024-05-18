@@ -14,11 +14,19 @@ example : ∃ x : Nat, 3 * x + 1 = 7 := by
 
 universe u
 
-inductive Exists {α : Sort u} (p : α → Prop) : Prop where
-  /-- `a : α` と `h : p a` が与えられたとき `∃ x : α, p x` が成り立つ. -/
-  | intro (w : α) (h : p w) : Exists p
+/--
+info: inductive Exists.{u} : {α : Sort u} → (α → Prop) → Prop
+number of parameters: 2
+constructors:
+Exists.intro : ∀ {α : Sort u} {p : α → Prop} (w : α), p w → Exists p
+-/
+#guard_msgs in #print Exists
 
-/- したがって上記の `exists` は `exact` で次のように書き直すことができます．-/
+-- `p : α → Prop` は `α` 上の述語とする．
+-- このとき `w : α` と `h : p w` が与えられたとき `∃ x : α, p x` が成り立つ.
+#check (Exists.intro : ∀ {α : Sort u} {p : α → Prop} (w : α) (h : p w), Exists p)
+
+/- したがって `Exists` は単一のコンストラクタを持つ帰納型，つまり構造体なので，上記の `exists` は `exact` と無名コンストラクタで次のように書き直すことができます．-/
 
 example : ∃ x : Nat, 3 * x + 1 = 7 := by
   exact ⟨2, show 3 * 2 + 1 = 7 from by rfl⟩
