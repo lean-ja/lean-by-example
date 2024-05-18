@@ -6,7 +6,7 @@
 import Mathlib.Tactic.Ring
 import Mathlib.Tactic.Cases -- `induction'` のために必要
 
-namespace InductionAp
+namespace InductionAp --#
 
 /-- `0` から `n` までの和を計算する.
 多項式関数として表現する都合で，返り値は `Rat` にしてある. -/
