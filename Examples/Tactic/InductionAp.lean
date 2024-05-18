@@ -185,4 +185,4 @@ example : fibonacci = fib := by
   | 1 => rfl
   | n + 2 => simp_all [fibonacci]
 
-end InductionAp
+end InductionAp --#
