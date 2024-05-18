@@ -3,14 +3,17 @@
 `apply?` は，カレントゴールを `apply` や [refine](./Refine.md) で変形することができないか，ライブラリから検索して提案してくれるタクティクです．
 複数の候補が提案されたときは，どれを選ぶとゴールが何に変わるのか表示されるので，その中から好ましいものを選ぶと良いでしょう．-/
 import Mathlib.Algebra.Algebra.Basic -- 群を使うのに必要
+import Mathlib.Tactic.Says -- `says` を使うのに必要
+
+set_option says.verify true
 
 variable (G H : Type)
 
-/-- 群準同型は積を保つ -/
+/-- 群順同型が積を保つという定理 -/
 example [Group G] [Group H] (f : G →* H) (a b : G) :
     f (a * b) = f a * f b := by
   -- `exact MonoidHom.map_mul f a b` を提案してくれる
-  apply?
+  apply? says exact MonoidHom.map_mul f a b
 
 /-!
 ## 補足
@@ -27,5 +30,4 @@ theorem T (x y : Nat) (_: x ≤ y) : 8 ^ x ≤ 16 ^ y := by
   done
 
 /-- info: 'T' depends on axioms: [propext, sorryAx] -/
-#guard_msgs in --#
-#print axioms T
+#guard_msgs in #print axioms T
