@@ -15,6 +15,7 @@ example : f = g := by
   unfold f g
 
   -- `x + x` と `2 * x` が等しいことを証明する
+  show x + x = 2 * x
   ring
 
 /- なお `funext` は `ext` で置き換えることができます．-/
