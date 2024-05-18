@@ -35,8 +35,8 @@ example (n : Nat) : sum n = n * (n + 1) / 2 := by
     -- 後は可換環の性質から示せる
     ring
 
-/-! ## induction を使用しない帰納法
-Lean では，実は帰納法を使用するのに必ずしも `induction` は必要ありません．場合分けの中で示されたケースを帰納法の仮定として使うことができます．
+/-! ## 再帰定理
+Lean では，実は帰納法を使用するのに必ずしも `induction` は必要ありません．場合分けの中で示されたケースを帰納法の仮定として使うことができます．これは recursive theorem(再帰定理) と呼ばれることがあります．[^recursive]
 -/
 
 theorem sum_exp (n : Nat) : sum n = n * (n + 1) / 2 := by
@@ -177,3 +177,7 @@ def bar : Nat → Nat
 #check_failure bar.induct
 
 end Induction --#
+
+/-
+[^recursive]: [lean公式ブログの Functional induction についての記事](https://lean-lang.org/blog/2024-5-17-functional-induction/) で recursive theorem という言葉が使われています．
+-/
