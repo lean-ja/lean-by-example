@@ -3,7 +3,10 @@
 ゴールが `P` で，ローカルコンテキストに `hP : P` があるときに，`exact hP` はゴールを閉じます．`hP` がゴールの証明になっていないときには，失敗してエラーになります．-/
 variable (P Q : Prop)
 
-example (hP : P) : P := by
+example (hP : P) (hQ : Q) : P := by
+  -- `hQ : Q` は `P` の証明ではないのでもちろん失敗する
+  fail_if_success exact hQ
+
   exact hP
 
 /-! `exact` は与えられた証明項をそのまま証明として使うタクティクなので，`by exact` だけで証明が終わるときには，`by exact` を消しても証明が通ります．-/
