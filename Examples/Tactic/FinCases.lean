@@ -11,18 +11,18 @@
 import Mathlib.Tactic.FinCases
 
 example {n : ℕ} (h : n ∈ [2, 4, 42]) : 2 ∣ n := by
+  -- n に 2, 4, 42 を順に代入した 3 つのゴールが生成される
   fin_cases h
-  /-
-  n に 2, 4, 42 を順に代入した
 
-  ⊢ 2 ∣ 2
-  ⊢ 2 ∣ 4
-  ⊢ 2 ∣ 42
-
-  の 3 つのゴールが生じる
-  -/
   -- あとはそれぞれのゴールに対して具体的に計算して証明する
-  all_goals decide
+  next =>
+    show 2 ∣ 2; decide
+
+  next =>
+    show 2 ∣ 4; decide
+
+  next =>
+    show 2 ∣ 42; decide
 
 /-
 `fin_cases` を使わない場合, 以下のように `cases` を繰り返し用いて一つずつケースを取り出すことになります.
@@ -32,16 +32,22 @@ example {n : ℕ} (h : n ∈ [2, 4, 42]) : 2 ∣ n := by
   cases h
   case head =>
     show 2 ∣ 2; decide
-  case tail h => -- h : n ∈ [4, 42]
+  case tail h =>
+    -- n ∈ [4, 42] であるケース
+    change n ∈ [4, 42] at h
     cases h
     case head =>
       show 2 ∣ 4; decide
-    case tail h => -- h : n ∈ [42]
+    case tail h =>
+      -- n ∈ [42] であるケース
+      change n ∈ [42] at h
       cases h
       case head =>
         show 2 ∣ 42; decide
-      case tail h => -- h : n ∈ []
-        cases h
+      case tail h =>
+        -- n ∈ [] であるケース
+        change n ∈ [] at h
+        contradiction
 
 /-
 `fin_cases` は `List α` のほかに, `Finset α` と `Multiset α` に対して適用可能です.
