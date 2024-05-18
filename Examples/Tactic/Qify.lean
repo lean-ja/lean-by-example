@@ -30,7 +30,7 @@ def sum (n : Nat) : Nat :=
 @[simp]
 theorem sum_zero : sum 0 = 0 := by rfl
 
-/-- ある多項式．割り算を含むので返り値が `Rat` になっている -/
+/-- 和を計算する多項式．割り算を含むので返り値が `Rat` になっている -/
 def sumPoly (n : Nat) : Rat := n * (n + 1) / 2
 
 /-- `sumPoly` が `sum` と同じ漸化式を満たす -/

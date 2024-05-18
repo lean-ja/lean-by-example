@@ -31,7 +31,7 @@ variable (isDrinking : People → Prop)
 /-- ある `x` という人が存在して，以下が成り立つ:
 「`x` が飲んでいるのであれば，すべての人が飲んでいる」 -/
 example : ∃ (x : People), isDrinking x → ∀ (y : People), isDrinking y := by
-  -- 「すべての人が飲んでいる」かどうかで場合分けをします
+  -- 「すべての人が飲んでいる」かどうかで場合分けをする
   by_cases h : ∀ (y:People), isDrinking y
 
   case pos =>
@@ -43,7 +43,7 @@ example : ∃ (x : People), isDrinking x → ∀ (y : People), isDrinking y := b
 
   case neg =>
     -- 「すべての人が飲んでいる」が偽の場合.
-    -- このとき，飲んでいない人が存在します．
+    -- このとき，飲んでいない人が存在する.
     push_neg at h
 
     -- このとき，飲んでいない人を `x` として取れば前件が偽になるので条件を満たす
