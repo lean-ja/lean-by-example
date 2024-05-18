@@ -55,3 +55,12 @@ example (h0 : m ≠ 0) (h1 : m ≠ 1) (h2 : m ≠ 2) : 3 ≤ m := by
 
   -- これは明らか
   simp
+
+/-- 補足．おそらく最も簡潔な証明． -/
+example (h0 : m ≠ 0) (h1 : m ≠ 1) (h2 : m ≠ 2) : 3 ≤ m := by
+  let .succ m := m
+  let .succ m := m
+  let .succ m := m
+
+  show 3 ≤ m + 3
+  simp
