@@ -33,16 +33,19 @@ example : 7 - 42 = 0 := rfl
 -- 整数にすると結果が変わる
 example : 7 - (42 : ℤ) = - 35 := rfl
 
-variable (n : ℕ)
-
-example : n - n + n = n := by
-  -- `Try this: ring_nf` と言われる
+/-- info: Try this: ring_nf -/
+#guard_msgs in
+example {n : Nat} : n - n + n = n := by
+  -- `ring_nf` を提案される
   try ring
 
-  -- 代わりに `ring_nf` を使ってもこの場合は効果なし
-  ring_nf
+  simp
 
+example {n : Nat} : n - n + n = n := by
+  -- 提案通りに `ring_nf` を使っても効果なし
+  ring_nf
   show n - n + n = n
+
   simp
 
 /-! ## ring の中身を見る方法
