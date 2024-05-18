@@ -48,9 +48,17 @@ example : P ∨ Q → (P → R) → (Q → R) → R := by
 -/
 namespace Cases --#
 
-inductive Or (a b : Prop) : Prop where
-  | inl (h : a) : Or a b
-  | inr (h : b) : Or a b
+/--
+info: inductive Or : Prop → Prop → Prop
+number of parameters: 2
+constructors:
+Or.inl : ∀ {a b : Prop}, a → a ∨ b
+Or.inr : ∀ {a b : Prop}, b → a ∨ b
+-/
+#guard_msgs in #print Or
+
+#check (Or.inl : P → P ∨ Q)
+#check (Or.inr : Q → P ∨ Q)
 
 end Cases --#
 
@@ -66,7 +74,7 @@ example : P ∨ Q → (P → R) → (Q → R) → R := by
   · apply hPR hP
   · apply hQR hQ
 
--- 論理積 ∧ に対しても使えます
+-- 論理積 ∧ に対しても使える
 example : P ∧ Q → Q ∧ P := by
   -- `h: P ∧ Q` と仮定する
   intro h
