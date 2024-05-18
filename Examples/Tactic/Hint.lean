@@ -18,28 +18,52 @@ import Mathlib.Tactic -- `hint` は検索を伴うので，おおざっぱに im
 
 variable (P Q R : Prop) (a b : ℕ)
 
+/--
+info: Try these:
+• linarith
+-/
+#guard_msgs in
 example (h : 1 < 0) : False := by
-  -- linarith
   hint
 
+/--
+info: Try these:
+• exact h p
+-/
+#guard_msgs in
 example (p : P) (h : P → Q) : Q := by
-  -- exact h p
   hint
 
+/--
+info: Try these:
+• simp_all only [and_self]
+-/
+#guard_msgs in
 example (x : P ∧ Q ∧ R ∧ R) : Q ∧ P ∧ R := by
-  -- simp_all only [and_self]
   hint
 
+/--
+info: Try these:
+• linarith
+-/
+#guard_msgs in
 example (h : a < b) : ¬ b < a := by
-  -- linarith
   hint
 
+/--
+info: Try these:
+• omega
+-/
+#guard_msgs in
 example : 37^2 - 35^2 = 72 * 2 := by
-  -- exact rfl
   hint
 
+/--
+info: Try these:
+• decide
+-/
+#guard_msgs in
 example : Nat.Prime 37 := by
-  -- exact (Nat.prime_iff_card_units 37).mpr rfl
   hint
 
 /-!
@@ -50,6 +74,10 @@ example : Nat.Prime 37 := by
 
 register_hint nlinarith
 
+/--
+info: Try these:
+• nlinarith
+-/
+#guard_msgs in
 example (h : a ≤ b) : (a + b) ^ 2 ≤ 4 * b ^ 2 := by
-  -- nlinarith
   hint
