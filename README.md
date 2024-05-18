@@ -1,6 +1,6 @@
 # README
 
-![workflow](https://github.com/lean-ja/tactic-cheatsheet/actions/workflows/ci.yml/badge.svg) ![workflow](https://github.com/lean-ja/tactic-cheatsheet/actions/workflows/deploy.yml/badge.svg)
+![workflow](https://github.com/lean-ja/tactic-cheatsheet/actions/workflows/ci.yml/badge.svg) ![workflow](https://github.com/lean-ja/tactic-cheatsheet/actions/workflows/deploy.yml/badge.svg) ![workflow](https://github.com/lean-ja/tactic-cheatsheet/actions/workflows/update.yml/badge.svg)
 
 Lean4 の主要なタクティクを使いたい場面から逆引きできるようにまとめたリストです．
 
