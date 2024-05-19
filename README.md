@@ -4,7 +4,7 @@
 
 ![workflow](https://github.com/lean-ja/tactic-cheatsheet/actions/workflows/ci.yml/badge.svg) ![workflow](https://github.com/lean-ja/tactic-cheatsheet/actions/workflows/deploy.yml/badge.svg) ![workflow](https://github.com/lean-ja/tactic-cheatsheet/actions/workflows/update.yml/badge.svg)
 
-Lean4 の主要なタクティクを使いたい場面から逆引きできるようにまとめたリストです．
+Lean4 の主要なタクティクを使いたい場面から逆引きできるようにまとめたリストです．Lean4 で数学理論の形式化をする際に使われる主要なライブラリである，mathlib のタクティクも紹介しています．
 
 ## CONTRIBUTING
 
