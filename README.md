@@ -1,6 +1,6 @@
 # README
 
-[![repo logo](./src/image/project_image.webp)](https://github.com/wei/socialify)
+[![repo logo](./src/image/project_image.png)](https://github.com/wei/socialify)
 
 ![workflow](https://github.com/lean-ja/tactic-cheatsheet/actions/workflows/ci.yml/badge.svg) ![workflow](https://github.com/lean-ja/tactic-cheatsheet/actions/workflows/deploy.yml/badge.svg) ![workflow](https://github.com/lean-ja/tactic-cheatsheet/actions/workflows/update.yml/badge.svg)
 
