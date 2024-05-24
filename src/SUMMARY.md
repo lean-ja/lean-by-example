@@ -6,7 +6,7 @@
 
 ---
 
-# コマンド紹介
+# 対話的コマンド紹介
 
 - [#check_failure: 意図的なエラー](./Command/CheckFailure.md)
 - [#check: 型を調べる](./Command/Check.md)
