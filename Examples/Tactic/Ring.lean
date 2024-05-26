@@ -3,9 +3,18 @@
 `ring` は，可換環の等式を示します．ローカルコンテキストの仮定は読まず，環の公理だけを使います．-/
 import Mathlib.Tactic.Ring -- `ring` のために必要
 
-variable (x y : ℤ)
+variable (x y z : ℤ)
 
 example : (x + y) ^ 2 = x ^ 2 + 2 * x * y + y ^ 2 := by
+  ring
+
+example (hz : z = x + y) : x * z = x ^ 2 + x * y := by
+  -- `ring` はローカルコンテキストの仮定を読まないので，これは通らない
+  ring
+  show x * z = x * y + x ^ 2
+
+  -- `rw` などで，環の公理だけを使って示せる形にすれば OK
+  rw [hz]
   ring
 
 /-! ## ring_nf
