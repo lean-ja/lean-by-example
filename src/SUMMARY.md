@@ -74,7 +74,7 @@
 - [rename_i: 死んだ変数に名前を付ける](./Tactic/RenameI.md)
 - [repeat: 繰り返し適用](./Tactic/Repeat.md)
 - [replace: 補題の入れ替え](./Tactic/Replace.md)
-- [rfl: 関係の反射性を示す](./Tactic/Rfl.md)
+- [rfl: 関係の反射性を利用する](./Tactic/Rfl.md)
 - [ring: 可換環の等式を示す](./Tactic/Ring.md)
 - [rw_search: rw で示せるか検索](./Tactic/RwSearch.md)
 - [rw: 同値変形](./Tactic/Rw.md)
