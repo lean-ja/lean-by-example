@@ -29,7 +29,7 @@ theorem choice (h : ∀ x, ∃ y, P x y) : ∃ f : X → Y, ∀ x, P x (f x) := 
 `choose` が自動で示してくれることを選択原理 `Classical.choice` を使って手動で示すと例えば以下のようになります．
 -/
 
-noncomputable example (h : ∀ x, ∃ y, P x y) : ∃ f : X → Y, ∀ x, P x (f x) := by
+example (h : ∀ x, ∃ y, P x y) : ∃ f : X → Y, ∀ x, P x (f x) := by
   -- `f` を作る
   let f' : (x : X) → {y // P x y} := by
     intro x
