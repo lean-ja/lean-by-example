@@ -10,6 +10,7 @@
 `@[ext]` で登録されたルールを使用するため，集合の等式 `A = B` を示すときは `Mathlib.Data.SetLike.Basic` も必要です. -/
 import Aesop -- `aesop` タクティクを使うために必要
 import Mathlib.Data.SetLike.Basic -- `ext` タクティクで集合の等号を展開するために必要
+namespace Ext --#
 
 variable {α : Type}
 
@@ -24,3 +25,27 @@ example : s ∩ t = t ∩ s := by
   show x ∈ s ∩ t ↔ x ∈ t ∩ s
 
   aesop
+
+/- ## `ext` 属性
+`ext` 属性を命題に与えると，上記のようにその命題は `ext` タクティクで利用できるようになります．さらに，`ext` 属性は構造体に対しても与えることができます．このとき，その構造体に対して自動的に `.ext` と `.ext_iff` の２つの定理が生成されます．
+-/
+
+-- 最初は存在しない
+#check_failure Point.ext
+#check_failure Point.ext_iff
+
+variable {α : Type}
+
+@[ext] structure Point (α : Type) where
+  x : α
+  y : α
+
+-- 自動生成された定理
+-- 各フィールドの値が等しければ，2つの `Point` は等しいという主張
+#check (Point.ext : (x y : Point α) → x.x = y.x → x.y = y.y → x = y)
+
+-- 自動生成された定理その２
+-- 2つの `Point` の点が等しいことは，各フィールドの値が等しいことと同値
+#check (Point.ext_iff : (x y : Point α) → x = y ↔ x.x = y.x ∧ x.y = y.y)
+
+end Ext --#
