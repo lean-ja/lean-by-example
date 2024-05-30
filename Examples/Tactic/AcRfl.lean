@@ -10,7 +10,7 @@ structure Point : Type where
   y : Int
   z : Int
 
-namespace Point
+namespace Point --#
 
 /-- `Point` 上の足し算 -/
 def add (a b : Point) : Point :=
@@ -55,6 +55,8 @@ instance : Std.Associative (α := Point) (· + ·) where
 example (a b c: Point) : (a + b) + c + (a + b) = a + a + b + b + c := by
   ac_rfl
 
+end Point --#
+
 /- `ac_rfl` は，上記の構造体 `Point` の例のように，自分で定義した演算が可換で結合的であることを後から簡単に利用できるようにしておきたいときに役立ちます．ここで `@[simp]` タグを付けるのは，可換性や結合法則は項の簡約ではないため上手くいかないということに注意してください．-/
 
 /- ## よくあるエラー
@@ -67,7 +69,7 @@ structure Color : Type where
   g : Nat
   b : Nat
 
-namespace Color
+namespace Color --#
 
 def add (a b : Color) : Color :=
   ⟨a.r + b.r, a.g + b.g, a.b + b.b⟩
@@ -94,4 +96,30 @@ a b : Color
 #guard_msgs in example (a b : Color) : a + b = b + a := by
   ac_rfl
 
-end Color
+/- ## 結合法則と `ac_rfl`
+上記のように, `ac_rfl` は可換性だけで示せることを可換性だけで示せないのですが，往々にして結合法則だけで示せることは結合法則だけで示すことができます．
+-/
+
+-- 上記で与えた `Std.Commutative` のインスタンスを削除する
+attribute [-instance] instCommutativeHAdd
+
+-- 可換性のインスタンスがなくなった
+/--
+error: failed to synthesize
+  Std.Commutative fun x x_1 => x + x_1
+-/
+#guard_msgs in #synth Std.Commutative (α := Color) (· + ·)
+
+/-- `Color` の足し算は結合的 -/
+protected theorem add_assoc (a b c : Color) : a + b + c = a + (b + c) := by
+  ext <;> apply Nat.add_assoc
+
+/-- `add_comm` を `Std.Associative` に登録する -/
+instance : Std.Associative (α := Color) (· + ·) where
+  assoc := Color.add_assoc
+
+-- 結合法則だけで示せることは示すことができる
+example {a b c : Color} : (a + b) + (c + (b + a)) = a + b + c + b + a := by
+  ac_rfl
+
+end Color --#
