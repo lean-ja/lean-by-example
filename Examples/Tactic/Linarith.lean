@@ -3,7 +3,7 @@
 `linarith` は線形算術(linear arithmetic)を行うタクティクです．Fourier-Motzkin elimination を用いて，線形な(不)等式系から矛盾を導こうとします．一般に，ゴールが `False` でないときにはゴールの否定を仮定に加えることで，ゴールを閉じようとします． -/
 import Mathlib.Tactic.Linarith -- `linarith` のために必要
 import Mathlib.Util.Time -- `#time` を使うため --#
-import Std.Data.Rat.Basic -- `ℚ` のために必要
+import Batteries.Data.Rat.Basic -- `ℚ` のために必要
 
 variable (x y z : ℚ)
 

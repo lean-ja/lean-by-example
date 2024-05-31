@@ -2,7 +2,7 @@
   # guard
   `#guard` は与えられた Bool 値が true であることを確かめます．
 -/
-import Std.Data.List.Lemmas -- リストに対して `⊆` が使えるようにする
+import Batteries.Data.List.Lemmas -- リストに対して `⊆` が使えるようにする
 
 namespace guard --#
 
