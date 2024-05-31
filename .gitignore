@@ -6,6 +6,5 @@ book
 /.cache
 # After v4.3.0-rc2 lake stores its files here:
 /.lake/
-/src/Command/
-/src/Tactic/
+/src/Contents/
 *.olean
