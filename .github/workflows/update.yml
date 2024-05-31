@@ -15,7 +15,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Update Lean project
-        uses: oliver-butterley/lean-update-action@v1-alpha.3
+        uses: oliver-butterley/lean-update-action@v1-alpha
         with:
           #  Allowed values: "silent", "commit", "issue" or "pr". Default: "commit".
           on_update_succeeds: pr
