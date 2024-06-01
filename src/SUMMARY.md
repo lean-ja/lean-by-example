@@ -6,7 +6,7 @@
 
 ---
 
-- [対話的コマンド]()
+- [対話的コマンド](./Contents/DiagnosticCommand.md)
   - [#check_failure: 意図的なエラー](./Contents/CheckFailure.md)
   - [#check: 型を調べる](./Contents/Check.md)
   - [#eval: 式を評価する](./Contents/Eval.md)
@@ -19,7 +19,7 @@
   - [#synth: 型クラスの検査](./Contents/Synth.md)
   - [#time: 実行時間計測](./Contents/Time.md)
 
-- [タクティク]()
+- [タクティク](./Contents/Tactic.md)
   - [ac_rfl: 可換性と結合性を使う](./Contents/AcRfl.md)
   - [aesop: 自明な証明の自動探索](./Contents/Aesop.md)
   - [all_goals: 全ゴールに対して適用](./Contents/AllGoals.md)
