@@ -19,6 +19,12 @@
   - [#synth: 型クラスの検査](./Contents/Synth.md)
   - [#time: 実行時間計測](./Contents/Time.md)
 
+- [構文](./Contents/Syntaxes.md)
+  - [class: 型クラスを定義する](./Contents/Class.md)
+  - [inductive: 帰納型を定義する](./Contents/Inductive.md)
+  - [structure: 構造体を定義する](./Contents/Structure.md)
+  - [instance: インスタンスを定義する](./Contents/Instance.md)
+
 - [タクティク](./Contents/Tactic.md)
   - [ac_rfl: 可換性と結合性を使う](./Contents/AcRfl.md)
   - [aesop: 自明な証明の自動探索](./Contents/Aesop.md)
