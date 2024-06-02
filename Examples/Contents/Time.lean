@@ -1,4 +1,4 @@
-/- # time
+/- # `#time`
 `#time` は，コマンドの実行時間を計測するためのコマンドです．ミリ秒単位で結果を出してくれます．
 -/
 import Mathlib.Util.Time

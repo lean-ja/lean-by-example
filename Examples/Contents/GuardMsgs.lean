@@ -1,5 +1,5 @@
 /-
-# guard_msgs
+# `#guard_msgs`
 
 `#guard_msgs` コマンドは，あるコマンドの出力が与えられた文字列と一致するか検証します．
 -/
@@ -11,8 +11,7 @@ import Mathlib.Algebra.Group.Defs -- 逆数を使うために必要 --#
 
 /-- error: failed to synthesize instance
   HAdd ℕ String String -/
-#guard_msgs in
-#eval (2 + "hello" : String)
+#guard_msgs in #eval (2 + "hello" : String)
 
 /-! ## 空白の扱い
 `#guard_msgs` コマンドは空白の数に敏感で，空白の長さによって通ったり通らなかったりします．
@@ -24,13 +23,11 @@ variable (α : Type)
 /--
 error: failed to synthesize instance   Inv α
 -/
-#guard_msgs in
-#check (_ : α)⁻¹
+#guard_msgs in #check (_ : α)⁻¹
 
 /- しかし，`whitespace` という引数に `lax` を指定することにより，この空白に関する制限は緩めることができます．-/
 
 /--
 error: failed to synthesize instance Inv α
 -/
-#guard_msgs (whitespace := lax) in
-#check (_ : α)⁻¹
+#guard_msgs (whitespace := lax) in #check (_ : α)⁻¹

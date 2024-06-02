@@ -1,10 +1,9 @@
+/- # `#eval`
+`#eval` コマンドは，式の値を評価します．
+-/
 import Mathlib.Tactic --#
 
 namespace eval --#
-
-/-! # eval
-`#eval` コマンドは，式の値を評価します．
--/
 
 /-- info: 2 -/
 #guard_msgs in #eval 1 + 1
