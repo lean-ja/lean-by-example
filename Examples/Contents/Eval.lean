@@ -1,4 +1,4 @@
-/- # `#eval`
+/- # \#eval
 `#eval` コマンドは，式の値を評価します．
 -/
 import Mathlib.Tactic --#

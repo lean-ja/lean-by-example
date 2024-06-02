@@ -1,4 +1,4 @@
-/- # `#guard`
+/- # \#guard
 `#guard` は与えられた Bool 値が true であることを確かめます．
 -/
 import Batteries.Data.List.Lemmas -- リストに対して `⊆` が使えるようにする
