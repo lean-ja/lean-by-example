@@ -2,8 +2,6 @@
 
 「普段の数学を Lean でどうやって実現するんだろう」という疑問に答えるために，Lean や Mathlib のよく使うタクティクをユースケースから逆引きできるようにまとめたリストです．より便利にするため，タクティクだけでなく基本的なコマンドも紹介しています．
 
-なおこのタクティクリストは全タクティクのリストではありません．全タクティクのリストが必要であれば [mathlib4 tactics](https://seasawher.github.io/mathlib4-tactics) を参照してください．
-
 > この文書は lean-ja が管理しています．誤りのご指摘，ご提案などは [GitHub リポジトリ](https://github.com/lean-ja/tactic-cheatsheet)からお願いします．
 >
 > lean-ja の Discord サーバが[こちら](https://discord.gg/p32ZfnVawh)にあります．質問や相談などはこちらにどうぞ．
