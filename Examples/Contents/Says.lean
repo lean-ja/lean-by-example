@@ -39,6 +39,19 @@ example {f : X → Y} {g : Y → Z} (hgfinj : Injective (g ∘ f)) : Injective f
 
 /-! ## オプション
 
-* `says.verify : Bool` : `true` にすると，`X says Y` の `Y` のところに，実際には提案されていないタクティクを入れたときにエラーになります．
+`says.no_verify_in_CI : Bool` : `true` にすると，CI 環境で `X says Y` の `Y` の部分が実際に提案されている内容と一致するかのチェックが走らなくなります．-/
 
-* `says.no_verify_in_CI : Bool` : `true` にすると，CI 環境で `X says Y` の `Y` の部分が実際に提案されている内容と一致するかのチェックが走らなくなります．-/
+-- CI 環境でのチェックを無効にする
+set_option says.no_verify_in_CI true
+
+/- `says.verify : Bool` : `true` にすると，`X says Y` の `Y` のところに，実際には提案されていないタクティクを入れたときにエラーになります．-/
+
+-- チェックを無効にする
+set_option says.verify false
+
+example (h : P → Q) (p : P) : Q := by
+  -- 提案されない内容を渡してもエラーにならない
+  exact? says
+    try contradiction
+    apply h
+    exact p
