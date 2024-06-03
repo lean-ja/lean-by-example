@@ -20,10 +20,14 @@
   - [#time: 実行時間計測](./Contents/Time.md)
 
 - [構文](./Contents/Syntaxes.md)
+  - [abbrev: 別名を定義する](./Contents/Abbrev.md)
+  - [attribute: 属性を付与する](./Contents/Attribute.md)
   - [class: 型クラスを定義する](./Contents/Class.md)
+  - [def: 関数などを定義する](./Contents/Def.md)
+  - [deriving: 型クラスのインスタンス生成](./Contents/Deriving.md)
   - [inductive: 帰納型を定義する](./Contents/Inductive.md)
-  - [structure: 構造体を定義する](./Contents/Structure.md)
   - [instance: インスタンスを定義する](./Contents/Instance.md)
+  - [structure: 構造体を定義する](./Contents/Structure.md)
 
 - [タクティク](./Contents/Tactic.md)
   - [ac_rfl: 可換性と結合性を使う](./Contents/AcRfl.md)
