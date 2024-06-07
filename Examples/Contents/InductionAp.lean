@@ -3,8 +3,7 @@
 
 `induction'` は `induction` の Lean 3 での構文を残したバージョンです．
 -/
-import Mathlib.Tactic.Ring
-import Mathlib.Tactic.Cases -- `induction'` のために必要
+import Mathlib.Tactic -- 大雑把に import する
 
 namespace InductionAp --#
 
