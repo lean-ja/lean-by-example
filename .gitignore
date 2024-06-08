@@ -7,4 +7,5 @@ book
 # After v4.3.0-rc2 lake stores its files here:
 /.lake/
 /src/Contents/
+/src/DiagnosticCommand/
 *.olean
