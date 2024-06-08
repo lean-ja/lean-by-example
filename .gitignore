@@ -6,7 +6,11 @@ book
 /.cache
 # After v4.3.0-rc2 lake stores its files here:
 /.lake/
-/src/Contents/
-/src/DiagnosticCommand/
-/src/Syntax/
+
+/src/*
+!src/image
+!src/links.md
+!src/README.md
+!src/SUMMARY.md
+
 *.olean
