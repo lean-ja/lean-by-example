@@ -8,4 +8,5 @@ book
 /.lake/
 /src/Contents/
 /src/DiagnosticCommand/
+/src/Syntax/
 *.olean
