@@ -18,7 +18,9 @@ import Mathlib.Data.Real.Basic -- 実数 --#
 variable (α : Type)
 
 /--
-error: failed to synthesize instance   Inv α
+error: failed to synthesize
+  Inv α
+use `set_option diagnostics true` to get diagnostic information
 -/
 #guard_msgs in #check (_ : α)⁻¹
 
@@ -33,7 +35,11 @@ error: failed to synthesize instance   Inv α
 
 /-! 自然数 `ℕ` に対しては逆数が定義されていないと予想されますが，実際 `Inv` のインスタンスになっていません．-/
 
-/-- error: failed to synthesize   Inv ℕ -/
+/--
+error: failed to synthesize
+  Inv ℕ
+use `set_option diagnostics true` to get diagnostic information
+-/
 #guard_msgs in #synth Inv Nat
 
 /-! 自分で無理やり `ℕ` を `Inv` のインスタンスにしてみると，通るようになります．ここでは逆数関数を常に `1` になる定数関数としてみましょう．-/

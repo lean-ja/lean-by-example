@@ -29,7 +29,7 @@ example (x : Int) : myabs (2 * x) = 2 * myabs x := by
   -- `split` タクティクでケース分割する
   split
 
-  case inl h =>
+  case isTrue h =>
     -- `2 * x ≥ 0` の場合
     guard_hyp h: 2 * x ≥ 0
 
@@ -41,7 +41,7 @@ example (x : Int) : myabs (2 * x) = 2 * myabs x := by
     -- `simp` で if を消すことができる
     simp [h]
 
-  case inr h =>
+  case isFalse h =>
     -- `2 * x < 0` の場合
     guard_hyp h: ¬2 * x ≥ 0
 
