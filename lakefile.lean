@@ -8,7 +8,7 @@ package «Tactic Cheatsheet» where
   ]
 
 require mdgen from git
-  "https://github.com/Seasawher/mdgen" @ "v1.3.0"
+  "https://github.com/Seasawher/mdgen" @ "main"
 
 require mathlib from git
   "https://github.com/leanprover-community/mathlib4.git" @ "master"

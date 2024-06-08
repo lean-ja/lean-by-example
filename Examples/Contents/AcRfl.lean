@@ -107,6 +107,7 @@ attribute [-instance] instCommutativeHAdd
 /--
 error: failed to synthesize
   Std.Commutative fun x x_1 => x + x_1
+use `set_option diagnostics true` to get diagnostic information
 -/
 #guard_msgs in #synth Std.Commutative (α := Color) (· + ·)
 

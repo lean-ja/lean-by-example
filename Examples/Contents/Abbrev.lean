@@ -11,8 +11,12 @@ def NaturalNumber : Type := Nat
 /- しかし，ここで定義した `Nat` の別名を項に対して使用するとエラーになります．これは，Lean が `NaturalNumber` を定義に簡約(reduce)するよりも先に，`42 : NaturalNumber` という表記が定義されているか `OfNat` のインスタンスを探そうとするためです．[^abbrev]-/
 
 /--
-error: failed to synthesize instance
+error: failed to synthesize
   OfNat NaturalNumber 42
+numerals are polymorphic in Lean, but the numeral `42` cannot be used in a context where the expected type is
+  NaturalNumber
+due to the absence of the instance above
+use `set_option diagnostics true` to get diagnostic information
 -/
 #guard_msgs in #check (42 : NaturalNumber)
 
