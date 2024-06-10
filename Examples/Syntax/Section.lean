@@ -13,6 +13,7 @@
 
 次は `variable` のスコープを区切る例です．
 -/
+set_option autoImplicit false --#
 
 section
   variable (a : Type)
