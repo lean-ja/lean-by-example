@@ -5,7 +5,7 @@
 
 たとえば以下のように名前空間の中で `List` 配下の関数を定義し，フィールド記法を使おうとしてもうまくいきません．こういう場合に `_root_` を使用すると，名前空間を閉じることなくエラーを解消できます．
 -/
-namespace Root --#
+namespace Root -- 名前空間 `Root` の宣言
 
 variable {α : Type}
 
@@ -36,4 +36,4 @@ def _root_.List.unpack (l : List (List α)) : List α :=
 -- 今度は成功する
 #eval [[1, 2], [3]].unpack
 
-end Root --#
+end Root
