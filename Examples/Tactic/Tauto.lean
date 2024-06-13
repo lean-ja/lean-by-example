@@ -4,6 +4,8 @@
 import Aesop -- `aesop` を使うため --#
 import Mathlib.Tactic.Tauto -- `tauto` を使うのに必要
 
+namespace Tauto --#
+
 variable (P Q R : Prop)
 
 -- 含意の導入
@@ -18,9 +20,7 @@ example : (P → (Q → R)) → ((P → Q) → (P → R)) := by
 example : (P ↔ ¬ P) → false := by
   tauto
 
-/-! ## tauto の限界
-ごく簡単なトートロジーの中にも `tauto` で示せないものがあります．
--/
+/-! `tauto` はすべてのトートロジーを示せるわけではありません．ごく簡単なトートロジーの中にも `tauto` で示せないものがあります．-/
 
 variable (α : Type) (S : α → Prop)
 
@@ -29,3 +29,27 @@ example : ¬(∀ x, S x) → (∃ x, ¬ S x) := by
   fail_if_success tauto
 
   aesop
+
+/- また，排中律を使わずに示せる命題であっても，`tauto` は排中律を使って示してしまうことがあります．直観主義論理の枠内で命題を示すには，代わりに[itauto](./ITauto.md)を使用してください．-/
+
+/-- 命題とその否定は同値ではない -/
+theorem not_neg_iff {P : Prop} : ¬ (P ↔ ¬ P) := by tauto
+
+-- 選択原理を使っているが，これは排中律を使っているため
+/-- info: 'Tauto.not_neg_iff' depends on axioms: [Classical.choice, propext, Quot.sound] -/
+#guard_msgs in #print axioms not_neg_iff
+
+-- 実際には排中律は必要ない
+theorem not_neg_iff' {P : Prop} : ¬ (P ↔ ¬ P) := by
+  intro h
+  have hnp : ¬ P := by
+    intro hp
+    have : ¬ P := by rwa [h] at hp
+    contradiction
+  have hp : P := by rwa [← h] at hnp
+  contradiction
+
+/-- info: 'Tauto.not_neg_iff'' depends on axioms: [propext] -/
+#guard_msgs in #print axioms not_neg_iff'
+
+end Tauto --#
