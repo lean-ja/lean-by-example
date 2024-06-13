@@ -80,6 +80,7 @@
   - [induction: 帰納法](./Tactic/Induction.md)
   - [induction': Lean3版のinduction](./Tactic/InductionAp.md)
   - [intro: 含意→や全称∀を示す](./Tactic/Intro.md)
+  - [itauto: 直観主義論理の枠内で示す](./Tactic/ITauto.md)
   - [left, right: 論理和∨を示す](./Tactic/LeftRight.md)
   - [linarith: 線形(不)等式を示す](./Tactic/Linarith.md)
   - [native_decide: 実行時に判ることを示す](./Tactic/NativeDecide.md)
