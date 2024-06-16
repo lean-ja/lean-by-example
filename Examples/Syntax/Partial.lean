@@ -47,8 +47,42 @@ partial def alternate {α : Type} (xs ys : List α) : List α :=
 
 #guard alternate [1, 3, 5] [2, 4, 6] = [1, 2, 3, 4, 5, 6]
 
-/- なお，`partial` とマークされた定義を元に新たに関数を定義するとき，再度 `partial` とマークする必要はありません． -/
+/- ## 舞台裏
+なお，`partial` とマークされた定義を元に新たに関数を定義するとき，再度 `partial` とマークする必要はありません． -/
 
-def more_alternate := @alternate
+/-- 階乗っぽいが停止しない関数 -/
+partial def forever (x : Int) : Int :=
+  if x = 0 then 1
+  else x * forever (x - 1)
+
+-- more 関数も停止しないが，partial は不要である
+def more := @forever
+
+/- これは意外に思えます．`partial` とマークされた関数は停止性が保証されていないので，それを使用した関数も停止性を保証できなくなるはずだからです．なぜこうなるのかというと，`partial` はそもそも「停止性が保証されていない」ことを表すもののではなく，「名前が定義に展開できない」ことを表すものだからです．-/
+
+-- 実際に #reduce を実行してみると，
+-- forever の部分が簡約されていないことがわかる
+/-- info: forever (Int.ofNat 5) -/
+#guard_msgs in #reduce forever 5
+
+/-- 正しい階乗関数 -/
+def factorial (x : Nat) : Nat :=
+  match x with
+  | 0 => 1
+  | x + 1 => (x + 1) * factorial x
+
+-- 正しい階乗関数と比較してみると，
+-- 階乗関数の方は簡約ができていることがわかる
+/-- info: 120 -/
+#guard_msgs in #reduce factorial 5
+
+/- ## 例外的な挙動
+再帰的でない関数に `partial` をマークしても何も起こりません．-/
+
+partial def square (x : Int) := x * x
+
+-- 簡約が実行される
+/-- info: Int.ofNat 1024 -/
+#guard_msgs in #reduce square 32
 
 end Partial --#
