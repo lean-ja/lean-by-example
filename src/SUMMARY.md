@@ -27,6 +27,7 @@
   - [def: 関数などを定義する](./Syntax/Def.md)
   - [deriving: 型クラスのインスタンス生成](./Syntax/Deriving.md)
   - [example: 名前をつけずに証明をする](./Syntax/Example.md)
+  - [export: 現在の名前空間に追加](./Syntax/Export.md)
   - [inductive: 帰納型を定義する](./Syntax/Inductive.md)
   - [instance: インスタンスを定義する](./Syntax/Instance.md)
   - [namespace: 名前空間を宣言する](./Syntax/Namespace.md)
