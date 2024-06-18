@@ -24,7 +24,7 @@ def factorial : Nat → Nat
   | n+1 => (n+1) * factorial n
 
 /-- 階乗関数を表す記法 -/
-notation a "!" => factorial a
+notation:100 a:100 "!" => factorial a
 
 -- 表示する際に導入された記法を無効にする
 set_option pp.notation false
@@ -35,27 +35,47 @@ set_option pp.notation false
 end
 
 /- ## 優先順位
-`notation` で記法を定義するときに，その記法が他の演算子などと比べて結合優先度がどの程度高いかという優先順位(precedence)を数値で指定することができます．優先順位が高い演算子ほど，他の演算子より先に適用されます．
+`notation` で記法を定義するときに，その記法が他の演算子などと比べて結合優先度がどの程度高いかという優先順位(precedence)を数値で指定することができます．優先順位が高い演算子ほど，他の演算子より先に適用されます．言い換えれば，優先順位を正しく設定することにより，括弧を省略しても意図通りに式が解釈されるようにすることができます．
 -/
 
 /-- 結合が弱い方. 中身は足し算 -/
-notation:0 a " weak " b => Nat.add a b
+notation:0 a:0 " weak " b:0 => Nat.add a b
 
 /-- 結合が強い方．中身は掛け算 -/
-notation:70 a " strong " b => Nat.mul a b
+notation:70 a:70 " strong " b:70 => Nat.mul a b
 
--- weak と strong の結合優先度は strong の方が高いので，
--- まず 1 strong 2 が計算されて 2 になり，
--- その後 3 weak 2 が計算されて 5 になる.
-#guard (3 weak 1 strong 2) = 5
+example : (3 weak 1 strong 2) = 5 := calc
+  -- weak と strong の結合優先度は strong の方が高いので，
+  -- まず 1 strong 2 が計算されて 2 になり，
+  _ = (3 weak 2) := rfl
+  -- その後 3 weak 2 が計算されて 5 になる.
+  _ = 5 := rfl
 
-/-- 優先順位を指定しないで定義した記法. 中身はべき乗 -/
+example : (2 strong 2 weak 3) = 7 := calc
+  _ = (4 weak 3) := rfl
+  _ = 7 := rfl
+
+/- 優先順位を省略することもできるのですが，とても意外な挙動になるので推奨できません．必ず優先順位を指定してください．-/
+
+/-- 優先順位を全く指定しないで定義した記法. 中身はべき乗 -/
 notation a " middle " b => Nat.pow a b
 
--- デフォルトで middle の優先順位は優先順位 0 のものより低い
-#guard (2 middle 1 weak 3) = 16
-#guard (2 middle 1 strong 3) = 8
+-- middle の優先順位は優先順位 0 の weak よりも低い
+example : (2 middle 1 weak 3) = 16 := calc
+  _ = (2 middle 4) := rfl
+  _ = 16 := rfl
 
+/-- プレースホルダの優先順位を省略した weak -/
+notation:20 a " bad_weak" b => Nat.add a b
+
+/-- プレースホルダの優先順位を省略した strong -/
+notation:70 a " bad_strong" b => Nat.mul a b
+
+-- bad_strong の方が優先順位が高いと思いきや，
+-- bad_weak の方が先に適用されてしまう
+example : (2 bad_strong 2 bad_weak 3) = 10 := calc
+  _ = (2 bad_strong 5) := rfl
+  _ = 10 := rfl
 
 /- ## 補足
 なお，`notation` を定義する際に半角スペースを入れることがしばしばありますが，これは表示の際に使われるだけで記法の認識には影響しません．-/
