@@ -9,7 +9,7 @@ example (hP: P) (_: Q) : P := by
 
 /-! ## exact との関連
 
-`assumption` による証明は，どの仮定を使うか明示すれば [exact](./Exact.md) で書き直すことができます．-/
+`assumption` による証明は，どの仮定を使うか明示すれば [`exact`](./Exact.md) で書き直すことができます．-/
 
 example (hP: P) (_: Q) : P := by
   exact hP

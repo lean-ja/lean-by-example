@@ -4,7 +4,7 @@
 
 具体的には，`Some.Namespace` の配下に `nameᵢ` がある状態で `export Some.Namespace (name₁ name₂ ...)` を実行することにより，以下の両方の処理が行われます．
 
-* [open](./Open.md) と同様に，`nameᵢ` が `Some.Namespace` の接頭辞なしで現在の名前空間 `N` 上で見えるようになります．
+* [`open`](./Open.md) と同様に，`nameᵢ` が `Some.Namespace` の接頭辞なしで現在の名前空間 `N` 上で見えるようになります．
 * 現在の名前空間 `N` の外部の名前空間から `N.nameᵢ` としてアクセスできるようになります．
  -/
 namespace N -- export コマンドが実行される名前空間
