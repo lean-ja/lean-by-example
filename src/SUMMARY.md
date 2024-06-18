@@ -1,6 +1,6 @@
 # Summary
 
-[Lean4 タクティク逆引きリスト](./README.md)
+[はじめに](./README.md)
 
 [リンク集](./links.md)
 

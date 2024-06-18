@@ -1,8 +1,8 @@
-# Lean4 タクティク逆引きリスト
+# Lean by Example
 
-「普段の数学を Lean でどうやって実現するんだろう」という疑問に答えるために，Lean や Mathlib のよく使うタクティクをユースケースから逆引きできるようにまとめたリストです．より便利にするため，タクティクだけでなく基本的なコマンドも紹介しています．
+プログラミング言語であるとともに定理証明支援系でもある Lean 言語と，その主要なライブラリの使い方を豊富なコード例とともに解説した資料です．
 
-> この文書は lean-ja が管理しています．誤りのご指摘，ご提案などは [GitHub リポジトリ](https://github.com/lean-ja/tactic-cheatsheet)からお願いします．
+> この文書は lean-ja が管理しています．誤りのご指摘，ご提案などは [GitHub リポジトリ](https://github.com/lean-ja/lean-by-example)からお願いします．
 >
 > lean-ja の Discord サーバが[こちら](https://discord.gg/p32ZfnVawh)にあります．質問や相談などはこちらにどうぞ．
 
