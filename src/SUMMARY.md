@@ -32,6 +32,7 @@
   - [instance: インスタンスを定義する](./Syntax/Instance.md)
   - [namespace: 名前空間を宣言する](./Syntax/Namespace.md)
   - [noncomputable: 計算不能な関数を定義](./Syntax/Noncomputable.md)
+  - [notation: 記法を導入する](./Syntax/Notation.md)
   - [open: 名前空間を開く](./Syntax/Open.md)
   - [partial: 再帰関数の停止証明をしない](./Syntax/Partial.md)
   - [private: 定義を不可視にする](./Syntax/Private.md)
