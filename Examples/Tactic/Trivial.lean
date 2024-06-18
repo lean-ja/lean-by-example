@@ -9,4 +9,4 @@ example : 1 + 1 = 2 := by trivial
 -- 矛盾があるので, どんな命題でも証明できる
 example (P : Prop) (h: False) : P := by trivial
 
-/-! 普段の数学でいう「自明」な命題は `trivial` では示せないことがほとんどだと思います．[aesop](./Aesop.md) を試してみてください．-/
+/-! 普段の数学でいう「自明」な命題は `trivial` では示せないことがほとんどだと思います．[`aesop`](./Aesop.md) を試してみてください．-/

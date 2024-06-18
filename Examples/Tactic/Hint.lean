@@ -2,13 +2,13 @@
 
 `hint` は複数のタクティクの中から提案を出してくれるタクティクです．デフォルトでは
 
-* [split](./Split.md)
-* [intro](./Intro.md)
-* [aesop](./Aesop.md)
+* [`split`](./Split.md)
+* [`intro`](./Intro.md)
+* [`aesop`](./Aesop.md)
 * `decide`
-* [exact?](./ExactQuestion.md)
+* [`exact?`](./ExactQuestion.md)
 * `simp_all?`
-* [linarith](./Linarith.md)
+* [`linarith`](./Linarith.md)
 
 の7つのタクティクを同時に試します．
 

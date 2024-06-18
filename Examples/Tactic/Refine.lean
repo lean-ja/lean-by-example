@@ -14,7 +14,7 @@ example (hP: P) (hQ: Q) : P ∧ Q := by
 
 /-! ## constructor との関連
 
-`refine` は [constructor](./Constructor.md) の代わりに使うこともできます．実際 `refine` は `constructor` よりも柔軟で，`⊢ P ∧ Q ∧ R` のような形のゴールは `constructor` よりも簡潔に分割できます．-/
+`refine` は [`constructor`](./Constructor.md) の代わりに使うこともできます．実際 `refine` は `constructor` よりも柔軟で，`⊢ P ∧ Q ∧ R` のような形のゴールは `constructor` よりも簡潔に分割できます．-/
 
 example (hP: P) (hQ: Q) (hR : R) : P ∧ Q ∧ R := by
   -- ゴールを３つに分割する
@@ -42,7 +42,7 @@ example (hP: P) (hQ: Q) (hR : R) : P ∧ Q ∧ R := by
 
 /-! ## apply との関連
 
-`h : P → Q` という命題があって，ゴールが `⊢ Q` であるとき `refine h ?_` は `apply h` と同様に機能するので，`refine` で [apply](./Apply.md) を代用することができます． -/
+`h : P → Q` という命題があって，ゴールが `⊢ Q` であるとき `refine h ?_` は `apply h` と同様に機能するので，`refine` で [`apply`](./Apply.md) を代用することができます． -/
 
 variable (P Q : Prop)
 
