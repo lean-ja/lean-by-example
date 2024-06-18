@@ -72,7 +72,7 @@ def factorial (x : Nat) : Nat :=
   | x + 1 => (x + 1) * factorial x
 
 -- 正しい階乗関数と比較してみると，
--- 階乗関数の方は簡約ができていることがわかる
+-- 正しい方は簡約ができていることがわかる
 /-- info: 120 -/
 #guard_msgs in #reduce factorial 5
 
