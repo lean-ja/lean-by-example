@@ -3,8 +3,8 @@ authors = ["Seasawher"]
 language = "ja"
 multilingual = false
 src = "src"
-title = "Lean4 タクティク逆引きリスト"
-description = "「普段の数学を Lean でどう実現するのか」という疑問にお答えするための，タクティク逆引きリストです."
+title = "Lean by Example"
+description = "プログラミング言語であるとともに定理証明支援系でもある Lean 言語と，その主要なライブラリの使い方を豊富なコード例とともに解説した資料です．"
 
 [build]
 create-missing = false
@@ -13,8 +13,8 @@ build-dir = "book"
 [output.html]
 additional-js = ["assets/blockPlay.js", "assets/filePlay.js", "assets/fzf.umd.js", "assets/elasticlunr.js"]
 no-section-label = true
-git-repository-url = "https://github.com/lean-ja/tactic-cheatsheet"
-edit-url-template = "https://raw.githubusercontent.com/lean-ja/tactic-cheatsheet/main/{path}"
+git-repository-url = "https://github.com/lean-ja/lean-by-example"
+edit-url-template = "https://raw.githubusercontent.com/lean-ja/lean-by-example/main/{path}"
 default-theme = "ayu"
 
 [output.html.fold]

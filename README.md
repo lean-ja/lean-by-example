@@ -1,10 +1,10 @@
 # README
 
-[![repo logo](./src/image/project_image.png)](https://github.com/wei/socialify)
+<!-- [![repo logo](./src/image/project_image.png)]() -->
 
-![workflow](https://github.com/lean-ja/tactic-cheatsheet/actions/workflows/ci.yml/badge.svg) ![workflow](https://github.com/lean-ja/tactic-cheatsheet/actions/workflows/deploy.yml/badge.svg) ![workflow](https://github.com/lean-ja/tactic-cheatsheet/actions/workflows/update.yml/badge.svg) [![](https://dcbadge.limes.pink/api/server/p32ZfnVawh?style=flat)](https://discord.gg/p32ZfnVawh)
+![workflow](https://github.com/lean-ja/lean-by-example/actions/workflows/ci.yml/badge.svg) ![workflow](https://github.com/lean-ja/lean-by-example/actions/workflows/deploy.yml/badge.svg) ![workflow](https://github.com/lean-ja/lean-by-example/actions/workflows/update.yml/badge.svg) [![](https://dcbadge.limes.pink/api/server/p32ZfnVawh?style=flat)](https://discord.gg/p32ZfnVawh)
 
-Lean4 の主要なタクティクを使いたい場面から逆引きできるようにまとめたリストです．Lean4 で数学理論の形式化をする際に使われる主要なライブラリである，mathlib のタクティクも紹介しています．
+プログラミング言語であるとともに定理証明支援系でもある Lean 言語と，その主要なライブラリの使い方を豊富なコード例とともに解説した資料です．
 
 ## CONTRIBUTING
 
