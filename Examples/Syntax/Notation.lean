@@ -58,12 +58,25 @@ example : (2 strong 2 weak 3) = 7 := calc
 /- 優先順位を省略することもできるのですが，とても意外な挙動になるので推奨できません．必ず優先順位を指定してください．-/
 
 /-- 優先順位を全く指定しないで定義した記法. 中身はべき乗 -/
-notation a " middle " b => Nat.pow a b
+notation a " bad_pow " b => Nat.pow a b
 
--- middle の優先順位は優先順位 0 の weak よりも低い
-example : (2 middle 1 weak 3) = 16 := calc
-  _ = (2 middle 4) := rfl
+-- bad_pow の優先順位は優先順位 0 の weak よりも低い？
+example : (2 bad_pow 1 weak 3) = 16 := calc
+  _ = (2 bad_pow 4) := rfl
   _ = 16 := rfl
+
+-- 一方で次の書き方だと bad_pow の方が先に適用される
+-- どうやら右結合が採用されるようだ
+example : (2 weak 1 bad_pow 3) = 3 := calc
+  _ = (2 weak 1) := rfl
+  _ = 3 := rfl
+
+-- 右結合になっている例
+example : (2 weak 3 bad_pow 1 weak 2) = 29 := calc
+  _ = (2 weak 3 bad_pow 3) := rfl
+  _ = (2 weak 27) := rfl
+  _ = 29 := rfl
+
 
 /-- プレースホルダの優先順位を省略した weak -/
 notation:20 a " bad_weak" b => Nat.add a b
@@ -72,7 +85,7 @@ notation:20 a " bad_weak" b => Nat.add a b
 notation:70 a " bad_strong" b => Nat.mul a b
 
 -- bad_strong の方が優先順位が高いと思いきや，
--- bad_weak の方が先に適用されてしまう
+-- 右結合になるので bad_weak の方が先に適用されてしまう
 example : (2 bad_strong 2 bad_weak 3) = 10 := calc
   _ = (2 bad_strong 5) := rfl
   _ = 10 := rfl
