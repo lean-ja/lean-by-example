@@ -1,49 +1,56 @@
 /- # constructor
 
-ゴールが `⊢ P ∧ Q` であるとき，`constructor` を実行すると，ゴールが２つのゴール `⊢ P` と `⊢ Q` に分割されます．-/
+`constructor` はゴールを分割するためのタクティクです．
+
+たとえばゴールが `⊢ P ∧ Q` であるとき，`constructor` を実行すると，ゴールが２つのサブゴール `⊢ P` と `⊢ Q` に分割されます．-/
 variable (P Q : Prop)
 
 example (hP: P) (hQ: Q) : P ∧ Q := by
   -- goal が `left` と `right` に分割される
   constructor
-  · -- `P` を示す
-    exact hP
-  · -- `Q` を示す
-    exact hQ
-
-/-! ## case を使う書き方
-
-同じ証明を `case` を使って次のように書き直すことができます．
--/
-
-example (hP: P) (hQ: Q) : P ∧ Q := by
-  constructor
 
   case left =>
+    -- `P` を示す
+    show P
     exact hP
 
   case right =>
+    -- `Q` を示す
+    show Q
     exact hQ
 
-/-! ## 同値を示す
-
-同値 `↔` に対しても，`constructor` は利用できます．-/
+/- またゴールが同値 `P ↔ Q` であるとき，`constructor` を実行するとゴールが２つのサブゴール `⊢ P → Q` と `Q → P` に分割されます．-/
 
 example (x : Nat) : x = 0 ↔ x + 1 = 1 := by
   constructor
-  · -- `x = 0 → x + 1 = 1` を示す
+  case mp =>
+    -- `x = 0 → x + 1 = 1` を示す
+    show x = 0 → x + 1 = 1
     intro hx
     rw [hx]
-  · -- `x + 1 = 1 → x = 0` を示す
+  case mpr =>
+    -- `x + 1 = 1 → x = 0` を示す
+    show x + 1 = 1 → x = 0
     simp_all
 
-/-! ## 補足
-
-逆に，論理積 `∧` を分解したい場合は `And.left` や `And.right` を使用します．
--/
+/- ## 補足
+このように，`constructor` は論理積 `∧` や同値 `↔` を「示す」ために使われます．逆にこういった命題が仮定にあって「使用したい」場合は [`obtain`](./Obtain.md) や [`have`](./Have.md) などが使用できます．-/
 
 example (h: P ∧ Q) : P := by
-  exact h.left
+  obtain ⟨hp, hq⟩ := h
+  exact hp
 
-example (h: P ∧ Q) : Q := by
-  exact h.right
+example (h : P ↔ Q) (hP : P) : Q := by
+  have ⟨pq, qp⟩ := h
+  apply pq
+  assumption
+
+/- また論理積や同値性は構造体なので，次の関数も利用できます．-/
+
+-- 論理積から構成要素を取り出す関数
+#check (And.left : P ∧ Q → P)
+#check (And.right : P ∧ Q → Q)
+
+-- 同値から構成要素を取り出す関数
+#check (Iff.mp : (P ↔ Q) → P → Q)
+#check (Iff.mpr : (P ↔ Q) → Q → P)
