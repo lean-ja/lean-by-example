@@ -11,6 +11,7 @@ book
 !src/image
 !src/links.md
 !src/README.md
+!src/404.md
 !src/SUMMARY.md
 
 *.olean
