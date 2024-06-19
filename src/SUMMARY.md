@@ -89,6 +89,7 @@
   - [native_decide: 実行時に判ることを示す](./Tactic/NativeDecide.md)
   - [nlinarith: 非線形な(不)等式を示す](./Tactic/Nlinarith.md)
   - [nth_rw: n 番目の項だけ rw](./Tactic/NthRw.md)
+  - [obtain: 分解して取り出す](./Tactic/Obtain.md)
   - [omega: 自然数の線形計画を解く](./Tactic/Omega.md)
   - [push_neg: ドモルガン](./Tactic/PushNeg.md)
   - [qify: 有理数にキャストする](./Tactic/Qify.md)
