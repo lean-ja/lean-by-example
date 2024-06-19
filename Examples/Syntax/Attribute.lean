@@ -28,7 +28,7 @@ attribute [simp] foo
 example {P Q : Prop} : (P → Q) ∧ P ↔ Q ∧ P := by
   simp
 
-/- 与えた属性を削除することもできます．削除するには `-` を属性の頭に付けます．-/
+/- 属性によっては与えた属性を削除することもできます．削除するには `-` を属性の頭に付けます．-/
 
 -- `simp` 属性を削除
 attribute [-simp] foo
