@@ -36,6 +36,7 @@
   - [open: 名前空間を開く](./Syntax/Open.md)
   - [partial: 再帰関数の停止証明をしない](./Syntax/Partial.md)
   - [private: 定義を不可視にする](./Syntax/Private.md)
+  - [proof_wanted: 証明を公募する](./Syntax/ProofWanted.md)
   - [protected: フルネームを強制する](./Syntax/Protected.md)
   - [section: スコープを区切る](./Syntax/Section.md)
   - [structure: 構造体を定義する](./Syntax/Structure.md)
