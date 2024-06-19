@@ -3,8 +3,9 @@
 
 不安定なAPIなど，外部に公開したくないものに対して使うのが主な用途です．
 -/
-import Examples.Syntax.Protected
-import Lean --#
+import Examples.Syntax.Protected -- protected のページをインポート
+import Lean
+namespace Private --#
 
 -- protected の項で private を使わずに定義した内容にアクセスできる
 #check Point.sub
@@ -18,35 +19,28 @@ namespace Hoge
   section
     -- private とマークした定義
     private def addOne (n : Nat) : Nat := n + 1
+
   end
 end Hoge
 
 open Hoge
 
--- アクセスできる
+-- 外からでもアクセスできる
 #check addOne
 
-/- 以下の例 [^private] のように，変数のスコープを制限するようなセクションの変種を自作することは可能です． -/
+/- ## 補足
+`private` コマンドを用いて宣言した名前は，そのファイルの外部からはアクセス不能になるものの，そのファイル内部からは一見 `private` でない名前と同様に見えます．しかし，特定の名前が `private` であるか判定する関数は存在します．
+-/
 
-open Lean Elab Command
+private def hoge := "hello"
 
-elab "private section" ppLine cmd:command* ppLine "end private section": command => do
-  let old ← get
-  try
-    for cmd in cmd do
-      elabCommandTopLevel cmd
-    throwAbortCommand
-  finally
-    set old
+def foo := "world"
 
-private section
-  def foo := "hello!!"
+-- 名前が private かどうか判定する関数
+#check (Lean.isPrivateName : Lean.Name → Bool)
 
-  -- セクションの中なら当然アクセスできる
-  #check foo
-end private section
+#guard Lean.isPrivateName ``hoge
 
--- `foo` にアクセスできない
-#check_failure foo
+#guard Lean.isPrivateName ``foo = false
 
-/- [^private]: Alex J. Best さんによる [Zulip Chat/lean4/private section](https://leanprover.zulipchat.com/#narrow/stream/270676-lean4/topic/private.20section/near/418114975) での投稿を元にした例です. -/
+end Private --#
