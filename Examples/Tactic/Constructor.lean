@@ -54,3 +54,18 @@ example (h : P ↔ Q) (hP : P) : Q := by
 -- 同値から構成要素を取り出す関数
 #check (Iff.mp : (P ↔ Q) → P → Q)
 #check (Iff.mpr : (P ↔ Q) → Q → P)
+
+/- ## 舞台裏
+`constructor` は一般に，論理積や同値に限らずゴールにある任意の構造体を分解することができます．
+-/
+
+structure Sample where
+  name : String
+  index : Nat
+
+def getSample (index : Nat) (name : String) : Sample := by
+  -- constructor タクティクでゴールの構造体をフィールドに分解する
+  constructor
+
+  · exact name
+  · exact index
