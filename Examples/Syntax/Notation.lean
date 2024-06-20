@@ -96,6 +96,9 @@ section --#
 -- 排他的論理和の記号を定義
 local notation:60 x:60 " ⊕ " y:61 => xor x y
 
+-- メタ変数を表示させないため
+set_option pp.mvars false
+
 -- 等号（優先順位 50）より優先順位が低いという問題でエラーになる
 -- 上では60で定義しているのに，なぜ？
 /--
@@ -106,7 +109,7 @@ argument
 has type
   Bool : Type
 but is expected to have type
-  Type ?u.13677 : Type (?u.13677 + 1)
+  Type _ : Type (_ + 1)
 ---
 info: sorryAx (Type u_1) true ⊕ sorryAx (Type u_2) true : Type (max u_1 u_2)
 -/
