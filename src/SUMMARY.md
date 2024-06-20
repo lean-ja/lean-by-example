@@ -69,6 +69,7 @@
   - [done: 証明終了を宣言](./Tactic/Done.md)
   - [exact: 証明を直接構成](./Tactic/Exact.md)
   - [exact?: exact できるか検索](./Tactic/ExactQuestion.md)
+  - [exfalso: 矛盾を示すことに帰着](./Tactic/Exfalso.md)
   - [exists: 存在∃を示す](./Tactic/Exists.md)
   - [ext: 外延性を使う](./Tactic/Ext.md)
   - [field_simp: 分母を払う](./Tactic/FieldSimp.md)
