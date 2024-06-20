@@ -8,7 +8,7 @@ def modulo (k a b : Int) : Prop :=
   k ∣ (a - b)
 
 -- mod という記法を導入する
-notation a " ≃ " b " mod " k => modulo k a b
+notation a:60 " ≃ " b:60 " mod " k:70 => modulo k a b
 
 -- 定義した記法が使える
 #check (3 ≃ 7 mod 4)
@@ -54,7 +54,7 @@ example : (2 strong 2 weak 3) = 7 := calc
   _ = (4 weak 3) := rfl
   _ = 7 := rfl
 
-/- 優先順位を省略することもできるのですが，とても意外な挙動になるので推奨できません．必ず優先順位を指定してください．-/
+/- 優先順位を省略することもできるのですが，とても意外な挙動になるので推奨できません．必ず全ての優先順位を指定してください．-/
 
 /-- 優先順位を全く指定しないで定義した記法. 中身はべき乗 -/
 notation a " bad_pow " b => Nat.pow a b
