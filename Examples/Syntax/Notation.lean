@@ -11,8 +11,7 @@ def modulo (k a b : Int) : Prop :=
 notation a " ≃ " b " mod " k => modulo k a b
 
 -- 定義した記法が使える
-/-- info: 3 ≃ 7 mod 4 : Prop -/
-#guard_msgs in #check (3 ≃ 7 mod 4)
+#check (3 ≃ 7 mod 4)
 
 /- `notation` 記号で定義した記法が実際にどのように展開されているのか確かめるには，`pp.notation` というオプションを無効にします．-/
 
@@ -82,13 +81,64 @@ example : (2 weak 3 bad_pow 1 weak 2) = 29 := calc
 notation:20 a " bad_weak" b => Nat.add a b
 
 /-- プレースホルダの優先順位を省略した strong -/
-notation:70 a " bad_strong" b => Nat.mul a b
+notation:70 a " bad_strong " b => Nat.mul a b
 
 -- bad_strong の方が優先順位が高いと思いきや，
 -- 右結合になるので bad_weak の方が先に適用されてしまう
 example : (2 bad_strong 2 bad_weak 3) = 10 := calc
   _ = (2 bad_strong 5) := rfl
   _ = 10 := rfl
+
+/- ## 記法の重複問題
+`notation` を使って定義した記法の優先順位が意図通りに反映されないことがあります．-/
+section --#
+
+-- 排他的論理和の記号を定義
+local notation:60 x:60 " ⊕ " y:61 => xor x y
+
+-- 等号（優先順位 50）より優先順位が低いという問題でエラーになる
+-- 上では60で定義しているのに，なぜ？
+/--
+warning: application type mismatch
+  Sum true
+argument
+  true
+has type
+  Bool : Type
+but is expected to have type
+  Type ?u.13677 : Type (?u.13677 + 1)
+---
+info: sorryAx (Type u_1) true ⊕ sorryAx (Type u_2) true : Type (max u_1 u_2)
+-/
+#guard_msgs in
+#check_failure true ⊕ true = false
+
+-- 括弧を付けるとエラーにならない
+#check (true ⊕ true) = false
+
+end --#
+
+/- ここでのエラーの原因は，記法が被っていることです．`⊕` という記法は型の直和に対して既に使用されており，直和記法の優先順位が等号より低いためにエラーが発生していました．-/
+
+-- 集合の直和の記号と被っていた．
+-- 集合の直和記号は等号より優先度が低いからエラーになっていた
+#check Nat ⊕ Fin 2
+
+/- この問題の解決策は，まず第一に括弧を付けることですが，裏技として記法を上書きしてしまうこともできます．-/
+section --#
+-- ⊕ という記号をオーバーライドする
+-- local コマンドを使っているのは，セクション内でだけ有効にするため
+local macro_rules | `($x ⊕ $y) => `(xor $x $y)
+
+-- もう ⊕ が Sum として解釈されることはなく，エラーにならない
+#guard true ⊕ true = false
+#guard true ⊕ false = true
+#guard false ⊕ true = true
+#guard false ⊕ false = false
+
+-- 上書きされたので， Sum の意味で ⊕ を使うことはできなくなった
+#check_failure Nat ⊕ Fin 2
+end --#
 
 /- ## 補足
 なお，`notation` を定義する際に半角スペースを入れることがしばしばありますが，これは表示の際に使われるだけで記法の認識には影響しません．-/
