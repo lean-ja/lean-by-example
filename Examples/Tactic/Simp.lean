@@ -1,6 +1,6 @@
 /- # simp
 
-`simp` は，ターゲットを決められた規則に基づいて自動で簡約（simplify）するタクティクです．`@[simp]` と付けることにより簡約に使ってほしい命題を登録することができます．-/
+`simp` は，ターゲットを決められた規則に基づいて自動で単純化（simplify）するタクティクです．`@[simp]` と付けることにより単純化に使ってほしい命題を登録することができます．-/
 import Mathlib.Tactic.Ring -- `ring` を使うため --#
 import Mathlib.Tactic.Says -- `says` を使うために必要 --#
 import Mathlib.Tactic.Tauto -- `tauto` を使うため
@@ -38,7 +38,7 @@ theorem or_and : (P ∨ Q ∨ R) ∧ R ↔ R := by
 -- 一度登録した命題は `simp` で示せるようになる．
 example : (P ∨ Q ∨ R) ∧ R ↔ R := by simp
 
-/-! なお，`@[simp]` で登録した命題は「左辺を右辺に」簡約するルールとして登録されます．
+/-! なお，`@[simp]` で登録した命題は「左辺を右辺に」単純化するルールとして登録されます．
 左辺と右辺を間違えて登録すると，無限ループになって `simp` の動作が破壊されることがあります．`simp` 補題は慎重に登録してください．-/
 section
 
@@ -46,12 +46,12 @@ section
 example (n m : Nat) : (n + 0) * m = n * m := by simp
 
 -- 良くない simp 補題の例
--- 「左辺を右辺に」簡約するため，かえって複雑になってしまう
+-- 「左辺を右辺に」単純化するため，かえって複雑になってしまう
 -- なお local を付けているのは，この simp 補題登録の影響をセクション内に限定するため
 @[local simp]
 theorem bad_add_zero (n : Nat) : n = n + 0 := by rw [Nat.add_zero]
 
--- 今まで簡約できていた式が簡約できなくなる
+-- 今まで通った証明が通らなくなる
 /--
 error: tactic 'simp' failed, nested error:
 maximum recursion depth has been reached
@@ -64,13 +64,13 @@ example (n m : Nat) : (n + 0) * m = n * m := by simp
 end
 /-! ## simp で使用できる構文
 
-既知の `h : P` という命題を使って簡約させたいときは，明示的に `simp [h]` と指定することで可能です．複数個指定することもできます．また `simp only [h₁, ... , hₖ]` とすると `h₁, ... , hₖ` だけを使用して簡約を行います．-/
+既知の `h : P` という命題を使って単純化させたいときは，明示的に `simp [h]` と指定することで可能です．複数個指定することもできます．また `simp only [h₁, ... , hₖ]` とすると `h₁, ... , hₖ` だけを使用して単純化を行います．-/
 
 example (h : R) : (P ∨ Q ∨ R) ∧ R := by
   simp only [or_and]
   assumption
 
-/-! 何も指定しなければゴールを簡約しますが，ローカルコンテキストにある `h : P` を簡約させたければ `simp at h` と指定することで可能です．ゴールと `h` の両方を簡約したいときは `simp at h ⊢` とします．-/
+/-! 何も指定しなければゴールを単純化しますが，ローカルコンテキストにある `h : P` を単純化させたければ `simp at h` と指定することで可能です．ゴールと `h` の両方を単純化したいときは `simp at h ⊢` とします．-/
 
 variable {n m : Nat}
 
@@ -78,7 +78,7 @@ example (h : n + 0 + 0 = m) : n = m + (0 * n) := by
   simp at h ⊢
   assumption
 
-/- ローカルコンテキストとゴールをまとめて全部簡約したい場合は `simp at *` とします． -/
+/- ローカルコンテキストとゴールをまとめて全部単純化したい場合は `simp at *` とします． -/
 
 /-! ## simpa
 `simpa` は，`simp` を実行した後 `assumption` を実行するという一連の流れを一つのタクティクにしたものです．`simpa at h` 構文は存在せず，`simpa using h` と書くことに注意してください．-/
@@ -91,14 +91,14 @@ example (h : n + 0 + 0 = m) : n = m := by
 
 /-! ## simp?
 
-`simp` は自動的に証明を行ってくれますが，何が使われたのか知りたいときもあります．`simp?` は簡約に何が使われたのかを示してくれるので，`simp only` などを用いて明示的に書き直すことができます．-/
+`simp` は自動的に証明を行ってくれますが，何が使われたのか知りたいときもあります．`simp?` は単純化に何が使われたのかを示してくれるので，`simp only` などを用いて明示的に書き直すことができます．-/
 
 example : (P ∨ Q ∨ R) ∧ R ↔ R := by
   simp? says
     simp only [or_and]
 
 /-! ## simp_arith
-`simp` の設定で `arith` を有効にすると，算術的な簡約もできるようになります．
+`simp` の設定で `arith` を有効にすると，算術的な単純化もできるようになります．
 これはよく使用されるので，`simp_arith` という省略形が用意されています．
 -/
 
@@ -118,11 +118,11 @@ example {x y : Nat} : 0 < 1 + x ∧ x + y + 2 ≥ y + 1 := by
 
 /-! ## simp_all
 
-`simp_all` は `simp [*] at *` の強化版で，ローカルコンテキストとゴールをこれ以上簡約できなくなるまですべて簡約します．
+`simp_all` は `simp [*] at *` の強化版で，ローカルコンテキストとゴールをこれ以上単純化できなくなるまですべて単純化します．
 
 ## dsimp
 
-`dsimp` は，定義上(definitionally)等しいもの同士しか簡約しないという制約付きの `simp` です．
+`dsimp` は，定義上(definitionally)等しいもの同士しか単純化しないという制約付きの `simp` です．
 
 ## simps 属性
 補題を `simp` で使えるようにするのは `@[simp]` タグを付けることで可能ですが，`simps` 属性(または `@[simps]` タグ)を利用すると `simp` で使用するための補題を自動的に生成してくれます．これは Mathlib で定義されている機能であり，使用するには `Mathlib.Tactic.Basic` の読み込みが必要です．

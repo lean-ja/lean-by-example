@@ -51,7 +51,7 @@ example (x : Int) : myabs (2 * x) = 2 * myabs x := by
     -- if 式を消すための補題を準備する
     have hx : ¬ x ≥ 0 := by linarith [h]
 
-    -- `simp` で簡約
+    -- `simp` で単純化
     simp [h, hx]
 
 /-! ## match 式と split
