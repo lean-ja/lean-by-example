@@ -39,8 +39,29 @@ theorem or_and : (P ∨ Q ∨ R) ∧ R ↔ R := by
 example : (P ∨ Q ∨ R) ∧ R ↔ R := by simp
 
 /-! なお，`@[simp]` で登録した命題は「左辺を右辺に」簡約するルールとして登録されます．
-左辺と右辺を間違えて登録すると，無限ループになって `simp` の動作が破壊されることがあるので注意してください．-/
+左辺と右辺を間違えて登録すると，無限ループになって `simp` の動作が破壊されることがあります．`simp` 補題は慎重に登録してください．-/
+section
 
+-- 何もしていなければ simp で通る
+example (n m : Nat) : (n + 0) * m = n * m := by simp
+
+-- 良くない simp 補題の例
+-- 「左辺を右辺に」簡約するため，かえって複雑になってしまう
+-- なお local を付けているのは，この simp 補題登録の影響をセクション内に限定するため
+@[local simp]
+theorem bad_add_zero (n : Nat) : n = n + 0 := by rw [Nat.add_zero]
+
+-- 今まで簡約できていた式が簡約できなくなる
+/--
+error: tactic 'simp' failed, nested error:
+maximum recursion depth has been reached
+use `set_option maxRecDepth <num>` to increase limit
+use `set_option diagnostics true` to get diagnostic information
+-/
+#guard_msgs in
+example (n m : Nat) : (n + 0) * m = n * m := by simp
+
+end
 /-! ## simp で使用できる構文
 
 既知の `h : P` という命題を使って簡約させたいときは，明示的に `simp [h]` と指定することで可能です．複数個指定することもできます．また `simp only [h₁, ... , hₖ]` とすると `h₁, ... , hₖ` だけを使用して簡約を行います．-/
