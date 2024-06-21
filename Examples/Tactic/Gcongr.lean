@@ -2,7 +2,7 @@
 
 `gcongr` は合同関係(congruence)を扱うタクティクです．
 
-`n` 変数関数 `f` と `n+1` 個の2項関係 `∼`, `~₁`, ... `∼ₙ` に対して, `x₁ ~₁ x₁' → ... xₙ ~ₙ xₙ' → f x₁ ... xₙ ∼ f x₁' ... xₙ'` が成り立つという形の補題を使って，ゴールを簡約化します．
+`n` 変数関数 `f` と `n+1` 個の2項関係 `∼`, `~₁`, ... `∼ₙ` に対して, `x₁ ~₁ x₁' → ... xₙ ~ₙ xₙ' → f x₁ ... xₙ ∼ f x₁' ... xₙ'` が成り立つという形の補題を使って，ゴールを書き換えます．
 -/
 import Mathlib.Tactic.GCongr -- `gcongr` を使うため
 import Mathlib.Analysis.SpecialFunctions.Log.Basic -- `log` を使うため
@@ -69,7 +69,7 @@ example : B ∩ C ⊆ₘ (A ∪ B) ∩ C := by
   -- gcongr が使えるようになった
   gcongr
 
-  -- ゴールが簡約化された
+  -- ゴールが変わった
   show B ⊆ A ∪ B
   intro x hx
   aesop
