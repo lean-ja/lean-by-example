@@ -1,7 +1,7 @@
 /-
 # aesop
 
-`aesop` は，Automated Extensible Search for Obvious Proofs (自明な証明の拡張可能な自動探索)からその名があるタクティクです．Isabell の `auto` と似ています．`aesop` は `intro` や `simp` を使用してルーチンな証明を自動で行ってくれます．
+`aesop` は，Automated Extensible Search for Obvious Proofs (自明な証明の拡張可能な自動探索)からその名があるタクティクです．`aesop` は `intro` や `simp` を使用してルーチンな証明を自動で行ってくれます．
 -/
 import Aesop -- `aesop` を使用するため
 import Mathlib.Init.Function -- `Injective` を使用するため
