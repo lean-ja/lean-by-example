@@ -20,7 +20,6 @@
   - [#time: 実行時間計測](./DiagnosticCommand/Time.md)
 
 - [構文](./Syntax/README.md)
-  - [`_root_`: 一時的に名前空間を抜ける](./Syntax/Root.md)
   - [abbrev: 別名を定義する](./Syntax/Abbrev.md)
   - [attribute: 属性を付与する](./Syntax/Attribute.md)
   - [class: 型クラスを定義する](./Syntax/Class.md)
