@@ -34,6 +34,21 @@ is false
 -/
 #guard_msgs in example : 1 + 1 = 3 := by decide
 
+/- `decide` は `rfl` の上位互換ではなく，ゴールにローカル変数やメタ変数があると使えません．-/
+
+def double_fact (n : Nat) : Nat :=
+  match n with
+  | 0 => 1
+  | 1 => 1
+  | n + 2 => (n + 2) * double_fact n
+
+example (n : Nat) : double_fact (n + 2) = (n + 2) * double_fact n := by
+  -- decide は使えない
+  fail_if_success decide
+
+  -- rfl は使える
+  rfl
+
 /- ## カスタマイズ
 `Decidable` 型クラスのインスタンスに登録すれば，自前で用意した述語を `decide` に示させることができます．-/
 
