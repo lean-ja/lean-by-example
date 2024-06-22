@@ -28,7 +28,7 @@ example : ∀ x y ε : ℝ, 0 < ε → ε ≤ 1 → |x| < ε → |y| < ε → |x
     _ = |x| * |y| := abs_mul x y
     _ < ε * ε := by gcongr
     _ ≤ 1 * ε := by gcongr
-    _ = ε := by norm_num
+    _ = ε := by simp
 
 /- ## カスタマイズ
 自前で定義した二項関係も，`Trans` 型クラスのインスタンスにすれば `calc` で使用することができます．-/
