@@ -21,7 +21,7 @@ def myabs (x : Int) : Int :=
 
 example (x : Int) : myabs (2 * x) = 2 * myabs x := by
   -- `myabs` の定義を展開する
-  unfold myabs
+  dsimp [myabs]
 
   -- ゴールの中に if 式があって複雑
   show (if 2 * x ≥ 0 then 2 * x else -(2 * x)) = 2 * if x ≥ 0 then x else -x
@@ -69,7 +69,7 @@ example (x : Int) : mysgn (mysgn x) = mysgn x := by
   -- mysgn x を k と置く
   set k := mysgn x with h
   -- h の mysgn の定義を展開する
-  unfold mysgn at h
+  dsimp [mysgn] at h
   -- h の match の結果によって場合分け
   -- すべての場合 (k = -1, 0, 1) に関して mysgn の定義に従い計算する
   split at h

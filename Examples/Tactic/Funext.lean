@@ -12,7 +12,7 @@ example : f = g := by
   funext x
 
   -- `f` と `g` を定義に展開する
-  unfold f g
+  dsimp [f, g]
 
   -- `x + x` と `2 * x` が等しいことを証明する
   show x + x = 2 * x
@@ -24,6 +24,6 @@ example : f = g := by
   -- `ext` で書き換えることができる
   ext x
 
-  unfold f g
+  dsimp [f, g]
 
   ring
