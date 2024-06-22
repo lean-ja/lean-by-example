@@ -10,11 +10,13 @@
 
 誤りの指摘，編集の提案や寄稿を歓迎いたします．この GitHubリポジトリに issue や Pull Request を開いてください．
 
-* 句読点は `,` `.` を使用します．
-* タクティク `tactic` に対して，記事の名前は `tactic: (日本語による一言説明)` とします．
-* `src/SUMMARY.md` のタクティク記事は，アルファベット昇順に並べてください．VSCode だと `Tyriar.sort-lines` という拡張機能があって，並び替えを自動で行うことができます．
-* Lean コードは，コンパイルが通るようにして `Examples` 配下に配置します．「タクティクが失敗する例」を紹介したいときであっても `try` や `#guard_msgs` などを使ってコンパイルが通るようにしてください．コード例が正しいかチェックする際にその方が楽だからです．
-* 本文の markdown ファイルは [mdgen](https://github.com/Seasawher/mdgen) を用いて lean ファイルから生成します．lean ファイルを編集した後，`lake run build` コマンドを実行すれば markdown の生成と `mdbook build` が一括実行されます．
+* 句読点は全角ピリオドとカンマ `，` `．` を使用します．
+* 地の文はですます調とし，コード例の中の文章は常体とします．
+* 見出し語 `foo` に対して，目次の中での記事の名前は `foo: (日本語による一言説明)` とします．可能な限り１行に収まるようにしてください．
+* 本書では [mdbook](https://github.com/rust-lang/mdBook) を使用して markdown ファイルから HTML を生成しています．
+* 目次である `src/SUMMARY.md` の内の記事は，カテゴリごとにアルファベット昇順に並べてください．VSCode だと [Tyriar.sort-lines](https://marketplace.visualstudio.com/items?itemName=Tyriar.sort-lines) という拡張機能があって，並び替えを自動で行うことができます．
+* 本文の markdown ファイルは [mdgen](https://github.com/Seasawher/mdgen) を用いて Lean ファイルから生成します．Lean ファイルを編集した後，`lake run build` コマンドを実行すれば markdown の生成と `mdbook build` が一括実行されます．
+* Lean コードは，コンパイルが通るようにして `Examples` 配下に配置します．「エラーになる例」を紹介したいときであっても `try` や `#guard_msgs` や `fail_if_success` などを使ってコンパイルが通るようにしてください．コード例が正しいかチェックする際にその方が楽だからです．
 
 ## Do you want to translate this book?
 
