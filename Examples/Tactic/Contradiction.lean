@@ -20,6 +20,8 @@ example (x : Nat) (h : x ≠ x) : P := by contradiction
 -- 矛盾する仮定
 example (hP : P) (hnP : ¬ P) : Q := by contradiction
 
+/- 爆発律を利用するタクティクには他に [`exfalso`](./Exfalso.md) もありますが，あちらはゴールを `False` に書き換えるだけで，ゴールを閉じるところまでは行いません．-/
+
 /- ## 補足
 以下の例では，`contradiction` がいかにも通りそうに見えるのですが，通りません．`contradiction` にはあまり強力な前処理は備わっていないので，注意が必要です．
 -/
