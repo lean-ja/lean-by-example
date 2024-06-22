@@ -66,6 +66,7 @@
   - [contrapose: 対偶をとる](./Tactic/Contrapose.md)
   - [conv: 変換モードに入る](./Tactic/Conv.md)
   - [convert: 惜しい補題を使う](./Tactic/Convert.md)
+  - [decide: 決定可能な命題を示す](./Tactic/Decide.md)
   - [done: 証明終了を宣言](./Tactic/Done.md)
   - [exact: 証明を直接構成](./Tactic/Exact.md)
   - [exact?: exact できるか検索](./Tactic/ExactQuestion.md)
