@@ -36,3 +36,5 @@ example (n : ℕ) : n ≤ n := by rfl
 #guard_msgs in #reduce (2 ^ 30 + 3 ^ 30) % 5
 
 example : (2 ^ 30 + 3 ^ 30) % 5 = 3 := by rfl
+
+/- もし反射的でない関係について「定義から計算して示す」ことが必要であれば，[`decide`](./Decide.md) タクティクを使うと良いかもしれません．-/
