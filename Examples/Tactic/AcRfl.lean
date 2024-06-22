@@ -70,6 +70,7 @@ structure Color : Type where
   b : Nat
 
 namespace Color --#
+section
 
 def add (a b : Color) : Color :=
   ⟨a.r + b.r, a.g + b.g, a.b + b.b⟩
@@ -81,8 +82,9 @@ instance : Add Color where
 protected theorem add_comm (a b : Color) : a + b = b + a := by
   ext <;> apply Nat.add_comm
 
-/-- `add_comm` を `Std.Commutative` に登録する -/
-instance : Std.Commutative (α := Color) (· + ·) where
+/-- `add_comm` を `Std.Commutative` に登録する.
+local に宣言したので，このセクション内限定 -/
+local instance : Std.Commutative (α := Color) (· + ·) where
   comm := Color.add_comm
 
 /--
@@ -96,31 +98,29 @@ a b : Color
 #guard_msgs in example (a b : Color) : a + b = b + a := by
   ac_rfl
 
+end
 /- ## 結合法則と `ac_rfl`
 上記のように, `ac_rfl` は可換性だけで示せることを可換性だけで示せないのですが，往々にして結合法則だけで示せることは結合法則だけで示すことができます．
 -/
-
--- 上記で与えた `Std.Commutative` のインスタンスを削除する
-attribute [-instance] instCommutativeHAdd
-
--- 可換性のインスタンスがなくなった
-/--
-error: failed to synthesize
-  Std.Commutative fun x x_1 => x + x_1
-use `set_option diagnostics true` to get diagnostic information
--/
-#guard_msgs in #synth Std.Commutative (α := Color) (· + ·)
+section
 
 /-- `Color` の足し算は結合的 -/
 protected theorem add_assoc (a b c : Color) : a + b + c = a + (b + c) := by
   ext <;> apply Nat.add_assoc
 
-/-- `add_comm` を `Std.Associative` に登録する -/
-instance : Std.Associative (α := Color) (· + ·) where
+-- エラーになっているので，
+-- Commutative のインスタンスはないことが確認できる
+#guard_msgs (drop error) in
+#synth Std.Commutative (α := Color) (· + ·)
+
+/-- `add_comm` を `Std.Associative` に登録する.
+local にしたのでセクション内でのみ有効 -/
+local instance : Std.Associative (α := Color) (· + ·) where
   assoc := Color.add_assoc
 
 -- 結合法則だけで示せることは示すことができる
 example {a b c : Color} : (a + b) + (c + (b + a)) = a + b + c + b + a := by
   ac_rfl
 
+end
 end Color --#
