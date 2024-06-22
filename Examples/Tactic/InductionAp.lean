@@ -39,14 +39,6 @@ example (n : Nat) : sum n = n * (n + 1) / 2 := by
 -/
 namespace Pair --#
 
--- `Nat.succ` を `x + 1` に変換するのが面倒なので導入
-@[simp]
-theorem nat_succ_eq_add_one {x : Nat} : Nat.succ x = x + 1 := by rfl
-
--- `Nat.zero` を `0` に変換するのが面倒なので導入
-@[simp]
-theorem nat_zero_eq_zero : Nat.zero = 0 := by rfl
-
 /-- `0` から `n` までの自然数の和.
 多項式として表現する必要はないので，返り値は自然数. -/
 def sum (n : ℕ) : ℕ :=
