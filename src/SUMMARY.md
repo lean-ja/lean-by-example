@@ -18,6 +18,7 @@
   - [#print: 中身を見る](./DiagnosticCommand/Print.md)
   - [#synth: 型クラスの検査](./DiagnosticCommand/Synth.md)
   - [#time: 実行時間計測](./DiagnosticCommand/Time.md)
+  - [#whnf: 式を弱頭正規形に](./DiagnosticCommand/Whnf.md)
 
 - [構文](./Syntax/README.md)
   - [abbrev: 別名を定義する](./Syntax/Abbrev.md)
