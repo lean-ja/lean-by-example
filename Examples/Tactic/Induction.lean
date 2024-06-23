@@ -64,6 +64,7 @@ theorem sample : True := by
     match n with
     | 0 => rfl
     | n + 1 =>
+      -- h 自身を参照することができない
       fail_if_success have ih := h n
       sorry
   trivial

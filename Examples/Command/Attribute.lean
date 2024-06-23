@@ -19,7 +19,10 @@ theorem foo {P Q : Prop} : (P → Q) ∧ P ↔ Q ∧ P := by
 example {P Q : Prop} : (P → Q) ∧ P ↔ Q ∧ P := by
   simp
   show P → P ∨ Q
-  sorry
+
+  intro (h : P)
+  left
+  assumption
 
 -- `attribute` で属性を付与
 attribute [simp] foo
@@ -37,7 +40,10 @@ attribute [-simp] foo
 example {P Q : Prop} : (P → Q) ∧ P ↔ Q ∧ P := by
   simp
   show P → P ∨ Q
-  sorry
+
+  intro (h : P)
+  left
+  assumption
 
 /- `attribute` コマンドを使用すると定義の後から属性を付与することができますが，定義した直後に属性を付与する場合はタグと呼ばれる `@[..]` という書き方が使えます．-/
 

@@ -26,7 +26,7 @@ example : (m - n) - n = m - 2 * n := by
   -- ゴールが等式でないのでエラーになる
   rw_search
 
--- `=` に書き換えると何故か示せる
+-- `=` に書き換えると示せる
 example (h : n + m = 0) : n = 0 ↔ m = 0 := by
   suffices (n = 0) = (m = 0) from Eq.to_iff this
 
@@ -34,10 +34,17 @@ example (h : n + m = 0) : n = 0 ↔ m = 0 := by
     rw [propext (eq_zero_iff_eq_zero_of_add_eq_zero h)]
 
 /-! ## rw?
-`rw?` は `apply?` のように，ゴールを `rw` できる補題をライブラリから検索します．`rw?` は等式以外も扱うことができます．-/
+`rw?` は `apply?` のように，ゴールを `rw` できる補題をライブラリから検索します．`rw?` は等式以外も扱うことができますが，`rw_search` と同様に同値関係の扱いは苦手です．-/
 
 example (h : n + m = 0) : n = 0 ↔ m = 0 := by
-  -- 複数の候補を出してしまうが，候補は出してくれる
-  rw?
+  try
+    -- 複数の候補を出してしまうが，候補は出してくれる
+    rw?
 
-  sorry
+    -- いったん失敗させる
+    fail
+
+  -- `=` に書き換えると一発で示せる
+  suffices (n = 0) = (m = 0) from Eq.to_iff this
+  rw? says
+    rw [propext (eq_zero_iff_eq_zero_of_add_eq_zero h)]

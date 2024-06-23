@@ -13,7 +13,9 @@ example : (P ∨ Q ∨ R) ∧ R ↔ R := by
   simp
   show R → P ∨ Q ∨ R
 
-  sorry
+  -- 残りを適当に証明する
+  intro hR
+  tauto
 
 @[simp]
 theorem or_and : (P ∨ Q ∨ R) ∧ R ↔ R := by
@@ -107,7 +109,11 @@ example {x y : Nat} : 0 < 1 + x ∧ x + y + 2 ≥ y + 1 := by
   simp
   show y ≤ x + y + 1
 
-  sorry
+  -- 残りを適当に証明する
+  have : y ≤ x + y + 1 := calc
+    y = 0 + y := by simp
+    _ ≤ x + 1 + y := by gcongr; simp
+    _ = x + y + 1 := by ac_rfl
 
 example {x y : Nat} : 0 < 1 + x ∧ x + y + 2 ≥ y + 1 := by
   -- config を与えれば一発で終わる
