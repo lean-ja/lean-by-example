@@ -2,8 +2,8 @@
 # section
 `section` は，スコープを区切るためのコマンドです．以下のコマンドのスコープを区切ることができます．
 
-* `variable`
-* `open`
+* [`variable`](./Variable.md)
+* [`open`](./Open.md)
 * `set_option`
 * `local`
 
