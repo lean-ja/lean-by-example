@@ -3,6 +3,7 @@
 `exists` は，「～という `x` が存在する」という命題を示すために，「この `x` を使え」と指示するコマンドです．
 
 ゴールが `⊢ ∃ x, P x` のとき，`x: X` がローカルコンテキストにあれば，`exists x` によりゴールが `P x` に変わります．同時に，`P x` が自明な場合は証明が終了します．-/
+import Lean -- #tactic_expand を定義するため
 
 namespace Exists --#
 
@@ -32,5 +33,15 @@ example : ∃ x : Nat, 3 * x + 1 = 7 := by
   exact ⟨2, show 3 * 2 + 1 = 7 from by rfl⟩
 
 /- 一般に `exists e₁, e₂, ..` は `refine ⟨e₁, e₂, ..⟩; try trivial` の糖衣構文です．-/
+
+open Lean
+
+-- タクティクのマクロ展開を調べるためのコマンド
+elab "#tactic_expand " t:tactic : command => do
+  let some t ← Elab.liftMacroM <| Lean.Macro.expandMacro? t | logInfo m!"Not a macro"
+  logInfo m!"{t}"
+
+/-- info: (refine ⟨1, 2, 3, ?_⟩; try trivial) -/
+#guard_msgs in #tactic_expand exists 1, 2, 3
 
 end Exists --#
