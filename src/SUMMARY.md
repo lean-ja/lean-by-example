@@ -38,6 +38,7 @@
   - [protected: フルネームを強制する](./Command/Protected.md)
   - [section: スコープを区切る](./Command/Section.md)
   - [structure: 構造体を定義する](./Command/Structure.md)
+  - [termination_by: 整礎再帰を使う](./Command/TerminationBy.md)
   - [theorem: 命題を証明する](./Command/Theorem.md)
   - [variable: 引数を共通化する](./Command/Variable.md)
 
