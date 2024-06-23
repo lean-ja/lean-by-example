@@ -16,10 +16,12 @@ example (h1 : a ≤ b) (h2 : c ≤ d) : a + c ≤ b + d := by
 #guard_msgs in
 example (x : Nat) : Nat := by rel [x]
 
-/-! ## gcongr
-なお，基本的に `rel` よりも `gcongr` の方が強いタクティクです. `gcongr` は `rel` とは異なり，ローカルコンテキストから必要な命題を自動的に読み込むことができます．
+/-! なお，基本的に `rel` よりも [`gcongr`](./Gcongr.md) の方が強いタクティクです. `gcongr` は `rel` とは異なり，ローカルコンテキストから必要な命題を自動的に読み込むことができます．
 -/
 
 example (h1 : a ≤ b) (h2 : c ≤ d) : a + c ≤ b + d := by
-  -- `gcongr` でも示すことができる
+  -- 引数を与えないと通らない
+  fail_if_success rel []
+
+  -- `gcongr` は必要な仮定をローカルコンテキストから取得する
   gcongr
