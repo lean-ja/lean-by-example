@@ -32,7 +32,7 @@ Exists.intro : ∀ {α : Sort u} {p : α → Prop} (w : α), p w → Exists p
 example : ∃ x : Nat, 3 * x + 1 = 7 := by
   exact ⟨2, show 3 * 2 + 1 = 7 from by rfl⟩
 
-/- 一般に `exists e₁, e₂, ..` は `refine ⟨e₁, e₂, ..⟩; try trivial` の糖衣構文です．-/
+/- 一般に `exists e₁, e₂, .., eₙ` は `refine ⟨e₁, e₂, .., eₙ, ?_⟩; try trivial` の糖衣構文です．-/
 
 open Lean
 
