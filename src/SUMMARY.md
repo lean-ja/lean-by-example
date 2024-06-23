@@ -112,7 +112,7 @@
   - [suffices: 十分条件に帰着](./Tactic/Suffices.md)
   - [tauto: トートロジーを示す](./Tactic/Tauto.md)
   - [trans: 推移律を利用する](./Tactic/Trans.md)
-  - [trivial: 自明](./Tactic/Trivial.md)
+  - [trivial: 基本的なタクティクを試す](./Tactic/Trivial.md)
   - [try: 失敗をエラーにしない](./Tactic/Try.md)
   - [unfold: 定義に展開](./Tactic/Unfold.md)
   - [wlog: 一般性を失わずに特殊化](./Tactic/Wlog.md)
