@@ -22,4 +22,5 @@ jobs:
       - name: lean action
         uses: leanprover/lean-action@v1-beta
         with:
+          build-args: "--quiet"
           test: false
