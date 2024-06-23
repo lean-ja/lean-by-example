@@ -7,6 +7,4 @@
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
   "files.trimTrailingWhitespace": true,
-  "code-eol.validLineEnding": "LF",
-  "code-eol.newlineCharacter":"",
 }
