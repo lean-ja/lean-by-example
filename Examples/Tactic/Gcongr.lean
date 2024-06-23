@@ -3,6 +3,8 @@
 `gcongr` は合同関係(congruence)を扱うタクティクです．
 
 `n` 変数関数 `f` と `n+1` 個の2項関係 `∼`, `~₁`, ... `∼ₙ` に対して, `x₁ ~₁ x₁' → ... xₙ ~ₙ xₙ' → f x₁ ... xₙ ∼ f x₁' ... xₙ'` が成り立つという形の補題を使って，ゴールを書き換えます．
+
+同様に合同性を扱うタクティクに [`congr`](./Congr.md) がありますが，あちらは等号を扱います．
 -/
 import Mathlib.Tactic.GCongr -- `gcongr` を使うため
 import Mathlib.Analysis.SpecialFunctions.Log.Basic -- `log` を使うため
