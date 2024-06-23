@@ -93,7 +93,7 @@
   - [omega: 自然数の線形計画を解く](./Tactic/Omega.md)
   - [push_neg: ドモルガン](./Tactic/PushNeg.md)
   - [qify: 有理数にキャストする](./Tactic/Qify.md)
-  - [refine: 後方推論](./Tactic/Refine.md)
+  - [refine: 穴埋め推論](./Tactic/Refine.md)
   - [rel: 不等式を使う](./Tactic/Rel.md)
   - [rename_i: 死んだ変数に名前を付ける](./Tactic/RenameI.md)
   - [repeat: 繰り返し適用](./Tactic/Repeat.md)
