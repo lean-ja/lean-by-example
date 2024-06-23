@@ -110,8 +110,7 @@ example {x y : Nat} : 0 < 1 + x ∧ x + y + 2 ≥ y + 1 := by
   show y ≤ x + y + 1
 
   -- 残りを適当に証明する
-  have : y ≤ x + y + 1 := calc
-    y = 0 + y := by simp
+  calc y = 0 + y := by simp
     _ ≤ x + 1 + y := by gcongr; simp
     _ = x + y + 1 := by ac_rfl
 
