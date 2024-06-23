@@ -17,9 +17,7 @@ def w := "world"
 /-- info: "hello, world" -/
 #guard_msgs in #eval s!"hello, {w}"
 
-/-! ## 関数の値の評価
-定義した関数が特定の値に対してどのように振る舞うか，その場で調べることができます．
--/
+/-! 定義した関数が特定の値に対してどのように振る舞うか，その場で調べることができます．-/
 
 -- 階乗関数
 def fac : ℕ → ℕ
@@ -29,9 +27,7 @@ def fac : ℕ → ℕ
 /-- info: 120 -/
 #guard_msgs in #eval fac 5
 
-/-! ## IO アクションの評価
-`#eval` により一部の IO アクションを実行することもできます．
--/
+/-! `#eval` により一部の IO アクションを実行することもできます．-/
 
 def main : IO Unit :=
   IO.println "Hello, world!"
