@@ -97,3 +97,43 @@ example (n : MyNat) : MyNat.zero + n = n := by
   fail_if_success dsimp [MyNat.add]
 
   rw [MyNat.zero_add]
+
+/- ## unfold との違い
+同じく名前を定義に展開するタクティクとして [`unfold`](./Unfold.md) があります．たいていの場合両者は同じように使うことができますが，`unfold` は次のような意外な挙動をすることがあるので `dsimp` を使うことを推奨します．
+-/
+
+-- α の部分集合を表す型
+def Set (α : Type) := α → Prop
+
+-- 部分集合の共通部分を取る操作
+def Set.inter {α : Type} (s t : Set α) : Set α := fun x => s x ∧ t x
+
+-- ∩ という記法を使えるようにする
+instance (α : Type) : Inter (Set α) where
+  inter := Set.inter
+
+variable {α : Type} (s u : Set α)
+
+example: True ∨ (s ∩ u = u ∩ s) := by
+  -- ∩ 記号を展開する
+  dsimp [Inter.inter]
+
+  -- Set.inter で書き直される
+  show True ∨ (s.inter u = u.inter s)
+
+  left; trivial
+
+example : True ∨ (s ∩ u = u ∩ s) := by
+  -- ∩ 記号を展開する
+  unfold Inter.inter
+
+  -- 展開結果にインスタンスが入ってしまう
+  show True ∨ (instInterSet α).1 s u = (instInterSet α).1 u s
+
+  -- 再びインスタンスの展開を試みると
+  unfold instInterSet
+
+  -- 振り出しに戻ってしまう！
+  show True ∨ (s ∩ u = u ∩ s)
+
+  left; trivial
