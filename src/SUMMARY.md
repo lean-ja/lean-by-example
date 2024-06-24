@@ -67,6 +67,7 @@
   - [convert: 惜しい補題を使う](./Tactic/Convert.md)
   - [decide: 決定可能な命題を示す](./Tactic/Decide.md)
   - [done: 証明終了を宣言](./Tactic/Done.md)
+  - [dsimp: 定義に展開](./Tactic/Dsimp.md)
   - [exact: 証明を直接構成](./Tactic/Exact.md)
   - [exact?: exact できるか検索](./Tactic/ExactQuestion.md)
   - [exfalso: 矛盾を示すことに帰着](./Tactic/Exfalso.md)
