@@ -28,7 +28,7 @@
   - [export: 現在の名前空間に追加](./Command/Export.md)
   - [inductive: 帰納型を定義する](./Command/Inductive.md)
   - [instance: インスタンスを定義する](./Command/Instance.md)
-  - [local: スコープ内限定にする](./Command/Local.md)
+  - [local: コマンドの有効範囲を限定](./Command/Local.md)
   - [namespace: 名前空間を宣言する](./Command/Namespace.md)
   - [noncomputable: 関数を計算不能に](./Command/Noncomputable.md)
   - [notation: 記法を導入する](./Command/Notation.md)
