@@ -2,7 +2,7 @@
 
 <!-- [![repo logo](./src/image/project_image.png)]() -->
 
-![workflow](https://github.com/lean-ja/lean-by-example/actions/workflows/ci.yml/badge.svg) ![workflow](https://github.com/lean-ja/lean-by-example/actions/workflows/deploy.yml/badge.svg) ![workflow](https://github.com/lean-ja/lean-by-example/actions/workflows/update.yml/badge.svg) [![](https://dcbadge.limes.pink/api/server/p32ZfnVawh?style=flat)](https://discord.gg/p32ZfnVawh)
+[![workflow](https://github.com/lean-ja/lean-by-example/actions/workflows/ci.yml/badge.svg)](https://github.com/lean-ja/lean-by-example/blob/main/.github/workflows/ci.yml) [![workflow](https://github.com/lean-ja/lean-by-example/actions/workflows/deploy.yml/badge.svg)](https://github.com/lean-ja/lean-by-example/blob/main/.github/workflows/deploy.yml) [![workflow](https://github.com/lean-ja/lean-by-example/actions/workflows/update.yml/badge.svg)](https://github.com/lean-ja/lean-by-example/blob/main/.github/workflows/update.yml) [![discord](https://dcbadge.limes.pink/api/server/p32ZfnVawh?style=flat)](https://discord.gg/p32ZfnVawh)
 
 プログラミング言語であるとともに定理証明支援系でもある Lean 言語と，その主要なライブラリの使い方を豊富なコード例とともに解説した資料です．
 
