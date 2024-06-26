@@ -6,6 +6,7 @@
 
 しかし，`native_decide` を使うと証明が可能です．
 -/
+namespace NativeDecide --#
 
 /-- Euclide のアルゴリズム -/
 def gcd (m n : Nat) : Nat :=
@@ -31,5 +32,27 @@ def gcd (m n : Nat) : Nat :=
 
 theorem native : Nat.gcd 42998431 120019 = 1 := by native_decide
 
-/-- info: 'native' depends on axioms: [propext, Lean.ofReduceBool] -/
+/-- info: 'NativeDecide.native' depends on axioms: [propext, Lean.ofReduceBool] -/
 #guard_msgs in #print axioms native
+
+/- ## 信頼性
+`native_decide` を使うことは安全ではなく，`native_decide` を使うと簡単に `False` を示すことができます．-/
+
+def one := 1
+
+-- 間違った実装をわざと提供する
+@[implemented_by one] def zero := 0
+
+theorem zero_ne_eq_one : False := by
+  have : zero ≠ one := by decide
+
+  -- native_decide は implemented_by を真に受けるので，
+  -- 実際には間違いだが示せてしまう
+  have : zero = one := by native_decide
+
+  contradiction
+
+/-- info: 'NativeDecide.zero_ne_eq_one' depends on axioms: [Lean.ofReduceBool] -/
+#guard_msgs in #print axioms zero_ne_eq_one
+
+end NativeDecide --#
