@@ -1,7 +1,7 @@
 import Lake
 open Lake DSL
 
-package «Tactic Cheatsheet» where
+package «Lean by Example» where
   leanOptions := #[
     ⟨`autoImplicit, false⟩,
     ⟨`relaxedAutoImplicit, false⟩
