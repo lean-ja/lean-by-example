@@ -34,7 +34,6 @@ end hoge
 -- 再び同じ名前の namespace をオープンする
 namespace hoge
   -- 使用できない！
-  -- namespace
   #check_failure succ'
 end hoge
 
