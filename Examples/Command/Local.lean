@@ -51,11 +51,11 @@ end hoge
 数が多いためすべての例を挙げることはしませんが，いくつか紹介します．たとえば `instance` の場合，`local` を付けて登録したインスタンスがその `section` の内部限定になります．
 -/
 
-section
-  inductive MyNat : Type where
-    | zero : MyNat
-    | succ : MyNat → MyNat
+inductive MyNat : Type where
+  | zero : MyNat
+  | succ : MyNat → MyNat
 
+section
   -- local を付けてインスタンスを定義
   local instance : OfNat MyNat 0 where
     ofNat := MyNat.zero
@@ -66,3 +66,28 @@ end
 
 -- section を抜けると使えなくなる
 #check_failure (0 : MyNat)
+
+/- ## 属性に対する `local`
+属性付与の効果範囲を限定するためには，[`attribute`](./Attribute.md) コマンドを `local` で修飾するのではなく，`attribute` コマンドの中で `local` を使います．
+-/
+
+def MyNat.add (n m : MyNat) : MyNat :=
+  match m with
+  | zero => n
+  | succ m => succ (MyNat.add n m)
+
+theorem MyNat.zero_add (n : MyNat) : MyNat.add .zero n = n := by
+  induction n with
+  | zero => rfl
+  | succ n ih => simp [MyNat.add, ih]
+
+section
+  -- simp 属性をローカルに付与する
+  attribute [local simp] MyNat.zero_add
+
+  -- その section の中では使用できる
+  #check (by simp : MyNat.add .zero .zero = .zero)
+end
+
+-- section を抜けると simp 補題が利用できなくなる
+#check_failure (by simp : MyNat.add .zero .zero = .zero)
