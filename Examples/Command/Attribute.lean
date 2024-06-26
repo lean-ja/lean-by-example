@@ -59,4 +59,38 @@ theorem bar {P Q : Prop} : (P → Q) ∧ P ↔ Q ∧ P := by
 example {P Q : Prop} : (P → Q) ∧ P ↔ Q ∧ P := by
   simp
 
+/- ## 属性のスコープを制限する
+特定の [`section`](./Section.md) でのみ付与した属性を有効にするには，[`local`](./Local.md) で属性名を修飾します．
+-/
+example (P Q : Prop) : ((P ∨ Q) ∧ ¬ Q) ↔ (P ∧ ¬ Q) := by
+  -- simp だけでは証明が終わらない
+  try simp
+  show ¬Q → Q → P
+
+  intro hnQ hQ
+  contradiction
+
+section
+  -- 補題
+  theorem or_and_neg (P Q : Prop) : ((P ∨ Q) ∧ ¬ Q) ↔ (P ∧ ¬ Q) := by
+    constructor <;> intro h
+    · obtain ⟨hPQ, hnQ⟩ := h
+      rcases hPQ with hP | hQ
+      · exact ⟨hP, hnQ⟩
+      · contradiction
+    · obtain ⟨hP, hnQ⟩ := h
+      exact ⟨by left; assumption, hnQ⟩
+
+  -- local に simp 補題を登録
+  attribute [local simp] or_and_neg
+
+  -- simp で証明ができる
+  example (P Q : Prop) : ((P ∨ Q) ∧ ¬ Q) ↔ (P ∧ ¬ Q) := by simp
+end
+
+variable (P Q : Prop)
+
+-- section を抜けると simp 補題が利用できない
+#check_failure (by simp : ((P ∨ Q) ∧ ¬ Q) ↔ (P ∧ ¬ Q))
+
 end Attribute --#
