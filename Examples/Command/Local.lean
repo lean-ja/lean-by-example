@@ -37,7 +37,8 @@ namespace hoge
   #check_failure succ'
 end hoge
 
-/- `local` で局所化できるコマンドには，次のようなものがあります．
+
+/- `local` で有効範囲を限定できるコマンドには，次のようなものがあります．(以下で全部ではありません)
 * `elab`, `elab_rules`
 * `macro`, `macro_rules`
 * `infix`, `infil`, `infixr`
