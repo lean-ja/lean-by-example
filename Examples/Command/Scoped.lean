@@ -38,3 +38,39 @@ end
 * `simproc`
 * `syntax`
 -/
+
+/- ## `open scoped`
+`open scoped` コマンドを利用すると，特定の名前空間にある `scoped` が付けられた名前だけを有効にすることができます．単に [`open`](./Open.md) コマンドを利用するとその名前空間にあるすべての名前が有効になります．
+-/
+
+namespace Foo
+  -- Foo の中でのみ有効な add' という名前を定義
+  scoped infix:55 " add' " => Nat.add
+
+  -- 動作する
+  #guard 30 add' 12 = 42
+
+  -- Foo の中で greet も定義
+  def greet := "hello"
+
+end Foo
+
+section
+  -- 単に open した場合，どちらも使用可能
+  open Foo
+
+  #check (30 add' 12)
+
+  #check greet
+end
+
+section
+  -- open scoped とした場合
+  open scoped Foo
+
+  -- scoped がついた宣言は使用可能
+  #check (30 add' 12)
+
+  -- greet は使えないまま
+  #check_failure greet
+end
