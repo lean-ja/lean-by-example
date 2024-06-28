@@ -1,22 +1,27 @@
 /- # scoped
 `scoped` は，コマンドの有効範囲を現在の名前空間に限定します．
 -/
+-- #target をコマンドとして認識させる
+-- 実装は与えない
+syntax "#greet" : command
+
 namespace Scoped
   -- scoped を付けて greet コマンドをマクロとして定義
-  scoped macro "greet" : command => `(#eval "hello, world!")
+  scoped macro "#greet" : command => `(#eval "hello, world!")
 
   -- その名前空間の中では greet コマンドが利用できる
-  greet
+  #greet
 
 end Scoped
 
--- 名前空間を抜けると利用できない
-#check_failure greet
+-- 名前空間を抜けると使えなくなる
+/-- error: elaboration function for '«command#greet»' has not been implemented -/
+#guard_msgs in #greet
 
 -- 再び同じ名前で名前空間を開く
 namespace Scoped
     -- その名前空間の中では greet コマンドが利用できる
-    greet
+    #greet
 
 end Scoped
 
@@ -24,7 +29,7 @@ section
   open Scoped
 
   -- 単に open するだけでも利用できるようになる
-  greet
+  #greet
 end
 
 /- `scoped` で有効範囲を限定できるコマンドには，次のようなものがあります．（以下で全部ではありません）
