@@ -24,7 +24,7 @@ instance {α : Type} [Add α] : Add (Point α) where
 
 /-
 ## 舞台裏
-`instance` は `@[instance]` タグが付けられた `def` と同じように振る舞います．
+`instance` は `@[instance]` 属性を付与された `def` と同じです．
 -/
 
 -- `List` 同士を足すことはできない
@@ -37,6 +37,12 @@ def instListAdd {α : Type} : Add (List α) where
 
 -- リスト同士を足すことができるようになった
 -- 実装としては，上で指定した通り `List.append` が使われる
-#check [1] + [2]
+#guard [1] + [2] = [1, 2]
+
+-- インスタンスを削除する
+attribute [-instance] instListAdd
+
+-- リスト同士を足すことができなくなった
+#check_failure [1] + [2]
 
 end Instance --#
