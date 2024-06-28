@@ -38,8 +38,9 @@ open Lean
 
 -- タクティクのマクロ展開を調べるためのコマンド
 elab "#tactic_expand " t:tactic : command => do
-  let some t ← Elab.liftMacroM <| Lean.Macro.expandMacro? t | logInfo m!"Not a macro"
-  logInfo m!"{t}"
+  match ← Elab.liftMacroM <| Lean.Macro.expandMacro? t with
+  | none => logInfo m!"Not a macro"
+  | some t => logInfo m!"{t}"
 
 /-- info: (refine ⟨1, 2, 3, ?_⟩; try trivial) -/
 #guard_msgs in #tactic_expand exists 1, 2, 3
