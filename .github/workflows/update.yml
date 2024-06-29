@@ -7,6 +7,7 @@ on:
 jobs:
   update_lean:
     runs-on: ubuntu-latest
+    if: github.repository_owner == 'lean-ja'
     permissions:
       issues: write
       pull-requests: write
