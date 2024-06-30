@@ -1136,7 +1136,7 @@ var hljs=function(){"use strict";function e(n){Object.freeze(n)
         'fail_if_success success_if_fail guard_target guard_hyp ' +
         'have replace at suffices show from ' +
         'congr congr_n congr_arg norm_num ring ' +
-        'exists ext fail native_decide decide change ',
+        'exists ext fail native_decide decide change obtain ',
       literal:
         'true false',
       meta:
