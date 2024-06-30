@@ -27,7 +27,7 @@ Exists.intro : ∀ {α : Sort u} {p : α → Prop} (w : α), p w → Exists p
 -- このとき `w : α` と `h : p w` が与えられたとき `∃ x : α, p x` が成り立つ.
 #check (Exists.intro : ∀ {α : Sort u} {p : α → Prop} (w : α) (h : p w), Exists p)
 
-/- したがって `Exists` は単一のコンストラクタを持つ帰納型，つまり構造体なので，上記の `exists` は `exact` と[無名コンストラクタ](../Command/Structure.md#無名コンストラクタ)で次のように書き直すことができます．-/
+/- したがって `Exists` は単一のコンストラクタを持つ帰納型，つまり構造体なので，上記の `exists` は `exact` と[無名コンストラクタ](../Command/Structure.md#AnonymousConstructor)で次のように書き直すことができます．-/
 
 example : ∃ x : Nat, 3 * x + 1 = 7 := by
   exact ⟨2, show 3 * 2 + 1 = 7 from by rfl⟩

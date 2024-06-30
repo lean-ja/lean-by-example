@@ -38,7 +38,7 @@ structure Prod (α : Type) (β : Type) where
 -- コンストラクタ
 #check Prod.gen
 
-/- ## 無名コンストラクタ
+/- ## 無名コンストラクタ { #AnonymousConstructor }
 無名コンストラクタは，構造体 `T` に対して `T` 型の項を構成する方法のひとつです．これは以下に示すように，`⟨x1, x2, ...⟩` という構文により使うことができます．
 -/
 set_option linter.unusedVariables false --#
