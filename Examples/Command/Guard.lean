@@ -12,7 +12,7 @@ def fac : Nat → Nat
 
 #guard fac 5 == 120
 
-/- ## guard と Prop 型
+/- ## 舞台裏
 `#guard` に `Bool` ではなく `Prop` 型の項を与えた場合，エラーになることがあります．次の命題は証明があるので真ですが， `#guard` は通りません.
 -/
 
@@ -34,7 +34,7 @@ error: cannot evaluate code because 'sorryAx' uses 'sorry' and/or contains error
 #guard_msgs (whitespace := lax) in
 #guard ((α : Type) → ∀ (l : List α), [] ⊆ l : Prop)
 
-/-! しかし， `1 + 1 = 2` 等も `#check` で確かめてみると型は `Prop` です．にも関わらず `#guard` に渡してもエラーになりません． これはなぜでしょうか？ -/
+/-! しかし， `1 + 1 = 2` 等も `#check` で確かめてみると型は `Prop` です．にも関わらず `#guard` に渡してもエラーになりません．これは不思議に思えますが，理由は `1 + 1 = 2` が `Decidable` 型クラスのインスタンスであり, 決定可能だからです．-/
 
 -- 型は Prop
 /-- info: 1 + 1 = 2 : Prop -/
@@ -42,14 +42,17 @@ error: cannot evaluate code because 'sorryAx' uses 'sorry' and/or contains error
 
 #guard 1 + 1 = 2
 
-/-! ## 決定可能性
-`Prop` 型であっても， Decidable (決定可能)であれば `Bool` に変換できます．それを自動で行っているので，`Prop` 型の項でも `#guard` に通せることがあります．
+-- 1 + 1 = 2 は決定可能
+#synth Decidable (1 + 1 = 2)
+
+/-!
+`Prop` 型であっても，`Decidable` クラスのインスタンスであれば `Bool` に変換できます．それを自動で行っているので，`Prop` 型の項でも `#guard` に通せるというわけです．
 -/
 
 -- 決定可能な Prop 型の項を Bool に変換する関数
 #check (decide : (p : Prop) → [_h : Decidable p] → Bool)
 
--- Bool 型になっている！
+-- Bool 型になっている
 /-- info: decide (1 + 1 = 2) : Bool -/
 #guard_msgs in #check decide (1 + 1 = 2)
 
