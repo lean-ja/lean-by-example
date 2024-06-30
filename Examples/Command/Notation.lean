@@ -54,7 +54,35 @@ example : (2 strong 2 weak 3) = 7 := calc
   _ = (4 weak 3) := rfl
   _ = 7 := rfl
 
-/- 優先順位を省略することもできるのですが，とても意外な挙動になるので推奨できません．必ず全ての優先順位を指定してください．-/
+/- ## プレースホルダの優先順位
+プレースホルダの優先順位の数字は，「この位置に来る記号は，指定された数字以上の優先順位を持たなければならない」ことを意味します．下記の例の場合，仮に右結合になるとすると `LXOR` 自身のパース優先順位が `60` でしかなくて `61` 以上という制約を満たさないため，右結合になることがありえないことがわかります．
+-/
+
+-- 右側のプレースホルダの優先順位を１だけ大きくした
+notation:60 a:60 " LXOR " b:61 => !a && b
+
+-- 左結合だった場合の値
+#guard (true LXOR false) LXOR true = true
+-- 右結合だった場合の値
+#guard true LXOR (false LXOR true) = false
+
+-- 左結合になることがわかる
+#guard true LXOR false LXOR true = true
+
+/- 逆にすると右結合になります．-/
+
+notation:60 a:61 " RXOR " b:60 => a && !b
+
+-- 左結合だった場合の値
+#guard (true RXOR false) RXOR true = false
+-- 右結合だった場合の値
+#guard true RXOR (false RXOR true) = true
+
+-- 右結合になることがわかる
+#guard true RXOR false RXOR true = true
+
+/- ### 優先順位を省略した場合
+優先順位を省略することもできるのですが，とても意外な挙動になるので推奨できません．必ず全ての優先順位を指定してください．-/
 
 /-- 優先順位を全く指定しないで定義した記法. 中身はべき乗 -/
 notation a " bad_pow " b => Nat.pow a b
@@ -76,6 +104,7 @@ example : (2 weak 3 bad_pow 1 weak 2) = 29 := calc
   _ = (2 weak 27) := rfl
   _ = 29 := rfl
 
+/- 優先順位を一部だけ指定しても効果がなく，強制的に右結合扱いになります．-/
 
 /-- プレースホルダの優先順位を省略した weak -/
 notation:20 a " bad_weak" b => Nat.add a b
