@@ -1116,9 +1116,10 @@ var hljs=function(){"use strict";function e(n){Object.freeze(n)
         'calc match with do by let extends ' +
         'for in unless try catch finally mutual mut return continue break where rec ' +
         'syntax macro_rules macro deriving ' +
-        'fun ' +
+        'fun elab ' +
         '#check #check_failure #eval #reduce #print ' +
-        'section namespace end infix infixl infixr postfix prefix notation ',
+        '#guard #guard_msgs #synth ' +
+        'section namespace end infix infixl infixr postfix prefix notation abbrev ',
       built_in:
         'Type Prop|10 Sort rw|10 rewrite rwa erw subst substs ' +
         'simp dsimp simpa simp_intros finish using generalizing ' +
@@ -1134,11 +1135,12 @@ var hljs=function(){"use strict";function e(n){Object.freeze(n)
         'repeat skip swap solve1 abstract all_goals any_goals done ' +
         'fail_if_success success_if_fail guard_target guard_hyp ' +
         'have replace at suffices show from ' +
-        'congr congr_n congr_arg norm_num ring ',
+        'congr congr_n congr_arg norm_num ring ' +
+        'exists ext fail native_decide decide change obtain ',
       literal:
         'true false',
       meta:
-        'noncomputable|10 private protected mutual',
+        'noncomputable|10 private protected mutual scoped local partial ',
       strong:
         'sorry admit',
     };

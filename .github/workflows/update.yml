@@ -7,6 +7,7 @@ on:
 jobs:
   update_lean:
     runs-on: ubuntu-latest
+    if: github.repository_owner == 'lean-ja'
     permissions:
       issues: write
       pull-requests: write
@@ -15,7 +16,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Update Lean project
-        uses: oliver-butterley/lean-update-action@v1-alpha
+        uses: oliver-butterley/lean-update-action@dont-use-cache
         with:
           #  Allowed values: "silent", "commit", "issue" or "pr". Default: "commit".
           on_update_succeeds: pr
