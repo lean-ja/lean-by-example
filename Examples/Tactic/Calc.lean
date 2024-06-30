@@ -2,9 +2,8 @@
 `calc` は計算モードに入るためのタクティクです．推移律が成り立つような二項関係をつなげて，一つの証明項を構成します．
 -/
 -- `calc` そのものは `import` なしで使える
-import Mathlib.Data.Real.Basic
-import Mathlib.Tactic.Linarith
-import Mathlib.Tactic.Positivity
+import Mathlib.Tactic -- 大雑把に import する
+
 
 variable (a b : ℝ)
 
