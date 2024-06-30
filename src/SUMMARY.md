@@ -21,6 +21,7 @@
   - [#whnf: 式を弱頭正規形に](./Command/Whnf.md)
   - [abbrev: 別名を定義する](./Command/Abbrev.md)
   - [attribute: 属性を付与する](./Command/Attribute.md)
+  - [axiom: 公理を宣言する](./Command/Axiom.md)
   - [class: 型クラスを定義する](./Command/Class.md)
   - [def: 関数などを定義する](./Command/Def.md)
   - [deriving: 型クラスのインスタンス生成](./Command/Deriving.md)
