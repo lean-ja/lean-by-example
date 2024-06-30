@@ -3,7 +3,7 @@
 `dsimp` は，定義上(definitionally)等しいような変形だけを行うという制約付きの [`simp`](./Simp.md) で，一言でいえば「名前を定義に展開する」タクティクです．
 
 `dsimp [e₁, e₂, ..., eᵢ]` という構文でゴールに登場する名前 `e₁`, ..., `eᵢ` を定義に展開します．-/
-
+import Lean --#
 /-- 算術式 -/
 inductive Expr where
   | const : Nat → Expr
@@ -30,21 +30,21 @@ theorem fuse_in_const {e : Expr} : ∃ n, fuse e = .const n := by
   | const n => exists n
   | plus e₁ e₂ ih₁ ih₂ =>
     -- ゴールに fuse が登場する
-    show ∃ n, fuse (e₁.plus e₂) = const n
+    guard_target =ₛ ∃ n, fuse (e₁.plus e₂) = const n
 
     -- fuse を定義に展開する
     dsimp [fuse]
-    show ∃ n, simpConst (.plus (fuse e₁) (fuse e₂)) = const n
+    guard_target =ₛ ∃ n, simpConst (.plus (fuse e₁) (fuse e₂)) = const n
 
     -- ローカルコンテキストの存在命題を利用してゴールを書き換える
     obtain ⟨n₁, ih₁⟩ := ih₁
     obtain ⟨n₂, ih₂⟩ := ih₂
     rw [ih₁, ih₂]
-    show ∃ n, simpConst (.plus (const n₁) (const n₂)) = const n
+    guard_target =ₛ ∃ n, simpConst (.plus (const n₁) (const n₂)) = const n
 
     -- simpConst を定義に展開する
     dsimp [simpConst]
-    show ∃ n, const (n₁ + n₂) = const n
+    guard_target =ₛ ∃ n, const (n₁ + n₂) = const n
 
     -- n = n₁ + n₂ とすれば良い
     exists n₁ + n₂
@@ -119,7 +119,7 @@ example: True ∨ (s ∩ u = u ∩ s) := by
   dsimp [Inter.inter]
 
   -- Set.inter で書き直される
-  show True ∨ (s.inter u = u.inter s)
+  guard_target =ₛ True ∨ (s.inter u = u.inter s)
 
   left; trivial
 
@@ -137,3 +137,29 @@ example : True ∨ (s ∩ u = u ∩ s) := by
   show True ∨ (s ∩ u = u ∩ s)
 
   left; trivial
+
+/- また，`dsimp` は識別子(`ident`)ではないものに対しても簡約を行うことができますが，`unfold` は識別子でなければ簡約が行えません．これも `dsimp` の長所といえます．-/
+
+example : True ∨ (s ∩ u = u ∩ s) := by
+  -- dsimp はラムダ式に対する簡約ができる
+  dsimp [(· ∩ ·)]
+
+  -- ゴールが展開される
+  guard_target =ₛ True ∨ (s.inter u = u.inter s)
+
+  left; trivial
+
+open Lean Parser
+
+/-- parse できるかどうかチェックする関数 -/
+def checkParse (cat : Name) (s : String) : MetaM Unit := do
+  if let .error s := runParserCategory (← getEnv) cat s then
+    throwError s
+
+-- 識別子を渡したときはパースできる
+run_meta checkParse `tactic "unfold Inter.inter"
+
+-- 識別子でないものを渡すとパースできない
+/-- error: <input>:1:7: expected identifier -/
+#guard_msgs in
+run_meta checkParse `tactic "unfold (· ∩ ·)"
