@@ -22,6 +22,51 @@ instance {α : Type} [Add α] : Add (Point α) where
 -- 足し算ができるようになった
 #check (origin + origin)
 
+/- ## インスタンスの連鎖
+インスタンスは連鎖させることができます．言い換えると，「`a` が `C` のインスタンスならば，`f a` も `C` のインスタンスである」というようなインスタンス宣言ができます．Lean コンパイラは再帰的にインスタンスを探します．
+-/
+
+/-- 偶数 -/
+inductive Even : Type where
+  | zero : Even
+  | succ : Even → Even
+deriving DecidableEq
+
+/-- 偶数から自然数への変換 -/
+def Even.toNat : Even → Nat
+  | zero => 0
+  | succ n => 2 + (Even.toNat n)
+
+/-- Even を文字列に変換することを可能にする．
+同時に #eval も可能になる. -/
+instance : ToString Even where
+  toString := toString ∘ Even.toNat
+
+/-- Even.zero を 0 と書けるようにする -/
+instance : OfNat Even 0 where
+  ofNat := Even.zero
+
+-- 実際に Even.zero を 0 と書けるようになった
+#guard (0 : Even) = Even.zero
+
+/-- インスタンス連鎖を利用して OfNat を実装.
+n について OfNat の実装があれば，n + 2 についても OfNat の実装を得る．-/
+instance {n : Nat} [OfNat Even n] : OfNat Even (n + 2) where
+  ofNat := Even.succ (OfNat.ofNat n)
+
+#guard (2 : Even) = Even.succ Even.zero
+
+-- 奇数については OfNat の実装はない
+#check_failure (3 : Even)
+
+/- なお，インスタンス連鎖の回数には上限があります．-/
+
+-- ギリギリセーフ
+#eval (254 : Even)
+
+-- 上限を超えてしまった
+#check_failure (256 : Even)
+
 /-
 ## 舞台裏
 `instance` は `@[instance]` 属性を付与された `def` と同じです．
