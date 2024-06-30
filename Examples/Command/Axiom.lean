@@ -32,7 +32,7 @@ theorem ex_prop_ext (a b : Prop) (p : Prop → Prop) (h : a ↔ b) (h₁ : p a) 
 /-- info: 'ex_prop_ext' depends on axioms: [propext] -/
 #guard_msgs in #print axioms ex_prop_ext
 
-/- ### 商の定義 `Quot.sound`
+/- ### 商の公理 `Quot.sound`
 任意の型 `α : Sort u` と `α` 上の2項関係 `r : α → α → Prop` に対して，その商(quotient)を作ることができます．商の概念は，以下に示す複数の定数から構成されます．
 -/
 universe u
@@ -77,4 +77,19 @@ r a b → Quot.mk r a = Quot.mk r b
 -/
 #guard_msgs in #print Quot.sound
 
-#check Nonempty
+/- ## 選択原理 `Classical.choice`
+選択原理は，Lean 版選択公理とでも言うべきものです．選択原理は，ある型が空ではないという情報だけから，「魔法のように」具体的な元を構成することができると主張します．
+-/
+
+-- Nonempty は，型が単に空ではないことを表す
+/--
+info: inductive Nonempty.{u} : Sort u → Prop
+number of parameters: 1
+constructors:
+Nonempty.intro : ∀ {α : Sort u}, α → Nonempty α
+-/
+#guard_msgs in #print Nonempty
+
+-- 選択原理は，空でない型から具体的な元を構成する
+/-- info: axiom Classical.choice.{u} : {α : Sort u} → Nonempty α → α -/
+#guard_msgs in #print Classical.choice

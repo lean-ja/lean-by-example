@@ -35,8 +35,8 @@ theorem native : Nat.gcd 42998431 120019 = 1 := by native_decide
 /-- info: 'NativeDecide.native' depends on axioms: [propext, Lean.ofReduceBool] -/
 #guard_msgs in #print axioms native
 
-/- ## 信頼性
-`native_decide` を使うことは安全ではなく，`native_decide` を使うと簡単に `False` を示すことができます．-/
+/- ## 注意
+`native_decide` を使うことは安全ではなく，`native_decide` を使うと簡単に `False` を示すことができます．つまり，`native_decide` を使った証明は正式な証明ではありません．-/
 
 def one := 1
 
