@@ -77,6 +77,46 @@ r a b → Quot.mk r a = Quot.mk r b
 -/
 #guard_msgs in #print Quot.sound
 
+/- 商の公理 `Quot.sound` を利用して，関数外延性を示すことができます．関数外延性とは，すべての入力に対して同じ値を返すような２つの関数は等しいという定理です．-/
+
+universe v
+
+variable {β : α → Sort v}
+
+/-- 関数外延性の定理．入力に対して同じ値を返す関数は等しい．-/
+theorem my_funext {f g : (x : α) → β x} (h : ∀ x, f x = g x) : f = g := by
+  -- 外延性等式を表す二項関係を定義する
+  let eqv (f g : (x : α) → β x) := ∀ x, f x = g x
+
+  -- 二項関係 eqv で `(x : α) → β x` の商を取る
+  let extfun := Quot eqv
+
+  -- 関数 `f` と `g` は商の定義から，商に送ると等しい！
+  have : Quot.mk eqv f = Quot.mk eqv g := Quot.sound (λ x => h x)
+
+  -- 関数適用を行う関数 `(a : α) → ((x : α) → β x) → β a` を考える
+  let funApp (a : α) (f : (x : α) → β x) : β a := f a
+
+  -- 関数適用 `funApp` を商 `extfun` 上にリフトする
+  let extfunApp (a : α) (f' : extfun) : β a := by
+    have lift := @Quot.lift ((x : α) → β x) eqv (β a) (funApp a)
+    apply lift
+    · intro f g h
+      exact h a
+    · exact f'
+
+  -- `f = g` を示す問題を `extfunApp` をかませることで，
+  -- 商での等式に帰着させることができる.
+  calc
+    f = fun x => f x := by rfl
+    _ = extfunApp (f' := Quot.mk eqv f) := by rfl
+    _ = extfunApp (f' := Quot.mk eqv g) := by rw [this]
+    _ = fun x => g x := by rfl
+    _ = g := by rfl
+
+/-- info: 'my_funext' depends on axioms: [Quot.sound] -/
+#guard_msgs in #print axioms my_funext
+
 /- ## 選択原理 `Classical.choice`
 選択原理は，Lean 版選択公理とでも言うべきものです．選択原理は，ある型が空ではないという情報だけから，「魔法のように」具体的な元を構成することができると主張します．
 -/
