@@ -1,6 +1,7 @@
 /- # \#print
 `#print` コマンドには複数の機能がありますが，単体で使うと定義を表示することができます．
 -/
+import Lean --#
 
 /--
 info: inductive Or : Prop → Prop → Prop
@@ -37,3 +38,36 @@ theorem contra : False := by sorry
 /-- info: 'contra' depends on axioms: [sorryAx] -/
 #guard_msgs in
 #print axioms contra
+
+/- ## よくあるエラー
+`#print` コマンドは式ではなく名前を受け付けます．たとえば，`#print Nat.zero` はエラーになりませんが，`#print Nat.succ Nat.zero` はエラーになります．この挙動は `#eval` コマンドや `#check` コマンドとは異なるため，注意が必要です．
+-/
+
+open Lean
+
+/--
+error: application type mismatch
+  a.raw
+argument
+  a
+has type
+  TSyntax `term : Type
+but is expected to have type
+  TSyntax [`ident, `str] : Type
+-/
+#guard_msgs(error) in
+#eval show Lean.Elab.Term.TermElabM Unit from do
+  let a ← `(Nat.succ Nat.zero)
+  let _b ← `(#print $a)
+
+/- 上のコード例は，これを検証するものです．エラーメッセージにあるように `#print` は `ident` または `str` を期待しており，これはそれぞれ単一の識別子と文字列リテラルを意味します．`Nat.succ Nat.zero` は `term` つまり項なのでエラーになります．
+
+`#check` や `#eval` の場合はエラーになりません. -/
+
+#eval show Lean.Elab.Term.TermElabM Unit from do
+  let a ← `(Nat.succ Nat.zero)
+  let _b ← `(#eval $a)
+
+#eval show Lean.Elab.Term.TermElabM Unit from do
+  let a ← `(Nat.succ Nat.zero)
+  let _b ← `(#check $a)
