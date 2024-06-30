@@ -2,7 +2,7 @@
 
 `rw` は rewrite（書き換え）を行うタクティクです．等式や同値関係をもとに書き換えを行います．
 
-`hab: a = b` や `hPQ : P ↔ Q` がローカルコンテキストにあるとき，
+`hab : a = b` や `hPQ : P ↔ Q` がローカルコンテキストにあるとき，
 
 * `rw [hab]` はゴールの中の `a` をすべて `b` に置き換え，
 * `rw [hPQ]` はゴールの中の `P` をすべて `Q` に置き換えます．
@@ -19,6 +19,17 @@ example (h : a = b) (hb : a + 3 = 0) : b + 3 = 0 := by
   rw [← h]
 
   assumption
+
+-- 同値関係に基づいて書き換えを行う例
+example (P Q : Prop) (h : P ↔ P ∧ Q) : P → Q := by
+  intro (hP : P)
+  rw [h] at hP
+
+  -- `P ↔ P ∧ Q` で書き換えを行ったので，
+  -- `P` が `P ∧ Q` に置き換わった
+  guard_hyp hP : P ∧ Q
+
+  exact hP.right
 
 /- `h1, h2, ...` について続けて置き換えを行いたいときは，`rw [h1, h2, ...]` のようにします．
 
