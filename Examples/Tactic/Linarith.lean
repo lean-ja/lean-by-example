@@ -25,6 +25,19 @@ example : id x ≤ x := by
   -- `id x = x` だと教えてあげると `linarith` で示せる
   linarith
 
+/- ## 舞台裏
+`linarith` は一般に, 型クラス `LinearOrderedCommRing` のインスタンスに対して動作します．ここで linear order とは全順序のことです．-/
+section --#
+variable {R : Type} [LinearOrderedCommRing R]
+
+variable (x y z : R)
+
+-- R 上の不等式だが `linarith` で証明できる
+example (h1 : 2 * x < 3 * y) (h2 : -4 * x + 2 * z < 0) :
+    12 * y - 4 * z ≥ 0 := by
+  linarith
+
+end --#
 /-! ## linarith と他のタクティクの使い分け
 `1 < 2` のような簡単な数値のみの不等式の場合，`norm_num` や `simp_arith` でも証明ができます．
 同じ命題を示すのに複数のコマンドがあるわけですが，コマンド実行にかかる時間に違いがあります．
