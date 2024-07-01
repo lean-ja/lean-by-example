@@ -47,9 +47,24 @@ example (h : a * x < b) (ha : a > 0) : x < b / a := by
 
 variable (P Q : Prop)
 
-example (hP: P) (hQ: Q) : P ∧ Q := by
+example (hP : P) (hQ : Q) : P ∧ Q := by
   constructor
   · show P
     exact hP
   · show Q
     exact hQ
+
+/- ゴールを定義上等しい命題に変形するために使用することもできます．-/
+
+def factorial : Nat → Nat
+  | 0 => 1
+  | n + 1 => (n + 1) * factorial n
+
+example : factorial 3 = 6 := by
+  -- 定義上等しいのでゴールを変形できる
+  show 3 * factorial 2 = 6
+
+  -- 定義上等しいのでゴールを変形できる
+  show 3 * (2 * factorial 1) = 6
+
+  rfl
