@@ -16,6 +16,7 @@ no-section-label = true
 git-repository-url = "https://github.com/lean-ja/lean-by-example"
 edit-url-template = "https://raw.githubusercontent.com/lean-ja/lean-by-example/main/{path}"
 default-theme = "ayu"
+site-url = "https://lean-ja.github.io/lean-by-example/"
 
 [output.html.fold]
 enable = true
