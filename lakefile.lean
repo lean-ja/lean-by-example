@@ -31,3 +31,7 @@ script build do
   if ← runCmd "lake" #["exe", "mdgen", "Examples", "src"] then return 1
   if ← runCmd "mdbook" #["build"] then return 1
   return 0
+
+script link_test do
+  if ← runCmd "lychee" #["--base", "book", "."] then return 1
+  return 0
