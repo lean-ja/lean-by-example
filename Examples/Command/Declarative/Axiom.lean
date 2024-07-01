@@ -118,7 +118,9 @@ theorem my_funext {f g : (x : α) → β x} (h : ∀ x, f x = g x) : f = g := by
 #guard_msgs in #print axioms my_funext
 
 /- ## 選択原理 `Classical.choice`
-選択原理は，Lean 版選択公理とでも言うべきものです．選択原理は，ある型が空ではないという情報だけから，「魔法のように」具体的な元を構成することができると主張します．
+選択原理は，ある型が空ではないという情報だけから，「魔法のように」具体的な元を構成することができると主張します．
+
+選択原理は NBG(Neumann-Bernays-Gödel) 集合論における大域選択公理(axiom of global choice)とよく似ていますが，NBGとは何で大域選択公理が何を意味するかといった事項については本書では扱いません．
 -/
 
 -- Nonempty は，型が単に空ではないことを表す
