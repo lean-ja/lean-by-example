@@ -7,7 +7,7 @@
 ---
 
 - [コマンド](./Command/README.md)
-  - [対話的コマンド]()
+  - [対話的コマンド](./Command/Diagnostic/README.md)
     - [#check_failure: 意図的なエラー](./Command/Diagnostic/CheckFailure.md)
     - [#check: 型を調べる](./Command/Diagnostic/Check.md)
     - [#eval: 式を評価する](./Command/Diagnostic/Eval.md)
@@ -20,7 +20,7 @@
     - [#synth: 型クラスの検査](./Command/Diagnostic/Synth.md)
     - [#time: 実行時間計測](./Command/Diagnostic/Time.md)
     - [#whnf: 式を弱頭正規形に](./Command/Diagnostic/Whnf.md)
-  - [宣言的コマンド]()
+  - [宣言的コマンド](./Command/Declarative/README.md)
     - [abbrev: 別名を定義する](./Command/Declarative/Abbrev.md)
     - [attribute: 属性を付与する](./Command/Declarative/Attribute.md)
     - [axiom: 公理を宣言する](./Command/Declarative/Axiom.md)
