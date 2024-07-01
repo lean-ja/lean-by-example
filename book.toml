@@ -19,7 +19,7 @@ default-theme = "ayu"
 
 [output.html.fold]
 enable = true
-level = 0
+level = 2
 
 [output.html.print]
 enable = false
