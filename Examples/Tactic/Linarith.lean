@@ -14,7 +14,7 @@ example (h1 : 2 * x < 3 * y) (h2 : -4 * x + 2 * z < 0) :
     12 * y - 4 * z ≥ 0 := by
   linarith
 
-/-! `linarith` はローカルコンテキストにある命題を読むので，`linarith` が通らないとき，追加で補題を示すことにで解決することがあります．-/
+/-! `linarith` はローカルコンテキストにある命題を読むので，`linarith` が通らないとき，追加で補題を示すことで解決することがあります．-/
 
 example : id x ≤ x := by
   -- `linarith` で示すことはできない
@@ -24,6 +24,16 @@ example : id x ≤ x := by
 
   -- `id x = x` だと教えてあげると `linarith` で示せる
   linarith
+
+/- また，使ってほしい補題を直接渡すこともできます．-/
+
+example (h : x ≤ y) (pos : 0 ≤ x) : x + x ^ 2 ≤ y + y ^ 2 := by
+  -- `linarith` では示せない
+  fail_if_success linarith
+
+  -- `linarith` 単独で扱えない部分，つまり `x ^ 2 ≤ y ≤ 2` を示すための
+  -- 補題を引数で渡してやると通る
+  linarith [pow_le_pow_left pos h 2]
 
 /- ## 舞台裏
 `linarith` は一般に, 型クラス `LinearOrderedCommRing` のインスタンスに対して動作します．ここで linear order とは全順序のことです．-/
