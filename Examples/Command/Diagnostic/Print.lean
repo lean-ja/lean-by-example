@@ -27,7 +27,7 @@ fun n m => rfl
 /-- 排中律 -/
 example : ∀ (p : Prop), p ∨ ¬p := Classical.em
 
-/-- info: 'Classical.em' depends on axioms: [Classical.choice, propext, Quot.sound] -/
+/-- info: 'Classical.em' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Classical.em
 
