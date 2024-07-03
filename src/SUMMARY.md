@@ -30,6 +30,7 @@
     - [example: 名前をつけずに証明](./Command/Declarative/Example.md)
     - [export: 現在の名前空間に追加](./Command/Declarative/Export.md)
     - [inductive: 帰納型を定義する](./Command/Declarative/Inductive.md)
+    - [infix: 中置記法](./Command/Declarative/Infix.md)
     - [instance: インスタンスを定義する](./Command/Declarative/Instance.md)
     - [local: 有効範囲をセクションで限定](./Command/Declarative/Local.md)
     - [namespace: 名前空間を宣言する](./Command/Declarative/Namespace.md)
