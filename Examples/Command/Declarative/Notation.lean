@@ -8,7 +8,7 @@ def modulo (k a b : Int) : Prop :=
   k ∣ (a - b)
 
 -- mod という記法を導入する
-notation a:60 " ≃ " b:60 " mod " k:70 => modulo k a b
+notation:60 a:60 " ≃ " b:60 " mod " k:60 => modulo k a b
 
 -- 定義した記法が使える
 #check (3 ≃ 7 mod 4)
