@@ -19,5 +19,5 @@ theorem not_iff_not₁ (p : Prop) : ¬ (p ↔ ¬ p) := by tauto
 #guard_msgs in #print axioms not_iff_not₀
 
 -- 勝手に選択原理を使用している！
-/-- info: 'not_iff_not₁' depends on axioms: [Classical.choice, propext, Quot.sound] -/
+/-- info: 'not_iff_not₁' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in #print axioms not_iff_not₁

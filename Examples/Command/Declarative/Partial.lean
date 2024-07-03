@@ -14,21 +14,24 @@ namespace WithoutPartial --#
 error: fail to show termination for
   WithoutPartial.alternate
 with errors
-argument #2 was not used for structural recursion
+structural recursion cannot be used:
+
+argument #1 cannot be used for structural recursion
+  it is unchanged in the recursive calls
+
+argument #2 cannot be used for structural recursion
   failed to eliminate recursive application
     alternate ys xs
 
-argument #3 was not used for structural recursion
+argument #3 cannot be used for structural recursion
   failed to eliminate recursive application
     alternate ys xs
-
-structural recursion cannot be used
 
 Could not find a decreasing measure.
 The arguments relate at each recursive call as follows:
 (<, ≤, =: relation proved, ? all proofs failed, _: no proof attempted)
             xs ys
-1) 38:24-39  ?  ?
+1) 41:24-39  ?  ?
 Please use `termination_by` to specify a decreasing measure.
 -/
 #guard_msgs (whitespace := lax) in

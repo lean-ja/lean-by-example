@@ -7,11 +7,11 @@ namespace TerminationBy --#
 error: fail to show termination for
   TerminationBy.M
 with errors
-argument #1 was not used for structural recursion
+structural recursion cannot be used:
+
+argument #1 cannot be used for structural recursion
   failed to eliminate recursive application
     M (n + 11)
-
-structural recursion cannot be used
 
 failed to prove termination, possible solutions:
   - Use `have`-expressions to prove the remaining goals
