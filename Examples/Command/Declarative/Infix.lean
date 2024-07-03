@@ -25,6 +25,24 @@ scoped infix:49 " weak " => Nat.add
 
 #check_failure 1 + 2 weak 3 = 6
 
+/- `infix` で定義される記法は左結合でも右結合でもなく，必ず括弧が必要です．-/
+section
+
+open Lean Parser
+
+/-- parse できるかどうかチェックする関数 -/
+def checkParse (cat : Name) (s : String) : MetaM Unit := do
+  if let .error s := runParserCategory (← getEnv) cat s then
+    throwError s
+
+-- 単に連結するとパース不可でエラーになる
+/-- error: <input>:1:6: expected end of input -/
+#guard_msgs in run_meta checkParse `term "1 ⋄ 2 ⋄ 3"
+
+-- 括弧を付ければOK
+run_meta checkParse `term "1 ⋄ (2 ⋄ 3)"
+
+end
 /- ## 舞台裏
 
 `infix` は [`notation`](./Notation.md) コマンドの特別な場合であり，実際内部的にはマクロとして展開されます．以下の例では，`infix:50 " LXOR " => fun l r => (!l && r)` が `notation:50 lhs:51 " LXOR " rhs:51 => (fun l r => (!l && r)) lhs rhs` とマクロ展開されていることがわかります．-/
