@@ -79,7 +79,7 @@ use `set_option diagnostics true` to get diagnostic information
 
 たとえば，Lean の型システムにおいて「自分自身に適用することができる関数 `f : (A → B) → C` は存在しない」ということをコードで確かめたかったとします．このとき「何でもいいので」型 `A`, `B`, `C` と関数 `f` が存在すると仮定を置きたくなります．
 
-ここで型の宣言に `variable` を使用すると上手くいきません．
+ここで型の宣言に [`variable`](./Variable.md) を使用すると上手くいきません．
 -/
 namespace opaque_test --#
 
