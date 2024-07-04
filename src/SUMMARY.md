@@ -36,6 +36,7 @@
     - [namespace: 名前空間を宣言する](./Command/Declarative/Namespace.md)
     - [noncomputable: 計算不能にする](./Command/Declarative/Noncomputable.md)
     - [notation: 記法を導入する](./Command/Declarative/Notation.md)
+    - [opaque: 簡約できない名前を宣言](./Command/Declarative/Opaque.md)
     - [open: 名前空間を開く](./Command/Declarative/Open.md)
     - [partial: 再帰の停止証明をしない](./Command/Declarative/Partial.md)
     - [private: 定義を不可視にする](./Command/Declarative/Private.md)
