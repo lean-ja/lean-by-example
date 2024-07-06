@@ -1,6 +1,7 @@
 /- # scoped
 `scoped` は，コマンドの有効範囲を現在の名前空間に限定します．
 -/
+import Lean --#
 -- #target をコマンドとして認識させる
 -- 実装は与えない
 syntax "#greet" : command
@@ -32,17 +33,36 @@ section
   #greet
 end
 
-/- `scoped` で有効範囲を限定できるコマンドには，次のようなものがあります．（以下で全部ではありません）
+/- `scoped` で有効範囲を限定できるコマンドには，次のようなものがあります．
 * `elab`, `elab_rules`
 * `infix`, `infixl`, `infixr`
+* `instance`
+* `macro`, `macro_rules`
 * [`notation`](./Notation.md)
 * `postfix`
 * `prefix`,
-* `instance`
-* `macro`, `macro_rules`
-* `simproc`
 * `syntax`
+* などなど
+
+リストの全体は，`scoped` の後に修飾できないコマンドを続けたときのエラーメッセージで確認できます．
 -/
+
+open Lean Parser
+
+/-- parse できるかどうかチェックする関数 -/
+def checkParse (cat : Name) (s : String) : MetaM Unit := do
+  if let .error s := runParserCategory (← getEnv) cat s then
+    throwError s
+
+-- `def` は有効範囲を制限できないのでエラーになる
+/--
+error: <input>:1:7: expected 'binder_predicate', 'builtin_dsimproc', 'builtin_simproc', 'dsimproc',
+'elab', 'elab_rules', 'infix', 'infixl', 'infixr', 'instance',
+'macro', 'macro_rules', 'notation', 'postfix', 'prefix', 'simproc',
+'syntax' or 'unif_hint'
+-/
+#guard_msgs in
+run_meta checkParse `command "scoped def"
 
 /- ## `open scoped`
 `open scoped` コマンドを利用すると，特定の名前空間にある `scoped` が付けられた名前だけを有効にすることができます．単に [`open`](./Open.md) コマンドを利用するとその名前空間にあるすべての名前が有効になります．
