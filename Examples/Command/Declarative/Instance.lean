@@ -1,6 +1,6 @@
 /-
 # instance
-`instance` は，型クラスのインスタンスを定義するための構文です．
+`instance` は，型クラスのインスタンスを定義するためのコマンドです．
 -/
 namespace Instance --#
 

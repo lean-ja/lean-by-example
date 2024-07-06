@@ -1,5 +1,5 @@
 /- # local
-`local` はコマンドをその [`section`](./Section.md) の内部でだけ有効にするための構文です．
+`local` はコマンドをその [`section`](./Section.md) の内部でだけ有効にするための修飾子です．
 -/
 
 section foo
