@@ -39,6 +39,7 @@
     - [opaque: 簡約できない名前を宣言](./Command/Declarative/Opaque.md)
     - [open: 名前空間を開く](./Command/Declarative/Open.md)
     - [partial: 再帰の停止証明をしない](./Command/Declarative/Partial.md)
+    - [prefix: 前置記法](./Command/Declarative/Prefix.md)
     - [private: 定義を不可視にする](./Command/Declarative/Private.md)
     - [proof_wanted: 証明を公募する](./Command/Declarative/ProofWanted.md)
     - [protected: フルネームを強制する](./Command/Declarative/Protected.md)
