@@ -1,5 +1,5 @@
 /- # infix
-`infix` は，中置記法を定義する構文です．
+`infix` は，中置記法を定義するコマンドです．
 -/
 import Lean --#
 namespace Infix --#
