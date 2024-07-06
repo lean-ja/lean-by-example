@@ -127,3 +127,12 @@
   - [try: 失敗をエラーにしない](./Tactic/Try.md)
   - [unfold: 定義に展開](./Tactic/Unfold.md)
   - [wlog: 一般性を失わずに特殊化](./Tactic/Wlog.md)
+
+- [型クラス](./TypeClass/README.md)
+  - [Coe: 型強制](./TypeClass/Coe.md)
+  - [CoeDep: 依存型強制](./TypeClass/CoeDep.md)
+  - [CoeFun: 関数への型強制](./TypeClass/CoeFun.md)
+  - [CoeSort: 型の型強制](./TypeClass/CoeSort.md)
+  - [Inhabited: デフォルト項を持たせる](./TypeClass/Inhabited.md)
+  - [Repr: 表示方法を指定](./TypeClass/Repr.md)
+  - [ToString: 文字列に変換](./TypeClass/ToString.md)
