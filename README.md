@@ -1,6 +1,6 @@
 # README
 
-<!-- [![repo logo](./src/image/project_image.png)]() -->
+[![repo logo](./src/image/project_image.png)]()
 
 [![workflow](https://github.com/lean-ja/lean-by-example/actions/workflows/ci.yml/badge.svg)](https://github.com/lean-ja/lean-by-example/blob/main/.github/workflows/ci.yml) [![workflow](https://github.com/lean-ja/lean-by-example/actions/workflows/deploy.yml/badge.svg)](https://github.com/lean-ja/lean-by-example/blob/main/.github/workflows/deploy.yml) [![workflow](https://github.com/lean-ja/lean-by-example/actions/workflows/update.yml/badge.svg)](https://github.com/lean-ja/lean-by-example/blob/main/.github/workflows/update.yml) [![discord](https://dcbadge.limes.pink/api/server/p32ZfnVawh?style=flat)](https://discord.gg/p32ZfnVawh)
 
