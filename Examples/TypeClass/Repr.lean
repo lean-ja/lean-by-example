@@ -21,14 +21,14 @@ has type
   Point Nat
 but instance
   Lean.Eval (Point Nat)
-failed to be synthesized, this instance instructs Lean on how to display the resulting value, recall that any type implementing the `Repr` class also implements the `Lean.Eval` class
+failed to be synthesized, this instance instructs Lean on how to display the resulting value,
+recall that any type implementing the `Repr` class also implements the `Lean.Eval` class
 -/
-#guard_msgs in --#
-#eval origin
+#guard_msgs in #eval origin
 
 /- エラーメッセージが示すように，これは `Point` が型クラス `Lean.Eval` のインスタンスではないからです．エラーメッセージには，`Repr` クラスのインスタンスであれば自動的に `Lean.Eval` のインスタンスにもなることが書かれています．通常，`Lean.Eval` のインスタンスを手で登録することはなく，`Repr` インスタンスによって自動生成させます．
 
-`Repr` インスタンスの登録方法ですが，通り一遍の表示で構わなければ `deriving` コマンドで Lean に自動生成させることができます．-/
+`Repr` インスタンスの登録方法ですが，通り一遍の表示で構わなければ [`deriving`](../Command/Declarative/Deriving.md) コマンドで Lean に自動生成させることができます．-/
 
 deriving instance Repr for Point
 
