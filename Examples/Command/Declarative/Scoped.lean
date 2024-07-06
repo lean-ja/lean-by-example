@@ -35,12 +35,12 @@ end
 
 /- `scoped` で有効範囲を限定できるコマンドには，次のようなものがあります．
 * `elab`, `elab_rules`
-* `infix`, `infixl`, `infixr`
-* `instance`
+* [`infix`](./Infix.md), `infixl`, `infixr`
+* [`instance`](./Instance.md)
 * `macro`, `macro_rules`
 * [`notation`](./Notation.md)
-* `postfix`
-* `prefix`,
+* [`postfix`](./Postfix.md)
+* [`prefix`](./Prefix.md),
 * `syntax`
 * などなど
 

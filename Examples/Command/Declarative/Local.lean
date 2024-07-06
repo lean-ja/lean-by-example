@@ -39,11 +39,11 @@ end hoge
 
 /- `local` で有効範囲を限定できるコマンドには，次のようなものがあります．
 * `elab`, `elab_rules`
-* `infix`, `infil`, `infixr`
+* [`infix`](./Infix.md), `infil`, `infixr`
 * `macro`, `macro_rules`
 * [`notation`](./Notation.md)
-* `postfix`
-* `prefix`
+* [`postfix`](./Postfix.md)
+* [`prefix`](./Prefix.md)
 * [`instance`](./Instance.md)
 * `syntax`
 * などなど
