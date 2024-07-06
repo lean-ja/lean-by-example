@@ -1,6 +1,6 @@
 /-
 # CoeSort
-`CorSort` は [`Coe`](./Coe.md) と同じく型強制を定義するための型クラスですが，型宇宙(`Sort u` の形をしているもの)への変換を行う点が異なります．
+`CorSort` は [`Coe`](./Coe.md) と同じく型強制を定義するための型クラスですが，型宇宙(`Type` や `Prop` など，項が再び型であるような型)への変換を行う点が異なります．
 -/
 import Mathlib.Data.Fintype.Basic -- `Fintype` を使うため
 namespace CoeSort --#
