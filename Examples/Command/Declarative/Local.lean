@@ -1,7 +1,7 @@
 /- # local
 `local` はコマンドをその [`section`](./Section.md) の内部でだけ有効にするための修飾子です．
 -/
-
+import Lean --#
 section foo
   -- local を付けて新しい記法を定義
   local notation " succ' " => Nat.succ
@@ -37,17 +37,37 @@ namespace hoge
   #check_failure succ'
 end hoge
 
-
-/- `local` で有効範囲を限定できるコマンドには，次のようなものがあります．(以下で全部ではありません)
+/- `local` で有効範囲を限定できるコマンドには，次のようなものがあります．
 * `elab`, `elab_rules`
+* [`infix`](./Infix.md), `infil`, `infixr`
 * `macro`, `macro_rules`
-* `infix`, `infil`, `infixr`
-* `postfix`, `postfixl`, `postfixr`
-* `prefix`
 * [`notation`](./Notation.md)
+* [`postfix`](./Postfix.md)
+* [`prefix`](./Prefix.md)
 * [`instance`](./Instance.md)
 * `syntax`
+* などなど
 
+リストの全体は，`local` の後に修飾できないコマンドを続けたときのエラーメッセージで確認できます．
+-/
+
+open Lean Parser
+
+/-- parse できるかどうかチェックする関数 -/
+def checkParse (cat : Name) (s : String) : MetaM Unit := do
+  if let .error s := runParserCategory (← getEnv) cat s then
+    throwError s
+
+-- `def` は有効範囲を制限できないのでエラーになる
+/--
+error: <input>:1:6: expected 'binder_predicate', 'builtin_dsimproc', 'builtin_simproc', 'dsimproc',
+'elab', 'elab_rules', 'infix', 'infixl', 'infixr', 'instance', 'macro', 'macro_rules',
+'notation', 'postfix', 'prefix', 'simproc', 'syntax' or 'unif_hint'
+-/
+#guard_msgs in
+run_meta checkParse `command "local def"
+
+/-
 数が多いためすべての例を挙げることはしませんが，いくつか紹介します．たとえば `instance` の場合，`local` を付けて登録したインスタンスがその `section` の内部限定になります．
 -/
 
