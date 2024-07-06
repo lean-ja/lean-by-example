@@ -45,9 +45,11 @@ run_meta checkParse `term "1 ⋄ (2 ⋄ 3)"
 end
 /- ## 舞台裏
 
-`infix` は [`notation`](./Notation.md) コマンドの特別な場合であり，実際内部的にはマクロとして展開されます．以下の例では，`infix:50 " LXOR " => fun l r => (!l && r)` が `notation:50 lhs:51 " LXOR " rhs:51 => (fun l r => (!l && r)) lhs rhs` とマクロ展開されていることがわかります．-/
+`infix` は [`notation`](./Notation.md) コマンドに展開されるマクロとして実装されています．-/
 
 open Lean
+
+def lxor (l r : Bool) : Bool := !l && r
 
 /-- コマンドをマクロ展開するコマンド -/
 elab "#expand_command " t:command : command => do
@@ -56,7 +58,8 @@ elab "#expand_command " t:command : command => do
   | some t =>
     logInfo m!"{t}"
 
-/-- info: notation:50 lhs✝:51 " LXOR " rhs✝:51 => (fun l r => (!l && r)) lhs✝ rhs✝ -/
-#guard_msgs in #expand_command infix:50 " LXOR " => fun l r => (!l && r)
+/-- info: notation:50 lhs✝:51 " LXOR " rhs✝:51 => lxor lhs✝ rhs✝ -/
+#guard_msgs in
+#expand_command infix:50 " LXOR " => lxor
 
 end Infix --#
