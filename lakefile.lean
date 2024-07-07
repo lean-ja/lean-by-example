@@ -4,8 +4,7 @@ open Lake DSL
 package «Lean by Example» where
   leanOptions := #[
     ⟨`autoImplicit, false⟩,
-    ⟨`relaxedAutoImplicit, false⟩,
-    ⟨`pp.mvars, false⟩
+    ⟨`relaxedAutoImplicit, false⟩
   ]
 
 require mdgen from git
