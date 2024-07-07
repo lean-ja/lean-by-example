@@ -16,7 +16,7 @@ example (h : 2 ≤ a + b) : 1 ≤ a := by
   (0 shrinks)
   -------------------
   -/
-  fail_if_success slim_check
+  try slim_check
 
   sorry
 
