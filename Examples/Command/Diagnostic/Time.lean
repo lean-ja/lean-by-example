@@ -28,4 +28,18 @@ where
 -- 10 ms 程度で終わる
 #time #eval fib 32
 
+/- ## 舞台裏
+`IO.monoMsNow` という関数でそのときの時刻を取得し，その差を計算することで実行時間を計測することができます．これにより `#time` コマンドと同様のコマンドを自作することができます．
+-/
+
+open Lean Elab Command Term Meta in
+
+elab "#my_time " stx:command : command => do
+  let start_time ← IO.monoMsNow
+  elabCommand stx
+  let end_time ← IO.monoMsNow
+  logInfo m!"time: {end_time - start_time}ms"
+
+#my_time #eval fib 32
+
 end Time --#
