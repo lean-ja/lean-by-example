@@ -22,8 +22,7 @@ open Lean
 elab "#expand_command " t:command : command => do
   match ← Elab.liftMacroM <| Lean.Macro.expandMacro? t with
   | none => logInfo m!"Not a macro"
-  | some t =>
-    logInfo m!"{t}"
+  | some t => logInfo m!"{t}"
 
 /-- info: notation:90 "⋄" arg✝:90 => Nat.succ arg✝ -/
 #guard_msgs in

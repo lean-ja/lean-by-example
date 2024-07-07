@@ -55,8 +55,7 @@ def lxor (l r : Bool) : Bool := !l && r
 elab "#expand_command " t:command : command => do
   match ← Elab.liftMacroM <| Lean.Macro.expandMacro? t with
   | none => logInfo m!"Not a macro"
-  | some t =>
-    logInfo m!"{t}"
+  | some t => logInfo m!"{t}"
 
 /-- info: notation:50 lhs✝:51 " LXOR " rhs✝:51 => lxor lhs✝ rhs✝ -/
 #guard_msgs in
