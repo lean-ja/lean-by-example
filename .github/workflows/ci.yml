@@ -11,9 +11,10 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
-  build:
+  ubuntu_build:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
@@ -24,3 +25,28 @@ jobs:
         with:
           build-args: "--quiet"
           test: false
+
+  windows_build:
+    runs-on: windows-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: install elan
+        run: |
+          curl -O --location https://raw.githubusercontent.com/leanprover/elan/master/elan-init.ps1
+          echo 1 | powershell -ExecutionPolicy Bypass -f elan-init.ps1
+          del elan-init.ps1
+        shell: pwsh
+
+      - name: add elan to PATH
+        run: (Resolve-Path ~/.elan/bin).Path >> $Env:GITHUB_PATH
+        shell: pwsh
+
+      - name: get mathlib cache
+        run: lake exe cache get
+        shell: pwsh
+
+      - name: run lake build
+        run: lake build --quiet
+        shell: pwsh
