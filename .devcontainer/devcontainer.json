@@ -11,7 +11,12 @@
 
   "customizations": {
     "vscode" : {
-      "extensions" : [ "leanprover.lean4" ]
+      "extensions" : [
+        "leanprover.lean4",
+        "mhutchie.git-graph",
+        "Tyriar.sort-lines",
+        "yzhang.markdown-all-in-one"
+      ]
     }
   },
 
