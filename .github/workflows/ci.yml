@@ -11,6 +11,11 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'Examples/**'
+      - 'lean-toolchain'
+      - 'lakefile.lean'
+      - 'lakemanifest.json'
   workflow_dispatch:
 
 jobs:
