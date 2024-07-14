@@ -7,4 +7,7 @@
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
   "files.trimTrailingWhitespace": true,
+  "material-icon-theme.files.associations": {
+    "README.lean": "readme",
+  }
 }

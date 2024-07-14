@@ -15,7 +15,8 @@
         "leanprover.lean4",
         "mhutchie.git-graph",
         "Tyriar.sort-lines",
-        "yzhang.markdown-all-in-one"
+        "yzhang.markdown-all-in-one",
+        "PKief.material-icon-theme"
       ]
     }
   },
