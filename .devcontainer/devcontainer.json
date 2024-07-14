@@ -1,14 +1,18 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/ubuntu
 {
-  "name": "Ubuntu",
-  // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+  "name": "Lean DevContainer on Ubuntu",
   "build": {
     "dockerfile": "Dockerfile"
   },
 
+  // Mathlib のビルド済みキャッシュを取得する
   "onCreateCommand": "lake exe cache get!",
 
+  // git がすぐに使えるようにする
+  "postStartCommand": "git config --global --add safe.directory ${containerWorkspaceFolder}",
+
+  // vscode 拡張機能をインストールする
   "customizations": {
     "vscode" : {
       "extensions" : [
@@ -21,6 +25,7 @@
     }
   },
 
+  // mdbook をインストールする
   "features": {
     "ghcr.io/eitsupi/devcontainer-features/mdbook:1": {
       "version": "0.4.32"
