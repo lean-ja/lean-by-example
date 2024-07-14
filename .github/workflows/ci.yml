@@ -16,6 +16,7 @@ on:
       - 'lean-toolchain'
       - 'lakefile.lean'
       - 'lakemanifest.json'
+      - '.github/workflows/ci.yml'
   workflow_dispatch:
 
 jobs:
