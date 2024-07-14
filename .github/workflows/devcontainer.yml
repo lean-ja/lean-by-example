@@ -9,7 +9,7 @@ on:
       - main
     paths:
       - '.devcontainer/**'
-      - '.github/devcontainer.yml'
+      - '.github/workflows/devcontainer.yml'
   schedule:
     - cron: "0 0 5 * *"
   workflow_dispatch:
