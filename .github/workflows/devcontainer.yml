@@ -1,0 +1,33 @@
+name: Validate Devcontainer
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+    paths:
+      - '.devcontainer/**'
+      - '.github/devcontainer.yml'
+  schedule:
+    - cron: "0 0 5 * *"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: install devcontainer cli
+        run: npm install -g @devcontainers/cli
+
+      - name: build devcontainer
+        run: devcontainer build --workspace-folder .
