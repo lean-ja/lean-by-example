@@ -27,7 +27,7 @@ example (hP: P) (hQ: Q) (hR : R) : P ∧ Q ∧ R := by
   · show R
     exact hR
 
-/-! `constructor` を使った場合, 一度に２つのゴールに分割することしかできません。 -/
+/-! `constructor` を使った場合、一度に２つのゴールに分割することしかできません。 -/
 
 example (hP: P) (hQ: Q) (hR : R) : P ∧ Q ∧ R := by
   constructor

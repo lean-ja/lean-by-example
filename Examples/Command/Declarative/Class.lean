@@ -59,7 +59,7 @@ def instMonoid'Nat : Monoid' Nat where
 /-- info: Monoid'.e {α : Type} (self : Monoid' α) : α -/
 #guard_msgs in #check Monoid'.e
 
-/- `self : Monoid' α` が暗黙の引数ではなく明示的な引数なので, 型クラスのように書くことはできません。-/
+/- `self : Monoid' α` が暗黙の引数ではなく明示的な引数なので、型クラスのように書くことはできません。-/
 
 #check_failure (Monoid'.e : Nat)
 
@@ -70,7 +70,7 @@ def instMonoid'Nat : Monoid' Nat where
 /- 構造体による模倣と本物の型クラスの違いがどこにあるのかおわかりいただけたでしょうか。最大の違いは、引数の `instMonoid'Nat` が省略できるかどうかです。-/
 
 /- ### インスタンス暗黙引数と型クラス解決
-ここで(本物の)型クラスにおける単位元関数 `e` の型を調べてみると, `self : Monoid' α` が角括弧 `[ .. ]` で囲われていることがわかります。-/
+ここで(本物の)型クラスにおける単位元関数 `e` の型を調べてみると、`self : Monoid' α` が角括弧 `[ .. ]` で囲われていることがわかります。-/
 
 /-- info: Monoid.e {α : Type} [self : Monoid α] : α -/
 #guard_msgs in #check Monoid.e

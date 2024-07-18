@@ -24,7 +24,7 @@ def fuse : Expr → Expr
   | times e₁ e₂ => simpConst (times (fuse e₁) (fuse e₂))
   | e => e
 
-/-- fuse は実際に Expr を const に簡略化する. -/
+/-- fuse は実際に Expr を const に簡略化する。-/
 theorem fuse_in_const {e : Expr} : ∃ n, fuse e = .const n := by
   induction e with
   | const n => exists n
@@ -74,7 +74,7 @@ def MyNat.add (n m : MyNat) : MyNat :=
 infix:65 " + " => MyNat.add
 
 /-- ゼロを左から足しても変わらない。
-自明なようだが、MyNat.add は m に対する場合分けで定義されているので定義上明らかではない. -/
+自明なようだが、MyNat.add は m に対する場合分けで定義されているので定義上明らかではない。-/
 theorem MyNat.zero_add {n : MyNat} : MyNat.zero + n = n := by
   induction n with
   | zero => rfl

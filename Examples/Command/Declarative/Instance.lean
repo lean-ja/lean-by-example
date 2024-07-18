@@ -38,7 +38,7 @@ def Even.toNat : Even → Nat
   | succ n => 2 + (Even.toNat n)
 
 /-- Even を文字列に変換することを可能にする。
-同時に #eval も可能になる. -/
+同時に #eval も可能になる。-/
 instance : ToString Even where
   toString := toString ∘ Even.toNat
 

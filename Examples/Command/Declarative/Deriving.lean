@@ -2,7 +2,7 @@
 # deriving
 `deriving` は、型クラスのインスタンスを自動的に生成します。
 
-以下に示すように, `deriving instance C for T` とすると型 `T` に対して型クラス `C` のインスタンスを生成します。
+以下に示すように、`deriving instance C for T` とすると型 `T` に対して型クラス `C` のインスタンスを生成します。
 -/
 namespace Deriving --#
 

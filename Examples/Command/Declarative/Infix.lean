@@ -4,7 +4,7 @@
 import Lean --#
 namespace Infix --#
 
--- 中置記法を定義. 中身はただの掛け算
+-- 中置記法を定義。中身はただの掛け算
 -- 特定の名前空間でだけ有効にするために `scoped` を付けている
 scoped infix:60 " ⋄ " => Nat.mul
 

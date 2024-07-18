@@ -28,7 +28,8 @@ universe u
 -- これで False を模倣したことになる
 inductive MyFalse : Prop
 
--- 帰納型を定義すると、再帰子 (recursor. 数学的帰納法の原理に相当するもの) が自動生成される
+-- 帰納型を定義すると、再帰子(recursor)が自動生成される
+-- 再帰子は数学的帰納法の原理に相当する
 -- MyFalse の再帰子は以下のようになる
 -- 再帰子によって、MyFalse からの関数を定義することができる
 #check (@MyFalse.rec : (motive : MyFalse → Sort u) → (t : MyFalse) → motive t)

@@ -67,7 +67,7 @@ example (hPR : P → R) (hQR : Q → R) : P ∨ Q → R := by
   case inr =>
     exact hQR hQ
 
-/- また, `rintro` を使うと上記の `intro` と `rcases` の組み合わせを同時に行うことができます。-/
+/- また、`rintro` を使うと上記の `intro` と `rcases` の組み合わせを同時に行うことができます。-/
 
 example (hPR : P → R) (hQR : Q → R) : P ∨ Q → R := by
   rintro (hP | hQ)

@@ -25,8 +25,8 @@ example {n : Nat} (h0 : n ≠ 0) : n ≥ 1 := by
 
 variable {m : Nat}
 
-/-- 自然数が0でも1でも2でもなければ3以上.
-`case` をネストさせて示した場合. -/
+/-- 自然数が0でも1でも2でもなければ3以上。
+`case` をネストさせて示した場合。-/
 example (h0 : m ≠ 0) (h1 : m ≠ 1) (h2 : m ≠ 2) : 3 ≤ m := by
   cases m with
   | zero => contradiction
@@ -40,8 +40,8 @@ example (h0 : m ≠ 0) (h1 : m ≠ 1) (h2 : m ≠ 2) : 3 ≤ m := by
         show 3 ≤ m + 3
         simp
 
-/-- 自然数が0でも1でも2でもなければ3以上.
-`rename_i` を使って示した場合. -/
+/-- 自然数が0でも1でも2でもなければ3以上。
+`rename_i` を使って示した場合。-/
 example (h0 : m ≠ 0) (h1 : m ≠ 1) (h2 : m ≠ 2) : 3 ≤ m := by
   -- 仮定から `m = 0, 1, 2` のときは考えなくていい
   repeat

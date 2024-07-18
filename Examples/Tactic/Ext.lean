@@ -7,7 +7,7 @@
 
 といったことを指します。
 
-`@[ext]` で登録されたルールを使用するため、集合の等式 `A = B` を示すときは `Mathlib.Data.SetLike.Basic` も必要です. -/
+`@[ext]` で登録されたルールを使用するため、集合の等式 `A = B` を示すときは `Mathlib.Data.SetLike.Basic` も必要です。-/
 import Aesop -- `aesop` タクティクを使うために必要
 import Mathlib.Data.SetLike.Basic -- `ext` タクティクで集合の等号を展開するために必要
 namespace Ext --#

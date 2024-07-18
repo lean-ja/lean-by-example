@@ -1,6 +1,6 @@
 /- # export
 
-`export` コマンドは, 他の名前空間から定義を現在の名前空間に追加します。
+`export` コマンドは、他の名前空間から定義を現在の名前空間に追加します。
 
 具体的には、`Some.Namespace` の配下に `nameᵢ` がある状態で `export Some.Namespace (name₁ name₂ ...)` を実行することにより、以下の両方の処理が行われます。
 

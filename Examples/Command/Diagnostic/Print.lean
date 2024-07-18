@@ -62,7 +62,7 @@ but is expected to have type
 
 /- 上のコード例は、これを検証するものです。エラーメッセージにあるように `#print` は `ident` または `str` を期待しており、これはそれぞれ単一の識別子と文字列リテラルを意味します。`Nat.succ Nat.zero` は `term` つまり項なのでエラーになります。
 
-`#check` や `#eval` の場合は項を受け付けるので、エラーになりません. -/
+`#check` や `#eval` の場合は項を受け付けるので、エラーになりません。-/
 
 #eval show Lean.Elab.Term.TermElabM Unit from do
   let a ← `(Nat.succ Nat.zero)

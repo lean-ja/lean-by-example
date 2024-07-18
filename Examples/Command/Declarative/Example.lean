@@ -12,7 +12,7 @@ example : 1 + 1 = 2 := rfl
 -- `n + 0 = n` は `rfl` で証明できる
 example {n : Nat} : n + 0 = n := rfl
 
--- `{n : Nat} → n + 0 = n` という依存関数型の項を `rfl` で構成できる, と言い換えられる
+-- `{n : Nat} → n + 0 = n` という依存関数型の項を `rfl` で構成できる、と言い換えられる
 #check (rfl : {n : Nat} → n + 0 = n)
 
 -- `[1, 2, 3]` は `List Nat` 型の項

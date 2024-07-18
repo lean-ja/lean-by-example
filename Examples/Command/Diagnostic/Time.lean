@@ -11,7 +11,7 @@ def fibonacci : Nat → Nat
 | 1 => 1
 | n + 2 => fibonacci n + fibonacci (n + 1)
 
--- 環境にもよるが, 1000ms以上かかってしまうことも
+-- 環境にもよるが、1000ms以上かかってしまうことも
 #time #eval fibonacci 32
 
 -- フィボナッチ数列のより速い実装
