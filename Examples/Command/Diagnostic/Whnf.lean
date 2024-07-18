@@ -1,7 +1,7 @@
 /- # \#whnf
-`#whnf` は，式を弱頭正規形(weak head normal form)に簡約するコマンドです．
+`#whnf` は、式を弱頭正規形(weak head normal form)に簡約するコマンドです。
 
-弱頭正規形とは，式の構成要素の最初の部分(head)がそれ以上簡約できない形になっている状態のことです．たとえば式の頭が帰納型のコンストラクタや，ラムダ式になっていれば弱頭正規形です．
+弱頭正規形とは、式の構成要素の最初の部分(head)がそれ以上簡約できない形になっている状態のことです。たとえば式の頭が帰納型のコンストラクタや、ラムダ式になっていれば弱頭正規形です。
 -/
 import Mathlib.Tactic.Conv -- `#whnf` コマンドを使うために必要
 
@@ -21,21 +21,21 @@ example : [1, 2, 3].map (· + 1) = [2, 3, 4] := calc
   -- ラムダ式に展開される
   _ = List.map (fun x => x + 1) [1, 2, 3] := by rfl
 
-  -- List.map を使うために，引数をコンストラクタに分解する
+  -- List.map を使うために、引数をコンストラクタに分解する
   _ = List.map (fun x => x + 1) (1 :: [2, 3]) := by rfl
 
   -- List.map の定義を展開する
   _ = (fun x => x + 1) 1 :: List.map (fun x => x + 1) [2, 3] := by rfl
 
-  -- これはコンストラクタが先頭に来ているので，弱頭正規形になっている
+  -- これはコンストラクタが先頭に来ているので、弱頭正規形になっている
   _ = List.cons ((fun x => x + 1) 1) (List.map (fun x => x + 1) [2, 3]) := by rfl
 
   _ = [2, 3, 4] := by rfl
 
 /- ## 型クラスの実装を調べる
-一見して使いどころがないようですが，型クラスの実装を調べたいときに有用です．
+一見して使いどころがないようですが、型クラスの実装を調べたいときに有用です。
 
-たとえば，以下のように `Many` という型を定義し，`Monad` 型クラスの実装を与えたとします．
+たとえば、以下のように `Many` という型を定義し、`Monad` 型クラスの実装を与えたとします。
 -/
 
 /-- 遅延評価版の List もどき -/
@@ -62,7 +62,7 @@ instance instMonadMany : Monad Many where
   pure := Many.one
   bind := Many.bind
 
-/- `Monad` 型クラスは `Functor` クラスや `Applicative` クラスの実装を含むので，`Many` は `Functor` や `Applicative` のインスタンスでもあります．このインスタンスは次のように `inferInstance` という関数で構成することができますが，その中身を `#print` で出力してみても実装がわかりません．-/
+/- `Monad` 型クラスは `Functor` クラスや `Applicative` クラスの実装を含むので、`Many` は `Functor` や `Applicative` のインスタンスでもあります。このインスタンスは次のように `inferInstance` という関数で構成することができますが、その中身を `#print` で出力してみても実装がわかりません。-/
 
 def instManyFunctor : Functor Many := inferInstance
 
@@ -72,7 +72,7 @@ inferInstance
 -/
 #guard_msgs in #print instManyFunctor
 
-/- しかし，`#whnf` コマンドに渡すと実装内容を表示してくれます．-/
+/- しかし、`#whnf` コマンドに渡すと実装内容を表示してくれます。-/
 
 -- Functor の実装を表示させることができた
 /--
@@ -81,7 +81,7 @@ info: { map := fun {α β} f x => x.bind (Many.one ∘ f),
 -/
 #guard_msgs in #whnf (inferInstance : Functor Many)
 
--- Applicative については，実装を得るためには下位クラスを使う必要がある
+-- Applicative については、実装を得るためには下位クラスを使う必要がある
 /-- info: Applicative.mk -/
 #guard_msgs in #whnf (inferInstance : Applicative Many)
 
@@ -89,7 +89,7 @@ info: { map := fun {α β} f x => x.bind (Many.one ∘ f),
 /-- info: { seq := fun {α β} f x => f.bind fun y => (x ()).bind (Many.one ∘ y) } -/
 #guard_msgs in #whnf (inferInstance : Seq Many)
 
-/- なお，これを `#reduce` で行おうとすると簡約しすぎて読みづらい表示が出てきます．-/
+/- なお、これを `#reduce` で行おうとすると簡約しすぎて読みづらい表示が出てきます。-/
 
 /--
 info: {

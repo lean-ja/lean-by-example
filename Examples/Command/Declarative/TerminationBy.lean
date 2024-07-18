@@ -1,8 +1,8 @@
 /- # termination_by
-`termination_by` は，再帰関数が有限回の再帰で停止することを Lean にわかってもらうためのコマンドで，「再帰のたびに減少する指標」を指定します．
+`termination_by` は、再帰関数が有限回の再帰で停止することを Lean にわかってもらうためのコマンドで、「再帰のたびに減少する指標」を指定します。
 -/
 namespace TerminationBy --#
--- 何も指定しないと，停止することが Lean にはわからないのでエラーになる
+-- 何も指定しないと、停止することが Lean にはわからないのでエラーになる
 /--
 error: fail to show termination for
   TerminationBy.M
@@ -29,7 +29,7 @@ def M (n : Nat) : Nat :=
   else
     M (M (n + 11))
 
-/- 以下のように，`termination_by` で「再帰適用で減少していくもの」を指定することができ，うまくいけばエラーがなくなります．-/
+/- 以下のように、`termination_by` で「再帰適用で減少していくもの」を指定することができ、うまくいけばエラーがなくなります。-/
 
 /-- McCarthy の 91 関数 -/
 def Mc91 (n : Nat) : Nat :=

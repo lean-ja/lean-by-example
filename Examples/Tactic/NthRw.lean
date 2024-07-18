@@ -1,6 +1,6 @@
 /- # nth_rw
 
-[`rw`](./Rw.md) はマッチした項をすべて置き換えてしまいます．特定の項だけを書き換えたいとき，`nth_rw` が使用できます．対象の式中に現れる順番を1始まりで指定することで，項を指定します．
+[`rw`](./Rw.md) はマッチした項をすべて置き換えてしまいます。特定の項だけを書き換えたいとき、`nth_rw` が使用できます。対象の式中に現れる順番を1始まりで指定することで、項を指定します。
 -/
 import Mathlib.Tactic.NthRewrite
 import Mathlib.Algebra.Group.Basic -- 群の定義を import する
@@ -21,7 +21,7 @@ example (a b : G) : a * b⁻¹ = 1 ↔ a = b := by
     -- これは失敗
     fail
 
-  -- `b` は2回出現するが，2番目だけ置き換える
+  -- `b` は2回出現するが、2番目だけ置き換える
   nth_rw 2 [← one_mul b]
 
   -- `mul_inv_eq_iff_eq_mul: a * b⁻¹ = c ↔ a = c * b` を使う

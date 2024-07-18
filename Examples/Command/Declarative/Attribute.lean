@@ -1,9 +1,9 @@
 /-
 # attribute
 
-`attribute` は，属性(attribute)を付与するためのコマンドです．
+`attribute` は、属性(attribute)を付与するためのコマンドです。
 
-次の例では，命題に `simp` 属性を付与しています．これは `simp` タクティクで利用される命題を増やすことを意味します．
+次の例では、命題に `simp` 属性を付与しています。これは `simp` タクティクで利用される命題を増やすことを意味します。
 -/
 namespace Attribute --#
 
@@ -31,7 +31,7 @@ attribute [simp] foo
 example {P Q : Prop} : (P → Q) ∧ P ↔ Q ∧ P := by
   simp
 
-/- 属性によっては与えた属性を削除することもできます．削除するには `-` を属性の頭に付けます．-/
+/- 属性によっては与えた属性を削除することもできます。削除するには `-` を属性の頭に付けます。-/
 
 -- `simp` 属性を削除
 attribute [-simp] foo
@@ -45,7 +45,7 @@ example {P Q : Prop} : (P → Q) ∧ P ↔ Q ∧ P := by
   left
   assumption
 
-/- `attribute` コマンドを使用すると定義の後から属性を付与することができますが，定義した直後に属性を付与する場合はタグと呼ばれる `@[..]` という書き方が使えます．-/
+/- `attribute` コマンドを使用すると定義の後から属性を付与することができますが、定義した直後に属性を付与する場合はタグと呼ばれる `@[..]` という書き方が使えます。-/
 
 @[simp]
 theorem bar {P Q : Prop} : (P → Q) ∧ P ↔ Q ∧ P := by
@@ -60,7 +60,7 @@ example {P Q : Prop} : (P → Q) ∧ P ↔ Q ∧ P := by
   simp
 
 /- ## 属性のスコープを制限する
-特定の [`section`](./Section.md) でのみ付与した属性を有効にするには，[`local`](./Local.md) で属性名を修飾します．
+特定の [`section`](./Section.md) でのみ付与した属性を有効にするには、[`local`](./Local.md) で属性名を修飾します。
 -/
 example (P Q : Prop) : ((P ∨ Q) ∧ ¬ Q) ↔ (P ∧ ¬ Q) := by
   -- simp だけでは証明が終わらない

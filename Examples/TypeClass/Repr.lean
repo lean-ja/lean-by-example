@@ -1,8 +1,8 @@
 /-
 # Repr
-`Repr` は，その型の項をどのように表示するかを指示する型クラスです．
+`Repr` は、その型の項をどのように表示するかを指示する型クラスです。
 
-たとえば，以下のように新しく構造体 `Point` を定義したとき，特に何も指定しなければ `Point` の項を `#eval` で表示することはできません．
+たとえば、以下のように新しく構造体 `Point` を定義したとき、特に何も指定しなければ `Point` の項を `#eval` で表示することはできません。
 -/
 namespace Repr --#
 
@@ -26,15 +26,15 @@ recall that any type implementing the `Repr` class also implements the `Lean.Eva
 -/
 #guard_msgs in #eval origin
 
-/- エラーメッセージが示すように，これは `Point` が型クラス `Lean.Eval` のインスタンスではないからです．エラーメッセージには，`Repr` クラスのインスタンスであれば自動的に `Lean.Eval` のインスタンスにもなることが書かれています．通常，`Lean.Eval` のインスタンスを手で登録することはなく，`Repr` インスタンスによって自動生成させます．
+/- エラーメッセージが示すように、これは `Point` が型クラス `Lean.Eval` のインスタンスではないからです。エラーメッセージには、`Repr` クラスのインスタンスであれば自動的に `Lean.Eval` のインスタンスにもなることが書かれています。通常、`Lean.Eval` のインスタンスを手で登録することはなく、`Repr` インスタンスによって自動生成させます。
 
-`Repr` インスタンスの登録方法ですが，通り一遍の表示で構わなければ [`deriving`](../Command/Declarative/Deriving.md) コマンドで Lean に自動生成させることができます．-/
+`Repr` インスタンスの登録方法ですが、通り一遍の表示で構わなければ [`deriving`](../Command/Declarative/Deriving.md) コマンドで Lean に自動生成させることができます。-/
 
 deriving instance Repr for Point
 
 #eval origin
 
-/- あるいは，`Point` の定義時に以下のようにしても構いません．-/
+/- あるいは、`Point` の定義時に以下のようにしても構いません。-/
 namespace Hidden --#
 
 structure Point (α : Type) : Type where
@@ -48,7 +48,7 @@ def origin : Point Nat := ⟨0, 0⟩
 
 end Hidden --#
 /- ## `deriving` を使わない場合
-`Repr` のインスタンスは [`deriving`](../Command/Declarative/Deriving.md) コマンドで生成できますが，手動で作ることもできます．
+`Repr` のインスタンスは [`deriving`](../Command/Declarative/Deriving.md) コマンドで生成できますが、手動で作ることもできます。
 -/
 
 variable {α : Type}
@@ -78,9 +78,9 @@ local instance [Repr α] : Repr (NestedList α) where
 #guard_msgs in #eval sample
 end --#
 
-/- あるいは，[`ToString`](./ToString.md) クラスのインスタンスがあればそこから `Lean.Eval` クラスのインスタンスも生成されて，表示に使われるので，それを利用しても良いでしょう．-/
+/- あるいは、[`ToString`](./ToString.md) クラスのインスタンスがあればそこから `Lean.Eval` クラスのインスタンスも生成されて、表示に使われるので、それを利用しても良いでしょう。-/
 
--- `ToString` クラスのインスタンスがあれば，`Lean.Eval` のインスタンスが生成できる
+-- `ToString` クラスのインスタンスがあれば、`Lean.Eval` のインスタンスが生成できる
 example {α : Type} [ToString α] : Lean.Eval α := inferInstance
 
 /-- `NestedList` を文字列に変換 -/

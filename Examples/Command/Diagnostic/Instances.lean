@@ -1,5 +1,5 @@
 /- # \#instances
-`#instances` は，与えられた型クラスのインスタンスの完全なリストを出力するコマンドです．
+`#instances` は、与えられた型クラスのインスタンスの完全なリストを出力するコマンドです。
 -/
 import Batteries.Tactic.Instances -- `#instances` コマンドを使うために必要
 

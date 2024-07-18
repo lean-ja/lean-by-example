@@ -1,6 +1,6 @@
 /- # wlog
 
-`wlog` は，数学でよく使われる，一般性を失うことなく(without loss of generarity)何々と仮定してよいというフレーズの Lean での対応物です． -/
+`wlog` は、数学でよく使われる、一般性を失うことなく(without loss of generarity)何々と仮定してよいというフレーズの Lean での対応物です。 -/
 import Mathlib.Tactic -- 大雑把に import する
 
 -- `n` と `m` は自然数
@@ -10,9 +10,9 @@ example (h : n ≠ m) : 0 < |(n - m : ℤ)| := by
   -- 一般性を失うことなく `m < n` と仮定して良い
   wlog hnm : m < n with H
 
-  -- `m < n` の時に成り立つのであれば，そうでないときも成り立つことを示す
+  -- `m < n` の時に成り立つのであれば、そうでないときも成り立つことを示す
   case inr =>
-    -- `m < n` ではないので，`n < m` が成り立つ
+    -- `m < n` ではないので、`n < m` が成り立つ
     have : m = n ∨ n < m := Nat.eq_or_lt_of_not_lt hnm
     replace : n < m := by aesop
 
@@ -22,7 +22,7 @@ example (h : n ≠ m) : 0 < |(n - m : ℤ)| := by
     rw [abs_sub_comm]
     assumption
 
-  -- `m < n` と仮定してよいことがわかったので，
+  -- `m < n` と仮定してよいことがわかったので、
   -- `m < n` だとして証明する
   apply abs_pos_of_pos
   simp_all

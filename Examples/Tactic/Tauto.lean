@@ -1,6 +1,6 @@
 /- # tauto
 
-`tauto` は, トートロジー(恒真式, tautology)であることに基づいてゴールを閉じるタクティクです． ゴールを閉じることができなければエラーになります． -/
+`tauto` は, トートロジー(恒真式, tautology)であることに基づいてゴールを閉じるタクティクです。 ゴールを閉じることができなければエラーになります。 -/
 import Aesop -- `aesop` を使うため --#
 import Mathlib.Tactic.Tauto -- `tauto` を使うのに必要
 
@@ -20,7 +20,7 @@ example : (P → (Q → R)) → ((P → Q) → (P → R)) := by
 example : (P ↔ ¬ P) → false := by
   tauto
 
-/-! `tauto` はすべてのトートロジーを示せるわけではありません．ごく簡単なトートロジーの中にも `tauto` で示せないものがあります．-/
+/-! `tauto` はすべてのトートロジーを示せるわけではありません。ごく簡単なトートロジーの中にも `tauto` で示せないものがあります。-/
 
 variable (α : Type) (S : α → Prop)
 
@@ -30,12 +30,12 @@ example : ¬(∀ x, S x) → (∃ x, ¬ S x) := by
 
   aesop
 
-/- また，排中律を使わずに示せる命題であっても，`tauto` は排中律を使って示してしまうことがあります．直観主義論理の枠内で命題を示すには，代わりに[`itauto`](./ITauto.md)を使用してください．-/
+/- また、排中律を使わずに示せる命題であっても、`tauto` は排中律を使って示してしまうことがあります。直観主義論理の枠内で命題を示すには、代わりに[`itauto`](./ITauto.md)を使用してください。-/
 
 /-- 命題とその否定は同値ではない -/
 theorem not_neg_iff {P : Prop} : ¬ (P ↔ ¬ P) := by tauto
 
--- 選択原理を使っているが，これは排中律を使っているため
+-- 選択原理を使っているが、これは排中律を使っているため
 /-- info: 'Tauto.not_neg_iff' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in #print axioms not_neg_iff
 

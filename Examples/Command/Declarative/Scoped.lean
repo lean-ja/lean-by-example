@@ -1,5 +1,5 @@
 /- # scoped
-`scoped` は，コマンドの有効範囲を現在の名前空間に限定します．
+`scoped` は、コマンドの有効範囲を現在の名前空間に限定します。
 -/
 import Lean --#
 -- #target をコマンドとして認識させる
@@ -33,7 +33,7 @@ section
   #greet
 end
 
-/- `scoped` で有効範囲を限定できるコマンドには，次のようなものがあります．
+/- `scoped` で有効範囲を限定できるコマンドには、次のようなものがあります。
 * `elab`, `elab_rules`
 * [`infix`](./Infix.md), `infixl`, `infixr`
 * [`instance`](./Instance.md)
@@ -44,7 +44,7 @@ end
 * `syntax`
 * などなど
 
-リストの全体は，`scoped` の後に修飾できないコマンドを続けたときのエラーメッセージで確認できます．
+リストの全体は、`scoped` の後に修飾できないコマンドを続けたときのエラーメッセージで確認できます。
 -/
 
 open Lean Parser
@@ -65,7 +65,7 @@ error: <input>:1:7: expected 'binder_predicate', 'builtin_dsimproc', 'builtin_si
 run_meta checkParse `command "scoped def"
 
 /- ## `open scoped`
-`open scoped` コマンドを利用すると，特定の名前空間にある `scoped` が付けられた名前だけを有効にすることができます．単に [`open`](./Open.md) コマンドを利用するとその名前空間にあるすべての名前が有効になります．
+`open scoped` コマンドを利用すると、特定の名前空間にある `scoped` が付けられた名前だけを有効にすることができます。単に [`open`](./Open.md) コマンドを利用するとその名前空間にあるすべての名前が有効になります。
 -/
 
 namespace Foo
@@ -81,7 +81,7 @@ namespace Foo
 end Foo
 
 section
-  -- 単に open した場合，どちらも使用可能
+  -- 単に open した場合、どちらも使用可能
   open Foo
 
   #check (30 add' 12)

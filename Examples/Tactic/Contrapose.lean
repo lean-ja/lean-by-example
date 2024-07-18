@@ -1,7 +1,7 @@
 /- # contrapose
-`contrapose` は対偶を取るタクティクです．
+`contrapose` は対偶を取るタクティクです。
 
-ローカルコンテキストに `h : P` という仮定があるときに `contrapose h` を実行すると，ゴールの否定がローカルコンテキストに追加されて，同時にゴールが `⊢ ¬ P` に変わります．
+ローカルコンテキストに `h : P` という仮定があるときに `contrapose h` を実行すると、ゴールの否定がローカルコンテキストに追加されて、同時にゴールが `⊢ ¬ P` に変わります。
 -/
 import Mathlib.Tactic.Contrapose -- contrapose のために必要
 import Mathlib.Init.Data.Int.Order
@@ -25,7 +25,7 @@ example (h : Monotone f) (h' : f a < f b) : a < b := by
   assumption
 
 /- ## contrapose!
-`contrapose!` は，対偶をとった後に簡略化を実行します．
+`contrapose!` は、対偶をとった後に簡略化を実行します。
 -/
 
 example (h : Monotone f) (h' : f a < f b) : a < b := by

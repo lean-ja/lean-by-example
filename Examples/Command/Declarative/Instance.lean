@@ -1,6 +1,6 @@
 /-
 # instance
-`instance` は，型クラスのインスタンスを定義するためのコマンドです．
+`instance` は、型クラスのインスタンスを定義するためのコマンドです。
 -/
 namespace Instance --#
 
@@ -23,7 +23,7 @@ instance {α : Type} [Add α] : Add (Point α) where
 #check (origin + origin)
 
 /- ## インスタンスの連鎖
-インスタンスは連鎖させることができます．言い換えると，「`a` が `C` のインスタンスならば，`f a` も `C` のインスタンスである」というようなインスタンス宣言ができます．Lean コンパイラは再帰的にインスタンスを探します．
+インスタンスは連鎖させることができます。言い換えると、「`a` が `C` のインスタンスならば、`f a` も `C` のインスタンスである」というようなインスタンス宣言ができます。Lean コンパイラは再帰的にインスタンスを探します。
 -/
 
 /-- 偶数 -/
@@ -37,7 +37,7 @@ def Even.toNat : Even → Nat
   | zero => 0
   | succ n => 2 + (Even.toNat n)
 
-/-- Even を文字列に変換することを可能にする．
+/-- Even を文字列に変換することを可能にする。
 同時に #eval も可能になる. -/
 instance : ToString Even where
   toString := toString ∘ Even.toNat
@@ -50,7 +50,7 @@ instance : OfNat Even 0 where
 #guard (0 : Even) = Even.zero
 
 /-- インスタンス連鎖を利用して OfNat を実装.
-n について OfNat の実装があれば，n + 2 についても OfNat の実装を得る．-/
+n について OfNat の実装があれば、n + 2 についても OfNat の実装を得る。-/
 instance {n : Nat} [OfNat Even n] : OfNat Even (n + 2) where
   ofNat := Even.succ (OfNat.ofNat n)
 
@@ -59,7 +59,7 @@ instance {n : Nat} [OfNat Even n] : OfNat Even (n + 2) where
 -- 奇数については OfNat の実装はない
 #check_failure (3 : Even)
 
-/- なお，インスタンス連鎖の回数には上限があります．-/
+/- なお、インスタンス連鎖の回数には上限があります。-/
 
 -- ギリギリセーフ
 #eval (254 : Even)
@@ -69,7 +69,7 @@ instance {n : Nat} [OfNat Even n] : OfNat Even (n + 2) where
 
 /-
 ## 舞台裏
-`instance` は `@[instance]` 属性を付与された `def` と同じです．
+`instance` は `@[instance]` 属性を付与された `def` と同じです。
 -/
 
 -- `List` 同士を足すことはできない
@@ -81,7 +81,7 @@ def instListAdd {α : Type} : Add (List α) where
   add := List.append
 
 -- リスト同士を足すことができるようになった
--- 実装としては，上で指定した通り `List.append` が使われる
+-- 実装としては、上で指定した通り `List.append` が使われる
 #guard [1] + [2] = [1, 2]
 
 -- インスタンスを削除する

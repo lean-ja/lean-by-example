@@ -1,7 +1,7 @@
 /- # private
-`private` は，その定義があるファイルの中でだけ参照可能になるようにする修飾子です．他のファイルからはアクセス不能になります．
+`private` は、その定義があるファイルの中でだけ参照可能になるようにする修飾子です。他のファイルからはアクセス不能になります。
 
-不安定なAPIなど，外部に公開したくないものに対して使うのが主な用途です．
+不安定なAPIなど、外部に公開したくないものに対して使うのが主な用途です。
 -/
 import Examples.Command.Declarative.Protected -- protected のページをインポート
 import Lean
@@ -13,7 +13,7 @@ namespace Private --#
 -- private とマークした定義にはアクセスできない
 #check_failure Point.private_sub
 
-/- なお `private` コマンドでセクションや名前空間にスコープを制限することはできません．-/
+/- なお `private` コマンドでセクションや名前空間にスコープを制限することはできません。-/
 
 namespace Hoge
   section
@@ -29,7 +29,7 @@ open Hoge
 #check addOne
 
 /- ## 補足
-`private` コマンドを用いて宣言した名前は，そのファイルの外部からはアクセス不能になるものの，そのファイル内部からは一見 `private` でない名前と同様に見えます．しかし，特定の名前が `private` であるか判定する関数は存在します．
+`private` コマンドを用いて宣言した名前は、そのファイルの外部からはアクセス不能になるものの、そのファイル内部からは一見 `private` でない名前と同様に見えます。しかし、特定の名前が `private` であるか判定する関数は存在します。
 -/
 
 private def hoge := "hello"

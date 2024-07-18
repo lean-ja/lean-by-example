@@ -1,14 +1,14 @@
 /-
 # induction'
 
-`induction'` は `induction` の Lean 3 での構文を残したバージョンです．
+`induction'` は `induction` の Lean 3 での構文を残したバージョンです。
 -/
 import Mathlib.Tactic -- 大雑把に import する
 
 namespace InductionAp --#
 
 /-- `0` から `n` までの和を計算する.
-多項式関数として表現する都合で，返り値は `Rat` にしてある. -/
+多項式関数として表現する都合で、返り値は `Rat` にしてある. -/
 def sum (n : Nat) : Rat :=
   match n with
   | 0 => 0
@@ -24,7 +24,7 @@ example (n : Nat) : sum n = n * (n + 1) / 2 := by
 
   -- `0` から `n` までの自然数で成り立つと仮定する
   case succ =>
-    -- `sum` の定義を展開し，帰納法の仮定を適用する
+    -- `sum` の定義を展開し、帰納法の仮定を適用する
     simp [sum, ih]
 
     -- 後は可換環の性質から示せる
@@ -33,14 +33,14 @@ example (n : Nat) : sum n = n * (n + 1) / 2 := by
 /-!
 ### 〇〇の～についての帰納法
 
-関数適用した対象に対する帰納法も行うことができます．
+関数適用した対象に対する帰納法も行うことができます。
 
-以下の例は, Cantor の対関数 `pair : ℕ × ℕ → ℕ` に対して逆写像 `unpair : ℕ → ℕ × ℕ` が存在することを示しています．証明の中で `pair (m, n)` に対する帰納法を行っています．また，`generalizing` 構文を使うことで，帰納法の仮定の中の変数を全称化する工夫も行っています．
+以下の例は, Cantor の対関数 `pair : ℕ × ℕ → ℕ` に対して逆写像 `unpair : ℕ → ℕ × ℕ` が存在することを示しています。証明の中で `pair (m, n)` に対する帰納法を行っています。また、`generalizing` 構文を使うことで、帰納法の仮定の中の変数を全称化する工夫も行っています。
 -/
 namespace Pair --#
 
 /-- `0` から `n` までの自然数の和.
-多項式として表現する必要はないので，返り値は自然数. -/
+多項式として表現する必要はないので、返り値は自然数. -/
 def sum (n : ℕ) : ℕ :=
   match n with
   | 0 => 0
@@ -82,7 +82,7 @@ theorem unpair_pair_eq_id (m n : ℕ) : unpair (pair (m, n)) = (m, n) := by
 
   -- `pair (m, n) = 0` のとき
   case zero =>
-    -- `pair` の定義から明らか．
+    -- `pair` の定義から明らか。
     simp [pair] at h
     aesop
 
@@ -99,7 +99,7 @@ theorem unpair_pair_eq_id (m n : ℕ) : unpair (pair (m, n)) = (m, n) := by
         simp [this] at h
         contradiction
 
-      -- よって `n = (n - 1) + 1` であり，
+      -- よって `n = (n - 1) + 1` であり、
       replace npos : n = (n - 1) + 1 := by omega
       have : sum n = sum (n - 1) + n := by
         nth_rw 1 [npos]
@@ -120,13 +120,13 @@ theorem unpair_pair_eq_id (m n : ℕ) : unpair (pair (m, n)) = (m, n) := by
 
     -- `m = m' + 1` のとき
     | m' + 1 =>
-      -- `pair` の定義から `pair (m', n + 1) = x` が成り立つ．
+      -- `pair` の定義から `pair (m', n + 1) = x` が成り立つ。
       have : pair (m', n + 1) = x := by
         simp [pair] at h ⊢
         rw [show m' + 1 + n = m' + (n + 1) from by ac_rfl] at h
         omega
 
-      -- 後は帰納法の仮定から従う．
+      -- 後は帰納法の仮定から従う。
       specialize ih m' (n + 1) this
       simp [unpair, ih]
 
@@ -135,13 +135,13 @@ end Pair --#
 /-!
 ## 完全帰納法
 
-時には， より強い帰納法が必要なこともあります． 強い帰納法とは， たとえば
+時には、 より強い帰納法が必要なこともあります。 強い帰納法とは、 たとえば
 
 * `∀ n, (∀ k < n, P (k)) → P (n)` を示す
 * したがって `∀ n, P (n)` である
 
-という形式で表されるような帰納法のことです．
-これは超限帰納法の特別な場合で，完全帰納法や累積帰納法とも呼ばれます．
+という形式で表されるような帰納法のことです。
+これは超限帰納法の特別な場合で、完全帰納法や累積帰納法とも呼ばれます。
 -/
 
 /-- フィボナッチ数列の通常の定義をそのまま Lean の関数として書いたもの -/
@@ -166,7 +166,7 @@ theorem fib_add (n : Nat) : fib n + fib (n + 1) = fib (n + 2) := by rfl
 
 /-- `fibonacci` と `fib` は同じ結果を返す -/
 example : fibonacci = fib := by
-  -- 関数が等しいことを示すので，引数 `n` が与えられたとする
+  -- 関数が等しいことを示すので、引数 `n` が与えられたとする
   ext n
 
   -- `n` についての強い帰納法で示す
