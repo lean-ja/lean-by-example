@@ -45,16 +45,16 @@ variable {α : Sort u}
 -- 商の構築
 #check (Quot.mk : (r : α → α → Prop) → α → Quot r)
 
--- 帰納法の原理.
+-- 帰納法の原理。
 -- 任意の部分集合 `β ⊆ Quot r` に対して、
 -- β が `Quot.mk r a` の形の項を全て含むならば、
--- β は商 `Quot r` 全体に一致する.
+-- β は商 `Quot r` 全体に一致する。
 #check (Quot.ind :
   {r : α → α → Prop} → {β : Quot r → Prop}
   → (∀ a, β (Quot.mk r a)) → ∀ q, β q)
 
--- 要するに商 `Quot r` の全ての項は `Quot.mk r a` の形をしている.
--- Quot.ind から直ちに従う.
+-- 要するに商 `Quot r` の全ての項は `Quot.mk r a` の形をしている。
+-- Quot.ind から直ちに従う。
 example (r : α → α → Prop) (q : Quot r) : ∃ a : α, q = Quot.mk r a := by
   have := Quot.ind (β := fun q => ∃ a : α, q = Quot.mk r a)
   apply this
@@ -63,7 +63,7 @@ example (r : α → α → Prop) (q : Quot r) : ∃ a : α, q = Quot.mk r a := b
 
 -- 関数の商へのリフト。
 -- 関数 `f : α → β` が、関係 `r` に関して合同性を持つならば、
--- `f` をリフトして関数 `Quot r → β` が得られる.
+-- `f` をリフトして関数 `Quot r → β` が得られる。
 #check (Quot.lift :
   {r : α → α → Prop} → {β : Sort u} → (f : α → β)
   → (∀ a b, r a b → f a = f b) → Quot r → β)
@@ -106,7 +106,7 @@ theorem my_funext {f g : (x : α) → β x} (h : ∀ x, f x = g x) : f = g := by
     · exact f'
 
   -- `f = g` を示す問題を `extfunApp` をかませることで、
-  -- 商での等式に帰着させることができる.
+  -- 商での等式に帰着させることができる。
   calc
     f = fun x => f x := by rfl
     _ = extfunApp (f' := Quot.mk eqv f) := by rfl

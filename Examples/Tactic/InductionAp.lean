@@ -7,7 +7,7 @@ import Mathlib.Tactic -- 大雑把に import する
 
 namespace InductionAp --#
 
-/-- `0` から `n` までの和を計算する.
+/-- `0` から `n` までの和を計算する。
 多項式関数として表現する都合で、返り値は `Rat` にしてある。-/
 def sum (n : Nat) : Rat :=
   match n with
@@ -39,7 +39,7 @@ example (n : Nat) : sum n = n * (n + 1) / 2 := by
 -/
 namespace Pair --#
 
-/-- `0` から `n` までの自然数の和.
+/-- `0` から `n` までの自然数の和。
 多項式として表現する必要はないので、返り値は自然数。-/
 def sum (n : ℕ) : ℕ :=
   match n with
@@ -93,7 +93,7 @@ theorem unpair_pair_eq_id (m n : ℕ) : unpair (pair (m, n)) = (m, n) := by
 
     -- `m = 0` のとき
     | 0 =>
-      -- `pair (0, n) = x + 1` により `n > 0` が成り立つ.
+      -- `pair (0, n) = x + 1` により `n > 0` が成り立つ。
       have npos : n > 0 := by
         by_contra!; simp at this
         simp [this] at h
@@ -106,14 +106,14 @@ theorem unpair_pair_eq_id (m n : ℕ) : unpair (pair (m, n)) = (m, n) := by
         dsimp [sum]
         omega
 
-      -- `pair (n - 1, 0) = x` が成り立つ.
+      -- `pair (n - 1, 0) = x` が成り立つ。
       replace : pair (n - 1, 0) = x := by
         dsimp [pair] at h ⊢
         simp at h
         rw [this] at h
         omega
 
-      -- 後は帰納法の仮定から従う.
+      -- 後は帰納法の仮定から従う。
       specialize ih (n-1) 0 this
       simp [unpair, ih]
       symm; assumption

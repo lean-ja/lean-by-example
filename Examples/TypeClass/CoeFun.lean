@@ -37,7 +37,7 @@ instance : Coe AdditiveFunction (Nat → Nat) where
   coe f := f.toFun
 
 -- `Nat → Nat` への型強制が呼び出されず、エラーになってしまう
--- これは、期待されている型が `Nat → Nat` ではなく、単に `Nat → ?_` であるため.
+-- これは、期待されている型が `Nat → Nat` ではなく、単に `Nat → ?_` であるため。
 #check_failure (identity 1)
 
 /- 上記の例ではどんな `t : AdditiveFunction` も同じ型 `Nat → Nat` に強制していますが、実際には依存関数型に強制することができます。-/

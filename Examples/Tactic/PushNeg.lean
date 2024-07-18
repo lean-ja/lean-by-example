@@ -42,8 +42,8 @@ example : ∃ (x : People), isDrinking x → ∀ (y : People), isDrinking y := b
     assumption
 
   case neg =>
-    -- 「すべての人が飲んでいる」が偽の場合.
-    -- このとき、飲んでいない人が存在する.
+    -- 「すべての人が飲んでいる」が偽の場合。
+    -- このとき、飲んでいない人が存在する。
     push_neg at h
 
     -- このとき、飲んでいない人を `x` として取れば前件が偽になるので条件を満たす

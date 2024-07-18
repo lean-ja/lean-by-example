@@ -13,7 +13,7 @@ def fac : Nat → Nat
 #guard fac 5 == 120
 
 /- ## 舞台裏
-`#guard` に `Bool` ではなく `Prop` 型の項を与えた場合、エラーになることがあります。次の命題は証明があるので真ですが、 `#guard` は通りません.
+`#guard` に `Bool` ではなく `Prop` 型の項を与えた場合、エラーになることがあります。次の命題は証明があるので真ですが、 `#guard` は通りません。
 -/
 
 example (α : Type) (l : List α) : [] ⊆ l := by simp

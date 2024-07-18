@@ -47,7 +47,7 @@ example : (3 weak 1 strong 2) = 5 := calc
   -- weak と strong の結合優先順位は strong の方が高いので、
   -- まず 1 strong 2 が計算されて 2 になり、
   _ = (3 weak 2) := rfl
-  -- その後 3 weak 2 が計算されて 5 になる.
+  -- その後 3 weak 2 が計算されて 5 になる。
   _ = 5 := rfl
 
 example : (2 strong 2 weak 3) = 7 := calc

@@ -24,7 +24,7 @@ Exists.intro : ∀ {α : Sort u} {p : α → Prop} (w : α), p w → Exists p
 #guard_msgs in #print Exists
 
 -- `p : α → Prop` は `α` 上の述語とする。
--- このとき `w : α` と `h : p w` が与えられたとき `∃ x : α, p x` が成り立つ.
+-- このとき `w : α` と `h : p w` が与えられたとき `∃ x : α, p x` が成り立つ。
 #check (Exists.intro : ∀ {α : Sort u} {p : α → Prop} (w : α) (h : p w), Exists p)
 
 /- したがって `Exists` は単一のコンストラクタを持つ帰納型、つまり構造体なので、上記の `exists` は `exact` と[無名コンストラクタ](../Command/Declarative/Structure.md#AnonymousConstructor)で次のように書き直すことができます。-/

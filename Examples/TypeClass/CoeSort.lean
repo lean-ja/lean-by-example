@@ -25,8 +25,8 @@ error: type expected, got
 -/
 #guard_msgs in #check ((1 : Fin 2) : Two)
 
--- `Two → Two` という書き方もできない.
--- `A → A` も `A` の型が `Type` などの型宇宙であることを要求する.
+-- `Two → Two` という書き方もできない。
+-- `A → A` も `A` の型が `Type` などの型宇宙であることを要求する。
 /--
 error: type expected, got
   (Two : FinCat)

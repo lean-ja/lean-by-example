@@ -45,7 +45,7 @@ universe u
 
 #check (Prop : Type)
 
--- Lean では `List` は Type を受け取って、Type を返す関数.
+-- Lean では `List` は Type を受け取って、Type を返す関数。
 #check (List : (α : Type u) → Type u)
 
 -- 配列も同じ。型を型に変換する関数。
@@ -86,7 +86,7 @@ theorem two_eq_add_one : 2 = 1 + 1 := by rfl
 
 theorem tautology : True -> True := fun a ↦ a
 
--- 暗黙の変数を明示的にするために `@` を付けた.
+-- 暗黙の変数を明示的にするために `@` を付けた。
 -- `tautology : True → True` と出力されるので、
 -- `tautology` は `True → True` という関数であることがわかる
 #check (@tautology : True → True)

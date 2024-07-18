@@ -49,7 +49,7 @@ instance : OfNat Even 0 where
 -- 実際に Even.zero を 0 と書けるようになった
 #guard (0 : Even) = Even.zero
 
-/-- インスタンス連鎖を利用して OfNat を実装.
+/-- インスタンス連鎖を利用して OfNat を実装。
 n について OfNat の実装があれば、n + 2 についても OfNat の実装を得る。-/
 instance {n : Nat} [OfNat Even n] : OfNat Even (n + 2) where
   ofNat := Even.succ (OfNat.ofNat n)

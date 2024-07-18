@@ -82,7 +82,7 @@ instance : Add Color where
 protected theorem add_comm (a b : Color) : a + b = b + a := by
   ext <;> apply Nat.add_comm
 
-/-- `add_comm` を `Std.Commutative` に登録する.
+/-- `add_comm` を `Std.Commutative` に登録する。
 local に宣言したので、このセクション内限定 -/
 local instance : Std.Commutative (α := Color) (· + ·) where
   comm := Color.add_comm
@@ -113,7 +113,7 @@ protected theorem add_assoc (a b c : Color) : a + b + c = a + (b + c) := by
 #guard_msgs (drop error) in
 #synth Std.Commutative (α := Color) (· + ·)
 
-/-- `add_comm` を `Std.Associative` に登録する.
+/-- `add_comm` を `Std.Associative` に登録する。
 local にしたのでセクション内でのみ有効 -/
 local instance : Std.Associative (α := Color) (· + ·) where
   assoc := Color.add_assoc

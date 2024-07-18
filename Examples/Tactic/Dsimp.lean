@@ -18,7 +18,7 @@ def simpConst : Expr → Expr
   | times (const n₁) (const n₂) => const (n₁ * n₂)
   | e => e
 
-/-- simpConst を良い感じに再帰的に適用して、Expr を単一の Expr.const に簡略化する.-/
+/-- simpConst を良い感じに再帰的に適用して、Expr を単一の Expr.const に簡略化する。-/
 def fuse : Expr → Expr
   | plus e₁ e₂ => simpConst (plus (fuse e₁) (fuse e₂))
   | times e₁ e₂ => simpConst (times (fuse e₁) (fuse e₂))
