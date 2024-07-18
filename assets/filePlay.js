@@ -1,5 +1,5 @@
 /**
- * mdbook の "Suggest an edit" ボタンを改造し，
+ * mdbook の "Suggest an edit" ボタンを改造し、
  * lean4 web editor へのリンクにしてしまう
  */
 

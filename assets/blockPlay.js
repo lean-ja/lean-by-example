@@ -16,7 +16,7 @@ Array.from(document.querySelectorAll(".language-lean")).forEach(function (code_b
   // ボタンを挿入する
   buttons.insertBefore(leanWebButton, buttons.firstChild);
 
-  // ボタンをクリックしたときに，lean4 web editor を開く
+  // ボタンをクリックしたときに、lean4 web editor を開く
   leanWebButton.addEventListener('click', function (e) {
     open(url);
   });
