@@ -1,10 +1,10 @@
 /- # cases
 
-`cases` は場合分けを行うことができるタクティクです．
+`cases` は場合分けを行うことができるタクティクです。
 
-たとえば，ローカルコンテキストに `h : P ∨ Q` があるときに `cases h` とすると，仮定に `P` を付け加えたゴール `case inl` と，仮定に `Q` を付け加えたゴール `case inr` を生成します．
+たとえば、ローカルコンテキストに `h : P ∨ Q` があるときに `cases h` とすると、仮定に `P` を付け加えたゴール `case inl` と、仮定に `Q` を付け加えたゴール `case inr` を生成します。
 
-補足すると，`inl` と `inr` はそれぞれ `left injection` と `right injection` からその名前があり，`Or` 型のコンストラクタです．-/
+補足すると、`inl` と `inr` はそれぞれ `left injection` と `right injection` からその名前があり、`Or` 型のコンストラクタです。-/
 
 -- `P`, `Q`, `R` を命題とする
 variable (P Q R : Prop)
@@ -26,7 +26,7 @@ example : P ∨ Q → (P → R) → (Q → R) → R := by
 
 /-! ## with を使う書き方
 
-`case` を使わずに，`with` を使って次のように書くこともできます
+`case` を使わずに、`with` を使って次のように書くこともできます
 -/
 
 example : P ∨ Q → (P → R) → (Q → R) → R := by
@@ -43,8 +43,8 @@ example : P ∨ Q → (P → R) → (Q → R) → R := by
 /-!
 ## 補足
 
-`cases` は，実際には論理和に限らず帰納型をコンストラクタに分解することができるタクティクです．
-論理和を分解することができるのも，`Or` が帰納型として定義されているからです．
+`cases` は、実際には論理和に限らず帰納型をコンストラクタに分解することができるタクティクです。
+論理和を分解することができるのも、`Or` が帰納型として定義されているからです。
 -/
 namespace Cases --#
 
@@ -64,7 +64,7 @@ end Cases --#
 
 /-! ## rcases
 
-`rcases` は `cases` をパターンに従って再帰的(recursive)に適用します．`cases` の上位互換という立ち位置です．-/
+`rcases` は `cases` をパターンに従って再帰的(recursive)に適用します。`cases` の上位互換という立ち位置です。-/
 
 example : P ∨ Q → (P → R) → (Q → R) → R := by
   intro h hPR hQR
@@ -85,7 +85,7 @@ example : P ∧ Q → Q ∧ P := by
   -- `Q ∧ P` を証明する
   exact ⟨hQ, hP⟩
 
-/- `rcases` は一般には `⟨x₁, x₂, ...⟩ | ⟨y₁, y₂, ...⟩ | ...` という記法で帰納型の分解が可能です．-/
+/- `rcases` は一般には `⟨x₁, x₂, ...⟩ | ⟨y₁, y₂, ...⟩ | ...` という記法で帰納型の分解が可能です。-/
 
 inductive Sample where
   | foo (x y : Nat) : Sample

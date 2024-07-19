@@ -1,6 +1,6 @@
 /-
 # protected
-`protected` は，ある名前空間 `Hoge` にある定義 `foo` に対して，必ずフルネームの `Hoge.foo` でアクセスすることを強要するものです．
+`protected` は、ある名前空間 `Hoge` にある定義 `foo` に対して、必ずフルネームの `Hoge.foo` でアクセスすることを強要するものです。
 -/
 structure Point where
   x : Nat
@@ -14,7 +14,7 @@ namespace Point
   -- private のテスト用の宣言
   private def private_sub := Point.sub
 
-  -- 名前空間の中にいても，短い名前ではアクセスできない
+  -- 名前空間の中にいても、短い名前ではアクセスできない
   #check_failure sub
 
   -- フルネームならアクセスできる
@@ -24,7 +24,7 @@ end Point
 
 open Point
 
--- 名前空間を開いていても，短い名前でアクセスできない
+-- 名前空間を開いていても、短い名前でアクセスできない
 #check_failure sub
 
 -- フルネームならアクセスできる

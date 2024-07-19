@@ -1,8 +1,8 @@
 /- # dsimp
 
-`dsimp` は，定義上(definitionally)等しいような変形だけを行うという制約付きの [`simp`](./Simp.md) で，一言でいえば「名前を定義に展開する」タクティクです．
+`dsimp` は、定義上(definitionally)等しいような変形だけを行うという制約付きの [`simp`](./Simp.md) で、一言でいえば「名前を定義に展開する」タクティクです。
 
-`dsimp [e₁, e₂, ..., eᵢ]` という構文でゴールに登場する名前 `e₁`, ..., `eᵢ` を定義に展開します．-/
+`dsimp [e₁, e₂, ..., eᵢ]` という構文でゴールに登場する名前 `e₁, ..., eᵢ` を定義に展開します。-/
 import Lean --#
 /-- 算術式 -/
 inductive Expr where
@@ -18,13 +18,13 @@ def simpConst : Expr → Expr
   | times (const n₁) (const n₂) => const (n₁ * n₂)
   | e => e
 
-/-- simpConst を良い感じに再帰的に適用して，Expr を単一の Expr.const に簡略化する.-/
+/-- simpConst を良い感じに再帰的に適用して、Expr を単一の Expr.const に簡略化する。-/
 def fuse : Expr → Expr
   | plus e₁ e₂ => simpConst (plus (fuse e₁) (fuse e₂))
   | times e₁ e₂ => simpConst (times (fuse e₁) (fuse e₂))
   | e => e
 
-/-- fuse は実際に Expr を const に簡略化する. -/
+/-- fuse は実際に Expr を const に簡略化する。-/
 theorem fuse_in_const {e : Expr} : ∃ n, fuse e = .const n := by
   induction e with
   | const n => exists n
@@ -57,7 +57,7 @@ theorem fuse_in_const {e : Expr} : ∃ n, fuse e = .const n := by
     exists n₁ * n₂
 
 /- ## 舞台裏
-「定義上等しいような変形だけを行う」というのは，`rfl` で示せるような命題だけを使用するという意味です．`rfl` で示せないような簡約は `dsimp` ではできません．-/
+「定義上等しいような変形だけを行う」というのは、`rfl` で示せるような命題だけを使用するという意味です。`rfl` で示せないような簡約は `dsimp` ではできません。-/
 
 /-- 自前で定義した自然数 -/
 inductive MyNat where
@@ -73,8 +73,8 @@ def MyNat.add (n m : MyNat) : MyNat :=
 /-- MyNat.add を足し算記号で書けるようにする -/
 infix:65 " + " => MyNat.add
 
-/-- ゼロを左から足しても変わらない．
-自明なようだが，MyNat.add は m に対する場合分けで定義されているので定義上明らかではない. -/
+/-- ゼロを左から足しても変わらない。
+自明なようだが、MyNat.add は m に対する場合分けで定義されているので定義上明らかではない。-/
 theorem MyNat.zero_add {n : MyNat} : MyNat.zero + n = n := by
   induction n with
   | zero => rfl
@@ -99,7 +99,7 @@ example (n : MyNat) : MyNat.zero + n = n := by
   rw [MyNat.zero_add]
 
 /- ## unfold との違い
-同じく名前を定義に展開するタクティクとして [`unfold`](./Unfold.md) があります．たいていの場合両者は同じように使うことができますが，`unfold` は次のような意外な挙動をすることがあるので `dsimp` を使うことを推奨します．
+同じく名前を定義に展開するタクティクとして [`unfold`](./Unfold.md) があります。たいていの場合両者は同じように使うことができますが、`unfold` は次のような意外な挙動をすることがあるので `dsimp` を使うことを推奨します。
 -/
 
 -- α の部分集合を表す型
@@ -138,7 +138,7 @@ example : True ∨ (s ∩ u = u ∩ s) := by
 
   left; trivial
 
-/- また，`dsimp` は識別子(`ident`)ではないものに対しても簡約を行うことができますが，`unfold` は識別子でなければ簡約が行えません．これも `dsimp` の長所といえます．-/
+/- また、`dsimp` は識別子(`ident`)ではないものに対しても簡約を行うことができますが、`unfold` は識別子でなければ簡約が行えません。これも `dsimp` の長所といえます。-/
 
 example : True ∨ (s ∩ u = u ∩ s) := by
   -- dsimp はラムダ式に対する簡約ができる

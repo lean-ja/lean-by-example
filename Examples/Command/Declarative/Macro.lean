@@ -1,7 +1,7 @@
 /- # macro
-`macro` は，その名の通りマクロを定義するための簡便なコマンドです．
+`macro` は、その名の通りマクロを定義するための簡便なコマンドです。
 
-ただしマクロとは，構文木を取り込んで新しい構文木を返す関数のことです．「新しい構文を定義する機能」だと思っても差し支えありません．
+ただしマクロとは、構文木を取り込んで新しい構文木を返す関数のことです。「新しい構文を定義する機能」だと思っても差し支えありません。
 -/
 import Mathlib.Data.Real.Sqrt
 namespace Macro --#
@@ -13,7 +13,7 @@ def checkParse (cat : Name) (s : String) : MetaM Unit := do
   if let .error s := runParserCategory (← getEnv) cat s then
     throwError s
 
--- 最初は `#greet` が未定義なので，合法的なLeanのコマンドとして認識されない
+-- 最初は `#greet` が未定義なので、合法的なLeanのコマンドとして認識されない
 /-- error: <input>:1:0: expected command -/
 #guard_msgs in run_meta checkParse `command "#greet"
 
@@ -23,16 +23,16 @@ scoped macro "#greet " : command => `(#eval "Hello World!")
 -- `#greet` コマンドが使用可能になった
 #greet
 
-/- 上記の例の `#greet` コマンドは引数を持ちませんが，引数を取るようなものも定義できます．-/
+/- 上記の例の `#greet` コマンドは引数を持ちませんが、引数を取るようなものも定義できます。-/
 
--- 引数を取って，引数に対して挨拶するコマンドを定義する
+-- 引数を取って、引数に対して挨拶するコマンドを定義する
 -- 引数は `$` を付けると展開できる
 scoped macro "#hello " id:term : command => `(#eval s!"Hello, {$id}!")
 
 /-- info: "Hello, Lean!" -/
 #guard_msgs in #hello "Lean"
 
-/- `macro` コマンドを使用すると，コマンドだけでなくタクティクの定義も行うことができます．-/
+/- `macro` コマンドを使用すると、コマンドだけでなくタクティクの定義も行うことができます。-/
 
 -- 平方根の計算
 example : √4 = 2 := by

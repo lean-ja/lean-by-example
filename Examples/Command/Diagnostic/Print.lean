@@ -1,5 +1,5 @@
 /- # \#print
-`#print` コマンドには複数の機能がありますが，単体で使うと定義を表示することができます．
+`#print` コマンドには複数の機能がありますが、単体で使うと定義を表示することができます。
 -/
 import Lean --#
 
@@ -21,7 +21,7 @@ fun n m => rfl
 /-!
 ## 依存公理を確認
 
-`#print axioms` で，与えられた証明項が依存する公理を出します．たとえば Lean では排中律は選択原理 `Classical.choice` (選択公理の Lean 版のようなもの)を使って証明するので，排中律は選択原理に依存しています．
+`#print axioms` で、与えられた証明項が依存する公理を出します。たとえば Lean では排中律は選択原理 `Classical.choice` (選択公理の Lean 版のようなもの)を使って証明するので、排中律は選択原理に依存しています。
 -/
 
 /-- 排中律 -/
@@ -31,7 +31,7 @@ example : ∀ (p : Prop), p ∨ ¬p := Classical.em
 #guard_msgs in
 #print axioms Classical.em
 
-/-! また，`sorry` という命題を「証明したことにする」タクティクがありますが，これは `sorryAx` という万能な公理を導入していることが確認できます．-/
+/-! また、`sorry` という命題を「証明したことにする」タクティクがありますが、これは `sorryAx` という万能な公理を導入していることが確認できます。-/
 
 theorem contra : False := by sorry
 
@@ -40,7 +40,7 @@ theorem contra : False := by sorry
 #print axioms contra
 
 /- ## よくあるエラー
-`#print` コマンドは式ではなく名前を受け付けます．たとえば，`#print Nat.zero` はエラーになりませんが，`#print Nat.succ Nat.zero` はエラーになります．この挙動は `#eval` コマンドや `#check` コマンドとは異なるため，注意が必要です．
+`#print` コマンドは式ではなく名前を受け付けます。たとえば、`#print Nat.zero` はエラーになりませんが、`#print Nat.succ Nat.zero` はエラーになります。この挙動は `#eval` コマンドや `#check` コマンドとは異なるため、注意が必要です。
 -/
 
 open Lean
@@ -60,9 +60,9 @@ but is expected to have type
   let a ← `(Nat.succ Nat.zero)
   let _b ← `(#print $a)
 
-/- 上のコード例は，これを検証するものです．エラーメッセージにあるように `#print` は `ident` または `str` を期待しており，これはそれぞれ単一の識別子と文字列リテラルを意味します．`Nat.succ Nat.zero` は `term` つまり項なのでエラーになります．
+/- 上のコード例は、これを検証するものです。エラーメッセージにあるように `#print` は `ident` または `str` を期待しており、これはそれぞれ単一の識別子と文字列リテラルを意味します。`Nat.succ Nat.zero` は `term` つまり項なのでエラーになります。
 
-`#check` や `#eval` の場合は項を受け付けるので，エラーになりません. -/
+`#check` や `#eval` の場合は項を受け付けるので、エラーになりません。-/
 
 #eval show Lean.Elab.Term.TermElabM Unit from do
   let a ← `(Nat.succ Nat.zero)

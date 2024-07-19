@@ -1,5 +1,5 @@
 /- # postfix
-`postfix` は，後置記法を定義するコマンドです．
+`postfix` は、後置記法を定義するコマンドです。
 -/
 import Lean --#
 namespace Postfix --#
@@ -10,14 +10,14 @@ def factorial : Nat → Nat
   | n + 1 => (n + 1) * factorial n
 
 -- 後置記法を定義する
--- scoped を付けたのは，この後置記法をこの名前空間内でのみ有効にするため
+-- scoped を付けたのは、この後置記法をこの名前空間内でのみ有効にするため
 scoped postfix:200 "!" => factorial
 
 -- 定義した記法が使える
 #guard 5! = 120
 
 /- ## 舞台裏
-`postfix` は [`notation`](./Notation.md) コマンドに展開されるマクロとして実装されています．
+`postfix` は [`notation`](./Notation.md) コマンドに展開されるマクロとして実装されています。
 -/
 
 open Lean

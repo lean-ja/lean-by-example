@@ -1,5 +1,5 @@
 /- # \#time
-`#time` は，コマンドの実行時間を計測するためのコマンドです．ミリ秒単位で結果を出してくれます．
+`#time` は、コマンドの実行時間を計測するためのコマンドです。ミリ秒単位で結果を出してくれます。
 -/
 import Mathlib.Util.Time
 namespace Time --#
@@ -11,7 +11,7 @@ def fibonacci : Nat → Nat
 | 1 => 1
 | n + 2 => fibonacci n + fibonacci (n + 1)
 
--- 環境にもよるが, 1000ms以上かかってしまうことも
+-- 環境にもよるが、1000ms以上かかってしまうことも
 #time #eval fibonacci 32
 
 -- フィボナッチ数列のより速い実装
@@ -29,7 +29,7 @@ where
 #time #eval fib 32
 
 /- ## 舞台裏
-`IO.monoMsNow` という関数でそのときの時刻を取得し，その差を計算することで実行時間を計測することができます．これにより `#time` コマンドと同様のコマンドを自作することができます．
+`IO.monoMsNow` という関数でそのときの時刻を取得し、その差を計算することで実行時間を計測することができます。これにより `#time` コマンドと同様のコマンドを自作することができます。
 -/
 
 open Lean Elab Command Term Meta in

@@ -1,6 +1,6 @@
 /- # choose
 
-`h : ∀ x, ∃ y, P(x, y)` が成り立っているときに，`choose f hf using h` は写像 `f : X → Y` と `f` が満たす性質 `hf : ∀ x, P(x, f x)` のペアを作ります．
+`h : ∀ x, ∃ y, P(x, y)` が成り立っているときに、`choose f hf using h` は写像 `f : X → Y` と `f` が満たす性質 `hf : ∀ x, P(x, f x)` のペアを作ります。
 -/
 import Mathlib.Tactic.Choose
 
@@ -14,8 +14,8 @@ theorem choice (h : ∀ x, ∃ y, P x y) : ∃ f : X → Y, ∀ x, P x (f x) := 
 
 /-! ## 選択公理
 
-`choose` は選択原理 `Classical.choice` を使用します．これは `#print axioms` で確認できます．
-`Classical.choice` は Lean 版選択公理というべきもので，`Nonempty α` から `α` 型の項を得ることができます．
+`choose` は選択原理 `Classical.choice` を使用します。これは `#print axioms` で確認できます。
+`Classical.choice` は Lean 版選択公理というべきもので、`Nonempty α` から `α` 型の項を得ることができます。
 -/
 
 /-- info: 'choice' depends on axioms: [Classical.choice] -/
@@ -26,7 +26,7 @@ theorem choice (h : ∀ x, ∃ y, P x y) : ∃ f : X → Y, ∀ x, P x (f x) := 
 
 /-! ## choose なしで示した場合
 
-`choose` が自動で示してくれることを選択原理 `Classical.choice` を使って手動で示すと例えば以下のようになります．
+`choose` が自動で示してくれることを選択原理 `Classical.choice` を使って手動で示すと例えば以下のようになります。
 -/
 
 example (h : ∀ x, ∃ y, P x y) : ∃ f : X → Y, ∀ x, P x (f x) := by

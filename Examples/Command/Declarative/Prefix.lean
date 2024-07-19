@@ -1,19 +1,19 @@
 /- # prefix
-`prefix` は，前置記法を定義するためのコマンドです．
+`prefix` は、前置記法を定義するためのコマンドです。
 -/
 import Lean --#
 namespace Prefix --#
 
 -- 前置記法を定義
 -- 中身は Nat.succ
--- scoped を付けているのは，この記法をこの名前空間でのみ有効にするため
+-- scoped を付けているのは、この記法をこの名前空間でのみ有効にするため
 scoped prefix:90 "⋄" => Nat.succ
 
 -- 上で定義した記法が使える
 #guard ⋄3 = 4
 
 /- ## 舞台裏
-`prefix` は [`notation`](./Notation.md) コマンドに展開されるマクロとして実装されています．
+`prefix` は [`notation`](./Notation.md) コマンドに展開されるマクロとして実装されています。
 -/
 
 open Lean

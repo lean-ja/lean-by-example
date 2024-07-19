@@ -1,5 +1,5 @@
 /- # local
-`local` はコマンドをその [`section`](./Section.md) の内部でだけ有効にするための修飾子です．
+`local` はコマンドをその [`section`](./Section.md) の内部でだけ有効にするための修飾子です。
 -/
 import Lean --#
 section foo
@@ -18,7 +18,7 @@ section foo
   #check_failure succ'
 end foo
 
-/- コマンドのスコープを [`namespace`](./Namespace.md) の内部に限定するのにも使えます．ただし，下記のコードで示しているように，`local` で修飾したコマンドの効果は同じ名前空間の中で永続するのではなく, `end` でその名前空間が閉じられたときに消失します．-/
+/- コマンドのスコープを [`namespace`](./Namespace.md) の内部に限定するのにも使えます。ただし、下記のコードで示しているように、`local` で修飾したコマンドの効果は同じ名前空間の中で永続するのではなく、`end` でその名前空間が閉じられたときに消失します。-/
 
 namespace hoge
   -- local を付けて新しい記法を定義
@@ -37,7 +37,7 @@ namespace hoge
   #check_failure succ'
 end hoge
 
-/- `local` で有効範囲を限定できるコマンドには，次のようなものがあります．
+/- `local` で有効範囲を限定できるコマンドには、次のようなものがあります。
 * `elab`, `elab_rules`
 * [`infix`](./Infix.md), `infil`, `infixr`
 * `macro`, `macro_rules`
@@ -48,7 +48,7 @@ end hoge
 * `syntax`
 * などなど
 
-リストの全体は，`local` の後に修飾できないコマンドを続けたときのエラーメッセージで確認できます．
+リストの全体は、`local` の後に修飾できないコマンドを続けたときのエラーメッセージで確認できます。
 -/
 
 open Lean Parser
@@ -68,7 +68,7 @@ error: <input>:1:6: expected 'binder_predicate', 'builtin_dsimproc', 'builtin_si
 run_meta checkParse `command "local def"
 
 /-
-数が多いためすべての例を挙げることはしませんが，いくつか紹介します．たとえば `instance` の場合，`local` を付けて登録したインスタンスがその `section` の内部限定になります．
+数が多いためすべての例を挙げることはしませんが、いくつか紹介します。たとえば `instance` の場合、`local` を付けて登録したインスタンスがその `section` の内部限定になります。
 -/
 
 inductive MyNat : Type where
@@ -88,7 +88,7 @@ end
 #check_failure (0 : MyNat)
 
 /- ## 属性に対する `local`
-属性付与の効果範囲を限定するためには，[`attribute`](./Attribute.md) コマンドを `local` で修飾するのではなく，`attribute` コマンドの中で `local` を使います．
+属性付与の効果範囲を限定するためには、[`attribute`](./Attribute.md) コマンドを `local` で修飾するのではなく、`attribute` コマンドの中で `local` を使います。
 -/
 
 def MyNat.add (n m : MyNat) : MyNat :=

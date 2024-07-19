@@ -1,6 +1,6 @@
 /- # rw_search
 
-`rw_search` は，ゴールが等式であるときに，ライブラリにある命題を使って `rw` することを繰り返し，そのゴールを閉じようとするタクティクです．-/
+`rw_search` は、ゴールが等式であるときに、ライブラリにある命題を使って `rw` することを繰り返し、そのゴールを閉じようとするタクティクです。-/
 import Mathlib.Tactic.RewriteSearch -- `rw_search` のために必要
 import Mathlib.Tactic.Ring -- `ring` のために必要
 
@@ -10,7 +10,7 @@ variable (m n : ℕ)
 set_option says.verify true
 
 example : (m - n) - n = m - 2 * n := by
-  -- `ring` では示せない．自然数は環ではないので当然
+  -- `ring` では示せない。自然数は環ではないので当然
   try ring
 
   -- `aesop` でも示せない
@@ -19,7 +19,7 @@ example : (m - n) - n = m - 2 * n := by
   rw_search says
     rw [Nat.sub_sub, Nat.mul_two]
 
-/- `rw` では同値関係も扱うことができますが，`rw_search` が扱うのは等式のみです． -/
+/- `rw` では同値関係も扱うことができますが、`rw_search` が扱うのは等式のみです。 -/
 
 /-- error: Goal is not an equality. -/
 #guard_msgs in example (h : n + m = 0) : n = 0 ↔ m = 0 := by
@@ -34,11 +34,11 @@ example (h : n + m = 0) : n = 0 ↔ m = 0 := by
     rw [propext (eq_zero_iff_eq_zero_of_add_eq_zero h)]
 
 /-! ## rw?
-`rw?` は `apply?` のように，ゴールを `rw` できる補題をライブラリから検索します．`rw?` は等式以外も扱うことができますが，`rw_search` と同様に同値関係の扱いは苦手です．-/
+`rw?` は `apply?` のように、ゴールを `rw` できる補題をライブラリから検索します。`rw?` は等式以外も扱うことができますが、`rw_search` と同様に同値関係の扱いは苦手です。-/
 
 example (h : n + m = 0) : n = 0 ↔ m = 0 := by
   try
-    -- 複数の候補を出してしまうが，候補は出してくれる
+    -- 複数の候補を出してしまうが、候補は出してくれる
     rw?
 
     -- いったん失敗させる

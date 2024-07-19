@@ -1,15 +1,15 @@
 /- # \#help
 
-`#help` は，ドキュメントを確認するためのコマンドです．
+`#help` は、ドキュメントを確認するためのコマンドです。
 
-* `#help tactic` で全タクティクのリストが見られます．
-* `#help option` で全オプションのリストが見られます．オプションは，`set_option` を実行することで切り替えられます．たとえば，`set_option warningAsError true` と書くと，warning(警告) がエラーとして扱われるようになります．
-* `#help attr` で全 attribute のリストが見られます．たとえば `simp` という attribute なら，`@[simp] def foo := ...` という風にして登録できます．
+* `#help tactic` で全タクティクのリストが見られます。
+* `#help option` で全オプションのリストが見られます。オプションは、`set_option` を実行することで切り替えられます。たとえば、`set_option warningAsError true` と書くと、warning(警告) がエラーとして扱われるようになります。
+* `#help attr` で全 attribute のリストが見られます。たとえば `simp` という attribute なら、`@[simp] def foo := ...` という風にして登録できます。
 
-* `#help command` で全コマンドのリストが見られます．
-* `#help term` ですべての term syntax の一覧が見られます．
+* `#help command` で全コマンドのリストが見られます。
+* `#help term` ですべての term syntax の一覧が見られます。
 
-他にも機能がありますが，詳細は[Mathlib のドキュメント](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Tactic/HelpCmd.html)をご覧ください．
+他にも機能がありますが、詳細は[Mathlib のドキュメント](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Tactic/HelpCmd.html)をご覧ください。
 -/
 import Mathlib.Tactic
 

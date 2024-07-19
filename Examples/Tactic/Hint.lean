@@ -1,6 +1,6 @@
 /- # hint
 
-`hint` は複数のタクティクの中から提案を出してくれるタクティクです．デフォルトでは
+`hint` は複数のタクティクの中から提案を出してくれるタクティクです。デフォルトでは
 
 * [`split`](./Split.md)
 * [`intro`](./Intro.md)
@@ -10,11 +10,11 @@
 * `simp_all?`
 * [`linarith`](./Linarith.md)
 
-の7つのタクティクを同時に試します．
+の7つのタクティクを同時に試します。
 
-* ゴールを閉じることに成功したものは緑色で示され，
-* 進捗があったものはウィジェットに新しいゴールを示します．-/
-import Mathlib.Tactic -- `hint` は検索を伴うので，おおざっぱに import している
+* ゴールを閉じることに成功したものは緑色で示され、
+* 進捗があったものはウィジェットに新しいゴールを示します。-/
+import Mathlib.Tactic -- `hint` は検索を伴うので、おおざっぱに import している
 
 variable (P Q R : Prop) (a b : ℕ)
 
@@ -69,7 +69,7 @@ example : Nat.Prime 37 := by
 /-!
 ## タクティクの新規登録
 
-登録されているタクティクに `tac` を追加するには，`register_hint tac` を実行します．
+登録されているタクティクに `tac` を追加するには、`register_hint tac` を実行します。
 -/
 
 register_hint nlinarith

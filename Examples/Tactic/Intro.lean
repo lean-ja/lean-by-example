@@ -5,18 +5,18 @@
 * `P → Q` を示すときに最初に `P` を仮定する
 * `∀ x ∈ A, P(x)` を示すときに最初に `x ∈ A` が与えられたと仮定する
 
-といった導入(introduction)を行います．
+といった導入(introduction)を行います。
 
-具体的には，`intro` は
+具体的には、`intro` は
 
-* ゴールが `⊢ P → Q` という形であるときに `P` をローカルコンテキストに追加して，ゴールを `⊢ Q` に変える
+* ゴールが `⊢ P → Q` という形であるときに `P` をローカルコンテキストに追加して、ゴールを `⊢ Q` に変える
 * ゴールが `⊢ ∀ x, P x` という形であるときに `x` をローカルコンテキストに追加してゴールを `⊢ P x` に変える
 
-といった挙動をします． -/
+といった挙動をします。 -/
 variable (P Q R : Prop)
 
 example (hPQ: P → Q) (hQR: Q → R) : P → R := by
-  -- 示したいことが `P → R` なので，`P` だと仮定する
+  -- 示したいことが `P → R` なので、`P` だと仮定する
   intro hP
 
   -- 仮定 `hPQ : P → Q` と `hP : P` から `Q` が導かれる
@@ -28,7 +28,7 @@ example (hPQ: P → Q) (hQR: Q → R) : P → R := by
 /- ## 特定の形の命題に対しての使用法
 
 ### `A ∧ B → C`
-前提が論理積の形をしていた場合，[無名コンストラクタ](../Command/Declarative/Structure.md#AnonymousConstructor)で仮定を分解することができます．
+前提が論理積の形をしていた場合、[無名コンストラクタ](../Command/Declarative/Structure.md#AnonymousConstructor)で仮定を分解することができます。
 -/
 
 example {S : Prop} (hPR : P → R) (hQR : Q → S) : P ∧ Q → R ∧ S := by
@@ -40,7 +40,7 @@ example {S : Prop} (hPR : P → R) (hQR : Q → S) : P ∧ Q → R ∧ S := by
   . exact hQR hQ
 
 /- ### `A ∨ B → C`
-前提が論理和の形をしていた場合，次のように分解することができます．-/
+前提が論理和の形をしていた場合、次のように分解することができます。-/
 
 example (hPR : P → R) (hQR : Q → R) : P ∨ Q → R := by
   intro
@@ -53,7 +53,7 @@ example (hPR : P → R) (hQR : Q → R) : P ∨ Q → R := by
   | Or.inr hQ =>
     exact hQR hQ
 
-/- `rcases` を使って分解することも一般的です．-/
+/- `rcases` を使って分解することも一般的です。-/
 
 example (hPR : P → R) (hQR : Q → R) : P ∨ Q → R := by
   intro h
@@ -67,7 +67,7 @@ example (hPR : P → R) (hQR : Q → R) : P ∨ Q → R := by
   case inr =>
     exact hQR hQ
 
-/- また, `rintro` を使うと上記の `intro` と `rcases` の組み合わせを同時に行うことができます．-/
+/- また、`rintro` を使うと上記の `intro` と `rcases` の組み合わせを同時に行うことができます。-/
 
 example (hPR : P → R) (hQR : Q → R) : P ∨ Q → R := by
   rintro (hP | hQ)
@@ -81,11 +81,11 @@ example (hPR : P → R) (hQR : Q → R) : P ∨ Q → R := by
     exact hQR hQ
 
 /- ### `∀ x, P x`
-`intro` は `∀ x, P x` という形のゴールにも使用できます．-/
+`intro` は `∀ x, P x` という形のゴールにも使用できます。-/
 
 example (P Q : Nat → Prop) (h : ∀ n, P n ↔ Q n) : ∀ y, P (y + 1) → Q (y + 1) := by
-  -- 任意の `y` について示すので，`intro` で `y` を導入する
-  -- そして `P (y + 1) → Q(y + 1)` を示したいので，`P (y + 1)` を仮定する
+  -- 任意の `y` について示すので、`intro` で `y` を導入する
+  -- そして `P (y + 1) → Q(y + 1)` を示したいので、`P (y + 1)` を仮定する
   intro y hyP
 
   -- `Q (y + 1)` を示せば良い
@@ -99,13 +99,13 @@ example (P Q : Nat → Prop) (h : ∀ n, P n ↔ Q n) : ∀ y, P (y + 1) → Q (
 
 /-! ## 否定 ¬ について
 
-Lean では否定 `¬ P` は `P → False` として定義されているので，ゴールが `¬ P` のときに `intro` すると `P` が仮定に追加されて，ゴールが `False` に変わります．
+Lean では否定 `¬ P` は `P → False` として定義されているので、ゴールが `¬ P` のときに `intro` すると `P` が仮定に追加されて、ゴールが `False` に変わります。
 
-`False` は矛盾を導けば証明できます． -/
+`False` は矛盾を導けば証明できます。 -/
 
 example (h: P → Q) : ¬Q → ¬P := by
-  -- 示したいことが `¬Q → ¬P` なので，`¬Q` だと仮定する
-  -- そうするとゴールが `¬P` になるので，
+  -- 示したいことが `¬Q → ¬P` なので、`¬Q` だと仮定する
+  -- そうするとゴールが `¬P` になるので、
   -- さらに `intro` を行って仮定 `hP : P` を導入する
   intro hnQ hP
 
@@ -121,8 +121,8 @@ example (h: P → Q) : ¬Q → ¬P := by
 /-!
 ## 関数の構成
 
-より一般的には，`intro` は関数の構成に使うことができます．
-`intro` が全称命題 `∀ x, P x` や含意 `P → Q` を統一的に扱うことができるのも，これらが Lean 内部で関数として扱われているからです．
+より一般的には、`intro` は関数の構成に使うことができます。
+`intro` が全称命題 `∀ x, P x` や含意 `P → Q` を統一的に扱うことができるのも、これらが Lean 内部で関数として扱われているからです。
 -/
 namespace Intro --#
 
