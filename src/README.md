@@ -6,7 +6,7 @@
 >
 > lean-ja の Discord サーバが[こちら](https://discord.gg/p32ZfnVawh)にあります。質問や相談などはこちらにどうぞ。
 
-本書が気に入ったら、ぜひ GitHub からスター🌟をつけてください.
+本書が気に入ったら、ぜひ GitHub からスター🌟をつけてください。
 
 ## 本書の特色 😎
 
@@ -21,7 +21,7 @@
 
 ## スポンサー
 
-このプロジェクトは [Proxima Technology](https://proxima-ai-tech.com/) 様よりご支援を頂いています.
+このプロジェクトは [Proxima Technology](https://proxima-ai-tech.com/) 様よりご支援を頂いています。
 
 ![logo of Proxima Technology](./image/proxima.svg)
 
