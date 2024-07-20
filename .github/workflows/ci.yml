@@ -8,6 +8,14 @@ concurrency:
 
 on:
   pull_request:
+    branches:
+      - main
+    paths:
+      - 'Examples/**'
+      - 'lean-toolchain'
+      - 'lakefile.lean'
+      - 'lakemanifest.json'
+      - '.github/workflows/ci.yml'
   push:
     branches:
       - main
