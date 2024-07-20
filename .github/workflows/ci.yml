@@ -51,11 +51,15 @@ jobs:
           curl -O --location https://raw.githubusercontent.com/leanprover/elan/master/elan-init.ps1
           echo 1 | powershell -ExecutionPolicy Bypass -f elan-init.ps1
           del elan-init.ps1
+          (Resolve-Path ~/.elan/bin).Path >> $Env:GITHUB_PATH
         shell: pwsh
 
-      - name: add elan to PATH
-        run: (Resolve-Path ~/.elan/bin).Path >> $Env:GITHUB_PATH
-        shell: pwsh
+      - uses: actions/cache@v4
+        with:
+          path: ./.lake
+          key: lake-${{ runner.os }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.sha }}
+          # if no cache hit, fall back to the cache with same lean-toolchain and lake-manifest.json
+          restore-keys: lake-${{ runner.os }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}
 
       - name: get mathlib cache
         run: lake exe cache get
