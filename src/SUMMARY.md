@@ -103,6 +103,7 @@
   - [nth_rw: n 番目の項だけ rw](./Tactic/NthRw.md)
   - [obtain: 分解して取り出す](./Tactic/Obtain.md)
   - [omega: 自然数の線形計画を解く](./Tactic/Omega.md)
+  - [positivity: 正値性を示す](./Tactic/Positivity.md)
   - [push_neg: ドモルガン](./Tactic/PushNeg.md)
   - [qify: 有理数にキャストする](./Tactic/Qify.md)
   - [refine: 穴埋め推論](./Tactic/Refine.md)
