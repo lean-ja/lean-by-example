@@ -136,5 +136,6 @@
   - [CoeFun: 関数型への強制](./TypeClass/CoeFun.md)
   - [CoeSort: 型宇宙への強制](./TypeClass/CoeSort.md)
   - [Inhabited: デフォルト項を持たせる](./TypeClass/Inhabited.md)
+  - [OfNat: 数値リテラルに意味を与える](./TypeClass/OfNat.md)
   - [Repr: 表示方法を指定](./TypeClass/Repr.md)
   - [ToString: 文字列に変換](./TypeClass/ToString.md)
