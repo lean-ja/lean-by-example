@@ -21,7 +21,7 @@ fun n m => rfl
 /-!
 ## 依存公理を確認
 
-`#print axioms` で、与えられた証明項が依存する公理を出します。たとえば Lean では排中律は選択原理 `Classical.choice` (選択公理の Lean 版のようなもの)を使って証明するので、排中律は選択原理に依存しています。
+`#print axioms` で、与えられた証明項が依存する公理を出します。たとえば Lean では排中律は選択原理 [`Classical.choice`](../Declarative/Axiom.md#ClassicalChoice) を使って証明するので、排中律は選択原理に依存しています。
 -/
 
 /-- 排中律 -/

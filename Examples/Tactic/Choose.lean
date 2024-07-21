@@ -12,10 +12,8 @@ theorem choice (h : ∀ x, ∃ y, P x y) : ∃ f : X → Y, ∀ x, P x (f x) := 
 
   exact ⟨f, hf⟩
 
-/-! ## 選択公理
-
-`choose` は選択原理 `Classical.choice` を使用します。これは `#print axioms` で確認できます。
-`Classical.choice` は Lean 版選択公理というべきもので、`Nonempty α` から `α` 型の項を得ることができます。
+/- ## 舞台裏
+`choose` は裏で選択原理 [`Classical.choice`](../Command/Declarative/Axiom.md#ClassicalChoice) を使用しています。
 -/
 
 /-- info: 'choice' depends on axioms: [Classical.choice] -/
@@ -24,9 +22,7 @@ theorem choice (h : ∀ x, ∃ y, P x y) : ∃ f : X → Y, ∀ x, P x (f x) := 
 /-- info: @Classical.choice : {α : Sort u_1} → Nonempty α → α -/
 #guard_msgs in #check @Classical.choice
 
-/-! ## choose なしで示した場合
-
-`choose` が自動で示してくれることを選択原理 `Classical.choice` を使って手動で示すと例えば以下のようになります。
+/- `choose` が自動で示してくれることを選択原理 `Classical.choice` を使って手動で示すこともできます。例えば以下のようになります。
 -/
 
 example (h : ∀ x, ∃ y, P x y) : ∃ f : X → Y, ∀ x, P x (f x) := by
