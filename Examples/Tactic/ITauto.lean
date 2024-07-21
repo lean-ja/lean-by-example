@@ -2,7 +2,7 @@
 # itauto
 `itauto` は、直観主義論理(intuitionistic logic)の範囲内でトートロジー(tautology)を証明します。
 
-命題論理を扱うタクティクには他にも [`tauto`](./Tauto.md) がありますが、あちらは選択原理(`Classical.choice`)を勝手に使用することがあります。なお選択原理は Lean が標準で用意している公理のひとつで、排中律 `P ∨ ¬ P` や二重否定の除去 `¬ ¬ P → P` を示すのに必要です。
+命題論理を扱うタクティクには他にも [`tauto`](./Tauto.md) がありますが、あちらは選択原理 [`Classical.choice`](../Command/Declarative/Axiom.md#ClassicalChoice) を勝手に使用することがあります。なお選択原理は Lean が標準で用意している公理のひとつで、排中律 `P ∨ ¬ P` や二重否定の除去 `¬ ¬ P → P` を示すのに必要です。
 -/
 import Mathlib.Tactic.ITauto
 import Mathlib.Tactic.Tauto
