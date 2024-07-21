@@ -41,7 +41,7 @@ structure Prod (α : Type) (β : Type) where
 /- ## フィールド記法 { #FieldNotation }
 構造体 `S` の項 `s : S` に `x` というフィールドがあるとき、`S.x s` の代わりに `s.x` と書くことができます。これにより、`s : S` におけるフィールド `x` の値を取得することができます。この関数適用を省略して「あたかもフィールドのように」値にアクセスする記法のことを **フィールド記法(field notation)** といいます。
 
-Nim 言語における [Uniform Function Call Syntax](https://ja.wikipedia.org/wiki/Uniform_Function_Call_Syntax) に似た仕様です。
+Nim 言語や D 言語における [Uniform Function Call Syntax](https://ja.wikipedia.org/wiki/Uniform_Function_Call_Syntax) に似た仕様です。
 -/
 
 -- `.x` を付けるだけで値にアクセスできる
