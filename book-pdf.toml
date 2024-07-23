@@ -1,0 +1,14 @@
+
+[output.html.print]
+enable = true
+
+[output.pdf]
+theme = "light"
+display-header-footer = false
+print-background = true
+margin-top = 0.5
+margin-bottom = 0.5
+margin-left = 0.0
+margin-right = 0.0
+scale = 0.8
+prefer-css-page-size = true
