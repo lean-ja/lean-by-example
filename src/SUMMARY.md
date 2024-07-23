@@ -21,7 +21,7 @@
     - [#time: 実行時間計測](./Command/Diagnostic/Time.md)
     - [#whnf: 式を弱頭正規形に](./Command/Diagnostic/Whnf.md)
   - [宣言的コマンド](./Command/Declarative/README.md)
-    - [abbrev: 別名を定義する](./Command/Declarative/Abbrev.md)
+    - [abbrev: 略称を定義する](./Command/Declarative/Abbrev.md)
     - [attribute: 属性を付与する](./Command/Declarative/Attribute.md)
     - [axiom: 公理を宣言する](./Command/Declarative/Axiom.md)
     - [class: 型クラスを定義する](./Command/Declarative/Class.md)
