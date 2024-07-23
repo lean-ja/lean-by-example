@@ -15,3 +15,5 @@ book
 !src/SUMMARY.md
 
 *.olean
+
+book.pdf
