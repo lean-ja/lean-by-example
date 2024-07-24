@@ -45,16 +45,12 @@ section
   set_option autoImplicit true
 
   -- α が暗黙引数になる
-  def wrap (x : α) : List α := [x]
+  def nilList : List α := []
 end
 
 -- スコープが終わると無効になり、α が未定義だというエラーになる
-/--
-error: unknown identifier 'α'
----
-error: unknown identifier 'α'
--/
-#guard_msgs in def wrap' (x : α) : List α := [x]
+/-- error: unknown identifier 'α' -/
+#guard_msgs in def nilList' : List α := []
 
 /- 次は `local` のスコープを区切る例です。`local` は、セクション内部でだけ有効なインスタンスなどを生成します。-/
 
