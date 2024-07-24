@@ -4,7 +4,7 @@
 
 * [`variable`](./Variable.md)
 * [`open`](./Open.md)
-* `set_option`
+* [`set_option`](./SetOption.md)
 * [`local`](./Local.md)
 
 `section` で開いたスコープは `end` で閉じることができますが、省略することもでき、その場合はそのファイルの終わりまでがスコープとなります。

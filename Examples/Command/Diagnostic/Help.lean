@@ -3,7 +3,7 @@
 `#help` は、ドキュメントを確認するためのコマンドです。
 
 * `#help tactic` で全タクティクのリストが見られます。
-* `#help option` で全オプションのリストが見られます。オプションは、`set_option` を実行することで切り替えられます。たとえば、`set_option warningAsError true` と書くと、warning(警告) がエラーとして扱われるようになります。
+* `#help option` で全オプションのリストが見られます。オプションは、[`set_option`](../Declarative/SetOption.md) を実行することで切り替えられます。たとえば、`set_option warningAsError true` と書くと、warning(警告) がエラーとして扱われるようになります。
 * `#help attr` で全 attribute のリストが見られます。たとえば `simp` という attribute なら、`@[simp] def foo := ...` という風にして登録できます。
 
 * `#help command` で全コマンドのリストが見られます。
