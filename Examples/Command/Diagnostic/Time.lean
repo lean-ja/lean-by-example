@@ -32,7 +32,7 @@ where
 `IO.monoMsNow` という関数でそのときの時刻を取得し、その差を計算することで実行時間を計測することができます。これにより `#time` コマンドと同様のコマンドを自作することができます。
 -/
 
-open Lean Elab Command Term Meta in
+open Lean Elab Command Term Meta
 
 elab "#my_time " stx:command : command => do
   let start_time ← IO.monoMsNow
@@ -41,5 +41,23 @@ elab "#my_time " stx:command : command => do
   logInfo m!"time: {end_time - start_time}ms"
 
 #my_time #eval fib 32
+
+/- また、派生コマンドを作ることもできます。次に挙げるのは「コマンドが１秒以内に終了するか」を検証するコマンドを自作する例です。-/
+
+elab "#in_second " stx:command : command => do
+  let start_time ← IO.monoMsNow
+  elabCommand stx
+  let end_time ← IO.monoMsNow
+  let time := end_time - start_time
+  if time <= 1000 then
+    logInfo m!"time: {time}ms"
+  else
+    throwError m!"It took more than one second for the command to run."
+
+-- 1秒以内に終わる
+#in_second #eval fib 32
+
+/-- error: It took more than one second for the command to run. -/
+#guard_msgs (error) in #in_second #eval fibonacci 32
 
 end Time --#
