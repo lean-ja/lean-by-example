@@ -117,21 +117,21 @@ theorem my_funext {f g : (x : α) → β x} (h : ∀ x, f x = g x) : f = g := by
 /-- info: 'my_funext' depends on axioms: [Quot.sound] -/
 #guard_msgs in #print axioms my_funext
 
-/- ## 選択原理 `Classical.choice` { #ClassicalChoice }
-選択原理は、ある型が空ではないという情報だけから、「魔法のように」具体的な元を構成することができると主張します。
-
-選択原理は NBG(Neumann-Bernays-Gödel) 集合論における大域選択公理(axiom of global choice)とよく似ていますが、NBGとは何で大域選択公理が何を意味するかといった事項については本書では扱いません。
+/- ### 選択原理 `Classical.choice` { #ClassicalChoice }
+選択原理は、ある型が空ではないという情報だけから、「魔法のように」具体的な元を構成することができると主張します。選択原理は NBG(Neumann-Bernays-Gödel) 集合論における大域選択公理(axiom of global choice)とよく似ています。
 -/
-
--- Nonempty は、型が単に空ではないことを表す
-/--
-info: inductive Nonempty.{u} : Sort u → Prop
-number of parameters: 1
-constructors:
-Nonempty.intro : ∀ {α : Sort u}, α → Nonempty α
--/
-#guard_msgs in #print Nonempty
 
 -- 選択原理は、空でない型から具体的な元を構成する
 /-- info: axiom Classical.choice.{u} : {α : Sort u} → Nonempty α → α -/
 #guard_msgs in #print Classical.choice
+
+/- ここで、ある型が空ではないという主張は `Nonempty` という型クラスで表現されています。`Nonempty α` は `∃ e : α, True` と同値なので、存在命題だと思って構いません。-/
+
+example (α : Type) : Nonempty α ↔ ∃ e : α, True := by
+  constructor
+  · intro ⟨a⟩
+    exists a
+  · intro ⟨a, _⟩
+    exact ⟨a⟩
+
+/- [証明無関係](../../Term/Type/Prop.md#ProofIrrel)により本来存在命題からデータを取り出して返り値にすることはできないのですが、選択原理はそれを可能にしてしまいます。-/
