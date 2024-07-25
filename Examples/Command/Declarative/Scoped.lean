@@ -37,7 +37,7 @@ end
 * `elab`, `elab_rules`
 * [`infix`](./Infix.md), `infixl`, `infixr`
 * [`instance`](./Instance.md)
-* `macro`, `macro_rules`
+* [`macro`](./Macro.md), `macro_rules`
 * [`notation`](./Notation.md)
 * [`postfix`](./Postfix.md)
 * [`prefix`](./Prefix.md),
