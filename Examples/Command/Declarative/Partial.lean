@@ -10,45 +10,43 @@ Lean では再帰関数も再帰的でない関数と同様に定義できます
 -/
 namespace WithoutPartial --#
 
+-- 何も指定しないと、停止することが Lean にはわからないのでエラーになる
 /--
 error: fail to show termination for
-  WithoutPartial.alternate
+  WithoutPartial.M
 with errors
 structural recursion cannot be used:
 
 argument #1 cannot be used for structural recursion
-  it is unchanged in the recursive calls
-
-argument #2 cannot be used for structural recursion
   failed to eliminate recursive application
-    alternate ys xs
+    M (n + 11)
 
-argument #3 cannot be used for structural recursion
-  failed to eliminate recursive application
-    alternate ys xs
-
-Could not find a decreasing measure.
-The arguments relate at each recursive call as follows:
-(<, ≤, =: relation proved, ? all proofs failed, _: no proof attempted)
-            xs ys
-1) 41:24-39  ?  ?
-Please use `termination_by` to specify a decreasing measure.
+failed to prove termination, possible solutions:
+  - Use `have`-expressions to prove the remaining goals
+  - Use `termination_by` to specify a different well-founded relation
+  - Use `decreasing_by` to specify your own tactic for discharging this kind of goal
+n : Nat
+h✝ : ¬n > 100
+⊢ n + 11 < n
 -/
-#guard_msgs (whitespace := lax) in
-def alternate {α : Type} (xs ys : List α) : List α :=
-  match xs, ys with
-  | [], ys => ys
-  | x :: xs, ys => x :: alternate ys xs
+#guard_msgs in
+/-- McCarthy の 91 関数 -/
+def M (n : Nat) : Nat :=
+  if n > 100 then
+    n - 10
+  else
+    M (M (n + 11))
 
 end WithoutPartial --#
 namespace Partial --#
 -- `partial` を使うと、停止性の証明が不要になる
-partial def alternate {α : Type} (xs ys : List α) : List α :=
-  match xs, ys with
-  | [], ys => ys
-  | x :: xs, ys => x :: alternate ys xs
+partial def M (n : Nat) : Nat :=
+  if n > 100 then
+    n - 10
+  else
+    M (M (n + 11))
 
-#guard alternate [1, 3, 5] [2, 4, 6] = [1, 2, 3, 4, 5, 6]
+#eval M 91
 
 /- ## 舞台裏
 なお、`partial` とマークされた定義を元に新たに関数を定義するとき、再度 `partial` とマークする必要はありません。 -/
