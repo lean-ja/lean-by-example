@@ -1,23 +1,11 @@
 /- # \#eval
-`#eval` コマンドは、式の値を評価します。
+`#eval` コマンドは、式の値をその場で評価します。
 -/
 import Mathlib.Tactic --#
-
-namespace eval --#
+namespace Eval --#
 
 /-- info: 2 -/
 #guard_msgs in #eval 1 + 1
-
--- 実行している Lean のバージョンが表示される
-#eval Lean.versionString
-
-def w := "world"
-
--- 文字列が代入されて "hello, world" と表示される
-/-- info: "hello, world" -/
-#guard_msgs in #eval s!"hello, {w}"
-
-/-! 定義した関数が特定の値に対してどのように振る舞うか、その場で調べることができます。-/
 
 -- 階乗関数
 def fac : ℕ → ℕ
@@ -27,13 +15,23 @@ def fac : ℕ → ℕ
 /-- info: 120 -/
 #guard_msgs in #eval fac 5
 
-/-! `#eval` により一部の IO アクションを実行することもできます。-/
-
 def main : IO Unit :=
   IO.println "Hello, world!"
 
+-- `#eval` により一部の IO アクションを実行することもできる
 /-- info: Hello, world! -/
 #guard_msgs in #eval main
+
+/- ## よくあるエラー
+式の評価を行うコマンドであるため、型や関数など、評価のしようがないものを与えるとエラーになります。-/
+
+-- 型は評価できない
+#guard_msgs (drop error) in #eval Nat
+
+-- 関数そのものも評価できない
+#guard_msgs (drop error) in #eval (fun x => x + 1)
+
+/- 一般に、[`Repr`](../../Term/TypeClass/Repr.md) や [`ToString`](../../Term/TypeClass/ToString.md) のインスタンスでないような型の項は `#eval` に渡すことができません。-/
 
 /-! ## 例外処理の慣例
 Lean および Mathlib では、「関数ではなく定理に制約を付ける」ことが慣例です。
@@ -60,4 +58,4 @@ Lean および Mathlib では、「関数ではなく定理に制約を付ける
 /-- info: 2 -/
 #guard_msgs in #eval (1 - 2) + 2
 
-end eval --#
+end Eval --#

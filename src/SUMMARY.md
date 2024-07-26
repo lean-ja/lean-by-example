@@ -17,6 +17,7 @@
     - [#help: ドキュメントを見る](./Command/Diagnostic/Help.md)
     - [#instances: インスタンスを列挙](./Command/Diagnostic/Instances.md)
     - [#print: 中身を見る](./Command/Diagnostic/Print.md)
+    - [#reduce: 式を簡約する](./Command/Diagnostic/Reduce.md)
     - [#synth: 型クラスの検査](./Command/Diagnostic/Synth.md)
     - [#time: 実行時間計測](./Command/Diagnostic/Time.md)
     - [#whnf: 式を弱頭正規形に](./Command/Diagnostic/Whnf.md)
