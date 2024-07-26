@@ -1,18 +1,8 @@
 /- # decide
 `decide` は、決定可能な命題を示すタクティクです。
 
-命題 `P : Prop` が決定可能であるとは、型クラス `Decidable` のインスタンスであることを意味します。`P` が `Decidable` のインスタンスであるとき、`decide` 関数を適用することにより `decide P : Bool` が得られるので、これを呼び出すことによって証明したり反証したりすることができます。つまり一言でいえば、決定可能であるとは決定するためのアルゴリズムが存在するということです。
+命題 `P : Prop` が決定可能であるとは、型クラス [`Decidable`](../Term/TypeClass/Decidable.md) のインスタンスであることを意味します。`P` が `Decidable` のインスタンスであるとき、`decide` 関数を適用することにより `decide P : Bool` が得られるので、これを呼び出すことによって証明したり反証したりすることができます。つまり一言でいえば、決定可能であるとは決定するためのアルゴリズムが存在するということです。
 -/
--- Decidable 型クラスが定義されている
-/--
-info: inductive Decidable : Prop → Type
-number of parameters: 1
-constructors:
-Decidable.isFalse : {p : Prop} → ¬p → Decidable p
-Decidable.isTrue : {p : Prop} → p → Decidable p
--/
-#guard_msgs in #print Decidable
-
 -- 決定可能な命題を決定する関数 decide が存在する
 #check (decide : (P : Prop) → [Decidable P] → Bool)
 
