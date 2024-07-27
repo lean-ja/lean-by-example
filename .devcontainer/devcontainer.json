@@ -25,10 +25,10 @@
     }
   },
 
-  // mdbook をインストールする
   "features": {
-    "ghcr.io/eitsupi/devcontainer-features/mdbook:1": {
-      "version": "0.4.32"
-    }
+    "ghcr.io/eitsupi/devcontainer-features/mdbook:1": {},
+    "ghcr.io/rocker-org/devcontainer-features/pandoc:1": {},
+    "ghcr.io/devcontainers/features/powershell:1": {},
+    "ghcr.io/michidk/devcontainers-features/typst:1": {}
   }
 }
