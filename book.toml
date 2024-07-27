@@ -7,15 +7,26 @@ title = "Lean by Example"
 description = "プログラミング言語であるとともに定理証明支援系でもある Lean 言語と、その主要なライブラリの使い方を豊富なコード例とともに解説した資料です。"
 
 [build]
-create-missing = false
+# ビルドしたファイルを保存するディレクトリ
 build-dir = "book"
+# ビルド実行時に勝手にファイルを作らない
+create-missing = false
 
 [output.html]
-additional-js = ["assets/blockPlay.js", "assets/filePlay.js", "assets/fzf.umd.js", "assets/elasticlunr.js"]
+additional-js = [
+  # コードブロックごとに実行ボタンを表示する
+  "assets/blockPlay.js",
+  # ページごとに実行ボタンを表示する
+  "assets/filePlay.js",
+  # 検索機能を改善し、日本語で検索できるようにする
+  "assets/fzf.umd.js", "assets/elasticlunr.js"
+]
 no-section-label = true
 git-repository-url = "https://github.com/lean-ja/lean-by-example"
-edit-url-template = "https://raw.githubusercontent.com/lean-ja/lean-by-example/main/{path}"
 default-theme = "ayu"
+
+# 編集ボタンを上書きして、コード実行ボタンにするための設定
+edit-url-template = "https://raw.githubusercontent.com/lean-ja/lean-by-example/main/{path}"
 
 # 404 ページが正常にはたらくようにするために必要
 site-url = "https://lean-ja.github.io/lean-by-example/"
