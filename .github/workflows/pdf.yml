@@ -37,11 +37,20 @@ jobs:
       - name: build markdown
         run: lake run build
 
-      - name: install fonts and pandoc
+      - name: install fonts
         run: |
           sudo apt update
-          sudo apt install -y fonts-noto-cjk fonts-ipafont pandoc
-          sudo apt install -y --only-upgrade pandoc
+          sudo apt install -y fonts-noto-cjk fonts-ipafont
+
+      - name: Download and install latest pandoc
+        run: |
+          PANDOC_VERSION=$(curl -s https://api.github.com/repos/jgm/pandoc/releases/latest | grep -Po '"tag_name": "\K.*?(?=")')
+          wget https://github.com/jgm/pandoc/releases/download/$PANDOC_VERSION/pandoc-$PANDOC_VERSION-1-amd64.deb
+          sudo dpkg -i pandoc-$PANDOC_VERSION-1-amd64.deb
+          rm pandoc-$PANDOC_VERSION-1-amd64.deb
+
+      - name: Verify pandoc installation
+        run: pandoc --version
 
       - name: install typst
         run: cargo install typst-cli
