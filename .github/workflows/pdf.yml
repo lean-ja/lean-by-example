@@ -63,4 +63,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: "Lean by Example"
-          path: "/pdf/out.pdf"
+          path: "./pdf/out.pdf"
