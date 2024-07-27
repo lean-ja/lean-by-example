@@ -1,3 +1,7 @@
+/*
+ほぼ mdbook のデフォルトの CSS のままだが、フォントの指定を変更している。
+ここでフォントを指定しないと iOS で閲覧したときに表示がおかしくなることがある。
+*/
 /* Base styles and content styles */
 
 @import 'variables.css';
