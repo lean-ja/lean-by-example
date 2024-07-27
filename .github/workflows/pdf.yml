@@ -41,6 +41,7 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y fonts-noto-cjk fonts-ipafont pandoc
+          sudo apt install -y --only-upgrade pandoc
 
       - name: install typst
         run: cargo install typst-cli
