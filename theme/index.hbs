@@ -211,8 +211,14 @@
                 </script>
 
                 <div id="content" class="content">
+                    {{!-- https://github.com/JorelAli/mdBook-pagetoc からコピー --}}
                     <main>
-                        {{{ content }}}
+                        <div class="content-wrap">
+                            {{{ content }}}
+                        </div>
+                        <div class="sidetoc">
+                            <nav class="pagetoc"></nav>
+                        </div>
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
