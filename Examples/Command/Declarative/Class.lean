@@ -156,13 +156,10 @@ instance : HasCardinal Bool := by
   constructor
 
   -- Bool → Fin 2 を作る
-  case toFun =>
-    exact (fun b => if b then 1 else 0)
+  case toFun => exact (fun b => if b then 1 else 0)
 
   -- Fin 2 → Bool を作る
-  case invFun =>
-    rintro ⟨x, _⟩
-    exact x == 1
+  case invFun => exact (fun ⟨x, _⟩ => x == 1)
 
   -- invFun ∘ toFun は Bool 上の恒等写像
   case left_inv =>
