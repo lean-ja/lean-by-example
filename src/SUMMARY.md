@@ -138,6 +138,7 @@
     - [CoeDep: 依存型強制](./Term/TypeClass/CoeDep.md)
     - [CoeFun: 関数型への強制](./Term/TypeClass/CoeFun.md)
     - [CoeSort: 型宇宙への強制](./Term/TypeClass/CoeSort.md)
+    - [Decidable: 決定可能](./Term/TypeClass/Decidable.md)
     - [Inhabited: 有項にする](./Term/TypeClass/Inhabited.md)
     - [OfNat: 数値リテラルを使用](./Term/TypeClass/OfNat.md)
     - [Repr: 表示方法を指定](./Term/TypeClass/Repr.md)

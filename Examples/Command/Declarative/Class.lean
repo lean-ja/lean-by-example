@@ -43,7 +43,7 @@ instance {α : Type} : Monoid (List α) where
 
 /- ## 型クラス解決
 
-型クラスが行っていることを `class` を使わずにDIYしてみると、型クラスの理解が深まるでしょう。`class` として上で定義したものを、もう一度 `structure` として定義してみます。-/
+型クラスが行っていることを `class` を使わずにDIYしてみると、型クラスの理解が深まるでしょう。`class` として上で定義したものを、もう一度 [`structure`](./Structure.md) として定義してみます。-/
 
 /-- 構造体でモノイドクラスを真似たもの -/
 structure Monoid' (α : Type) where
@@ -128,4 +128,77 @@ instance : Plus Nat (List Nat) (List Nat) where
 #eval 1 +ₚ [1, 2]
 
 end Good --#
+/- ## class inductive { #ClassInductive }
+基本的に型クラスの下部構造は構造体ですが、一般の帰納型を型クラスにすることも可能です。それには `class inductive` というコマンドを使います。
+-/
+
+/-- 全単射があるという同値関係 -/
+structure Equiv (α : Type) (β : Type) where
+  toFun : α → β
+  invFun : β → α
+  left_inv : invFun ∘ toFun = id
+  right_inv : toFun ∘ invFun = id
+
+@[inherit_doc] infixl:25 " ≃ " => Equiv
+
+/-- その型の濃度を知っていることを意味する型クラス。
+証明無関係の制約により、返り値の型を Prop にしてはいけない。-/
+class inductive HasCardinal (X : Type) : Type where
+  /-- 有限集合は濃度が計算できる -/
+  | finite (n : Nat) (f : X ≃ Fin n) : HasCardinal X
+
+  /-- 加算無限集合は濃度が計算できる -/
+  | countable (f : X ≃ Nat) : HasCardinal X
+
+/-- Bool の濃度は計算できる -/
+instance : HasCardinal Bool := by
+  apply HasCardinal.finite (n := 2)
+  constructor
+
+  -- Bool → Fin 2 を作る
+  case toFun =>
+    exact (fun b => if b then 1 else 0)
+
+  -- Fin 2 → Bool を作る
+  case invFun =>
+    rintro ⟨x, _⟩
+    exact x == 1
+
+  -- invFun ∘ toFun は Bool 上の恒等写像
+  case left_inv =>
+    ext b
+    cases b <;> simp
+
+  -- toFun ∘ invFun は Fin 2 上の恒等写像
+  case right_inv =>
+    ext ⟨x, h⟩
+    simp only [Fin.isValue, Function.comp_apply, beq_iff_eq, id_eq]
+    match x with
+    | 0 => simp
+    | 1 => simp
+
+/-- 加算無限までしかない順序数もどき -/
+inductive Ordinal : Type where
+  | nat (n : Nat) : Ordinal
+  | omega : Ordinal
+
+def Ordinal.toString : Ordinal → String
+  | Ordinal.nat n => ToString.toString n
+  | Ordinal.omega => "ω"
+
+instance : ToString Ordinal := ⟨Ordinal.toString⟩
+
+/-- X の濃度が計算できる場合、X の濃度を返す関数 -/
+def HasCardinal.card (X : Type) [h : HasCardinal X] : Ordinal :=
+  match h with
+  | finite n _ => Ordinal.nat n
+  | countable _ => Ordinal.omega
+
+-- 単に card という名前でアクセスできるようにする
+export HasCardinal (card)
+
+-- Bool の濃度が計算できた
+/-- info: 2 -/
+#guard_msgs in #eval card Bool
+
 end Class --#
