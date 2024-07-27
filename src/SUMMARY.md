@@ -108,6 +108,7 @@
   - [positivity: 正値性を示す](./Tactic/Positivity.md)
   - [push_neg: ドモルガン](./Tactic/PushNeg.md)
   - [qify: 有理数にキャストする](./Tactic/Qify.md)
+  - [rcases: パターン分解](./Tactic/RCases.md)
   - [refine: 穴埋め推論](./Tactic/Refine.md)
   - [rel: 不等式を使う](./Tactic/Rel.md)
   - [rename_i: 死んだ変数に名前を付ける](./Tactic/RenameI.md)
