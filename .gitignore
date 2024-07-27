@@ -15,3 +15,6 @@ book
 !src/SUMMARY.md
 
 *.olean
+
+# pdf 関係
+*.pdf
