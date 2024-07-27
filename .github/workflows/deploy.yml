@@ -46,7 +46,7 @@ jobs:
         with:
           mdbook-version: '0.4.32'
 
-      - name: build
+      - name: build markdown
         run: lake run build
 
       - name: Run Link Checker
