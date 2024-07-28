@@ -27,7 +27,7 @@ instance : ToString (Point Int) where
 /-- info: "Point: (0, 0)" -/
 #guard_msgs in #eval s!"{origin}"
 
-/- ## `Repr` と `ToString`
+/- ## Repr と ToString
 
 [`Repr`](./Repr.md) のインスタンスはないが、`ToString` のインスタンスはあるという状態で `#eval` しようとすると、`Repr` の代わりに `ToString` のインスタンスが使用されます。`Repr` のインスタンスを与えればそちらが優先して使用されます。-/
 

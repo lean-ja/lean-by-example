@@ -87,7 +87,7 @@ end
 -- section を抜けると使えなくなる
 #check_failure (0 : MyNat)
 
-/- ## 属性に対する `local`
+/- ## 属性に対する local
 属性付与の効果範囲を限定するためには、[`attribute`](./Attribute.md) コマンドを `local` で修飾するのではなく、`attribute` コマンドの中で `local` を使います。
 -/
 

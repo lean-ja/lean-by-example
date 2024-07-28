@@ -15,7 +15,7 @@ theorem FLT : ∀ x y z n : Nat, n > 2 → x^n + y^n ≠ z^n := by
 /- ## 組み込みの公理
 組み込みで用意されている公理をいくつか紹介します。
 
-### 命題外延性 `propext`
+### 命題外延性 propext
 命題外延性の公理 `propext` は、同値な命題は等しいという公理です。この公理があることにより、どのような状況でも常に命題をそれと同値な命題と置き換えることができます。
 -/
 
@@ -32,7 +32,7 @@ theorem ex_prop_ext (a b : Prop) (p : Prop → Prop) (h : a ↔ b) (h₁ : p a) 
 /-- info: 'ex_prop_ext' depends on axioms: [propext] -/
 #guard_msgs in #print axioms ex_prop_ext
 
-/- ### 商の公理 `Quot.sound`
+/- ### 商の公理 Quot.sound
 任意の型 `α : Sort u` と `α` 上の2項関係 `r : α → α → Prop` に対して、その商(quotient)を作ることができます。商の概念は、以下に示す複数の定数から構成されます。
 -/
 universe u
@@ -117,7 +117,7 @@ theorem my_funext {f g : (x : α) → β x} (h : ∀ x, f x = g x) : f = g := by
 /-- info: 'my_funext' depends on axioms: [Quot.sound] -/
 #guard_msgs in #print axioms my_funext
 
-/- ### 選択原理 `Classical.choice` { #ClassicalChoice }
+/- ### 選択原理 Classical.choice { #ClassicalChoice }
 選択原理は、ある型が空ではないという情報だけから、「魔法のように」具体的な元を構成することができると主張します。選択原理は NBG(Neumann-Bernays-Gödel) 集合論における大域選択公理(axiom of global choice)とよく似ています。
 -/
 
