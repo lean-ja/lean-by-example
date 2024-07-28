@@ -39,6 +39,16 @@ jobs:
         with:
           install-chromedriver: true
 
+      - name: install font
+        run: |
+          sudo apt update
+          sudo apt install -y fonts-noto-cjk fonts-ipafont
+          wget https://github.com/cormullion/juliamono/releases/download/v0.048/JuliaMono.zip
+          unzip JuliaMono.zip -d JuliaMono
+          sudo cp JuliaMono/*.ttf /usr/local/share/fonts/
+          sudo fc-cache -f -v
+        shell: bash
+
       - name: build markdown
         run: lake run build
 
