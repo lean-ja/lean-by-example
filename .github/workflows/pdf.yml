@@ -41,7 +41,7 @@ jobs:
         run: cargo install mdbook-pdf --features fetch
 
       - name: build PDF
-        run: ./scripts/GeneratePDF.ps1
+        run: ./scripts/GeneratePdf.ps1
         shell: pwsh
 
       - name: Upload PDF to artifact storage
