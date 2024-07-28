@@ -10,3 +10,6 @@ Copy-Item -Path "book/pdf/output.pdf" -Destination "book.pdf"
 
 # 書き換えられた book.toml を元に戻す
 git checkout -- book.toml
+
+# ファイル名を変更する
+Rename-Item -Path "book/pdf/output.pdf" -NewName "LeanByExample.pdf"
