@@ -34,11 +34,19 @@ jobs:
         with:
           mdbook-version: '0.4.32'
 
+      - name: setup chrome
+        uses: browser-actions/setup-chrome@v1
+        with:
+          install-chromedriver: true
+
       - name: build markdown
         run: lake run build
 
       - name: install mdbook-pdf
-        run: cargo install mdbook-pdf --features fetch
+        uses: baptiste0928/cargo-install@v3
+        with:
+          crate: mdbook-pdf
+          version: '0.1.8'
 
       - name: build PDF
         run: ./scripts/GeneratePdf.ps1
