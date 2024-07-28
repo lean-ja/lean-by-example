@@ -23,7 +23,6 @@ additional-js = [
 ]
 no-section-label = true
 git-repository-url = "https://github.com/lean-ja/lean-by-example"
-default-theme = "ayu"
 
 # 編集ボタンを上書きして、コード実行ボタンにするための設定
 edit-url-template = "https://raw.githubusercontent.com/lean-ja/lean-by-example/main/{path}"

@@ -47,7 +47,7 @@ def origin : Point Nat := ⟨0, 0⟩
 #eval origin
 
 end Hidden --#
-/- ## `deriving` を使わない場合
+/- ## deriving を使わない場合
 `Repr` のインスタンスは [`deriving`](../../Command/Declarative/Deriving.md) コマンドで生成できますが、手動で作ることもできます。
 -/
 

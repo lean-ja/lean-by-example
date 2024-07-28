@@ -27,7 +27,7 @@ example (hPQ: P → Q) (hQR: Q → R) : P → R := by
 
 /- ## 特定の形の命題に対しての使用法
 
-### `A ∧ B → C`
+### A ∧ B → C
 前提が論理積の形をしていた場合、[無名コンストラクタ](../Command/Declarative/Structure.md#AnonymousConstructor)で仮定を分解することができます。
 -/
 
@@ -39,7 +39,7 @@ example {S : Prop} (hPR : P → R) (hQR : Q → S) : P ∧ Q → R ∧ S := by
   . exact hPR hP
   . exact hQR hQ
 
-/- ### `A ∨ B → C`
+/- ### A ∨ B → C
 前提が論理和の形をしていた場合、次のように分解することができます。-/
 
 example (hPR : P → R) (hQR : Q → R) : P ∨ Q → R := by
@@ -80,7 +80,7 @@ example (hPR : P → R) (hQR : Q → R) : P ∨ Q → R := by
   case inr =>
     exact hQR hQ
 
-/- ### `∀ x, P x`
+/- ### ∀ x, P x
 `intro` は `∀ x, P x` という形のゴールにも使用できます。-/
 
 example (P Q : Nat → Prop) (h : ∀ n, P n ↔ Q n) : ∀ y, P (y + 1) → Q (y + 1) := by

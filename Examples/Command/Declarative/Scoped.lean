@@ -64,7 +64,7 @@ error: <input>:1:7: expected 'binder_predicate', 'builtin_dsimproc', 'builtin_si
 #guard_msgs in
 run_meta checkParse `command "scoped def"
 
-/- ## `open scoped`
+/- ## open scoped
 `open scoped` コマンドを利用すると、特定の名前空間にある `scoped` が付けられた名前だけを有効にすることができます。単に [`open`](./Open.md) コマンドを利用するとその名前空間にあるすべての名前が有効になります。
 -/
 
