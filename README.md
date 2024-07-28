@@ -28,6 +28,21 @@
 
 Thank you for your interest in translating this book! 😄 But please note that we are currently **not accepting translations** of this book because this book is still under development! No content is stable yet.
 
+## Citation
+
+If you use this book for your work, please cite it as follows:
+
+```bibtex
+@misc{leanbyexample,
+  title = {Lean by {E}xample},
+  url = {https://lean-ja.github.io/lean-by-example/}
+  author = {The lean-ja community},
+  note = {Accessed on Month Day, Year},
+}
+```
+
+As this book is a website, the content changes on a daily basis. A PDF version is generated for each commit by the [Generate PDF workflow](./.github/workflows/pdf.yml). Use this as a citation if necessary.
+
 ## スポンサー
 
 このプロジェクトは [Proxima Technology](https://proxima-ai-tech.com/) 様よりご支援を頂いています。
