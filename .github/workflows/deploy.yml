@@ -38,7 +38,7 @@ jobs:
 
       - name: Install elan
         run: |
-          curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y --default-toolchain $(cat lean-toolchain)
+          curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y --default-toolchain none
           echo "$HOME/.elan/bin" >> $GITHUB_PATH
 
       - name: Setup mdBook
@@ -46,7 +46,7 @@ jobs:
         with:
           mdbook-version: '0.4.32'
 
-      - name: build
+      - name: build markdown
         run: lake run build
 
       - name: Run Link Checker
