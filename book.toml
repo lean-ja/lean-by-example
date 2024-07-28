@@ -34,3 +34,5 @@ site-url = "https://lean-ja.github.io/lean-by-example/"
 [output.html.fold]
 enable = true
 level = 2
+
+### 注意: PDF 生成時に book-pdf.toml の内容が末尾に自動で追加される ###
