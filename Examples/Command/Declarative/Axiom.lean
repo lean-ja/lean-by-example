@@ -184,8 +184,92 @@ open Classical in
 -- 選択される項は同じ
 example : choose foo = choose bar := by rfl
 
-/- -/
+/- #### 排中律
+選択原理と命題外延性と関数外延性を併せると、排中律を証明することができます。これは [Diaconescuの定理](https://en.wikipedia.org/wiki/Diaconescu%27s_theorem) として知られる結果です。以下にその証明を示しましょう。
 
+まず、命題論理から始めます。排中律は任意の命題 `P : Prop` に対して `P ∨ ¬ P` が成り立つという主張ですが、これを示すにはある命題 `Q : Prop` に対して「`P → Q` かつ `¬ Q ∨ P`」を示せば十分です。
+-/
 
+variable (P Q : Prop)
+
+/-- 排中律を証明するための主要な補題 -/
+theorem lemma_em (himp : P → Q) (hor : ¬ Q ∨ P) : P ∨ ¬ P := by
+  rcases hor with h | h
+  · right
+    intro hP
+    have := himp hP
+    contradiction
+  · left
+    exact h
+
+-- 何の公理も使用していない
+/-- info: 'Axiom.lemma_em' does not depend on any axioms -/
+#guard_msgs in #print axioms lemma_em
+
+/- 選択原理を用いると命題 `Q` を構成することができ、関数外延性と命題外延性により、それが所望の性質を持つことを示すことができます。-/
+
+/-- 排中律 -/
+theorem em (P : Prop) : P ∨ ¬ P := by
+  -- Prop の部分集合 U と V を考える
+  let U (x : Prop) : Prop := (x = True) ∨ P
+  let V (x : Prop) : Prop := (x = False) ∨ P
+
+  -- U と V は空ではない
+  have exU : ∃ x, U x := ⟨True, by simp [U]⟩
+  have exV : ∃ x, V x := ⟨False, by simp [V]⟩
+
+  -- したがって、選択原理を使って `u ∈ U` と `v ∈ V` を選ぶことができる
+  let u : Prop := Classical.choose exU
+  let v : Prop := Classical.choose exV
+  have u_def : U u := Classical.choose_spec exU
+  have v_def : V v := Classical.choose_spec exV
+
+  -- 選択原理を使用したご利益として、u と v は一貫した方法で選択されているので、
+  -- `U = V` ならば `u = v` が成り立つ。
+  -- これは `u = True`, `v = False` などと構成した場合は示せないことに注意。
+  have eq_of_eq (h : U = V) : u = v := by
+    simp [u, v, h]
+
+  -- `Q := u = v` として `Q` を構成する
+  apply lemma_em (Q := u = v)
+
+  case himp =>
+    show P → u = v
+
+    -- P が成り立つと仮定する
+    intro (hP : P)
+
+    -- `U = V` を示せばよい
+    apply eq_of_eq
+
+    -- U と V の定義を展開する
+    dsimp [U, V]
+
+    -- 関数外延性によってゴールを書き換える
+    ext x
+    show x = True ∨ P ↔ x = False ∨ P
+
+    -- あとは命題論理の問題になる
+    show x = True ∨ P ↔ x = False ∨ P
+    constructor <;> intro _h
+    all_goals (right; exact hP)
+
+  case hor =>
+    show (u ≠ v) ∨ P
+
+    -- U と V の定義を展開する
+    replace u_def : u ∨ P := by simpa [U] using u_def
+    replace v_def : ¬ v ∨ P := by simpa [V] using v_def
+
+    -- これにより４通りの場合分けが生じるが、１つを除いてすべて P が成り立つ。
+    rcases u_def with hu | hu <;> rcases v_def with hv | hv
+    all_goals (try right; assumption)
+
+    -- 残りの１つでは `u ≠ v` が成り立つ。
+    -- ここから示すべきことが従う。
+    left
+    intro h
+    rw [h] at hu
+    contradiction
 
 end Axiom --#
