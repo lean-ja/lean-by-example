@@ -15,7 +15,7 @@ theorem proof_irrel (P : Prop) (h1 h2 : P) : h1 = h2 := rfl
 /-- info: 'Proposition.proof_irrel' does not depend on any axioms -/
 #guard_msgs in #print axioms proof_irrel
 
-/- 証明無関係の重要な帰結のひとつに、「命題から値を取り出すことができるのは、証明の中だけ」というものがあります。たとえば次のように、証明の中であれば命題を [`cases`](../../Tactic/Cases.md) や [`rcases`](../../Tactic/RCases.md) で分解して値を取り出すことができます。-/
+/- 証明無関係の重要な帰結のひとつに、「命題から値を取り出すことができるのは、証明の中だけ」というものがあります。たとえば次のように、証明の中であれば命題を [`cases`](../../Tactic/Cases.md) や [`rcases`](../../Tactic/Rcases.md) で分解して値を取り出すことができます。-/
 
 -- 同じ存在命題の２通りの証明
 -- 2乗すると1になる整数を２通り与えた
