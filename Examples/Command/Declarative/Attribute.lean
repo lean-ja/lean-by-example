@@ -31,21 +31,35 @@ attribute [simp] foo
 example {P Q : Prop} : (P → Q) ∧ P ↔ Q ∧ P := by
   simp
 
-/- 属性によっては与えた属性を削除することもできます。削除するには `-` を属性の頭に付けます。-/
+/- ## 属性の削除
+与えた属性を削除することができることもあります。削除するには `-` を属性の頭に付けます。-/
+section
+  -- `simp` 属性を削除
+  attribute [-simp] foo
 
--- `simp` 属性を削除
-attribute [-simp] foo
+  -- 再び示せなくなった
+  example {P Q : Prop} : (P → Q) ∧ P ↔ Q ∧ P := by
+    simp
+    show P → P ∨ Q
 
--- 再び示せなくなった
-example {P Q : Prop} : (P → Q) ∧ P ↔ Q ∧ P := by
-  simp
-  show P → P ∨ Q
+    intro (h : P)
+    left
+    assumption
+end
 
-  intro (h : P)
-  left
-  assumption
+/- 属性の削除はデバッグを意図した機能で、常にローカルにはたらき、その [`section`](./Section.md) の外に出ると削除された属性が戻ります。-/
 
-/- `attribute` コマンドを使用すると定義の後から属性を付与することができますが、定義した直後に属性を付与する場合はタグと呼ばれる `@[..]` という書き方が使えます。-/
+example {P Q : Prop} : (P → Q) ∧ P ↔ Q ∧ P := by simp
+
+/- 属性によっては、削除することができないこともあります。-/
+
+@[irreducible] def greet := "Hello"
+
+/-- error: attribute cannot be erased -/
+#guard_msgs in attribute [-irreducible] greet
+
+/- ## タグ
+`attribute` コマンドを使用すると定義の後から属性を付与することができますが、定義した直後に属性を付与する場合はタグと呼ばれる `@[..]` という書き方が使えます。-/
 
 @[simp]
 theorem bar {P Q : Prop} : (P → Q) ∧ P ↔ Q ∧ P := by
