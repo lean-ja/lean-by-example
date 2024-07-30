@@ -53,7 +53,7 @@ example (hPR : P → R) (hQR : Q → R) : P ∨ Q → R := by
   | Or.inr hQ =>
     exact hQR hQ
 
-/- [`rcases`](./RCases.md) を使って分解することも一般的です。-/
+/- [`rcases`](./Rcases.md) を使って分解することも一般的です。-/
 
 example (hPR : P → R) (hQR : Q → R) : P ∨ Q → R := by
   intro h
