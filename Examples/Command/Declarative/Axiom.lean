@@ -1,6 +1,7 @@
 /- # axiom
 `axiom` は、公理を宣言するためのコマンドです。公理とは、議論の前提のことで、証明を与えることなく正しいと仮定される命題です。
 -/
+namespace Axiom --#
 
 /-- sorryAx を真似て作った公理 -/
 axiom mySorryAx {P : Prop} : P
@@ -9,7 +10,7 @@ axiom mySorryAx {P : Prop} : P
 theorem FLT : ∀ x y z n : Nat, n > 2 → x^n + y^n ≠ z^n := by
   apply mySorryAx
 
-/-- info: 'FLT' depends on axioms: [mySorryAx] -/
+/-- info: 'Axiom.FLT' depends on axioms: [Axiom.mySorryAx] -/
 #guard_msgs in #print axioms FLT
 
 /- ## 組み込みの公理
@@ -29,7 +30,7 @@ theorem ex_prop_ext (a b : Prop) (p : Prop → Prop) (h : a ↔ b) (h₁ : p a) 
   rw [←this]
   assumption
 
-/-- info: 'ex_prop_ext' depends on axioms: [propext] -/
+/-- info: 'Axiom.ex_prop_ext' depends on axioms: [propext] -/
 #guard_msgs in #print axioms ex_prop_ext
 
 /- ### 商の公理 Quot.sound
@@ -77,7 +78,8 @@ r a b → Quot.mk r a = Quot.mk r b
 -/
 #guard_msgs in #print Quot.sound
 
-/- 商の公理 `Quot.sound` を利用して、関数外延性を示すことができます。関数外延性とは、すべての入力に対して同じ値を返すような２つの関数は等しいという定理です。-/
+/- #### 関数外延性
+商の公理 `Quot.sound` を利用して、関数外延性を示すことができます。関数外延性とは、すべての入力に対して同じ値を返すような２つの関数は等しいという定理です。-/
 
 universe v
 
@@ -114,18 +116,21 @@ theorem my_funext {f g : (x : α) → β x} (h : ∀ x, f x = g x) : f = g := by
     _ = fun x => g x := by rfl
     _ = g := by rfl
 
-/-- info: 'my_funext' depends on axioms: [Quot.sound] -/
+/-- info: 'Axiom.my_funext' depends on axioms: [Quot.sound] -/
 #guard_msgs in #print axioms my_funext
 
 /- ### 選択原理 Classical.choice { #ClassicalChoice }
-選択原理は、ある型が空ではないという情報だけから、「魔法のように」具体的な元を構成することができると主張します。選択原理は NBG(Neumann-Bernays-Gödel) 集合論における大域選択公理(axiom of global choice)とよく似ています。
+選択原理は、ある型が空ではないという情報だけから、「魔法のように」具体的な元を構成することができると主張します。これは計算不可能な操作であるため、選択原理を使用する関数には [`noncomputable`](./Noncomputable.md) 修飾子が必要になります。
+
+選択原理は数学でいうと NBG(Neumann-Bernays-Gödel) 集合論における大域選択公理(axiom of global choice)とよく似ています。
 -/
 
 -- 選択原理は、空でない型から具体的な元を構成する
-/-- info: axiom Classical.choice.{u} : {α : Sort u} → Nonempty α → α -/
-#guard_msgs in #print Classical.choice
+#check (Classical.choice : {α : Sort u} → Nonempty α → α)
 
-/- ここで、ある型が空ではないという主張は `Nonempty` という型クラスで表現されています。`Nonempty α` は `∃ e : α, True` と同値なので、存在命題だと思って構いません。-/
+/-
+ここで、ある型が空ではないという主張は `Nonempty` という型クラスで表現されています。`Nonempty α` は `∃ e : α, True` と同値なので、存在命題だと思って構いません。-/
+set_option linter.unusedVariables false in --#
 
 example (α : Type) : Nonempty α ↔ ∃ e : α, True := by
   constructor
@@ -134,4 +139,53 @@ example (α : Type) : Nonempty α ↔ ∃ e : α, True := by
   · intro ⟨a, _⟩
     exact ⟨a⟩
 
-/- [証明無関係](../../Term/Type/Prop.md#ProofIrrel)により本来存在命題からデータを取り出して返り値にすることはできないのですが、選択原理はそれを可能にしてしまいます。-/
+/- #### 存在命題に対する選択
+
+選択原理は単に項を取ってくる関数ですが、選んだ項が満たすべき性質が欲しいこともあります。言い換えれば、存在命題 `∃ x : α, P x` が成り立っているとき、`P x` が成り立つような `x : α` を取ってくる関数が必要なこともあります。それは選択原理を使って次のように構成することができます。
+-/
+
+variable {α : Sort u}
+
+noncomputable def indefiniteDescription (p : α → Prop) (h : ∃ x, p x) : {x // p x} := by
+  -- 選択原理を使用する
+  apply Classical.choice
+
+  -- p x となる x が存在することを示せばよい
+  show Nonempty {x // p x}
+
+  -- 仮定の存在命題から x を取り出す
+  obtain ⟨x, px⟩ := h
+
+  -- この x が所望の条件を満たす
+  exact ⟨x, px⟩
+
+/- Lean のライブラリ上では、存在命題から選択する関数には `Classical.choose` という名前が、選択された項が満たすべき性質には `Classical.choose_spec` という名前がついています。 -/
+
+variable {p : α → Prop}
+
+-- 存在命題から選択する関数
+#check (Classical.choose : (h : ∃ x, p x) → α)
+
+-- 選択された要素が満たす性質
+#check (Classical.choose_spec : (h : ∃ x, p x) → p (Classical.choose h))
+
+/- #### 選択原理は証明無関係と矛盾しないのか
+[証明無関係](../../Term/Type/Prop.md#ProofIrrel)の節で詳しく述べているように、存在命題は「何かがある」としか主張しておらず、具体的な項を復元するのに必要な情報を持っていません。したがって存在が主張されている項を取り出して関数の返り値にすることはできないはずですが、選択原理を使うと存在命題から具体的な項が得られてしまいます。これが矛盾を生まないのはなぜでしょうか？
+
+答えは、選択原理は証明方法が異なる証明項であっても、同じ命題であれば一様に同じ項を返すからです。以下の例では、「証拠」が異なるような存在命題の証明項を２つ与えていますが、そこから選択される項は同じです。つまり、選択原理は同値な存在命題すべてに対して一斉に同じ項を取り出す方法があると主張しているのであって、「存在が主張されている項を取り出して関数の返り値にする」ことができるとまでは主張していないのです。-/
+
+-- 同じ存在命題の２通りの証明
+-- 2乗すると1になる整数を２通り与えた
+theorem foo : ∃ x : Int, x ^ 2 = 1 := by exists 1
+theorem bar : ∃ x : Int, x ^ 2 = 1 := by exists -1
+
+open Classical in
+
+-- 選択される項は同じ
+example : choose foo = choose bar := by rfl
+
+/- -/
+
+
+
+end Axiom --#
