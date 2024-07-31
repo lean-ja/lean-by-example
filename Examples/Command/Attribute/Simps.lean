@@ -42,11 +42,10 @@ example (a b : Point) : (Point.sub a b).x = a.x - b.x := by simp
 /--
 info:
 [simps.verbose]
-  adding projection Point.sub_x:
-  ∀ (p q : Point), (p.sub q).x = p.x - q.x
+  adding projection Point.mul_x: ∀ (p q : Point), (p.mul q).x = p.x * q.x
 [simps.verbose]
-  adding projection Point.sub_y: ∀ (p q : Point), (p.sub q).y = p.y - q.y
+  adding projection Point.mul_y: ∀ (p q : Point), (p.mul q).y = p.y * q.y
 -/
 #guard_msgs (whitespace := lax) in
-@[simps?] def Point.sub (p q : Point) : Point :=
-  { x := p.x - q.x, y := p.y - q.y }
+@[simps?] def Point.mul (p q : Point) : Point :=
+  { x := p.x * q.x, y := p.y * q.y }
