@@ -4,6 +4,7 @@
 
 より詳しくいうと、[`cases`](../../Tactic/Cases.md) タクティクの `using` キーワードのデフォルトの引数を変更することができます。デフォルトでは、帰納型 `T` に対して `T.casesOn` という定理が自動生成されてそれが暗黙の裡に `using` キーワードの引数として使われますが、`cases_eliminator` 属性で別な定理を指定すると、それが使われるようになります。
 -/
+namespace CasesEliminator --#
 
 variable {α : Type}
 
@@ -27,7 +28,7 @@ def Many.cons (x : α) (xs : Many α) : Many α :=
 
 -- Many を定義したときに自動生成される定理
 /--
-info: Many.casesOn.{u} {α : Type} {motive : Many α → Sort u}
+info: CasesEliminator.Many.casesOn.{u} {α : Type} {motive : Many α → Sort u}
   (t : Many α) (none : motive Many.none)
   (more : (a : α) → (a_1 : Unit → Many α) → motive (Many.more a a_1)) : motive t
 -/
@@ -73,3 +74,5 @@ example (xs : Many α) : True := by
     -- xs の型が Unit → Many α になっている
     guard_hyp xs : Unit → Many α
     trivial
+
+end CasesEliminator --#
