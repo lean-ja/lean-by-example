@@ -53,6 +53,8 @@
     - [termination_by: 整礎再帰を使う](./Command/Declarative/TerminationBy.md)
     - [theorem: 命題を証明する](./Command/Declarative/Theorem.md)
     - [variable: 引数を共通化する](./Command/Declarative/Variable.md)
+  - [属性](./Command/Attribute/README.md)
+    - [simps: simp補題の自動生成](./Command/Attribute/Simps.md)
 
 - [タクティク](./Tactic/README.md)
   - [ac_rfl: 可換性と結合性を使う](./Tactic/AcRfl.md)

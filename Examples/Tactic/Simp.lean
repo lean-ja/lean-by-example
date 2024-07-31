@@ -122,48 +122,7 @@ example {x y : Nat} : 0 < 1 + x ∧ x + y + 2 ≥ y + 1 := by
 example {x y : Nat} : 0 < 1 + x ∧ x + y + 2 ≥ y + 1 := by
   simp_arith
 
-/-! ## simp_all
-
-`simp_all` は `simp [*] at *` の強化版で、ローカルコンテキストとゴールをこれ以上単純化できなくなるまですべて単純化します。
-
-## simps 属性
-補題を `simp` で使えるようにするのは `@[simp]` タグを付けることで可能ですが、`simps` 属性(または `@[simps]` タグ)を利用すると `simp` で使用するための補題を自動的に生成してくれます。これは Mathlib で定義されている機能であり、使用するには `Mathlib.Tactic.Basic` の読み込みが必要です。
-
-例えば、ユーザが `Point` という構造体を定義し、`Point` 上の足し算を定義したところを考えましょう。このとき、足し算はフィールドの値の足し算で定義されているため、「`Point` の和の `x` 座標」は `x` 座標の和ですが、これはそのままでは `simp` で示すことができません。`simps` 属性を `Point.add` 関数に付与することで、`simp` で示せるようになります。
--/
-
-@[ext]
-structure Point where
-  x : Int
-  y : Int
-
-/-- Point の和 -/
-def Point.add (p q : Point) : Point :=
-  { x := p.x + q.x, y := p.y + q.y }
-
-/-- 和の x 座標は x 座標の和 -/
-example (a b : Point) : (Point.add a b).x = a.x + b.x := by
-  -- この状態だと `simp` で示せない
-  fail_if_success simp
-
-  rfl
-
--- `Point.add` に `simps` 属性を付与する
-attribute [simps] Point.add
-
-example (a b : Point) : (Point.add a b).x = a.x + b.x := by
-  -- simp で示せるようになった
-  simp
-
-/- `@[simps?]` に換えると、生成された補題を確認することができます。-/
-
-/--
-info: [simps.verbose] adding projection Simp.Point.sub_x:
-      ∀ (p q : Simp.Point), (p.sub q).x = p.x - q.x
-[simps.verbose] adding projection Simp.Point.sub_y: ∀ (p q : Simp.Point), (p.sub q).y = p.y - q.y
--/
-#guard_msgs (whitespace := lax) in
-@[simps?] def Point.sub (p q : Point) : Point :=
-  { x := p.x - q.x, y := p.y - q.y }
+/- ## simp_all
+`simp_all` は `simp [*] at *` の強化版で、ローカルコンテキストとゴールをこれ以上単純化できなくなるまですべて単純化します。-/
 
 end Simp --#
