@@ -32,7 +32,7 @@ jobs:
       - name: Setup mdBook
         uses: peaceiris/actions-mdbook@v2
         with:
-          mdbook-version: '0.4.32'
+          mdbook-version: '0.4.35'
 
       - name: setup chrome
         uses: browser-actions/setup-chrome@v1
