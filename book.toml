@@ -19,7 +19,9 @@ additional-js = [
   # ページごとに実行ボタンを表示する
   "assets/filePlay.js",
   # 検索機能を改善し、日本語で検索できるようにする
-  "assets/fzf.umd.js", "assets/elasticlunr.js"
+  "assets/fzf.umd.js", "assets/elasticlunr.js",
+  # ナビゲーションボタンを削除する
+  "assets/removeNav.js"
 ]
 no-section-label = true
 git-repository-url = "https://github.com/lean-ja/lean-by-example"
