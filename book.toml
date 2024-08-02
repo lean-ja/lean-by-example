@@ -23,10 +23,6 @@ additional-js = [
   # サイドバーに目次を表示する
   "assets/pagetoc.js",
 ]
-additional-css = [
-  # サイドバーの目次のスタイル
-  "assets/pagetoc.css",
-]
 no-section-label = true
 git-repository-url = "https://github.com/lean-ja/lean-by-example"
 
