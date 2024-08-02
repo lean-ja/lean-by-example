@@ -27,6 +27,9 @@
   * Lean ファイルのファイル名は、パスカルケースで命名して下さい。
   * ただしファイル名は、`README` 以外は大文字が連続しないようにします。
 
+> [!IMPORTANT]
+> 使用する mdbook のバージョンは `0.4.32` に固定してください。レイアウトが崩れるおそれがあります。
+
 ## Do you want to translate this book?
 
 Thank you for your interest in translating this book! 😄 But please note that we are currently **not accepting translations** of this book because this book is still under development! No content is stable yet.
