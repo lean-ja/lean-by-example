@@ -6,6 +6,7 @@
 // 編集ボタンのアイコン部分の `i` 要素
 const editButtonIcon = document.querySelector('#git-edit-button');
 editButtonIcon.className = 'fa fa-play';
+editButtonIcon.id = 'lean-play-button';
 
 // 編集ボタンを表す `a` 要素
 const editButtonLink = editButtonIcon.parentElement;
