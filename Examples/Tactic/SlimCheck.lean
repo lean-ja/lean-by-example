@@ -7,14 +7,7 @@ variable (a b : ℕ)
 
 example (h : 2 ≤ a + b) : 1 ≤ a := by
   /-
-  ===================
-  Found problems!
-  a := 0
-  b := 12
-  guard: 2 ≤ 12
-  issue: 1 ≤ 0 does not hold
-  (0 shrinks)
-  -------------------
+  Found problems! というエラーが表示される
   -/
   fail_if_success slim_check
 
