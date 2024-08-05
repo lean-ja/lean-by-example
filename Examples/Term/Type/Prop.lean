@@ -1,7 +1,15 @@
 /- # Prop
 `Prop` は、命題全体がなす型です。
 
+どちらも言明に対応するため、`Bool` と似ているようですが以下のような目立つ相違点があります：
+
+1. `Prop` の項はそれ自身が型であるため、`Prop` は型宇宙であると言われます。`Bool` の項は型ではありません。
+
+1. `Prop` の項は `True` か `False` のどちらであるかを判定するアルゴリズムがあるとは限りません。`Bool` の項は簡約すれば必ず `true` か `false` になります。
+
 ## 証明無関係 { #ProofIrrel }
+
+### 証明にはデータがない
 
 同じ命題 `P : Prop` の２つの証明項 `h1 h2 : P` は必ず等しくなります。直観的には、これは「命題の証明はその命題が真であるという以上の情報を持たない」ということです。これを **証明無関係(proof irrelevance)** と呼びます。
 -/
@@ -15,7 +23,10 @@ theorem proof_irrel (P : Prop) (h1 h2 : P) : h1 = h2 := rfl
 /-- info: 'Proposition.proof_irrel' does not depend on any axioms -/
 #guard_msgs in #print axioms proof_irrel
 
-/- 証明無関係の重要な帰結のひとつに、「証明から値を取り出すことができるのは、証明の中だけ」というものがあります。たとえば次のように、証明の中であれば証明項を [`cases`](../../Tactic/Cases.md) や [`rcases`](../../Tactic/Rcases.md) で分解して値を取り出すことができます。-/
+/- ### No Large Elimination
+証明無関係の重要な帰結のひとつに、「証明から値を取り出すことができるのは、証明の中だけ」というものがあります。この現象は、「`Prop` は large elimination を許可しない」という言葉で表現されることがあります。
+
+たとえば次のように、証明の中であれば証明項を [`cases`](../../Tactic/Cases.md) や [`rcases`](../../Tactic/Rcases.md) で分解して値を取り出すことができます。-/
 
 -- 同じ存在命題の２通りの証明
 -- 2乗すると1になる整数を２通り与えた
