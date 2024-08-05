@@ -150,4 +150,5 @@
     - [Repr: 表示方法を指定](./Term/TypeClass/Repr.md)
     - [ToString: 文字列に変換](./Term/TypeClass/ToString.md)
   - [型](./Term/Type/README.md)
-    - [Prop: 命題](./Term/Type/Prop.md)
+    - [Prop: 命題全体](./Term/Type/Prop.md)
+    - [Type: 型全体](./Term/Type/Type.md)
