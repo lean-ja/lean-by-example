@@ -15,11 +15,11 @@ namespace WithoutPartial --#
 error: fail to show termination for
   WithoutPartial.M
 with errors
-structural recursion cannot be used:
-
-argument #1 cannot be used for structural recursion
+failed to infer structural recursion:
+Cannot use parameter n:
   failed to eliminate recursive application
     M (n + 11)
+
 
 failed to prove termination, possible solutions:
   - Use `have`-expressions to prove the remaining goals

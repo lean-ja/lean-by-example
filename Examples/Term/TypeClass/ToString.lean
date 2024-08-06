@@ -15,7 +15,7 @@ def origin : Point Int := ⟨0, 0⟩
 /--
 error: failed to synthesize
   ToString (Point Int)
-use `set_option diagnostics true` to get diagnostic information
+Additional diagnostic information may be available using the `set_option diagnostics true` command.
 -/
 #guard_msgs (error) in #check s!"{origin}"
 
@@ -57,7 +57,7 @@ def david := Person.mk "David" 42
 /--
 error: failed to synthesize
   ToString Person
-use `set_option diagnostics true` to get diagnostic information
+Additional diagnostic information may be available using the `set_option diagnostics true` command.
 -/
 #guard_msgs (error) in #check s!"{david}"
 
