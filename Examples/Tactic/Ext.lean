@@ -45,10 +45,10 @@ attribute [ext] Point
 
 -- 自動生成された定理
 -- 各フィールドの値が等しければ、2つの `Point` は等しいという主張
-#check (Point.ext : (x y : Point α) → x.x = y.x → x.y = y.y → x = y)
+#check (Point.ext : ∀{x y : Point α}, x.x = y.x → x.y = y.y → x = y)
 
 -- 自動生成された定理その２
 -- 2つの `Point` の点が等しいことは、各フィールドの値が等しいことと同値
-#check (Point.ext_iff : (x y : Point α) → x = y ↔ x.x = y.x ∧ x.y = y.y)
+#check (Point.ext_iff : ∀{x y : Point α}, x = y ↔ x.x = y.x ∧ x.y = y.y)
 
 end Ext --#

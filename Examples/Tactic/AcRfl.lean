@@ -87,16 +87,11 @@ local に宣言したので、このセクション内限定 -/
 local instance : Std.Commutative (α := Color) (· + ·) where
   comm := Color.add_comm
 
-/--
-error: tactic 'rfl' failed, equality lhs
-  a + b
-is not definitionally equal to rhs
-  b + a
-a b : Color
-⊢ a + b = b + a
--/
-#guard_msgs in example (a b : Color) : a + b = b + a := by
-  ac_rfl
+example (a b : Color) : a + b = b + a := by
+  -- ac_rfl がエラーになってしまう
+  fail_if_success ac_rfl
+
+  ext <;> apply Nat.add_comm
 
 end
 /- ## 結合法則と ac_rfl
@@ -110,8 +105,13 @@ protected theorem add_assoc (a b c : Color) : a + b + c = a + (b + c) := by
 
 -- エラーになっているので、
 -- Commutative のインスタンスはないことが確認できる
-#guard_msgs (drop error) in
-#synth Std.Commutative (α := Color) (· + ·)
+/--
+error: failed to synthesize
+  Std.Commutative fun x x_1 => x + x_1
+Additional diagnostic information may be available using the `set_option diagnostics true` command.
+-/
+#guard_msgs in
+  #synth Std.Commutative (α := Color) (· + ·)
 
 /-- `add_comm` を `Std.Associative` に登録する。
 local にしたのでセクション内でのみ有効 -/

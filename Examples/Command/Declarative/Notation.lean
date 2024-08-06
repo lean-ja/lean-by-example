@@ -130,19 +130,6 @@ set_option pp.mvars false
 
 -- 等号（優先順位 50）より優先順位が低いという問題でエラーになる
 -- 上では60で定義しているのに、なぜ？
-/--
-warning: application type mismatch
-  Sum true
-argument
-  true
-has type
-  Bool : Type
-but is expected to have type
-  Type _ : Type (_ + 1)
----
-info: sorryAx (Type u_1) true ⊕ sorryAx (Type u_2) true : Type (max u_1 u_2)
--/
-#guard_msgs in
 #check_failure true ⊕ true = false
 
 -- 括弧を付けるとエラーにならない

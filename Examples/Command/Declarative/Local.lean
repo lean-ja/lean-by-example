@@ -65,7 +65,7 @@ error: <input>:1:6: expected 'binder_predicate', 'builtin_dsimproc', 'builtin_si
 'notation', 'postfix', 'prefix', 'simproc', 'syntax' or 'unif_hint'
 -/
 #guard_msgs in
-run_meta checkParse `command "local def"
+  run_meta checkParse `command "local def"
 
 /-
 数が多いためすべての例を挙げることはしませんが、いくつか紹介します。たとえば `instance` の場合、`local` を付けて登録したインスタンスがその `section` の内部限定になります。

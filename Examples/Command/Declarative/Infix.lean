@@ -59,6 +59,6 @@ elab "#expand_command " t:command : command => do
 
 /-- info: notation:50 lhs✝:51 " LXOR " rhs✝:51 => lxor lhs✝ rhs✝ -/
 #guard_msgs in
-#expand_command infix:50 " LXOR " => lxor
+  #expand_command infix:50 " LXOR " => lxor
 
 end Infix --#

@@ -15,11 +15,11 @@ namespace WithoutPartial --#
 error: fail to show termination for
   WithoutPartial.M
 with errors
-structural recursion cannot be used:
-
-argument #1 cannot be used for structural recursion
+failed to infer structural recursion:
+Cannot use parameter n:
   failed to eliminate recursive application
     M (n + 11)
+
 
 failed to prove termination, possible solutions:
   - Use `have`-expressions to prove the remaining goals
@@ -30,12 +30,12 @@ h✝ : ¬n > 100
 ⊢ n + 11 < n
 -/
 #guard_msgs in
-/-- McCarthy の 91 関数 -/
-def M (n : Nat) : Nat :=
-  if n > 100 then
-    n - 10
-  else
-    M (M (n + 11))
+  /-- McCarthy の 91 関数 -/
+  def M (n : Nat) : Nat :=
+    if n > 100 then
+      n - 10
+    else
+      M (M (n + 11))
 
 end WithoutPartial --#
 namespace Partial --#
