@@ -57,8 +57,7 @@ def instMonoid'Nat : Monoid' Nat where
 
 /- このとき構造体 `Monoid'` のフィールド `Monoid'.e` は、「`Monoid'` の項に対して `α` の要素を返す」関数なので、次のような型を持ちます。-/
 
-/-- info: Class.Monoid'.e {α : Type} (self : Monoid' α) : α -/
-#guard_msgs in #check Monoid'.e
+#check (Monoid'.e : {α : Type} → (self : Monoid' α) → α)
 
 /- `self : Monoid' α` が暗黙の引数ではなく明示的な引数なので、型クラスのように書くことはできません。-/
 
@@ -72,8 +71,7 @@ def instMonoid'Nat : Monoid' Nat where
 
 ここで(本物の)型クラスにおける単位元関数 `e` の型を調べてみると、`self : Monoid' α` が角括弧 `[ .. ]` で囲われていることがわかります。-/
 
-/-- info: Class.Monoid.e {α : Type} [self : Monoid α] : α -/
-#guard_msgs in #check Monoid.e
+#check (Monoid.e : {α : Type} → [self : Monoid α] → α)
 
 /- これは**インスタンス暗黙引数**と呼ばれるもので、この場合 Lean に対して `Monoid' α` 型の項を自動的に合成するよう指示することを意味します。また、型クラスのインスタンス暗黙引数を自動的に合成する手続きのことを、**型クラス解決**と呼びます。-/
 
@@ -178,6 +176,7 @@ instance : HasCardinal Bool := by
 inductive Ordinal : Type where
   | nat (n : Nat) : Ordinal
   | omega : Ordinal
+deriving DecidableEq
 
 def Ordinal.toString : Ordinal → String
   | Ordinal.nat n => ToString.toString n
@@ -195,7 +194,6 @@ def HasCardinal.card (X : Type) [h : HasCardinal X] : Ordinal :=
 export HasCardinal (card)
 
 -- Bool の濃度が計算できた
-/-- info: 2 -/
-#guard_msgs in #eval card Bool
+#guard card Bool = Ordinal.nat 2
 
 end Class --#

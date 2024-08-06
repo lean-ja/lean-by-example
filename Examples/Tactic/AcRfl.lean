@@ -87,16 +87,11 @@ local に宣言したので、このセクション内限定 -/
 local instance : Std.Commutative (α := Color) (· + ·) where
   comm := Color.add_comm
 
-/--
-error: tactic 'rfl' failed, equality lhs
-  a + b
-is not definitionally equal to rhs
-  b + a
-a b : Color
-⊢ a + b = b + a
--/
-#guard_msgs in example (a b : Color) : a + b = b + a := by
-  ac_rfl
+example (a b : Color) : a + b = b + a := by
+  -- ac_rfl がエラーになってしまう
+  fail_if_success ac_rfl
+
+  ext <;> apply Nat.add_comm
 
 end
 /- ## 結合法則と ac_rfl

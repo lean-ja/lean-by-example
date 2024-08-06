@@ -162,4 +162,4 @@ run_meta checkParse `tactic "unfold Inter.inter"
 -- 識別子でないものを渡すとパースできない
 /-- error: <input>:1:7: expected identifier -/
 #guard_msgs in
-run_meta checkParse `tactic "unfold (· ∩ ·)"
+  run_meta checkParse `tactic "unfold (· ∩ ·)"

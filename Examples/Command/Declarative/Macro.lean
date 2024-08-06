@@ -15,7 +15,8 @@ def checkParse (cat : Name) (s : String) : MetaM Unit := do
 
 -- 最初は `#greet` が未定義なので、合法的なLeanのコマンドとして認識されない
 /-- error: <input>:1:0: expected command -/
-#guard_msgs in run_meta checkParse `command "#greet"
+#guard_msgs in
+  run_meta checkParse `command "#greet"
 
 -- `#greet` コマンドを定義する
 scoped macro "#greet " : command => `(#eval "Hello World!")

@@ -30,12 +30,12 @@ h✝ : ¬n > 100
 ⊢ n + 11 < n
 -/
 #guard_msgs in
-/-- McCarthy の 91 関数 -/
-def M (n : Nat) : Nat :=
-  if n > 100 then
-    n - 10
-  else
-    M (M (n + 11))
+  /-- McCarthy の 91 関数 -/
+  def M (n : Nat) : Nat :=
+    if n > 100 then
+      n - 10
+    else
+      M (M (n + 11))
 
 end WithoutPartial --#
 namespace Partial --#
