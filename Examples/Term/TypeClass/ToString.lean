@@ -54,6 +54,13 @@ def david := Person.mk "David" 42
 #eval david
 
 -- `ToString` のインスタンスがないのでエラーになる
-#guard_msgs (drop error) in #check s!"{david}"
+/--
+error: failed to synthesize
+  ToString Person
+Additional diagnostic information may be available using the `set_option diagnostics true` command.
+---
+info: toString "" ++ sorryAx String true ++ toString "" : String
+-/
+#guard_msgs in #check s!"{david}"
 
 end ToString --#

@@ -105,8 +105,13 @@ protected theorem add_assoc (a b c : Color) : a + b + c = a + (b + c) := by
 
 -- エラーになっているので、
 -- Commutative のインスタンスはないことが確認できる
-#guard_msgs (drop error) in
-#synth Std.Commutative (α := Color) (· + ·)
+/--
+error: failed to synthesize
+  Std.Commutative fun x x_1 => x + x_1
+Additional diagnostic information may be available using the `set_option diagnostics true` command.
+-/
+#guard_msgs in
+  #synth Std.Commutative (α := Color) (· + ·)
 
 /-- `add_comm` を `Std.Associative` に登録する。
 local にしたのでセクション内でのみ有効 -/
