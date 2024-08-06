@@ -6,8 +6,7 @@
 import Mathlib.Algebra.Group.Defs -- 逆数を使うために必要 --#
 
 /-- info: 2 -/
-#guard_msgs in
-#eval 2
+#guard_msgs in #eval 2
 
 /--
 error: failed to synthesize
@@ -16,7 +15,7 @@ Additional diagnostic information may be available using the `set_option diagnos
 -/
 #guard_msgs in #eval (2 + "hello" : String)
 
-/-! ## 空白の扱い
+/- ## 空白の違いを無視させるには
 `#guard_msgs` コマンドは空白の数に敏感で、空白の長さによって通ったり通らなかったりします。しかし、`whitespace` という引数に `lax` を指定することにより、この空白に関する制限は緩めることができます。
 -/
 
