@@ -20,7 +20,7 @@ variable (α : Type)
 /--
 error: failed to synthesize
   Inv α
-use `set_option diagnostics true` to get diagnostic information
+Additional diagnostic information may be available using the `set_option diagnostics true` command.
 -/
 #guard_msgs in #check (_ : α)⁻¹
 
@@ -35,12 +35,11 @@ use `set_option diagnostics true` to get diagnostic information
 
 /-! 自然数 `ℕ` に対しては逆数が定義されていないと予想されますが、実際 `Inv` のインスタンスになっていません。-/
 
-/--
-error: failed to synthesize
-  Inv ℕ
-Additional diagnostic information may be available using the `set_option diagnostics true` command.
--/
-#guard_msgs in #synth Inv Nat
+-- エラーになってしまう
+#guard_msgs (drop error) in #synth Inv Nat
+
+-- 実際、Inv のインスタンスになっていない
+#check_failure (inferInstance : Inv Nat)
 
 /-! 自分で無理やり `ℕ` を `Inv` のインスタンスにしてみると、通るようになります。ここでは逆数関数を常に `1` になる定数関数としてみましょう。-/
 

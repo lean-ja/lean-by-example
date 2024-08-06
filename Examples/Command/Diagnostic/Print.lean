@@ -56,9 +56,9 @@ but is expected to have type
   TSyntax [`ident, `str] : Type
 -/
 #guard_msgs(error) in
-#eval show Lean.Elab.Term.TermElabM Unit from do
-  let a ← `(Nat.succ Nat.zero)
-  let _b ← `(#print $a)
+  #eval! show Lean.Elab.Term.TermElabM Unit from do
+    let a ← `(Nat.succ Nat.zero)
+    let _b ← `(#print $a)
 
 /- 上のコード例は、これを検証するものです。エラーメッセージにあるように `#print` は `ident` または `str` を期待しており、これはそれぞれ単一の識別子と文字列リテラルを意味します。`Nat.succ Nat.zero` は `term` つまり項なのでエラーになります。
 

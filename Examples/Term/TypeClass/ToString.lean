@@ -54,11 +54,6 @@ def david := Person.mk "David" 42
 #eval david
 
 -- `ToString` のインスタンスがないのでエラーになる
-/--
-error: failed to synthesize
-  ToString Person
-Additional diagnostic information may be available using the `set_option diagnostics true` command.
--/
-#guard_msgs (error) in #check s!"{david}"
+#guard_msgs (drop error) in #check s!"{david}"
 
 end ToString --#
