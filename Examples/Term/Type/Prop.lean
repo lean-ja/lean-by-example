@@ -12,54 +12,71 @@
 
 `P Q : Prop` があるとき、次のようにして新しい命題を得ることができます。
 
-1. 論理積 `P ∧ Q` ... `P` と `Q` がともに成り立つと主張する命題
-1. 論理和 `P ∨ Q` ... `P` と `Q` の少なくとも一つが成り立つと主張する命題。
-1. 含意 `P → Q` ... `P` が成り立つならば `Q` も成り立つと主張する命題。ただし `P` が偽の時は `Q` が何であっても真です。
-1. 否定 `¬ P` ... `P` が成り立たないという命題。`P → False` として定義されています。
-1. 同値 `P ↔ Q` ... `P → Q` と `Q → P` がともに成り立つという命題。
+### 論理積 P ∧ Q
+
+論理積 `P ∧ Q` は `P` と `Q` がともに成り立つと主張します。「`P` かつ `Q`」と読みます。`P` と `Q` がともに真であるときに限り真となり、それ以外のときは偽となります。-/
+
+#guard True ∧ True
+#guard (True ∧ False) = False
+#guard (False ∧ True) = False
+#guard (False ∧ False) = False
+
+/- Lean では `And` という名前の構造体(structure)として表現されます。-/
+
+example (P Q : Prop) (hP : P) (hQ : Q) : P ∧ Q := And.intro hP hQ
+
+/- ### 論理和 P ∨ Q
+
+論理和 `P ∨ Q` は `P` または `Q` の少なくとも一つが成り立つという主張です。「`P` または `Q`」と読みます。`P` と `Q` がともに偽であるときに限って偽になり、それ以外のときは真となります。-/
+
+#guard True ∨ True
+#guard True ∨ False
+#guard False ∨ True
+#guard (False ∨ False) = False
+
+/- Lean では `Or` という名前の帰納型(inductive type)として表現されます。-/
+
+example (P Q : Prop) (hP : P) : P ∨ Q := Or.inl hP
+
+/- ### 含意 P → Q
+
+含意 `P → Q` は `P` が成り立つならば `Q` が成り立つという主張です。「`P` ならば `Q`」と読みます。`P` が真であるのに `Q` が偽であるときだけ `P → Q` は偽となり、それ以外のときは `P → Q` は真となります。特に 前提 `P` が偽のときは `P → Q` は `Q` に関わらず真となります。`P` を仮定すれば `Q` が成り立つ、という意味であると解釈しても問題ありません。
 -/
-section --#
-variable (P Q : Prop)
 
-#check (P ∧ Q : Prop)
-#check (P ∨ Q : Prop)
-#check (P → Q : Prop)
-#check (¬ P : Prop)
+#guard (True → True)
+#guard (True → False) = False
+#guard (False → True)
+#guard (False → False)
 
--- ¬ P は P → False と同じ
-example : (¬ P) = (P → False) := rfl
+/- Lean では含意は関数型 `P → Q` として表現されます。これは言い換えれば「`P` の証明項を受け取って `Q` の証明項を返す関数の型」です。含意専用の型を用意せず、関数型を流用することで含意を表現しているのは、Curry Howard 同型対応を利用しているためです。-/
 
-#check (P ↔ Q : Prop)
-end --#
-/- ## 述語論理
-さらに、述語 `P : α → Prop` や関係 `R : α → β → Prop` に対して「すべての～に対して…が成り立つ」や「～という...が存在する」という束縛を行って命題を得ることもできます。「すべての～に対して…が成り立つ」で束縛することを全称量化と呼び、「～という...が存在する」で束縛することは存在量化と呼びます。それぞれ記号 `∀` と `∃` で表します。
+example (P Q : Prop) (hP : P) : Q → P := fun _ => hP
 
-さらに、量化はネストさせることができます。わかりやすくするために、「`x` は `y` のことが好き」という関係を `L` で表すことにして、これを例にしましょう。このとき量化の仕方により様々な命題が作れます。
+/- ### 否定 ¬ P
+
+否定 `¬ P` は、`P` が成り立たないという主張です。`P` が偽のとき真になり、`P` が真のとき偽になります。-/
+
+#guard (¬ True) = False
+#guard (¬ False) = True
+
+/- Lean では `¬ P` は `P → False` として定義されています。-/
+
+example (P : Prop) : (¬ P) = (P → False) := rfl
+
+/- ### 同値 P ↔ Q
+
+同値 `P ↔ Q` は、`P → Q` と `Q → P` がともに成り立つという主張です。読み方は定まっていませんが「`P` と `Q` は同値である」などと読みます。`P` と `Q` の真偽が一致するときに真となり、そうでないとき偽となります。
 -/
 
--- ひとびとの集合
-opaque People : Type
+#guard True ↔ True
+#guard (True ↔ False) = False
+#guard (False ↔ True) = False
+#guard False ↔ False
 
--- x は y のことが好き、という文（任意の二項関係と思ってもよい）
-opaque L : People → People → Prop
+/- Lean での定義は `P → Q ∧ Q → P` ではありません。`Iff` という専用の構造体が用意されています。 -/
 
--- すべての人がすべての人のことを好き
-#check (∀ x y, L x y : Prop)
-
--- どんな人にも好きな人がいる
-#check (∀ x, ∃ y, L x y : Prop)
-
--- どんな人も誰かからは好かれている
-#check (∀ y, ∃ x, L x y : Prop)
-
--- すべての人に等しく愛を注いでいる博愛主義者がいる
-#check (∃ x, ∀ y, L x y : Prop)
-
--- すべての人から好かれているアイドルがいる
-#check (∃ y, ∀ x, L x y : Prop)
-
--- 片思いのペアが存在する
-#check (∃ x y, L x y : Prop)
+example (P Q : Prop) (hP : P) (hQ : Q) : P ↔ Q :=
+  Iff.intro (fun _ => hQ) (fun _ => hP)
 
 /- ## Bool と Prop の違い
 どちらも言明に対応するため、`Bool` と似ているようですが以下のような目立つ相違点があります：
