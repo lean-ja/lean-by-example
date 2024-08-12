@@ -10,5 +10,6 @@
   "workbench.iconTheme": "material-icon-theme",
   "material-icon-theme.files.associations": {
     "README.lean": "readme",
-  }
+  },
+  "workbench.colorTheme": "Horizon Default",
 }
