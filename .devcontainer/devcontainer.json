@@ -21,7 +21,8 @@
         "Tyriar.sort-lines",
         "yzhang.markdown-all-in-one",
         "PKief.material-icon-theme",
-        "juggernautjp.less-toml"
+        "juggernautjp.less-toml",
+        "usernamehw.errorlens"
       ]
     }
   },
