@@ -34,6 +34,7 @@
     - [infix: 中置記法](./Command/Declarative/Infix.md)
     - [instance: インスタンスを定義する](./Command/Declarative/Instance.md)
     - [local: 有効範囲をセクションで限定](./Command/Declarative/Local.md)
+    - [macro_rules: マクロ定義](./Command/Declarative/MacroRules.md)
     - [macro: 簡便なマクロ定義](./Command/Declarative/Macro.md)
     - [namespace: 名前空間を宣言する](./Command/Declarative/Namespace.md)
     - [noncomputable: 計算不能にする](./Command/Declarative/Noncomputable.md)
