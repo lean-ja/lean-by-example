@@ -69,7 +69,7 @@ instance {n : Nat} [OfNat Even n] : OfNat Even (n + 2) where
 
 /-
 ## 舞台裏
-`instance` は `@[instance]` 属性を付与された `def` と同じです。
+`instance` は `@[instance]` 属性を付与された [`def`](./Def.md) と同じようにはたらきます。ただし `instance` はインスタンス名を省略することができるという違いがあります。
 -/
 
 -- `List` 同士を足すことはできない
