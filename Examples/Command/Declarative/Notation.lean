@@ -159,7 +159,7 @@ local macro_rules | `($x ⊕ $y) => `(xor $x $y)
 #check_failure Nat ⊕ Fin 2
 end --#
 
-/- ## 補足
+/- ## 半角スペースの扱い
 なお、`notation` を定義する際に半角スペースを入れることがしばしばありますが、これは表示の際に使われるだけで記法の認識には影響しません。-/
 section
 
