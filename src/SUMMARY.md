@@ -51,6 +51,7 @@
     - [section: スコープを区切る](./Command/Declarative/Section.md)
     - [set_option: オプション設定](./Command/Declarative/SetOption.md)
     - [structure: 構造体を定義する](./Command/Declarative/Structure.md)
+    - [syntax: 構文を定義](./Command/Declarative/Syntax.md)
     - [termination_by: 整礎再帰を使う](./Command/Declarative/TerminationBy.md)
     - [theorem: 命題を証明する](./Command/Declarative/Theorem.md)
     - [variable: 引数を共通化する](./Command/Declarative/Variable.md)
