@@ -73,7 +73,7 @@ theorem bar {P Q : Prop} : (P → Q) ∧ P ↔ Q ∧ P := by
 example {P Q : Prop} : (P → Q) ∧ P ↔ Q ∧ P := by
   simp
 
-/- ## 属性のスコープを制限する
+/- ## 有効範囲を制限する
 特定の [`section`](./Section.md) でのみ付与した属性を有効にするには、[`local`](./Local.md) で属性名を修飾します。
 -/
 example (P Q : Prop) : ((P ∨ Q) ∧ ¬ Q) ↔ (P ∧ ¬ Q) := by
