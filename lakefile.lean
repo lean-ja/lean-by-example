@@ -7,6 +7,8 @@ package «Lean by Example» where
     ⟨`relaxedAutoImplicit, false⟩
   ]
 
+require "Seasawher" / «mk-exercise»
+
 require "Seasawher" / "mdgen"
 
 require "leanprover-community" / "mathlib"
@@ -26,6 +28,7 @@ def runCmd (cmd : String) (args : Array String) : ScriptM Bool := do
   return hasError
 
 script build do
+  if ← runCmd "lake" #["exe", "mk_exercise", "Examples/Solution", "Examples/Exercise"] then return 1
   if ← runCmd "lake" #["exe", "mdgen", "Examples", "src"] then return 1
   if ← runCmd "mdbook" #["build"] then return 1
   return 0
