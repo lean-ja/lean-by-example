@@ -37,8 +37,7 @@ jobs:
       - name: lean action
         uses: leanprover/lean-action@v1.0.0
         with:
-          build-args: "--quiet"
-          test: false
+          build-args: "--log-level=error"
 
   windows_build:
     runs-on: windows-latest
@@ -66,5 +65,5 @@ jobs:
         shell: pwsh
 
       - name: run lake build
-        run: lake build --quiet
+        run: lake build --log-level=error
         shell: pwsh
