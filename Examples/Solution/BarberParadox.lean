@@ -31,8 +31,11 @@ variable (policy : ∀ p : Person, shave barber p ↔ ¬ shave p p)
 
 example : False := by
   -- sorry
+  -- 床屋は自分自身の髭を剃るだろうか？
   replace policy := policy barber
-  simp [iff_not_self] at policy
+
+  -- `P ↔ ¬ P` という形の仮定が得られて、これは矛盾
+  simp at policy
   -- sorry
 
 end Barber
