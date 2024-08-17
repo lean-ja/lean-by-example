@@ -2,7 +2,7 @@
 `scoped` は、コマンドの有効範囲を現在の名前空間に限定します。
 -/
 import Lean --#
--- #target をコマンドとして認識させる
+-- #greet をコマンドとして認識させる
 -- 実装は与えない
 syntax "#greet" : command
 
