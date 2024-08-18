@@ -5,7 +5,7 @@
 * [`split`](./Split.md)
 * [`intro`](./Intro.md)
 * [`aesop`](./Aesop.md)
-* `decide`
+* [`decide`](./Decide.md)
 * [`exact?`](./ExactQuestion.md)
 * `simp_all?`
 * [`linarith`](./Linarith.md)
