@@ -161,5 +161,5 @@
 
 - [演習問題](./Exercise/README.md)
   - [床屋のパラドクス](./Exercise/BarberParadox.md)
-  - [De Morganの法則と排中律](./Exercise/DeMorgan.md)
+  - [De Morganの法則と排中律](./Exercise/DeMorganAndEm.md)
   - [含意の定義の正当性](./Exercise/Implication.md)
