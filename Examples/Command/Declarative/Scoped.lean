@@ -41,7 +41,7 @@ end
 * [`notation`](./Notation.md)
 * [`postfix`](./Postfix.md)
 * [`prefix`](./Prefix.md),
-* `syntax`
+* [`syntax`](./Syntax.md)
 * などなど
 
 リストの全体は、`scoped` の後に修飾できないコマンドを続けたときのエラーメッセージで確認できます。
