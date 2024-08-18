@@ -2,7 +2,7 @@
 `scoped` は、コマンドの有効範囲を現在の名前空間に限定します。
 -/
 import Lean --#
--- #target をコマンドとして認識させる
+-- #greet をコマンドとして認識させる
 -- 実装は与えない
 syntax "#greet" : command
 
@@ -41,7 +41,7 @@ end
 * [`notation`](./Notation.md)
 * [`postfix`](./Postfix.md)
 * [`prefix`](./Prefix.md),
-* `syntax`
+* [`syntax`](./Syntax.md)
 * などなど
 
 リストの全体は、`scoped` の後に修飾できないコマンドを続けたときのエラーメッセージで確認できます。

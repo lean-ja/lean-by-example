@@ -45,7 +45,7 @@ end hoge
 * [`postfix`](./Postfix.md)
 * [`prefix`](./Prefix.md)
 * [`instance`](./Instance.md)
-* `syntax`
+* [`syntax`](./Syntax.md)
 * などなど
 
 リストの全体は、`local` の後に修飾できないコマンドを続けたときのエラーメッセージで確認できます。
