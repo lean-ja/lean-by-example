@@ -7,9 +7,11 @@ package «Lean by Example» where
     ⟨`relaxedAutoImplicit, false⟩
   ]
 
-require "Seasawher" / "mdgen"
+require mdgen from git
+  "https://github.com/Seasawher/mdgen" @ "main"
 
-require "leanprover-community" / "mathlib"
+require mathlib from git
+  "https://github.com/leanprover-community/mathlib4.git" @ "master"
 
 @[default_target]
 lean_lib Examples where
