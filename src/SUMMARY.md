@@ -6,6 +6,8 @@
 
 ---
 
+# リファレンス
+
 - [コマンド](./Command/README.md)
   - [対話的コマンド](./Command/Diagnostic/README.md)
     - [#check_failure: 意図的なエラー](./Command/Diagnostic/CheckFailure.md)
@@ -154,3 +156,10 @@
   - [型](./Term/Type/README.md)
     - [Prop: 命題全体](./Term/Type/Prop.md)
     - [Type: 型全体](./Term/Type/Type.md)
+
+# ガイド
+
+- [演習問題](./Exercise/README.md)
+  - [床屋のパラドクス](./Exercise/BarberParadox.md)
+  - [De Morganの法則と排中律](./Exercise/DeMorganAndEm.md)
+  - [含意の定義の正当性](./Exercise/ImpDefValidness.md)

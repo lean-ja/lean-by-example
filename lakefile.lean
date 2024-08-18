@@ -7,6 +7,9 @@ package «Lean by Example» where
     ⟨`relaxedAutoImplicit, false⟩
   ]
 
+require «mk-exercise» from git
+  "https://github.com/Seasawher/mk-exercise.git" @ "2.0.0"
+
 require mdgen from git
   "https://github.com/Seasawher/mdgen" @ "main"
 
@@ -28,6 +31,7 @@ def runCmd (cmd : String) (args : Array String) : ScriptM Bool := do
   return hasError
 
 script build do
+  if ← runCmd "lake" #["exe", "mk_exercise", "Examples/Solution", "Examples/Exercise"] then return 1
   if ← runCmd "lake" #["exe", "mdgen", "Examples", "src"] then return 1
   if ← runCmd "mdbook" #["build"] then return 1
   return 0
