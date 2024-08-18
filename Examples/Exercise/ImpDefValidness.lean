@@ -58,7 +58,7 @@ axiom imp_transitive {P Q R : Prop} (hpq : P →ᵥ Q) (hqr : Q →ᵥ R) : P �
 
 variable {P Q : Prop}
 
-/-- 前提が偽であるとき、「P ならば Q」は真 -/
+/-- 前件(antecedent)が偽であるとき、「P ならば Q」は真 -/
 theorem imp_of_ant_false (nP : ¬ P) : P →ᵥ Q := by
   sorry
 
