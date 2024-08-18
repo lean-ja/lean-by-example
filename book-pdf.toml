@@ -1,4 +1,5 @@
-
+# mdbook-pdf の設定を追加すると mdbook build 実行時に毎回 PDF が生成されてしまう
+# それを避けるために、このファイルに設定内容を避難させている
 [output.html.print]
 enable = true
 
