@@ -23,6 +23,9 @@ additional-js = [
   # サイドバーに目次を表示する
   "assets/pagetoc.js",
 ]
+# mdbook-admonish のための設定
+additional-css = ["./assets/mdbook-admonish.css"]
+
 no-section-label = true
 git-repository-url = "https://github.com/lean-ja/lean-by-example"
 
@@ -39,5 +42,11 @@ boost-title = 25
 [output.html.fold]
 enable = true
 level = 2
+
+[preprocessor]
+
+[preprocessor.admonish]
+command = "mdbook-admonish"
+assets_version = "3.0.2" # do not edit: managed by `mdbook-admonish install`
 
 ### 注意: PDF 生成時に book-pdf.toml の内容が末尾に自動で追加される ###
