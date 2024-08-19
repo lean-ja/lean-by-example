@@ -2,7 +2,7 @@
 
 `induction_eliminator` 属性は、帰納法の枝を変更することを可能にします。
 
-より詳しくいうと、[`induction`](../../Tactic/Induction.md) タクティクの `using` キーワードのデフォルトの引数を変更することができます。デフォルトでは、帰納型 `T` に対して `T.recOn` という定理が自動生成されてそれが暗黙の裡に `using` キーワードの引数として使われますが、`induction_eliminator` 属性で別な定理を指定すると、それが使われるようになります。
+より詳しくいうと、[`induction`](../../Tactic/Induction.md) タクティクの `using` キーワードのデフォルトの引数を変更することができます。デフォルトでは、帰納型 `T` に対して `T.rec` (および `T.recOn` )という定理が自動生成されてそれが暗黙の裡に `using` キーワードの引数として使われますが、`induction_eliminator` 属性で別な定理を指定すると、それが使われるようになります。
 -/
 namespace InductionEliminator --#
 
@@ -35,23 +35,22 @@ def Many.cons (x : α) (xs : Many α) : Many α :=
 
 -- Many を定義したときに自動生成される定理
 /--
-info: InductionEliminator.Many.recOn.{u} {α : Type} {motive : Many α → Sort u}
-  (t : Many α) (none : motive Many.none)
-  (more : (a : α) → (a_1 : Unit → Many α) → ((a : Unit) → motive (a_1 a)) → motive (Many.more a a_1))
-  : motive t
+info: InductionEliminator.Many.rec.{u} {α : Type} {motive : Many α → Sort u}
+  (none : motive Many.none) (more : (a : α) → (a_1 : Unit → Many α) → ((a : Unit) → motive (a_1 a))
+  → motive (Many.more a a_1)) (t : Many α) : motive t
 -/
-#guard_msgs (whitespace := lax) in #check Many.recOn
+#guard_msgs (whitespace := lax) in #check Many.rec
 
--- Many.recOn の `Many.more` の部分を `Many.cons` に置き換えた定理を作る。
+-- Many.rec の `Many.more` の部分を `Many.cons` に置き換えた定理を作る。
 -- これに `induction_eliminator` 属性を与えることで、
 -- コンストラクタ `Many.more` の代わりに `Many.cons` が使えるようになる
 @[induction_eliminator]
-protected def Many.cons_recOn.{u} {α : Type} {motive : Many α → Sort u}
+protected def Many.cons_rec.{u} {α : Type} {motive : Many α → Sort u}
   (none : motive Many.none)
   (cons : (a : α) → (b : Many α) → (motive b) → motive (Many.cons a b))
     : (t : Many α) → motive t
   | .none => none
-  | .more x xs => cons x (xs ()) (Many.cons_recOn none cons (xs ()))
+  | .more x xs => cons x (xs ()) (Many.cons_rec none cons (xs ()))
 
 example (xs : Many α) : Many.union xs Many.none = xs := by
   induction xs with
@@ -63,11 +62,11 @@ example (xs : Many α) : Many.union xs Many.none = xs := by
 
     simp [Many.union, Many.cons, ih]
 
-/- `induction_eliminator` を設定する前の挙動に戻すには、`using` キーワードに明示的に `.recOn` 定理を与えます。 -/
+/- `induction_eliminator` を設定する前の挙動に戻すには、`using` キーワードに明示的に `.rec` 定理を与えます。 -/
 
 example (xs : Many α) : True := by
   -- 明示的に指定すれば， 元の挙動に戻せる
-  induction xs using Many.recOn with
+  induction xs using Many.rec with
   | none => trivial
   | more _ xs _ =>
     -- 元のように Many.more が使われる
