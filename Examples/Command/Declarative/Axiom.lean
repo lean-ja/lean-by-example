@@ -197,7 +197,7 @@ theorem my_funext {f g : (x : α) → β x} (h : ∀ x, f x = g x) : f = g := by
     _ = funApp (f := g) := by rfl
 
     -- 「`g` を適用する関数」と `g` は等しい
-    _ = g := by rfl
+    _ = g := by rw [funApp_eq g]
 
 /-- info: 'Axiom.my_funext' depends on axioms: [Quot.sound] -/
 #guard_msgs in #print axioms my_funext
