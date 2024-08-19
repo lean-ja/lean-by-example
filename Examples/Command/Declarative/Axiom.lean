@@ -36,6 +36,7 @@ theorem ex_prop_ext (a b : Prop) (p : Prop → Prop) (h : a ↔ b) (h₁ : p a) 
 /- ### 商の公理 Quot.sound
 任意の型 `α : Sort u` と `α` 上の2項関係 `r : α → α → Prop` に対して、その商(quotient)を作ることができます。商の概念は、以下に示す複数の定数から構成されます。
 -/
+section quot --#
 universe u
 
 variable {α : Sort u}
@@ -110,45 +111,93 @@ def MyQuot.lift {r : α → α → Prop} {β : Sort u}
   (f : α → β) (_ : ∀ a b, r a b → f a = f b) : MyQuot r → β
   | MyQuot.mk a => f a
 
+end quot --#
 /- こうして `Quot.sound` を使わず、Lean に備わっている帰納型の構成だけを使って作った `MyQuot` は、商の公理以外のすべての点で商型にそっくりですが、全然商になっていません。コンストラクタを使って作られる項 `MyQuot.mk a` は、`a : α` が異なればすべて異なる項であり、同一視が全く入っていません。このような観点から、`Quot.sound` は商を商たらしめる重要なものであり、「商の公理」と呼ぶにふさわしいと考えられるわけです。 -/
 
 /- #### 関数外延性
-商の公理 `Quot.sound` を利用して、関数外延性を示すことができます。関数外延性とは、すべての入力に対して同じ値を返すような２つの関数は等しいという定理です。-/
+商の公理 `Quot.sound` を利用して、関数外延性を示すことができます。関数外延性とは、「すべての入力に対して同じ値を返すような２つの関数は等しい」という定理です。
 
-universe v
+実際に証明していきます。一般に証明を理解するためには、前提を確認することが大切です。「商の公理を使用しなくても、前提として等しいことが分かっているものは何か」をまず確認しましょう。前提として利用できる事実には、次の２つがあります：
 
-variable {β : α → Sort v}
+* 関数 `f` とラムダ式 `fun x => f x` は等しい
+* 関数 `f` と、「関数 `f` を適用する関数」は等しい
 
-/-- 関数外延性の定理。入力に対して同じ値を返す関数は等しい。-/
+実際に、公理を一切使わずにこれは証明できます。
+-/
+
+universe u v
+
+variable {α : Type u} {β : α → Sort v}
+
+/-- 依存関数はラムダ式と等しい -/
+theorem lambda_eq (f : (x : α) → β x) : f = (fun x => f x) := by rfl
+
+-- 依存関数 `f` がラムダ式 `fun x => f x` に等しいことは、ラムダ式の定義から従い、
+-- 何の公理も必要としない。
+/-- info: 'Axiom.lambda_eq' does not depend on any axioms -/
+#guard_msgs in
+  #print axioms lambda_eq
+
+/-- 関数適用を行う高階関数 -/
+def funApp (a : α) (f : (x : α) → β x) : β a := f a
+
+/-- 「`f` を適用する関数」と `f` は等しい -/
+theorem funApp_eq (f : (x : α) → β x) : funApp (f := f) = f := calc
+  -- 関数とラムダ式は等しい
+  funApp (f := f) = (fun a => funApp a f) := by rw [lambda_eq funApp]
+
+  -- funApp の定義から等しい
+  _ = (fun a => f a) := by dsimp only [funApp]
+
+  -- 関数とラムダ式は等しい
+  _ = f := by rw [lambda_eq f]
+
+-- これも何の公理も必要としない
+/-- info: 'Axiom.funApp_eq' does not depend on any axioms -/
+#guard_msgs in
+  #print axioms funApp_eq
+
+/- この事実を使うと、商の公理から関数外延性の証明ができます。-/
+
+/-- 関数外延性の定理 -/
 theorem my_funext {f g : (x : α) → β x} (h : ∀ x, f x = g x) : f = g := by
   -- 外延性等式を表す二項関係を定義する
   let eqv (f g : (x : α) → β x) := ∀ x, f x = g x
 
   -- 二項関係 eqv で `(x : α) → β x` の商を取る
-  let extfun := Quot eqv
+  let «[(x : α) → β x]» := Quot eqv
 
-  -- 関数 `f` と `g` は商の定義から、商に送ると等しい！
+  -- 関数 `f` と `g` は商の公理から、商に送ると等しいことに注意する。
+  -- 商の公理はここで使っている。
   have : Quot.mk eqv f = Quot.mk eqv g := Quot.sound (λ x => h x)
 
-  -- 関数適用を行う関数 `(a : α) → ((x : α) → β x) → β a` を考える
-  let funApp (a : α) (f : (x : α) → β x) : β a := f a
-
-  -- 関数適用 `funApp` を商 `extfun` 上にリフトする
-  let extfunApp (a : α) (f' : extfun) : β a := by
+  -- 関数適用 `funApp` は、適用する項 `a` を固定すれば `(x : α) → β x` 上の関数と見なせる。
+  -- この関数は同値関係 `eqv` を保つため、
+  -- 関数適用 `funApp` を商 `«[(x : α) → β x]»` 上に持ち上げることができる。
+  let «[funApp]» (a : α) (f' : «[(x : α) → β x]») : β a := by
     have lift := @Quot.lift ((x : α) → β x) eqv (β a) (funApp a)
     apply lift
     · intro f g h
       exact h a
     · exact f'
 
-  -- `f = g` を示す問題を `extfunApp` をかませることで、
+  -- `f = g` を示す問題を `«[funApp]»` をかませることで、
   -- 商での等式に帰着させることができる。
-  calc
-    f = fun x => f x := by rfl
-    _ = extfunApp (f' := Quot.mk eqv f) := by rfl
-    _ = extfunApp (f' := Quot.mk eqv g) := by rw [this]
-    _ = fun x => g x := by rfl
-    _ = g := by rfl
+  exact show f = g from calc
+    -- 「`f` を適用する関数」と `f` は等しい
+    f = funApp (f := f) := by rw [funApp_eq f]
+
+    -- 商への関数の持ち上げの定義から等しい
+    _ = «[funApp]» (f' := Quot.mk eqv f) := by rfl
+
+    -- 関数 `f` と `g` は商の公理から、商に送ると等しい
+    _ = «[funApp]» (f' := Quot.mk eqv g) := by rw [this]
+
+    -- 商への関数の持ち上げの定義から等しい
+    _ = funApp (f := g) := by rfl
+
+    -- 「`g` を適用する関数」と `g` は等しい
+    _ = g := by rw [funApp_eq g]
 
 /-- info: 'Axiom.my_funext' depends on axioms: [Quot.sound] -/
 #guard_msgs in #print axioms my_funext
