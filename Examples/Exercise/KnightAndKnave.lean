@@ -21,6 +21,7 @@
 
 ここでは後で便利なように `simp` 補題も示しておくことにします。
 -/
+import Lean --#
 
 /-- その島の住民を表す型 -/
 opaque Islander : Type
@@ -109,18 +110,48 @@ inductive Solution (p : Islander) : Type where
 以上の準備の下で、問題は次のように表現できます。以下の `sorry` の部分を埋めてください。
 
 ```admonish error title="禁止事項"
-この問題では排中律の使用は禁止です。余裕があればなぜ禁止なのか考えてみてください。
+この問題では排中律の使用は禁止です。
+解答を書いた後で、`zoey_which` と `mel_which` に対して `#print axioms` コマンドを使用し、排中律を使用していないことを確認してください。
+
+余裕があればなぜ禁止なのか考えてみましょう。
 ```
 -/
 
 /-- ゾーイは騎士か悪党か？-/
-noncomputable def instSolutionZoey : Solution zoey := by
+noncomputable def zoey_which : Solution zoey := by
   sorry
 
 /-- メルは騎士か悪党か？-/
-noncomputable def instSolutionMel : Solution mel := by
+noncomputable def mel_which : Solution mel := by
   sorry
 
--- `Classical.choice` がないことを確認してください
-#print axioms instSolutionZoey
-#print axioms instSolutionMel
+--#--
+section
+/- ## 排中律を使用していないことを確認するコマンド -/
+
+open Lean Elab Command
+
+private def detectClassicalOf (constName : Name) : CommandElabM Unit := do
+  let axioms ← collectAxioms constName
+  if axioms.isEmpty then
+    logInfo m!"'{constName}' does not depend on any axioms"
+  else
+    let caxes := axioms.filter fun nm => Name.isPrefixOf `Classical nm
+    if caxes.isEmpty then
+      logInfo m!"'{constName}' is non-classical and depends on axioms: {axioms.toList}"
+    else
+      throwError m!"'{constName}' depends on classical axioms: {caxes.toList}"
+
+syntax (name:=detectClassical) "#detect_classical " ident : command
+
+@[command_elab «detectClassical»] def elabDetectClassical : CommandElab
+  | `(#detect_classical%$tk $id) => withRef tk do
+    let cs ← liftCoreM <| realizeGlobalConstWithInfos id
+    cs.forM detectClassicalOf
+  | _ => throwUnsupportedSyntax
+end
+
+-- 排中律を使用していないことを確認
+#detect_classical zoey_which
+#detect_classical mel_which
+--#--
