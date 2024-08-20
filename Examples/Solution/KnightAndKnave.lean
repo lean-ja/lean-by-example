@@ -94,21 +94,40 @@ axiom mel_says : mel.say (¬ knave zoey ∧ ¬ knave mel)
 
 考えてみると、Lean で（証明すべき命題がわかっているときに）何かを証明するのはよくありますが、与えられた前提から何が言えるのかを明確なゴールなしに組み立てていくのはあまり見ないということにお気づきになるでしょう。この問題も、もし問いの内容が「ゾーイが騎士であることを示せ」とか「ゾーイが悪党であることを示せ」だったならば、今までの準備の下で簡単に形式化ができますが、「騎士なのか悪党なのか決定せよ」なので少し複雑になります。
 
-ここでの解決方法は、`Solution` という型クラスを `inductive class` コマンドで作成し、そのインスタンスを作ってくださいという形式にすることです。
+ここでの解決方法は、`Solution` という帰納型を `inductive` コマンドで作成し、その項を作ってくださいという形式にすることです。
 -/
 
-/-- `p` が騎士か悪党のどちらなのか知っていることを表す型クラス -/
-class inductive Solution (p : Islander) : Type where
+/-- `p` が騎士か悪党のどちらなのか知っていることを表す型 -/
+inductive Solution (p : Islander) : Type where
   | isKnight : knight p → Solution p
   | isKnave : knave p → Solution p
 
-/- `class inductive` というものをあまり見たことがないかもしれませんが、これは普通の型クラスと異なりコンストラクタが複数ある型クラスを定義することができます。この `Solution` の場合、`p : Islander` に対してインスタンスを作成するときに、インスタンスが `isKnight` から来るのか `isKnave` から来るのか明示しなければなりません。そしてそのために、それぞれ `p` が騎士であるか悪党であるかのどちらかの証明が引数に要求されることになります。
+/- この `Solution` の項を、`p : Islander` に対して作成するときに、項が `isKnight` から来るのか `isKnave` から来るのか明示しなければなりません。そしてそのために、それぞれ `p` が騎士であるか悪党であるかのどちらかの証明が引数に要求されることになるので、問題文を表現しているといえます。
 
 ## 問題
 
 以上の準備の下で、問題は次のように表現できます。以下の `sorry` の部分を埋めてください。
+
+```admonish error title="禁止事項"
+この問題では排中律の使用は禁止です。余裕があればなぜ禁止なのか考えてみてください。
+```
 -/
 --##--
+/- ## なぜ排中律の使用を禁止したかについて -/
+
+-- 以下のように、選択原理を使用するとどちらが騎士なのかを知らなくても
+-- Solution の項が得られるため
+noncomputable def foo : Solution zoey := by
+  have : Nonempty (Solution zoey) := by
+    cases knight_or_knave zoey
+    case inl h =>
+      exact ⟨Solution.isKnight h⟩
+    case inr h =>
+      exact ⟨Solution.isKnave h⟩
+  exact Classical.choice this
+
+/- ## 問題の解答部分 -/
+
 theorem zoey_is_not_knave : ¬ knave zoey := by
   -- ゾーイが悪党だと仮定する
   intro h
@@ -143,16 +162,20 @@ theorem mel_is_knave : knave mel := by
   exact statement_of_knight zoey_is_knight zoey_says
 --##--
 
--- ゾーイは騎士か悪党か？
-noncomputable instance : Solution zoey := by
+/-- ゾーイは騎士か悪党か？-/
+noncomputable def instSolutionZoey : Solution zoey := by
   -- sorry
   apply Solution.isKnight
   exact zoey_is_knight
   -- sorry
 
--- メルは騎士か悪党か？
-noncomputable instance : Solution mel := by
+#print axioms instSolutionZoey
+
+/-- メルは騎士か悪党か？-/
+noncomputable def instSolutionMel : Solution mel := by
   -- sorry
   apply Solution.isKnave
   exact mel_is_knave
   -- sorry
+
+#print axioms instSolutionMel
