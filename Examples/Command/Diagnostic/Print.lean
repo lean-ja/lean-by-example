@@ -18,8 +18,9 @@ fun n m => rfl
 -/
 #guard_msgs in #print Nat.add_succ
 
-/-!
-## 依存公理を確認
+/-
+## \#print axioms: 依存公理の確認
+### 概要
 
 `#print axioms` で、与えられた証明項が依存する公理を出します。たとえば Lean では排中律は選択原理 [`Classical.choice`](../Declarative/Axiom.md#ClassicalChoice) を使って証明するので、排中律は選択原理に依存しています。
 -/
@@ -29,19 +30,70 @@ example : ∀ (p : Prop), p ∨ ¬p := Classical.em
 
 /-- info: 'Classical.em' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
-#print axioms Classical.em
+  #print axioms Classical.em
 
-/-! また、`sorry` という命題を「証明したことにする」タクティクがありますが、これは `sorryAx` という万能な公理を導入していることが確認できます。-/
+/- また、`sorry` という命題を「証明したことにする」タクティクがありますが、これは `sorryAx` という万能な公理を導入していることが確認できます。-/
 
 theorem contra : False := by sorry
 
 /-- info: 'contra' depends on axioms: [sorryAx] -/
 #guard_msgs in
-#print axioms contra
+  #print axioms contra
 
+/- ### 舞台裏
+`#print axioms` コマンドは、内部で `Lean.collectAxioms` という関数を使用して公理を取得しています。これを利用すると、依存公理を調べて何かを行うコマンドを自作することができます。ここでは例として、「ある定理が選択原理 `Classical.choice` に依存しているかどうか調べて、依存していればエラーにする」というコマンドを作成します。
+-/
+section --#
+
+open Lean Elab Command
+
+private def detectClassicalOf (constName : Name) : CommandElabM Unit := do
+  -- `constName` が依存する公理を配列で取得
+  let axioms ← collectAxioms constName
+
+  -- 依存する公理がないときの処理
+  if axioms.isEmpty then
+    logInfo m!"'{constName}' does not depend on any axioms"
+    return ()
+
+  -- `Classical` 名前空間にある公理に依存しているか確認
+  let caxes := axioms.filter fun nm => Name.isPrefixOf `Classical nm
+  if caxes.isEmpty then
+    -- 依存していなければ、単に公理のリストを表示
+    logInfo m!"'{constName}' is non-classical and depends on axioms: {axioms.toList}"
+  else
+    -- 依存しているときはエラーにする
+    throwError m!"'{constName}' depends on classical axioms: {caxes.toList}"
+
+-- `#detect_classical` コマンドの構文を宣言する
+syntax (name:=detectClassical) "#detect_classical " ident : command
+
+-- `#detect_classical` コマンドの実装
+@[command_elab «detectClassical»] def elabDetectClassical : CommandElab
+  | `(#detect_classical%$tk $id) => withRef tk do
+    let cs ← liftCoreM <| realizeGlobalConstWithInfos id
+    cs.forM detectClassicalOf
+  | _ => throwUnsupportedSyntax
+
+-- 以下はテストコード
+
+/-- info: 'Nat.add_zero' does not depend on any axioms -/
+#guard_msgs in
+  #detect_classical Nat.add_zero
+
+/-- info: 'Nat.div_add_mod' is non-classical and depends on axioms: [propext] -/
+#guard_msgs in
+  #detect_classical Nat.div_add_mod
+
+/-- error: 'Classical.em' depends on classical axioms: [Classical.choice] -/
+#guard_msgs in
+  #detect_classical Classical.em
+
+end --#
 /- ## よくあるエラー
 `#print` コマンドは式ではなく名前を受け付けます。たとえば、`#print Nat.zero` はエラーになりませんが、`#print Nat.succ Nat.zero` はエラーになります。この挙動は `#eval` コマンドや `#check` コマンドとは異なるため、注意が必要です。
 -/
+section error --#
 
 open Lean
 
@@ -71,3 +123,5 @@ but is expected to have type
 #eval show Lean.Elab.Term.TermElabM Unit from do
   let a ← `(Nat.succ Nat.zero)
   let _b ← `(#check $a)
+
+end error --#
