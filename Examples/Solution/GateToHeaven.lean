@@ -30,7 +30,12 @@ axiom angel_ne_devil (g : Gatekeeper) : ¬(angel g ∧ devil g)
 
 /-- 悪魔でないことは天使であることと同値 -/
 @[simp] theorem of_not_devil {g : Gatekeeper} : ¬ g.devil ↔ g.angel := by
-  simp [← of_not_angel]
+  have or := angel_or_devil g
+  have ne := angel_ne_devil g
+  constructor
+  all_goals
+    intro h
+    simp_all
 
 /-- 仮定の中に `angel g` と `devil g` があったときに矛盾を導くという
 機能を追加した`contradiction` -/
