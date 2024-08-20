@@ -1,3 +1,31 @@
+import Lean
+--#--
+section
+/- ## 排中律を使用していないことを確認するコマンド -/
+
+open Lean Elab Command
+
+private def detectClassicalOf (constName : Name) : CommandElabM Unit := do
+  let axioms ← collectAxioms constName
+  if axioms.isEmpty then
+    logInfo m!"'{constName}' does not depend on any axioms"
+  else
+    let caxes := axioms.filter fun nm => Name.isPrefixOf `Classical nm
+    if caxes.isEmpty then
+      logInfo m!"'{constName}' is non-classical and depends on axioms: {axioms.toList}"
+    else
+      throwError m!"'{constName}' depends on classical axioms: {caxes.toList}"
+
+syntax (name:=detectClassical) "#detect_classical " ident : command
+
+@[command_elab «detectClassical»] def elabDetectClassical : CommandElab
+  | `(#detect_classical%$tk $id) => withRef tk do
+    let cs ← liftCoreM <| realizeGlobalConstWithInfos id
+    cs.forM detectClassicalOf
+  | _ => throwUnsupportedSyntax
+end
+--#--
+
 /-- 門番。左の門番と右の門番の2人 -/
 inductive Gatekeeper : Type where
   /-- 左の門番 -/
@@ -12,6 +40,9 @@ opaque angel (g : Gatekeeper) : Prop
 
 /-- 悪魔であることを表す述語 -/
 opaque devil (g : Gatekeeper) : Prop
+
+@[instance]
+axiom decidable_devil (g : Gatekeeper) : Decidable (devil g)
 
 /-- 門番は天使であるか悪魔であるかのどちらか -/
 axiom angel_or_devil (g : Gatekeeper) : angel g ∨ devil g
@@ -36,6 +67,9 @@ axiom angel_ne_devil (g : Gatekeeper) : ¬(angel g ∧ devil g)
   all_goals
     intro h
     simp_all
+
+#detect_classical of_not_angel
+#detect_classical of_not_devil
 
 /-- 仮定の中に `angel g` と `devil g` があったときに矛盾を導くという
 機能を追加した`contradiction` -/
@@ -69,16 +103,21 @@ axiom devil_says_true {g: Gatekeeper} {question : Prop} (h : devil g) : g.answer
     have := angel_says_true (question := question) (show g.angel by assumption)
     simp_all
 
-/-- 悪魔が「いいえ」と答えることは真であることと同値 -/
-@[simp] theorem devil_says_false {g : Gatekeeper} {question : Prop} (h : devil g) :
+#detect_classical angel_says_false
+
+/-- 悪魔が「いいえ」と答えることは真であることと同値。
+２重否定が現れるため、技術的だが質問が決定可能であることを仮定する。 -/
+@[simp] theorem devil_says_false {g : Gatekeeper} {question : Prop} [Decidable question] (h : devil g) :
     g.answer question = false ↔ question := by
   -- 同値の両方向を示す
   constructor <;> intro h
 
   all_goals
-    -- g は悪魔なので嘘つき。よって明らか
+    -- g は悪魔なので嘘つき
     have := devil_says_true (question := question) (show g.devil by assumption)
-    simp_all
+    simp_all [Decidable.not_not]
+
+#detect_classical devil_says_false
 
 /-- 「あなたは悪魔ですか」とどちらの門番に訊いても、必ず「いいえ」と答える -/
 theorem both_says_false_asked_if_devil (g : Gatekeeper) : g.answer (devil g) = false := by
@@ -95,21 +134,6 @@ theorem both_says_false_asked_if_devil (g : Gatekeeper) : g.answer (devil g) = f
     -- 実際に悪魔なので本音は「はい」だが
     -- 悪魔なので嘘をついて「いいえ」と答える
     simpa [devil_says_false h]
-
--- /-- 「もう一人の門番」を表す関数 -/
--- def another (g : Gatekeeper) : Gatekeeper :=
---   match g with
---   | left => right
---   | right => left
-
--- /-- 門番は２人しかいないので、g, g' が門番なら
--- `g' = g` または `g' = g.another` -/
--- theorem or_another (g g' : Gatekeeper) : g = g' ∨ g' = g.another := by
---   -- g, g' が左右どちらの門番かで場合分けをする
---   cases g <;> cases g'
-
---   -- 計算すれば正しいことがわかる
---   all_goals simp_all [another]
 
 /-- 門番が２人いるときに「もう一人の門番は悪魔ですか？」と訊くと、
 二人の門番がともに天使またはともに悪魔であるかどうかが分かる。 -/
@@ -150,5 +174,7 @@ theorem detect_same (g g' : Gatekeeper) :
       -- 悪魔が「いいえ」と答えているから悪魔である
       simp [devil_says_false hd] at h
       simp_all
+
+#detect_classical detect_same
 
 end Gatekeeper
