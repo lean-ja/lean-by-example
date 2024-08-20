@@ -169,8 +169,6 @@ noncomputable def instSolutionZoey : Solution zoey := by
   exact zoey_is_knight
   -- sorry
 
-#print axioms instSolutionZoey
-
 /-- メルは騎士か悪党か？-/
 noncomputable def instSolutionMel : Solution mel := by
   -- sorry
@@ -178,4 +176,6 @@ noncomputable def instSolutionMel : Solution mel := by
   exact mel_is_knave
   -- sorry
 
+-- `Classical.choice` がないことを確認してください
+#print axioms instSolutionZoey
 #print axioms instSolutionMel

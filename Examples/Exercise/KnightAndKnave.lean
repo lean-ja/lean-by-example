@@ -117,10 +117,10 @@ inductive Solution (p : Islander) : Type where
 noncomputable def instSolutionZoey : Solution zoey := by
   sorry
 
-#print axioms instSolutionZoey
-
 /-- メルは騎士か悪党か？-/
 noncomputable def instSolutionMel : Solution mel := by
   sorry
 
+-- `Classical.choice` がないことを確認してください
+#print axioms instSolutionZoey
 #print axioms instSolutionMel
