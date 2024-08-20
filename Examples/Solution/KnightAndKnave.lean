@@ -56,12 +56,6 @@ axiom knight_ne_knave (p : Islander) : ¬(knight p ∧ knave p)
     intro h
     simp_all
 
-/-
-```admonish warning title="注意"
-`Islander` 型を `knight` と `knave` の２つのコンストラクタを持つ帰納型として定義すると、島民が２人しかいないことになってしまって、正しい表現にならないことに注意して下さい。
-```
--/
-
 /- これでゾーイとメルが島民であり、騎士か悪党かのどちらかであるということは次のように表現できます。-/
 
 /-- ゾーイ -/
