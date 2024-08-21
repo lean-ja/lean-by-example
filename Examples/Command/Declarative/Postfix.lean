@@ -30,6 +30,6 @@ elab "#expand_command " t:command : command => do
 
 /-- info: notation:200 arg✝:200 "!" => factorial arg✝ -/
 #guard_msgs in
-#expand_command postfix:200 "!" => factorial
+  #expand_command postfix:200 "!" => factorial
 
 end Postfix --#

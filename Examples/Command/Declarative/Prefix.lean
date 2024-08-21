@@ -26,6 +26,6 @@ elab "#expand_command " t:command : command => do
 
 /-- info: notation:90 "⋄" arg✝:90 => Nat.succ arg✝ -/
 #guard_msgs in
-#expand_command prefix:90 "⋄" => Nat.succ
+  #expand_command prefix:90 "⋄" => Nat.succ
 
 end Prefix --#

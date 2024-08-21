@@ -3,7 +3,7 @@
 `exists` は、「～という `x` が存在する」という命題を示すために、「この `x` を使え」と指示するコマンドです。
 
 ゴールが `⊢ ∃ x, P x` のとき、`x: X` がローカルコンテキストにあれば、`exists x` によりゴールが `P x` に変わります。同時に、`P x` が自明な場合は証明が終了します。-/
-import Lean -- #tactic_expand を定義するため
+import Lean --#
 
 namespace Exists --#
 
@@ -43,6 +43,7 @@ elab "#expand_tactic " t:tactic : command => do
   | some t => logInfo m!"{t}"
 
 /-- info: (refine ⟨1, 2, 3, ?_⟩; try trivial) -/
-#guard_msgs in #expand_tactic exists 1, 2, 3
+#guard_msgs in
+  #expand_tactic exists 1, 2, 3
 
 end Exists --#
