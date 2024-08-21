@@ -47,33 +47,25 @@ section --#
 
 open Lean Elab Command
 
-private def detectClassicalOf (constName : Name) : CommandElabM Unit := do
-  -- `constName` が依存する公理を配列で取得
+elab "#detect_classical " id:ident : command => do
+  -- 識別子(ident)を Name に変換
+  let constName ← liftCoreM <| realizeGlobalConstNoOverload id
+
+  -- 依存する公理を取得
   let axioms ← collectAxioms constName
 
-  -- 依存する公理がないときの処理
+  -- 依存公理がなかったときの処理
   if axioms.isEmpty then
     logInfo m!"'{constName}' does not depend on any axioms"
     return ()
 
-  -- `Classical` 名前空間にある公理に依存しているか確認
+  -- Classical で始まる公理があるかどうかチェック
+  -- もしあればエラーにする
   let caxes := axioms.filter fun nm => Name.isPrefixOf `Classical nm
   if caxes.isEmpty then
-    -- 依存していなければ、単に公理のリストを表示
     logInfo m!"'{constName}' is non-classical and depends on axioms: {axioms.toList}"
   else
-    -- 依存しているときはエラーにする
     throwError m!"'{constName}' depends on classical axioms: {caxes.toList}"
-
--- `#detect_classical` コマンドの構文を宣言する
-syntax (name:=detectClassical) "#detect_classical " ident : command
-
--- `#detect_classical` コマンドの実装
-@[command_elab «detectClassical»] def elabDetectClassical : CommandElab
-  | `(#detect_classical%$tk $id) => withRef tk do
-    let cs ← liftCoreM <| realizeGlobalConstWithInfos id
-    cs.forM detectClassicalOf
-  | _ => throwUnsupportedSyntax
 
 -- 以下はテストコード
 
