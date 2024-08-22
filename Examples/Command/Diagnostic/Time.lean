@@ -35,9 +35,16 @@ where
 open Lean Elab Command Term Meta
 
 elab "#my_time " stx:command : command => do
+  -- 実行直前に計測開始
   let start_time ← IO.monoMsNow
+
+  -- コマンドを実行
   elabCommand stx
+
+  -- 実行後に計測終了
   let end_time ← IO.monoMsNow
+
+  -- 差分を実行時間としてミリ秒単位で出力
   logInfo m!"time: {end_time - start_time}ms"
 
 #my_time #eval fib 32
@@ -49,6 +56,9 @@ elab "#in_second " stx:command : command => do
   elabCommand stx
   let end_time ← IO.monoMsNow
   let time := end_time - start_time
+
+  -- 1秒以内に終わったかどうか判定
+  -- 終わっていなければエラーにする
   if time <= 1000 then
     logInfo m!"time: {time}ms"
   else
