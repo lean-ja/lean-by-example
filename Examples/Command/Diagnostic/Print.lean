@@ -41,7 +41,7 @@ theorem contra : False := by sorry
   #print axioms contra
 
 /- ### 舞台裏
-`#print axioms` コマンドは、内部で `Lean.collectAxioms` という関数を使用して公理を取得しています。これを利用すると、依存公理を調べて何かを行うコマンドを自作することができます。ここでは例として、「ある定理が選択原理 `Classical.choice` に依存しているかどうか調べて、依存していればエラーにする」というコマンドを作成します。
+`Lean.collectAxioms` という関数を使用することにより、依存公理を調べて何かを行うような `#print axioms` の類似コマンドを自作することができます。ここでは例として、「ある定理が選択原理 `Classical.choice` に依存しているかどうか調べて、依存していればエラーにする」というコマンドを作成します。
 -/
 section --#
 
