@@ -51,14 +51,25 @@ open Lean
 
 def lxor (l r : Bool) : Bool := !l && r
 
-/-- コマンドをマクロ展開するコマンド -/
-elab "#expand_command " t:command : command => do
+/-- `#expand` の入力に渡すための構文カテゴリ -/
+declare_syntax_cat macro_stx
+
+-- コマンドとタクティクと項を扱える
+syntax command : macro_stx
+syntax tactic : macro_stx
+syntax term : macro_stx
+
+/-- マクロを展開するコマンド -/
+elab "#expand " t:macro_stx : command => do
+  let t : Syntax := match t.raw with
+  | .node _ _ #[t] => t
+  | _ => t.raw
   match ← Elab.liftMacroM <| Lean.Macro.expandMacro? t with
   | none => logInfo m!"Not a macro"
   | some t => logInfo m!"{t}"
 
 /-- info: notation:50 lhs✝:51 " LXOR " rhs✝:51 => lxor lhs✝ rhs✝ -/
 #guard_msgs in
-  #expand_command infix:50 " LXOR " => lxor
+  #expand infix:50 " LXOR " => lxor
 
 end Infix --#

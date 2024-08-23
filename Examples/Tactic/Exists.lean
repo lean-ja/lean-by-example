@@ -36,14 +36,25 @@ example : ∃ x : Nat, 3 * x + 1 = 7 := by
 
 open Lean
 
--- タクティクのマクロ展開を調べるためのコマンド
-elab "#expand_tactic " t:tactic : command => do
+/-- `#expand` の入力に渡すための構文カテゴリ -/
+declare_syntax_cat macro_stx
+
+-- コマンドとタクティクと項を扱える
+syntax command : macro_stx
+syntax tactic : macro_stx
+syntax term : macro_stx
+
+/-- マクロを展開するコマンド -/
+elab "#expand " t:macro_stx : command => do
+  let t : Syntax := match t.raw with
+  | .node _ _ #[t] => t
+  | _ => t.raw
   match ← Elab.liftMacroM <| Lean.Macro.expandMacro? t with
   | none => logInfo m!"Not a macro"
   | some t => logInfo m!"{t}"
 
 /-- info: (refine ⟨1, 2, 3, ?_⟩; try trivial) -/
 #guard_msgs in
-  #expand_tactic exists 1, 2, 3
+  #expand exists 1, 2, 3
 
 end Exists --#

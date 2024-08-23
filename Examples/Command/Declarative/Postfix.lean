@@ -22,14 +22,25 @@ scoped postfix:200 "!" => factorial
 
 open Lean
 
-/-- コマンドをマクロ展開するコマンド -/
-elab "#expand_command " t:command : command => do
+/-- `#expand` の入力に渡すための構文カテゴリ -/
+declare_syntax_cat macro_stx
+
+-- コマンドとタクティクと項を扱える
+syntax command : macro_stx
+syntax tactic : macro_stx
+syntax term : macro_stx
+
+/-- マクロを展開するコマンド -/
+elab "#expand " t:macro_stx : command => do
+  let t : Syntax := match t.raw with
+  | .node _ _ #[t] => t
+  | _ => t.raw
   match ← Elab.liftMacroM <| Lean.Macro.expandMacro? t with
   | none => logInfo m!"Not a macro"
   | some t => logInfo m!"{t}"
 
 /-- info: notation:200 arg✝:200 "!" => factorial arg✝ -/
 #guard_msgs in
-  #expand_command postfix:200 "!" => factorial
+  #expand postfix:200 "!" => factorial
 
 end Postfix --#
