@@ -104,8 +104,8 @@ inductive Solution (p : Islander) : Type where
 以上の準備の下で、問題は次のように表現できます。以下の `sorry` の部分を埋めてください。
 
 ```admonish error title="禁止事項"
-この問題では排中律の使用は禁止です。
-解答を書いた後で、`zoey_which` と `mel_which` に対して `#print axioms` コマンドを使用し、排中律を使用していないことを確認してください。
+この問題では選択原理 `Classical.choice` の使用は禁止です。
+解答を書いた後で、`zoey_which` と `mel_which` に対して `#print axioms` コマンドを使用し、選択原理を使用していないことを確認してください。
 
 余裕があればなぜ禁止なのか考えてみましょう。
 ```
@@ -121,7 +121,7 @@ noncomputable def mel_which : Solution mel := by
 
 --#--
 section
-/- ## 排中律を使用していないことを確認するコマンド -/
+/- ## 選択原理を使用していないことを確認するコマンド -/
 
 open Lean Elab Command
 
@@ -147,7 +147,7 @@ elab "#detect_classical " id:ident : command => do
 
 end
 
--- 排中律を使用していないことを確認
+-- 選択原理を使用していないことを確認
 #detect_classical zoey_which
 #detect_classical mel_which
 --#--
