@@ -18,14 +18,25 @@ scoped prefix:90 "⋄" => Nat.succ
 
 open Lean
 
-/-- コマンドをマクロ展開するコマンド -/
-elab "#expand_command " t:command : command => do
+/-- `#expand` の入力に渡すための構文カテゴリ -/
+declare_syntax_cat macro_stx
+
+-- コマンドとタクティクと項を扱える
+syntax command : macro_stx
+syntax tactic : macro_stx
+syntax term : macro_stx
+
+/-- マクロを展開するコマンド -/
+elab "#expand " t:macro_stx : command => do
+  let t : Syntax := match t.raw with
+  | .node _ _ #[t] => t
+  | _ => t.raw
   match ← Elab.liftMacroM <| Lean.Macro.expandMacro? t with
   | none => logInfo m!"Not a macro"
   | some t => logInfo m!"{t}"
 
 /-- info: notation:90 "⋄" arg✝:90 => Nat.succ arg✝ -/
 #guard_msgs in
-  #expand_command prefix:90 "⋄" => Nat.succ
+  #expand prefix:90 "⋄" => Nat.succ
 
 end Prefix --#
