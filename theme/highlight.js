@@ -1119,7 +1119,8 @@ var hljs=function(){"use strict";function e(n){Object.freeze(n)
         'fun elab ' +
         '#check #check_failure #eval #reduce #print ' +
         '#guard #guard_msgs #synth ' +
-        'section namespace end infix infixl infixr postfix prefix notation abbrev ',
+        'section namespace end infix infixl infixr postfix prefix notation abbrev ' +
+        'declare_syntax_cat ',
       built_in:
         'Type Prop|10 Sort rw|10 rewrite rwa erw subst substs ' +
         'simp dsimp simpa simp_intros finish using generalizing ' +

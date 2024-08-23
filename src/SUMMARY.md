@@ -26,6 +26,7 @@
     - [attribute: 属性を付与する](./Command/Declarative/Attribute.md)
     - [axiom: 公理を宣言する](./Command/Declarative/Axiom.md)
     - [class: 型クラスを定義する](./Command/Declarative/Class.md)
+    - [declare_syntax_cat: 構文カテゴリ](./Command/Declarative/DeclareSyntaxCat.md)
     - [def: 関数などを定義する](./Command/Declarative/Def.md)
     - [deriving: インスタンス自動生成](./Command/Declarative/Deriving.md)
     - [example: 名前をつけずに証明](./Command/Declarative/Example.md)
