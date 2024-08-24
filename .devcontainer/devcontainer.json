@@ -23,7 +23,8 @@
         "PKief.material-icon-theme",
         "juggernautjp.less-toml",
         "usernamehw.errorlens",
-        "piousdeer.horizon-theme-vscode-default-token-colors"
+        "piousdeer.horizon-theme-vscode-default-token-colors",
+        "EditorConfig.EditorConfig"
       ]
     }
   },
