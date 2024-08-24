@@ -48,13 +48,13 @@ macro "with_time" x:doElem : doElem => `(doElem| do
 Lean ファイルから Markdown ファイルと HTML ファイルを生成する。-/
 script build do
   -- `lake run mk_exercise` を使用すると遅くなってしまうのでコピペしている
-  IO.print "Time to running mk_exercise: "
+  IO.print "Running mk_exercise: "
   with_time if ← runCmd "lake" #["exe", "mk_exercise", "Examples/Solution", "Examples/Exercise"] then return 1
 
-  IO.print "Time to running mdgen: "
+  IO.print "Running mdgen: "
   with_time if ← runCmd "lake" #["exe", "mdgen", "Examples", "src"] then return 1
 
-  IO.print "Time to running mdbook: "
+  IO.print "Running mdbook: "
   with_time if ← runCmd "mdbook" #["build"] then return 1
 
   return 0
