@@ -28,6 +28,14 @@ where
 -- 10 ms 程度で終わる
 #time #eval fib 32
 
+/-
+```admonish warning title="注意"
+エディタ上から [`#eval`](./Eval.md) コマンドで実行したり、コマンドラインで `lean --run` で実行したときにはインタプリタが使用されます。これはコンパイル後のバイナリの実行時間とは異なります。
+
+コンパイル後のバイナリの実行時間を計測するには [`lean_exe`](https://github.com/leanprover/lean4/tree/master/src/lake#binary-executables) という `lakefile` のオプションを使用してください。
+```
+-/
+
 /- ## 舞台裏
 `IO.monoMsNow` という関数でそのときの時刻を取得し、その差を計算することで実行時間を計測することができます。これにより `#time` コマンドと同様のコマンドを自作することができます。
 -/
