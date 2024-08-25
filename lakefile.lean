@@ -20,41 +20,51 @@ require mathlib from git
 lean_lib Examples where
   globs := #[.submodules `Examples]
 
-@[inline]
-def runCmd (cmd : String) (args : Array String) : ScriptM Bool := do
+section Script
+
+/-- 与えられた文字列をシェルで実行する -/
+@[inline] def runCmd (input : String) : IO Unit := do
+  let cmdList := input.splitOn " "
+  let cmd := cmdList.head!
+  let args := cmdList.tail |>.toArray
   let out ← IO.Process.output {
-    cmd := cmd
+    cmd  := cmd
     args := args
   }
-  let hasError := out.exitCode != 0
-  if hasError then
-    IO.eprint out.stderr
-  return hasError
+  if out.exitCode != 0 then
+    IO.eprintln out.stderr
+    throw <| IO.userError s!"Failed to execute: {input}"
+  else if !out.stdout.isEmpty then
+    IO.println out.stdout
 
 /-- mk_exercise を実行し、演習問題の解答に
 解答部分を sorry に置き換えるなどの処理を施して演習問題ファイルを生成する。-/
 script mk_exercise do
-  if ← runCmd "lake" #["exe", "mk_exercise", "Examples/Solution", "Examples/Exercise"] then return 1
+  runCmd "lake exe mk_exercise Examples/Solution Examples/Exercise"
   return 0
 
-@[inline]
-macro "with_time" x:doElem : doElem => `(doElem| do
-  let start_time ← IO.monoMsNow;
-  $x;
-  let end_time ← IO.monoMsNow;
-  IO.println s!"{end_time - start_time}ms")
+syntax (name := with_time) "with_time" "running" str doElem : doElem
+
+macro_rules
+  | `(doElem| with_time running $s $x) => `(doElem| do
+    let start_time ← IO.monoMsNow;
+    $x;
+    let end_time ← IO.monoMsNow;
+    IO.println s!"Running {$s}: {end_time - start_time}ms")
 
 /-- mk_exercise と mdgen と mdbook を順に実行し、
 Lean ファイルから Markdown ファイルと HTML ファイルを生成する。-/
 script build do
   -- `lake run mk_exercise` を使用すると遅くなってしまうのでコピペしている
-  IO.print "Running mk_exercise: "
-  with_time if ← runCmd "lake" #["exe", "mk_exercise", "Examples/Solution", "Examples/Exercise"] then return 1
+  with_time running "mk_exercise"
+    runCmd "lake exe mk_exercise Examples/Solution Examples/Exercise"
 
-  IO.print "Running mdgen: "
-  with_time if ← runCmd "lake" #["exe", "mdgen", "Examples", "src"] then return 1
+  with_time running "mdgen"
+    runCmd "lake exe mdgen Examples src"
 
-  IO.print "Running mdbook: "
-  with_time if ← runCmd "mdbook" #["build"] then return 1
+  with_time running "mdbook"
+    runCmd "mdbook build"
 
   return 0
+
+end Script
