@@ -57,15 +57,15 @@ Lean ファイルから Markdown ファイルと HTML ファイルを生成す�
 script build do
   let start_time ← IO.monoMsNow;
 
-    -- `lake run mk_exercise` を使用すると遅くなってしまうのでコピペしている
-    with_time running "mk_exercise"
-      runCmd "lake exe mk_exercise Examples/Solution Examples/Exercise"
+  -- `lake run mk_exercise` を使用すると遅くなってしまうのでコピペしている
+  with_time running "mk_exercise"
+    runCmd "lake exe mk_exercise Examples/Solution Examples/Exercise"
 
-    with_time running "mdgen"
-      runCmd "lake exe mdgen Examples src"
+  with_time running "mdgen"
+    runCmd "lake exe mdgen Examples src"
 
-    with_time running "mdbook"
-      runCmd "mdbook build"
+  with_time running "mdbook"
+    runCmd "mdbook build"
 
   let end_time ← IO.monoMsNow;
   IO.println s!"Total time: {end_time - start_time}ms"
