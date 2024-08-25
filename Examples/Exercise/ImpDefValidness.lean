@@ -63,7 +63,7 @@ theorem imp_of_ant_false (nP : ¬ P) : P →ᵥ Q := by
   sorry
 
 /-
-```admonish tip title="ヒント", collapsible=true
+```admonish tip title="ヒント"
 どの要請が絶対に必要なのか考えてみるといいかもしれません。示したい命題 `imp_of_ant_false` は、`→ᵥ` の部分を同値関係 `↔` に読み替えるとともはや正しくありません。つまり、同値関係の話に読み替えたら成り立たなくなるような要請を、どれか一つ必ず使用するはずですね。
 ```
 -/
