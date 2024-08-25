@@ -42,45 +42,10 @@ example : Sort (u + 1) = Type u := rfl
 
 以下証明を説明します。仮に `Type` が `Type` の項だったとしましょう。このとき `α := Type` とすることにより、ある `Type` の項 `α` を選べば、全射 `f : α → Type` を作れることがわかります。したがって、任意の型 `α : Type` に対して関数 `f : α → Type` が全射になることはありえないことを示せばよいことになります。
 
-補題として Cantor の定理の単射バージョンが必要なのでここで示します。
+これは Cantor の定理の単射バージョンに帰着して示すことができます。
 -/
 
 open Function
-
-/-- Cantor の定理の単射バージョン。
-ベキ集合からの関数は、単射ではありえない。 -/
-theorem my_cantor_injective {α : Type} (f : Set α → α) : ¬ Injective f := by
-  -- f が単射だと仮定する
-  intro h
-
-  -- X : Set α を次のように定義する
-  let X : Set α := { y | ∃ C : Set α, y = f C ∧ f C ∉ C }
-
-  -- このとき f X ∈ X であるかどうかを考える
-
-  -- f X ∈ X だと仮定すると矛盾が導かれる
-  have lem : f X ∈ X → False := by
-    intro hX
-
-    -- X の定義から、ある C : Set α が存在して
-    -- f X = f C かつ f C ∉ C が成り立つ
-    have ⟨C, hfC, hC⟩ := hX
-
-    -- f は単射なので X = C
-    have hXC : X = C := h hfC
-
-    -- よって f X ∉ X となり矛盾
-    rw [← hXC] at hC
-    contradiction
-
-  -- したがって f X ∉ X である
-  -- ところが X の定義から、これはまさに f X ∈ X であることを意味する
-  have : f X ∈ X := ⟨X, rfl, lem⟩
-
-  -- これは矛盾
-  contradiction
-
-/- この補題に帰着することにより、小さい型から型宇宙への全射がないことを示せます。-/
 
 theorem not_surjective_Type {α : Type} (f : α → Type) : ¬ Surjective f := by
   -- f が全射だと仮定する
@@ -103,4 +68,4 @@ theorem not_surjective_Type {α : Type} (f : α → Type) : ¬ Surjective f := b
     simpa using h
 
   -- これはカントールの定理に反する
-  exact my_cantor_injective g hg
+  exact cantor_injective g hg
