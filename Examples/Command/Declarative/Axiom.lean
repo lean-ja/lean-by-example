@@ -330,12 +330,11 @@ theorem em (P : Prop) : P ∨ ¬ P := by
 
     -- 関数外延性によってゴールを書き換える
     ext x
-    show x = True ∨ P ↔ x = False ∨ P
 
     -- あとは命題論理の問題になる
+    -- 仮定に P があるので自明
     show x = True ∨ P ↔ x = False ∨ P
-    constructor <;> intro _h
-    all_goals (right; exact hP)
+    simp [hP]
 
   case hor =>
     show (u ≠ v) ∨ P
@@ -349,10 +348,6 @@ theorem em (P : Prop) : P ∨ ¬ P := by
     all_goals (try right; assumption)
 
     -- 残りの１つでは `u ≠ v` が成り立つ。
-    -- ここから示すべきことが従う。
-    left
-    intro h
-    rw [h] at hu
-    contradiction
+    simp [hu, hv]
 
 end Axiom --#
