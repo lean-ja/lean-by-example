@@ -97,7 +97,6 @@ theorem unpair_pair_eq_id (m n : ℕ) : unpair (pair (m, n)) = (m, n) := by
       have npos : n > 0 := by
         by_contra!; simp at this
         simp [this] at h
-        contradiction
 
       -- よって `n = (n - 1) + 1` であり、
       replace npos : n = (n - 1) + 1 := by omega

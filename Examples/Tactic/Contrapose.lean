@@ -3,8 +3,7 @@
 
 ローカルコンテキストに `h : P` という仮定があるときに `contrapose h` を実行すると、ゴールの否定がローカルコンテキストに追加されて、同時にゴールが `⊢ ¬ P` に変わります。
 -/
-import Mathlib.Tactic.Contrapose -- contrapose のために必要
-import Mathlib.Init.Data.Int.Order
+import Mathlib.Tactic
 
 namespace Contrapose --#
 
@@ -20,7 +19,7 @@ example (h : Monotone f) (h' : f a < f b) : a < b := by
   -- ゴールと仮定が否定になって入れ替わる
   show ¬f a < f b
 
-  simp_all
+  simp_all only [not_lt]
   apply h
   assumption
 
