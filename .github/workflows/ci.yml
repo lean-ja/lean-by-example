@@ -35,7 +35,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: lean action
-        uses: leanprover/lean-action@v1.0.1
+        uses: leanprover/lean-action@v1.0.2
         with:
           build-args: "--log-level=error"
 
