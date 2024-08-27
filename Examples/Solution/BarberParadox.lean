@@ -18,6 +18,7 @@
 この内容を Lean で表現してみましょう。演習問題として、`sorry` の部分を埋めてみてください。
 -/
 namespace Barber
+set_option autoImplicit false --#
 
 /-- 全体集合となる人々の集合 -/
 opaque Person : Type
