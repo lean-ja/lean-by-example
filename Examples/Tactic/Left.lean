@@ -1,15 +1,15 @@
-/- # left, right
+/- # left
 
-ゴールが `⊢ P ∨ Q` であるとき、`left` はゴールを `⊢ P` に、`right` はゴールを `⊢ Q` に変えます。 -/
+ゴールが `⊢ P ∨ Q` であるとき、`left` はゴールを `⊢ P` に変えます。類似のタクティクに [right](./Right.md) があります。-/
 variable (P Q : Prop)
 
-example (hP: P) : P ∨ Q := by
+example (hP : P) : P ∨ Q := by
   left
 
   -- ゴールが変わる
-  show P
+  guard_target =ₛ P
 
-  exact hP
+  assumption
 
 /-! ## left, right を使わない方法
 
