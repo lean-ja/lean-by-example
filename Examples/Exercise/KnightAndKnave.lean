@@ -22,6 +22,7 @@
 ここでは後で便利なように `simp` 補題も示しておくことにします。
 -/
 import Lean --#
+set_option autoImplicit false --#
 
 /-- その島の住民を表す型 -/
 opaque Islander : Type

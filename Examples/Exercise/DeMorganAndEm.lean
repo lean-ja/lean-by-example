@@ -13,6 +13,7 @@
 
 `simp` や `rw` でライブラリの命題を引用する方法でも示すことができますし、使わずに自力で示すこともできます。どちらでも構いませんが、Lean に慣れていない人は自力で示すのに挑戦してみてください。
 -/
+set_option autoImplicit false --#
 
 theorem not_or_mp (P Q : Prop) : ¬ (P ∨ Q) → ¬ P ∧ ¬ Q := by
   sorry
