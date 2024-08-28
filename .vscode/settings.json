@@ -8,7 +8,11 @@
   "files.trimFinalNewlines": true,
   "files.trimTrailingWhitespace": true,
   "material-icon-theme.files.associations": {
-    "README.lean": "readme"
+    "README.lean": "readme",
+  },
+  "material-icon-theme.folders.associations": {
+    "Command": "",
+    "Examples": "Content"
   },
   "workbench.colorTheme": "Horizon Default",
   "workbench.iconTheme": "material-icon-theme"
