@@ -21,6 +21,9 @@
   // Lean ファイルがあるのは `src` ではなく `Examples` ディレクトリ
   editButtonLink.href = editButtonLink.href.replace('/src/', '/Examples/');
 
+  // 演習問題のファイルのみ、`Examples` ディレクトリではなくて `Exercise` ディレクトリにある
+  editButtonLink.href = editButtonLink.href.replace('/Examples/Exercise/', '/Exercise/');
+
   // ボタンをクリックしたときに以下を実行
   editButtonLink.addEventListener('click', async function (e) {
     // デフォルトの挙動をキャンセル
