@@ -20,13 +20,7 @@ require mathlib from git
 lean_lib Examples where
   -- `lake build` の実行時にビルドされるファイルの設定
   -- `.submodules` と指定すると、そのディレクトリ以下の全ての Lean ファイルがビルドされる
-  -- ここでは `Examples/Exercise` 以外の、`Examples` ディレクトリの内容を指定
-  globs := #[
-    .submodules `Examples.Command,
-    .submodules `Examples.Solution,
-    .submodules `Examples.Tactic,
-    .submodules `Examples.Term
-  ]
+  globs := #[.submodules `Examples]
 
 section Script
 
@@ -48,7 +42,7 @@ section Script
 /-- mk_exercise を実行し、演習問題の解答に
 解答部分を sorry に置き換えるなどの処理を施して演習問題ファイルを生成する。-/
 script mk_exercise do
-  runCmd "lake exe mk_exercise Examples/Solution Examples/Exercise"
+  runCmd "lake exe mk_exercise Examples/Solution Exercise"
   return 0
 
 syntax (name := with_time) "with_time" "running" str doElem : doElem
@@ -67,10 +61,11 @@ script build do
 
   -- `lake run mk_exercise` を使用すると遅くなってしまうのでコピペしている
   with_time running "mk_exercise"
-    runCmd "lake exe mk_exercise Examples/Solution Examples/Exercise"
+    runCmd "lake exe mk_exercise Examples/Solution Exercise"
 
   with_time running "mdgen"
-    runCmd "lake exe mdgen Examples src"
+    runCmd "lake exe mdgen Examples src";
+    runCmd "lake exe mdgen Exercise src/Exercise"
 
   with_time running "mdbook"
     runCmd "mdbook build"
