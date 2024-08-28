@@ -39,8 +39,12 @@ jobs:
         with:
           build-args: "--log-level=error"
 
+  # Lean の更新により Windows 環境でだけビルドが壊れる可能性もあるので、
+  # 念のために Windows 環境でもビルドを行う
   windows_build:
     runs-on: windows-latest
+    # 失敗することはめったにないので PR 時にはチェックしない
+    if: github.ref == 'refs/heads/main'
     steps:
       - name: checkout
         uses: actions/checkout@v4
