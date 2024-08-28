@@ -7,6 +7,9 @@
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
   "files.trimTrailingWhitespace": true,
+
+  // material icon theme の設定
+  "workbench.iconTheme": "material-icon-theme",
   "material-icon-theme.files.associations": {
     "README.lean": "readme",
   },
@@ -14,6 +17,18 @@
     "Command": "",
     "Examples": "Content"
   },
+
+  // Horizon Theme の設定
   "workbench.colorTheme": "Horizon Default",
-  "workbench.iconTheme": "material-icon-theme"
+  "editor.tokenColorCustomizations": {
+    "textMateRules": [
+      {
+        "name": "No italics in comment",
+        "scope": ["comment",],
+        "settings": {
+          "fontStyle": ""
+        }
+      }
+    ]
+  }
 }
