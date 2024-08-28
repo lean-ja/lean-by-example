@@ -63,6 +63,7 @@
     - [simps: simp補題の自動生成](./Command/Attribute/Simps.md)
 
 - [タクティク](./Tactic/README.md)
+  - [<;> 生成された全ゴールに適用](./Tactic/SeqFocus.md)
   - [ac_rfl: 可換性と結合性を使う](./Tactic/AcRfl.md)
   - [aesop: 自明な証明の自動探索](./Tactic/Aesop.md)
   - [all_goals: 全ゴールに対して適用](./Tactic/AllGoals.md)
