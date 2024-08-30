@@ -123,6 +123,12 @@ example {x y : Nat} : 0 < 1 + x ∧ x + y + 2 ≥ y + 1 := by
   simp_arith
 
 /- ## simp_all
-`simp_all` は `simp [*] at *` の強化版で、ローカルコンテキストとゴールをこれ以上単純化できなくなるまですべて単純化します。-/
+`simp_all` はローカルコンテキストとゴールをこれ以上単純化できなくなるまですべて単純化します。-/
+
+example {P Q : Prop} (hP : P) (hQ : Q) : P ∧ (Q ∧ (P → Q)) := by
+  -- simp at * は失敗する
+  fail_if_success simp at *
+
+  simp_all
 
 end Simp --#
