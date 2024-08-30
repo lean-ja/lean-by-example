@@ -161,6 +161,6 @@
 - [演習問題](./Exercise/README.md)
   - [床屋のパラドクス](./Exercise/BarberParadox.md)
   - [De Morganの法則と排中律](./Exercise/DeMorganAndEm.md)
-  - [含意の定義の正当性](./Exercise/ImpDefValidness.md)
+  - [「ならば」の定義を疑う](./Exercise/DoubtImplication.md)
   - [騎士と悪党のパズル](./Exercise/KnightAndKnave.md)
   - [Cantorの定理](./Exercise/CantorTheorem.md)
