@@ -26,7 +26,10 @@ additional-js = [
 # mdbook-admonish のための設定
 additional-css = ["./assets/mdbook-admonish.css"]
 
+# セクション番号を振らない
 no-section-label = true
+
+# git リポジトリへのリンクを表示する
 git-repository-url = "https://github.com/lean-ja/lean-by-example"
 
 # 編集ボタンを上書きして、コード実行ボタンにするための設定
@@ -35,11 +38,16 @@ edit-url-template = "https://raw.githubusercontent.com/lean-ja/lean-by-example/m
 # 404 ページが正常にはたらくようにするために必要
 site-url = "https://lean-ja.github.io/lean-by-example/"
 
+# ayu テーマをデフォルトにする
+# Rust テーマでは admonish のスタイルが変になるため
+default-theme = "ayu"
+
 [output.html.search]
 # 検索したときに、クエリと見出し語が一致していれば見出し語のページがトップに出てくるようにする
 boost-title = 25
 
 [output.html.fold]
+# 目次の折りたたみの設定
 enable = true
 level = 2
 
