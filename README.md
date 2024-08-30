@@ -11,7 +11,11 @@
 
 ## CONTRIBUTING
 
-誤りの指摘、編集の提案や寄稿を歓迎いたします。この GitHubリポジトリに issue や Pull Request を開いてください。[CONTRIBUTING](CONTRIBUTING.md)に開発者向けの情報をまとめてあるので、そちらをご確認ください。
+誤りの指摘、編集の提案や寄稿を歓迎いたします。この GitHubリポジトリに issue や Pull Request を開いてください。開発環境が構築済みの Codespace を使用することができます。
+
+[![codespace badge](https://github.com/codespaces/badge.svg)](https://codespaces.new/lean-ja/lean-by-example)
+
+[CONTRIBUTING](CONTRIBUTING.md)に開発者向けの情報をまとめてあるので、そちらをご確認ください。
 
 ## Do you want to translate this book?
 
