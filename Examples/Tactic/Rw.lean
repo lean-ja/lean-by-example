@@ -32,7 +32,8 @@ example (P Q : Prop) (h : P ↔ P ∧ Q) : P → Q := by
 
   exact hP.right
 
-/- ## 右辺を左辺に書き換える
+/- ## 利用可能な構文
+### 右辺を左辺に書き換える
 
 順番は重要で、`b` を `a` に置き換えたいときなどは `rw [← hab]` のように `←` をつけます。 -/
 
@@ -45,7 +46,7 @@ example (h : a = b) (hb : a + 3 = 0) : b + 3 = 0 := by
 
   assumption
 
-/- ## 書き換え場所の指定
+/- ### 書き換え場所の指定
 ゴールではなく、ローカルコンテキストにある `h : P` を書き換えたいときには `at` をつけて `rw [hPQ] at h` とします。すべての箇所で置き換えたいときは `rw [hPQ] at *` とします。
 
 また、ゴールとローカルコンテキストの仮定 `h` に対して同時に書き換えたいときは `⊢` 記号を使って `rw [hPQ] at h ⊢` のようにします。-/
@@ -69,7 +70,22 @@ example (h : a * b = c * d) (h' : e = f + 0) : a * (b * e + 0) = c * (d * f) := 
   -- 結合法則を使う
   rw [Nat.mul_assoc]
 
-/-! ## nth_rw
+/- ## rw の制約
+`rw` は、変数束縛の下では使うことができません。代わりに [`simp`](./Simp.md) などを使用してください。
+-/
+
+example (f g : Nat → Nat) (h : ∀ a, f (a + 0) = g a) : f = g := by
+  ext x
+
+  -- rw は失敗する
+  fail_if_success rw [Nat.add_zero] at h
+
+  -- simp は成功する
+  simp only [Nat.add_zero] at h
+
+  exact h x
+
+/- ## nth_rw
 
 `rw` はマッチした項をすべて置き換えてしまいます。
 特定の項だけを書き換えたいとき、[`nth_rw`](./NthRw.md) が使用できます。
