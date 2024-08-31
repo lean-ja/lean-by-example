@@ -1,9 +1,12 @@
-name: auto merge PR
+name: automerge PR
 
 on:
   pull_request:
     branches:
       - main
+    types:
+      # draft PR では実行しない
+      - ready_for_review
   workflow_dispatch:
 
 permissions:
