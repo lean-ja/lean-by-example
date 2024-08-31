@@ -57,6 +57,7 @@
     - [theorem: 命題を証明する](./Command/Declarative/Theorem.md)
     - [variable: 引数を共通化する](./Command/Declarative/Variable.md)
   - [属性](./Command/Attribute/README.md)
+    - [app_unexpander: 関数適用の表示](./Command/Attribute/AppUnexpander.md)
     - [cases_eliminator: 独自場合分け](./Command/Attribute/CasesEliminator.md)
     - [csimp: 効率的な実装に置換](./Command/Attribute/Csimp.md)
     - [induction_eliminator: 独自帰納法](./Command/Attribute/InductionEliminator.md)
