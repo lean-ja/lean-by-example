@@ -15,7 +15,7 @@
 
 [![codespace badge](https://github.com/codespaces/badge.svg)](https://codespaces.new/lean-ja/lean-by-example)
 
-[CONTRIBUTING](.github/CONTRIBUTING)に開発者向けの情報をまとめてあるので、そちらをご確認ください。
+[CONTRIBUTING](./.github/CONTRIBUTING.md)に開発者向けの情報をまとめてあるので、そちらをご確認ください。
 
 ## Do you want to translate this book?
 
