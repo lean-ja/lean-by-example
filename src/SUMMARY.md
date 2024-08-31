@@ -150,6 +150,7 @@
     - [CoeFun: 関数型への強制](./Term/TypeClass/CoeFun.md)
     - [CoeSort: 型宇宙への強制](./Term/TypeClass/CoeSort.md)
     - [Decidable: 決定可能](./Term/TypeClass/Decidable.md)
+    - [GetElem: n番目の要素を取得](./Term/TypeClass/GetElem.md)
     - [Inhabited: 有項にする](./Term/TypeClass/Inhabited.md)
     - [OfNat: 数値リテラルを使用](./Term/TypeClass/OfNat.md)
     - [Repr: 表示方法を指定](./Term/TypeClass/Repr.md)
