@@ -30,7 +30,7 @@ where
 
 /-
 ```admonish warning title="注意"
-エディタ上から [`#eval`](./Eval.md) コマンドで実行したり、コマンドラインで `lean --run` で実行したときにはインタプリタが使用されます。これはコンパイル後のバイナリの実行時間とは異なります。
+エディタ上から [`#eval`](./Eval.md) コマンドで実行したり、コマンドラインで `lean --run` で実行したときにはインタプリタが使用されます。これにより計測できる実行時間は、コンパイル後のバイナリの実行時間とは異なります。
 
 コンパイル後のバイナリの実行時間を計測するには [`lean_exe`](https://github.com/leanprover/lean4/tree/master/src/lake#binary-executables) という `lakefile` のオプションを使用してください。
 ```
