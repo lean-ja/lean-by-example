@@ -1,9 +1,12 @@
-name: auto merge PR
+name: automerge PR
 
 on:
   pull_request:
     branches:
       - main
+    types:
+      # draft PR では実行しない
+      - ready_for_review
   workflow_dispatch:
 
 permissions:
@@ -19,8 +22,6 @@ jobs:
       PR_URL: ${{github.event.pull_request.html_url}}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
       - name: Merge PR
         run: |
           gh pr merge --merge --auto "$PR_URL"
