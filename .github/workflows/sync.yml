@@ -8,21 +8,9 @@ on:
   pull_request:
     branches:
       - main
-    paths:
-      - 'Exercise/**'
-      - 'Examples/Solution/**'
-      - '.github/workflows/sync.yml'
-      - 'lakefile.lean'
-      - 'lake-manifest.json'
   push:
     branches:
       - main
-    paths:
-      - 'Exercise/**'
-      - 'Examples/Solution/**'
-      - '.github/workflows/sync.yml'
-      - 'lakefile.lean'
-      - 'lake-manifest.json'
   workflow_dispatch:
 
 permissions:
