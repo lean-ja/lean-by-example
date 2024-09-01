@@ -4,17 +4,9 @@ on:
   pull_request:
     branches:
       - main
-    paths-ignore:
-      - '.devcontainer/**'
-      - '.vscode/**'
-      - 'README.md'
   push:
     branches:
       - main
-    paths-ignore:
-      - '.devcontainer/**'
-      - '.vscode/**'
-      - 'README.md'
   workflow_dispatch:
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
