@@ -32,6 +32,26 @@ open Point
 #check Point.sub
 
 end --#
+/- ## protected を使う場面
+環境の中に `Foo.bar` と `bar` が存在したとします。このとき名前空間 `Foo` の中にいた場合は、`Foo.bar` の方が優先されます。したがってルートにある方の `bar` は覆い隠され、アクセスしづらくなります。
+-/
+
+def Foo.bar := "hello"
+
+def bar := "world"
+
+namespace Foo
+
+-- 単に bar と書くと Foo.bar が参照される
+#guard bar = "hello"
+
+-- ルートにある bar を参照することも _root_ を付ければ可能
+#guard _root_.bar = "world"
+
+end Foo
+
+/- `Foo.baz` を `protected` として宣言しておけば、他の名前空間に影響を及ぼさなくなります。-/
+
 /- ## protected def 以外の用法
 
 `def` コマンドに対してだけでなく、[`indudctive`](./Inductive.md) コマンドで生成されるコンストラクタに対しても使用可能です。-/
@@ -56,14 +76,14 @@ open BinTree
 end --#
 /- また [`structure`](./Structure.md) コマンドで生成されるアクセサ関数やコンストラクタに対しても使用可能です。  -/
 section --#
-structure Foo where
+structure Sample where
   -- コンストラクタも protected にできる
   protected mk ::
 
   bar : Nat
   protected baz : String
 
-open Foo
+open Sample
 
 -- 名前空間を開いているので bar には短い名前でアクセスできる
 #check bar
