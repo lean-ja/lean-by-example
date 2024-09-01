@@ -1,0 +1,14 @@
+name: 疑問
+description: Leanの仕様の不明点や、今後知りたいことについて
+title: "疑問: <title>"
+labels: ["疑問"]
+body:
+- type: textarea
+  attributes:
+    label: 疑問の内容
+    description: 疑問の内容を記入してください。
+
+- type: textarea
+  attributes:
+    label: 備考
+    description: 参考資料やコード例、疑問を持つに至った経緯などあれば記入してください。
