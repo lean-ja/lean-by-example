@@ -1,0 +1,21 @@
+name: 誤り・ミス
+description: 本文の間違った記述や誤字脱字について
+title: "バグ: <title>"
+labels: ["誤り"]
+body:
+- type: textarea
+  attributes:
+    label: 現在の記述
+    description: 対象となる現在の記述の個所を記入してください
+
+- type: textarea
+  attributes:
+    label: 正しい記述
+    description: 修正後の記述を記入してください
+
+- type: textarea
+  attributes:
+    label: 備考
+    description: 参考資料やコード例など
+  validations:
+    required: false
