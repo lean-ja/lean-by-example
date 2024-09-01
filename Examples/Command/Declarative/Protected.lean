@@ -52,6 +52,17 @@ end Foo
 
 /- `Foo.baz` を `protected` として宣言しておけば、他の名前空間に影響を及ぼさなくなります。-/
 
+protected def Foo.baz := "hello"
+
+def baz := "world"
+
+namespace Foo
+
+-- 単に baz と書いたらルートの baz が参照される
+#guard baz = "world"
+
+end Foo
+
 /- ## protected def 以外の用法
 
 `def` コマンドに対してだけでなく、[`indudctive`](./Inductive.md) コマンドで生成されるコンストラクタに対しても使用可能です。-/
@@ -81,14 +92,14 @@ structure Sample where
   protected mk ::
 
   bar : Nat
-  protected baz : String
+  protected hoge : String
 
 open Sample
 
 -- 名前空間を開いているので bar には短い名前でアクセスできる
 #check bar
 
--- baz には短い名前でアクセスできない
-#check_failure baz
+-- hoge には短い名前でアクセスできない
+#check_failure hoge
 
 end --#
