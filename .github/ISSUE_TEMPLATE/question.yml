@@ -1,14 +1,14 @@
-name: 疑問・調査リクエスト
-description: Leanの仕様の不明点や、今後知りたいことについて
-title: "疑問: <title>"
+name: 新規項目・追記リクエスト
+description: 追加してほしい項目や題材をリクエストします。
+title: "リクエスト: <title>"
 labels: ["疑問", "要調査"]
 body:
 - type: textarea
   attributes:
-    label: 疑問の内容
-    description: 疑問の内容を記入してください。
+    label: 概要
+    description: 追加してほしい内容を記入してください。
 
 - type: textarea
   attributes:
     label: 備考
-    description: 参考資料やコード例、疑問を持つに至った経緯などあれば記入してください。
+    description: 参考資料やコード例があれば記入してください。
