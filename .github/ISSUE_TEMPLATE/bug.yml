@@ -1,6 +1,6 @@
 name: 誤り・ミス
-description: 本文の間違った記述や誤字脱字について
-title: "バグ: <title>"
+description: 本文の間違った記述や誤字脱字の指摘
+title: "誤り報告: <title>"
 labels: ["誤り"]
 body:
 - type: textarea
