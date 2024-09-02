@@ -8,7 +8,7 @@ package «Lean by Example» where
   ]
 
 require «mk-exercise» from git
-  "https://github.com/Seasawher/mk-exercise.git" @ "main"
+  "https://github.com/Seasawher/mk-exercise.git" @ "lean/v4.11.0"
 
 require mdgen from git
   "https://github.com/Seasawher/mdgen" @ "main"
