@@ -1,5 +1,5 @@
 name: 誤り・ミス
-description: 本文の間違った記述や誤字脱字の指摘
+description: 本文の間違った記述や誤字脱字を指摘します。
 title: "誤り報告: <title>"
 labels: ["誤り"]
 body:
