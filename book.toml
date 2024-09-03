@@ -5,6 +5,7 @@ multilingual = false
 src = "src"
 title = "Lean by Example"
 description = "プログラミング言語であるとともに定理証明支援系でもある Lean 言語と、その主要なライブラリの使い方を豊富なコード例とともに解説した資料です。"
+google_analytics_id = "G-5B5ZB90PQD"
 
 [build]
 # ビルドしたファイルを保存するディレクトリ
