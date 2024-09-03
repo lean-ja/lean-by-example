@@ -1,6 +1,30 @@
 /- # app_unexpander
-`app_unexpander` 属性を付与すると、関数適用 `f a₁ a₂ ... aₙ` の `#check` コマンドや infoview での表示のされ方を変更することができます。
+`app_unexpander` 属性を付与すると、関数適用 `f a₁ a₂ ... aₙ` の `#check` コマンドおよび infoview での表示のされ方を変更することができます。
 -/
+namespace AppUnexpander --#
+
+/-- 人に挨拶をする関数 -/
+def greet (x : String) := s!"Hello, {x}!"
+
+set_option linter.unusedVariables false in --#
+
+/-- すべての挨拶の表示を強制的に hello world に変えてしまう -/
+@[app_unexpander greet]
+def unexpGreet : Lean.PrettyPrinter.Unexpander
+  | `(greet $x) => `("hello world")
+  | _ => throw ()
+
+-- #check の表示が上書きされて変わる
+/-- info: "hello world" : String -/
+#guard_msgs in
+  #check greet "Alice"
+
+-- #eval の表示は変わらない
+/-- info: "Hello, Alice!" -/
+#guard_msgs in
+  #eval greet "Alice"
+
+/- より実用的な例として、集合の内包記法の表示のされ方を制御する例が挙げられます。 -/
 
 /-- α を全体集合として、その部分集合の全体。
 α の部分集合と α 上の述語を同一視していることに注意。 -/
@@ -45,3 +69,5 @@ def setOf.unexpander : Lean.PrettyPrinter.Unexpander
 /-- info: {n | ∃ m, n = 2 * m} : Set Nat -/
 #guard_msgs in
   #check {n : Nat | ∃ m, n = 2 * m}
+
+end AppUnexpander --#
