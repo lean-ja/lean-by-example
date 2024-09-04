@@ -1,7 +1,7 @@
 /-
 # induction'
 
-`induction'` は `induction` の Lean 3 での構文を残したバージョンです。
+`induction'` は [`induction`](./Induction.md) タクティクの構文が異なるバージョンです。
 -/
 import Mathlib.Tactic -- 大雑把に import する
 
