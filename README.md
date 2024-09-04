@@ -36,6 +36,13 @@ If you use this book for your work, please cite it as follows:
 
 As this book is a website, the content changes on a daily basis. A PDF version is generated for each commit by the [Generate PDF workflow](./.github/workflows/pdf.yml). Use this as a citation if necessary.
 
+## プライバシーポリシー
+
+当 Web サイトでは、ユーザーのアクセス状況の分析のために Google アナリティクスを使用しています。Google アナリティクスは、 Cookie を利用してユーザーのWebサイト利用情報を収集しますが、これは匿名化されており、個人を特定する情報は収集されません。
+当サイトでの Google アナリティクスの利用に関する詳細については、以下の Google の公式ページでご確認いただけます。
+
+* [Google アナリティクス利用規約](https://www.google.com/analytics/terms/)
+
 ## スポンサー
 
 このプロジェクトは [Proxima Technology](https://proxima-ai-tech.com/) 様よりご支援を頂いています。
