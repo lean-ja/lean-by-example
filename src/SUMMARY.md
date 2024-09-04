@@ -105,7 +105,7 @@
   - [have: 補題を用意する](./Tactic/Have.md)
   - [hint: 複数のタクティクを同時に試す](./Tactic/Hint.md)
   - [induction: 帰納法](./Tactic/Induction.md)
-  - [induction': Lean3版のinduction](./Tactic/InductionAp.md)
+  - [induction': inductionの構文違い](./Tactic/InductionAp.md)
   - [intro: 含意→や全称∀を示す](./Tactic/Intro.md)
   - [itauto: 直観主義論理の枠内で示す](./Tactic/Itauto.md)
   - [left: 論理和∨を示す](./Tactic/Left.md)
@@ -166,3 +166,4 @@
   - [「ならば」の定義を疑う](./Exercise/DoubtImplication.md)
   - [騎士と悪党のパズル](./Exercise/KnightAndKnave.md)
   - [Cantorの定理](./Exercise/CantorTheorem.md)
+  - [Cantorの対関数の全単射性](./Exercise/CantorPairing.md)
