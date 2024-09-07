@@ -1,12 +1,15 @@
 {
   "editor.insertSpaces": true,
-  "editor.rulers": [80],
   "editor.tabSize": 2,
   "editor.wordWrap": "on",
+  "files.encoding": "utf8",
   "files.eol": "\n",
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
   "files.trimTrailingWhitespace": true,
+  "[lean4]": {
+    "editor.rulers": [80],
+  },
 
   // material icon theme の設定
   "workbench.iconTheme": "material-icon-theme",
