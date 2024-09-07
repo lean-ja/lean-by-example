@@ -39,7 +39,7 @@ def Set (α : Type) := α → Prop
 variable {α : Type}
 
 /-- `a : α` は集合 `s` に属する。数学では普通 `a ∈ s` と書かれる。 -/
-def Set.mem (a : α) (s : Set α) : Prop := s a
+def Set.mem (s : Set α) (a : α) : Prop := s a
 
 /-- `s a` を `a ∈ s` と書けるようにする。 -/
 instance : Membership α (Set α) := ⟨Set.mem⟩

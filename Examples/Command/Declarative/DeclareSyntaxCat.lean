@@ -14,7 +14,7 @@ def Set (α : Type u) := α → Prop
 variable {α : Type u}
 
 /-- 項 `x : α` が `X : Set α` に属する -/
-def Set.mem (x : α) (X : Set α) : Prop := X x
+def Set.mem (X : Set α) (x : α) : Prop := X x
 
 /-- `x ∈ X` と書けるようにする -/
 instance : Membership α (Set α) where

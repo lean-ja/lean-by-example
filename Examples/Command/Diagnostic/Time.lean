@@ -1,7 +1,7 @@
 /- # \#time
 `#time` は、コマンドの実行時間を計測するためのコマンドです。ミリ秒単位で結果を出してくれます。
 -/
-import Mathlib.Util.Time
+import Lean
 namespace Time --#
 
 -- フィボナッチ数列の遅い実装
