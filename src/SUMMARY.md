@@ -168,3 +168,4 @@
   - [騎士と悪党のパズル](./Exercise/KnightAndKnave.md)
   - [Cantorの定理](./Exercise/CantorTheorem.md)
   - [Cantorの対関数の全単射性](./Exercise/CantorPairing.md)
+  - [Heying代数とBool代数](./Exercise/HeytingAndBooleanAlgebra.md)
