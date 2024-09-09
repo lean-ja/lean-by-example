@@ -14,6 +14,7 @@
 -/
 import Lean --#
 set_option autoImplicit false --#
+set_option relaxedAutoImplicit false --#
 -- 含意が満たすべき性質を満たす「何か」
 opaque Imp (P Q : Prop) : Prop
 

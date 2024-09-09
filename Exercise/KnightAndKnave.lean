@@ -23,6 +23,7 @@
 -/
 import Lean --#
 set_option autoImplicit false --#
+set_option relaxedAutoImplicit false --#
 
 /-- その島の住民を表す型 -/
 opaque Islander : Type

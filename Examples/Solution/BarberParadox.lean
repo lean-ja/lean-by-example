@@ -19,6 +19,7 @@
 -/
 namespace Barber
 set_option autoImplicit false --#
+set_option relaxedAutoImplicit false --#
 
 /-- 全体集合となる人々の集合 -/
 opaque Person : Type

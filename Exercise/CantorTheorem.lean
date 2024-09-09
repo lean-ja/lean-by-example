@@ -31,6 +31,7 @@ Lean の型 `T : Type` は直観的には「項の集まり」を意味するの
 そこで全体集合 `α : Type` を固定して、その中に含まれる集まりだけを考えることにします。
 -/
 set_option autoImplicit false --#
+set_option relaxedAutoImplicit false --#
 
 /-- α を全体集合として、その部分集合の全体。
 α の部分集合と α 上の述語を同一視していることに注意。 -/

@@ -15,6 +15,8 @@
 まず後で使うために `0` から `n` までの自然数の和を計算する関数 `sum` を定義します。演習として、以下の `sorry` を埋めてみてください。
 -/
 import Mathlib.Tactic
+set_option autoImplicit false --#
+set_option relaxedAutoImplicit false --#
 
 /-- `0` から `n` までの自然数の和 -/
 def sum (n : ℕ) : ℕ :=
