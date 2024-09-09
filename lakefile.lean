@@ -25,12 +25,12 @@ lean_lib Examples where
 section Script
 
 /-- 与えられた文字列をシェルで実行する -/
-@[inline] def runCmd (input : String) : IO Unit := do
+def runCmd (input : String) : IO Unit := do
   let cmdList := input.splitOn " "
   let cmd := cmdList.head!
   let args := cmdList.tail |>.toArray
   let out ← IO.Process.output {
-    cmd  := cmd
+    cmd := cmd
     args := args
   }
   if out.exitCode != 0 then
@@ -55,10 +55,10 @@ macro_rules
     IO.println s!"Running {$s}: {end_time - start_time}ms")
 
 /-- mk_exercise と mdgen と mdbook を順に実行し、
-Lean ファイルから Markdown ファイルと HTML ファイルを生成する。-/
-script build do
-  let start_time ← IO.monoMsNow;
+Lean ファイルから Markdown ファイルと HTML ファイルを生成する。
 
+`.\scripts\Build.ps1` を実行したほうが高速 -/
+script build do
   -- `lake run mk_exercise` を使用すると遅くなってしまうのでコピペしている
   with_time running "mk_exercise"
     runCmd "lake exe mk_exercise Examples/Solution Exercise"
@@ -69,9 +69,6 @@ script build do
 
   with_time running "mdbook"
     runCmd "mdbook build"
-
-  let end_time ← IO.monoMsNow;
-  IO.println s!"Total time: {end_time - start_time}ms"
   return 0
 
 end Script
