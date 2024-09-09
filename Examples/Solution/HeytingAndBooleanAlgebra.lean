@@ -261,14 +261,9 @@ abbrev Three := Fin 3
 
 /- ### 問2.1 半順序集合であること -/
 
--- この二つの定理は使用して良い
-theorem min_def (a b : Nat) : min a b = if a ≤ b then a else b := by aesop
-theorem max_def (a b : Nat) : max a b = if a ≤ b then b else a := by aesop
-
 -- ここに `local add_aesop_rules` コマンドを追加して証明が通るようにしてください。
 -- いくつルールを追加しても構いません。
 --##--
-local add_aesop_rules norm [simp [min_def, max_def]]
 local add_aesop_rules safe [cases Fin]
 local add_aesop_rules norm [simp Fin.le_def]
 local add_aesop_rules safe [tactic (by omega)]
