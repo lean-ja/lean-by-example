@@ -253,10 +253,10 @@ open PartialOrder Lattice HeytingAlgebra
 /-- `{0, 1, 2}` という集合。これが反例になる。 -/
 abbrev Three := Fin 3
 
+/- ### 問2.1 半順序集合であること -/
+
 -- 順序関係が既に定義されている
 #synth LE Three
-
-/- ### 問2.1 半順序集合であること -/
 
 -- ここに `local add_aesop_rules` コマンドを追加して証明が通るようにしてください。
 -- いくつルールを追加しても構いません。
