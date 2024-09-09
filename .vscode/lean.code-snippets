@@ -1,0 +1,11 @@
+{
+  "Print to console": {
+    "scope": "lean,lean4",
+    "prefix": "autoimp",
+    "body": [
+      "set_option autoImplicit false",
+      "set_option relaxedAutoImplicit false",
+    ],
+    "description": "autoimplicit is evil"
+  }
+}
