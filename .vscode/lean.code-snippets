@@ -1,5 +1,5 @@
 {
-  "Print to console": {
+  "disable autoimplicit": {
     "scope": "lean,lean4",
     "prefix": "autoimp",
     "body": [
@@ -7,5 +7,13 @@
       "set_option relaxedAutoImplicit false",
     ],
     "description": "autoimplicit is evil"
-  }
+  },
+  "doc string": {
+    "scope": "lean,lean4",
+    "prefix": "doc",
+    "body": [
+      "/-- $0 -/",
+    ],
+    "description": "doc string"
+  },
 }
