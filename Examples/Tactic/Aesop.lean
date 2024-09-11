@@ -59,7 +59,7 @@ attribute [aesop safe constructors] Pos
 -- `aesop` で証明できるようになった！
 example : Pos 1 := by aesop
 
-/- 上記の例のように `[aesop]` 属性によってルールを追加することもできますし、`add_aesop_rules` というコマンドでルールを追加することもできます。-/
+/- 上記の例のように `[aesop]` 属性によってルールを追加することもできますし、[`add_aesop_rules`](../Command/Declarative/AddAesopRules.md) というコマンドでルールを追加することもできます。-/
 
 example (n : Nat) (h : Pos n) : 0 < n := by
   -- ルールが足りないので、`aesop` で示すことはできない
