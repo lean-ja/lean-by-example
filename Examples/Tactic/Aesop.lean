@@ -1,13 +1,19 @@
 /-
 # aesop
 
-`aesop` は、Automated Extensible Search for Obvious Proofs (自明な証明の拡張可能な自動探索)からその名があるタクティクです。`aesop` は `intro` や `simp` を使用してルーチンな証明を自動で行ってくれます。
+`aesop` は汎用的かつ強力な自動証明のためのタクティクです。
+
+Automated Extensible Search for Obvious Proofs (自明な証明の拡張可能な自動探索)からその名があります。様々なタクティクやルールを使用しながら最良優先探索を行い、ルーチンな証明を自動で終わらせます。
+
 -/
 import Aesop -- `aesop` を使用するため
-import Mathlib.Logic.Function.Defs -- `Injective` を使用するため
+import Mathlib.Tactic.Says
 
 -- 以下 `X` `Y` `Z`を集合とする
 variable {X Y Z : Type}
+
+/-- 関数の単射性 -/
+def Function.Injective (f : X → Y) : Prop := ∀ ⦃a₁ a₂ : X⦄, f a₁ = f a₂ → a₁ = a₂
 
 open Function
 
@@ -19,7 +25,7 @@ example {f : X → Y} {g : Y → Z} (hgfinj : Injective (g ∘ f)) : Injective f
   -- 示すべきことがまだまだあるように見えるが、一発で証明が終わる
   aesop
 
-/-!
+/-
 ## aesop?
 
 `aesop` が成功するとき、`aesop?` に置き換えるとゴールを達成するのにどんなタクティクを使用したか教えてくれます。
@@ -27,22 +33,51 @@ example {f : X → Y} {g : Y → Z} (hgfinj : Injective (g ∘ f)) : Injective f
 
 example {f : X → Y} {g : Y → Z} (hgfinj : Injective (g ∘ f)) : Injective f := by
   rw [Injective]
+  aesop? says
+    intro a₁ a₂ a
+    apply hgfinj
+    simp_all only [comp_apply]
 
-  /-
-  Try this:
-  intro a₁ a₂ a
-  apply hgfinj
-  simp_all only [comp_apply]
-  -/
-  aesop?
+/- なお上記の例により、`aesop` が組み込みのルールとして `simp` 補題や `intro` タクティク等を使用することがわかります。-/
 
-/-! ## 補足
-より詳細には `aesop` は下記のような性質を持ちます:
+/- ## カスタマイズ
+`aesop` はユーザがカスタマイズ可能です。補題やタクティクを登録することで、証明可能な命題を増やすことができます。
+-/
 
-* `simp` と同様に、`@[aesop]` という属性(attribute)を付けることで補題や定義を登録し、`aesop` に使用させることができます。
-* `aesop` は登録されたルールを最初のゴールに適用しようとします。成功してサブゴールが生成されたら、`aesop` はサブゴールにも再帰的にルールを適用し、探索ツリーを構築します。
-* 探索ツリーは最良優先探索(best-first search)により探索されます。ルールには有用である可能性が高いか低いかもマークすることができ、`aesop` は探索ツリー内のより有望そうなゴールを先に調べます。
-* `aesop` はまず `simp_all` を用いてゴールを正規化するため、`simp` が使用する補題は `aesop` にも使用されます。
+/-- 自然数 n が正の数であることを表す命題 -/
+inductive Pos : Nat → Prop
+  | succ n : Pos (n + 1)
 
-もっと詳しいことが知りたい方は、[aesopのリポジトリ](https://github.com/leanprover-community/aesop)をご参照ください。
+example : Pos 1 := by
+  -- ルールが登録されていないので、`aesop` で示すことはできない
+  fail_if_success aesop
+
+  -- 手動でコンストラクタを `apply` することで証明できる
+  apply Pos.succ
+
+-- `Pos` 関連のルールを `aesop` に憶えさせる
+attribute [aesop safe constructors] Pos
+
+-- `aesop` で証明できるようになった！
+example : Pos 1 := by aesop
+
+/- 上記の例のように `[aesop]` 属性によってルールを追加することもできますし、[`add_aesop_rules`](../Command/Declarative/AddAesopRules.md) というコマンドでルールを追加することもできます。-/
+
+example (n : Nat) (h : Pos n) : 0 < n := by
+  -- ルールが足りないので、`aesop` で示すことはできない
+  fail_if_success aesop
+
+  -- 手動で `h : Pos n` を分解して証明する
+  rcases h with ⟨h⟩
+  simp
+
+-- `Pos` 関連のルールを `aesop` に追加
+add_aesop_rules safe [cases Pos]
+
+-- `aesop` で証明できるようになった！
+example (n : Nat) (h : Pos n) : 0 < n := by
+  aesop
+
+/-
+カスタマイズ方法の詳細を知りたい方は[aesopのリポジトリ](https://github.com/leanprover-community/aesop)をご参照ください。また、内部のロジックの詳細については論文 [Aesop: White-Box Best-First Proof Search for Lean](https://dl.acm.org/doi/pdf/10.1145/3573105.3575671) で説明されています。
 -/

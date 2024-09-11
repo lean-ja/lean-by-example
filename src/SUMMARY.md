@@ -23,6 +23,7 @@
     - [#whnf: 式を弱頭正規形に](./Command/Diagnostic/Whnf.md)
   - [宣言的コマンド](./Command/Declarative/README.md)
     - [abbrev: 略称を定義する](./Command/Declarative/Abbrev.md)
+    - [add_aesop_rules: aesop 改造](./Command/Declarative/AddAesopRules.md)
     - [attribute: 属性を付与する](./Command/Declarative/Attribute.md)
     - [axiom: 公理を宣言する](./Command/Declarative/Axiom.md)
     - [class: 型クラスを定義する](./Command/Declarative/Class.md)
