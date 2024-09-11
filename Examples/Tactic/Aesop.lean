@@ -3,7 +3,7 @@
 
 `aesop` は汎用的かつ強力な自動証明のためのタクティクです。
 
-Automated Extensible Search for Obvious Proofs (自明な証明の拡張可能な自動探索)からその名があります。`intro` や `simp` を使用しながら最良優先探索を行い、ルーチンな証明を自動で終わらせます。
+Automated Extensible Search for Obvious Proofs (自明な証明の拡張可能な自動探索)からその名があります。様々なタクティクやルールを使用しながら最良優先探索を行い、ルーチンな証明を自動で終わらせます。
 
 -/
 import Aesop -- `aesop` を使用するため
@@ -37,6 +37,8 @@ example {f : X → Y} {g : Y → Z} (hgfinj : Injective (g ∘ f)) : Injective f
     intro a₁ a₂ a
     apply hgfinj
     simp_all only [comp_apply]
+
+/- なお上記の例により、`aesop` が組み込みのルールとして `simp` 補題や `intro` タクティク等を使用することがわかります。-/
 
 /- ## カスタマイズ
 `aesop` はユーザがカスタマイズ可能です。補題やタクティクを登録することで、証明可能な命題を増やすことができます。
