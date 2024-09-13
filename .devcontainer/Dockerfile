@@ -20,5 +20,4 @@ ENV PATH=$PATH:$HOME/.cargo/bin
 
 # mdbook と mdbook のプラグインのインストール
 RUN cargo install --version 0.4.35 mdbook && \
-  cargo install --version 1.18.0 mdbook-admonish && \
-  cargo install mdbook-pdf
+  cargo install --version 1.18.0 mdbook-admonish
