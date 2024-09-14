@@ -71,7 +71,9 @@ example (h : a * b = c * d) (h' : e = f + 0) : a * (b * e + 0) = c * (d * f) := 
   rw [Nat.mul_assoc]
 
 /- ## rw の制約
-`rw` は、変数束縛の下では使うことができません。代わりに [`simp`](./Simp.md) などを使用してください。
+
+### 変数束縛
+`rw` は、変数束縛の下では使うことができません。代わりに [`simp`](./Simp.md) タクティクなどを使用してください。
 -/
 
 example (f g : Nat → Nat) (h : ∀ a, f (a + 0) = g a) : f = g := by
@@ -85,12 +87,31 @@ example (f g : Nat → Nat) (h : ∀ a, f (a + 0) = g a) : f = g := by
 
   exact h x
 
-/- ## nth_rw
+/- ### nth_rw
 
 `rw` はマッチした項をすべて置き換えてしまいます。
-特定の項だけを書き換えたいとき、[`nth_rw`](./NthRw.md) が使用できます。
+特定の項だけを書き換えたいとき、[`nth_rw`](./NthRw.md) が使用できます。-/
 
-## rewrite
+/- ### ローカル変数の展開
+`rw` はローカル変数の展開を行うことができません。代わりに [`dsimp`](./Dsimp.md) タクティクなどを使用してください。-/
+
+/-- 5未満の自然数が存在する -/
+example : ∃ x : Nat, x < 5 := by
+  let n := 2
+  have h : n < 5 := by
+    -- rw はローカル変数の展開は行わない
+    fail_if_success rw [n]
+
+    -- dsimp で展開できる
+    dsimp [n]
+
+    -- あとは 2 < 5 を示せばよいだけ
+    guard_target =ₛ 2 < 5
+    decide
+
+  exact ⟨n, h⟩
+
+/- ## rewrite
 
 `rewrite` というタクティクもあります。`rw` とよく似ていて、違いは `rw` が書き換え後に自動的に `rfl` を実行するのに対して、`rewrite` は行わないということです。`rewrite` はユーザにとっては `rw` の下位互換なので、あまり使うことはないかもしれません。-/
 
