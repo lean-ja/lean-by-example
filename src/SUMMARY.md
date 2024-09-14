@@ -30,6 +30,7 @@
     - [declare_syntax_cat: 構文カテゴリ](./Command/Declarative/DeclareSyntaxCat.md)
     - [def: 関数などを定義する](./Command/Declarative/Def.md)
     - [deriving: インスタンス自動生成](./Command/Declarative/Deriving.md)
+    - [elab: 構文に意味を与える](./Command/Declarative/Elab.md)
     - [example: 名前をつけずに証明](./Command/Declarative/Example.md)
     - [export: 現在の名前空間に追加](./Command/Declarative/Export.md)
     - [inductive: 帰納型を定義する](./Command/Declarative/Inductive.md)
