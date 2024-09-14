@@ -1,7 +1,8 @@
 name: Update Lean
 on:
   schedule:
-    - cron: "0 0 * * 1"
+    # 月曜日と木曜日に実行
+    - cron: "0 0 * * 1,4"
   workflow_dispatch:
 
 jobs:
