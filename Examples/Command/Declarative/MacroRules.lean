@@ -1,7 +1,10 @@
 /- # macro_rules
 `macro_rules` はマクロ展開を定めるためのコマンドです。
 
-[`macro`](./Macro.md) コマンドと比べて汎用的で、より複雑なマクロを定義することができます。
+[`macro`](./Macro.md) コマンドと似ていますが、以下のように `macro_rules` の方がより低水準で汎用的なコマンドです。
+
+* `macro` コマンドは構文の宣言を同時に行いますが、`macro_rules` は構文宣言は行いません。
+* `macro` コマンドは展開ルールを一つ追加しますが、`macro_rules` は複数の展開ルールを一度に定義できます。
 -/
 
 /-- 部分集合。`α` の部分集合 `A ⊆ α` は、任意の要素 `x : α` に対して
@@ -94,4 +97,3 @@ macro_rules
 
 example {α : Type} {P : Prop}(x : α) (h : P) : x = x ∧ P := by
   my_trivial
-
