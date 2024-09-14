@@ -2,6 +2,27 @@
 `macro_rules` はマクロ展開を定めるための汎用的なコマンドです。
 -/
 
+/-- `#hello` コマンドの構文の定義。
+オプションの引数を受け取るようにしておく。 -/
+syntax "#hello" (str)? : command
+
+macro_rules
+  | `(#hello) => `(#eval "Hello, Lean!")
+  | `(#hello $name) => `(#eval s!"Hello, {$name}!")
+
+/-- info: "Hello, Lean!" -/
+#guard_msgs in #hello
+
+/-- info: "Hello, world!" -/
+#guard_msgs in #hello "world"
+
+/- `macro_rules` コマンドは上記の例のように、`=>` 記号を境に分かれており、左辺の構文要素を右辺の構文に変換するというルールを定義します。 -/
+
+/- ## 使用例
+
+`macro_rules` を使用して、集合の内包記法 `{x : T | P x}` を解釈するマクロを定義する例を以下に示します。
+-/
+
 /-- 部分集合。`α` の部分集合 `A ⊆ α` は、任意の要素 `x : α` に対して
 それが `A` の要素かどうか判定する述語 `A : α → Prop` と同一視できる。-/
 def Set (α : Type) := α → Prop
@@ -33,8 +54,6 @@ macro_rules
 
 -- 集合の波括弧記法が使えるようになった
 #check ({{2, 3, 4, 5}} : Set Nat)
-
-/- `macro_rules` コマンドは上記の例のように、`=>` 記号を境に分かれており、左辺の構文要素を右辺の構文に変換するというルールを定義します。-/
 
 /- ## 展開ルールの上書きと追加
 
@@ -81,8 +100,17 @@ example {α : Type} (x : α) : x = x := by
   my_trivial
 
 /- ## 再帰的展開
-`macro_rules` の右辺に自分自身を含めることができます。これにより、再帰的なマクロ展開を定義することができます。
+`macro_rules` の右辺に、これから解釈しようとしている構文自身を含めることができます。これにより、再帰的なマクロ展開を定義することができます。
 -/
+
+example {α : Type} {P : Prop}(x : α) (h : P) : x = x ∧ P := by
+  -- 最初は示せない
+  fail_if_success my_trivial
+
+  -- 手動で示す
+  apply And.intro
+  · rfl
+  · assumption
 
 -- 再帰的なマクロ展開を定義。
 -- `P` と `Q` が両方 `my_trivial` で示せるなら、
