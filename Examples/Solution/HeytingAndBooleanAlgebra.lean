@@ -153,8 +153,8 @@ instance : LT Prop where
 
 -- ここに `local add_aesop_rules` コマンドを追加して証明が通るようにしてください。
 -- いくつルールを追加しても構いません。
--- 例:
--- `local add_aesop_rules unsafe 50% [tactic (by apply True.intro)]`
+-- 以下に示すのは一例です:
+local add_aesop_rules unsafe 50% [tactic (by apply True.intro)]
 local add_aesop_rules norm [tactic (by dsimp only [LE.le, LT.lt])] --##
 
 /-- 上記の定義のもとで `Prop` は半順序集合 -/
@@ -176,8 +176,8 @@ instance : Inf Prop where
 
 -- ここに `local add_aesop_rules` コマンドを追加して証明が通るようにしてください。
 -- いくつルールを追加しても構いません。
--- 例:
--- `local add_aesop_rules safe [tactic (by simp only [Nat.add_zero])]`
+-- 以下に示すのは一例です:
+local add_aesop_rules safe [tactic (by simp only [Nat.add_zero])]
 local add_aesop_rules norm [tactic (by dsimp only [Sup.sup, Inf.inf] at *)] --##
 
 /-- 上記の定義のもとで `Prop` は束 -/
@@ -209,8 +209,8 @@ instance : Bot Prop where
 
 -- ここに `local add_aesop_rules` コマンドを追加して証明が通るようにしてください。
 -- いくつルールを追加しても構いません。
--- 例:
--- `local add_aesop_rules norm [simp Nat.add_zero]`
+-- 以下に示すのは一例です:
+local add_aesop_rules norm [simp Nat.add_zero]
 local add_aesop_rules norm [tactic (by dsimp only [HImp.himp, HasCompl.compl, Top.top, Bot.bot] at *)] --##
 
 instance : HeytingAlgebra Prop where
@@ -234,8 +234,6 @@ class BooleanAlgebra (α : Type) extends HeytingAlgebra α where
 
   /-- `⊤ = x ⊔ xᶜ` が成り立つ -/
   top_le_sup_compl : ∀ x : α, ⊤ ≤ x ⊔ xᶜ
-
-open PartialOrder Lattice HeytingAlgebra
 
 /-- `{0, 1, 2}` という集合。これが反例になる。 -/
 abbrev Three := Fin 3
