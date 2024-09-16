@@ -153,9 +153,9 @@ instance : LT Prop where
 
 -- ここに `local add_aesop_rules` コマンドを追加して証明が通るようにしてください。
 -- いくつルールを追加しても構いません。
--- 例:
--- `local add_aesop_rules unsafe 50% [tactic (by apply True.intro)]`
-local add_aesop_rules norm [tactic (by dsimp only [LE.le, LT.lt])] --##
+-- 以下に示すのは一例です:
+local add_aesop_rules unsafe 50% tactic [(by apply True.intro)]
+local add_aesop_rules norm tactic [(by dsimp only [LE.le, LT.lt])] --##
 
 /-- 上記の定義のもとで `Prop` は半順序集合 -/
 instance : PartialOrder Prop where
@@ -176,9 +176,9 @@ instance : Inf Prop where
 
 -- ここに `local add_aesop_rules` コマンドを追加して証明が通るようにしてください。
 -- いくつルールを追加しても構いません。
--- 例:
--- `local add_aesop_rules safe [tactic (by simp only [Nat.add_zero])]`
-local add_aesop_rules norm [tactic (by dsimp only [Sup.sup, Inf.inf] at *)] --##
+-- 以下に示すのは一例です:
+local add_aesop_rules safe tactic [(by simp only [Nat.add_zero])]
+local add_aesop_rules norm tactic [(by dsimp only [Sup.sup, Inf.inf] at *)] --##
 
 /-- 上記の定義のもとで `Prop` は束 -/
 instance : Lattice Prop where
@@ -209,9 +209,9 @@ instance : Bot Prop where
 
 -- ここに `local add_aesop_rules` コマンドを追加して証明が通るようにしてください。
 -- いくつルールを追加しても構いません。
--- 例:
--- `local add_aesop_rules norm [simp Nat.add_zero]`
-local add_aesop_rules norm [tactic (by dsimp only [HImp.himp, HasCompl.compl, Top.top, Bot.bot] at *)] --##
+-- 以下に示すのは一例です:
+local add_aesop_rules norm simp [Nat.add_zero]
+local add_aesop_rules norm tactic [(by dsimp only [HImp.himp, HasCompl.compl, Top.top, Bot.bot] at *)] --##
 
 instance : HeytingAlgebra Prop where
   le_top := by aesop
@@ -235,8 +235,6 @@ class BooleanAlgebra (α : Type) extends HeytingAlgebra α where
   /-- `⊤ = x ⊔ xᶜ` が成り立つ -/
   top_le_sup_compl : ∀ x : α, ⊤ ≤ x ⊔ xᶜ
 
-open PartialOrder Lattice HeytingAlgebra
-
 /-- `{0, 1, 2}` という集合。これが反例になる。 -/
 abbrev Three := Fin 3
 
@@ -248,9 +246,9 @@ abbrev Three := Fin 3
 -- ここに `local add_aesop_rules` コマンドを追加して証明が通るようにしてください。
 -- いくつルールを追加しても構いません。
 --##--
-local add_aesop_rules safe [cases Fin]
-local add_aesop_rules norm [simp Fin.le_def]
-local add_aesop_rules safe [tactic (by omega)]
+local add_aesop_rules safe cases [Fin]
+local add_aesop_rules norm simp [Fin.le_def]
+local add_aesop_rules safe tactic [(by omega)]
 --##--
 
 instance : PartialOrder Three where
@@ -277,7 +275,7 @@ instance : Inf Three where
 
 -- ここに `local add_aesop_rules` コマンドを追加して証明が通るようにしてください。
 -- いくつルールを追加しても構いません。
-local add_aesop_rules norm [tactic (by dsimp [Sup.sup, Inf.inf])] --##
+local add_aesop_rules norm tactic [(by dsimp [Sup.sup, Inf.inf])] --##
 
 /-- 束になる -/
 instance : Lattice Three where
@@ -314,7 +312,7 @@ instance : HasCompl Three where
 
 -- ここに `local add_aesop_rules` コマンドを追加して証明が通るようにしてください。
 -- いくつルールを追加しても構いません。
-local add_aesop_rules norm [tactic (by dsimp [Bot.bot, Top.top, HImp.himp, HasCompl.compl])] --##
+local add_aesop_rules norm tactic [(by dsimp [Bot.bot, Top.top, HImp.himp, HasCompl.compl])] --##
 
 /-- Heyting 代数になる -/
 instance : HeytingAlgebra Three where
