@@ -1,0 +1,7 @@
+changelog:
+  # 自動更新PRはリリースノートに含めない
+  exclude:
+    labels:
+      - auto-update-lean
+    authors:
+      - github-actions
