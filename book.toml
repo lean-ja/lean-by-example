@@ -56,5 +56,3 @@ level = 2
 [preprocessor.admonish]
 command = "mdbook-admonish"
 assets_version = "3.0.2" # do not edit: managed by `mdbook-admonish install`
-
-### 注意: PDF 生成時に book-pdf.toml の内容が末尾に自動で追加される ###
