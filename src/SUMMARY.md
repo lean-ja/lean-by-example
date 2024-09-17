@@ -64,6 +64,7 @@
     - [csimp: 効率的な実装に置換](./Command/Attribute/Csimp.md)
     - [induction_eliminator: 独自帰納法](./Command/Attribute/InductionEliminator.md)
     - [inherit_doc: ドキュメントの継承](./Command/Attribute/InheritDoc.md)
+    - [match_pattern: 独自パタンマッチ](./Command/Attribute/MatchPattern.md)
     - [simps: simp補題の自動生成](./Command/Attribute/Simps.md)
 
 - [タクティク](./Tactic/README.md)
