@@ -1,5 +1,5 @@
 /- # app_unexpander
-`app_unexpander` 属性を付与すると、関数適用 `f a₁ a₂ ... aₙ` の `#check` コマンドおよび infoview での表示のされ方を変更することができます。
+`[app_unexpander]` 属性を付与すると、関数適用 `f a₁ a₂ ... aₙ` の `#check` コマンドおよび infoview での表示のされ方を変更することができます。
 -/
 namespace AppUnexpander --#
 

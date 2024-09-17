@@ -30,7 +30,7 @@ abbrev NaturalNumber : Type := Nat
 
 end Abbrev1 --#
 /- ## 舞台裏
-`abbrev` は `@[reducible]` 属性のついた `def` と同じであり、定義に `reducible` という属性を与えても同様のことができます。-/
+`abbrev` は `[reducible]` 属性のついた `def` と同じであり、定義に `[reducible]` 属性を与えても同様のことができます。-/
 namespace Abbrev2 --#
 
 @[reducible] def NaturalNumber : Type := Nat

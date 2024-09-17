@@ -1,8 +1,8 @@
 /- # induction_eliminator
 
-`induction_eliminator` 属性は、帰納法の枝を変更することを可能にします。
+`[induction_eliminator]` 属性は、帰納法の枝を変更することを可能にします。
 
-より詳しくいうと、[`induction`](../../Tactic/Induction.md) タクティクの `using` キーワードのデフォルトの引数を変更することができます。デフォルトでは、帰納型 `T` に対して `T.rec` (および `T.recOn` )という定理が自動生成されてそれが暗黙の裡に `using` キーワードの引数として使われますが、`induction_eliminator` 属性で別な定理を指定すると、それが使われるようになります。
+より詳しくいうと、[`induction`](../../Tactic/Induction.md) タクティクの `using` キーワードのデフォルトの引数を変更することができます。デフォルトでは、帰納型 `T` に対して `T.rec` (および `T.recOn` )という定理が自動生成されてそれが暗黙の裡に `using` キーワードの引数として使われますが、`[induction_eliminator]` 属性で別な定理を指定すると、それが使われるようになります。
 -/
 namespace InductionEliminator --#
 
@@ -42,7 +42,7 @@ info: InductionEliminator.Many.rec.{u} {α : Type} {motive : Many α → Sort u}
 #guard_msgs (whitespace := lax) in #check Many.rec
 
 -- Many.rec の `Many.more` の部分を `Many.cons` に置き換えた定理を作る。
--- これに `induction_eliminator` 属性を与えることで、
+-- これに `[induction_eliminator]` 属性を与えることで、
 -- コンストラクタ `Many.more` の代わりに `Many.cons` が使えるようになる
 @[induction_eliminator]
 protected def Many.cons_rec.{u} {α : Type} {motive : Many α → Sort u}
