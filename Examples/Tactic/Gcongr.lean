@@ -43,7 +43,7 @@ example {c d : ℝ} (h : a + c + 1 ≤ b + d + 1) :
   linarith
 
 /-! ## 補題の登録
-さらに `@[gcongr]` という属性(attribute)を付与することにより、 `gcongr` で呼び出して使える補題を増やすことができます。-/
+さらに `[gcongr]` 属性を付与することにより、 `gcongr` で呼び出して使える補題を増やすことができます。-/
 
 variable {U : Type*}
 variable (A B C : Set U)

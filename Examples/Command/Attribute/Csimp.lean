@@ -1,5 +1,5 @@
 /- # csimp
-`csimp` は、コンパイラに単純化を指示する属性です。
+`[csimp]` 属性は、コンパイラに単純化を指示します。
 
 `A = B` という形の定理に付与することでコンパイラに `A` の計算を `B` の計算に置き換えさせることができます。非効率な関数を効率的な実装に置き換えるために使用されます。
 -/
@@ -44,7 +44,7 @@ where
 theorem fib_add (n : Nat) : fib (n + 2) = fib n + fib (n + 1) := by rfl
 
 /-- `fibonacci` と `fib` は同じ結果を返す。
-`csimp` 属性を与えることで、`fibonacci` の計算を `fib` の計算に置き換えることができる。-/
+`[csimp]` 属性を与えることで、`fibonacci` の計算を `fib` の計算に置き換えることができる。-/
 @[csimp]
 theorem fib_eq_fibonacci : fibonacci = fib := by
   ext n
