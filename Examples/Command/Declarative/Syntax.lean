@@ -31,7 +31,7 @@ syntax "#greet" : command
 macro_rules
   | `(command| #greet) => `(#eval "Hello, Lean!")
 
-/- ## 優先順位
+/- ## パース優先度
 `syntax` コマンドは Lean に新しい構文解析ルールを追加するので、既存の構文と衝突して意図通りに解釈されないことがあります。
 -/
 section
@@ -54,10 +54,10 @@ Additional diagnostic information may be available using the `set_option diagnos
   #check_failure (1 + 1 = 2 as Nat)
 
 end
-/- 優先順位(precedence)を設定することで、どの構文から順に解釈されるかを指定することができ、問題を修正できることがあります。このあたりは [`notation`](./Notation.md) コマンドと同様です。 -/
+/- パース優先度(parsing precedence)を設定することで、どの構文から順に解釈されるかを指定することができ、問題を修正できることがあります。このあたりは [`notation`](./Notation.md) コマンドと同様です。 -/
 section
 
--- 十分低い優先順位を設定する
+-- 十分低いパース優先度を設定する
 local syntax:10 term:10 " = " term:10 " as " term:10 : term
 
 local macro_rules
