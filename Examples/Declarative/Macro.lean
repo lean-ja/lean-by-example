@@ -12,7 +12,7 @@ def checkParse (cat : Name) (s : String) : MetaM Unit := do
     throwError s
 
 -- 最初は `#greet` が未定義なので、合法的なLeanのコマンドとして認識されない
-/-- error: <input>:1:0: expected search_cmd -/
+/-- error: <input>:1:0: expected command -/
 #guard_msgs in
   run_meta checkParse `command "#greet"
 
