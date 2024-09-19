@@ -13,7 +13,7 @@ theorem choice (h : ∀ x, ∃ y, P x y) : ∃ f : X → Y, ∀ x, P x (f x) := 
   exact ⟨f, hf⟩
 
 /- ## 舞台裏
-`choose` は裏で選択原理 [`Classical.choice`](../Command/Declarative/Axiom.md#ClassicalChoice) を使用しています。
+`choose` は裏で選択原理 [`Classical.choice`](../Declarative/Axiom.md#ClassicalChoice) を使用しています。
 -/
 
 /-- info: 'choice' depends on axioms: [Classical.choice] -/

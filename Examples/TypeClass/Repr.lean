@@ -28,7 +28,7 @@ recall that any type implementing the `Repr` class also implements the `Lean.Eva
 
 /- エラーメッセージが示すように、これは `Point` が型クラス `Lean.Eval` のインスタンスではないからです。エラーメッセージには、`Repr` クラスのインスタンスであれば自動的に `Lean.Eval` のインスタンスにもなることが書かれています。通常、`Lean.Eval` のインスタンスを手で登録することはなく、`Repr` インスタンスによって自動生成させます。
 
-`Repr` インスタンスの登録方法ですが、通り一遍の表示で構わなければ [`deriving`](../../Command/Declarative/Deriving.md) コマンドで Lean に自動生成させることができます。-/
+`Repr` インスタンスの登録方法ですが、通り一遍の表示で構わなければ [`deriving`](../Declarative/Deriving.md) コマンドで Lean に自動生成させることができます。-/
 
 deriving instance Repr for Point
 
@@ -48,7 +48,7 @@ def origin : Point Nat := ⟨0, 0⟩
 
 end Hidden --#
 /- ## deriving を使わない場合
-`Repr` のインスタンスは [`deriving`](../../Command/Declarative/Deriving.md) コマンドで生成できますが、手動で作ることもできます。
+`Repr` のインスタンスは [`deriving`](../Declarative/Deriving.md) コマンドで生成できますが、手動で作ることもできます。
 -/
 
 variable {α : Type}

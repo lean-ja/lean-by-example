@@ -25,7 +25,7 @@ example (hPQ: P → Q) (hQR: Q → R) : P → R := by
 
 `P` の証明 `hp : P` と `Q` の証明 `hq : Q` があるとき、`P ∧ Q` の証明は `And.intro hp hq` で構成できます。ここで `And.intro` は構造体 `And` 型のコンストラクタです。
 
-これを、コンストラクタ名を明示せずにシンプルに `⟨hp, hq⟩` と書くことができます。これは[無名コンストラクタ](../Command/Declarative/Structure.md#AnonymousConstructor)と呼ばれるもので、`And` に限らず任意の構造体に使用することができます。-/
+これを、コンストラクタ名を明示せずにシンプルに `⟨hp, hq⟩` と書くことができます。これは[無名コンストラクタ](../Declarative/Structure.md#AnonymousConstructor)と呼ばれるもので、`And` に限らず任意の構造体に使用することができます。-/
 variable (hp : P) (hq : Q)
 
 def hpq : P ∧ Q := ⟨hp, hq⟩
