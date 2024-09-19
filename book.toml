@@ -49,7 +49,7 @@ boost-title = 25
 [output.html.fold]
 # 目次の折りたたみの設定
 enable = true
-level = 2
+level = 0
 
 [preprocessor]
 
