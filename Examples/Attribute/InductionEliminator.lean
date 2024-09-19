@@ -2,7 +2,7 @@
 
 `[induction_eliminator]` 属性は、帰納法の枝を変更することを可能にします。
 
-より詳しくいうと、[`induction`](../../Tactic/Induction.md) タクティクの `using` キーワードのデフォルトの引数を変更することができます。デフォルトでは、帰納型 `T` に対して `T.rec` (および `T.recOn` )という定理が自動生成されてそれが暗黙の裡に `using` キーワードの引数として使われますが、`[induction_eliminator]` 属性で別な定理を指定すると、それが使われるようになります。
+より詳しくいうと、[`induction`](../Tactic/Induction.md) タクティクの `using` キーワードのデフォルトの引数を変更することができます。デフォルトでは、帰納型 `T` に対して `T.rec` (および `T.recOn` )という定理が自動生成されてそれが暗黙の裡に `using` キーワードの引数として使われますが、`[induction_eliminator]` 属性で別な定理を指定すると、それが使われるようになります。
 -/
 namespace InductionEliminator --#
 

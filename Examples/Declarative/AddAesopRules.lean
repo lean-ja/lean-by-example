@@ -1,5 +1,5 @@
 /- # add_aesop_rules
-`add_aesop_rules` は [`aesop`](../../Tactic/Aesop.md) タクティクに追加のルールを登録するためのコマンドです。-/
+`add_aesop_rules` は [`aesop`](../Tactic/Aesop.md) タクティクに追加のルールを登録するためのコマンドです。-/
 import Aesop
 
 /-- 自然数 n が正の数であることを表す命題 -/

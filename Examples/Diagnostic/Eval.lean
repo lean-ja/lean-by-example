@@ -49,7 +49,7 @@ failed to be synthesized, this instance instructs Lean on how to display the res
 -/
 #guard_msgs in #eval (fun x => x + 1)
 
-/- 一般に、[`Repr`](../../Term/TypeClass/Repr.md) や [`ToString`](../../Term/TypeClass/ToString.md) のインスタンスでないような型の項は `#eval` に渡すことができません。-/
+/- 一般に、[`Repr`](../TypeClass/Repr.md) や [`ToString`](../TypeClass/ToString.md) のインスタンスでないような型の項は `#eval` に渡すことができません。-/
 
 /-! ## 例外処理の慣例
 Lean および Mathlib では、「関数ではなく定理に制約を付ける」ことが慣例です。

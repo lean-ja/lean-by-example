@@ -1,8 +1,8 @@
 /- # cases_eliminator
 
-`[cases_eliminator]` 属性は、[`cases`](../../Tactic/Cases.md) タクティクで場合分けをした際の枝を変更します。
+`[cases_eliminator]` 属性は、[`cases`](../Tactic/Cases.md) タクティクで場合分けをした際の枝を変更します。
 
-より詳しくいうと、[`cases`](../../Tactic/Cases.md) タクティクの `using` キーワードのデフォルトの引数を変更することができます。デフォルトでは、帰納型 `T` に対して `T.casesOn` という定理が自動生成されてそれが暗黙の裡に `using` キーワードの引数として使われますが、`[cases_eliminator]` 属性で別な定理を指定すると、それが使われるようになります。
+より詳しくいうと、[`cases`](../Tactic/Cases.md) タクティクの `using` キーワードのデフォルトの引数を変更することができます。デフォルトでは、帰納型 `T` に対して `T.casesOn` という定理が自動生成されてそれが暗黙の裡に `using` キーワードの引数として使われますが、`[cases_eliminator]` 属性で別な定理を指定すると、それが使われるようになります。
 -/
 namespace CasesEliminator --#
 
@@ -63,7 +63,7 @@ example (x : Many α) : True := by
   case none => trivial
   case more x => trivial
 
-/- なお [`rcases`](../../Tactic/Rcases.md) には影響しません。 -/
+/- なお [`rcases`](../Tactic/Rcases.md) には影響しません。 -/
 
 example (xs : Many α) : True := by
   rcases xs with _ | _
