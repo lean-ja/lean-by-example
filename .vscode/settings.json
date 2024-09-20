@@ -7,6 +7,11 @@
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
   "files.trimTrailingWhitespace": true,
+  "git.autofetch": true, // 自動的にリモートの情報を取得する
+  "git.autofetchPeriod": 180,
+  "git.pruneOnFetch": true, // 削除されたリモートブランチを反映させる
+
+  // Lean 4 の設定
   "[lean4]": {
     "editor.rulers": [80],
   },
