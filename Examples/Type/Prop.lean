@@ -148,7 +148,7 @@ axiom extract_bar : extract bar = -1
 
 -- このとき、以下のように矛盾が得られる
 example : False := by
-  -- 証明無関連により `foo` と `bar` は等しい
+  -- 証明無関係により `foo` と `bar` は等しい
   have irr : foo = bar := by rfl
 
   -- extract が満たすべき条件から、`1 = -1` が導けてしまう
