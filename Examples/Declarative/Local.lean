@@ -102,7 +102,7 @@ theorem MyNat.zero_add (n : MyNat) : MyNat.add .zero n = n := by
   | succ n ih => simp [MyNat.add, ih]
 
 section
-  -- simp 属性をローカルに付与する
+  -- [simp] 属性をローカルに付与する
   attribute [local simp] MyNat.zero_add
 
   -- その section の中では使用できる

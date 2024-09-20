@@ -4,7 +4,7 @@
 
 例えば、ユーザが `Point` という構造体を定義し、`Point` 上の足し算を定義したところを考えましょう。このとき、足し算はフィールドの値の足し算で定義されているため、「`Point` の和の `x` 座標」は `x` 座標の和ですが、これはそのままでは `simp` で示すことができません。`[simps]` 属性を `Point.add` 関数に付与することで、`simp` で示せるようになります。
 -/
-import Mathlib.Tactic.Simps.Basic -- simps 属性を使うため
+import Mathlib.Tactic.Simps.Basic -- [simps] 属性を使うため
 
 @[ext]
 structure Point where

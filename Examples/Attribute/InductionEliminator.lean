@@ -62,7 +62,7 @@ example (xs : Many α) : Many.union xs Many.none = xs := by
 
     simp [Many.union, Many.cons, ih]
 
-/- `induction_eliminator` を設定する前の挙動に戻すには、`using` キーワードに明示的に `.rec` 定理を与えます。 -/
+/- `[induction_eliminator]` を設定する前の挙動に戻すには、`using` キーワードに明示的に `.rec` 定理を与えます。 -/
 
 example (xs : Many α) : True := by
   -- 明示的に指定すれば， 元の挙動に戻せる
