@@ -16,6 +16,12 @@
     "editor.rulers": [80],
   },
 
+  // Handlebars の設定
+  "[handlebars]": {
+    "editor.defaultFormatter": "mfeckies.handlebars-formatter",
+    "editor.formatOnSave": true,
+  },
+
   // material icon theme の設定
   "workbench.iconTheme": "material-icon-theme",
   "material-icon-theme.files.associations": {

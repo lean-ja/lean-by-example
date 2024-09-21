@@ -24,7 +24,8 @@
         "juggernautjp.less-toml",
         "usernamehw.errorlens",
         "piousdeer.horizon-theme-vscode-default-token-colors",
-        "EditorConfig.EditorConfig"
+        "EditorConfig.EditorConfig",
+        "mfeckies.handlebars-formatter"
       ]
     }
   }
