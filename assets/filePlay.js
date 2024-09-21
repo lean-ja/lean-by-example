@@ -24,17 +24,12 @@
   // 演習問題のファイルのみ、`Examples` ディレクトリではなくて `Exercise` ディレクトリにある
   editButtonLink.href = editButtonLink.href.replace('/Examples/Exercise/', '/Exercise/');
 
-  // ボタンをクリックしたときに以下を実行
-  editButtonLink.addEventListener('click', async function (e) {
-    // デフォルトの挙動をキャンセル
-    e.preventDefault();
-
-    fetch(editButtonLink.href)
-      .then(response => response.text())
-      .then(body => {
-        const escaped_code = encodeURIComponent(body);
-        const url = `https://live.lean-lang.org/#code=${escaped_code}`;
-        open(url);
-      });
-  });
+  // URL を書き換える
+  fetch(editButtonLink.href)
+    .then(response => response.text())
+    .then(body => {
+      const escaped_code = encodeURIComponent(body);
+      const url = `https://live.lean-lang.org/#code=${escaped_code}`;
+      editButtonLink.href = url;
+    });
 })();
