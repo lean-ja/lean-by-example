@@ -23,8 +23,12 @@ additional-js = [
   # サイドバーに目次を表示する
   "assets/pagetoc.js",
 ]
-# mdbook-admonish のための設定
-additional-css = ["./assets/mdbook-admonish.css"]
+additional-css = [
+  # mdbook-admonish のスタイル
+  "./assets/mdbook-admonish.css",
+  # サイドバーに目次を表示する
+  "./assets/pagetoc.css"
+]
 
 # セクション番号を振らない
 no-section-label = true
