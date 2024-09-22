@@ -82,6 +82,7 @@
 
 - [型](./Type/README.md)
   - [Prop: 命題全体](./Type/Prop.md)
+  - [String: 文字列](./Type/String.md)
   - [Type: 型全体](./Type/Type.md)
 
 - [タクティク](./Tactic/README.md)
