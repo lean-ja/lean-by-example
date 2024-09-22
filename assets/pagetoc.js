@@ -1,9 +1,8 @@
-"use strict";
-
 /** クライアントの環境がPCかどうか判定する */
 function isDesktop() {
   const userAgent = navigator.userAgent;
-  const mobileRegex = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+  const mobileRegex =
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
   return !mobileRegex.test(userAgent);
 }
 
@@ -13,16 +12,16 @@ function pageToc() {
     Array.prototype.forEach.call(elems, fun);
   }
 
-  function getPagetoc(){
-    return document.getElementsByClassName("pagetoc")[0]
+  function getPagetoc() {
+    return document.getElementsByClassName("pagetoc")[0];
   }
 
   function getPagetocElems() {
     return getPagetoc().children;
   }
 
-  function getHeaders(){
-    return document.getElementsByClassName("header")
+  function getHeaders() {
+    return document.getElementsByClassName("header");
   }
 
   // Un-active everything when you click it
@@ -44,12 +43,12 @@ function pageToc() {
 
   let activeHref = location.href;
 
-  let updateFunction = function (elem = undefined) {
+  const updateFunction = (elem = undefined) => {
     let id = elem;
 
-    if (!id && location.href != activeHref) {
+    if (!id && location.href !== activeHref) {
       activeHref = location.href;
-      forPagetocElem(function (el) {
+      forPagetocElem((el) => {
         if (el.href === activeHref) {
           id = el;
         }
@@ -57,10 +56,10 @@ function pageToc() {
     }
 
     if (!id) {
-      let elements = getHeaders();
-      let margin = window.innerHeight / 3;
+      const elements = getHeaders();
+      const margin = window.innerHeight / 3;
 
-      forEach(elements, function (el, i, arr) {
+      forEach(elements, (el, i, arr) => {
         if (!id && getRect(el).top >= 0) {
           if (getRect(el).top < margin) {
             id = el;
@@ -70,22 +69,22 @@ function pageToc() {
         }
         // a very long last section
         // its heading is over the screen
-        if (!id && i == arr.length - 1) {
-          id = el
+        if (!id && i === arr.length - 1) {
+          id = el;
         }
       });
     }
 
-    forPagetocElem(function (el) {
+    forPagetocElem((el) => {
       el.classList.remove("active");
     });
 
     if (!id) return;
 
-    forPagetocElem(function (el) {
-      if (id.href.localeCompare(el.href) == 0) {
+    forPagetocElem((el) => {
+      if (id.href.localeCompare(el.href) === 0) {
         el.classList.add("active");
-        let pagetoc = getPagetoc();
+        const pagetoc = getPagetoc();
         if (overflowTop(pagetoc, el) > 0) {
           pagetoc.scrollTop = el.offsetTop;
         }
@@ -96,20 +95,20 @@ function pageToc() {
     });
   };
 
-  let elements = getHeaders();
+  const elements = getHeaders();
 
   if (elements.length > 2) {
     // Populate sidebar on load
-    window.addEventListener("load", function () {
-      let pagetoc = getPagetoc();
-      let elements = getHeaders();
-      forEach(elements, function (el) {
-        let link = document.createElement("a");
+    window.addEventListener("load", () => {
+      const pagetoc = getPagetoc();
+      const elements = getHeaders();
+      forEach(elements, (el) => {
+        const link = document.createElement("a");
         link.appendChild(document.createTextNode(el.text));
         link.href = el.hash;
-        link.classList.add("pagetoc-" + el.parentElement.tagName);
+        link.classList.add(`pagetoc-${el.parentElement.tagName}`);
         pagetoc.appendChild(link);
-        link.onclick = function () {
+        link.onclick = () => {
           updateFunction(link);
         };
       });
@@ -117,7 +116,7 @@ function pageToc() {
     });
 
     // Handle active elements on scroll
-    window.addEventListener("scroll", function () {
+    window.addEventListener("scroll", () => {
       updateFunction();
     });
   } else {
