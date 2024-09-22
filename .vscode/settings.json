@@ -16,6 +16,12 @@
     "editor.rulers": [80],
   },
 
+  // javascript の設定
+  "[javascript]": {
+    "editor.defaultFormatter": "biomejs.biome",
+    "editor.formatOnSave": true,
+  },
+
   // Handlebars の設定
   "[handlebars]": {
     "editor.defaultFormatter": "mfeckies.handlebars-formatter",

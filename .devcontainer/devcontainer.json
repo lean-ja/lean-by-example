@@ -25,7 +25,8 @@
         "usernamehw.errorlens",
         "piousdeer.horizon-theme-vscode-default-token-colors",
         "EditorConfig.EditorConfig",
-        "mfeckies.handlebars-formatter"
+        "mfeckies.handlebars-formatter",
+        "biomejs.biome"
       ]
     }
   }
