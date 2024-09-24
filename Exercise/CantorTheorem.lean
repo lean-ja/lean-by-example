@@ -30,6 +30,7 @@ Lean の型 `T : Type` は直観的には「項の集まり」を意味するの
 
 そこで全体集合 `α : Type` を固定して、その中に含まれる集まりだけを考えることにします。
 -/
+import Lean --#
 set_option autoImplicit false --#
 set_option relaxedAutoImplicit false --#
 
@@ -131,8 +132,8 @@ end --#
 ```
 -/
 
-/- ## 問題
-以上の準備のもとで、Cantor の定理を証明することができます。次の `sorry` の部分を埋めてください。
+/- ## 問1: 全射バージョン
+以上の準備のもとで、Cantor の定理を証明することができます。まずは全射バージョンから示しましょう。次の `sorry` の部分を埋めてください。
 -/
 section --#
 
@@ -145,6 +146,7 @@ theorem cantor_surjective (f : α → Set α) : ¬ Surjective f := by
   -- `f` が全射であると仮定する
   intro hsurj
 
+  -- 反例になる集合 `A` を構成する
   let A : Set α := sorry
 
   -- `f` は全射なので、ある `a` が存在して `f a = A`
@@ -157,11 +159,16 @@ theorem cantor_surjective (f : α → Set α) : ¬ Surjective f := by
   -- これは矛盾
   simp at this
 
+/- ## 問2: 単射バージョン
+単射バージョンも示すことができます。次の `sorry` の部分を埋めてください。
+-/
+
 /-- ベキ集合から元の集合への単射は存在しない -/
 theorem cantor_injective (f : Set α → α) : ¬ Injective f := by
   -- `f` が単射だと仮定する
   intro hinj
 
+  -- 反例になる集合 `A` を構成する
   let A : Set α := sorry
 
   -- このとき `f A ∈ A` と `f A ∉ A` が同値になる
@@ -171,3 +178,36 @@ theorem cantor_injective (f : Set α → α) : ¬ Injective f := by
   -- これは矛盾である
   simp at this
 end --#
+
+/-
+```admonish info title="ヒント"
+[全射(単射)が存在することと、逆方向の単射(全射)が存在することはほぼ同値](./InverseSurjInj.md)なので、それを使えば全射バージョンに帰着して示せることにお気づきでしょうか。しかし、それをそのまま使うと選択原理を使用することになります。ここでは選択原理は必要ありません。
+
+大事なことは、全射と単射は「ペアをなす」概念であるということです。おおむね「矢印の方向を逆にする」操作によって、両者は対応しています。実際、定理のステートメントにはまさにそのような対応が見られます。そこで全射バージョンの証明をうまく「反転」すればそのまま単射バージョンの証明を得ることができるはずです。
+```
+-/
+
+--#--
+section
+/- ## 選択原理を使用していないことを確認するコマンド -/
+
+open Lean Elab Command
+
+elab "#detect_classical " id:ident : command => do
+  let constName ← liftCoreM <| realizeGlobalConstNoOverload id
+  let axioms ← collectAxioms constName
+  if axioms.isEmpty then
+    logInfo m!"'{constName}' does not depend on any axioms"
+    return ()
+  let caxes := axioms.filter fun nm => Name.isPrefixOf `Classical nm
+  if caxes.isEmpty then
+    logInfo m!"'{constName}' is non-classical and depends on axioms: {axioms.toList}"
+  else
+    throwError m!"'{constName}' depends on classical axioms: {caxes.toList}"
+
+end
+
+-- 選択原理を使用していないことを確認
+#detect_classical cantor_surjective
+#detect_classical cantor_injective
+--#--
