@@ -113,10 +113,10 @@ section --#
 variable {α β : Type}
 
 /-- 関数の全射性 -/
-def Function.surjective (f : α → β) : Prop := ∀ b, ∃ a, f a = b
+def Function.Surjective (f : α → β) : Prop := ∀ b, ∃ a, f a = b
 
 /-- 関数の単射性 -/
-def Function.injective (f : α → β) : Prop := ∀ {a₁ a₂ : α}, f a₁ = f a₂ → a₁ = a₂
+def Function.Injective (f : α → β) : Prop := ∀ {a₁ a₂ : α}, f a₁ = f a₂ → a₁ = a₂
 
 end --#
 /-
@@ -141,7 +141,7 @@ variable {α : Type}
 open Function
 
 /-- ある集合からそのベキ集合への全射は存在しない -/
-theorem cantor_surjective (f : α → Set α) : ¬ surjective f := by
+theorem cantor_surjective (f : α → Set α) : ¬ Surjective f := by
   -- `f` が全射であると仮定する
   intro hsurj
 
@@ -165,7 +165,7 @@ theorem cantor_surjective (f : α → Set α) : ¬ surjective f := by
   simp at this
 
 /-- ベキ集合から元の集合への単射は存在しない -/
-theorem cantor_injective (f : Set α → α) : ¬ injective f := by
+theorem cantor_injective (f : Set α → α) : ¬ Injective f := by
   -- `f` が単射だと仮定する
   intro hinj
 
