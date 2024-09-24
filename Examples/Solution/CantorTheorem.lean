@@ -145,7 +145,7 @@ theorem cantor_surjective (f : α → Set α) : ¬ surjective f := by
   -- `f` が全射であると仮定する
   intro hsurj
 
-  -- `α` の部分集合 `A : Set α` を「像が自分自身を含まない要素全体」とする --##
+  -- `α` の部分集合 `A : Set α` を `{a | a ∉ f a}` で定義する --##
   let A : Set α := /- sorry -/ {a | a ∉ f a}
 
   -- `f` は全射なので、ある `a` が存在して `f a = A`
@@ -169,8 +169,8 @@ theorem cantor_injective (f : Set α → α) : ¬ injective f := by
   -- `f` が単射だと仮定する
   intro hinj
 
-  -- `α` の部分集合 `A : Set α` を「fによる逆元に含まれないようなfの像全体」とする --##
-  let A : Set α := /- sorry -/{a | ∃ B : Set α, a = f B ∧ f B ∉ B}
+  -- `α` の部分集合 `A : Set α` を `{f B | f B ∉ B}` で定義する --##
+  let A : Set α := /- sorry -/ {a | ∃ B : Set α, a = f B ∧ f B ∉ B}
 
   -- このとき `f A ∈ A` と `f A ∉ A` が同値になる
   have : (f A ∈ A) ↔ (f A ∉ A) := by
