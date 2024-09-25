@@ -53,21 +53,17 @@ theorem surj_to_inj (f : A → B) (hsurj : Surjective f)
     simp_all [(g' b).property]
     -- sorry
 
-  -- `g` が単射であることを示したい。
-  -- それには、`f ∘ g = id` を示せば十分。
-  suffices ∀ b, f (g b) = b from by
-    -- sorry
-    exists g
-    intro b₁ b₂ h
-    replace h : b₁ = b₂ := calc
-      _ = f (g b₁) := by rw [this]
-      _ = f (g b₂) := by rw [h]
-      _ = _ := by rw [this]
-    exact h
-    -- sorry
-
-  -- 後は `f ∘ g = id` を示せば良いが、これは既に示した。
-  exact gdef
+  -- `f ∘ g = id` を使って、
+  -- `g` が単射であることを示す。
+  -- sorry
+  exists g
+  intro b₁ b₂ h
+  replace h : b₁ = b₂ := calc
+    _ = f (g b₁) := by rw [gdef]
+    _ = f (g b₂) := by rw [h]
+    _ = _ := by rw [gdef]
+  exact h
+  -- sorry
 
 /- ## 問2: 単射から逆方向の全射
 次に `f : A → B` が単射であれば、逆方向の全射 `g : B → A` も存在することを示しましょう。
@@ -113,15 +109,11 @@ theorem inj_to_surj [Inhabited A] (f : A → B) (hinj : Injective f)
       assumption
     -- sorry
 
-  -- `g` が全射であることを示したい。
-  -- それには、`g ∘ f = id` を示せば十分。
-  suffices ∀ a, g (f a) = a from by
-    -- sorry
-    exists g
-    intro a
-    exists f a
-    apply this
-    -- sorry
-
-  -- 後は `g ∘ f = id` を示せば良いが、これは既に示した。
-  exact gdef
+  -- `g ∘ f = id` を使って、
+  -- `g` が全射であることを示す。
+  -- sorry
+  exists g
+  intro a
+  exists f a
+  apply gdef
+  -- sorry

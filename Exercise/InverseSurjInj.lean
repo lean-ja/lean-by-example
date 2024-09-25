@@ -44,13 +44,9 @@ theorem surj_to_inj (f : A → B) (hsurj : Surjective f)
   have gdef : ∀ b, f (g b) = b := by
     sorry
 
-  -- `g` が単射であることを示したい。
-  -- それには、`f ∘ g = id` を示せば十分。
-  suffices ∀ b, f (g b) = b from by
-    sorry
-
-  -- 後は `f ∘ g = id` を示せば良いが、これは既に示した。
-  exact gdef
+  -- `f ∘ g = id` を使って、
+  -- `g` が単射であることを示す。
+  sorry
 
 /- ## 問2: 単射から逆方向の全射
 次に `f : A → B` が単射であれば、逆方向の全射 `g : B → A` も存在することを示しましょう。
@@ -75,10 +71,6 @@ theorem inj_to_surj [Inhabited A] (f : A → B) (hinj : Injective f)
   have gdef : ∀ a, g (f a) = a := by
     sorry
 
-  -- `g` が全射であることを示したい。
-  -- それには、`g ∘ f = id` を示せば十分。
-  suffices ∀ a, g (f a) = a from by
-    sorry
-
-  -- 後は `g ∘ f = id` を示せば良いが、これは既に示した。
-  exact gdef
+  -- `g ∘ f = id` を使って、
+  -- `g` が全射であることを示す。
+  sorry
