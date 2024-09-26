@@ -9,6 +9,11 @@
 * [Lean Forward](https://lean-forward.github.io/) 数学への Lean の応用を推進するコミュニティ。
 * [lean-ja](https://discord.gg/p32ZfnVawh) この資料を作っている lean-ja のディスコードサーバです。
 
+## 📰 ブログ
+
+* [Lean Blog](https://lean-lang.org/blog/) Lean の公式ブログ。各リリースにおける新機能が説明されていたり、ロードマップについて書かれていたりします。
+* [Lean community blog](https://leanprover-community.github.io/blog/) Lean コミュニティが運営するブログ。Lean での数学の形式化プロジェクトに関する話題が多いです。
+
 ## 🧰 ライブラリやツール
 
 * [Mathlib4](https://github.com/leanprover-community/mathlib4) Lean で大学の学部程度の数学を実装したライブラリ。
