@@ -184,17 +184,12 @@
                         </a>
                         {{/if}}
                         {{!--
-                            Discord への招待ボタン
-                            本来はアイコンを Discord のアイコンにすべきだが、mdbook が使用している FontAwesome はバージョンが 4.7.0 であり
-                            Discord のアイコンが存在しない。そのため、コミュニティっぽいアイコンで代用している。
+                            本来編集ページへのリンクだが、改造してファイル単位の実行ボタンにしている
                         --}}
-                        <a href="https://discord.gg/p32ZfnVawh" title="Join our community" aria-label="Join community">
-                            <i id="discord-invite-button" class="fa fa-comments-o"></i>
-                        </a>
                         {{#if git_repository_edit_url}}
-                        <a href="{{git_repository_edit_url}}" title="Suggest an edit" aria-label="Suggest an edit"
+                        <a href="{{git_repository_edit_url}}" title="Run on Lean 4 playground" aria-label="Run on Lean 4 playground"
                             target=_blank>
-                            <i id="git-edit-button" class="fa fa-edit"></i>
+                            <i id="lean-play-button" class="fa fa-play"></i>
                         </a>
                         {{/if}}
                     </div>
