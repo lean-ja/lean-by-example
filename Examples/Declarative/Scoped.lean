@@ -34,7 +34,7 @@ section
 end
 
 /- `scoped` で有効範囲を限定できるコマンドには、次のようなものがあります。
-* `elab`, `elab_rules`
+* [`elab`](./Elab.md), `elab_rules`
 * [`infix`](./Infix.md), `infixl`, `infixr`
 * [`instance`](./Instance.md)
 * [`macro`](./Macro.md), [`macro_rules`](./MacroRules.md)
