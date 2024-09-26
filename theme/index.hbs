@@ -183,13 +183,20 @@
                             <i id="git-repository-button" class="fa {{git_repository_icon}}"></i>
                         </a>
                         {{/if}}
+                        {{!--
+                            Discord への招待ボタン
+                            本来はアイコンを Discord のアイコンにすべきだが、mdbook が使用している FontAwesome はバージョンが 4.7.0 であり
+                            Discord のアイコンが存在しない。そのため、コミュニティっぽいアイコンで代用している。
+                        --}}
+                        <a href="https://discord.gg/p32ZfnVawh" title="Join our community" aria-label="Join community">
+                            <i id="discord-invite-button" class="fa fa-comments-o"></i>
+                        </a>
                         {{#if git_repository_edit_url}}
                         <a href="{{git_repository_edit_url}}" title="Suggest an edit" aria-label="Suggest an edit"
                             target=_blank>
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
                         {{/if}}
-
                     </div>
                 </div>
 
