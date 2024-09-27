@@ -54,3 +54,33 @@ attribute [default_instance] instNatPair
 
 インスタンス優先度(priority)という機能もあります。これも型クラス解決の優先度に関係する機能ですが、`[default_instance]` 属性とは挙動が異なります。Lean はインスタンス解決の際にまずインスタンス優先度の高いものから試し、すべて失敗した場合にのみ `[default_instance]` 属性を参照します。つまり、考慮される順番が異なるということです。
 -/
+
+/-- ⋄ 記法のための型クラス -/
+class Diamond (α : Type) where
+  dia : α
+
+notation "⋄" => Diamond.dia
+
+/-- `⋄ : Nat` が `0` を表すものとする -/
+instance instDiaZero : Diamond Nat where
+  dia := 0
+
+/-- `⋄ : Nat` が `1` を表すものとする -/
+instance instDiaOne : Diamond Nat where
+  dia := 1
+
+-- 二つのインスタンスが衝突しているが、
+-- 後に定義された方が優先される
+#guard (⋄ : Nat) = 1
+
+-- `0` と解釈する方をデフォルトにする
+attribute [default_instance] instDiaZero
+
+-- デフォルトインスタンスにしても効果がなく、相変わらず `1` の方が優先される！
+-- これは、期待される型がわかっていて型クラス解決が早期に成功するから
+#guard (⋄ : Nat) = 1
+
+-- 期待される型が不明な状況であれば、
+-- デフォルトインスタンスが使用される
+/-- info: 0 -/
+#guard_msgs in #eval ⋄
