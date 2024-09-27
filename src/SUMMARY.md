@@ -83,6 +83,7 @@
   - [ToString: 文字列に変換](./TypeClass/ToString.md)
 
 - [型](./Type/README.md)
+  - [Char: Unicode 文字](./Type/Char.md)
   - [Prop: 命題全体](./Type/Prop.md)
   - [String: 文字列](./Type/String.md)
   - [Type: 型全体](./Type/Type.md)

@@ -1,6 +1,6 @@
 /- # String
 
-`String` は文字列を表す型です。次のように、文字を表す型 `Char` のリストとして定義されています。
+`String` は文字列を表す型です。次のように、文字を表す型 [`Char`](./Char.md) のリストとして定義されています。
 -/
 import Lean --#
 --#--
@@ -24,18 +24,15 @@ structure String where
   data : List Char
 
 end Hidden --#
-/- ## 基本的な操作
 
-文字列に関する基本的な操作を紹介します。-/
-
-/- ### 文字列結合
+/- ## 文字列結合
 `String.append` を使って文字列を結合することができます。この関数は `++` という記号が割り当てられています。
 -/
 
 #guard String.append "Hello, " "world!" = "Hello, world!"
 #guard "Hello, " ++ "world!" = "Hello, world!"
 
-/- ### 文字列の長さ
+/- ## 文字列の長さ
 文字列の長さは `String.length` 関数で取得することができます。
 -/
 
@@ -69,7 +66,7 @@ and both `String.utf8ByteSize` and `String.length` are cached and O(1).
 -/
 #guard_msgs in #doc String
 
-/- ### 文字列補完
+/- ## 文字列補完
 
 `String` 型の変数の「評価した後の値」を文字列に埋め込むことができます。これを文字列補完と呼びます。Lean では、これは `s!` という構文で行うことができます。
 -/
