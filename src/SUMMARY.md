@@ -64,10 +64,11 @@
   - [cases_eliminator: 独自場合分け](./Attribute/CasesEliminator.md)
   - [coe: 型強制 ↑ として表示させる](./Attribute/Coe.md)
   - [csimp: 効率的な実装に置換](./Attribute/Csimp.md)
+  - [default_instance: デフォルトの解決法](./Attribute/DefaultInstance.md)
   - [induction_eliminator: 独自帰納法](./Attribute/InductionEliminator.md)
   - [inherit_doc: ドキュメントの継承](./Attribute/InheritDoc.md)
   - [match_pattern: 独自パタンマッチ](./Attribute/MatchPattern.md)
-  - [simps: simp補題の自動生成](./Attribute/Simps.md)
+  - [simps: simp 補題の自動生成](./Attribute/Simps.md)
 
 - [型クラス](./TypeClass/README.md)
   - [Coe: 型強制](./TypeClass/Coe.md)
