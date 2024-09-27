@@ -62,6 +62,7 @@
 - [属性](./Attribute/README.md)
   - [app_unexpander: 関数適用の表示](./Attribute/AppUnexpander.md)
   - [cases_eliminator: 独自場合分け](./Attribute/CasesEliminator.md)
+  - [coe: 型強制 ↑ として表示させる](./Attribute/Coe.md)
   - [csimp: 効率的な実装に置換](./Attribute/Csimp.md)
   - [induction_eliminator: 独自帰納法](./Attribute/InductionEliminator.md)
   - [inherit_doc: ドキュメントの継承](./Attribute/InheritDoc.md)
