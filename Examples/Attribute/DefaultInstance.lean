@@ -84,3 +84,14 @@ attribute [default_instance] instDiaZero
 -- デフォルトインスタンスが使用される
 /-- info: 0 -/
 #guard_msgs in #eval ⋄
+
+/-- `⋄ : Nat` が `2` を表すものとする。優先度を `high` にしておく -/
+instance (priority := high) instDiaTwo : Diamond Nat where
+  dia := 2
+
+/-- `⋄ : Nat` が `3` を表すものとする -/
+instance instDiaThree : Diamond Nat where
+  dia := 3
+
+-- `2` と解釈する方が優先されるようになった！
+#guard (⋄ : Nat) = 2
