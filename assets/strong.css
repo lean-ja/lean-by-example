@@ -3,8 +3,8 @@ p strong {
   font-weight:normal;
 
   /* 色を変える */
-  color: #3b82f6;
+  color: #60a5fa;
 
   /* 下線を引く */
-  background: linear-gradient(transparent 90%, #2563eb 90%);
+  background: linear-gradient(transparent 90%, #3b82f6 90%);
 }
