@@ -4,7 +4,4 @@ p strong {
 
   /* 色を変える */
   color: #60a5fa;
-
-  /* 下線を引く */
-  background: linear-gradient(transparent 90%, #3b82f6 90%);
 }
