@@ -27,9 +27,7 @@ additional-css = [
   # mdbook-admonish のスタイル
   "./assets/mdbook-admonish.css",
   # サイドバーに目次を表示する
-  "./assets/pagetoc.css",
-  # 強調された文字の色を変えて目立たせる
-  "./assets/strong.css",
+  "./assets/pagetoc.css"
 ]
 
 # セクション番号を振らない
