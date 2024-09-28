@@ -1,3 +1,10 @@
 p strong {
-  color: #4d7c0f;
+  /* 太字にしない */
+  font-weight:normal;
+
+  /* 色を変える */
+  color: #3b82f6;
+
+  /* 下線を引く */
+  background: linear-gradient(transparent 90%, #2563eb 90%);
 }
