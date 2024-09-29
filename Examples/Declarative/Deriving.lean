@@ -30,7 +30,14 @@ deriving instance Repr for Color
 -- `eval` できるようになった
 #eval Color.red
 
-/- 対象の型の直後であれば、省略して `deriving C` だけ書けば十分です。また複数の型クラスに対してインスタンスを生成するには、クラス名をカンマで続けます。-/
+/- ## 利用できる構文
+対象の型の直後であれば、省略して `deriving C` だけ書けば十分です。-/
+
+def StrList := List String deriving Inhabited
+
+#check (default : StrList)
+
+/- また複数の型クラスに対してインスタンスを生成するには、クラス名をカンマで続けます。 -/
 
 structure People where
   name : String
