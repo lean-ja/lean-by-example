@@ -2,7 +2,7 @@
 
 `List` は**連結リスト**を表す型です。
 
-Lean では次のように再帰的に定義されています。(宇宙レベルについての記述を省いています)
+Lean では次のように再帰的に定義されています。
 -/
 namespace Hidden --#
 --#--
@@ -18,7 +18,7 @@ List.cons : {α : Type u} → α → List α → List α
 --#--
 
 /-- `α` 型の項を集めたリスト -/
-inductive List (α : Type) where
+inductive List.{u} (α : Type u) where
   /-- 空リスト `[]` はリスト -/
   | nil : List α
 
