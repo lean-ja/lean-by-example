@@ -85,6 +85,17 @@ example {a₁ a₂ a₃ : α} (f : α → β)
 -- リストの各要素を 2 倍する
 #guard List.map (fun x => x * 2) [1, 2, 3] = [2, 4, 6]
 
+/- ### filter
+
+`List` の中の要素から、ある条件を満たすものだけを取り出すには `List.filter` を使います。
+-/
+
+-- `l` 以外の文字を残す
+#guard ["h", "e", "l", "l", "o"].filter (· ≠ "l") = ["h", "e", "o"]
+
+-- 偶数を残す
+#guard [1, 2, 3, 4, 5].filter (· % 2 = 0) = [2, 4]
+
 /- ### foldl
 
 引数に `List α` の項を取る関数は、リストに対する再帰を使って定義されることが多いものです。たとえば、リストの各要素を足し合わせる関数は次のように定義できます。
@@ -110,12 +121,12 @@ def List.prod : List Nat → Nat
 -/
 
 /-- `List.foldl` の例示のための型クラス -/
-class FoldInit (α β : Type) where
-  /-- 二項演算 -/
+class Foldl (α β : Type) where
+  /-- 左結合的な二項演算 -/
   op : α → β → α
 
 -- 左結合的な演算子として `⊗` を定義する
-@[inherit_doc] infixl:70 "⊗" => FoldInit.op
+@[inherit_doc] infixl:70 "⊗" => Foldl.op
 
 /-- #### List.foldl の使用例
 
@@ -124,7 +135,7 @@ class FoldInit (α β : Type) where
 このとき `[b₁, b₂, b₃] : List β` に対して、
 `List.foldl` は左に初期値を挿入して順に `⊗` を適用したものに等しい。
 -/
-example [FoldInit α β] {b₁ b₂ b₃ : β} (init : α) :
+example [Foldl α β] {b₁ b₂ b₃ : β} (init : α) :
     [b₁, b₂, b₃].foldl (· ⊗ ·) init = init ⊗ b₁ ⊗ b₂ ⊗ b₃ := by
   rfl
 
@@ -136,3 +147,26 @@ example [FoldInit α β] {b₁ b₂ b₃ : β} (init : α) :
 
 -- リストの最大値を foldl で求める例
 #guard [1, 2, 3, 4].foldl (max · ·) 0 = 4
+
+/- ### foldr
+`List.foldr` は `List.foldl` の右結合バージョンです。
+-/
+
+/-- `List.foldr` の例示のための型クラス -/
+class Foldr (α β : Type) where
+  /-- 右結合的な二項演算 -/
+  op : α → β → β
+
+-- 右結合的な演算子として `⋄` を定義する
+@[inherit_doc] infixr:70 "⋄" => Foldr.op
+
+/-- #### List.foldr の使用例
+
+初期値が `init : β` で、適用する二項演算が `⋄ : α → β → β` だとする。
+また `⋄` は右結合的、つまり `a ⋄ b ⋄ c = a ⋄ (b ⋄ c)` であるとする。
+このとき `[a₁, a₂, a₃] : List α` に対して、
+`List.foldr` は右に初期値を挿入して順に `⋄` を適用したものに等しい。
+-/
+example [Foldr α β] {a₁ a₂ a₃ : α} (init : β) :
+    [a₁, a₂, a₃].foldr (· ⋄ ·) init = a₁ ⋄ a₂ ⋄ a₃ ⋄ init := by
+  rfl
