@@ -96,28 +96,9 @@ example {a₁ a₂ a₃ : α} (f : α → β)
 -- 偶数を残す
 #guard [1, 2, 3, 4, 5].filter (· % 2 = 0) = [2, 4]
 
-/- ### foldl
+/- ### foldl と foldr
 
-引数に `List α` の項を取る関数は、リストに対する再帰を使って定義されることが多いものです。たとえば、リストの各要素を足し合わせる関数は次のように定義できます。
--/
-
-/-- 自然数のリストに対して、その総和を計算する -/
-def List.sum : List Nat → Nat
-  | [] => 0
-  | x :: xs => x + xs.sum
-
-#guard [1, 2, 3, 4].sum = 10
-
-/- これが「各要素を足し合わせる」ではなくて「積を計算する」なら次のようになります。-/
-
-/-- 自然数のリストに対して、その積を計算する -/
-def List.prod : List Nat → Nat
-  | [] => 1
-  | x :: xs => x * xs.prod
-
-#guard [1, 2, 3, 4].prod = 24
-
-/- この二つの関数は初期値と、適用する二項演算だけが異なり、後は一致しています。そこでこの共通する部分を抜き出したのが `List.foldl` です。`List.foldl` はリストの要素を指定した二項演算で繋げていきます。
+`List.foldl` と `List.foldr` は、リストの各要素を指定した二項演算で繋げます。
 -/
 
 /-- `List.foldl` の例示のための型クラス -/
@@ -139,19 +120,6 @@ example [Foldl α β] {b₁ b₂ b₃ : β} (init : α) :
     [b₁, b₂, b₃].foldl (· ⊗ ·) init = init ⊗ b₁ ⊗ b₂ ⊗ b₃ := by
   rfl
 
--- 総和を foldl で計算した例
-#guard [1, 2, 3, 4].foldl (· + ·) 0 = 10
-
--- 積を foldl で計算した例
-#guard [1, 2, 3, 4].foldl (· * ·) 1 = 24
-
--- リストの最大値を foldl で求める例
-#guard [1, 2, 3, 4].foldl (max · ·) 0 = 4
-
-/- ### foldr
-`List.foldr` は `List.foldl` の右結合バージョンです。
--/
-
 /-- `List.foldr` の例示のための型クラス -/
 class Foldr (α β : Type) where
   /-- 右結合的な二項演算 -/
@@ -170,3 +138,25 @@ class Foldr (α β : Type) where
 example [Foldr α β] {a₁ a₂ a₃ : α} (init : β) :
     [a₁, a₂, a₃].foldr (· ⋄ ·) init = a₁ ⋄ a₂ ⋄ a₃ ⋄ init := by
   rfl
+
+/- `List.foldl` と `List.foldr` の違いは、演算が左結合的と仮定するか右結合的と仮定するか以外にも、`List.foldl` は末尾再帰(tail recursion)であるが `List.foldr` はそうでないことが挙げられます。 -/
+
+/-- 自然数のリストの総和を計算する関数 -/
+def List.sum : List Nat → Nat
+  | [] => 0
+  | n :: ns => n + sum ns
+
+/-- List.sum は List.foldr で表すことができる -/
+example : List.foldr (· + ·) 0 = List.sum := by rfl
+
+/-- 末尾再帰にした総和関数 -/
+def List.sumTR (l : List Nat) : Nat :=
+  aux 0 l
+where
+  -- ある初期値から始めてリストの各要素の総和を求めるヘルパ関数
+  aux : Nat → List Nat → Nat
+  | x, [] => x
+  | x, n :: ns => aux (x + n) ns
+
+/-- List.sumTR は List.foldl で表すことができる -/
+example : List.foldl (· + ·) 0 = List.sumTR := by rfl
