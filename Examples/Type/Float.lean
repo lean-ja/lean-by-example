@@ -69,6 +69,14 @@ def Float.toExactDecimal (x : Float) : String := x.toRat0.pow2ToBase10
 -- 等しそうに見えるが、等しくない
 #guard 0.1 + 0.2 != 0.3
 
+-- 両辺を `#eval` で評価してみても理由はわからない…
+
+/-- info: 0.300000 -/
+#guard_msgs in #eval 0.1 + 0.2
+
+/-- info: 0.300000 -/
+#guard_msgs in #eval 0.3
+
 -- 両辺の正確な値を表示させてみると理由がわかる
 
 -- `0.1 + 0.2 : Float` は `0.3 : Rat` より大きい
@@ -79,4 +87,4 @@ def Float.toExactDecimal (x : Float) : String := x.toRat0.pow2ToBase10
 -- `0.3 : Float` は `0.3 : Rat` より小さい
 /-- info: "0.299999999999999988897769753748434595763683319091796875" -/
 #guard_msgs in
-  #eval Float.toExactDecimal (0.3)
+  #eval Float.toExactDecimal 0.3
