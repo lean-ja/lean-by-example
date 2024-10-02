@@ -105,6 +105,13 @@ end
 variable (P Q : Prop)
 
 -- section を抜けると simp 補題が利用できない
-#check_failure (by simp : ((P ∨ Q) ∧ ¬ Q) ↔ (P ∧ ¬ Q))
+example (P Q : Prop) : ((P ∨ Q) ∧ ¬ Q) ↔ (P ∧ ¬ Q) := by
+  simp
+
+  -- 証明すべきことが残ってしまった
+  show ¬Q → Q → P
+
+  intro _ _
+  contradiction
 
 end Attribute --#
