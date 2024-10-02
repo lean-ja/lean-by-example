@@ -71,7 +71,7 @@ def instMonoid'Nat : Monoid' Nat where
 
 ここで(本物の)型クラスにおける単位元関数 `e` の型を調べてみると、`self : Monoid' α` が角括弧 `[ .. ]` で囲われていることがわかります。-/
 
-#check (Monoid.e : {α : Type} → [self : Monoid α] → α)
+#check (Monoid.e : {α : Type} → [_self : Monoid α] → α)
 
 /- これは**インスタンス暗黙引数**と呼ばれるもので、この場合 Lean に対して `Monoid' α` 型の項を自動的に合成するよう指示することを意味します。また、型クラスのインスタンス暗黙引数を自動的に合成する手続きのことを、**型クラス解決**と呼びます。-/
 
