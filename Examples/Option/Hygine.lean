@@ -57,3 +57,49 @@ example (P : Prop) : P → P := by
   exact h
 
 end --#
+/- また、(驚くべきことに)タクティクマクロの中で導入した識別子だけでなく、「参照した」識別子についても Lean が自動的に衝突を回避します。 -/
+section --#
+
+/-- exfalso タクティクを真似て自作したタクティク -/
+macro "my_exfalso" : tactic => `(tactic| apply False.elim)
+
+namespace Foo
+
+  /-- `False.elim` とめっちゃよく似た名前の紛らわしい定理 -/
+  theorem False.elim : 1 + 1 = 2 := by rfl
+
+  example (_h : False) : 1 + 1 = 2 := by
+    -- 普通に `apply` すると上の紛らわしい定理の方が使われてしまう
+    apply False.elim
+
+    done
+
+  example (h : False) : 1 + 1 = 2 := by
+    -- 実行した環境ではなくて宣言した環境における `False.elim` が使われる。
+    -- 紛らわしい方の定理は使われない！
+    my_exfalso
+
+    show False
+    contradiction
+
+end Foo
+
+-- マクロ衛生を保つ機能を無効にする
+set_option hygiene false
+
+/-- マクロ衛生が無効になったバージョンの `my_exfalso` -/
+macro "my_exfalso'" : tactic => `(tactic| apply False.elim)
+
+namespace Bar
+
+  /-- `False.elim` とめっちゃよく似た名前の紛らわしい定理 -/
+  theorem False.elim : 1 + 1 = 2 := by rfl
+
+  example (_h : False) : 1 + 1 = 2 := by
+    -- 紛らわしい方の `False.elim` が使われてしまう。
+    my_exfalso'
+
+    done
+
+end Bar
+end --#
