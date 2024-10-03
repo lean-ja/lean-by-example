@@ -70,6 +70,9 @@
   - [match_pattern: 独自パタンマッチ](./Attribute/MatchPattern.md)
   - [simps: simp 補題の自動生成](./Attribute/Simps.md)
 
+- [オプション](./Option/README.md)
+  - [hygine: マクロ衛生](./Option/Hygine.md)
+
 - [型クラス](./TypeClass/README.md)
   - [Coe: 型強制](./TypeClass/Coe.md)
   - [CoeDep: 依存型強制](./TypeClass/CoeDep.md)

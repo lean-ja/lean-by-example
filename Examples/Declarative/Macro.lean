@@ -57,25 +57,4 @@ macro "norm_sqrt" : tactic => `(tactic| with_reducible
 example : √4 = 2 := by norm_sqrt
 example : √18 = 3 * √ 2 := by norm_sqrt
 
-/- ## マクロ衛生
-プログラミング言語に対して、マクロが **衛生的(hygienic)** であるとは、マクロ処理の過程で名前衝突の問題が発生しないことを指します。Lean のマクロは衛生的です。
-
-マクロ衛生が問題になる場面とは、たとえば次のような場合です。
--/
-
-/-- 定数関数を定義するマクロ -/
-scoped macro "const" e:term : term => `(fun x => $e)
-
-#guard (const 42) 5 = 42
-
-def x := 10
-
--- `const x` は `x = 10` をとる定数関数なのでこうなるべき
-#guard (const x) 5 = 10
-
--- マクロの中で使用されている変数名も `x` であるため、
--- もし const マクロをナイーブに展開していたらこうなってしまって、
--- 値が変わってしまっていただろう。
-#guard (fun x => x) 5 = 5
-
 end Macro --#
