@@ -2,7 +2,7 @@
 
 `[cases_eliminator]` 属性は、[`cases`](../Tactic/Cases.md) タクティクで場合分けをした際の枝を変更します。
 
-より詳しくいうと、[`cases`](../Tactic/Cases.md) タクティクの `using` キーワードのデフォルトの引数を変更することができます。デフォルトでは、帰納型 `T` に対して `T.casesOn` という定理が自動生成されてそれが暗黙の裡に `using` キーワードの引数として使われますが、`[cases_eliminator]` 属性で別な定理を指定すると、それが使われるようになります。
+より詳しくいうと、[`cases`](../Tactic/Cases.md) タクティクの `using` キーワードのデフォルトの引数を変更することができます。デフォルトでは、[帰納型](../Declarative/Inductive.md) `T` に対して `T.casesOn` という定理が自動生成されてそれが暗黙の裡に `using` キーワードの引数として使われますが、`[cases_eliminator]` 属性で別な定理を指定すると、それが使われるようになります。
 -/
 namespace CasesEliminator --#
 

@@ -131,7 +131,7 @@ example (a b c d e : Nat)
   aesop
 end --#
 /- ### constructors
-`constructors` ビルダーは、帰納型 `T` の形をしたゴールに遭遇した際に、コンストラクタを適用するように指示します。
+`constructors` ビルダーは、[帰納型](../Declarative/Inductive.md) `T` の形をしたゴールに遭遇した際に、コンストラクタを適用するように指示します。
 -/
 
 /-- 自前で定義した偶数を表す命題 -/

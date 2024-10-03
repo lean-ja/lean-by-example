@@ -45,7 +45,7 @@ example (h : P ↔ Q) (hP : P) : Q := by
   apply pq
   assumption
 
-/- また論理積や同値性は構造体なので、次の関数も利用できます。-/
+/- また論理積や同値性は[構造体](../Declarative/Structure.md)なので、次の関数も利用できます。-/
 
 -- 論理積から構成要素を取り出す関数
 #check (And.left : P ∧ Q → P)

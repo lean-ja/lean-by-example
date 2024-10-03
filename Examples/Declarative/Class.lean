@@ -43,7 +43,7 @@ instance {α : Type} : Monoid (List α) where
 
 /- ## 型クラス解決
 
-型クラスが行っていることを `class` を使わずにDIYしてみると、型クラスの理解が深まるでしょう。`class` として上で定義したものを、もう一度 [`structure`](./Structure.md) として定義してみます。-/
+型クラスが行っていることを `class` を使わずにDIYしてみると、型クラスの理解が深まるでしょう。`class` として上で定義したものを、もう一度 [構造体](./Structure.md)として定義してみます。-/
 
 /-- 構造体でモノイドクラスを真似たもの -/
 structure Monoid' (α : Type) where
@@ -127,7 +127,7 @@ instance : Plus Nat (List Nat) (List Nat) where
 
 end Good --#
 /- ## class inductive { #ClassInductive }
-基本的に型クラスの下部構造は構造体ですが、一般の帰納型を型クラスにすることも可能です。それには `class inductive` というコマンドを使います。
+基本的に型クラスの下部構造は構造体ですが、一般の[帰納型](../Declarative/Inductive.md)を型クラスにすることも可能です。それには `class inductive` というコマンドを使います。
 -/
 
 /-- 全単射があるという同値関係 -/

@@ -21,7 +21,7 @@
 #guard (False ∧ True) = False
 #guard (False ∧ False) = False
 
-/- Lean では `And` という名前の構造体(structure)として表現されます。-/
+/- Lean では `And` という名前の[構造体](../Declarative/Structure.md)として表現されます。-/
 
 example (P Q : Prop) (hP : P) (hQ : Q) : P ∧ Q := And.intro hP hQ
 
@@ -34,7 +34,7 @@ example (P Q : Prop) (hP : P) (hQ : Q) : P ∧ Q := And.intro hP hQ
 #guard False ∨ True
 #guard (False ∨ False) = False
 
-/- Lean では `Or` という名前の帰納型(inductive type)として表現されます。-/
+/- Lean では `Or` という名前の[帰納型](../Declarative/Inductive.md)として表現されます。-/
 
 example (P Q : Prop) (hP : P) : P ∨ Q := Or.inl hP
 

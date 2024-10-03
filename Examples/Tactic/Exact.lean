@@ -16,10 +16,10 @@ example (hP : P) (hQ : Q) : P ∧ Q := by
 
 example (hP : P) (hQ : Q) : P ∧ Q := And.intro hP hQ
 
-/-! なお `And` は構造体なので[無名コンストラクタ](../Declarative/Structure.md#AnonymousConstructor)記法を用いて次のように書くこともできます。-/
+/- なお `And` は[構造体](../Declarative/Structure.md)なので[無名コンストラクタ](../Declarative/Structure.md#AnonymousConstructor)記法を用いて次のように書くこともできます。-/
 
 example (hP : P) (hQ : Q) : P ∧ Q := ⟨hP, hQ⟩
 
-/-! ## assumption との関連
+/- ## assumption との関連
 
 `exact` は常にどの命題を使うか明示する必要がありますが、「ゴールを `exact` で閉じることができるような命題をローカルコンテキストから自動で探す」 [`assumption`](./Assumption.md) というタクティクもあります。-/
