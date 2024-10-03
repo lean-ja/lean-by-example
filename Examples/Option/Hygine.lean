@@ -22,10 +22,38 @@ set_option hygiene false
 /-- マクロ衛生が無効になった定数関数マクロ -/
 macro "const'" e:term : term => `(fun x => $e)
 
--- 引数の値が同じでも、識別子の名前によって値が変わるようになる。
+-- 引数の値が同じでも、識別子の名前によって値が変わるようになってしまった。
 -- これはマクロの中で使用されている変数名も `x` であるため。
 #guard (const' x) 0 = 0
 #guard (const' y) 0 = 42
 
 end --#
-/-  -/
+/- ## タクティクにおけるマクロ衛生
+
+タクティクで導入される識別子についても、実行時の環境にある識別子と衝突しないようにする機能が Lean にはあります。
+-/
+section --#
+
+macro "my_intro" : tactic => `(tactic| intro h)
+
+example (P : Prop) : P → P := by
+  my_intro
+
+  -- `h : P` がマクロ展開によって導入されはするが、
+  -- 死んでいるので使えない
+  fail_if_success exact h
+
+  assumption
+
+-- マクロ衛生を保つ機能を無効にする
+set_option hygiene false
+
+macro "my_intro'" : tactic => `(tactic| intro h)
+
+example (P : Prop) : P → P := by
+  my_intro'
+
+  -- `h : P` が使えてしまう
+  exact h
+
+end --#
