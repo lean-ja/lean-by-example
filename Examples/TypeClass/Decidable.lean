@@ -44,7 +44,7 @@ instance (n : Nat) : Decidable (Even n) := by
 example : Even 4 := by decide
 
 /- ## class inductive
-`Decidable` 型クラスの定義は少し特殊です。コンストラクタが複数あり、構造体ではなく帰納型の構造をしています。これは `Decidable` が [`class inductive`](../Declarative/Class.md#ClassInductive) というコマンドで定義されているためです。-/
+`Decidable` 型クラスの定義は少し特殊です。コンストラクタが複数あり、[構造体](../Declarative/Structure.md)ではなく[帰納型](../Declarative/Inductive.md)の構造をしています。これは `Decidable` が [`class inductive`](../Declarative/Class.md#ClassInductive) というコマンドで定義されているためです。-/
 
 /--
 info: inductive Decidable : Prop → Type

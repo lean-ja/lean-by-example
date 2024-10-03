@@ -81,7 +81,7 @@ def foo' : Nat × (Int × String) := ⟨1, 2, "foo"⟩
 
 #guard foo = foo'
 
-/- 一般の帰納型に対しては使用できません。-/
+/- 一般の[帰納型](../Declarative/Inductive.md)に対しては使用できません。-/
 
 inductive Sample where
   | fst (foo bar : Nat) : Sample
