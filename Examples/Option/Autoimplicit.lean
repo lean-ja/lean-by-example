@@ -1,5 +1,5 @@
-/- # autoimplicit
-`autoimplicit` オプションは、自動束縛暗黙引数(auto bound implicit arguments)という機能を制御します。
+/- # autoImplicit
+`autoImplicit` オプションは、自動束縛暗黙引数(auto bound implicit arguments)という機能を制御します。
 
 有効にすると、宣言が省略された引数が1文字であるとき、それを暗黙引数として自動的に追加します。
 
@@ -11,7 +11,7 @@
 -/
 set_option relaxedAutoImplicit false --#
 
--- `autoimplicit` が無効の時
+-- `autoImplicit` が無効の時
 set_option autoImplicit false in
 
 -- `nonempty` の定義には `α` という未定義の識別子が含まれるため、
@@ -22,7 +22,7 @@ set_option autoImplicit false in
     | [] => false
     | _ :: _ => true
 
--- `autoimplicit` が有効の時
+-- `autoImplicit` が有効の時
 set_option autoImplicit true in
 
 -- `α` という未定義の識別子を含んでいてもエラーにならない。
@@ -34,7 +34,7 @@ def head : List α → Option α
 /- 1文字の未束縛の識別子であればなんでも対象になるようです。 -/
 section autoImpl
 
--- `autoimplicit` が有効の時
+-- `autoImplicit` が有効の時
 set_option autoImplicit true
 
 -- ギリシャ文字ではなくて1文字の小文字でも暗黙引数として追加される
