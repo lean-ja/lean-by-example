@@ -71,7 +71,8 @@
   - [simps: simp 補題の自動生成](./Attribute/Simps.md)
 
 - [オプション](./Option/README.md)
-  - [hygiene: マクロ衛生](./Option/Hygine.md)
+  - [autoImplicit: 自動束縛暗黙引数](./Option/AutoImplicit.md)
+  - [hygiene: マクロ衛生](./Option/Hygiene.md)
 
 - [型クラス](./TypeClass/README.md)
   - [Coe: 型強制](./TypeClass/Coe.md)
