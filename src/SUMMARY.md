@@ -72,7 +72,7 @@
 
 - [オプション](./Option/README.md)
   - [autoImplicit: 自動束縛暗黙引数](./Option/AutoImplicit.md)
-  - [hygiene: マクロ衛生](./Option/Hygine.md)
+  - [hygiene: マクロ衛生](./Option/Hygiene.md)
 
 - [型クラス](./TypeClass/README.md)
   - [Coe: 型強制](./TypeClass/Coe.md)
