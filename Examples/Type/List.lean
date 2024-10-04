@@ -147,7 +147,12 @@ def List.sum : List Nat → Nat
   | n :: ns => n + sum ns
 
 /-- List.sum は List.foldr で表すことができる -/
-example : List.foldr (· + ·) 0 = List.sum := by rfl
+example : List.foldr (· + ·) 0 = List.sum := by
+  -- 再帰的な定義を分解する
+  delta List.foldr List.sum
+
+  -- 両者は等しい
+  rfl
 
 /-- 末尾再帰にした総和関数 -/
 def List.sumTR (l : List Nat) : Nat :=
@@ -159,4 +164,9 @@ where
   | x, n :: ns => aux (x + n) ns
 
 /-- List.sumTR は List.foldl で表すことができる -/
-example : List.foldl (· + ·) 0 = List.sumTR := by rfl
+example : List.foldl (· + ·) 0 = List.sumTR := by
+  -- 再帰的な定義を分解する
+  delta List.foldl List.sumTR List.sumTR.aux
+
+  -- 両者は等しい
+  rfl

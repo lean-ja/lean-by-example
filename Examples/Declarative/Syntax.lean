@@ -46,11 +46,13 @@ local syntax term " = " term " as " term : term
 local macro_rules
   | `(term| $a = $b as $c) => `(@Eq (α := $c) $a $b)
 
+set_option pp.mvars false --#
+
 -- `Nat` と `Prop` を足すことはできないというエラーメッセージ。
 -- `1 + (1 = 2)` だと認識されてしまっているようだ。
 /--
 warning: failed to synthesize
-  HAdd Nat Prop ?m.1897
+  HAdd Nat Prop ?_
 Additional diagnostic information may be available using the `set_option diagnostics true` command.
 -/
 #guard_msgs (warning) in

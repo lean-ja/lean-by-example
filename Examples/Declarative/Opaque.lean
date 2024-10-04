@@ -36,11 +36,10 @@ opaque opaque_greet : String := "hello world!"
 
 -- 等しいことの証明が rfl ではできない
 /--
-error: The rfl tactic failed. Possible reasons:
-- The goal is not a reflexive relation (neither `=` nor a relation with a @[refl] lemma).
-- The arguments of the relation are not equal.
-Try using the reflexivity lemma for your relation explicitly, e.g. `exact Eq.refl _` or
-`exact HEq.rfl` etc.
+error: tactic 'rfl' failed, the left-hand side
+  opaque_greet
+is not definitionally equal to the right-hand side
+  greet
 ⊢ opaque_greet = greet
 -/
 #guard_msgs in example : opaque_greet = greet := by rfl

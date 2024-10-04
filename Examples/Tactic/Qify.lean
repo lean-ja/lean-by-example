@@ -16,7 +16,7 @@ example (h : x ≥ 1) : 2 * x ≥ 2 := by
   show (2 : ℚ) ≤ 2 * x
 
   calc
-    (2 : ℚ) = 2 * 1 := by rfl
+    (2 : ℚ) = 2 * 1 := by simp
     _ ≤ 2 * (x : ℚ) := by gcongr
 
 /- より自然な例として、次の例も挙げておきます。-/
@@ -39,7 +39,8 @@ theorem sumPoly_succ {n : Nat} : sumPoly (n + 1) = (n + 1) + sumPoly n := by
   ring
 
 @[simp]
-theorem sumPoly_zero : sumPoly 0 = 0 := by rfl
+theorem sumPoly_zero : sumPoly 0 = 0 := by
+  simp [sumPoly]
 
 /-- `sumPoly` の値は常に自然数で、`sum` と一致する -/
 theorem sum_eq_sumPoly {n : Nat} : sum n = sumPoly n := by

@@ -43,7 +43,7 @@ theorem sum_exp (n : Nat) : sum n = n * (n + 1) / 2 := by
   match n with
 
   -- `n = 0` の場合
-  | 0 => rfl
+  | 0 => simp [sum]
 
   -- `0` から `n` までの自然数で成り立つと仮定する
   | n + 1 =>
@@ -62,7 +62,7 @@ theorem sample : True := by
   have h : ∀ n, sum n = n * (n + 1) / 2 := by
     intro n
     match n with
-    | 0 => rfl
+    | 0 => simp [sum]
     | n + 1 =>
       -- h 自身を参照することができない
       fail_if_success have ih := h n
