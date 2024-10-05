@@ -34,6 +34,7 @@ example : ∀ (p : Prop), p ∨ ¬p := Classical.em
 
 /- また、`sorry` という命題を「証明したことにする」タクティクがありますが、これは `sorryAx` という万能な公理を導入していることが確認できます。-/
 
+#guard_msgs (drop warning) in --#
 theorem contra : False := by sorry
 
 /-- info: 'contra' depends on axioms: [sorryAx] -/

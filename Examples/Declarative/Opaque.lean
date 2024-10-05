@@ -99,6 +99,7 @@ opaque B : Type
 opaque C : Type
 
 -- 実装は与えないが C は Inhabited のインスタンスだと仮定
+#guard_msgs (drop warning) in --#
 instance : Inhabited C where
   default := sorry
 

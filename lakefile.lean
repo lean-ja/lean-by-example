@@ -4,7 +4,11 @@ open Lake DSL
 package «Lean by Example» where
   leanOptions := #[
     ⟨`autoImplicit, false⟩,
-    ⟨`relaxedAutoImplicit, false⟩
+    ⟨`relaxedAutoImplicit, false⟩,
+    ⟨`weak.linter.flexible, true⟩
+  ]
+  moreServerOptions := #[
+    ⟨`linter.flexible, true⟩
   ]
 
 require «mk-exercise» from git

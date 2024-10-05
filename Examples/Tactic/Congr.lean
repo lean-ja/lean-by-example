@@ -22,6 +22,7 @@ example (h : a = b) : a + 1 = b + 1 := by
   -- 等号の場合はOK
   congr
 
+set_option linter.unusedTactic false in --#
 example (h : a < b) : a + 1 < b + 1 := by
   -- 不等号の場合エラーにはならないが何も起こらない
   congr
@@ -32,6 +33,7 @@ example (h : a < b) : a + 1 < b + 1 := by
 /-! ## 再帰の深さの調節
 
 `congr` が適用される再帰の深さを引数として渡すことができます。これは、主に単に `congr` とするだけだと「行き過ぎ」になるときに調整する目的で使用されます。-/
+set_option linter.unusedTactic false in --#
 
 example (g : Int → X) (h : x = 0) (hf : ∀ x, f x = f (- x)) :
     g (f (2 + x)) = g (f (- 2)) := by

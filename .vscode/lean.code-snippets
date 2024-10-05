@@ -16,4 +16,20 @@
     ],
     "description": "doc string"
   },
+  "drop warning": {
+    "scope": "lean,lean4",
+    "prefix": "dropwarn",
+    "body": [
+      "#guard_msgs (drop warning) in --#",
+    ],
+    "description": "drop warning"
+  },
+  "unusedTactic linter disable": {
+    "scope": "lean,lean4",
+    "prefix": "unusedTactic",
+    "body": [
+      "set_option linter.unusedTactic false in --#",
+    ],
+    "description": "unusedTactic linter disable"
+  }
 }

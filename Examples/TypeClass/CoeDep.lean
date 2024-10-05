@@ -12,6 +12,7 @@ structure NonEmptyList (α : Type) : Type where
   tail : List α
 
 -- 型強制がないのでエラー
+#guard_msgs (drop warning) in --#
 #check_failure ([1, 2] : NonEmptyList Nat)
 
 variable {α : Type}

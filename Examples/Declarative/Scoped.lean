@@ -97,5 +97,6 @@ section
   #check (30 add' 12)
 
   -- greet は使えないまま
+  #guard_msgs (drop warning) in --#
   #check_failure greet
 end

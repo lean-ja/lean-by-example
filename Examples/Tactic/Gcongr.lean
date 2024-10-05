@@ -21,6 +21,7 @@ example (h1 : x ≤ y) (h2 : a ≤ b) (h3 : 0 ≤ a) (h4 : 0 ≤ y)
   gcongr
 
 /- `gcongr` はデフォルトでは分解できなくなるまで分解するので、「行き過ぎ」になることがあります。`gcongr` に分解パターンを直接指定することで、行き過ぎを防ぐことができます。-/
+set_option linter.unusedTactic false in --#
 
 example {c d : ℝ} (h : a + c + 1 ≤ b + d + 1) :
     x ^ 2 * (a + c) + 5 ≤ x ^ 2 * (b + d) + 5 := by

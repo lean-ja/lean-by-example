@@ -132,6 +132,7 @@ set_option pp.mvars false
 
 -- 等号（パース優先順位 50）より優先順位が低いという問題でエラーになる
 -- 上では60で定義しているのに、なぜ？
+#guard_msgs (drop warning) in --#
 #check_failure true ⊕ true = false
 
 -- 括弧を付けるとエラーにならない
@@ -158,6 +159,7 @@ local macro_rules | `($x ⊕ $y) => `(xor $x $y)
 #guard false ⊕ false = false
 
 -- 上書きされたので、 Sum の意味で ⊕ を使うことはできなくなった
+#guard_msgs (drop warning) in --#
 #check_failure Nat ⊕ Fin 2
 end --#
 

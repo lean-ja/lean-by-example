@@ -87,10 +87,16 @@ inductive Sample where
   | fst (foo bar : Nat) : Sample
   | snd (foo bar : String) : Sample
 
--- 「コンストラクタが一つしかない型でなければ使用できない」というエラーになる
-#check_failure (⟨"foo", "bar"⟩ : Sample)
+-- 「コンストラクタが一つしかない帰納型でなければ使用できない」というエラーになる
+/--
+warning: invalid constructor ⟨...⟩, expected type must be an inductive type with only one constructor ⏎
+  Sample
+-/
+#guard_msgs in
+  #check_failure (⟨"foo", "bar"⟩ : Sample)
 
 -- コンストラクタを指定しても使用できない
+#guard_msgs (drop warning) in --#
 #check_failure (Sample.snd ⟨"foo", "bar"⟩ : Sample)
 
 /- ## 項を定義する様々な構文
@@ -146,12 +152,18 @@ inductive Point' (α : Type) : Type where
   | mk : (x : α) → (y : α) → Point' α
 
 -- フィールド記法が利用できない
+#guard_msgs (drop warning) in --#
 #check_failure Point'.x
 
 -- 無名コンストラクタは使用できる
 def origin' : Point Int := ⟨0, 0⟩
 
 -- 波括弧記法は使用できない
-#check_failure ({ x := 1, y := 2 } : Point' Int)
+/--
+warning: invalid {...} notation, structure type expected
+  Point' Int
+-/
+#guard_msgs in
+  #check_failure ({ x := 1, y := 2 } : Point' Int)
 
 end Structure --#

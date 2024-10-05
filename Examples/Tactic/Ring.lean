@@ -62,6 +62,7 @@ example {n : Nat} : n - n + n = n := by
 `simp` 等と異なり、`ring?` タクティクは用意されていませんが、`show_term` で具体的にどんなルールが適用されたのかを知ることができます。
 ただし、その出力結果は非常に長く読みづらいものであることがしばしばです。
 -/
+set_option linter.unusedTactic false in --#
 
 example : (x + y) ^ 2 = x ^ 2 + 2 * x * y + y ^ 2 := by
   try

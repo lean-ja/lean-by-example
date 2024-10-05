@@ -48,6 +48,7 @@ end Set
 syntax "{{" term,* "}}" : term
 
 -- `syntax` コマンドは記法の解釈方法を決めていないので、エラーになる
+#guard_msgs (drop warning) in --#
 #check_failure {{2, 3}}
 
 -- 集合の波括弧記法をどう解釈するかのルールを定める

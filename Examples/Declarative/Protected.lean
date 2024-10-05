@@ -16,6 +16,7 @@ namespace Point
   private def private_sub := Point.sub
 
   -- 名前空間の中にいても、短い名前ではアクセスできない
+  #guard_msgs (drop warning) in --#
   #check_failure sub
 
   -- フルネームならアクセスできる
@@ -26,6 +27,7 @@ end Point
 open Point
 
 -- 名前空間を開いていても、短い名前でアクセスできない
+#guard_msgs (drop warning) in --#
 #check_failure sub
 
 -- フルネームならアクセスできる
@@ -78,6 +80,7 @@ open BinTree
 
 -- 名前空間を開いているのに、
 -- コンストラクタに短い名前でアクセスできない
+#guard_msgs (drop warning) in --#
 #check_failure node
 #check BinTree.node
 
@@ -100,6 +103,7 @@ open Sample
 #check bar
 
 -- hoge には短い名前でアクセスできない
+#guard_msgs (drop warning) in --#
 #check_failure hoge
 
 end --#

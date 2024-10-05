@@ -108,7 +108,7 @@ theorem pair_unpair_eq_id (x : ℕ) : pair (unpair x) = x := by
       -- `sum (m + n) + m = x` を示せば良いことが分かる。
       suffices sum (m + n) + m = x from by
         -- sorry
-        simp [pair]
+        simp only [pair]
         rw [show m + 1 + (n - 1) = m + n from by omega]
         omega
         -- sorry

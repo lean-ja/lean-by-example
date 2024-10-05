@@ -11,6 +11,7 @@ private def Three := MyList.cons 1 (MyList.cons 2 (MyList.cons 3 MyList.nil))
 
 -- 作ったばかりで実装していないため、
 -- インデックスアクセスの構文 `as[i]` が使えない
+#guard_msgs (drop warning) in --#
 #check_failure Three[2]
 
 variable {α : Type}

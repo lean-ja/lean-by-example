@@ -20,6 +20,7 @@ namespace Nat
 end Nat
 
 -- 名前空間の外に出ると、短い名前ではアクセスできない
+#guard_msgs (drop warning) in --#
 #check_failure isEven
 
 -- フルネームならアクセスできる

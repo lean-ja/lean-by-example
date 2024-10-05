@@ -22,7 +22,9 @@ example [Group G] [Group H] (f : G →* H) (a b : G) :
 `sorry` と同じように、清書した証明に残してはいけません。
 `sorry` と同じと言いましたが、実際 `apply?` は `sorryAx` を裏で使用します。
 -/
+set_option linter.unusedTactic false in --#
 
+#guard_msgs (drop warning) in --#
 theorem T (x y : Nat) (_: x ≤ y) : 8 ^ x ≤ 16 ^ y := by
   apply?
 

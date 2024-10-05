@@ -44,8 +44,11 @@ syntax "{" binder "|" term "}" : term
 
 -- 合法な構文として認識される
 -- 実装は与えていないのでエラーにはなる
+#guard_msgs (drop warning) in --#
 #check_failure { x | x = 0}
+#guard_msgs (drop warning) in --#
 #check_failure { x : Nat | x > 0 }
+#guard_msgs (drop warning) in --#
 #check_failure { x ∈ T | x = 0}
 
 /-- `{x : T | P x}` と `{x ∈ T | P x}` の形の式を `setOf` の式に変換する -/

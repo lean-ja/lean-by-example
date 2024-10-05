@@ -7,6 +7,7 @@
 しかし、`native_decide` を使うと証明が可能です。
 -/
 namespace NativeDecide --#
+#guard_msgs (drop warning) in --#
 
 /-- Euclide のアルゴリズム -/
 def gcd (m n : Nat) : Nat :=
@@ -23,6 +24,7 @@ def gcd (m n : Nat) : Nat :=
 
 -- `rfl` では証明できない
 -- これは停止性を証明していないため
+#guard_msgs (drop warning) in --#
 #check_failure (by rfl : gcd 42998431 120019 = 1)
 
 -- `native_decide` ならば証明できる

@@ -16,6 +16,7 @@ set_option linter.unusedVariables false
 abbrev ℕ := Nat
 
 variable (X : Type) (f : ℕ → ℕ)
+set_option linter.unusedTactic false in --#
 
 example (x : ℕ) (h : f x = x) : f (f x) = f x := by
   -- `let` を使用した場合

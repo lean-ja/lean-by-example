@@ -8,6 +8,8 @@ import Mathlib.Algebra.Group.Basic -- 群の定義を import する
 -- `G` は群
 variable (G : Type) [Group G]
 
+set_option linter.unusedTactic false in --#
+
 example (a b : G) : a * b⁻¹ = 1 ↔ a = b := by
 
   -- `one_mul: 1 * b = b` を使って `b` を `1 * b` に書き換えたい
