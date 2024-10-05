@@ -71,8 +71,7 @@ instance : Coe Nat myInt where
 /-- 型キャストの簡約を行う補題。`ℕ` の項が `myInt` として等しいなら、元から等しい。 -/
 theorem myInt_eq {x y : ℕ} : (x : myInt) = (y : myInt) ↔ x = y := by
   constructor <;> intro h
-  · simp [myInt.ofNat, (· ≈ ·), Setoid.r, IntBase.equiv] at h
-    exact h
+  · simpa [myInt.ofNat, (· ≈ ·), Setoid.r, IntBase.equiv] using h
   · rw [h]
 
 -- `[norm_cast]` 属性の制約として、

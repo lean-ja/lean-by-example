@@ -12,10 +12,12 @@ variable (n : Nat)
 proof_wanted result : n + 0 = n
 
 -- sorry で同様のことができる
+#guard_msgs (drop warning) in --#
 theorem another_result : n + 0 = n := by sorry
 
 -- sorry で証明した定理は参照できるが
 #check another_result
 
 -- proof_wanted で宣言した定理は参照できない
+#guard_msgs (drop warning) in --#
 #check_failure result

@@ -5,6 +5,7 @@ import Mathlib.Tactic.SlimCheck
 
 variable (a b : ℕ)
 
+#guard_msgs (drop warning) in --#
 example (h : 2 ≤ a + b) : 1 ≤ a := by
   /-
   Found problems! というエラーが表示される
@@ -19,5 +20,6 @@ example (h : 2 ≤ a + b) : 1 ≤ a := by
 100 個のテストケースでテストしてOKならエラーにならないのですが、途中でギブアップした場合はエラーになります。-/
 
 -- Gave up ** times と表示される
+#guard_msgs (drop warning) in --#
 example (h : a = 1) : a ≤ 1 := by
   slim_check

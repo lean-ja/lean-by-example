@@ -52,7 +52,9 @@ end --#
 
 local instance : Coe FinCat Type := ⟨fun S ↦ S.base⟩
 
+#guard_msgs (drop warning) in --#
 #check_failure ((1 : Fin 2) : Two)
+#guard_msgs (drop warning) in --#
 #check_failure (Two → Two)
 
 end CoeSort --#

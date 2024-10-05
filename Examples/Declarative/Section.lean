@@ -23,6 +23,7 @@ section
 end
 
 -- `section` の外に出ると無効になる
+#guard_msgs (drop warning) in --#
 #check_failure a
 
 /-
@@ -37,6 +38,7 @@ section
 end
 
 -- スコープが終わると無効になる
+#guard_msgs (drop warning) in --#
 #check_failure choice
 
 /- 次は `set_option` のスコープを区切る例です。 -/
@@ -86,8 +88,10 @@ section parent
   end child
 
   -- child セクションの外なので無効
+  #guard_msgs (drop warning) in --#
   #check_failure b
 end parent
 
 -- parent セクションの外なので無効
+#guard_msgs (drop warning) in --#
 #check_failure a

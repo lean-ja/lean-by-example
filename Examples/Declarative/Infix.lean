@@ -26,6 +26,7 @@ scoped infix:51 " strong " => Nat.add
 -- したがってエラーになる
 scoped infix:49 " weak " => Nat.add
 
+#guard_msgs (drop warning) in --#
 #check_failure 1 + 2 weak 3 = 6
 
 /- `infix` で定義される記法は左結合でも右結合でもなく、必ず括弧が必要です。-/

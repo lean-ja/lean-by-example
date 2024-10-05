@@ -11,6 +11,7 @@ namespace Private --#
 #check Point.sub
 
 -- private とマークした定義にはアクセスできない
+#guard_msgs (drop warning) in --#
 #check_failure Point.private_sub
 
 /- なお `private` コマンドでセクションや名前空間にスコープを制限することはできません。-/

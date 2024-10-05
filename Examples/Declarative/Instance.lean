@@ -13,6 +13,7 @@ structure Point (α : Type) where
 def origin : Point Int := { x := 0, y := 0 }
 
 -- 数値のように足し算をすることはできない
+#guard_msgs (drop warning) in --#
 #check_failure (origin + origin)
 
 /-- 平面上の点の足し算ができるようにする -/
@@ -57,6 +58,7 @@ instance {n : Nat} [OfNat Even n] : OfNat Even (n + 2) where
 #guard (2 : Even) = Even.succ Even.zero
 
 -- 奇数については OfNat の実装はない
+#guard_msgs (drop warning) in --#
 #check_failure (3 : Even)
 
 /- なお、インスタンス連鎖の回数には上限があります。-/
@@ -65,6 +67,7 @@ instance {n : Nat} [OfNat Even n] : OfNat Even (n + 2) where
 #eval (254 : Even)
 
 -- 上限を超えてしまった
+#guard_msgs (drop warning) in --#
 #check_failure (256 : Even)
 
 /-
@@ -73,6 +76,7 @@ instance {n : Nat} [OfNat Even n] : OfNat Even (n + 2) where
 -/
 
 -- `List` 同士を足すことはできない
+#guard_msgs (drop warning) in --#
 #check_failure [1] + [2]
 
 -- インスタンスを宣言する
@@ -88,6 +92,7 @@ def instListAdd {α : Type} : Add (List α) where
 attribute [-instance] instListAdd
 
 -- リスト同士を足すことができなくなった
+#guard_msgs (drop warning) in --#
 #check_failure [1] + [2]
 
 end Instance --#

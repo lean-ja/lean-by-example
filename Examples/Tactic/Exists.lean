@@ -25,7 +25,7 @@ Exists.intro : ∀ {α : Sort u} {p : α → Prop} (w : α), p w → Exists p
 
 -- `p : α → Prop` は `α` 上の述語とする。
 -- このとき `w : α` と `h : p w` が与えられたとき `∃ x : α, p x` が成り立つ。
-#check (Exists.intro : ∀ {α : Sort u} {p : α → Prop} (w : α) (h : p w), Exists p)
+#check (Exists.intro : ∀ {α : Sort u} {p : α → Prop} (w : α) (_h : p w), Exists p)
 
 /- したがって `Exists` は単一のコンストラクタを持つ[帰納型](../Declarative/Inductive.md)、つまり[構造体](../Declarative/Structure.md)なので、上記の `exists` は `exact` と[無名コンストラクタ](../Declarative/Structure.md#AnonymousConstructor)で次のように書き直すことができます。-/
 

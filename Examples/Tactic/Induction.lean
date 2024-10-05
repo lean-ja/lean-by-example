@@ -57,6 +57,7 @@ theorem sum_exp (n : Nat) : sum n = n * (n + 1) / 2 := by
     ring
 
 /- `have` で宣言された命題の証明の中では、この方法は使用できません。-/
+#guard_msgs (drop warning) in --#
 
 theorem sample : True := by
   have h : ∀ n, sum n = n * (n + 1) / 2 := by
@@ -175,6 +176,7 @@ def bar : Nat → Nat
   | 0 => 0
   | _ => 1
 
+#guard_msgs (drop warning) in --#
 #check_failure bar.induct
 
 end Induction --#

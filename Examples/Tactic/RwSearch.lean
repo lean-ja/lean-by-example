@@ -35,6 +35,7 @@ example (h : n + m = 0) : n = 0 ↔ m = 0 := by
 
 /-! ## rw?
 `rw?` は `apply?` のように、ゴールを `rw` できる補題をライブラリから検索します。`rw?` は等式以外も扱うことができますが、`rw_search` と同様に同値関係の扱いは苦手です。-/
+set_option linter.unusedTactic false in --#
 
 example (h : n + m = 0) : n = 0 ↔ m = 0 := by
   try

@@ -10,6 +10,7 @@ inductive Even where
 
 -- まだ `OfNat` のインスタンスがないので、
 -- `0` という数値リテラルを `Even` 型の値として解釈することはできない
+#guard_msgs (drop warning) in --#
 #check_failure (0 : Even)
 
 /-- `0` という数値リテラルを `Even` の項として解釈する方法を指定 -/
@@ -59,6 +60,7 @@ instance (n : Nat) : OfNat Pos (n + 1) where
 #check (42 : Pos)
 
 -- `0` は除外したのでエラーになる
+#guard_msgs (drop warning) in --#
 #check_failure (0 : Pos)
 
 end OfNat

@@ -37,11 +37,11 @@ example (x : Nat) : x = 0 ↔ x + 1 = 1 := by
 このように、`constructor` は論理積 `∧` や同値 `↔` を「示す」ために使われます。逆にこういった命題が仮定にあって「使用したい」場合は [`obtain`](./Obtain.md) や [`have`](./Have.md) などが使用できます。-/
 
 example (h: P ∧ Q) : P := by
-  obtain ⟨hp, hq⟩ := h
+  obtain ⟨hp, _hq⟩ := h
   exact hp
 
 example (h : P ↔ Q) (hP : P) : Q := by
-  have ⟨pq, qp⟩ := h
+  have ⟨pq, _qp⟩ := h
   apply pq
   assumption
 
