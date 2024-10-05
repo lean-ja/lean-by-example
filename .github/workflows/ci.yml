@@ -37,25 +37,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v4
 
-      - name: install elan
-        run: |
-          curl -O --location https://raw.githubusercontent.com/leanprover/elan/master/elan-init.ps1
-          echo 1 | powershell -ExecutionPolicy Bypass -f elan-init.ps1
-          del elan-init.ps1
-          (Resolve-Path ~/.elan/bin).Path >> $Env:GITHUB_PATH
-        shell: pwsh
-
-      - uses: actions/cache@v4
+      - name: lean action
+        uses: leanprover/lean-action@v1
         with:
-          path: ./.lake
-          key: lake-${{ runner.os }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.sha }}
-          # if no cache hit, fall back to the cache with same lean-toolchain and lake-manifest.json
-          restore-keys: lake-${{ runner.os }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}
-
-      - name: get mathlib cache
-        run: lake exe cache get
-        shell: pwsh
-
-      - name: run lake build
-        run: lake build --log-level=error
-        shell: pwsh
+          build-args: "--log-level=error"
