@@ -54,7 +54,7 @@ example (x : Int) : myabs (2 * x) = 2 * myabs x := by
     -- `simp` で単純化
     simp [h, hx]
 
-/-! ## match 式と split
+/- ## match 式と split
 `if` 式だけでなく `match` 式に対しても使うことができます。
 -/
 

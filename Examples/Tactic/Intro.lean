@@ -97,7 +97,7 @@ example (P Q : Nat → Prop) (h : ∀ n, P n ↔ Q n) : ∀ y, P (y + 1) → Q (
   -- 仮定 `P (y + 1)` より従う
   assumption
 
-/-! ## 否定 ¬ について
+/- ## 否定 ¬ について
 
 Lean では否定 `¬ P` は `P → False` として定義されているので、ゴールが `¬ P` のときに `intro` すると `P` が仮定に追加されて、ゴールが `False` に変わります。
 
@@ -118,7 +118,7 @@ example (h: P → Q) : ¬Q → ¬P := by
   -- `hQ : Q` と `hnQ : ¬Q` から矛盾が導かれる
   contradiction
 
-/-!
+/-
 ## 関数の構成
 
 より一般的には、`intro` は関数の構成に使うことができます。

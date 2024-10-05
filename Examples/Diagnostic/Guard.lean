@@ -34,7 +34,7 @@ error: cannot evaluate code because 'sorryAx' uses 'sorry' and/or contains error
 #guard_msgs (whitespace := lax) in
 #guard ((α : Type) → ∀ (l : List α), [] ⊆ l : Prop)
 
-/-! しかし、 `1 + 1 = 2` 等も `#check` で確かめてみると型は `Prop` です。にも関わらず `#guard` に渡してもエラーになりません。これは不思議に思えますが、理由は `1 + 1 = 2` が [`Decidable`](../TypeClass/Decidable.md) 型クラスのインスタンスであり、決定可能だからです。-/
+/- しかし、 `1 + 1 = 2` 等も `#check` で確かめてみると型は `Prop` です。にも関わらず `#guard` に渡してもエラーになりません。これは不思議に思えますが、理由は `1 + 1 = 2` が [`Decidable`](../TypeClass/Decidable.md) 型クラスのインスタンスであり、決定可能だからです。-/
 
 -- 型は Prop
 /-- info: 1 + 1 = 2 : Prop -/
@@ -45,7 +45,7 @@ error: cannot evaluate code because 'sorryAx' uses 'sorry' and/or contains error
 -- 1 + 1 = 2 は決定可能
 #synth Decidable (1 + 1 = 2)
 
-/-!
+/-
 `Prop` 型であっても、`Decidable` クラスのインスタンスであれば `Bool` に変換できます。それを自動で行っているので、`Prop` 型の項でも `#guard` に通せるというわけです。
 -/
 

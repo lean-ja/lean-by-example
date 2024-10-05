@@ -51,7 +51,7 @@ failed to be synthesized, this instance instructs Lean on how to display the res
 
 /- 一般に、[`Repr`](../TypeClass/Repr.md) や [`ToString`](../TypeClass/ToString.md) のインスタンスでないような型の項は `#eval` に渡すことができません。-/
 
-/-! ## 例外処理の慣例
+/- ## 例外処理の慣例
 Lean および Mathlib では、「関数ではなく定理に制約を付ける」ことが慣例です。
 関数の定義域を制限するアプローチだと、
 関数を呼び出すたびに、引数が定義域に含まれているか確認する必要が生じて、

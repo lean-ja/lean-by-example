@@ -1,4 +1,4 @@
-/-! # assumption
+/- # assumption
 
 `assumption` は、現在のゴール `⊢ P` がローカルコンテキストにあるとき、ゴールを閉じます。-/
 

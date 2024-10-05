@@ -66,7 +66,7 @@ info: Try these:
 example : Nat.Prime 37 := by
   hint
 
-/-!
+/-
 ## タクティクの新規登録
 
 登録されているタクティクに `tac` を追加するには、`register_hint tac` を実行します。

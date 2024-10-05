@@ -9,7 +9,7 @@ example (hP : P) (hQ : Q) : P := by
 
   exact hP
 
-/-! `exact` は与えられた証明項をそのまま証明として使うタクティクなので、`by exact` だけで証明が終わるときには、`by exact` を消しても証明が通ります。-/
+/- `exact` は与えられた証明項をそのまま証明として使うタクティクなので、`by exact` だけで証明が終わるときには、`by exact` を消しても証明が通ります。-/
 
 example (hP : P) (hQ : Q) : P ∧ Q := by
   exact And.intro hP hQ
