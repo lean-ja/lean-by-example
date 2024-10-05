@@ -32,7 +32,7 @@ example (_h1 : P) (h2 : P) : P := by
   exact? using h2 says
     exact h2
 
-/-!
+/-
 ## exact? を使用する際のコツ
 
 これは `exact?` に限らず、Lean でライブラリ検索を行うとき常に意識した方が良いことですが、

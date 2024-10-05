@@ -23,7 +23,7 @@ example (n m : Nat) : n * m = ((n + m) ^ 2 - n ^ 2 - m ^ 2 ) / 2 := by
   -- `omega` では示せる
   omega
 
-/-! Lean では自然数同士の引き算は整数同士の引き算とは異なる結果になって厄介なのですが、`omega` はこの問題を上手く処理します。 たとえば、以下は `linarith` では示すことができない線形な命題です。-/
+/- Lean では自然数同士の引き算は整数同士の引き算とは異なる結果になって厄介なのですが、`omega` はこの問題を上手く処理します。 たとえば、以下は `linarith` では示すことができない線形な命題です。-/
 
 variable (a b : Nat)
 
@@ -46,7 +46,7 @@ example : (a - b) - b = a - 2 * b := by
   fail_if_success linarith
   omega
 
-/-! `omega` は整数や自然数の整除関係を扱うこともできます。-/
+/- `omega` は整数や自然数の整除関係を扱うこともできます。-/
 
 example {a b c : ℤ} : 3 ∣ (100 * c + 10 * b + a) ↔ 3 ∣ (c + b + a) := by omega
 

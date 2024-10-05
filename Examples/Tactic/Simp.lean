@@ -64,7 +64,7 @@ use `set_option diagnostics true` to get diagnostic information
 example (n m : Nat) : (n + 0) * m = n * m := by simp
 
 end
-/-! ## simp で使用できる構文
+/- ## simp で使用できる構文
 
 既知の `h : P` という命題を使って単純化させたいときは、明示的に `simp [h]` と指定することで可能です。複数個指定することもできます。また `simp only [h₁, ... , hₖ]` とすると `h₁, ... , hₖ` だけを使用して単純化を行います。-/
 
@@ -72,7 +72,7 @@ example (h : R) : (P ∨ Q ∨ R) ∧ R := by
   simp only [or_and]
   assumption
 
-/-! 単に名前を定義に展開したい場合は [`dsimp`](./Dsimp.md) を使用します。
+/- 単に名前を定義に展開したい場合は [`dsimp`](./Dsimp.md) を使用します。
 `simp` は何も指定しなければゴールを単純化しますが、ローカルコンテキストにある `h : P` を単純化させたければ `simp at h` と指定することで可能です。ゴールと `h` の両方を単純化したいときは `simp at h ⊢` とします。-/
 
 variable {n m : Nat}
@@ -83,7 +83,7 @@ example (h : n + 0 + 0 = m) : n = m + (0 * n) := by
 
 /- ローカルコンテキストとゴールをまとめて全部単純化したい場合は `simp at *` とします。 -/
 
-/-! ## simpa
+/- ## simpa
 `simpa` は、`simp` を実行した後 `assumption` を実行するという一連の流れを一つのタクティクにしたものです。`simpa at h` 構文は存在せず、`simpa using h` と書くことに注意してください。-/
 
 example (h : R) : (P ∨ Q ∨ R) ∧ R := by
@@ -92,7 +92,7 @@ example (h : R) : (P ∨ Q ∨ R) ∧ R := by
 example (h : n + 0 + 0 = m) : n = m := by
   simpa using h
 
-/-! ## simp?
+/- ## simp?
 
 `simp` は自動的に証明を行ってくれますが、何が使われたのか知りたいときもあります。`simp?` は単純化に何が使われたのかを示してくれるので、`simp only` などを用いて明示的に書き直すことができます。-/
 
@@ -100,7 +100,7 @@ example : (P ∨ Q ∨ R) ∧ R ↔ R := by
   simp? says
     simp only [or_and]
 
-/-! ## simp_arith
+/- ## simp_arith
 `simp` の設定で `arith` を有効にすると、算術的な単純化もできるようになります。
 これはよく使用されるので、`simp_arith` という省略形が用意されています。
 -/

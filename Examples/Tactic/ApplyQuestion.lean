@@ -15,7 +15,7 @@ example [Group G] [Group H] (f : G →* H) (a b : G) :
   -- `exact MonoidHom.map_mul f a b` を提案してくれる
   apply? says exact MonoidHom.map_mul f a b
 
-/-!
+/-
 ## 補足
 
 `apply?` はあくまで証明を書くときに補助として使うものです。

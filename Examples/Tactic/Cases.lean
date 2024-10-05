@@ -25,7 +25,7 @@ example : P ∨ Q → (P → R) → (Q → R) → R := by
   case inr hQ =>
     exact hQR hQ
 
-/-! ## with を使う書き方
+/- ## with を使う書き方
 
 `case` を使わずに、`with` を使って次のように書くこともできます
 -/

@@ -35,7 +35,7 @@ example (n : Nat) : sum n = n * (n + 1) / 2 := by
     -- 後は可換環の性質から示せる
     ring
 
-/-! ## 再帰定理
+/- ## 再帰定理
 Lean では、実は帰納法を使用するのに必ずしも `induction` は必要ありません。場合分けの中で示されたケースを帰納法の仮定として使うことができます。これは recursive theorem(再帰定理) と呼ばれることがあります。[^recursive]
 -/
 
@@ -70,7 +70,7 @@ theorem sample : True := by
       sorry
   trivial
 
-/-!
+/-
 ## 完全帰納法
 
 時には、 より強い帰納法が必要なこともあります。 強い帰納法とは、 たとえば
@@ -129,7 +129,7 @@ example (n : Nat) : fibonacci n = fib n := by
       -- 帰納法の仮定を適用して示す
       simp [ih_n, ih_succ]
 
-/-! なお、完全帰納法も `induction` タクティクを使わずに行うことができます。-/
+/- なお、完全帰納法も `induction` タクティクを使わずに行うことができます。-/
 
 /-- `fibonacci` と `fib` は同じ結果を返す -/
 theorem fib_eq (n : Nat) : fibonacci n = fib n := by

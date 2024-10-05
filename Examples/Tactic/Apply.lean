@@ -15,7 +15,7 @@ example (h : P → Q) (hP : P) : Q := by
 
   exact hP
 
-/-! 注意点として、`h : P → Q` は `P` の証明を受け取って `Q` の証明を返す関数でもあるので、上記の例は `apply` を使わずに `exact h hP` で閉じることもできます。-/
+/- 注意点として、`h : P → Q` は `P` の証明を受け取って `Q` の証明を返す関数でもあるので、上記の例は `apply` を使わずに `exact h hP` で閉じることもできます。-/
 
 example (h : P → Q) (hP : P) : Q := by
   exact h hP

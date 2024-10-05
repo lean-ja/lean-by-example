@@ -75,7 +75,7 @@ section hoge
   #check a
 end hoge
 
-/-! セクションは入れ子にすることもできます。-/
+/- セクションは入れ子にすることもできます。-/
 
 section parent
   variable (a : Type)

@@ -12,7 +12,7 @@ example (hP : P) (hQ : Q) : P ∧ Q := by
   -- 両方に `assumption` を適用する
   all_goals assumption
 
-/-! `all_goals` には、タクティクブロックを渡すこともできます。-/
+/- `all_goals` には、タクティクブロックを渡すこともできます。-/
 
 example {R : Prop} (hnP : ¬ P) : (P → R) ∧ (P → Q) := by
   constructor

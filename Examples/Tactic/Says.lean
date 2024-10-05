@@ -22,7 +22,7 @@ example (hPQ : P → Q) (hQR : Q → R) (hRS : R → S) (hP : P) : S := by
   exact? says
     exact hRS (hQR (hPQ hP))
 
-/-! [`simp`](./Simp.md) や [`aesop`](./Aesop.md) のような証明自動化系のタクティクに対して、動作を軽量化しながらも証明の読みやすさを保つという目的でも使用できます。たとえば `aesop? says ...` と書かれていたら、その後のブロックでどんな複雑なことが書かれていようと、単に `aesop` の発見した証明内容を丁寧に書いているだけだとわかるわけです。-/
+/- [`simp`](./Simp.md) や [`aesop`](./Aesop.md) のような証明自動化系のタクティクに対して、動作を軽量化しながらも証明の読みやすさを保つという目的でも使用できます。たとえば `aesop? says ...` と書かれていたら、その後のブロックでどんな複雑なことが書かれていようと、単に `aesop` の発見した証明内容を丁寧に書いているだけだとわかるわけです。-/
 
 -- 以下 `X` `Y` `Z`を集合とする
 variable {X Y Z : Type}
@@ -37,7 +37,7 @@ example {f : X → Y} {g : Y → Z} (hgfinj : Injective (g ∘ f)) : Injective f
     apply hgfinj
     simp_all only [comp_apply]
 
-/-! ## オプション
+/- ## オプション
 
 `says.no_verify_in_CI : Bool` : `true` にすると、CI 環境で `X says Y` の `Y` の部分が実際に提案されている内容と一致するかのチェックが走らなくなります。-/
 

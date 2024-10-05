@@ -20,7 +20,7 @@ example (h: P → Q) : ¬ (P ∧ ¬ Q) := by
 
   exact h
 
-/-! 以下の例は、「酔っぱらいのパラドクス」として有名な命題です。 -/
+/- 以下の例は、「酔っぱらいのパラドクス」として有名な命題です。 -/
 
 -- `People` という空ではない集合がある
 variable {People : Type} [Inhabited People]
@@ -51,7 +51,7 @@ example : ∃ (x : People), isDrinking x → ∀ (y : People), isDrinking y := b
     exists x
     simp_all
 
-/-!
+/-
 ## use_distrib
 
 option で `push_neg.use_distrib` を `true` にすると、`¬ (p ∧ q)` を `¬ p ∨ ¬ q` に変形します。

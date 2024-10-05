@@ -30,7 +30,7 @@ example (h : a < b) : a + 1 < b + 1 := by
 
   exact Int.add_lt_add_right h 1
 
-/-! ## 再帰の深さの調節
+/- ## 再帰の深さの調節
 
 `congr` が適用される再帰の深さを引数として渡すことができます。これは、主に単に `congr` とするだけだと「行き過ぎ」になるときに調整する目的で使用されます。-/
 set_option linter.unusedTactic false in --#
