@@ -8,6 +8,8 @@ namespace Simp --#
 
 variable {P Q R : Prop}
 
+set_option linter.flexible false in --#
+
 example : (P ∨ Q ∨ R) ∧ R ↔ R := by
   -- simp だけでは証明が終わらない
   simp
@@ -61,7 +63,7 @@ use `set_option maxRecDepth <num>` to increase limit
 use `set_option diagnostics true` to get diagnostic information
 -/
 #guard_msgs in
-example (n m : Nat) : (n + 0) * m = n * m := by simp
+  example (n m : Nat) : (n + 0) * m = n * m := by simp
 
 end
 /- ## simp で使用できる構文
@@ -78,7 +80,7 @@ example (h : R) : (P ∨ Q ∨ R) ∧ R := by
 variable {n m : Nat}
 
 example (h : n + 0 + 0 = m) : n = m + (0 * n) := by
-  simp at h ⊢
+  simp only [add_zero, zero_mul] at h ⊢
   assumption
 
 /- ローカルコンテキストとゴールをまとめて全部単純化したい場合は `simp at *` とします。 -/
@@ -104,6 +106,7 @@ example : (P ∨ Q ∨ R) ∧ R ↔ R := by
 `simp` の設定で `arith` を有効にすると、算術的な単純化もできるようになります。
 これはよく使用されるので、`simp_arith` という省略形が用意されています。
 -/
+set_option linter.flexible false in --#
 
 example {x y : Nat} : 0 < 1 + x ∧ x + y + 2 ≥ y + 1 := by
   -- `simp` だけでは証明が終わらない
