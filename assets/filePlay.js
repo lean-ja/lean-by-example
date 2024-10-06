@@ -14,12 +14,15 @@ function filePlay() {
   // 拡張子が `.md` になっているので `.lean` に修正する
   editButtonLink.href = editButtonLink.href.replace(/\.md$/, ".lean");
 
-  // Lean ファイルがあるのは `booksrc` ではなく `Examples` ディレクトリ
-  editButtonLink.href = editButtonLink.href.replace("/booksrc/", "/Examples/");
-
-  // 演習問題のファイルのみ、`Examples` ディレクトリではなくて `Exercise` ディレクトリにある
+  // Lean ファイルがあるのは `booksrc` ではなく `LeanByExample` ディレクトリ
   editButtonLink.href = editButtonLink.href.replace(
-    "/Examples/Exercise/",
+    "/booksrc/",
+    "/LeanByExample/",
+  );
+
+  // 演習問題のファイルのみ、`LeanByExample` ディレクトリではなくて `Exercise` ディレクトリにある
+  editButtonLink.href = editButtonLink.href.replace(
+    "/LeanByExample/Exercise/",
     "/Exercise/",
   );
 

@@ -21,10 +21,10 @@ require mathlib from git
   "https://github.com/leanprover-community/mathlib4.git" @ "master"
 
 @[default_target]
-lean_lib Examples where
+lean_lib LeanByExample where
   -- `lake build` の実行時にビルドされるファイルの設定
   -- `.submodules` と指定すると、そのディレクトリ以下の全ての Lean ファイルがビルドされる
-  globs := #[.submodules `Examples]
+  globs := #[.submodules `LeanByExample]
 
 section Script
 
@@ -46,7 +46,7 @@ def runCmd (input : String) : IO Unit := do
 /-- mk_exercise を実行し、演習問題の解答に
 解答部分を sorry に置き換えるなどの処理を施して演習問題ファイルを生成する。-/
 script mk_exercise do
-  runCmd "lake exe mk_exercise Examples/Solution Exercise"
+  runCmd "lake exe mk_exercise LeanByExample/Solution Exercise"
   return 0
 
 syntax (name := with_time) "with_time" "running" str doElem : doElem
@@ -65,10 +65,10 @@ Lean ファイルから Markdown ファイルと HTML ファイルを生成す�
 script build do
   -- `lake run mk_exercise` を使用すると遅くなってしまうのでコピペしている
   with_time running "mk_exercise"
-    runCmd "lake exe mk_exercise Examples/Solution Exercise"
+    runCmd "lake exe mk_exercise LeanByExample/Solution Exercise"
 
   with_time running "mdgen"
-    runCmd "lake exe mdgen Examples booksrc";
+    runCmd "lake exe mdgen LeanByExample booksrc";
     runCmd "lake exe mdgen Exercise booksrc/Exercise"
 
   with_time running "mdbook"
