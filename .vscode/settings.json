@@ -34,9 +34,10 @@
     "README.lean": "readme",
   },
   "material-icon-theme.folders.associations": {
+    "booksrc": "markdown",
     "Command": "",
+    "Examples": "Content",
     "Option": "",
-    "Examples": "Content"
   },
 
   // Horizon Theme の設定
