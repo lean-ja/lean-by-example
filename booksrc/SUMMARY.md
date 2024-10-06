@@ -6,6 +6,8 @@
 
 ---
 
+# 第1部: リファレンス
+
 - [対話的コマンド](./Reference/Diagnostic/README.md)
   - [#check_failure: 意図的なエラー](./Reference/Diagnostic/CheckFailure.md)
   - [#check: 型を調べる](./Reference/Diagnostic/Check.md)
@@ -176,6 +178,8 @@
   - [unfold: 定義に展開](./Reference/Tactic/Unfold.md)
   - [with_reducible: 透過度指定](./Reference/Tactic/WithReducible.md)
   - [wlog: 一般性を失わずに特殊化](./Reference/Tactic/Wlog.md)
+
+# 第2部: チュートリアル
 
 - [演習問題](./Tutorial/Exercise/README.md)
   - [床屋のパラドクス](./Tutorial/Exercise/BarberParadox.md)
