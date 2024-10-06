@@ -9,11 +9,11 @@ book
 
 Draft/
 
-/src/*
-!src/image
-!src/links.md
-!src/README.md
-!src/404.md
-!src/SUMMARY.md
+/booksrc/*
+!booksrc/image
+!booksrc/links.md
+!booksrc/README.md
+!booksrc/404.md
+!booksrc/SUMMARY.md
 
 *.olean

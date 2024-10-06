@@ -1,6 +1,6 @@
 # README
 
-[![repo logo](./src/image/project_image.png)]()
+[![repo logo](./booksrc/image/project_image.png)]()
 
 [![workflow](https://github.com/lean-ja/lean-by-example/actions/workflows/ci.yml/badge.svg)](https://github.com/lean-ja/lean-by-example/blob/main/.github/workflows/ci.yml) [![workflow](https://github.com/lean-ja/lean-by-example/actions/workflows/deploy.yml/badge.svg)](https://github.com/lean-ja/lean-by-example/blob/main/.github/workflows/deploy.yml) [![workflow](https://github.com/lean-ja/lean-by-example/actions/workflows/update.yml/badge.svg)](https://github.com/lean-ja/lean-by-example/blob/main/.github/workflows/update.yml) [![workflow](https://github.com/lean-ja/lean-by-example/actions/workflows/devcontainer.yml/badge.svg)](https://github.com/lean-ja/lean-by-example/blob/main/.github/workflows/devcontainer.yml) [![discord](https://dcbadge.limes.pink/api/server/p32ZfnVawh?style=flat)](https://discord.gg/p32ZfnVawh)
 
@@ -45,6 +45,6 @@ If you use this book for your work, please cite it as follows:
 
 このプロジェクトは [Proxima Technology](https://proxima-ai-tech.com/) 様よりご支援を頂いています。
 
-![logo of Proxima Technology](./src/image/proxima.svg)
+![logo of Proxima Technology](./booksrc/image/proxima.svg)
 
 Proxima Technology（プロキシマテクノロジー）は数学の社会実装を目指し、その⼀環としてモデル予測制御の民主化を掲げているAIスタートアップ企業です。数理科学の力で社会を変えることを企業の使命としています。
