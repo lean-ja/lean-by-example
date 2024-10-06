@@ -7,7 +7,7 @@
 
 解き始めるための最も簡単で手軽な方法は、Lean 4 Playground を使う方法です。各ページの右上に <i class="fa fa-play"></i> というボタンがあるので、これをクリックしてください。Lean 4 Playground のページに移動し、そのままブラウザ上で演習問題を解き始めることができます。
 
-Lean 4 Playground を使いたくない事情がある場合は、Codespace を開き、`Exercise` ディレクトリの中にある該当ファイルを開いてください。
+Lean 4 Playground を使いたくない事情がある場合は、Codespace を開き、`LeanByExample/Tutorial/Exercise` ディレクトリの中にある該当ファイルを開いてください。
 
 [![codespace badge](https://github.com/codespaces/badge.svg)](https://codespaces.new/lean-ja/lean-by-example)
 

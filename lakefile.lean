@@ -24,7 +24,7 @@ require mathlib from git
 lean_lib LeanByExample where
   -- `lake build` の実行時にビルドされるファイルの設定
   -- `.submodules` と指定すると、そのディレクトリ以下の全ての Lean ファイルがビルドされる
-  globs := #[.submodules `LeanByExample]
+  globs := #[.submodules `LeanByExample.Reference, .submodules `LeanByExample.Tutorial.Solution]
 
 section Script
 
@@ -43,12 +43,6 @@ def runCmd (input : String) : IO Unit := do
   else if !out.stdout.isEmpty then
     IO.println out.stdout
 
-/-- mk_exercise を実行し、演習問題の解答に
-解答部分を sorry に置き換えるなどの処理を施して演習問題ファイルを生成する。-/
-script mk_exercise do
-  runCmd "lake exe mk_exercise LeanByExample/Solution Exercise"
-  return 0
-
 syntax (name := with_time) "with_time" "running" str doElem : doElem
 
 macro_rules
@@ -63,13 +57,11 @@ Lean ファイルから Markdown ファイルと HTML ファイルを生成す�
 
 `.\scripts\Build.ps1` を実行したほうが高速 -/
 script build do
-  -- `lake run mk_exercise` を使用すると遅くなってしまうのでコピペしている
   with_time running "mk_exercise"
-    runCmd "lake exe mk_exercise LeanByExample/Solution Exercise"
+    runCmd "lake exe mk_exercise LeanByExample/Tutorial/Solution LeanByExample/Tutorial/Exercise"
 
   with_time running "mdgen"
-    runCmd "lake exe mdgen LeanByExample booksrc";
-    runCmd "lake exe mdgen Exercise booksrc/Exercise"
+    runCmd "lake exe mdgen LeanByExample booksrc"
 
   with_time running "mdbook"
     runCmd "mdbook build"

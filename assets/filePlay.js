@@ -20,12 +20,6 @@ function filePlay() {
     "/LeanByExample/",
   );
 
-  // 演習問題のファイルのみ、`LeanByExample` ディレクトリではなくて `Exercise` ディレクトリにある
-  editButtonLink.href = editButtonLink.href.replace(
-    "/LeanByExample/Exercise/",
-    "/Exercise/",
-  );
-
   // URL を書き換える
   fetch(editButtonLink.href)
     .then((response) => response.text())
