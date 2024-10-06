@@ -1,19 +1,17 @@
 # mdbook に関連するもの
 book
-# macOS leaves these files everywhere:
-.DS_Store
-# Created by `lake exe cache get` if no home directory is available
-/.cache
-# After v4.3.0-rc2 lake stores its files here:
-/.lake/
-
-Draft/
-
 /booksrc/*
 !booksrc/image
 !booksrc/links.md
 !booksrc/README.md
 !booksrc/404.md
 !booksrc/SUMMARY.md
-
+# macOS leaves these files everywhere:
+.DS_Store
+# Created by `lake exe cache get` if no home directory is available
+/.cache
+# After v4.3.0-rc2 lake stores its files here:
+/.lake/
 *.olean
+
+Draft/
