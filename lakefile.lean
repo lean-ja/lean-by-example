@@ -68,8 +68,8 @@ script build do
     runCmd "lake exe mk_exercise Examples/Solution Exercise"
 
   with_time running "mdgen"
-    runCmd "lake exe mdgen Examples src";
-    runCmd "lake exe mdgen Exercise src/Exercise"
+    runCmd "lake exe mdgen Examples booksrc";
+    runCmd "lake exe mdgen Exercise booksrc/Exercise"
 
   with_time running "mdbook"
     runCmd "mdbook build"

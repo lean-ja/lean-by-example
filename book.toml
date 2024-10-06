@@ -2,7 +2,7 @@
 authors = ["Seasawher"]
 language = "ja"
 multilingual = false
-src = "src"
+src = "booksrc" # 単に src とすると検索ノイズが多くなることを考慮
 title = "Lean by Example"
 description = "プログラミング言語であるとともに定理証明支援系でもある Lean 言語と、その主要なライブラリの使い方を豊富なコード例とともに解説した資料です。"
 
