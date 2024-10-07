@@ -124,7 +124,7 @@ example (n : Nat) : fibonacci n = fib n := by
 
       -- 帰納法の仮定から、`n` と `n + 1` については成り立つ
       have ih_n := ih n
-      have ih_succ := ih $ n + 1
+      have ih_succ := ih (n + 1)
 
       -- 帰納法の仮定を適用して示す
       simp [ih_n, ih_succ]
@@ -146,7 +146,7 @@ theorem fib_eq (n : Nat) : fibonacci n = fib n := by
 
     -- 帰納法の仮定から、`n` と `n + 1` については成り立つ
     have ih_n := fib_eq n
-    have ih_succ := fib_eq $ n + 1
+    have ih_succ := fib_eq (n + 1)
 
     -- 帰納法の仮定を適用して示す
     simp [ih_n, ih_succ]
