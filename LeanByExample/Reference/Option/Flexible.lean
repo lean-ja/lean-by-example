@@ -55,14 +55,17 @@ end --#
 -/
 section --#
 
--- flexible tactic リンタを有効にする
-set_option linter.flexible true
+-- 技術的な理由で、一時的に flexible tactic リンタを無効にしている --#
+set_option linter.flexible false --#
 
 /--
 warning: 'simp' is a flexible tactic modifying '⊢'…
 note: this linter can be disabled with `set_option linter.flexible false`
 -/
 #guard_msgs (warning) in
+  -- 技術的な理由で、`#guard_msgs` のスコープ内でリンタを有効にしている
+  set_option linter.flexible true in
+
   example {n m : Nat} (h : n = m) : True ∧ (n = m) := by
     simp
     exact h
