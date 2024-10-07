@@ -1,15 +1,22 @@
 import Lake
 open Lake DSL
 
+abbrev linterOptions : Array LeanOption := #[
+  ⟨`linter.flexible, true⟩,
+  ⟨`linter.oldObtain, true⟩,
+  ⟨`linter.style.cdot, true⟩,
+  ⟨`linter.style.dollarSyntax, true⟩,
+  ⟨`linter.style.missingEnd, true⟩,
+  ⟨`linter.style.lambdaSyntax, true⟩,
+  ⟨`structureDiamondWarning, true⟩
+]
+
 package «Lean by Example» where
   leanOptions := #[
     ⟨`autoImplicit, false⟩,
-    ⟨`relaxedAutoImplicit, false⟩,
-    ⟨`weak.linter.flexible, true⟩
-  ]
-  moreServerOptions := #[
-    ⟨`linter.flexible, true⟩
-  ]
+    ⟨`relaxedAutoImplicit, false⟩
+  ] ++ linterOptions.map (fun s ↦ {s with name := `weak ++ s.name})
+  moreServerOptions := linterOptions
 
 require «mk-exercise» from git
   "https://github.com/Seasawher/mk-exercise.git" @ "main"

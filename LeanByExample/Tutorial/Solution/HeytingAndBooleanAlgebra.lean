@@ -71,6 +71,7 @@ class Semilatticeinf (α : Type) extends Inf α, PartialOrder α where
   /-- `a ⊓ b` は `a`, `b` の下界の中で最大のもの -/
   le_inf : ∀ a b c : α, c ≤ a → c ≤ b → c ≤ a ⊓ b
 
+set_option structureDiamondWarning false in --#
 /-- 束 -/
 class Lattice (α : Type) extends SemilatticeSup α, Semilatticeinf α
 
