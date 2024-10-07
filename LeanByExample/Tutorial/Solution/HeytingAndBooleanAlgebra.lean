@@ -136,7 +136,7 @@ end HeytingAlgebra
 
 しかし、今回は証明の `sorry` の部分を埋めていただくという問題ではありません。逆に、こちらで用意した証明が通るようにしていただくのが問題です。
 
-こちらで用意した証明は、すべて `aesop` という単一のタクティクで完結しています。`aesop` は補題やタクティクを登録することにより、ユーザがカスタマイズ可能なタクティクですので、うまくカスタマイズして用意された証明が通るようにしてください。[`add_aesop_rules`](../Declarative/AddAesopRules.md) の記事が参考になると思います。
+こちらで用意した証明は、すべて `aesop` という単一のタクティクで完結しています。`aesop` は補題やタクティクを登録することにより、ユーザがカスタマイズ可能なタクティクですので、うまくカスタマイズして用意された証明が通るようにしてください。[`add_aesop_rules`](#{root}/Reference/Declarative/AddAesopRules.md) の記事が参考になると思います。
 
 ### 問1.1 半順序集合であること
 -/
@@ -155,6 +155,7 @@ instance : LT Prop where
 -- いくつルールを追加しても構いません。
 -- 以下に示すのは一例です:
 local add_aesop_rules unsafe 50% tactic [(by apply True.intro)]
+local add_aesop_rules norm tactic [(by dsimp only [LE.le, LT.lt])] --##
 
 /-- 上記の定義のもとで `Prop` は半順序集合 -/
 instance : PartialOrder Prop where
@@ -177,6 +178,7 @@ instance : Inf Prop where
 -- いくつルールを追加しても構いません。
 -- 以下に示すのは一例です:
 local add_aesop_rules safe tactic [(by simp only [Nat.add_zero])]
+local add_aesop_rules norm tactic [(by dsimp only [Sup.sup, Inf.inf] at *)] --##
 
 /-- 上記の定義のもとで `Prop` は束 -/
 instance : Lattice Prop where
@@ -209,6 +211,7 @@ instance : Bot Prop where
 -- いくつルールを追加しても構いません。
 -- 以下に示すのは一例です:
 local add_aesop_rules norm simp [Nat.add_zero]
+local add_aesop_rules norm tactic [(by dsimp only [HImp.himp, HasCompl.compl, Top.top, Bot.bot] at *)] --##
 
 instance : HeytingAlgebra Prop where
   le_top := by aesop
@@ -242,6 +245,11 @@ abbrev Three := Fin 3
 
 -- ここに `local add_aesop_rules` コマンドを追加して証明が通るようにしてください。
 -- いくつルールを追加しても構いません。
+--##--
+local add_aesop_rules safe cases [Fin]
+local add_aesop_rules norm simp [Fin.le_def]
+local add_aesop_rules safe tactic [(by omega)]
+--##--
 
 instance : PartialOrder Three where
   le_refl := by aesop
@@ -267,6 +275,7 @@ instance : Inf Three where
 
 -- ここに `local add_aesop_rules` コマンドを追加して証明が通るようにしてください。
 -- いくつルールを追加しても構いません。
+local add_aesop_rules norm tactic [(by dsimp [Sup.sup, Inf.inf])] --##
 
 /-- 束になる -/
 instance : Lattice Three where
@@ -303,6 +312,7 @@ instance : HasCompl Three where
 
 -- ここに `local add_aesop_rules` コマンドを追加して証明が通るようにしてください。
 -- いくつルールを追加しても構いません。
+local add_aesop_rules norm tactic [(by dsimp [Bot.bot, Top.top, HImp.himp, HasCompl.compl])] --##
 
 /-- Heyting 代数になる -/
 instance : HeytingAlgebra Three where

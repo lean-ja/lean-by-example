@@ -16,7 +16,7 @@
 ## 開発の流れ
 
 * このリポジトリは mathlib に依存しているので、このリポジトリを clone した後に `lake exe cache get` を実行してください。
-* `Exercise` ディレクトリ配下のファイルは `mk_exercise` により `LeanByExample/Solution` の内容から自動生成されるので、手動で編集しないでください。
+* `LeanByExample/Tutorial/Exercise` ディレクトリ配下のファイルは `mk_exercise` により `LeanByExample/Solution` の内容から自動生成されるので、手動で編集しないでください。
 * 本文の markdown ファイルは [mdgen](https://github.com/Seasawher/mdgen) を用いて Lean ファイルから生成します。Lean ファイルを編集した後、`lake run build` コマンドを実行すれば mk_exercise の実行と markdown の生成と `mdbook build` が一括実行されます。
 
 ## ルール

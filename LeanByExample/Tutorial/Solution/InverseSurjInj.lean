@@ -17,7 +17,7 @@ def Function.Injective (f : A → B) : Prop := ∀ {a₁ a₂ : A}, f a₁ = f a
 
 /- 一見すると、全射と単射はペアになる概念とは思えないかもしれません。束縛変数の数も違いますし、意味上もまったく独立した概念のように見えます。
 
-しかし、`A` が空でないと仮定すれば、選択原理 [`Classical.choice`](../Declarative/Axiom.md#ClassicalChoice) を使うことによって、全射 `f : A → B` があれば逆方向の単射 `g : B → A` が構成でき、逆に単射 `f : A → B` があれば逆方向の全射 `g : B → A` を構成することができます。
+しかし、`A` が空でないと仮定すれば、選択原理 [`Classical.choice`](#{root}/Reference/Declarative/Axiom.md#ClassicalChoice) を使うことによって、全射 `f : A → B` があれば逆方向の単射 `g : B → A` が構成でき、逆に単射 `f : A → B` があれば逆方向の全射 `g : B → A` を構成することができます。
 
 ある意味で、全射と単射はペアをなす概念であると言えるかもしれないですね。今回の演習問題のテーマはこの定理です。
 -/
