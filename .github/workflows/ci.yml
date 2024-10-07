@@ -25,19 +25,7 @@ jobs:
       - name: lean action
         uses: leanprover/lean-action@v1
         with:
-          build-args: "--log-level=error"
-
-  # 警告がないことを確かめるためのジョブ
-  # ビルドが通るかどうかとは別で扱いたいので、あえて別のジョブにしている
-  ubuntu_lint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: checkout
-        uses: actions/checkout@v4
-
-      - name: lean action
-        uses: leanprover/lean-action@v1
-        with:
+          # 警告がないことを確かめる
           build-args: "--fail-level=warning"
 
   # Lean の更新により Windows 環境でだけビルドが壊れる可能性もあるので、
