@@ -25,7 +25,7 @@ def sum (n : ℕ) : ℕ :=
   | n + 1 => (n + 1) + sum n
 
 /-- `sum n = 0` となることと `n = 0` は同値 -/
-@[simp] theorem summ_zero_iff_zero {n : ℕ} : sum n = 0 ↔ n = 0 := by
+@[simp] theorem sum_zero_iff_zero {n : ℕ} : sum n = 0 ↔ n = 0 := by
   -- sorry
   cases n <;> simp_all [sum]
   -- sorry
