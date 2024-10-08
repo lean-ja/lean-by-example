@@ -41,8 +41,7 @@ where
 partial def primeFactorsMult (n : Nat) : List (Nat × Nat) :=
   loop 2 n [] |>.reverse
 where
-  /-- 自然数 `d` に対して、`n` の重複度 `μ` を返す。
-  つまり `extract d n = (d, μ)` が成り立つ -/
+  /-- 自然数 `d` に対して、`n` の重複度 `μ` と `d` のペア `(d, μ)` を返す。-/
   extract (d n : Nat) : Nat × Nat :=
     if d ≤ 1 then
       (1, 0)
