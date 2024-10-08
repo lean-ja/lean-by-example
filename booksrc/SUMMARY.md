@@ -76,6 +76,7 @@
   - [autoImplicit: 自動束縛暗黙引数](./Reference/Option/AutoImplicit.md)
   - [flexible: 脆弱な証明を指摘するリンタ](./Reference/Option/Flexible.md)
   - [hygiene: マクロ衛生](./Reference/Option/Hygiene.md)
+  - [relaxedAutoImplicit: 更にautoImplicit](./Reference/Option/RelaxedAutoImplicit.md)
 
 - [型クラス](./Reference/TypeClass/README.md)
   - [Coe: 型強制](./Reference/TypeClass/Coe.md)

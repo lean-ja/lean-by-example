@@ -1,5 +1,5 @@
 /- # autoImplicit
-`autoImplicit` オプションは、自動束縛暗黙引数(auto bound implicit arguments)という機能を制御します。
+`autoImplicit` オプションは、自動束縛暗黙引数(auto bound implicit arguments)という機能を制御します。類似オプションとして [`relaxedAutoImplicit`](./RelaxedAutoImplicit.md) があります。
 
 有効にすると、宣言が省略された引数が1文字であるとき、それを暗黙引数として自動的に追加します。
 -/
