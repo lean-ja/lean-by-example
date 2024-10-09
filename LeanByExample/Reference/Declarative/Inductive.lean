@@ -12,11 +12,11 @@
 namespace Inductive --#
 
 /-- 真か偽のどちらかの値をとる型 -/
-inductive Bool : Type where
+inductive MyBool : Type where
   | true
   | false
 
-#check (Bool.true : Bool)
+#check (MyBool.true : MyBool)
 
 /- 列挙型は、帰納型の中でもすべてのコンストラクタが引数を持たないような特別な場合といえます。-/
 
@@ -65,6 +65,99 @@ expected
 /- このようにコードを書くと「すべての `n : Nat` に対して、帰納型 `BadVec α n` の各コンストラクタがある」と宣言したことになり、`nil : BadVec α 0` だけでなく `nil : BadVec α 1` や `nil : BadVec α 2` なども存在すると宣言したことになります。したがって、`nil` の右辺には `BadVec α 0` ではなく `BadVec α n` が来なければならないというエラーが出ているわけです。
 -/
 
+/- ### 帰納的述語
+帰納型を使って命題や述語を定義することもできます。作為的ではありますが簡単な例として、自然数が偶数であることを表す命題が挙げられます。
+-/
+
+/-- 自然数が偶数であることを表す帰納的述語 -/
+inductive Even : Nat → Prop where
+  | zero : Even 0
+  | add_two : ∀ n, Even n → Even (n + 2)
+
+/- この場合 `inductive` コマンドを使用せずに、`def` を使って再帰関数として定義しても同じことができます。 -/
+
+/-- 自然数が偶数であることを表す再帰関数 -/
+def even : Nat → Bool
+  | 0 => true
+  | 1 => false
+  | n + 2 => even n
+
+/- 両者の違いは何でしょうか？双方にメリットとデメリットがあります。
+
+再帰関数として定義するメリットの一つは、計算可能になることです。[`#eval`](#{root}/Reference/Diagnostic/Eval.md) コマンドなど、Lean に組み込まれた機能を使って計算を行うことができます。一方で帰納的述語として定義する場合は、計算をさせるための準備をこちらで行う必要があります。-/
+
+-- すぐに計算できる
+#guard even 4
+
+/--
+error: failed to synthesize
+  Decidable (Even 4)
+Additional diagnostic information may be available using the `set_option diagnostics true` command.
+-/
+#guard_msgs in #eval Even 4
+
+/-
+帰納的述語として定義するメリットの一つは、再帰が停止することを保証しなくて良いことです。実際、帰納的述語は本質的に停止する保証がない再帰的な操作でも扱うことができます。以下は、少し複雑ですがプログラムの BigStep 意味論を表現する例です。[^hitchhiker]
+-/
+
+/-- 変数。ここでは簡単のために、すべての文字列が変数として存在するものとする -/
+abbrev Variable := String
+
+/-- プログラムの状態。すべての変数の値を保持したもの。
+ここでは簡単にするために、変数の値はすべて自然数だとしている。 -/
+def State := Variable → Nat
+
+/-- `1 + x` のような算術式。変数の値を決めるごとに値が決まる。-/
+def Arith := State → Nat
+
+/-- 抽象化された単純なプログラミング言語のプログラム -/
+inductive Stmt : Type where
+  /-- 何もしないコマンド -/
+  | skip : Stmt
+  /-- `x := a` のような代入文。-/
+  | assign : Variable → Arith → Stmt
+  /-- 2つのコマンドを続けて実行する。`;;` で表される。-/
+  | seq : Stmt → Stmt → Stmt
+  /-- while 文 -/
+  | whileDo : (State → Prop) → Stmt → Stmt
+
+@[inherit_doc] infix:60 ";; " => Stmt.seq
+
+-- 技術的な理由で必要
+set_option quotPrecheck false in
+
+/-- 状態 `s : State` があったとき、変数 `x` に対してだけ値を更新したものを表す記法 -/
+notation s:70 "[" x:70 "↦" n:70 "]" => (fun v ↦ if v = x then n else s v)
+
+open Stmt
+
+/-- プログラムの BigStep 意味論。`BigStep c s t` は、
+プログラム `c` を状態 `s` の下で実行すると状態が `t` になって停止することを表す。
+-/
+inductive BigStep : Stmt → State → State → Prop where
+  /-- skip コマンドの意味論。-/
+  | skip (s : State) : BigStep skip s s
+
+  /-- 代入文 `x := a` の実行前に状態が `s` であったなら、
+  代入文の実行後には状態は変数 `x` についてだけ更新される。-/
+  | assign (x : Variable) (a : State → Nat) (s : State) :
+    BigStep (assign x a) s (s[x ↦ a s])
+
+  /-- seq コマンドの意味論。-/
+  | seq {S T : Stmt} {s t u : State} (hS : BigStep S s t) (hT : BigStep T t u) :
+    BigStep (S;; T) s u
+
+  /-- while 文の、条件式が真のときの意味論。
+  `whileDo B S` は、開始時に `B` が成り立っているなら、
+  `S` を実行してから `whileDo B S` を実行するのと同じ意味になる。-/
+  | while_true {B S s t u} (hcond : B s) (hbody : BigStep S s t)
+    (hrest : BigStep (whileDo B S) t u) : BigStep (whileDo B S) s u
+
+  /-- while 文の、条件式が偽のときの意味論。-/
+  | while_false {B S s} (hcond : ¬ B s) : BigStep (whileDo B S) s s
+
+/- 「プログラムを評価する」という操作は `while` 文の評価が終わらない可能性があるため、再帰関数として定義することができません。そのため上記の BigStep 意味論の例は帰納的述語が真に有用なケースであるといえます。-/
+
 /- ## Peano の公理と帰納型
 帰納型を利用すると、「Peano の公理に基づく自然数の定義」のような帰納的な公理による定義を表現することができます。
 
@@ -106,4 +199,5 @@ info: recursor Inductive.MyNat.rec.{u} : {motive : MyNat → Sort u} →
 -/
 #guard_msgs in #print MyNat.rec
 
+/- [^hitchhiker]: [The Hitchhiker’s Guide to Logical Verification](https://github.com/blanchette/interactive_theorem_proving_2024) を参考にいたしました。-/
 end Inductive --#
