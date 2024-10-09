@@ -28,7 +28,7 @@ If you use this book for your work, please cite it as follows:
 ```bibtex
 @misc{leanbyexample,
   title = {Lean by {E}xample},
-  url = {https://lean-ja.github.io/lean-by-example/}
+  url = {https://lean-ja.github.io/lean-by-example/},
   author = {The lean-ja community},
   note = {Accessed on Month Day, Year},
 }
