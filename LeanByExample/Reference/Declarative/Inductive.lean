@@ -36,23 +36,19 @@ inductive BinTree (α : Type) : Type where
 
 /- ### 帰納型の族
 
-ある添字集合 `Λ : Type` の各要素 `λ : Λ` に対して、型 `T λ : Sort u` を定義することができます。簡単な例として、偶数を表す帰納型の族があります。
+上記で紹介した `List α` は型パラメータ `α : Type` に依存する帰納型ですが、型ではない単なる項に依存する
+
+ある添字集合 `Λ : Type` の各要素 `λ : Λ` に対して、型 `T λ : Sort u` を定義することができます。簡単な例として、長さを型の情報として持つリストがあります。
 -/
 
-/-- 自然数 `n` が偶数であることを表す命題 -/
-inductive Even : Nat → Prop where
-  | zero : Even 0
-  | succ (n : Nat) : Even n → Even (n + 2)
+/-- 長さを型の情報として持つリスト -/
+inductive Vec (α : Type) : Nat → Type where
+  | nil : Vec α 0
+  | cons (a : α) {n : Nat} (v : Vec α n) : Vec α (n + 1)
 
-/- これで帰納型の族 `{Even 0, Even 1, Even 2, …}` を定義したことになります。`n` が奇数のとき `Even n` は `False` になります。-/
+/- これで帰納型の族 `{Vec α 0, Vec α 1, Vec α 2, …}` を定義したことになります。
 
-example : ¬ Even 1 := by
-  intro h
-  cases h
-
-example : Even 2 := Even.succ 0 Even.zero
-
-/- `inductive` コマンドは「パラメータを持つ帰納型」と「帰納型の族」を区別するため、「自然数 `n` が偶数である」ということを表す型を定義しようとして次のように書いたとすると、エラーになることに注意してください。
+`inductive` コマンドは「パラメータを持つ帰納型」と「帰納型の族」を区別するため、次のように書いてもエラーになることに注意してください。
 -/
 
 /--
@@ -62,11 +58,11 @@ expected
   n
 -/
 #guard_msgs in
-  inductive BadEven (n : Nat) : Prop where
-    | zero : BadEven 0
-    | succ (n : Nat) : BadEven n → BadEven (n + 2)
+  inductive BadVec (α : Type) (n : Nat) : Type where
+    | nil : BadVec α 0
+    | cons (a : α) {n : Nat} (v : Vec α n) : BadVec α (n + 1)
 
-/- このようにコードを書くと「すべての `n : Nat` に対して、帰納型 `BadEven n` の各コンストラクタがある」と宣言したことになり、`zero : BadEven 0` だけでなく `zero : BadEven 1` や `zero : BadEven 2` なども存在すると宣言したことになります。したがって、右辺には `BadEven 0` ではなく `BadEven n` が来なければならないというエラーが出ているわけです。
+/- このようにコードを書くと「すべての `n : Nat` に対して、帰納型 `BadVec α n` の各コンストラクタがある」と宣言したことになり、`nil : BadVec α 0` だけでなく `nil : BadVec α 1` や `nil : BadVec α 2` なども存在すると宣言したことになります。したがって、`nil` の右辺には `BadVec α 0` ではなく `BadVec α n` が来なければならないというエラーが出ているわけです。
 -/
 
 /- ## Peano の公理と帰納型
