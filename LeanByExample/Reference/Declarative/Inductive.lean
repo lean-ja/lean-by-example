@@ -44,9 +44,15 @@ inductive Even : Nat → Prop where
   | zero : Even 0
   | succ (n : Nat) : Even n → Even (n + 2)
 
-/- これで帰納型の族 `{Even 0, Even 2, Even 4, …}` を定義したことになります。
+/- これで帰納型の族 `{Even 0, Even 1, Even 2, …}` を定義したことになります。`n` が奇数のとき `Even n` は `False` になります。-/
 
-`inductive` コマンドは「パラメータを持つ帰納型」と「帰納型の族」を区別するため、「自然数 `n` が偶数である」ということを表す型を定義しようとして次のように書いたとすると、エラーになることに注意してください。
+example : ¬ Even 1 := by
+  intro h
+  cases h
+
+example : Even 2 := Even.succ 0 Even.zero
+
+/- `inductive` コマンドは「パラメータを持つ帰納型」と「帰納型の族」を区別するため、「自然数 `n` が偶数である」ということを表す型を定義しようとして次のように書いたとすると、エラーになることに注意してください。
 -/
 
 /--
@@ -58,9 +64,9 @@ expected
 #guard_msgs in
   inductive BadEven (n : Nat) : Prop where
     | zero : BadEven 0
-    | succ (m : Nat) : BadEven m → BadEven (m + 2)
+    | succ (n : Nat) : BadEven n → BadEven (n + 2)
 
-/- このようにコードを書くと「すべての `n : Nat` に対して、帰納型 `BadEven n` を構成する」という意味になり、`zero : BadEven 0` だけでなく `zero : BadEven 1` や `zero : BadEven 2` なども存在すると宣言したことになります。したがって、右辺には `BadEven 0` ではなく `BadEven n` が来なければならないというエラーが出ているわけです。
+/- このようにコードを書くと「すべての `n : Nat` に対して、帰納型 `BadEven n` の各コンストラクタがある」と宣言したことになり、`zero : BadEven 0` だけでなく `zero : BadEven 1` や `zero : BadEven 2` なども存在すると宣言したことになります。したがって、右辺には `BadEven 0` ではなく `BadEven n` が来なければならないというエラーが出ているわけです。
 -/
 
 /- ## Peano の公理と帰納型
