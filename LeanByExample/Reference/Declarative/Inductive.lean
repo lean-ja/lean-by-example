@@ -34,6 +34,35 @@ inductive BinTree (α : Type) : Type where
   | empty : BinTree α
   | node (value : α) (left : BinTree α) (right : BinTree α) : BinTree α
 
+/- ### 帰納型の族
+
+ある添字集合 `Λ : Type` の各要素 `λ : Λ` に対して、型 `T λ : Sort u` を定義することができます。簡単な例として、偶数を表す帰納型の族があります。
+-/
+
+/-- 自然数 `n` が偶数であることを表す命題 -/
+inductive Even : Nat → Prop where
+  | zero : Even 0
+  | succ (n : Nat) : Even n → Even (n + 2)
+
+/- これで帰納型の族 `{Even 0, Even 2, Even 4, …}` を定義したことになります。
+
+`inductive` コマンドは「パラメータを持つ帰納型」と「帰納型の族」を区別するため、「自然数 `n` が偶数である」ということを表す型を定義しようとして次のように書いたとすると、エラーになることに注意してください。
+-/
+
+/--
+error: inductive datatype parameter mismatch
+  0
+expected
+  n
+-/
+#guard_msgs in
+  inductive BadEven (n : Nat) : Prop where
+    | zero : BadEven 0
+    | succ (m : Nat) : BadEven m → BadEven (m + 2)
+
+/- このようにコードを書くと「すべての `n : Nat` に対して、帰納型 `BadEven n` を構成する」という意味になり、`zero : BadEven 0` だけでなく `zero : BadEven 1` や `zero : BadEven 2` なども存在すると宣言したことになります。したがって、右辺には `BadEven 0` ではなく `BadEven n` が来なければならないというエラーが出ているわけです。
+-/
+
 /- ## Peano の公理と帰納型
 帰納型を利用すると、「Peano の公理に基づく自然数の定義」のような帰納的な公理による定義を表現することができます。
 
@@ -74,34 +103,5 @@ info: recursor Inductive.MyNat.rec.{u} : {motive : MyNat → Sort u} →
   motive MyNat.zero → ((n : MyNat) → motive n → motive n.succ) → (t : MyNat) → motive t
 -/
 #guard_msgs in #print MyNat.rec
-
-/- ## よくあるエラー
-
-`inductive` コマンドは「パラメータを持つ帰納型」と「帰納型の族」を区別します。
-
-たとえば、「自然数 `n` が偶数である」ということを表す型を定義しようとして次のように書いたとすると、エラーになってしまいます。
--/
-
-/--
-error: inductive datatype parameter mismatch
-  0
-expected
-  n
--/
-#guard_msgs in
-  inductive BadEven (n : Nat) : Prop where
-    | zero : BadEven 0
-    | succ (m : Nat) : BadEven m → BadEven (m + 2)
-
-/- このようにコードを書くと「すべての `n : Nat` に対して、帰納型 `BadEven n` を構成する」という意味になり、`zero : BadEven 0` だけでなく `zero : BadEven 1` や `zero : BadEven 2` なども存在すると宣言したことになります。したがって、右辺には `BadEven 0` ではなく `BadEven n` が来なければならないというエラーが出ているわけです。
-
-次のように修正すると意図通りに動きます。-/
-
-/-- 自然数 `n` が偶数であることを表す命題 -/
-inductive Even : Nat → Prop where
-  | zero : Even 0
-  | succ (n : Nat) : Even n → Even (n + 2)
-
-/- このコードでは、帰納型の族 `{Even 0, Even 2, Even 4, …}` を定義していることになります。 -/
 
 end Inductive --#
