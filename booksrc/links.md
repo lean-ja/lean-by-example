@@ -20,7 +20,7 @@
 * [Lean4 VSCode 拡張機能](https://github.com/leanprover/vscode-lean4) Lean4 のための VSCode 拡張機能。
 * [Loogle](https://loogle.lean-lang.org/) Mathlib の検索ツール。型の情報や定数名から検索ができます。vscode-lean4 から実行することもできます。
 * [Moogle](https://www.moogle.ai/) 自然言語で Mathlib から定理や定義が検索できるサイト。VSCode 拡張機能もあります。
-* [Lean Search](https://leansearch.net/) 自然言語で Mathlib から定理や定義が検索できるサイト。これに関連して[「A Semantic Search Engine for Mathlib4」](https://arxiv.org/abs/2403.13310)という論文があります。
+* [Lean Search](https://leansearch.net/) 自然言語で Mathlib から定理や定義が検索できるサイト。これに関連して[「A Semantic Search Engine for Mathlib4」](https://www.semanticscholar.org/paper/A-Semantic-Search-Engine-for-Mathlib4-Gao-Ju/da6bf364987a605843d56b19f9d0b1546b192c5f?utm_source=direct_link)という論文があります。
 * [Lean4 Web](https://live.lean-lang.org/) ブラウザ上で Lean が実行できるプレイグラウンド。
 * [Reservoir](https://reservoir.lean-lang.org/) Lean 公式のパッケージレジストリ。
 
