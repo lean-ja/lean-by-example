@@ -224,7 +224,7 @@ example (a b : Nat) (h : 3 ∣ (10 * a + b)) : 3 ∣ (a + b) := by
   omega
 
 -- aesop にルールを登録する
-add_aesop_rules safe tactic [(by omega)]
+local add_aesop_rules safe tactic [(by omega)]
 
 example (a b : Nat) (h : 3 ∣ (10 * a + b)) : 3 ∣ (a + b) := by
   -- aesop で証明できるようになった!
