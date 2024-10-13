@@ -112,6 +112,7 @@ end --#
 `apply` タクティクと同様にはたらくルールを登録します。
 -/
 section --#
+
 example (a b c d e : Nat)
     (h1 : a < b) (h2 : b < c) (h3 : c < d) (h4 : d < e) : a < e := by
   -- 最初は aesop で示せない
@@ -129,10 +130,12 @@ example (a b c d e : Nat)
     (h1 : a < b) (h2 : b < c) (h3 : c < d) (h4 : d < e) : a < e := by
   -- aesop で証明できるようになった
   aesop
+
 end --#
 /- ### constructors
 `constructors` ビルダーは、[帰納型](../Declarative/Inductive.md) `T` の形をしたゴールに遭遇した際に、コンストラクタを適用するように指示します。
 -/
+section --#
 
 /-- 自前で定義した偶数を表す命題 -/
 inductive Even : Nat → Prop where
@@ -148,15 +151,17 @@ example : Even 2 := by
   apply Even.zero
 
 -- aesop にルールを登録する
-add_aesop_rules safe constructors [Even]
+local add_aesop_rules safe constructors [Even]
 
 example : Even 2 := by
   -- aesop で証明できるようになった
   aesop
 
+end --#
 /- ### cases
 `cases` ビルダーは、帰納型 `T` の形をした仮定がローカルコンテキストにある場合に、それに対して再帰的に `cases` タクティクを使用して分解するように指示します。
 -/
+section --#
 
 example (n : Nat) (h : Even (n + 2)) : Even n := by
   -- 最初は aesop で証明できない
@@ -167,15 +172,49 @@ example (n : Nat) (h : Even (n + 2)) : Even n := by
   assumption
 
 -- aesop にルールを登録する
-add_aesop_rules safe cases [Even]
+local add_aesop_rules safe cases [Even]
 
 example (n : Nat) (h : Even (n + 2)) : Even n := by
   -- aesop で証明できるようになった
   aesop
 
+end --#
+/- ### destruct
+`destruct` ビルダーは、`A₁ → ⋯ → Aₙ → B` という形の命題を登録することで、仮定に `A₁, ..., Aₙ` が含まれている場合に、元の仮定を消去して `B` を仮定に追加します。
+-/
+section --#
+
+/-- 任意の数 n について、n か n + 1 のどちらかは偶数 -/
+theorem even_or_even_succ (n : Nat) : Even n ∨ Even (n + 1) := by
+  induction n with
+  | zero => left; apply Even.zero
+  | succ n ih =>
+    rcases ih with ih | ih
+    · right
+      apply Even.succ
+      assumption
+    · left
+      assumption
+
+example {n : Nat} : Even n ∨ Even (n + 1) := by
+  -- 最初は aesop で証明できない
+  fail_if_success aesop
+
+  -- 手動で補題を示すことで証明する
+  have := even_or_even_succ n
+  assumption
+
+local add_aesop_rules unsafe 30% destruct [even_or_even_succ]
+
+example {n : Nat} : Even n ∨ Even (n + 1) := by
+  -- aesop で示せるようになった！
+  aesop
+
+end --#
 /- ### tactic
 `tactic` ビルダーは、タクティクを追加のルールとして直接利用できるようにします。
 -/
+section --#
 
 example (a b : Nat) (h : 3 ∣ (10 * a + b)) : 3 ∣ (a + b) := by
   -- aesop で証明できない
@@ -190,3 +229,4 @@ add_aesop_rules safe tactic [(by omega)]
 example (a b : Nat) (h : 3 ∣ (10 * a + b)) : 3 ∣ (a + b) := by
   -- aesop で証明できるようになった!
   aesop
+end --#
