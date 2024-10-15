@@ -2,18 +2,22 @@
 
 `induction` は、帰納法のためのタクティクです。
 
-たとえば、Lean では自然数 `Nat` は
+たとえば、Lean では自然数 `Nat` は以下のように定義されています。
 
-* 0 は自然数
-* `succ : Nat → Nat` という関数がある。つまり `n` が自然数ならば `succ n` も自然数
+* `0` は自然数。
+* `succ : Nat → Nat` という関数がある。つまり `n` が自然数ならば `succ n` も自然数。
+* 上記のルールによって自然数だとわかるものだけが自然数。
 
-というように帰納的に定義されています。このように帰納的に定義されたものに対して何か証明しようとしているとき、帰納法を使うことが自然な選択になります。
+このように、「既に `A` だとわかっているものから、`A` を作り出すルール」を定めることで `A` という概念を構成するというやり方を、**帰納的(inductive)** であるといいます。帰納的に定義されたものに対して何か証明しようとしているとき、帰納法を使うことが自然な選択になります。
+
+典型的な例は、自然数に対する数学的帰納法です。前提として、ある述語 `P : Nat → Prop` に対して `∀ n, P n` を示そうとしているとします。このとき、以下を示せば十分であるというのが、数学的帰納法の主張です。
+
+* `P 0` が成り立つ。
+* `∀ n, P n → P (n + 1)` が成り立つ。
 -/
-import Mathlib.Tactic.Ring -- `ring` を使うため
+import Mathlib.Tactic.Ring -- `ring` を使うため --#
 
-namespace Induction --#
-
-/-- `1` から `n` までの和を計算する関数 -/
+/-- `0` から `n` までの和を計算する関数 -/
 def sum (n : Nat) : Rat :=
   match n with
   | 0 => 0
@@ -29,14 +33,17 @@ example (n : Nat) : sum n = n * (n + 1) / 2 := by
 
   -- `0` から `n` までの自然数で成り立つと仮定する
   | succ n ih =>
+    -- 帰納法の仮定が手に入る
+    guard_hyp ih : sum n = n * (n + 1) / 2
+
     -- `sum` の定義を展開し、帰納法の仮定を適用する
     simp [sum, ih]
 
     -- 後は可換環の性質から示せる
     ring
 
-/- ## 再帰定理
-Lean では、実は帰納法を使用するのに必ずしも `induction` は必要ありません。場合分けの中で示されたケースを帰納法の仮定として使うことができます。これは recursive theorem(再帰定理) と呼ばれることがあります。[^recursive]
+/- ## 再帰的定理
+Lean では、実は帰納法を使用するのに必ずしも `induction` は必要ありません。場合分けの中で示されたケースを帰納法の仮定として使うことができます。これは recursive theorem(再帰的定理) と呼ばれることがあります。[^recursive]
 -/
 
 theorem sum_exp (n : Nat) : sum n = n * (n + 1) / 2 := by
@@ -178,8 +185,6 @@ def bar : Nat → Nat
 
 #guard_msgs (drop warning) in --#
 #check_failure bar.induct
-
-end Induction --#
 
 /-
 [^recursive]: [lean公式ブログの Functional induction についての記事](https://lean-lang.org/blog/2024-5-17-functional-induction/) で recursive theorem という言葉が使われています。
