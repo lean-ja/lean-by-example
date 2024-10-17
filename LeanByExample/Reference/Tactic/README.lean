@@ -3,5 +3,5 @@
 
 このセクションでは、Lean の組み込みのタクティクに加えて、Mathlib というライブラリで提供されているタクティクも紹介します。Mathlib には特定の分野に特化した強力な自動化タクティクがいくつもあり、数学理論の形式化をする上で欠かせません。
 
-なおこのリストは全部のタクティクを網羅していません。Mathlib の全タクティクのリストが必要であれば [mathlib4 tactics](https://seasawher.github.io/mathlib4-tactics/tactics.html) を参照してください。
+なおこのリストは全部のタクティクを網羅していません。Mathlib の全タクティクのリストが必要であれば [mathlib4 tactics](https://seasawher.github.io/mathlib4-help/tactics.html) を参照してください。
 -/
