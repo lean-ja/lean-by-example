@@ -1,7 +1,6 @@
 name: 新規項目・追記リクエスト
 description: 追加してほしい項目や題材をリクエストします。
 title: "リクエスト: <title>"
-labels: ["疑問", "要調査"]
 body:
 - type: textarea
   attributes:
