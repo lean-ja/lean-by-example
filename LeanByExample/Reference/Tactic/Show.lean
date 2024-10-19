@@ -10,8 +10,7 @@
 ## 使い捨ての補題を作る
 
 `show ... from` は、[`have`](./Have.md) のように補題を用意することができますが、`have` と違って補題に名前がつかず、使い捨てになります。たとえば `rw` に渡すために一度だけ使いたい補題があるとして、それを `have` で示すのは大げさすぎると感じたときに使用します。 -/
-import Mathlib.Tactic.FieldSimp -- `field_simp` を使うのに必要 --#
-import Mathlib.Tactic.Ring -- `ring` を使うのに必要 --#
+import Mathlib.Tactic -- 補題や `field_simp` のために import する
 
 variable (a b x : ℚ)
 
