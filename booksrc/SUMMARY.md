@@ -96,7 +96,7 @@
   - [List: 連結リスト](./Reference/Type/List.md)
   - [Prop: 命題全体](./Reference/Type/Prop.md)
   - [String: 文字列](./Reference/Type/String.md)
-  - [Type: 型全体](./Reference/Type/Type.md)
+  - [Type: 型の型](./Reference/Type/Type.md)
 
 - [タクティク](./Reference/Tactic/README.md)
   - [<;> 生成された全ゴールに適用](./Reference/Tactic/SeqFocus.md)
