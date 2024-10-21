@@ -44,22 +44,7 @@ example : P ∨ Q → (P → R) → (Q → R) → R := by
 /- ## 舞台裏
 
 `cases` は、実際には論理和に限らず[帰納型](../Declarative/Inductive.md)をコンストラクタに分解することができるタクティクです。
-論理和を分解することができるのも、`Or` が帰納型として定義されているからです。
 -/
-namespace Cases --#
-
-/--
-info: inductive Or : Prop → Prop → Prop
-number of parameters: 2
-constructors:
-Or.inl : ∀ {a b : Prop}, a → a ∨ b
-Or.inr : ∀ {a b : Prop}, b → a ∨ b
--/
-#guard_msgs in #print Or
-
--- Or のコンストラクタ
-#check (Or.inl : P → P ∨ Q)
-#check (Or.inr : Q → P ∨ Q)
 
 -- 帰納型として定義した例示のための型
 inductive Sample where
@@ -75,5 +60,24 @@ example (s : Sample) : True := by
 
   case bar z =>
     trivial
+
+/- 論理和を分解することができるのも、`Or` が次のように帰納型として定義されているからです。 -/
+namespace Cases --#
+
+--#--
+-- Or の定義が変わっていないことを確認するためのコード
+/--
+info: inductive Or : Prop → Prop → Prop
+number of parameters: 2
+constructors:
+Or.inl : ∀ {a b : Prop}, a → a ∨ b
+Or.inr : ∀ {a b : Prop}, b → a ∨ b
+-/
+#guard_msgs in #print Or
+--#--
+
+inductive Or (a b : Prop) : Prop where
+  | inl (h : a) : Or a b
+  | inr (h : b) : Or a b
 
 end Cases --#

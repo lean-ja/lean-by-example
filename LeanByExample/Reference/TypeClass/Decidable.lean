@@ -46,6 +46,8 @@ example : Even 4 := by decide
 /- ## class inductive
 `Decidable` 型クラスの定義は少し特殊です。コンストラクタが複数あり、[構造体](../Declarative/Structure.md)ではなく[帰納型](../Declarative/Inductive.md)の構造をしています。これは `Decidable` が [`class inductive`](../Declarative/Class.md#ClassInductive) というコマンドで定義されているためです。-/
 
+--#--
+-- Decidable の定義が変わっていないことを確認する
 /--
 info: inductive Decidable : Prop → Type
 number of parameters: 1
@@ -54,5 +56,12 @@ Decidable.isFalse : {p : Prop} → ¬p → Decidable p
 Decidable.isTrue : {p : Prop} → p → Decidable p
 -/
 #guard_msgs in #print Decidable
+--#--
+
+class inductive Decidable (p : Prop) where
+  /-- `¬ p` であることが分かっているなら、`p` は決定可能 -/
+  | isFalse (h : Not p) : Decidable p
+  /-- `p` であることが分かっているなら、`p` は決定可能 -/
+  | isTrue (h : p) : Decidable p
 
 end Decidable --#

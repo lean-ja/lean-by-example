@@ -5,16 +5,13 @@
 ゴールが `⊢ ∃ x, P x` のとき、`x: X` がローカルコンテキストにあれば、`exists x` によりゴールが `P x` に変わります。同時に、`P x` が自明な場合は証明が終了します。-/
 import Lean --#
 
-namespace Exists --#
-
 example : ∃ x : Nat, 3 * x + 1 = 7 := by
   exists 2
 
 /- ## 内部処理についての補足
 なお Lean での存在量化の定義は次のようになっています。-/
-
-universe u
-
+--#--
+-- Exists の定義が変わっていないことを確認する
 /--
 info: inductive Exists.{u} : {α : Sort u} → (α → Prop) → Prop
 number of parameters: 2
@@ -22,11 +19,14 @@ constructors:
 Exists.intro : ∀ {α : Sort u} {p : α → Prop} (w : α), p w → Exists p
 -/
 #guard_msgs in #print Exists
+--#--
+namespace Exists --#
 
--- `p : α → Prop` は `α` 上の述語とする。
--- このとき `w : α` と `h : p w` が与えられたとき `∃ x : α, p x` が成り立つ。
-#check (Exists.intro : ∀ {α : Sort u} {p : α → Prop} (w : α) (_h : p w), Exists p)
+inductive Exists.{u} {α : Sort u} (p : α → Prop) : Prop where
+  /-- `a : α` と `h : p a` から `∃ x : α, p x` の証明を得る -/
+  | intro (w : α) (h : p w) : Exists p
 
+end Exists --#
 /- したがって `Exists` は単一のコンストラクタを持つ[帰納型](../Declarative/Inductive.md)、つまり[構造体](../Declarative/Structure.md)なので、上記の `exists` は `exact` と[無名コンストラクタ](../Declarative/Structure.md#AnonymousConstructor)で次のように書き直すことができます。-/
 
 example : ∃ x : Nat, 3 * x + 1 = 7 := by
@@ -56,5 +56,3 @@ elab "#expand " t:macro_stx : command => do
 /-- info: (refine ⟨1, 2, 3, ?_⟩; try trivial) -/
 #guard_msgs in
   #expand exists 1, 2, 3
-
-end Exists --#
