@@ -17,10 +17,10 @@ example : (P → (Q → R)) → ((P → Q) → (P → R)) := by
   tauto
 
 -- 否定と同値なら矛盾
-example : (P ↔ ¬ P) → false := by
+example : (P ↔ ¬ P) → False := by
   tauto
 
-/- `tauto` はすべてのトートロジーを示せるわけではありません。ごく簡単なトートロジーの中にも `tauto` で示せないものがあります。-/
+/- `tauto` が扱えるのは命題論理の範囲で記述できる命題だけです。述語論理における恒真な式は、ごく簡単なものであっても `tauto` で示せないことがあります。-/
 
 variable (α : Type) (S : α → Prop)
 
