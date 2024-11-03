@@ -168,6 +168,7 @@
   - [says: タクティク提案の痕跡を残す](./Reference/Tactic/Says.md)
   - [set: 定義の導入](./Reference/Tactic/Set.md)
   - [show: 示すべきことを宣言](./Reference/Tactic/Show.md)
+  - [simp_all: 仮定とゴールを全て単純化](./Reference/Tactic/SimpAll.md)
   - [simp: 単純化](./Reference/Tactic/Simp.md)
   - [slim_check: 反例を見つける](./Reference/Tactic/SlimCheck.md)
   - [sorry: 証明したことにする](./Reference/Tactic/Sorry.md)
