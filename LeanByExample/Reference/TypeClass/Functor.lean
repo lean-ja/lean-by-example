@@ -58,3 +58,12 @@ example (x : f α) : Functor.map g x = g <$> x := rfl
 
 #guard (some 2).map (fun x => x * 2) = some 4
 #guard (none : Option Nat).map (fun x => x * 2) = none
+
+/- ## Functor 則
+
+`Functor` 型クラスのインスタンスには満たすべきルールがあります。
+このルールを破っていても `Functor` 型クラスのインスタンスにすることは可能ですが、API の使用者が予期せぬ挙動をするので避けるべきです。
+ルール込みで `Functor` 型クラスのインスタンスを定義するためには、`LawfulFunctor` 型クラスを使います。
+-/
+
+#check LawfulFunctor
