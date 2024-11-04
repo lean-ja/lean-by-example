@@ -8,7 +8,7 @@ variable (a b : Nat)
 #guard_msgs (drop warning) in --#
 example (h : 0 ≤ a + b) : 1 ≤ a := by
   /-
-  Found problems! というエラーが表示される
+  Found a counter-example! というエラーが表示される
   -/
   fail_if_success plausible
 
