@@ -17,7 +17,11 @@ variable (a b : Nat)
 
 100 個のテストケースでテストしてOKならエラーにならないのですが、途中でギブアップした場合はエラーになります。-/
 
--- Gave up ** times と表示される
-#guard_msgs (drop warning) in --#
-example (h : a = 1) : a ≤ 1 := by
-  plausible
+/--
+warning: Gave up after failing to generate values that fulfill the preconditions 100 times.
+---
+warning: declaration uses 'sorry'
+-/
+#guard_msgs (warning) in
+  example (a : Nat) : a ≠ a → a ≤ 1 := by
+    plausible
