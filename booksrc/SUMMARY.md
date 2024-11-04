@@ -91,6 +91,7 @@
   - [ToString: 文字列に変換](./Reference/TypeClass/ToString.md)
 
 - [型](./Reference/Type/README.md)
+  - [Bool: 真偽値](./Reference/Type/Bool.md)
   - [Char: Unicode 文字](./Reference/Type/Char.md)
   - [Float: 浮動小数点数](./Reference/Type/Float.md)
   - [List: 連結リスト](./Reference/Type/List.md)
