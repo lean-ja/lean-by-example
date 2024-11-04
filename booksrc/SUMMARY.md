@@ -86,6 +86,7 @@
   - [Decidable: 決定可能](./Reference/TypeClass/Decidable.md)
   - [Functor: ファンクタ](./Reference/TypeClass/Functor.md)
   - [GetElem: n番目の要素を取得](./Reference/TypeClass/GetElem.md)
+  - [HAdd: + のための記法クラス](./Reference/TypeClass/HAdd.md)
   - [Inhabited: 有項にする](./Reference/TypeClass/Inhabited.md)
   - [OfNat: 数値リテラルを使用](./Reference/TypeClass/OfNat.md)
   - [Repr: 表示方法を指定](./Reference/TypeClass/Repr.md)
