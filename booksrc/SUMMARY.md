@@ -84,7 +84,7 @@
   - [CoeFun: 関数型への強制](./Reference/TypeClass/CoeFun.md)
   - [CoeSort: 型宇宙への強制](./Reference/TypeClass/CoeSort.md)
   - [Decidable: 決定可能](./Reference/TypeClass/Decidable.md)
-  - [Functor: 関手](./Reference/TypeClass/Functor.md)
+  - [Functor: ファンクタ](./Reference/TypeClass/Functor.md)
   - [GetElem: n番目の要素を取得](./Reference/TypeClass/GetElem.md)
   - [Inhabited: 有項にする](./Reference/TypeClass/Inhabited.md)
   - [OfNat: 数値リテラルを使用](./Reference/TypeClass/OfNat.md)
