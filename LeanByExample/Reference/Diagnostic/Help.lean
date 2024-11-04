@@ -11,7 +11,7 @@
 
 他にも機能がありますが、詳細は[Mathlib のドキュメント](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Tactic/HelpCmd.html)をご覧ください。
 -/
-import Mathlib.Tactic
+import Batteries.Tactic.HelpCmd
 
 -- 以下のコマンドで全 tactic のリストが見られます
 #help tactic

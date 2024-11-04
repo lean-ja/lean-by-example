@@ -170,7 +170,7 @@
   - [show: 示すべきことを宣言](./Reference/Tactic/Show.md)
   - [simp_all: 仮定とゴールを全て単純化](./Reference/Tactic/SimpAll.md)
   - [simp: 単純化](./Reference/Tactic/Simp.md)
-  - [slim_check: 反例を見つける](./Reference/Tactic/SlimCheck.md)
+  - [plausible: 反例を見つける](./Reference/Tactic/Plausible.md)
   - [sorry: 証明したことにする](./Reference/Tactic/Sorry.md)
   - [split: if/match 式を分解](./Reference/Tactic/Split.md)
   - [suffices: 十分条件に帰着](./Reference/Tactic/Suffices.md)

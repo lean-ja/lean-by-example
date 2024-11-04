@@ -1,16 +1,16 @@
-/- # slim_check
+/- # plausible
 
-`slim_check` は、証明しようとしているゴールが間違っていないかチェックし、反例を見つけるとエラーで警告するタクティクです。 -/
-import Mathlib.Tactic.SlimCheck
+`plausible` は、証明しようとしているゴールが間違っていないかチェックし、反例を見つけるとエラーで警告するタクティクです。 -/
+import Plausible
 
-variable (a b : ℕ)
+variable (a b : Nat)
 
 #guard_msgs (drop warning) in --#
 example (h : 0 ≤ a + b) : 1 ≤ a := by
   /-
   Found problems! というエラーが表示される
   -/
-  fail_if_success slim_check
+  fail_if_success plausible
 
   sorry
 
@@ -22,4 +22,4 @@ example (h : 0 ≤ a + b) : 1 ≤ a := by
 -- Gave up ** times と表示される
 #guard_msgs (drop warning) in --#
 example (h : a = 1) : a ≤ 1 := by
-  slim_check
+  plausible
