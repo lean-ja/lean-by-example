@@ -5,14 +5,12 @@ import Plausible
 
 variable (a b : Nat)
 
-#guard_msgs (drop warning) in --#
-example (h : 0 ≤ a + b) : 1 ≤ a := by
-  /-
-  Found a counter-example! というエラーが表示される
-  -/
-  fail_if_success plausible
+/-- error: Found a counter-example! -/
+#guard_msgs (error) in
+  example (h : 0 ≤ a + b) : 1 ≤ a := by
+    plausible (config := { quiet := true })
 
-  sorry
+    sorry
 
 /-
 ## 反例が見つからない時
