@@ -63,7 +63,7 @@ end Hidden --#
 
 ### map
 
-`List` は `Functor` 型クラスのインスタンスになっているため `<$>` 演算子が利用できます。
+`List` は [`Functor`](#{root}/Reference/TypeClass/Functor.md) 型クラスのインスタンスになっているため `<$>` 演算子が利用できます。
 -/
 
 -- `<$>` 演算子が利用できる

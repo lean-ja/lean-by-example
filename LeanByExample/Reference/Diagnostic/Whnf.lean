@@ -62,7 +62,7 @@ instance instMonadMany : Monad Many where
   pure := Many.one
   bind := Many.bind
 
-/- `Monad` 型クラスは `Functor` クラスや `Applicative` クラスの実装を含むので、`Many` は `Functor` や `Applicative` のインスタンスでもあります。このインスタンスは次のように `inferInstance` という関数で構成することができますが、その中身を `#print` で出力してみても実装がわかりません。-/
+/- `Monad` 型クラスは [`Functor`](#{root}/Reference/TypeClass/Functor.md) クラスや `Applicative` クラスの実装を含むので、`Many` は `Functor` や `Applicative` のインスタンスでもあります。このインスタンスは次のように `inferInstance` という関数で構成することができますが、その中身を `#print` で出力してみても実装がわかりません。-/
 
 def instManyFunctor : Functor Many := inferInstance
 
