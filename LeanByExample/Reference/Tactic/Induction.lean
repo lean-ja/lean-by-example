@@ -54,6 +54,7 @@ inductive Even : Nat → Prop where
 
 #guard_msgs (drop warning) in --#
 example (n m : Nat) (h : Even (n + m)) (hm : Even m) : Even n := by
+  -- `x = n + m` に対する帰納法を使う
   generalize hx : n + m = x at h
   induction x
 
