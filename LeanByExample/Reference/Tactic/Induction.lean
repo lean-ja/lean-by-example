@@ -42,6 +42,51 @@ example (n : Nat) : sum n = n * (n + 1) / 2 := by
     -- 後は可換環の性質から示せる
     ring
 
+/- ## generalizing 構文
+帰納法の仮定が弱すぎることがあります。このとき `generalizing` 構文で帰納法の仮定の中の特定の変数を一般化することができます。
+-/
+namespace Hidden --#
+
+/-- 偶数であることを意味する帰納的命題 -/
+inductive Even : Nat → Prop where
+  | zero : Even 0
+  | succ : {n : Nat} → Even n → Even (n + 2)
+
+#guard_msgs (drop warning) in --#
+example (n m : Nat) (h : Even (n + m)) (hm : Even m) : Even n := by
+  generalize hx : n + m = x at h
+  induction x
+
+  case zero => simp_all
+
+  case succ n' ih =>
+    -- 帰納法の仮定の中の `n, m` は固定されている
+    guard_hyp ih : n + m = n' → Even n' → Even n
+    sorry
+
+#guard_msgs (drop warning) in --#
+example (n m : Nat) (h : Even (n + m)) (hm : Even m) : Even n := by
+  generalize hx : n + m = x at h
+  -- `generalizing` で帰納法の仮定の中の変数を一般化する
+  induction x generalizing n m
+
+  case zero => simp_all
+  case succ x ih =>
+    -- 帰納法の仮定の中の `n, m` が一般化されている
+    guard_hyp ih : ∀ (n m : ℕ), Even m → n + m = x → Even x → Even n
+    sorry
+
+/- `induction ... generalizing` 構文を実行するとき、帰納法を行う変数が一般化される変数に依存していてはいけないというルールがあります。-/
+
+/--
+error: variable cannot be generalized because target depends on it
+  m
+-/
+#guard_msgs in
+  example (n m : Nat) (h : Even (n + m)) (hm : Even m) : Even n := by
+    induction hm generalizing m
+
+end Hidden --#
 /- ## 再帰的定理
 Lean では、実は帰納法を使用するのに必ずしも `induction` は必要ありません。場合分けの中で示されたケースを帰納法の仮定として使うことができます。これは recursive theorem(再帰的定理) と呼ばれることがあります。[^recursive]
 -/
