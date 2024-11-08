@@ -11,10 +11,13 @@ structure Colour where
 
 def sample : Colour := { red := 2, blue := 4, green := 8 }
 
+-- メタ変数の番号を表示しない
+set_option pp.mvars false
+
 -- 最初は `+` 記号が定義されていないのでエラーになります。
 /--
 error: failed to synthesize
-  HAdd Colour Colour ?m.1653
+  HAdd Colour Colour ?_
 Additional diagnostic information may be available using the `set_option diagnostics true` command.
 -/
 #guard_msgs in #eval sample + sample

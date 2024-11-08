@@ -142,7 +142,7 @@ example [Foldr α β] {a₁ a₂ a₃ : α} (init : β) :
 /- `List.foldl` と `List.foldr` の違いは、演算が左結合的と仮定するか右結合的と仮定するか以外にも、`List.foldl` は末尾再帰(tail recursion)であるが `List.foldr` はそうでないことが挙げられます。 -/
 
 /-- 自然数のリストの総和を計算する関数 -/
-def List.sum : List Nat → Nat
+def List.sum' : List Nat → Nat
   | [] => 0
   | n :: ns => n + sum ns
 

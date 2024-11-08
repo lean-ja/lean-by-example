@@ -11,16 +11,13 @@ inductive Color : Type where
   | green
   | blue
 
--- 最初は `Repr` が定義されていないので `eval` できない
+-- 暗黙的に Repr インスタンスを生成しない
+set_option eval.derive.repr false
+
+-- `Repr` が定義されていないので `eval` できない
 /--
-error: expression
-  Color.red
-has type
+error: could not synthesize a 'Repr' or 'ToString' instance for type
   Color
-but instance
-  Lean.Eval Color
-failed to be synthesized, this instance instructs Lean on how to display the resulting value,
-recall that any type implementing the `Repr` class also implements the `Lean.Eval` class
 -/
 #guard_msgs in #eval Color.red
 

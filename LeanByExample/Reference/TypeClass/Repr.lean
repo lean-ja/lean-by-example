@@ -2,7 +2,7 @@
 # Repr
 `Repr` は、その型の項をどのように表示するかを指示する型クラスです。
 
-たとえば、以下のように新しく[構造体](../Declarative/Structure.md) `Point` を定義したとき、特に何も指定しなければ `Point` の項を `#eval` で表示することはできません。
+たとえば、以下のように新しく[構造体](../Declarative/Structure.md) `Point` を定義したとき、何も指定しなくても `Point` の項を `#eval` で表示することはできますが、裏で使用しているのが `Repr` インスタンスです。
 -/
 namespace Repr --#
 
@@ -14,19 +14,16 @@ structure Point (α : Type) : Type where
 -- 原点
 def origin : Point Nat := ⟨0, 0⟩
 
+-- Repr インスタンスを暗黙的に生成しない
+set_option eval.derive.repr false
+
 /--
-error: expression
-  origin
-has type
+error: could not synthesize a 'Repr' or 'ToString' instance for type
   Point Nat
-but instance
-  Lean.Eval (Point Nat)
-failed to be synthesized, this instance instructs Lean on how to display the resulting value,
-recall that any type implementing the `Repr` class also implements the `Lean.Eval` class
 -/
 #guard_msgs in #eval origin
 
-/- エラーメッセージが示すように、これは `Point` が型クラス `Lean.Eval` のインスタンスではないからです。エラーメッセージには、`Repr` クラスのインスタンスであれば自動的に `Lean.Eval` のインスタンスにもなることが書かれています。通常、`Lean.Eval` のインスタンスを手で登録することはなく、`Repr` インスタンスによって自動生成させます。
+/- エラーメッセージが示すように、`Point` が型クラス `Repr` または `ToString` のインスタンスではないため `#eval` が実行できずエラーになります。
 
 `Repr` インスタンスの登録方法ですが、通り一遍の表示で構わなければ [`deriving`](../Declarative/Deriving.md) コマンドで Lean に自動生成させることができます。-/
 
@@ -78,10 +75,7 @@ local instance [Repr α] : Repr (NestedList α) where
 #guard_msgs in #eval sample
 end --#
 
-/- あるいは、[`ToString`](./ToString.md) クラスのインスタンスがあればそこから `Lean.Eval` クラスのインスタンスも生成されて、表示に使われるので、それを利用しても良いでしょう。-/
-
--- `ToString` クラスのインスタンスがあれば、`Lean.Eval` のインスタンスが生成できる
-example {α : Type} [ToString α] : Lean.Eval α := inferInstance
+/- また、`Repr` インスタンスがなくても [`ToString`](./ToString.md) クラスのインスタンスがあればそれが表示に使われます。-/
 
 /-- `NestedList` を文字列に変換 -/
 partial def NestedList.toString [ToString α] : NestedList α → String
