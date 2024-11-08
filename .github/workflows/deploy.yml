@@ -48,7 +48,7 @@ jobs:
         run: lake run build
 
       - name: Run Link Checker
-        uses: lycheeverse/lychee-action@v2.0.2
+        uses: lycheeverse/lychee-action@v2.1.0
         with:
           fail: true
           args: --base book .
