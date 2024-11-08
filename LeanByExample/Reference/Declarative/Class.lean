@@ -102,8 +102,9 @@ set_option pp.mvars false
 
 -- 返り値の型がわからないので型クラス解決ができないというエラーが出ている
 /--
-error: typeclass instance problem is stuck, it is often due to metavariables
-  Plus Nat (List Nat) ?_
+error: failed to synthesize
+  Plus Nat (List Nat) (IO ?_)
+Additional diagnostic information may be available using the `set_option diagnostics true` command.
 -/
 #guard_msgs in #eval 1 +ₚ [1, 2]
 
