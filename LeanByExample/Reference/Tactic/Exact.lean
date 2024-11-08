@@ -2,6 +2,7 @@
 
 ゴールが `P` で、ローカルコンテキストに `hP : P` があるときに、`exact hP` はゴールを閉じます。`hP` がゴールの証明になっていないときには、失敗してエラーになります。-/
 variable (P Q : Prop)
+set_option linter.unusedVariables false in --#
 
 example (hP : P) (hQ : Q) : P := by
   -- `hQ : Q` は `P` の証明ではないのでもちろん失敗する
