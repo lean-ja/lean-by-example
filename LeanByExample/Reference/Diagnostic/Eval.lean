@@ -26,30 +26,17 @@ def main : IO Unit :=
 式の評価を行うコマンドであるため、型や関数など、評価のしようがないものを与えるとエラーになります。-/
 
 -- 型は評価できない
-/--
-error: expression
-  ℕ
-has type
-  Type
-but instance
-  Lean.MetaEval Type
-failed to be synthesized, this instance instructs Lean on how to display the resulting value, recall that any type implementing the `Repr` class also implements the `Lean.MetaEval` class
--/
+/-- error: cannot evaluate, types are not computationally relevant -/
 #guard_msgs in #eval Nat
 
 -- 関数そのものも評価できない
 /--
-error: expression
-  fun x => x + 1
-has type
+error: could not synthesize a 'ToExpr', 'Repr', or 'ToString' instance for type
   ℕ → ℕ
-but instance
-  Lean.MetaEval (ℕ → ℕ)
-failed to be synthesized, this instance instructs Lean on how to display the resulting value, recall that any type implementing the `Repr` class also implements the `Lean.MetaEval` class
 -/
 #guard_msgs in #eval (fun x => x + 1)
 
-/- 一般に、[`Repr`](../TypeClass/Repr.md) や [`ToString`](../TypeClass/ToString.md) のインスタンスでないような型の項は `#eval` に渡すことができません。-/
+/- 一般に、[`Repr`](../TypeClass/Repr.md) や [`ToString`](../TypeClass/ToString.md) および `ToExpr` のインスタンスでないような型の項は `#eval` に渡すことができません。-/
 
 /- ## 例外処理の慣例
 Lean および Mathlib では、「関数ではなく定理に制約を付ける」ことが慣例です。
