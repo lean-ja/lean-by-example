@@ -76,6 +76,7 @@
   - [autoImplicit: 自動束縛暗黙引数](./Reference/Option/AutoImplicit.md)
   - [hygiene: マクロ衛生](./Reference/Option/Hygiene.md)
   - [linter.flexible: 脆弱な証明を指摘する](./Reference/Option/Flexible.md)
+  - [linter.style.multiGoal: フォーカス強制](./Reference/Option/MultiGoal.md)
   - [relaxedAutoImplicit: 更にautoImplicit](./Reference/Option/RelaxedAutoImplicit.md)
 
 - [型クラス](./Reference/TypeClass/README.md)
