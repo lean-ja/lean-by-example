@@ -2,7 +2,7 @@
 
 `Functor` は圏論における関手(functor)という概念からその名がある型クラスで、非常に雑な表現をすると、この型クラスを実装した型は「値を包んでいる」ものとして扱うことができます。
 
-より詳細には、`f : Type u → Type v` に対して `Functor` はおおむね次のように定義されています。(実際の定義とは異なります)
+より詳細には、`f : Type u → Type v` に対して `Functor` はおおむね次のように定義されています。(実際の定義には `mapConst` というフィールドがありますが、ここでは省略しました)
 -/
 namespace Hidden --#
 --#--
@@ -63,7 +63,7 @@ example (x : f α) : Functor.map g x = g <$> x := rfl
 
 `Functor` 型クラスのインスタンスには満たすべきルールがあります。
 このルールを破っていても `Functor` 型クラスのインスタンスにすることは可能ですが、API の使用者が予期せぬ挙動をするので避けるべきです。
-ルール込みで `Functor` 型クラスのインスタンスを定義するためには、`LawfulFunctor` 型クラスを使います。
+ルール込みで `Functor` 型クラスのインスタンスを定義するためには、[`LawfulFunctor`](./LawfulFunctor.md) 型クラスを使います。
 -/
 
 #check LawfulFunctor

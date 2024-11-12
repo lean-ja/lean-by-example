@@ -89,6 +89,7 @@
   - [HAdd: + のための記法クラス](./Reference/TypeClass/HAdd.md)
   - [HMul: * のための記法クラス](./Reference/TypeClass/HMul.md)
   - [Inhabited: 有項にする](./Reference/TypeClass/Inhabited.md)
+  - [LawfulFunctor: ルール付きファンクタ](./Reference/TypeClass/LawfulFunctor.md)
   - [OfNat: 数値リテラルを使用](./Reference/TypeClass/OfNat.md)
   - [Repr: 表示方法を指定](./Reference/TypeClass/Repr.md)
   - [ToString: 文字列に変換](./Reference/TypeClass/ToString.md)
