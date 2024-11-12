@@ -3,7 +3,7 @@
 import Aesop
 
 /-- 自然数 n が正の数であることを表す命題 -/
-inductive Pos : Nat → Prop
+inductive Pos : Nat → Prop where
   | succ n : Pos (n + 1)
 
 example : Pos 1 := by
