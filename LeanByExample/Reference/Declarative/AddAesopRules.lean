@@ -2,7 +2,7 @@
 `add_aesop_rules` は [`aesop`](../Tactic/Aesop.md) タクティクに追加のルールを登録するためのコマンドです。-/
 import Aesop
 
-/-- 自然数 n が正の数であることを表す命題 -/
+/-- 自然数 n が正の数であることを表す帰納的述語 -/
 inductive Pos : Nat → Prop where
   | succ n : Pos (n + 1)
 
