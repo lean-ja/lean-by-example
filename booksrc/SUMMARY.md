@@ -92,7 +92,7 @@
   - [Repr: 表示方法を指定](./Reference/TypeClass/Repr.md)
   - [ToString: 文字列に変換](./Reference/TypeClass/ToString.md)
 
-- [型](./Reference/Type/README.md)
+- [データ型](./Reference/Type/README.md)
   - [Array: 配列](./Reference/Type/Array.md)
   - [Bool: 真偽値](./Reference/Type/Bool.md)
   - [Char: Unicode 文字](./Reference/Type/Char.md)
