@@ -5,7 +5,7 @@
 Lean では、複数のサブゴールがあるときにタクティクを実行すると最初のゴールに対して実行されるのですが、証明を構造化するという観点からは、ゴールの一つにフォーカスする（infoview に一つしかゴールが表示されないようにする）べきです。
 このリンタはそのような問題を指摘します。
 -/
-import Mathlib.Tactic.Linter.MultiGoal
+import Mathlib.Tactic.Linter.Multigoal
 
 set_option linter.style.multiGoal true
 
