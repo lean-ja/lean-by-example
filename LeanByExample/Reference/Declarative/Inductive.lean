@@ -32,7 +32,7 @@ inductive List (α : Type) : Type where
 /-- 2分木 -/
 inductive BinTree (α : Type) : Type where
   | empty : BinTree α
-  | node (value : α) (left : BinTree α) (right : BinTree α) : BinTree α
+  | node (value : α) (left right : BinTree α) : BinTree α
 
 /- ### 帰納型の族
 
