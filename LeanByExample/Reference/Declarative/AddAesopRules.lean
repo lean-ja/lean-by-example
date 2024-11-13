@@ -58,12 +58,12 @@ example (P : Prop) (hp : P) : MyAnd P P := by
 section --#
 
 /-- 自前で定義したリスト -/
-inductive MyList (α : Type)
+inductive MyList (α : Type) where
   | nil
   | cons (head : α) (tail : MyList α)
 
-/-- リストが空ではないことを表す述語 -/
-inductive NonEmpty {α : Type} : MyList α → Prop
+/-- リストが空ではないことを表す帰納的述語 -/
+inductive NonEmpty {α : Type} : MyList α → Prop where
   | cons x xs : NonEmpty (MyList.cons x xs)
 
 local add_aesop_rules safe apply [NonEmpty.cons]
@@ -137,7 +137,7 @@ end --#
 -/
 section --#
 
-/-- 自前で定義した偶数を表す命題 -/
+/-- 自前で定義した偶数を表す帰納的述語 -/
 inductive Even : Nat → Prop where
   | zero : Even 0
   | succ m : Even m → Even (m + 2)
