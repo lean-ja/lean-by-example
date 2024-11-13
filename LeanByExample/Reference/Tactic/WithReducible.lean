@@ -1,7 +1,5 @@
 /- # with_reducible
 
-[`🏷️メタプログラミング`](./?search=🏷メタプログラミング)
-
 `with_reducible` は、後に続くタクティクの透過度(transparency)を `reducible` に指定して実行します。透過度 `reducible` では、`[reducible]` 属性を持つ定義だけが展開されます。
 
 ## 用途
