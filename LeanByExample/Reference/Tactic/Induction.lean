@@ -252,10 +252,6 @@ error: index in target's type is not a variable (consider using the `cases` tact
 /- これは型族の添え字が変数ではないから起こることです。その証拠に、変数にするとエラーにならなくなります。-/
 
 example (n m : Nat) (h : MyEven (n + m)) : True := by
-  /-
-  index in target's type is not a variable (consider using the `cases` tactic instead)
-  n + m
-  -/
   generalize n + m = x at h
   induction h
   · trivial
