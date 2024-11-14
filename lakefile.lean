@@ -12,7 +12,6 @@ abbrev linterOptions : Array LeanOption := #[
 ]
 
 package «Lean by Example» where
-  version := v!"4.13.0-rc3"
   keywords := #["manual", "reference", "tutorial", "japanese", "cheatsheet"]
   description := "プログラミング言語であるとともに定理証明支援系でもある Lean 言語と、その主要なライブラリの使い方を豊富なコード例とともに解説した資料です。"
   leanOptions := #[
