@@ -10,7 +10,8 @@ import Mathlib.Tactic.Linter.Multigoal
 set_option linter.style.multiGoal true
 
 /--
-warning: There are 2 unclosed goals before 'exact hP' and at least one remaining goal afterwards.
+warning: The following tactic starts with 2 goals and ends with 1 goal, 1 of which is not operated on.
+  exact hP
 Please focus on the current goal, for instance using `·` (typed as "\.").
 note: this linter can be disabled with `set_option linter.style.multiGoal false`
 -/
