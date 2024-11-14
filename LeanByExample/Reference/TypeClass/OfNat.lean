@@ -1,8 +1,6 @@
 /- # OfNat
 `OfNat` 型クラスは、`0` や`1` などの数値リテラルを特定の型の値として解釈する方法を指定します。
 -/
-namespace OfNat
-
 /-- 偶数全体 -/
 inductive Even where
   | zero : Even
@@ -62,5 +60,3 @@ instance (n : Nat) : OfNat Pos (n + 1) where
 -- `0` は除外したのでエラーになる
 #guard_msgs (drop warning) in --#
 #check_failure (0 : Pos)
-
-end OfNat
