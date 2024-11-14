@@ -3,7 +3,6 @@
 `syntax` コマンドは新しい構文を定義することができます。
 -/
 import Lean
-namespace Syntax --#
 
 open Lean Parser
 
@@ -23,7 +22,7 @@ syntax "#greet" : command
 
 -- `#greet` というコマンドが Lean に認識されるようになった。
 -- エラーメッセージは、`#greet` コマンドの解釈方法がないと言っている。
-/-- error: elaboration function for 'Syntax.«command#greet»' has not been implemented -/
+/-- error: elaboration function for '«command#greet»' has not been implemented -/
 #guard_msgs in #greet
 
 /- Lean に構文を認識させるだけでなく、解釈させるには [`macro_rules`](./MacroRules.md) などの別のコマンドが必要です。-/
@@ -35,7 +34,7 @@ macro_rules
 /- ## パース優先順位
 `syntax` コマンドは Lean に新しい構文解析ルールを追加するので、既存の構文と衝突して意図通りに解釈されないことがあります。
 -/
-section
+section --#
 
 /-- `a = b as T` という構文を定義 -/
 local syntax term " = " term " as " term : term
@@ -44,21 +43,23 @@ local syntax term " = " term " as " term : term
 local macro_rules
   | `(term| $a = $b as $c) => `(@Eq (α := $c) $a $b)
 
-set_option pp.mvars false --#
+-- メタ変数の番号を表示しない
+set_option pp.mvars false
 
 -- `Nat` と `Prop` を足すことはできないというエラーメッセージ。
 -- `1 + (1 = 2)` だと認識されてしまっているようだ。
 /--
 warning: failed to synthesize
   HAdd Nat Prop ?_
-Additional diagnostic information may be available using the `set_option diagnostics true` command.
+Additional diagnostic information may be available
+using the `set_option diagnostics true` command.
 -/
 #guard_msgs (warning) in
   #check_failure (1 + 1 = 2 as Nat)
 
-end
+end --#
 /- パース優先順位(parsing precedence)を設定することで、どの構文から順に解釈されるかを指定することができ、問題を修正できることがあります。このあたりは [`notation`](./Notation.md) コマンドと同様です。 -/
-section
+section --#
 
 -- 十分低いパース優先順位を設定する
 local syntax:10 term:10 " = " term:10 " as " term:10 : term
@@ -73,5 +74,14 @@ local macro_rules
 
 #guard (2 * 3 / 2 = 3 as Rat)
 
-end
-end Syntax --#
+end --#
+/- ## name 構文
+`(name := ...)` という構文により、名前を付けることができます。名前を付けると、その名前で `Lean.ParserDescr` の項が生成されます。
+-/
+
+-- `#hoge` というコマンドを定義する
+-- `name` 構文で名前を付けることができる
+syntax (name := hogeCmd) "#hoge" : command
+
+-- 構文に対して付けた名前で、ParserDescr 型の項が生成されている
+#check (hogeCmd : ParserDescr)
