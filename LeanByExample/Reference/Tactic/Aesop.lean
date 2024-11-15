@@ -76,7 +76,7 @@ example (n : Nat) (h : Pos n) : 0 < n := by
   simp
 
 -- `Pos` 関連のルールを `aesop` に追加
-add_aesop_rules safe [cases Pos]
+add_aesop_rules safe cases [Pos]
 
 -- `aesop` で証明できるようになった！
 example (n : Nat) (h : Pos n) : 0 < n := by

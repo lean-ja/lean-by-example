@@ -20,13 +20,18 @@ add_aesop_rules safe constructors [Pos]
 example : Pos 1 := by aesop
 
 /-
-`add_aesop_rules` は、`add_aesop_rules (phase)? (priority)? (builder)? [(rule_sets)?]` という構文で使用できます。
+`add_aesop_rules` は、`add_aesop_rules (phase)? (priority)? (builder_name)? [(rule_sets)?]` という構文で使用できます。
 
 ## phase について
 
-`phase` は `norm` と `safe` と `unsafe` の３通りです。ルールが適用される順番などに影響します。
+`phase` は `norm` と `safe` と `unsafe` の３通りです。「ルールを適用した後、ダメそうだとわかったら引き返せ」「常に最初に適用せよ」など試行錯誤のやり方を指示します。-/
 
-### norm
+open Lean Parser Category in
+
+-- `Aesop.phase` という構文カテゴリが存在する
+#check (Aesop.phase : Category)
+
+/- ### norm
 
 `norm` は正規化(normalisation)ルールを表します。最初に適用されるルール群であり、適用によりゴールが増えないようなルールだけを登録することが推奨されます。`[simp]` 補題と同様に使用されます。
 -/
@@ -104,10 +109,15 @@ example (a b c d e : Nat)
     _ ≤ e := by assumption
 
 end --#
-/- ## builder について
-`builder` には多くの選択肢があります。ここではその一部を紹介します。
+/- ## builder_name について
+`builder_name` は、登録されるルールに対して「ゴールを分解する」「仮定から推論を進める」といった方向性を決めます。複数の選択肢がありますが、ここではその一部を紹介します。-/
 
-### apply
+open Lean Parser Category in
+
+-- `Aesop.builder_name` という構文カテゴリが存在する
+#check (Aesop.builder_name : Category)
+
+/- ### apply
 
 `apply` タクティクと同様にはたらくルールを登録します。
 -/
