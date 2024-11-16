@@ -20,6 +20,8 @@ add_aesop_rules safe constructors [Pos]
 example : Pos 1 := by aesop
 
 /-
+なお `aesop` をカスタマイズしたものを専用のタクティクにまとめることも可能ですが、それについてはここでは詳しく述べません。[`declare_aesop_rule_sets`](./DeclareAesopRuleSets.md) コマンドのページを参照してください。
+
 `add_aesop_rules` は、`add_aesop_rules (phase)? (priority)? (builder_name)? [(rule_sets)?]` という構文で使用できます。
 
 ## phase について

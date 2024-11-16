@@ -29,6 +29,7 @@
   - [attribute: 属性を付与する](./Reference/Declarative/Attribute.md)
   - [axiom: 公理を宣言する](./Reference/Declarative/Axiom.md)
   - [class: 型クラスを定義する](./Reference/Declarative/Class.md)
+  - [declare_aesop_rule_sets: Aesopでタクティク自作](./Reference/Declarative/DeclareAesopRuleSets.md)
   - [declare_syntax_cat: 構文カテゴリ](./Reference/Declarative/DeclareSyntaxCat.md)
   - [def: 関数などを定義する](./Reference/Declarative/Def.md)
   - [deriving: インスタンス自動生成](./Reference/Declarative/Deriving.md)
