@@ -41,7 +41,8 @@ namespace hoge
   #check_failure succ'
 end hoge
 
-/- `local` で有効範囲を限定できるコマンドには、次のようなものがあります。
+/- ## 修飾可能なコマンド
+`local` で有効範囲を限定できるコマンドには、次のようなものがあります。
 * [`elab`](./Elab.md), `elab_rules`
 * [`infix`](./Infix.md), `infil`, `infixr`
 * [`macro`](./Macro.md), [`macro_rules`](./MacroRules.md)
@@ -55,7 +56,7 @@ end hoge
 リストの全体は、`local` の後に修飾できないコマンドを続けたときのエラーメッセージで確認できます。
 -/
 
-open Lean Parser
+open Lean Parser in
 
 /-- parse できるかどうかチェックする関数 -/
 def checkParse (cat : Name) (s : String) : MetaM Unit := do
@@ -117,3 +118,14 @@ end
 -- section を抜けると simp 補題が利用できなくなる
 #guard_msgs (drop warning) in --#
 #check_failure (by simp : MyNat.add .zero .zero = .zero)
+
+/- ## 構文的な性質
+[`local`](./Local.md) と [`scoped`](./Scoped.md) はともに構文的には `attrKind` に相当します。
+-/
+
+/-- 例示のための意味のないコマンド -/
+macro attrKind "#greet " : command => `(#eval "hello")
+
+-- パース出来るので、`local` と `scoped` は同じカテゴリに属する
+local #greet
+scoped #greet

@@ -33,7 +33,8 @@ section
   #greet
 end
 
-/- `scoped` で有効範囲を限定できるコマンドには、次のようなものがあります。
+/- ## 修飾可能なコマンド
+`scoped` で有効範囲を限定できるコマンドには、次のようなものがあります。
 * [`elab`](./Elab.md), `elab_rules`
 * [`infix`](./Infix.md), `infixl`, `infixr`
 * [`instance`](./Instance.md)
@@ -100,3 +101,14 @@ section
   #guard_msgs (drop warning) in --#
   #check_failure greet
 end
+
+/- ## 構文的な性質
+[`local`](./Local.md) と [`scoped`](./Scoped.md) はともに構文的には `attrKind` に相当します。
+-/
+
+/-- 例示のための意味のないコマンド -/
+macro attrKind "#greet " : command => `(#eval "hello")
+
+-- パース出来るので、`local` と `scoped` は同じカテゴリに属する
+local #greet
+scoped #greet
