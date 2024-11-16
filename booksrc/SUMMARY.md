@@ -105,6 +105,7 @@
   - [List: 連結リスト](./Reference/Type/List.md)
   - [Prop: 命題全体](./Reference/Type/Prop.md)
   - [String: 文字列](./Reference/Type/String.md)
+  - [Syntax: 具象構文木](./Reference/Type/Syntax.md)
   - [Type: 型の型](./Reference/Type/Type.md)
 
 - [タクティク](./Reference/Tactic/README.md)
