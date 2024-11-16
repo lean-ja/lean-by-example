@@ -30,11 +30,11 @@ def setOf (p : α → Prop) : Set α := p
 declare_syntax_cat binder
 
 /-- `{x : T | P x}` の `: T` の部分。
-あってもなくて良いので `( )?` で囲う -/
+あってもなくても良いので `( )?` で囲う -/
 syntax ident (" : " term)? : binder
 
 /-- `{x ∈ T | P x}` の `∈ T` の部分。
-あってもなくて良いので `( )?` で囲う -/
+あってもなくても良いので `( )?` で囲う -/
 syntax ident (" ∈ " term)? : binder
 
 /-- 集合の内包表記 -/
