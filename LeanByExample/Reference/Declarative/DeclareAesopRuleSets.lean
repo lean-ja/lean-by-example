@@ -2,6 +2,10 @@
 
 `declare_aesop_rule_sets` コマンドは、[`aesop`](#{root}/Reference/Tactic/Aesop.md) タクティクで使用させるための特定のルールセットを宣言します。
 
+```admonish warning title="注意"
+このページの内容は <i class="fa fa-play"></i> ボタンから Lean 4 Web で実行することができません。
+```
+
 ## 基本的な使い方
 
 `declare_aesop_rule_sets` で宣言されたルールセットは、宣言したそのファイルの中では有効になりません。`import` する必要があります。前提として以下の内容のファイルを `import` しているとしましょう。
