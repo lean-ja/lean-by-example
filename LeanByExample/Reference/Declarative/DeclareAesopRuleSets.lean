@@ -47,6 +47,8 @@ example : True := by
 macro "add_hoge_rules" e:Aesop.rule_expr : command =>
   `(command| add_aesop_rules (rule_sets := [HogeRules]) $e)
 
+namespace Command --#
+
 /-- `True` を模して自作した命題 -/
 inductive MyTrue : Prop where
   | intro
@@ -69,3 +71,23 @@ example : MyTrue := by
   fail_if_success aesop
 
   apply MyTrue.intro
+
+end Command --#
+/- あるいは、`[aesop]` 属性と同等の機能を持つ `[hoge]` 属性を作成して、それを使ってルールを登録することもできます。-/
+
+/-- `hoge` タクティク用のルールを追加する -/
+macro "hoge" e:Aesop.rule_expr : attr =>
+  `(attr| aesop (rule_sets := [HogeRules]) $e)
+
+namespace Attr --#
+
+/-- `True` を模して自作した命題 -/
+@[hoge safe constructors]
+inductive MyTrue : Prop where
+  | intro
+
+example : MyTrue := by
+  -- `hoge` で証明できる!
+  hoge
+
+end Attr --#
