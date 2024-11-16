@@ -44,8 +44,11 @@ example : True := by
 /- `hoge` タクティク用のルールを登録するのは [`add_aesop_rules`](./AddAesopRules.md) コマンドで可能ですが、これに対しても専用のコマンドを用意することができます。-/
 
 /-- `hoge` タクティク用のルールを追加する -/
-macro "add_hoge_rules" e:Aesop.rule_expr : command =>
-  `(command| add_aesop_rules (rule_sets := [HogeRules]) $e)
+macro attrKind:attrKind "add_hoge_rules" e:Aesop.rule_expr : command =>
+  match attrKind with
+  | `(attrKind| local) => `(command| local add_aesop_rules (rule_sets := [HogeRules]) $e)
+  | `(attrKind| scoped) => `(command| scoped add_aesop_rules (rule_sets := [HogeRules]) $e)
+  | _ => `(command| add_aesop_rules (rule_sets := [HogeRules]) $e)
 
 namespace Command --#
 
@@ -60,7 +63,7 @@ example : MyTrue := by
   apply MyTrue.intro
 
 -- `MyTrue` に関するルールを `hoge` に登録する
-add_hoge_rules safe constructors [MyTrue]
+local add_hoge_rules safe constructors [MyTrue]
 
 example : MyTrue := by
   -- `hoge` で証明できるようになった!
@@ -82,7 +85,7 @@ macro "hoge" e:Aesop.rule_expr : attr =>
 namespace Attr --#
 
 /-- `True` を模して自作した命題 -/
-@[hoge safe constructors]
+@[local hoge safe constructors]
 inductive MyTrue : Prop where
   | intro
 
