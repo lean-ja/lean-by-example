@@ -21,6 +21,7 @@
   - [#reduce: 式を簡約する](./Reference/Diagnostic/Reduce.md)
   - [#synth: 型クラスの検査](./Reference/Diagnostic/Synth.md)
   - [#time: 実行時間計測](./Reference/Diagnostic/Time.md)
+  - [#version: バージョン表示](./Reference/Diagnostic/Version.md)
   - [#whnf: 式を弱頭正規形に](./Reference/Diagnostic/Whnf.md)
 
 - [宣言的コマンド](./Reference/Declarative/README.md)
