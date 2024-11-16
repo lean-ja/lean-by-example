@@ -57,8 +57,7 @@ open Lean Parser
 
 /-- `s : String` をパースして `Syntax` の項を得る。`cat` は構文カテゴリ。-/
 def parse (cat : Name) (s : String) : MetaM Syntax := do
-  let .ok s := runParserCategory (← getEnv) cat s | throwError s
-  return s
+  ofExcept <| runParserCategory (← getEnv) cat s
 
 -- `true` は識別子としてパースされている。
 /--
