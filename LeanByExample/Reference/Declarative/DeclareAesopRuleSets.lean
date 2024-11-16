@@ -45,10 +45,7 @@ example : True := by
 
 /-- `hoge` タクティク用のルールを追加する -/
 macro attrKind:attrKind "add_hoge_rules" e:Aesop.rule_expr : command =>
-  match attrKind with
-  | `(attrKind| local) => `(command| local add_aesop_rules (rule_sets := [HogeRules]) $e)
-  | `(attrKind| scoped) => `(command| scoped add_aesop_rules (rule_sets := [HogeRules]) $e)
-  | _ => `(command| add_aesop_rules (rule_sets := [HogeRules]) $e)
+  `(command| $attrKind:attrKind add_aesop_rules (rule_sets := [HogeRules]) $e)
 
 namespace Command --#
 
