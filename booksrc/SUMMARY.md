@@ -17,6 +17,7 @@
   - [#guard: Bool 値のテスト](./Reference/Diagnostic/Guard.md)
   - [#help: ドキュメントを見る](./Reference/Diagnostic/Help.md)
   - [#instances: インスタンスを列挙](./Reference/Diagnostic/Instances.md)
+  - [#lint: リンタ実行](./Reference/Diagnostic/Lint.md)
   - [#print: 中身を見る](./Reference/Diagnostic/Print.md)
   - [#reduce: 式を簡約する](./Reference/Diagnostic/Reduce.md)
   - [#synth: 型クラスの検査](./Reference/Diagnostic/Synth.md)
