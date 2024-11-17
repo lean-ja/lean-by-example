@@ -18,6 +18,44 @@ fun n m => rfl
 -/
 #guard_msgs in #print Nat.add_succ
 
+/- ## 利用可能な構文
+`#print` 単体で利用できるほか、サブコマンドも定義されています。利用できるサブコマンドの全体は、エラーメッセージから確認できますが、以下の通りです。
+* `axioms`
+* `eqns`
+* `equations`
+* `tactic`
+-/
+open Lean Parser in
+
+/-- `s : String` をパースして `Syntax` の項を得る。`cat` は構文カテゴリ。-/
+def parse (cat : Name) (s : String) : MetaM Syntax := do
+  ofExcept <| runParserCategory (← getEnv) cat s
+
+/--
+error: <input>:1:7:
+expected 'axioms', 'eqns', 'equations', 'tactic', identifier or string literal
+-/
+#guard_msgs in
+  run_meta parse `command "#print axiom"
+
+/- また、このエラーメッセージから、`#print` コマンドに直接渡せるのは識別子(identifier)または文字列リテラル(string literal)だけであることが確認できます。識別子ではない一般の項(term)を渡すと、構文エラーになります。-/
+
+open Lean in
+
+/--
+error: application type mismatch
+  a.raw
+argument
+  a
+has type
+  TSyntax `term : Type
+but is expected to have type
+  TSyntax [`ident, `str] : Type
+-/
+#guard_msgs in run_meta
+  let a ← `(1 + 1)
+  let _ ← `(#print $a)
+
 /-
 ## \#print axioms: 依存公理の確認
 ### 概要
@@ -83,38 +121,3 @@ elab "#detect_classical " id:ident : command => do
   #detect_classical Classical.em
 
 end --#
-/- ## よくあるエラー
-`#print` コマンドは式ではなく名前を受け付けます。たとえば、`#print Nat.zero` はエラーになりませんが、`#print Nat.succ Nat.zero` はエラーになります。この挙動は `#eval` コマンドや `#check` コマンドとは異なるため、注意が必要です。
--/
-section error --#
-
-open Lean
-
-/--
-error: application type mismatch
-  a.raw
-argument
-  a
-has type
-  TSyntax `term : Type
-but is expected to have type
-  TSyntax [`ident, `str] : Type
--/
-#guard_msgs(error) in
-  #eval! show Lean.Elab.Term.TermElabM Unit from do
-    let a ← `(Nat.succ Nat.zero)
-    let _b ← `(#print $a)
-
-/- 上のコード例は、これを検証するものです。エラーメッセージにあるように `#print` は `ident` または `str` を期待しており、これはそれぞれ単一の識別子と文字列リテラルを意味します。`Nat.succ Nat.zero` は `term` つまり項なのでエラーになります。
-
-`#check` や `#eval` の場合は項を受け付けるので、エラーになりません。-/
-
-#eval show Lean.Elab.Term.TermElabM Unit from do
-  let a ← `(Nat.succ Nat.zero)
-  let _b ← `(#eval $a)
-
-#eval show Lean.Elab.Term.TermElabM Unit from do
-  let a ← `(Nat.succ Nat.zero)
-  let _b ← `(#check $a)
-
-end error --#
