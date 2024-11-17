@@ -80,3 +80,17 @@ instance : Trans same_abs same_abs same_abs where
 example (hxy : x ≡ y) (h : y = z) : x ≡ z := calc
   x ≡ y := hxy
   _ ≡ z := by rw [h]
+
+/- ## 証明が１行で終わらないとき
+
+`calc` を使用しているとき、証明を見やすく保つためには各行の証明は１行で完結させた方が良いのですが、そうもいかない場合があります。そのような場合、その行の証明項をメタ変数で置き換えると、証明を後回しにすることができます。
+-/
+
+example (x y z : Nat) (hxy : x = y) (h : y = z) : x = z := by
+  calc
+    x = y := ?lem -- この行の証明を後回しにすることができる
+    _ = z := by rw [h]
+
+  -- 後回しにした証明を埋める
+  case lem =>
+    rw [hxy]
