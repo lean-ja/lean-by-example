@@ -104,6 +104,7 @@
   - [Char: Unicode 文字](./Reference/Type/Char.md)
   - [Float: 浮動小数点数](./Reference/Type/Float.md)
   - [List: 連結リスト](./Reference/Type/List.md)
+  - [Macro: マクロ](./Reference/Type/Macro.md)
   - [Prop: 命題全体](./Reference/Type/Prop.md)
   - [String: 文字列](./Reference/Type/String.md)
   - [Syntax: 具象構文木](./Reference/Type/Syntax.md)
