@@ -4,7 +4,6 @@
 -- `calc` そのものは `import` なしで使える
 import Mathlib.Tactic -- 大雑把に import する
 
-
 variable (a b : ℝ)
 
 example : 2 * a * b ≤ a ^ 2 + b ^ 2 := by
@@ -19,8 +18,11 @@ example : 2 * a * b ≤ a ^ 2 + b ^ 2 := by
 
 /- `calc` の直後に来る項も `_` で省略することができます。 -/
 
+/-- 掛け算 `ℝ × ℝ → ℝ` の原点における連続性 -/
 example : ∀ x y ε : ℝ, 0 < ε → ε ≤ 1 → |x| < ε → |y| < ε → |x * y| < ε := by
   intro x y ε epos ele1 xlt ylt
+
+  -- 以下を示せばよい
   show |x * y| < ε
 
   calc
@@ -39,9 +41,28 @@ def same_abs (x y : Int) : Prop := x = y ∨ x = - y
 -- このファイル内でだけ有効にするために local と付けた
 local infix:50 " ≡ " => same_abs
 
+/-- `same_abs` の反射性 -/
+@[refl] theorem same_abs_refl (x : Int) : x ≡ x := by
+  simp [same_abs]
+
 variable {x y z : Int}
 
--- same_abs の推移律
+-- メタ変数の番号を表示しないようにする
+set_option pp.mvars false
+
+-- `calc` を使おうとすると
+-- `Trans` 型クラスのインスタンスではないというエラーになってしまう
+/--
+error: invalid 'calc' step, failed to synthesize `Trans` instance
+  Trans same_abs same_abs ?_
+Additional diagnostic information may be available using the `set_option diagnostics true` command.
+-/
+#guard_msgs in
+  example (hxy : x ≡ y) (h : y = z) : x ≡ z := calc
+    x ≡ y := hxy
+    _ ≡ z := by rw [h]
+
+/-- same_abs の推移律 -/
 def same_abs_trans (hxy : x ≡ y) (hyz : y ≡ z) : x ≡ z := by
   dsimp [same_abs]
 
@@ -51,11 +72,11 @@ def same_abs_trans (hxy : x ≡ y) (hyz : y ≡ z) : x ≡ z := by
   -- omega でカタをつける
   all_goals omega
 
--- same_abs を「推移的な二項関係」として登録する
+/-- same_abs を「推移的な二項関係」として登録する -/
 instance : Trans same_abs same_abs same_abs where
   trans := same_abs_trans
 
--- same_abs についても calc が使える!
+-- same_abs についても calc が使えるようになった！
 example (hxy : x ≡ y) (h : y = z) : x ≡ z := calc
   x ≡ y := hxy
-  _ = z := h
+  _ ≡ z := by rw [h]
