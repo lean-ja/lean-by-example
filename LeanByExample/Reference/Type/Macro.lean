@@ -15,7 +15,7 @@ example : Macro = (Syntax → MacroM Syntax) := by rfl
 
 ### Macro 型からマクロ
 
-項 `m : Macro` を使ってマクロを定義するには、以下のように `[macro]` 属性を使用します。
+項 `m : Macro` を使ってマクロを定義するには、以下のように `[macro]` 属性を使用します。これは多くの場合かなり冗長な方法です。
 -/
 open Lean
 
@@ -42,8 +42,8 @@ attribute [macro zeroLitPar] zeroLitExpand
 -- マクロ展開されるので、0 に等しいという結果になる
 #guard zeroLit = 0
 
-/- ### macro コマンドから Macro 型
+/- ### マクロから Macro 型
 
-実際に、`macro` コマンドなどでマクロを定義したとき、それが `Macro` 型の項を生成していることを確かめることができます。`whatsnew` コマンドで、特定のコマンドの実行後に新たに生成された識別子の名前をリストアップすることができます。以下の出力の中に `Lean.Macro` 型の項があるはずです。-/
+実際にマクロを定義する際は、[`notation`](#{root}/Reference/Declarative/Notation.md) コマンドや [`macro`](#{root}/Reference/Declarative/Macro.md) コマンドなどを使用するでしょう。こういったコマンドでマクロを定義したとき、それが裏で `Macro` 型の項を生成していることを確かめることができます。特定のコマンドの実行後に新たに生成された識別子の名前をリストアップすることができる、`whatsnew` コマンドを使えば可能です。以下の出力の中に `Lean.Macro` 型の項があるはずです。-/
 
 whatsnew in macro "oneLit" : term => `(1)
