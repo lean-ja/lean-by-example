@@ -58,10 +58,9 @@ end hoge
 
 open Lean Parser in
 
-/-- parse できるかどうかチェックする関数 -/
-def checkParse (cat : Name) (s : String) : MetaM Unit := do
-  if let .error s := runParserCategory (← getEnv) cat s then
-    throwError s
+/-- `s : String` をパースして `Syntax` の項を得る。`cat` は構文カテゴリ。-/
+def parse (cat : Name) (s : String) : MetaM Syntax := do
+  ofExcept <| runParserCategory (← getEnv) cat s
 
 -- `def` は有効範囲を制限できないのでエラーになる
 /--
@@ -70,7 +69,7 @@ error: <input>:1:6: expected 'binder_predicate', 'builtin_dsimproc', 'builtin_si
 'notation', 'postfix', 'prefix', 'simproc', 'syntax' or 'unif_hint'
 -/
 #guard_msgs in
-  run_meta checkParse `command "local def"
+  run_meta parse `command "local def"
 
 /-
 数が多いためすべての例を挙げることはしませんが、いくつか紹介します。たとえば `instance` の場合、`local` を付けて登録したインスタンスがその `section` の内部限定になります。

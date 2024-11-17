@@ -7,15 +7,14 @@ namespace Macro --#
 
 open Lean Parser
 
-/-- 構文が認識されるかどうかチェックする関数 -/
-def checkParse (cat : Name) (s : String) : MetaM Unit := do
-  if let .error s := runParserCategory (← getEnv) cat s then
-    throwError s
+/-- `s : String` をパースして `Syntax` の項を得る。`cat` は構文カテゴリ。-/
+def parse (cat : Name) (s : String) : MetaM Syntax := do
+  ofExcept <| runParserCategory (← getEnv) cat s
 
 -- 最初は `#greet` が未定義なので、合法的なLeanのコマンドとして認識されない
 /-- error: <input>:1:0: expected command -/
 #guard_msgs in
-  run_meta checkParse `command "#greet"
+  run_meta parse `command "#greet"
 
 -- `#greet` コマンドを定義する
 scoped macro "#greet " : command => `(#eval "Hello World!")

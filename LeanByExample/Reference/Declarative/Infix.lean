@@ -32,17 +32,16 @@ section
 
 open Lean Parser
 
-/-- parse できるかどうかチェックする関数 -/
-def checkParse (cat : Name) (s : String) : MetaM Unit := do
-  if let .error s := runParserCategory (← getEnv) cat s then
-    throwError s
+/-- `s : String` をパースして `Syntax` の項を得る。`cat` は構文カテゴリ。-/
+def parse (cat : Name) (s : String) : MetaM Syntax := do
+  ofExcept <| runParserCategory (← getEnv) cat s
 
 -- 単に連結するとパース不可でエラーになる
 /-- error: <input>:1:6: expected end of input -/
-#guard_msgs in run_meta checkParse `term "1 ⋄ 2 ⋄ 3"
+#guard_msgs in run_meta parse `term "1 ⋄ 2 ⋄ 3"
 
 -- 括弧を付ければOK
-run_meta checkParse `term "1 ⋄ (2 ⋄ 3)"
+run_meta parse `term "1 ⋄ (2 ⋄ 3)"
 
 end
 /- ## 舞台裏

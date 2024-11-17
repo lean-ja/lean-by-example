@@ -151,15 +151,14 @@ example : True ∨ (s ∩ u = u ∩ s) := by
 
 open Lean Parser
 
-/-- parse できるかどうかチェックする関数 -/
-def checkParse (cat : Name) (s : String) : MetaM Unit := do
-  if let .error s := runParserCategory (← getEnv) cat s then
-    throwError s
+/-- `s : String` をパースして `Syntax` の項を得る。`cat` は構文カテゴリ。-/
+def parse (cat : Name) (s : String) : MetaM Syntax := do
+  ofExcept <| runParserCategory (← getEnv) cat s
 
 -- 識別子を渡したときはパースできる
-run_meta checkParse `tactic "unfold Inter.inter"
+run_meta parse `tactic "unfold Inter.inter"
 
 -- 識別子でないものを渡すとパースできない
 /-- error: <input>:1:7: expected identifier -/
 #guard_msgs in
-  run_meta checkParse `tactic "unfold (· ∩ ·)"
+  run_meta parse `tactic "unfold (· ∩ ·)"

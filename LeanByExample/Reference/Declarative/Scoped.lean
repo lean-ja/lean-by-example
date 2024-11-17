@@ -50,10 +50,9 @@ end
 
 open Lean Parser
 
-/-- parse できるかどうかチェックする関数 -/
-def checkParse (cat : Name) (s : String) : MetaM Unit := do
-  if let .error s := runParserCategory (← getEnv) cat s then
-    throwError s
+/-- `s : String` をパースして `Syntax` の項を得る。`cat` は構文カテゴリ。-/
+def parse (cat : Name) (s : String) : MetaM Syntax := do
+  ofExcept <| runParserCategory (← getEnv) cat s
 
 -- `def` は有効範囲を制限できないのでエラーになる
 /--
@@ -63,7 +62,7 @@ error: <input>:1:7: expected 'binder_predicate', 'builtin_dsimproc', 'builtin_si
 'syntax' or 'unif_hint'
 -/
 #guard_msgs in
-  run_meta checkParse `command "scoped def"
+  run_meta parse `command "scoped def"
 
 /- ## open scoped
 `open scoped` コマンドを利用すると、特定の名前空間にある `scoped` が付けられた名前だけを有効にすることができます。単に [`open`](./Open.md) コマンドを利用するとその名前空間にあるすべての名前が有効になります。

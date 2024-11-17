@@ -6,16 +6,15 @@ import Lean
 
 open Lean Parser
 
-/-- parse できるかどうかチェックする関数 -/
-def checkParse (cat : Name) (s : String) : MetaM Unit := do
-  if let .error s := runParserCategory (← getEnv) cat s then
-    throwError s
+/-- `s : String` をパースして `Syntax` の項を得る。`cat` は構文カテゴリ。-/
+def parse (cat : Name) (s : String) : MetaM Syntax := do
+  ofExcept <| runParserCategory (← getEnv) cat s
 
 -- 最初は `#greet` などというコマンドは定義されていないので
 -- そもそも Lean の合法な構文として認められない。
 /-- error: <input>:1:0: expected command -/
 #guard_msgs (error) in
-  #eval checkParse `command "#greet"
+  #eval parse `command "#greet"
 
 -- `#greet` というコマンドのための構文を定義
 syntax "#greet" : command
