@@ -6,6 +6,7 @@
 -/
 import ProofWidgets.Component.HtmlDisplay
 import ProofWidgets.Component.Recharts
+import ProofWidgets.Component.GraphDisplay
 
 -- JSX ライクな構文が使えるようにする
 open scoped ProofWidgets.Jsx
@@ -53,6 +54,28 @@ open ProofWidgets
 
   for $\\mathrm{Re} (s) > 0$.
 "}/>
+
+end --#
+/- ## GraphDisplay
+
+`<GraphDisplay />` コンポーネントを使用すると、有向グラフを表示させることができます。
+-/
+section --#
+
+open ProofWidgets Jsx GraphDisplay
+
+/-- `Edge` を作る -/
+def mkEdge (st : String × String) : Edge := {source := st.1, target := st.2}
+
+/-- 文字列として与えられたラベルから `Vertex` を作る -/
+def mkVertex (id : String) : Vertex := {id := id}
+
+-- 有向グラフを表示する
+#html
+  <GraphDisplay
+    vertices={#["a", "b", "c", "d", "e"].map mkVertex}
+    edges={#[("a","b"), ("b","c"), ("c","d"), ("d","e"), ("e", "a")].map mkEdge}
+  />
 
 end --#
 /- ## LineChart
