@@ -16,6 +16,7 @@
   - [#guard_msgs: メッセージのテスト](./Reference/Diagnostic/GuardMsgs.md)
   - [#guard: Bool 値のテスト](./Reference/Diagnostic/Guard.md)
   - [#help: ドキュメントを見る](./Reference/Diagnostic/Help.md)
+  - [#html: HTMLをインフォビューに表示](./Reference/Diagnostic/Html.md)
   - [#instances: インスタンスを列挙](./Reference/Diagnostic/Instances.md)
   - [#lint: リンタ実行](./Reference/Diagnostic/Lint.md)
   - [#print: 中身を見る](./Reference/Diagnostic/Print.md)
