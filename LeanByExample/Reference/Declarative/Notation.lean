@@ -38,7 +38,7 @@ end
 -/
 
 /-- 結合が弱い方。中身は足し算 -/
-notation:0 a:0 " weak " b:0 => Nat.add a b
+notation:min a:min " weak " b:min => Nat.add a b
 
 /-- 結合が強い方。中身は掛け算 -/
 notation:70 a:70 " strong " b:70 => Nat.mul a b
@@ -81,42 +81,43 @@ notation:60 a:61 " RXOR " b:60 => a && !b
 -- 右結合になることがわかる
 #guard true RXOR false RXOR true = true
 
-/- ### パース優先順位を省略した場合
-パース優先順位を省略することもできるのですが、とても意外な挙動になるので推奨できません。なるべく全てのパース優先順位を指定してください。-/
+/- ### パース優先順位を省略する場合
+パース優先順位を省略することもできます。Lean は結合順序に指定がなければ右結合になるようにするようです。-/
 
 /-- パース優先順位を全く指定しないで定義した記法。中身はべき乗 -/
 notation a " bad_pow " b => Nat.pow a b
 
--- bad_pow のパース優先順位は weak (優先順位0)よりも低い？
+-- この場合は `weak` (優先順位0)が先に適用される
 example : (2 bad_pow 1 weak 3) = 16 := calc
   _ = (2 bad_pow 4) := rfl
   _ = 16 := rfl
 
 -- 一方で次の書き方だと bad_pow の方が先に適用される
--- どうやら右結合が採用されるようだ
 example : (2 weak 1 bad_pow 3) = 3 := calc
   _ = (2 weak 1) := rfl
   _ = 3 := rfl
 
--- 右結合になっている例
+-- ここでも右結合になっている
 example : (2 weak 3 bad_pow 1 weak 2) = 29 := calc
   _ = (2 weak 3 bad_pow 3) := rfl
   _ = (2 weak 27) := rfl
   _ = 29 := rfl
 
-/- パース優先順位を一部だけ指定しても効果がなく、強制的に右結合扱いになります。-/
+/- パース優先順位を一部だけ指定することもできます。-/
 
-/-- プレースホルダのパース優先順位を省略した weak -/
-notation:20 a " bad_weak" b => Nat.add a b
+/-- パース優先順位を部分的に省略した weak -/
+notation:min a " bad_weak" b => Nat.add a b
 
-/-- プレースホルダのパース優先順位を省略した strong -/
-notation:70 a " bad_strong " b => Nat.mul a b
+/-- パース優先順位を部分的に省略した strong -/
+notation a " bad_strong " b:70 => Nat.mul a b
 
--- bad_strong の方がパース優先順位が高いと思いきや、
--- 右結合になるので bad_weak の方が先に適用されてしまう
-example : (2 bad_strong 2 bad_weak 3) = 10 := calc
-  _ = (2 bad_strong 5) := rfl
-  _ = 10 := rfl
+-- この場合だと、`bad_strong` が先に適用される
+-- 仮に `bad_weak` が先に適用されたとすると、
+-- `bad_strong` の `b:70` の部分に `min` が来ることになるのでおかしい。
+-- だから `bad_strong` が先に適用される。
+example : (2 bad_strong 2 bad_weak 3) = 7 := calc
+  _ = (4 bad_weak 3) := rfl
+  _ = 7 := rfl
 
 /- ## 記法の重複問題
 `notation` を使って定義した記法のパース優先順位が意図通りに反映されないことがあります。-/
