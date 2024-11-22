@@ -1,8 +1,7 @@
 /-
 # CoeFun
-`CoeFun` は、関数ではない項を関数型に強制することができる型クラスです。
+`CoeFun` クラスのインスタンスを与えると、関数ではない項を関数型に強制することができます。
 -/
-namespace CoeFun --#
 
 /-- 加法的な関数の全体 -/
 structure AdditiveFunction : Type where
@@ -31,16 +30,27 @@ local instance : CoeFun AdditiveFunction (fun _ => Nat → Nat) where
 #check (identity 1)
 
 end --#
-/- 上記の例を、[`Coe`](./Coe.md) を使って再現しようとして下記のようにしても上手くいかないことに注意して下さい。-/
+/- 上記の例ではどんな `t : AdditiveFunction` も同じ型 `Nat → Nat` に強制していますが、実際には依存関数型に強制することができます。-/
+/- ## Coe との違い
+上記の例を、[`Coe`](./Coe.md) を使って再現しようとして下記のようにしても上手くいかないことに注意して下さい。-/
+section --#
 
 -- `Coe` で `Nat → Nat` への変換を自動化しようとしている例
-instance : Coe AdditiveFunction (Nat → Nat) where
+local instance : Coe AdditiveFunction (Nat → Nat) where
   coe f := f.toFun
 
 -- `Nat → Nat` への型強制が呼び出されず、エラーになってしまう
 -- これは、期待されている型が `Nat → Nat` ではなく、単に `Nat → ?_` であるため。
-#guard_msgs (drop warning) in --#
-#check_failure (identity 1)
+/--
+warning: function expected at
+  identity
+term has type
+  AdditiveFunction
+-/
+#guard_msgs in
+  #check_failure (identity 1)
 
-/- 上記の例ではどんな `t : AdditiveFunction` も同じ型 `Nat → Nat` に強制していますが、実際には依存関数型に強制することができます。-/
-end CoeFun --#
+-- 期待される型を明記すればエラーにならない
+#check ((identity : Nat → Nat) 1)
+
+end --#
