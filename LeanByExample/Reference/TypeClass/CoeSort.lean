@@ -1,9 +1,8 @@
 /-
 # CoeSort
-`CorSort` は [`Coe`](./Coe.md) と同じく型強制を定義するための型クラスですが、型宇宙(`Type` や `Prop` など、項が再び型であるような型)への変換を行う点が異なります。
+`CorSort` は [`Coe`](./Coe.md) と同じく型強制を定義するための型クラスですが、違いとして型宇宙(`Type` や `Prop` など、項が再び型であるような型)への変換を専門に行う点が挙げられます。
 -/
 import Mathlib.Data.Fintype.Basic -- `Fintype` を使うため
-namespace CoeSort --#
 
 /-- 有限集合の圏 -/
 structure FinCat where
@@ -48,7 +47,10 @@ local instance : CoeSort FinCat Type := ⟨fun S ↦ S.base⟩
 #check Two → Two
 end --#
 
-/- `Coe` で同様のコードを書いても、うまくいかないことに注意してください。-/
+/- ## Coe との違い
+
+`Coe` で同様のコードを書いても、上記の `FinCat` の例はうまくいきません。-/
+section --#
 
 local instance : Coe FinCat Type := ⟨fun S ↦ S.base⟩
 
@@ -57,4 +59,30 @@ local instance : Coe FinCat Type := ⟨fun S ↦ S.base⟩
 #guard_msgs (drop warning) in --#
 #check_failure (Two → Two)
 
-end CoeSort --#
+end --#
+/- しかし、これは「`Coe` では型宇宙への変換は扱えないから」ではありません。`Coe` と `CoeSort` では型強制が呼ばれるタイミングが異なるからです。`Coe` は「ある型の**項**が期待される場所に、異なる型の項が来た時」にトリガーされますが、`CoeSort` は「**型**が期待される場所に型が来ていないとき」にトリガーされます。
+
+実際、`Coe` を使っても `Type` への型強制は定義することができます。
+-/
+section --#
+
+/-- 型を受け取ってゼロを返す関数 -/
+def zero (_ : Type) : Nat := 0
+
+/-- `Type` のラッパー -/
+structure AltType where
+  base : Type
+
+def A : AltType := ⟨Nat⟩
+
+-- `zero` は `Type` を期待しているのでエラーになる
+#guard_msgs (drop warning) in --#
+#check_failure zero A
+
+/-- `AltType` を `Type` に型強制する -/
+local instance : Coe AltType Type := ⟨fun S ↦ S.base⟩
+
+-- 成功するようになった！
+#check zero A
+
+end --#
