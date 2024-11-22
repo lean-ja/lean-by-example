@@ -85,38 +85,38 @@ notation:60 a:61 " RXOR " b:60 => a && !b
 パース優先順位を省略することもできます。Lean は結合順序に指定がなければ右結合になるようにするようです。-/
 
 /-- パース優先順位を全く指定しないで定義した記法。中身はべき乗 -/
-notation a " bad_pow " b => Nat.pow a b
+notation a " -^ " b => Nat.pow a b
 
--- この場合は `weak` (優先順位0)が先に適用される
-example : (2 bad_pow 1 weak 3) = 16 := calc
-  _ = (2 bad_pow 4) := rfl
+-- この場合は `weak` (優先順位最低)が先に適用される
+example : (2 -^ 1 weak 3) = 16 := calc
+  _ = (2 -^ 4) := rfl
   _ = 16 := rfl
 
--- 一方で次の書き方だと bad_pow の方が先に適用される
-example : (2 weak 1 bad_pow 3) = 3 := calc
+-- 一方で次の書き方だと `-^` の方が先に適用される
+example : (2 weak 1 -^ 3) = 3 := calc
   _ = (2 weak 1) := rfl
   _ = 3 := rfl
 
 -- ここでも右結合になっている
-example : (2 weak 3 bad_pow 1 weak 2) = 29 := calc
-  _ = (2 weak 3 bad_pow 3) := rfl
+example : (2 weak 3 -^ 1 weak 2) = 29 := calc
+  _ = (2 weak 3 -^ 3) := rfl
   _ = (2 weak 27) := rfl
   _ = 29 := rfl
 
 /- パース優先順位を一部だけ指定することもできます。-/
 
-/-- パース優先順位を部分的に省略した weak -/
-notation:min a " bad_weak" b => Nat.add a b
+/-- パース優先順位を部分的に省略した足し算 -/
+notation:min a " -+ " b => Nat.add a b
 
-/-- パース優先順位を部分的に省略した strong -/
-notation a " bad_strong " b:70 => Nat.mul a b
+/-- パース優先順位を部分的に省略した掛け算 -/
+notation a " -* " b:70 => Nat.mul a b
 
--- この場合だと、`bad_strong` が先に適用される
--- 仮に `bad_weak` が先に適用されたとすると、
--- `bad_strong` の `b:70` の部分に `min` が来ることになるのでおかしい。
--- だから `bad_strong` が先に適用される。
-example : (2 bad_strong 2 bad_weak 3) = 7 := calc
-  _ = (4 bad_weak 3) := rfl
+-- この場合だと、`-*` が先に適用される
+-- 仮に `-+` が先に適用されたとすると、
+-- `-*` の `b:70` の部分に `(2 -+ 3):min` が来ることになるのでおかしい。
+-- だから `-*` が先に適用される。
+example : (2 -* 2 -+ 3) = 7 := calc
+  _ = (4 -+ 3) := rfl
   _ = 7 := rfl
 
 /- ## 記法の重複問題
