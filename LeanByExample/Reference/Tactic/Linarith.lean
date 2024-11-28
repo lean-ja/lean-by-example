@@ -32,7 +32,7 @@ example (h : x ≤ y) (pos : 0 ≤ x) : x + x ^ 2 ≤ y + y ^ 2 := by
 
   -- `linarith` 単独で扱えない部分、つまり `x ^ 2 ≤ y ≤ 2` を示すための
   -- 補題を引数で渡してやると通る
-  linarith [pow_le_pow_left pos h 2]
+  linarith [pow_le_pow_left₀ pos h 2]
 
 /- ## 舞台裏
 `linarith` は一般に、型クラス `LinearOrderedCommRing` のインスタンスに対して動作します。ここで linear order とは全順序のことです。-/
