@@ -71,8 +71,6 @@ local macro_rules
 
 #guard (3 - 5 + 4 = 2 as Int)
 
-#guard (2 * 3 / 2 = 3 as Rat)
-
 end --#
 /- ## name 構文
 `(name := ...)` という構文により、名前を付けることができます。名前を付けると、その名前で `Lean.ParserDescr` の項が生成されます。

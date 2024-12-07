@@ -9,10 +9,10 @@ import Lean --#
 /--
 info: structure String : Type
 number of parameters: 0
-constructor:
-String.mk : List Char → String
 fields:
-data : List Char
+  String.data : List Char
+constructor:
+  String.mk (data : List Char) : String
 -/
 #guard_msgs in #print String
 --#--

@@ -18,11 +18,11 @@
 /--
 info: structure Char : Type
 number of parameters: 0
-constructor:
-Char.mk : (val : UInt32) → val.isValidChar → Char
 fields:
-val : UInt32
-valid : self.val.isValidChar
+  Char.val : UInt32
+  Char.valid : self.val.isValidChar
+constructor:
+  Char.mk (val : UInt32) (valid : val.isValidChar) : Char
 -/
 #guard_msgs in #print Char
 --#--

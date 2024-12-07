@@ -12,17 +12,17 @@
 --#--
 -- # LawfulFunctor の仕様変更を監視するためのコード
 /--
-info: class LawfulFunctor.{u, v} : (f : Type u → Type v) → [inst : Functor f] → Prop
+info: class LawfulFunctor.{u, v} (f : Type u → Type v) [Functor f] : Prop
 number of parameters: 2
-constructor:
-LawfulFunctor.mk : ∀ {f : Type u → Type v} [inst : Functor f],
-  (∀ {α β : Type u}, Functor.mapConst = Functor.map ∘ Function.const β) →
-    (∀ {α : Type u} (x : f α), id <$> x = x) →
-      (∀ {α β γ : Type u} (g : α → β) (h : β → γ) (x : f α), (h ∘ g) <$> x = h <$> g <$> x) → LawfulFunctor f
 fields:
-map_const : ∀ {α β : Type u}, Functor.mapConst = Functor.map ∘ Function.const β
-id_map : ∀ {α : Type u} (x : f α), id <$> x = x
-comp_map : ∀ {α β γ : Type u} (g : α → β) (h : β → γ) (x : f α), (h ∘ g) <$> x = h <$> g <$> x
+  LawfulFunctor.map_const : ∀ {α β : Type u}, Functor.mapConst = Functor.map ∘ Function.const β
+  LawfulFunctor.id_map : ∀ {α : Type u} (x : f α), id <$> x = x
+  LawfulFunctor.comp_map : ∀ {α β γ : Type u} (g : α → β) (h : β → γ) (x : f α), (h ∘ g) <$> x = h <$> g <$> x
+constructor:
+  LawfulFunctor.mk.{u, v} {f : Type u → Type v} [Functor f]
+    (map_const : ∀ {α β : Type u}, Functor.mapConst = Functor.map ∘ Function.const β)
+    (id_map : ∀ {α : Type u} (x : f α), id <$> x = x)
+    (comp_map : ∀ {α β γ : Type u} (g : α → β) (h : β → γ) (x : f α), (h ∘ g) <$> x = h <$> g <$> x) : LawfulFunctor f
 -/
 #guard_msgs in #print LawfulFunctor
 --#--

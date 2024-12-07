@@ -7,14 +7,14 @@
 namespace Hidden --#
 --#--
 /--
-info: class Functor.{u, v} : (Type u → Type v) → Type (max (u + 1) v)
+info: class Functor.{u, v} (f : Type u → Type v) : Type (max (u + 1) v)
 number of parameters: 1
-constructor:
-Functor.mk : {f : Type u → Type v} →
-  ({α β : Type u} → (α → β) → f α → f β) → ({α β : Type u} → α → f β → f α) → Functor f
 fields:
-map : {α β : Type u} → (α → β) → f α → f β
-mapConst : {α β : Type u} → α → f β → f α
+  Functor.map : {α β : Type u} → (α → β) → f α → f β
+  Functor.mapConst : {α β : Type u} → α → f β → f α
+constructor:
+  Functor.mk.{u, v} {f : Type u → Type v} (map : {α β : Type u} → (α → β) → f α → f β)
+    (mapConst : {α β : Type u} → α → f β → f α) : Functor f
 -/
 #guard_msgs in #print Functor
 --#--

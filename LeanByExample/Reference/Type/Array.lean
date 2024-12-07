@@ -14,12 +14,12 @@ import Lean --#
 `Array α` は次のように連結リスト `List α` のラッパーとして定義されているように見えます。-/
 --#--
 /--
-info: structure Array.{u} : Type u → Type u
+info: structure Array.{u} (α : Type u) : Type u
 number of parameters: 1
-constructor:
-Array.mk : {α : Type u} → List α → Array α
 fields:
-toList : List α
+  Array.toList : List α
+constructor:
+  Array.mk.{u} {α : Type u} (toList : List α) : Array α
 -/
 #guard_msgs in #print Array
 --#--
