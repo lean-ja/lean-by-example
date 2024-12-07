@@ -5,28 +5,28 @@
  * 一瞬元のアイコンが表示されるのを防ぐためにHTML側で上書きを行っていることに注意
  */
 function filePlay() {
-  // 編集ボタンのアイコン部分の `i` 要素
-  const editButtonIcon = document.querySelector("#lean-play-button");
+  // ボタンのアイコン部分の `i` 要素
+  const playButtonIcon = document.querySelector("#lean-play-button");
 
-  // 編集ボタンを表す `a` 要素
-  const editButtonLink = editButtonIcon.parentElement;
+  // ボタンを表す `a` 要素
+  const playButtonLink = playButtonIcon.parentElement;
 
   // 拡張子が `.md` になっているので `.lean` に修正する
-  editButtonLink.href = editButtonLink.href.replace(/\.md$/, ".lean");
+  playButtonLink.href = playButtonLink.href.replace(/\.md$/, ".lean");
 
   // Lean ファイルがあるのは `booksrc` ではなく `LeanByExample` ディレクトリ
-  editButtonLink.href = editButtonLink.href.replace(
+  playButtonLink.href = playButtonLink.href.replace(
     "/booksrc/",
     "/LeanByExample/",
   );
 
   // URL を書き換える
-  fetch(editButtonLink.href)
+  fetch(playButtonLink.href)
     .then((response) => response.text())
     .then((body) => {
       const escaped_code = encodeURIComponent(body);
       const url = `https://live.lean-lang.org/#code=${escaped_code}`;
-      editButtonLink.href = url;
+      playButtonLink.href = url;
     });
 }
 
