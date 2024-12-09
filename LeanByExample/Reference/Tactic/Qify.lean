@@ -2,12 +2,10 @@
 `qify` は自然数や整数に関する命題を有理数に関する命題にキャストします。
 -/
 import Mathlib.Tactic.GCongr
+import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.Qify -- `qify` を使うために必要
-import Mathlib.Tactic.Ring
 
-variable (a b c x y z : ℕ)
-
-example (h : x ≥ 1) : 2 * x ≥ 2 := by
+example (x : Nat) (h : x ≥ 1) : 2 * x ≥ 2 := by
   -- 自然数から有理数にキャストする
   qify at h ⊢
 
@@ -19,33 +17,18 @@ example (h : x ≥ 1) : 2 * x ≥ 2 := by
     (2 : ℚ) = 2 * 1 := by simp
     _ ≤ 2 * (x : ℚ) := by gcongr
 
-/- より自然な例として、次の例も挙げておきます。-/
+/- ## 用途
 
-/-- `0` から `n` までの自然数の総和 -/
-def sum (n : Nat) : Nat :=
-  match n with
-  | 0 => 0
-  | n + 1 => (n + 1) + sum n
+自然数や整数は体ではないので、体を想定したタクティクが使えないことがあります。
+`qify` で有理数にキャストすることで、そのようなタクティクが使えるようになり、証明が楽になることがあります。
+-/
 
-@[simp]
-theorem sum_zero : sum 0 = 0 := by rfl
+example (n m : Nat) (x : Rat) (hx : x > 0) (h : n * m = x) : m > 0 := by
+  -- 最初は `nlinarith` が使えない
+  fail_if_success nlinarith
 
-/-- 和を計算する多項式。割り算を含むので返り値が `Rat` になっている -/
-def sumPoly (n : Nat) : Rat := n * (n + 1) / 2
+  -- 有理数にキャストする
+  qify
 
-/-- `sumPoly` が `sum` と同じ漸化式を満たす -/
-theorem sumPoly_succ {n : Nat} : sumPoly (n + 1) = (n + 1) + sumPoly n := by
-  simp [sumPoly]
-  ring
-
-@[simp]
-theorem sumPoly_zero : sumPoly 0 = 0 := by
-  simp [sumPoly]
-
-/-- `sumPoly` の値は常に自然数で、`sum` と一致する -/
-theorem sum_eq_sumPoly {n : Nat} : sum n = sumPoly n := by
-  induction n with
-  | zero => simp
-  | succ n ih =>
-    rw [sum, sumPoly_succ, ← ih]
-    qify
+  -- `nlinarith` が使えるようになった！
+  nlinarith
