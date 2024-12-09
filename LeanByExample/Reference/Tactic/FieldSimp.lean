@@ -1,10 +1,8 @@
 /-
 # field_simp
-`field_simp` は、体における等式を示す際の「分母を払う」操作に対応するタクティクです。
+`field_simp` は、体[^field]における等式を示す際の「分母を払う」操作に対応するタクティクです。
 -/
-import Mathlib.Tactic.FieldSimp
-import Mathlib.Tactic.Linarith --#
-import Mathlib.Tactic.Ring
+import Mathlib.Tactic
 
 example (n m : Rat) : n * m = ((n + m) ^ 2 - n ^ 2 - m ^ 2 ) / 2 := by
   -- 分母を払う
@@ -22,21 +20,24 @@ example {x y z : Rat} (hy : y = z ^ 2 + 1) : (x + 2 * y) / y = x / y + 2 := by
   -- 分母がゼロでないことを示す
   have ypos : y ≠ 0 := by
     rw [hy]
-    nlinarith
+    positivity
 
   -- 動作するようになった
   field_simp
 
 /- ## 制約
-`field_simp` という名前の通り、割り算が体の割り算でなければ動作しません。たとえば 自然数 `Nat` における割り算は `field_simp` では扱うことができず、次のコード例のように工夫する必要があります。-/
+`field_simp` という名前の通り、割り算が体の割り算でなければ動作しないことがあります。たとえば以下のコードは、自然数 `Nat` における割り算なので `field_simp` では扱うことができないという例です。-/
 
 example (n m : Nat) : n * m = ((n + m) ^ 2 - n ^ 2 - m ^ 2 ) / 2 := by
   -- field_simp は動作しない
   fail_if_success field_simp
 
   -- 分母を払う
-  symm
-  apply Nat.div_eq_of_eq_mul_right (by simp_arith)
+  suffices goal : 2 * (n * m) = (n + m) ^ 2 - n ^ 2 - m ^ 2 from by
+    rw [← goal]
+
+    -- この部分は(自然数の話だが) `field_simp` で示せる
+    field_simp
 
   -- `(n + m) ^ 2` を展開する
   rw [show (n + m) ^ 2 = n ^ 2 + 2 * n * m + m ^ 2 from by ring]
@@ -44,7 +45,7 @@ example (n m : Nat) : n * m = ((n + m) ^ 2 - n ^ 2 - m ^ 2 ) / 2 := by
   -- 打消し合う項を消して簡単にすれば、示すべきことが言える
   simp [add_assoc, mul_assoc]
 
-/- また `field_simp` の扱うのは等式のみで、順序関係は扱いません。体の定義に順序関係は含まれていないので、体を扱うタクティクとしては自然なことかもしれません。-/
+/- また `field_simp` の扱うのは等式のみで、順序関係は扱いません。体の定義に順序関係は含まれていないので、当然かもしれません。-/
 
 variable (x y : Rat)
 
@@ -67,3 +68,5 @@ example (h : x = y) : x * y = (x ^ 2 + y ^ 2) / 2 := by
 
   rw [h]
   ring
+
+/- [^field]: 体とは、四則演算が定義されていて、ゼロでない要素で割り算ができるものを指します。-/
