@@ -30,11 +30,13 @@ abbrev NaturalNumber : Type := Nat
 
 end Abbrev1 --#
 /- ## 舞台裏
-`abbrev` は `[reducible]` 属性のついた `def` と同じであり、定義に `[reducible]` 属性を与えても同様のことができます。-/
-namespace Abbrev2 --#
+`abbrev` コマンドを使用すると、裏で `[reducible]` 属性が付与されます。-/
 
-@[reducible] def NaturalNumber : Type := Nat
+abbrev NaturalNumber : Type := Nat
 
-#check (42 : NaturalNumber)
-
-end Abbrev2 --#
+-- `[reducible]` 属性が付与されている
+/--
+info: @[reducible] def NaturalNumber : Type :=
+Nat
+-/
+#guard_msgs in #print NaturalNumber
