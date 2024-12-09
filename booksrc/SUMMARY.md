@@ -73,6 +73,7 @@
   - [default_instance: デフォルトの解決法](./Reference/Attribute/DefaultInstance.md)
   - [induction_eliminator: 独自帰納法](./Reference/Attribute/InductionEliminator.md)
   - [inherit_doc: ドキュメントの継承](./Reference/Attribute/InheritDoc.md)
+  - [macro_inline: 短絡評価など](./Reference/Attribute/MacroInline.md)
   - [match_pattern: 独自パタンマッチ](./Reference/Attribute/MatchPattern.md)
   - [simps: simp 補題の自動生成](./Reference/Attribute/Simps.md)
 
