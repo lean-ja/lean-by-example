@@ -4,18 +4,16 @@
 import Mathlib.Tactic.Linarith -- `linarith` のために必要
 import Batteries.Data.Rat.Basic -- `ℚ` のために必要
 
-variable (x y z : ℚ)
-
-example (h1: x = 2 * y) (h2 : - x + 2 * y = 1) : False := by
+example (x y : ℚ) (h1: x = 2 * y) (h2 : - x + 2 * y = 1) : False := by
   linarith
 
-example (h1 : 2 * x < 3 * y) (h2 : -4 * x + 2 * z < 0) :
+example (x y z : ℚ) (h1 : 2 * x < 3 * y) (h2 : -4 * x + 2 * z < 0) :
     12 * y - 4 * z ≥ 0 := by
   linarith
 
 /- `linarith` はローカルコンテキストにある命題を読むので、`linarith` が通らないとき、追加で補題を示すことで解決することがあります。-/
 
-example : id x ≤ x := by
+example (x : ℚ) : id x ≤ x := by
   -- `linarith` で示すことはできない
   fail_if_success linarith
 
@@ -26,7 +24,7 @@ example : id x ≤ x := by
 
 /- また、使ってほしい補題を直接渡すこともできます。-/
 
-example (h : x ≤ y) (pos : 0 ≤ x) : x + x ^ 2 ≤ y + y ^ 2 := by
+example (x y : ℚ) (h : x ≤ y) (pos : 0 ≤ x) : x + x ^ 2 ≤ y + y ^ 2 := by
   -- `linarith` では示せない
   fail_if_success linarith
 
