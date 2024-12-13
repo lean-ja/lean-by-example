@@ -9,9 +9,7 @@
 という調子で変形します。 -/
 import Mathlib.Tactic.PushNeg
 
-variable (P Q : Prop)
-
-example (h: P → Q) : ¬ (P ∧ ¬ Q) := by
+example (P Q : Prop) (h : P → Q) : ¬ (P ∧ ¬ Q) := by
   -- ドモルガン則を適用して、`¬` を内側に押し込む
   push_neg
 
@@ -21,6 +19,7 @@ example (h: P → Q) : ¬ (P ∧ ¬ Q) := by
   exact h
 
 /- 以下の例は、「酔っぱらいのパラドクス」として有名な命題です。 -/
+section --#
 
 -- `People` という空ではない集合がある
 variable {People : Type} [Inhabited People]
@@ -51,6 +50,7 @@ example : ∃ (x : People), isDrinking x → ∀ (y : People), isDrinking y := b
     exists x
     simp_all
 
+end --#
 /-
 ## use_distrib
 
@@ -59,7 +59,7 @@ option で `push_neg.use_distrib` を `true` にすると、`¬ (p ∧ q)` を `
 
 set_option push_neg.use_distrib true
 
-example (h: P → Q) : ¬ (P ∧ ¬ Q) := by
+example (P Q : Prop) (h : P → Q) : ¬ (P ∧ ¬ Q) := by
   -- ドモルガン則を適用して、`¬` を内側に押し込む
   push_neg
 
