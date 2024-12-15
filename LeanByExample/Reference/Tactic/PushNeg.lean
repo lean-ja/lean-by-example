@@ -1,12 +1,10 @@
 /- # push_neg
 
-`push_neg` はドモルガン則を使って、否定(negation)を式の中に押し込みます。デフォルトの設定だと、たとえば
+`push_neg` はドモルガン則を使って、否定(negation)を式の中に押し込みます。デフォルトの設定だと、次のように変形します。
 
-* `¬ (P ∧ Q)` は `P → ¬ Q` に、
-
-* `¬ ∀ x, P x` は `∃ x, ¬ P x` に
-
-という調子で変形します。 -/
+* `¬ (P ∧ Q)` は `P → ¬ Q` に変形。
+* `¬ ∀ x, P x` は `∃ x, ¬ P x` に変形。
+-/
 import Mathlib.Tactic.PushNeg
 
 example (P Q : Prop) (h : P → Q) : ¬ (P ∧ ¬ Q) := by
