@@ -80,7 +80,7 @@ r a b → Quot.mk r a = Quot.mk r b
 #guard_msgs in #print Quot.sound
 
 /- #### 商の公理はなぜ重要か
-上記で挙げた商を構成する定数
+上記で挙げた商を構成する以下の定数は、いずれも他の型からは独立したオブジェクトです。
 
 * 型 `Quot`
 * コンストラクタ `Quoto.mk`
@@ -88,7 +88,7 @@ r a b → Quot.mk r a = Quot.mk r b
 * 関数の商へのリフト `Quot.lift`
 * 商の公理 `Quot.sound`
 
-はいずれも他の型からは独立したオブジェクトですが、`Quot.sound` だけが「公理」と呼ばれ、特別扱いされているのは何故でしょうか。以下のように商の公理以外の部分を Lean の[帰納型](../Declarative/Inductive.md)を使って構成してみると理解できるかもしれません。
+この中で `Quot.sound` だけが「公理」と呼ばれ、特別扱いされているのは何故でしょうか。以下のように商の公理以外の部分を Lean の[帰納型](../Declarative/Inductive.md)を使って構成してみると理解できるかもしれません。
 -/
 
 /-- 標準ライブラリの Quot を真似して自作した型 -/

@@ -1,6 +1,6 @@
 /- # \#help
 
-`#help` は、ドキュメントを確認するためのコマンドです。
+`#help` は、ドキュメントを確認するためのコマンドです。以下のような機能があります。
 
 * `#help tactic` で全タクティクのリストが見られます。
 * `#help option` で全オプションのリストが見られます。オプションは、[`set_option`](../Declarative/SetOption.md) を実行することで切り替えられます。たとえば、`set_option warningAsError true` と書くと、warning(警告) がエラーとして扱われるようになります。
