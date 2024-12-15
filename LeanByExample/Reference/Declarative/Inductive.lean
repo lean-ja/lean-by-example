@@ -9,7 +9,6 @@
 
 帰納型の最も基本的な例は、次のような列挙型です。列挙型とは、固定された値のどれかを取るような型です。
 -/
-namespace Inductive --#
 
 /-- 真か偽のどちらかの値をとる型 -/
 inductive MyBool : Type where
@@ -23,12 +22,14 @@ inductive MyBool : Type where
 /- ### 再帰的なデータ構造
 
 一般には、帰納型のコンストラクタは引数を持つことができます。コンストラクタの引数の型が定義しようとしているその帰納型自身であっても構いません。これにより、連結リストや二分木といった再帰的な構造を持つデータ型を定義することができます。-/
+namespace Hidden --#
 
 /-- 連結リスト -/
 inductive List (α : Type) : Type where
   | nil : List α
   | cons (head : α) (tail : List α) : List α
 
+end Hidden --#
 /-- 2分木 -/
 inductive BinTree (α : Type) : Type where
   | empty : BinTree α
@@ -167,6 +168,8 @@ inductive BigStep : Stmt → State → State → Prop where
 /- 「プログラムを評価する」という操作は `while` 文の評価が終わらない可能性があるため、再帰関数として定義することができません。そのため上記の BigStep 意味論の例は帰納的述語が真に有用なケースであるといえます。-/
 
 /- ## Peano の公理と帰納型
+
+### 帰納型の仕様
 帰納型を利用すると、「Peano の公理に基づく自然数の定義」のような帰納的な公理による定義を表現することができます。
 
 Peano の公理とは、次のようなものです:
@@ -174,7 +177,7 @@ Peano の公理とは、次のようなものです:
 * 後者関数と呼ばれる関数 `succ : ℕ → ℕ` が存在する。
 * 任意の自然数 `n` に対して `succ n ≠ 0` が成り立つ。
 * `succ` 関数は単射。つまり2つの異なる自然数 `n` と `m` に対して `succ n ≠ succ m` が成り立つ。
-* 数学的帰納法の原理が成り立つ。つまり、任意の述語 `P : ℕ → Prop` に対して `P 0` かつ `∀ n : ℕ, P n → P (succ n)` ならば `∀ n : ℕ, P n` が成り立つ。
+* 帰納法の原理が成り立つ。つまり、任意の述語 `P : ℕ → Prop` に対して `P 0` かつ `∀ n : ℕ, P n → P (succ n)` ならば `∀ n : ℕ, P n` が成り立つ。
 
 これを `inductive` を使用して再現すると次のようになります。
 -/
@@ -202,10 +205,67 @@ example (n m : MyNat) : MyNat.succ n = MyNat.succ m → n = m := by
 /- 数学的帰納法の原理については、帰納型を定義したときに自動で生成される `.rec` という関数が対応しています。-/
 
 /--
-info: recursor Inductive.MyNat.rec.{u} : {motive : MyNat → Sort u} →
+info: recursor MyNat.rec.{u} : {motive : MyNat → Sort u} →
   motive MyNat.zero → ((n : MyNat) → motive n → motive n.succ) → (t : MyNat) → motive t
 -/
 #guard_msgs in #print MyNat.rec
 
+/- ### 帰納法の原理が意味するもの
+
+ところで、Peano の公理の中でも帰納法の原理だけが述語に対する量化を含んでいて複雑ですね。複雑さのために何を意味しているのかわかりづらくなっているので、帰納法の原理から何が導かれるか考えてみます。
+
+たとえば、帰納法の原理から「すべての `n : MyNat` は `.zero` か `.succ m` のどちらかの形である」ことが導かれます。これの証明は `inductive` コマンドを使用するとどこで帰納法の原理を使ったかわからなくなるので、以下では `axiom` コマンドで `MyNat` を再構築して証明しています。
+-/
+namespace Hidden --#
+
+opaque MyNat : Type
+
+/-- ゼロ -/
+axiom MyNat.zero : MyNat
+
+/-- 後者関数 -/
+axiom MyNat.succ : MyNat → MyNat
+
+/-- ゼロと後者関数の像が交わることはない -/
+axiom MyNat.succ_ne_zero (n : MyNat) : MyNat.succ n ≠ MyNat.zero
+
+/-- 後者関数は単射 -/
+axiom MyNat.succ_inj {n m : MyNat} : MyNat.succ n = MyNat.succ m → n = m
+
+/-- 帰納法の原理 -/
+axiom MyNat.induction {P : MyNat → Prop}
+  (h0 : P MyNat.zero) (hs : ∀ n, P n → P (MyNat.succ n)) : ∀ n, P n
+
+example (n : MyNat) : n = MyNat.zero ∨ ∃ m, n = MyNat.succ m := by
+  -- 述語の定義
+  let P : MyNat → Prop := fun n => n = MyNat.zero ∨ ∃ m, n = MyNat.succ m
+
+  -- `∀ n, P n` を示せばよい。
+  suffices goal : ∀ n, P n from by
+    exact goal n
+
+  have h0 : P MyNat.zero := by
+    simp [P]
+
+  have hs : ∀ n, P n → P (MyNat.succ n) := by
+    intro n hn
+    dsimp [P]
+    right
+    exists n
+
+  -- 帰納法の原理から従う
+  intro n
+  exact MyNat.induction h0 hs n
+
+end Hidden --#
+/- また、「`.succ n = n` となる `n : MyNat` は存在しない」ということも帰納法の原理から証明できます。-/
+
+example (n : MyNat) : MyNat.succ n ≠ n := by
+  intro h
+  induction n with
+  | zero => injection h
+  | succ n ih =>
+    have : n.succ = n := by injection h
+    exact ih this
+
 /- [^hitchhiker]: [The Hitchhiker’s Guide to Logical Verification](https://github.com/blanchette/interactive_theorem_proving_2024) を参考にいたしました。-/
-end Inductive --#
