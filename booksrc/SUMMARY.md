@@ -195,6 +195,7 @@
   - [unfold: 定義に展開](./Reference/Tactic/Unfold.md)
   - [with_reducible: 透過度指定](./Reference/Tactic/WithReducible.md)
   - [wlog: 一般性を失わずに特殊化](./Reference/Tactic/Wlog.md)
+  - [zify: 整数にキャストする](./Reference/Tactic/Zify.md)
 
 # 第2部: チュートリアル
 
