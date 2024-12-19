@@ -3,7 +3,7 @@
 
 不安定なAPIなど、外部に公開したくないものに対して使うのが主な用途です。
 -/
-import LeanByExample.Reference.Declarative.Protected -- protected のページをインポート
+import LeanByExample.Declarative.Protected -- protected のページをインポート
 import Lean
 namespace Private --#
 

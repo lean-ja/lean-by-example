@@ -1,6 +1,6 @@
 /- # declare_aesop_rule_sets
 
-`declare_aesop_rule_sets` コマンドは、[`aesop`](#{root}/Reference/Tactic/Aesop.md) タクティクで使用させるための特定のルールセットを宣言します。
+`declare_aesop_rule_sets` コマンドは、[`aesop`](#{root}/Tactic/Aesop.md) タクティクで使用させるための特定のルールセットを宣言します。
 
 ```admonish warning title="注意"
 このページの内容は <i class="fa fa-play"></i> ボタンから Lean 4 Web で実行することができません。
@@ -18,7 +18,7 @@ declare_aesop_rule_sets [HogeRules]
 
 このとき、以下のように `aesop` の `rule_sets` に `HogeRules` を渡すことで、`HogeRules` に登録されたルールセットを使用することができます。
 -/
-import LeanByExample.Reference.Declarative.DeclareAesopRuleSetsLib --#
+import LeanByExample.Declarative.DeclareAesopRuleSetsLib --#
 import Mathlib.Tactic.Says --#
 
 example : True := by
