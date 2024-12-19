@@ -20,9 +20,6 @@ package «Lean by Example» where
   ] ++ linterOptions.map (fun s ↦ {s with name := `weak ++ s.name})
   moreServerOptions := linterOptions
 
-require «mk-exercise» from git
-  "https://github.com/Seasawher/mk-exercise.git" @ "main"
-
 require mdgen from git
   "https://github.com/Seasawher/mdgen" @ "main"
 
@@ -61,14 +58,9 @@ macro_rules
     let end_time ← IO.monoMsNow;
     IO.println s!"Running {$s}: {end_time - start_time}ms")
 
-/-- mk_exercise と mdgen と mdbook を順に実行し、
-Lean ファイルから Markdown ファイルと HTML ファイルを生成する。
-
-`.\scripts\Build.ps1` を実行したほうが高速 -/
+/-- mdgen と mdbook を順に実行し、
+Lean ファイルから Markdown ファイルと HTML ファイルを生成する。-/
 script build do
-  with_time running "mk_exercise"
-    runCmd "lake exe mk_exercise LeanByExample/Tutorial/Solution LeanByExample/Tutorial/Exercise"
-
   with_time running "mdgen"
     runCmd "lake exe mdgen LeanByExample booksrc"
 
