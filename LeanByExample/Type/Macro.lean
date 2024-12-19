@@ -44,6 +44,6 @@ attribute [macro zeroLitPar] zeroLitExpand
 
 /- ### マクロから Macro 型
 
-実際にマクロを定義する際は、[`notation`](#{root}/Reference/Declarative/Notation.md) コマンドや [`macro`](#{root}/Reference/Declarative/Macro.md) コマンドなどを使用するでしょう。こういったコマンドでマクロを定義したとき、それが裏で `Macro` 型の項を生成していることを確かめることができます。特定のコマンドの実行後に新たに生成された識別子の名前をリストアップすることができる、`whatsnew` コマンドを使えば可能です。以下の出力の中に `Lean.Macro` 型の項があるはずです。-/
+実際にマクロを定義する際は、[`notation`](#{root}/Declarative/Notation.md) コマンドや [`macro`](#{root}/Declarative/Macro.md) コマンドなどを使用するでしょう。こういったコマンドでマクロを定義したとき、それが裏で `Macro` 型の項を生成していることを確かめることができます。特定のコマンドの実行後に新たに生成された識別子の名前をリストアップすることができる、`whatsnew` コマンドを使えば可能です。以下の出力の中に `Lean.Macro` 型の項があるはずです。-/
 
 whatsnew in macro "oneLit" : term => `(1)

@@ -42,7 +42,7 @@ example {f : X → Y} {g : Y → Z} (hgfinj : Injective (g ∘ f)) : Injective f
 
 /- 上記の例により、とくに `aesop` が実行の過程で [`simp_all`](./SimpAll.md) タクティクや `intro` タクティク等を使用することがわかります。
 特に、`aesop` は `simp_all` の強化版であるということができます。
-実際には `aesop` は `simp_all` とは異なり、単純化だけでなく「試行錯誤しながらよい証明を探索する」ということができます。これについて詳しくは [`add_aesop_rules`](#{root}/Reference/Declarative/AddAesopRules.md) のページを参照してください。-/
+実際には `aesop` は `simp_all` とは異なり、単純化だけでなく「試行錯誤しながらよい証明を探索する」ということができます。これについて詳しくは [`add_aesop_rules`](#{root}/Declarative/AddAesopRules.md) のページを参照してください。-/
 
 /- ## カスタマイズ
 `aesop` はユーザがカスタマイズ可能です。補題やタクティクを登録することで、証明可能な命題を増やすことができます。

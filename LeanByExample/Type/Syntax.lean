@@ -8,7 +8,7 @@
 
 ## 定義
 
-`Syntax` 型は以下のように[帰納型](#{root}/Reference/Declarative/Inductive.md)として定義されています。
+`Syntax` 型は以下のように[帰納型](#{root}/Declarative/Inductive.md)として定義されています。
 -/
 import Lean --#
 namespace Hidden --#
@@ -81,7 +81,7 @@ info: Lean.Syntax.node
 #guard_msgs in
   #eval parse `term "0"
 
-/- 見ての通りすぐに複雑怪奇になってしまうので、以降は表示を簡略化しましょう。`Syntax` は [`ToString`](#{root}/Reference/TypeClass/ToString.md) のインスタンスを実装しており、これは `SourceInfo` などを含まないシンプルな表現をしてくれるので、それを利用します。-/
+/- 見ての通りすぐに複雑怪奇になってしまうので、以降は表示を簡略化しましょう。`Syntax` は [`ToString`](#{root}/TypeClass/ToString.md) のインスタンスを実装しており、これは `SourceInfo` などを含まないシンプルな表現をしてくれるので、それを利用します。-/
 
 -- 文字列として表示するとかなり簡略化される
 /-- info: `true -/

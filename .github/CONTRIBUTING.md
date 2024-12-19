@@ -11,13 +11,11 @@
 > 開発に使用する mdbook のバージョンは `0.4.35` に固定してください。`0.4.35` 以外のバージョンではレイアウトが崩れます。
 
 * [mdgen](https://github.com/Seasawher/mdgen) を Lean ファイルから markdown ファイルを生成するために使用しています。
-* [mk_exercise](https://github.com/Seasawher/mk-exercise) を使い、Lean の解答ファイルから演習問題ファイルを生成しています。
 
 ## 開発の流れ
 
 * このリポジトリは mathlib に依存しているので、このリポジトリを clone した後に `lake exe cache get` を実行してください。
-* `LeanByExample/Tutorial/Exercise` ディレクトリ配下のファイルは `mk_exercise` により `LeanByExample/Solution` の内容から自動生成されるので、手動で編集しないでください。
-* 本文の markdown ファイルは [mdgen](https://github.com/Seasawher/mdgen) を用いて Lean ファイルから生成します。Lean ファイルを編集した後、`lake run build` コマンドを実行すれば mk_exercise の実行と markdown の生成と `mdbook build` が一括実行されます。
+* 本文の markdown ファイルは [mdgen](https://github.com/Seasawher/mdgen) を用いて Lean ファイルから生成します。Lean ファイルを編集した後、`lake run build` コマンドを実行すれば markdown の生成と `mdbook build` が一括実行されます。
 
 ## ルール
 

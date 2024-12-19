@@ -58,7 +58,7 @@ From the point of view of proofs `Array α` is just a wrapper around `List α`.
 
 /- ## インデックスアクセス
 
-配列は [`GetElem`](#{root}/Reference/TypeClass/GetElem.md) のインスタンスであり、`i` 番目の要素を取得するために `a[i]` という記法が使用できます。
+配列は [`GetElem`](#{root}/TypeClass/GetElem.md) のインスタンスであり、`i` 番目の要素を取得するために `a[i]` という記法が使用できます。
 -/
 
 #guard #[1, 2, 3][0] = 1
