@@ -53,5 +53,22 @@ example (h : P → Q) (p : P) : Q := by
   -- 提案されない内容を渡してもエラーにならない
   exact? says
     try contradiction
-    apply h
-    exact p
+    exact h p
+
+-- チェックを有効にする
+set_option says.verify true
+
+-- チェックを有効にするとエラーになる
+/--
+error: Tactic `exact?` produced `exact h p`,
+but was expecting it to produce `
+  try contradiction
+  exact h p`!
+
+You can reproduce this error locally using `set_option says.verify true`.
+-/
+#guard_msgs (whitespace := lax) in
+  example (h : P → Q) (p : P) : Q := by
+    exact? says
+      try contradiction
+      exact h p
