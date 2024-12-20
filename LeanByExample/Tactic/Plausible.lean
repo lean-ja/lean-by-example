@@ -27,6 +27,8 @@ warning: declaration uses 'sorry'
   example (a : Nat) : a ≠ a → a ≤ 1 := by
     plausible
 
+/- 同様の機能を持つコマンドとして [`#test`](#{root}/Diagnostic/Test.md) コマンドがあります。-/
+
 /- ## 引数
 引数として、オプションを渡すことができます。
 

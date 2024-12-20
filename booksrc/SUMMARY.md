@@ -20,6 +20,7 @@
   - [#print: 中身を見る](./Diagnostic/Print.md)
   - [#reduce: 式を簡約する](./Diagnostic/Reduce.md)
   - [#synth: 型クラスの検査](./Diagnostic/Synth.md)
+  - [#test: プロパティベーステスト](./Diagnostic/Test.md)
   - [#time: 実行時間計測](./Diagnostic/Time.md)
   - [#version: バージョン表示](./Diagnostic/Version.md)
   - [#whnf: 式を弱頭正規形に](./Diagnostic/Whnf.md)
