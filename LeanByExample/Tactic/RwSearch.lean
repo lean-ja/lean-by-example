@@ -11,13 +11,14 @@ set_option says.verify true
 
 example : (m - n) - n = m - 2 * n := by
   -- `ring` では示せない。自然数は環ではないので当然
-  try ring
+  fail_if_success solve
+  | ring
 
   -- `aesop` でも示せない
   fail_if_success aesop
 
   rw_search says
-    rw [Nat.sub_sub, Nat.mul_two]
+    rw [Nat.sub_sub, Nat.two_mul]
 
 /- `rw` では同値関係も扱うことができますが、`rw_search` が扱うのは等式のみです。 -/
 
