@@ -21,3 +21,19 @@ theorem not_iff_not₁ (p : Prop) : ¬ (p ↔ ¬ p) := by tauto
 -- 勝手に選択原理を使用している！
 /-- info: 'not_iff_not₁' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in #print axioms not_iff_not₁
+
+/- [`tauto`](./Tauto.md) と同様に、扱えるのは命題論理のトートロジーだけです。述語論理は扱えないことがあります。-/
+
+/-- 排中律の二重否定 -/
+example (P : Prop) : ¬¬ (P ∨ ¬ P) := by
+  -- `itauto` で示せる
+  itauto
+
+example : ∀ (P : Prop), ¬¬ (P ∨ ¬ P) := by
+  -- 量化されただけで `itauto` で示せなくなる
+  fail_if_success itauto
+
+  intro P hP
+
+  -- 量化がなくなると扱えるようになる
+  itauto
