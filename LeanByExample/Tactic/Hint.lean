@@ -1,67 +1,58 @@
 /- # hint
 
-`hint` は複数のタクティクの中から提案を出してくれるタクティクです。デフォルトでは以下の7つのタクティクを同時に試します。
-
-* [`split`](./Split.md)
-* [`intro`](./Intro.md)
-* [`aesop`](./Aesop.md)
-* [`decide`](./Decide.md)
-* [`exact?`](./ExactQuestion.md)
-* `simp_all?`
-* [`linarith`](./Linarith.md)
-
-ゴールを閉じることに成功したものは緑色で示され、進捗があったものはウィジェットに新しいゴールを示します。-/
+`hint` は複数のタクティクを試し、上手くいったものを報告してくれるタクティクです。-/
 import Mathlib.Tactic -- `hint` は検索を伴うので、おおざっぱに import している
-
-variable (P Q R : Prop) (a b : ℕ)
-
-/--
-info: Try these:
-• linarith
--/
-#guard_msgs in
-example (h : 1 < 0) : False := by
-  hint
 
 /--
 info: Try these:
 • exact h p
 -/
 #guard_msgs in
-example (p : P) (h : P → Q) : Q := by
-  hint
+  example (P Q : Prop) (p : P) (h : P → Q) : Q := by
+    hint
 
 /--
 info: Try these:
 • simp_all only [and_self]
 -/
 #guard_msgs in
-example (x : P ∧ Q ∧ R ∧ R) : Q ∧ P ∧ R := by
-  hint
+  example (P Q R : Prop) (x : P ∧ Q ∧ R ∧ R) : Q ∧ P ∧ R := by
+    hint
+
+/- ## 登録されているタクティク
+デフォルトでは以下の8つのタクティクを試します。
+
+* [`linarith`](./Linarith.md)
+* [`omega`](./Omega.md)
+* [`decide`](./Decide.md)
+* [`exact?`](./ExactQuestion.md)
+* `simp_all?`
+* [`aesop`](./Aesop.md)
+* [`intro`](./Intro.md)
+* [`split`](./Split.md)
+
+`hint` に登録されているタクティクのリストは、`Mathlib.Tactic.Hint.getHints` 関数を介して確認することができます。
+-/
+open Lean in
+
+/-- `hint` タクティクに登録されているタクティクの完全なリストを出力する -/
+def getRegisteredTactics : CoreM Unit := do
+  let hintTactics := (← Mathlib.Tactic.Hint.getHints).map (·.raw)
+  for tactic in hintTactics do
+    let .node _ _ arr := tactic | pure ()
+    IO.println arr[0]!
 
 /--
-info: Try these:
-• linarith
+info: "linarith"
+"omega"
+"decide"
+"exact?"
+"simp_all?"
+"aesop"
+"intro"
+"split"
 -/
-#guard_msgs in
-example (h : a < b) : ¬ b < a := by
-  hint
-
-/--
-info: Try these:
-• omega
--/
-#guard_msgs in
-example : 37^2 - 35^2 = 72 * 2 := by
-  hint
-
-/--
-info: Try these:
-• decide
--/
-#guard_msgs in
-example : Nat.Prime 37 := by
-  hint
+#guard_msgs in #eval getRegisteredTactics
 
 /-
 ## タクティクの新規登録
@@ -76,5 +67,5 @@ info: Try these:
 • nlinarith
 -/
 #guard_msgs in
-example (h : a ≤ b) : (a + b) ^ 2 ≤ 4 * b ^ 2 := by
-  hint
+  example (a b : Nat) (h : a ≤ b) : (a + b) ^ 2 ≤ 4 * b ^ 2 := by
+    hint
