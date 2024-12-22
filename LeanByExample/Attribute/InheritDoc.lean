@@ -13,7 +13,7 @@ def greet := "hello"
 
 section
 
-open Elab.Command
+open Elab Command in
 
 /-- ドキュメントコメントを取得して表示するコマンド -/
 elab "#doc " x:ident : command => do

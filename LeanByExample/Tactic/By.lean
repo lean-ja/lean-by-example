@@ -20,16 +20,11 @@ example (hPQ : P → Q) (hQR : Q → R) : P → R := by
 
 /- ## by?
 
-`by` の代わりに `by?` を使うとタクティクモードで構成した証明を直接構成した証明に変換してくれます。`show_term by` としてもほぼ同じ結果が得られます。
+`by` の代わりに `by?` を使うとタクティクモードで構成した証明を直接構成した証明に変換してくれます。詳細は [`show_term`](./ShowTerm.md) のページを参照してください。
 -/
-
-example (hPQ : P → Q) (hQR : Q → R) : P → R := by?
-  -- `Try this: fun hP => hQR (hPQ hP)` と提案してくれる
-  intro hP
-  exact hQR (hPQ hP)
 
 /-- info: Try this: fun hP => hQR (hPQ hP) -/
 #guard_msgs in
-example (hPQ : P → Q) (hQR : Q → R) : P → R := show_term by
-  intro hP
-  exact hQR (hPQ hP)
+  example (hPQ : P → Q) (hQR : Q → R) : P → R := by?
+    intro hP
+    exact hQR (hPQ hP)

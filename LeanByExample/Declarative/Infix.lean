@@ -48,24 +48,19 @@ end
 
 `infix` は [`notation`](./Notation.md) コマンドに展開されるマクロとして実装されています。-/
 
-open Lean
-
 def lxor (l r : Bool) : Bool := !l && r
 
 /-- `#expand` の入力に渡すための構文カテゴリ -/
-declare_syntax_cat macro_stx
+syntax macro_stx := command <|> tactic <|> term
 
--- コマンドとタクティクと項を扱える
-syntax command : macro_stx
-syntax tactic : macro_stx
-syntax term : macro_stx
+open Lean in
 
 /-- マクロを展開するコマンド -/
 elab "#expand " t:macro_stx : command => do
   let t : Syntax := match t.raw with
   | .node _ _ #[t] => t
   | _ => t.raw
-  match ← Elab.liftMacroM <| Lean.Macro.expandMacro? t with
+  match ← Elab.liftMacroM <| Macro.expandMacro? t with
   | none => logInfo m!"Not a macro"
   | some t => logInfo m!"{t}"
 
