@@ -182,6 +182,7 @@
   - [rw: 同値変形](./Tactic/Rw.md)
   - [says: タクティク提案の痕跡を残す](./Tactic/Says.md)
   - [set: 定義の導入](./Tactic/Set.md)
+  - [show_term: タクティクの中身を出す](./Tactic/ShowTerm.md)
   - [show: 示すべきことを宣言](./Tactic/Show.md)
   - [simp_all: 仮定とゴールを全て単純化](./Tactic/SimpAll.md)
   - [simp: 単純化](./Tactic/Simp.md)

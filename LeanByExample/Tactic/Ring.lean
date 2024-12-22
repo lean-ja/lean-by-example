@@ -57,24 +57,3 @@ example (n m : Nat) : (n + m) ^ 2 = n ^ 2 + 2 * n * m + m ^ 2 := by
 
 example (n m : Nat) : n * (n + m) = n ^ 2 + n * m := by
   ring
-
-/- ## ring の中身を見る方法
-
-`simp` 等と異なり、`ring?` タクティクは用意されていませんが、`show_term` で具体的にどんなルールが適用されたのかを知ることができます。
-ただし、その出力結果は非常に長く読みづらいものであることがしばしばです。
--/
-set_option linter.unusedTactic false in --#
-
-example (x y : Int) : (x + y) ^ 2 = x ^ 2 + 2 * x * y + y ^ 2 := by
-  try
-    /-
-      以下のような出力が100行以上続く
-      Try this: exact Mathlib.Tactic.Ring.of_eq
-      (Mathlib.Tactic.Ring.pow_congr
-        ...
-    -/
-    show_term ring
-
-    fail
-
-  ring
