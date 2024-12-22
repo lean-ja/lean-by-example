@@ -39,7 +39,8 @@ open Lean in
 def getRegisteredTactics : CoreM Unit := do
   let hintTactics := (← Mathlib.Tactic.Hint.getHints).map (·.raw)
   for tactic in hintTactics do
-    let .node _ _ arr := tactic | pure ()
+    let .node _ _ arr := tactic
+      | panic! "error: unexpected syntax term"
     IO.println arr[0]!
 
 /--
