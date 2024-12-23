@@ -122,7 +122,21 @@ end
 [`local`](./Local.md) と [`scoped`](./Scoped.md) はともに構文的には `attrKind` に相当します。
 -/
 
-/-- 例示のための意味のないコマンド -/
+open Lean Elab Command in
+
+/-- ドキュメントコメントを取得して表示するコマンド -/
+elab "#doc " x:ident : command => do
+  let name ← liftCoreM do realizeGlobalConstNoOverload x
+  if let some s ← findDocString? (← getEnv) name then
+  logInfo m!"{s}"
+
+/--
+info: `attrKind` matches `("scoped" <|> "local")?`, used before an attribute like `@[local simp]`.
+-/
+#guard_msgs in
+  #doc Lean.Parser.Term.attrKind
+
+/-- 例示のための意味のないコマンド。直前に `attrKind` のみを受け付ける。-/
 macro attrKind "#greet " : command => `(#eval "hello")
 
 -- パース出来るので、`local` と `scoped` は同じカテゴリに属する
