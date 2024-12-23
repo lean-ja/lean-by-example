@@ -50,7 +50,7 @@ end Hidden --#
 このあたりの背景はドキュメントコメントに書かれています。
 -/
 
-open Lean Elab.Command
+open Lean Elab Command in
 
 /-- ドキュメントコメントを取得して表示するコマンド -/
 elab "#doc " x:ident : command => do

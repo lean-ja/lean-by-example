@@ -3,8 +3,6 @@
 -/
 import Lean
 
-open Lean
-
 /-- 最初に与えた doc コメント -/
 def greet := "hello"
 
@@ -13,7 +11,7 @@ def greet := "hello"
 
 section
 
-open Elab Command in
+open Lean Elab Command in
 
 /-- ドキュメントコメントを取得して表示するコマンド -/
 elab "#doc " x:ident : command => do
