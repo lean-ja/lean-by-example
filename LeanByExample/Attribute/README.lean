@@ -1,6 +1,6 @@
 /- # 属性
 
-属性は、`attribute [foo] bar` または `@[foo]` という構文で使用することができます。
+属性は、[`attribute`](#{root}/Declarative/Attribute.md) コマンドや `@[...]` という構文で扱うことができるものです。
 
-Mathlib において利用可能な属性の一覧は [attribute list](https://seasawher.github.io/mathlib4-help/attributes/) で確認できます。
+本書では属性の完全なリストは示しません。Mathlib において利用可能な属性の一覧は [attribute list](https://seasawher.github.io/mathlib4-help/attributes/) で確認できます。
 -/
