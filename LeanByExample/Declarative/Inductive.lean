@@ -214,7 +214,7 @@ info: recursor MyNat.rec.{u} : {motive : MyNat → Sort u} →
 
 ところで、Peano の公理の中でも帰納法の原理だけが述語に対する量化を含んでいて複雑ですね。複雑さのために何を意味しているのかわかりづらくなっているので、帰納法の原理から何が導かれるか考えてみます。
 
-たとえば、帰納法の原理から「すべての `n : MyNat` は `.zero` か `.succ m` のどちらかの形である」ことが導かれます。これの証明は `inductive` コマンドを使用するとどこで帰納法の原理を使ったかわからなくなるので、以下では `axiom` コマンドで `MyNat` を再構築して証明しています。
+たとえば、帰納法の原理から「すべての `n : MyNat` は `.zero` か `.succ m` のどちらかの形である」ことが導かれます。以下の証明では [`axiom`](./Axiom.md) コマンドで `MyNat` を再構築することで証明しています。これは、`inductive` コマンドで定義された型に対しては、[`cases`](#{root}/Tactic/Cases.md) タクティクでコンストラクタに応じた場合分けが自動的にできてしまうからです。
 -/
 namespace Hidden --#
 
@@ -258,7 +258,7 @@ example (n : MyNat) : n = MyNat.zero ∨ ∃ m, n = MyNat.succ m := by
   exact MyNat.induction h0 hs n
 
 end Hidden --#
-/- また、「`.succ n = n` となる `n : MyNat` は存在しない」ということも帰納法の原理から証明できます。-/
+/- また、「`.succ n = n` となる `n : MyNat` は存在しない」ということも帰納法の原理から導かれます。-/
 
 example (n : MyNat) : MyNat.succ n ≠ n := by
   intro h
