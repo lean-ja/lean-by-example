@@ -60,18 +60,18 @@ example (n m : Nat) : n * (n + m) = n ^ 2 + n * m := by
 
 /- ## カスタマイズ
 
-新たに型 `R : Type` に対して `ring` タクティクが利用できるようにするためには、`CommSemiring` または `CommRing` のインスタンスにします。
+新たに型 `R : Type` に対して `ring` タクティクが利用できるようにするためには、`R` を `CommSemiring` または `CommRing` のインスタンスにします。
 -/
 
 /-- 組み込みの自然数のラッパー -/
 @[ext] structure MyNat : Type where
   val : Nat
 
-/-- MyNat に掛け算を定義 -/
+/-- `MyNat` に掛け算を定義 -/
 instance : Mul MyNat where
   mul x y := ⟨x.val * y.val⟩
 
-/-- MyNat に足し算を定義 -/
+/-- `MyNat` に足し算を定義 -/
 instance : Add MyNat where
   add x y := ⟨x.val + y.val⟩
 
