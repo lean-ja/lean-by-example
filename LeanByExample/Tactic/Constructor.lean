@@ -19,7 +19,7 @@ example (hP: P) (hQ: Q) : P ∧ Q := by
     show Q
     exact hQ
 
-/- またゴールが同値 `P ↔ Q` であるとき、`constructor` を実行するとゴールが２つのサブゴール `⊢ P → Q` と `Q → P` に分割されます。-/
+/- またゴールが同値 `P ↔ Q` であるとき、`constructor` を実行するとゴールが２つのサブゴール `⊢ P → Q` と `⊢ Q → P` に分割されます。-/
 
 example (x : Nat) : x = 0 ↔ x + 1 = 1 := by
   constructor
