@@ -53,8 +53,6 @@ example {n : Nat} : n - n + n = n := by
 
   simp
 
-
-
 /- ## カスタマイズ
 
 新たに型 `R : Type` に対して `ring` タクティクが利用できるようにするためには、`R` を `CommSemiring` または `CommRing` のインスタンスにします。
