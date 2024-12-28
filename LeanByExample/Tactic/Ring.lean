@@ -1,13 +1,32 @@
 /- # ring
 
-`ring` は、可換環(commutative ring)の等式を示します。ローカルコンテキストの仮定は読まず、環の公理だけを使います。-/
+`ring` は、可換環(commutative ring)上の等式を示すタクティクです。[「Proving Equalities in a Commutative Ring Done Right in Coq」](https://www.cs.ru.nl/~freek/courses/tt-2014/read/10.1.1.61.3041.pdf) という論文に基づいて実装されています。
+
+ただし環とは、加法 `+` と乗法 `*` とマイナスを取る演算 `-` が定義されていて、それぞれが分配法則や結合法則などのいくつかの法則を満たしているものをいいます。その中でも乗法が可換、つまり `a * b = b * a` が成り立つような環を可換環と呼びます。可換環の典型的な例は、整数全体 `ℤ` や有理数全体 `ℚ` や、多項式環 `ℚ[X]` などです。
+-/
 import Mathlib.Tactic.Ring -- `ring` のために必要
 import Mathlib.Tactic.Says --#
 
-example (x y : ℤ) : (x + y) ^ 2 = x ^ 2 + 2 * x * y + y ^ 2 := by
+example (x y : ℤ) : (x - y) ^ 2 = x ^ 2 - 2 * x * y + y ^ 2 := by
   ring
 
-example (x y z : ℤ) (hz : z = x + y) : x * z = x ^ 2 + x * y := by
+example (x : ℤ) : x ^ 3 - 1 = (x ^ 2 + x + 1) * (x - 1) := by
+  ring
+
+/- また、可換な半環(semiring)上の等式も示すことができます。
+
+ただし半環とは、加法 `+` と乗法 `*` が定義されていて、分配法則や結合法則などの法則が満たされているものをいいます。半環の典型的な例は、自然数全体 `ℕ` などです。
+-/
+
+example (n m : Nat) : (n + m) ^ 2 = n ^ 2 + 2 * n * m + m ^ 2 := by
+  ring
+
+example (n m : Nat) : (n + m) ^ 3 = n ^ 3 + 3 * n * m * (n + m) + m ^ 3 := by
+  ring
+
+/- `ring` はローカルコンテキストの仮定は読まず、(半)環の公理だけを使います。 -/
+
+example (x y z : ℤ) (hz : z = x - y) : x * z = x ^ 2 - x * y := by
   -- `ring` はローカルコンテキストの仮定を読まないので、証明できない
   fail_if_success solve
   | ring
@@ -17,22 +36,9 @@ example (x y z : ℤ) (hz : z = x + y) : x * z = x ^ 2 + x * y := by
   ring
 
 /- ## ring_nf
-`ring` は等式を示そうとするタクティクですが、`ring_nf` は式を整理して標準形と呼ばれる形にします。`ring` とは異なり、部分項の変形まで行うことができます。
+
+自然数 `ℕ` は可換環にならないので、自然数の引き算に関する式を証明しようとすると上手くいきません。[`ring_nf`](./RingNf.md) タクティクを提案されますが、`ring_nf` に変更すれば成功するとは限りません。
 -/
-example {x y : Rat} (F : Rat → Rat) : F (x + y) + F (y + x) = 2 * F (x + y) := by
-  ring_nf
-
-/- ## 環でないものに対する振る舞い
-
-たとえば自然数 `Nat` はマイナスがないので環ではありません。そのため、自然数の引き算などを含む式は多くの場合 `ring` では示せません。代わりに `ring_nf` を使うように促されますが、`ring_nf` でも示せるとは限りません。
--/
-
--- Lean では自然数の引き算は
--- `n ≤ m` のとき `n - m = 0` になるように定義されている
-example : 7 - 42 = 0 := rfl
-
--- 整数にすると結果が変わる
-example : 7 - (42 : ℤ) = - 35 := rfl
 
 example {n : Nat} : n - n + n = n := by
   -- `ring_nf` を提案される
@@ -45,18 +51,9 @@ example {n : Nat} : n - n + n = n := by
   fail_if_success solve
   | ring_nf
 
-  -- ゴールが変わっていない
-  guard_target =ₛ n - n + n = n
-
   simp
 
-/- 自然数 `Nat` は半環(semiring)ですが、`ring` は可換な半環に対しても使用することができるので自然数の和と積についての式は `ring` で示すことができます。-/
 
-example (n m : Nat) : (n + m) ^ 2 = n ^ 2 + 2 * n * m + m ^ 2 := by
-  ring
-
-example (n m : Nat) : n * (n + m) = n ^ 2 + n * m := by
-  ring
 
 /- ## カスタマイズ
 
