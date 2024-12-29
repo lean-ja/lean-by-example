@@ -1,19 +1,16 @@
 /- # set
 
-Lean ではローカル変数の定義には `let` を使いますが、`let` だと「ゴールやローカルコンテキストにある命題を導入した定義に基づいて書き換えてくれない」という不満があります。たとえば `let y := f x` としたとき、既存の `f x` を使用した部分が `y` に書き変わってはくれませんし、`y = f x` という命題の証明にアクセスでないので書き換えることもままなりません。
+`set` は、ローカル変数を導入するためのタクティクです。
 
-こうした不満に対応するのが `set` タクティクです。 -/
+Lean ではローカル変数の定義に `let` をよく使いますが、`let` だと「ゴールやローカルコンテキストにある命題を導入した定義に基づいて書き換えてくれない」という不満があります。たとえば `let y := f x` としたとき、既存の `f x` を使用した部分が `y` に書き変わってはくれませんし、`y = f x` という命題の証明にアクセスでないので書き換えることもままなりません。
+
+`set` タクティクはこうした不満に対応します。 -/
 import Mathlib.Tactic.Set -- `set` のために必要
 
--- 変数が未使用という警告を表示しない
-set_option linter.unusedVariables false
-
-abbrev ℕ := Nat
-
-variable (X : Type) (f : ℕ → ℕ)
+variable (X : Type) (f : Nat → Nat)
 set_option linter.unusedTactic false in --#
 
-example (x : ℕ) (h : f x = x) : f (f x) = f x := by
+example (x : Nat) (h : f x = x) : f (f x) = f x := by
   -- `let` を使用した場合
   try
     let y := f x
