@@ -76,6 +76,7 @@ elab "#in_second " stx:command : command => do
 #in_second #eval fib 32
 
 /-- error: It took more than one second for the command to run. -/
-#guard_msgs (error) in #in_second #eval fibonacci 32
+#guard_msgs (error) in
+  #in_second #eval fibonacci 32
 
 end Time --#

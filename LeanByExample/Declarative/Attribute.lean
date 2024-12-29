@@ -56,7 +56,8 @@ example {P Q : Prop} : (P → Q) ∧ P ↔ Q ∧ P := by simp
 @[irreducible] def greet := "Hello"
 
 /-- error: attribute cannot be erased -/
-#guard_msgs in attribute [-irreducible] greet
+#guard_msgs in
+  attribute [-irreducible] greet
 
 /- ## タグ
 `attribute` コマンドを使用すると定義の後から属性を付与することができますが、定義した直後に属性を付与する場合はタグと呼ばれる `@[..]` という書き方が使えます。-/
