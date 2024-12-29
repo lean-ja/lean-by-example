@@ -7,7 +7,7 @@ import Mathlib.Tactic -- 大雑把に import する
 variable (a b : ℝ)
 
 example : 2 * a * b ≤ a ^ 2 + b ^ 2 := by
-  -- a ^ 2 - 2 * a * b + b ^ 2 ≥ 0 を示せばよい
+  -- `a ^ 2 - 2 * a * b + b ^ 2 ≥ 0` を示せばよい
   suffices a ^ 2 - 2 * a * b + b ^ 2 ≥ 0 from by
     linarith
 

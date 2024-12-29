@@ -18,7 +18,8 @@ numerals are polymorphic in Lean, but the numeral `42` cannot be used in a conte
 due to the absence of the instance above
 Additional diagnostic information may be available using the `set_option diagnostics true` command.
 -/
-#guard_msgs in #check (42 : NaturalNumber)
+#guard_msgs in
+  #check (42 : NaturalNumber)
 
 end Abbrev0 --#
 /- ここでエラーを修正する方法の一つが、`def` の代わりに `abbrev` を使用することです。-/
