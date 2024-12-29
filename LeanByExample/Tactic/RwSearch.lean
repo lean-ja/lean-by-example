@@ -10,7 +10,7 @@ variable (m n : ℕ)
 set_option says.verify true
 
 example : (m - n) - n = m - 2 * n := by
-  -- `ring` では示せない。自然数は環ではないので当然
+  -- `ring` では示せない。自然数の引き算は環の公理を満たさないから
   fail_if_success solve
   | ring
 
