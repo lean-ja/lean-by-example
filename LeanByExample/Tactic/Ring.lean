@@ -53,6 +53,32 @@ example {n : Nat} : n - n + n = n := by
 
   simp
 
+/- 実際、`ring` タクティクは失敗すると常に `ring_nf` を提案するようなマクロとして定義されています。 -/
+
+/-- `#expand` の入力に渡すための構文カテゴリ -/
+syntax macro_stx := command <|> tactic <|> term
+
+open Lean in
+
+/-- マクロを展開するコマンド -/
+elab "#expand " t:macro_stx : command => do
+  let t : Syntax :=
+    match t.raw with
+    | .node _ _ #[t] => t
+    | _ => t.raw
+  match ← Elab.liftMacroM <| Macro.expandMacro? t with
+  | none => logInfo m!"Not a macro"
+  | some t => logInfo m!"{t}"
+
+-- マクロ展開の中に `try_this ring_nf` が含まれる
+/--
+info: first
+| ring1
+| try_this ring_nf
+-/
+#guard_msgs (info, drop warning) in
+  #expand ring
+
 /- ## カスタマイズ
 
 新たに型 `R : Type` に対して `ring` タクティクが利用できるようにするためには、`R` を `CommSemiring` または `CommRing` のインスタンスにします。
