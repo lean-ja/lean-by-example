@@ -196,6 +196,7 @@
   - [trivial: 基本的なタクティクを試す](./Tactic/Trivial.md)
   - [try: 失敗をエラーにしない](./Tactic/Try.md)
   - [unfold: 定義に展開](./Tactic/Unfold.md)
+  - [use: 存在∃を示す](./Tactic/Use.md)
   - [with_reducible: 透過度指定](./Tactic/WithReducible.md)
   - [wlog: 一般性を失わずに特殊化](./Tactic/Wlog.md)
   - [zify: 整数にキャストする](./Tactic/Zify.md)
