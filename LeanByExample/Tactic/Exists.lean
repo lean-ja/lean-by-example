@@ -8,7 +8,7 @@ import Lean --#
 example : ∃ x : Nat, 3 * x + 1 = 7 := by
   exists 2
 
-/- ## 内部処理についての補足
+/- ## 舞台裏
 なお Lean での存在量化の定義は次のようになっています。-/
 --#--
 -- Exists の定義が変わっていないことを確認する
@@ -41,9 +41,10 @@ open Lean in
 
 /-- マクロを展開するコマンド -/
 elab "#expand " t:macro_stx : command => do
-  let t : Syntax := match t.raw with
-  | .node _ _ #[t] => t
-  | _ => t.raw
+  let t : Syntax :=
+    match t.raw with
+    | .node _ _ #[t] => t
+    | _ => t.raw
   match ← Elab.liftMacroM <| Macro.expandMacro? t with
   | none => logInfo m!"Not a macro"
   | some t => logInfo m!"{t}"

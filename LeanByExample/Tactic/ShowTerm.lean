@@ -32,9 +32,10 @@ open Lean in
 
 /-- マクロを展開するコマンド -/
 elab "#expand " t:macro_stx : command => do
-  let t : Syntax := match t.raw with
-  | .node _ _ #[t] => t
-  | _ => t.raw
+  let t : Syntax :=
+    match t.raw with
+    | .node _ _ #[t] => t
+    | _ => t.raw
   match ← Elab.liftMacroM <| Macro.expandMacro? t with
   | none => logInfo m!"Not a macro"
   | some t => logInfo m!"{t}"
