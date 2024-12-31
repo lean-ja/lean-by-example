@@ -56,7 +56,7 @@
   - [proof_wanted: 証明を公募する](./Declarative/ProofWanted.md)
   - [protected: フルネームを強制する](./Declarative/Protected.md)
   - [scoped: 有効範囲を名前空間で限定](./Declarative/Scoped.md)
-  - [section: スコープを区切る](./Declarative/Section.md)
+  - [section: 有効範囲を制限する](./Declarative/Section.md)
   - [set_option: オプション設定](./Declarative/SetOption.md)
   - [structure: 構造体を定義する](./Declarative/Structure.md)
   - [syntax: 構文を定義](./Declarative/Syntax.md)
