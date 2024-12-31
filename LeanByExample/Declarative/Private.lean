@@ -14,7 +14,7 @@ namespace Private --#
 #guard_msgs (drop warning) in --#
 #check_failure Point.private_sub
 
-/- なお `private` コマンドでセクションや名前空間にスコープを制限することはできません。-/
+/- なお `private` コマンドで定義した名前は、そのセクションや名前空間を出てもアクセスすることができます。-/
 
 namespace Hoge
   section

@@ -1,17 +1,17 @@
 /-
 # section
-`section` は、スコープを区切るためのコマンドです。以下のコマンドのスコープを区切ることができます。
+`section` は、有効範囲を制限するためのコマンドです。以下に挙げるような効果があります。
 
-* [`variable`](./Variable.md)
-* [`open`](./Open.md)
-* [`set_option`](./SetOption.md)
-* [`local`](./Local.md)
+* [`variable`](./Variable.md) で定義された引数の有効範囲を制限する。
+* [`open`](./Open.md) で開いた名前空間の有効範囲を制限する。
+* [`set_option`](./SetOption.md) で設定したオプションの有効範囲を制限する。
+* [`local`](./Local.md) で修飾されたコマンドの有効範囲を制限する。
 
-`section` で開いたスコープは `end` で閉じることができますが、省略することもでき、その場合はそのファイルの終わりまでがスコープとなります。
+`section` コマンドで開いたセクションは `end` で閉じることができますが、`end` は省略することもできます。`end` を省略した場合はそのファイルの終わりまでが有効範囲となります。
 
 なお以下の例ではセクションの中をインデントしていますが、インデントするのは一般的なコード整形ルールではありません。
 
-次は `variable` のスコープを区切る例です。
+以下は `variable` の有効範囲を区切る例です。
 -/
 set_option autoImplicit false --#
 
@@ -27,7 +27,7 @@ end
 #check_failure a
 
 /-
-次は `open` のスコープを区切る例です。
+次は `open` の有効範囲を区切る例です。
 -/
 
 section
@@ -37,11 +37,11 @@ section
   #check choice
 end
 
--- スコープが終わると無効になる
+-- `end` 以降は無効になる
 #guard_msgs (drop warning) in --#
 #check_failure choice
 
-/- 次は `set_option` のスコープを区切る例です。 -/
+/- 次は `set_option` の有効範囲を区切る例です。 -/
 
 section
   set_option autoImplicit true
@@ -50,11 +50,11 @@ section
   def nilList : List α := []
 end
 
--- スコープが終わると無効になり、α が未定義だというエラーになる
+-- `end` 以降は無効になり、α が未定義だというエラーになる
 /-- error: unknown identifier 'α' -/
 #guard_msgs in def nilList' : List α := []
 
-/- 次は `local` のスコープを区切る例です。`local` は、セクション内部でだけ有効なインスタンスなどを生成します。-/
+/- 次は `local` で修飾されたコマンドの有効範囲を区切る例です。-/
 
 section
   -- Nat の inhabited インスタンスを上書きする
@@ -64,7 +64,7 @@ section
   #guard (default : Nat) = 1
 end
 
--- スコープが終わると上記のインスタンスが無効になる
+-- セクションが終わると上記のインスタンスが無効になる
 #guard (default : Nat) = 0
 
 /-また、セクションに名前を付けることもできます。名前を付けた場合は、閉じるときにも名前を指定する必要があります。-/
