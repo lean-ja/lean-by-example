@@ -203,7 +203,7 @@ theorem my_funext {f g : (x : α) → β x} (h : ∀ x, f x = g x) : f = g := by
 #guard_msgs in #print axioms my_funext
 
 /- ### 選択原理 Classical.choice { #ClassicalChoice }
-選択原理は、ある型が空ではないという情報だけから、「魔法のように」具体的な元を構成することができると主張します。これは計算不可能な操作であるため、選択原理を使用する関数には [`noncomputable`](./Noncomputable.md) 修飾子が必要になります。
+選択原理は、ある型が空ではないという情報だけから、「魔法のように」具体的な元を構成することができると主張します。これは計算不可能な操作であるため、選択原理を使用する関数には [`noncomputable`](#{root}/Modifier/Noncomputable.md) 修飾子が必要になります。
 
 選択原理は数学でいうと NBG(Neumann-Bernays-Gödel) 集合論における大域選択公理(axiom of global choice)とよく似ています。
 -/
