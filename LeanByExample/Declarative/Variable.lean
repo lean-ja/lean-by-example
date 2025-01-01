@@ -13,7 +13,7 @@ def last? {α : Type} (l : List α) : Option α :=
   | [a] => some a
   | _ :: xs => last? xs
 
-theorem nng_list_length {α : Type} (l : List α) : l.length >= 0 := by simp
+theorem nng_list_length {α : Type} (l : List α) : l.length ≥ 0 := by simp
 
 end variable0 --#
 
@@ -29,7 +29,7 @@ def last? (l : List α) : Option α :=
   | [a] => some a
   | _ :: xs =>last? xs
 
-theorem nng_list_length : l.length >= 0 := by simp
+theorem nng_list_length : l.length ≥ 0 := by simp
 
 /- 上記の２つの例で引数の `l : List α` を省略できるかどうかに違いがありますが、これは返り値の型に現れているかどうかに依ります。 -/
 
