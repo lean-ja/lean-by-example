@@ -11,7 +11,7 @@
 inductive Foo where
   | bar
   | baz
-  deriving BEq
+deriving BEq
 
 example : Bool := Foo.bar == Foo.bar
 example : Bool := Foo.bar != Foo.baz

@@ -8,7 +8,7 @@ structure Colour where
   red : Nat
   blue : Nat
   green : Nat
-  deriving Repr
+deriving Repr
 
 def sample : Colour := { red := 2, blue := 4, green := 8 }
 

@@ -57,7 +57,7 @@ open Plausible
 inductive MyNat where
   | zero : MyNat
   | succ : MyNat → MyNat
-  deriving Repr
+deriving Repr
 
 #guard_msgs (drop warning) in --#
 example : ∀ (a b : MyNat), a = b := by
