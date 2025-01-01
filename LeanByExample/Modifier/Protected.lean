@@ -12,9 +12,6 @@ namespace Point
   protected def sub (p q : Point) : Point :=
     { x := p.x - q.x, y := p.y - q.y }
 
-  -- private のテスト用の宣言
-  private def private_sub := Point.sub
-
   -- 名前空間の中にいても、短い名前ではアクセスできない
   #guard_msgs (drop warning) in --#
   #check_failure sub
