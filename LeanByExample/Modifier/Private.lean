@@ -1,20 +1,24 @@
 /- # private
-`private` は、その定義があるファイルの中でだけ参照可能になるようにする修飾子です。他のファイルからはアクセス不能になります。
+`private` は、その定義があるファイルの中でだけ参照可能になるようにする修飾子です。他のファイルからはアクセス不能になります。不安定なAPIなど、外部に公開したくないものに対して使うのが主な用途です。
 
-不安定なAPIなど、外部に公開したくないものに対して使うのが主な用途です。
+たとえば、以下のように書かれているファイル `PrivateLib.lean` があったとしましょう。
+
+{{#include ./PrivateLib.md}}
+
+このとき、モジュール `PrivateLib` を読み込んでいるファイルからは、`protected` で修飾された名前はアクセス可能ですが、`private` で修飾された名前はアクセスできません。
 -/
-import LeanByExample.Modifier.Protected -- protected のページをインポート
+import LeanByExample.Modifier.PrivateLib -- private が使用されているモジュールをインポート
 import Lean
 namespace Private --#
 
--- protected の項で private を使わずに定義した内容にアクセスできる
+-- private を使わずに定義した内容にはアクセスできる
 #check Point.sub
 
 -- private とマークした定義にはアクセスできない
 #guard_msgs (drop warning) in --#
 #check_failure Point.private_sub
 
-/- なお `private` コマンドで定義した名前は、そのセクションや名前空間を出てもアクセスすることができます。-/
+/- なお `private` コマンドで定義した名前は、同じファイル内であればそのセクションや名前空間を出てもアクセスすることができます。-/
 
 namespace Hoge
   section
@@ -29,7 +33,7 @@ open Hoge
 -- 外からでもアクセスできる
 #check addOne
 
-/- ## 補足
+/- ## 舞台裏
 `private` コマンドを用いて宣言した名前は、そのファイルの外部からはアクセス不能になるものの、そのファイル内部からは一見 `private` でない名前と同様に見えます。しかし、特定の名前が `private` であるか判定する関数は存在します。
 -/
 
