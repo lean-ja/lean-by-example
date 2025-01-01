@@ -30,6 +30,19 @@ example (x : Rat) (h : 3 * x + 6 > 6) : ∃ (y : Rat), y > 0 := by
   -- `discharger` として `linarith` を指定することができる
   use (discharger := linarith) x
 
+/- `exists` タクティクにこの構文は存在しません。-/
+
+open Lean Parser in
+
+/-- `s : String` をパースして `Syntax` の項を得る。`cat` は構文カテゴリ。-/
+def parse (cat : Name) (s : String) : MetaM Syntax := do
+  ofExcept <| runParserCategory (← getEnv) cat s
+
+-- `exists (discharger := linarith)` と書くとパースエラーになる
+/-- error: <input>:1:19: expected ')', ',' or ':' -/
+#guard_msgs in
+  #eval parse `tactic "exists (discharger := linarith) 1"
+
 /- ### Exists 以外の構造体にも使用できる
 `exists` は、ゴールの型が `Exists` であるという想定をしているため、フィールドの数が３以上であるような構造体に対して使うとエラーになります。
 -/
