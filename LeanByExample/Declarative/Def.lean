@@ -22,20 +22,9 @@ def add (n m : Nat) : Nat := n + m
 
 def threeAdd (n m l : Nat) : Nat := n + m + l
 
-/- ## where
-`where` キーワードを使うと、定義をする前に変数を使用することができます。主に、ヘルパー関数を宣言するために使用されます。
+/- ## where 句
+`where` 句を使うと、定義をする前に変数を使用することができます。主に、ヘルパー関数を宣言するために使用されます。
 -/
-
-/-- 整数 `m, n` が与えられたときに `m` 以上 `n` 以下の整数のリストを返す -/
-def range (m n : Int) : List Int :=
-  loop m (n - m + 1).toNat
-where
-  loop (start : Int) (length : Nat) : List Int :=
-    match length with
-    | 0 => []
-    | l + 1 => loop start l ++ [start + l]
-
-/- `where` 構文には、複数の式を同時に渡すこともできます。-/
 
 /-- 自然数 `n` の素因数とその重複度のリストを返す -/
 partial def primeFactorsMult (n : Nat) : List (Nat × Nat) :=
