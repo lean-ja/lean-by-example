@@ -3,7 +3,7 @@
 
 ## def との違い
 
-[`def`](./Def.md) と異なり `opaque` コマンドを使用して宣言した名前は、`#reduce` コマンドで簡約できません。
+[`def`](./Def.md) コマンドと異なり `opaque` コマンドを使用して宣言した名前は、`#reduce` コマンドで簡約できません。
 -/
 
 -- def を使って定義
@@ -29,7 +29,7 @@ opaque opaque_greet : String := "hello world!"
 /-- info: opaque_greet -/
 #guard_msgs in #reduce opaque_greet
 
-/- `opaque` で宣言された名前は [`partial`](./Partial.md) で修飾された名前と同様に証明の中で簡約できなくなり、コンパイラを信頼しないとそれに関する証明ができなくなります。-/
+/- `opaque` で宣言された名前は [`partial`](#{root}/Modifier/Partial.md) で修飾された名前と同様に証明の中で簡約できなくなり、コンパイラを信頼しないとそれに関する証明ができなくなります。-/
 
 -- 等しいものだという判定はできる
 #eval opaque_greet == greet

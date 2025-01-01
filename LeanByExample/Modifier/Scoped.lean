@@ -35,14 +35,14 @@ end
 
 /- ## 修飾可能なコマンド
 `scoped` で有効範囲を限定できるコマンドには、次のようなものがあります。
-* [`elab`](./Elab.md), `elab_rules`
-* [`infix`](./Infix.md), `infixl`, `infixr`
-* [`instance`](./Instance.md)
-* [`macro`](./Macro.md), [`macro_rules`](./MacroRules.md)
-* [`notation`](./Notation.md)
-* [`postfix`](./Postfix.md)
-* [`prefix`](./Prefix.md),
-* [`syntax`](./Syntax.md)
+* [`elab`](#{root}/Declarative/Elab.md), `elab_rules`
+* [`infix`](#{root}/Declarative/Infix.md), `infixl`, `infixr`
+* [`instance`](#{root}/Declarative/Instance.md)
+* [`macro`](#{root}/Declarative/Macro.md), [`macro_rules`](#{root}/Declarative/MacroRules.md)
+* [`notation`](#{root}/Declarative/Notation.md)
+* [`postfix`](#{root}/Declarative/Postfix.md)
+* [`prefix`](#{root}/Declarative/Prefix.md),
+* [`syntax`](#{root}/Declarative/Syntax.md)
 * などなど
 
 リストの全体は、`scoped` の後に修飾できないコマンドを続けたときのエラーメッセージで確認できます。
@@ -65,7 +65,7 @@ error: <input>:1:7: expected 'binder_predicate', 'builtin_dsimproc', 'builtin_si
   run_meta parse `command "scoped def"
 
 /- ## open scoped
-`open scoped` コマンドを利用すると、特定の名前空間にある `scoped` が付けられた名前だけを有効にすることができます。単に [`open`](./Open.md) コマンドを利用するとその名前空間にあるすべての名前が有効になります。
+`open scoped` コマンドを利用すると、特定の名前空間にある `scoped` が付けられた名前だけを有効にすることができます。単に [`open`](#{root}/Declarative/Open.md) コマンドを利用するとその名前空間にあるすべての名前が有効になります。
 -/
 
 namespace Foo

@@ -67,7 +67,7 @@ end Foo
 
 /- ## protected def 以外の用法
 
-`def` コマンドに対してだけでなく、[`indudctive`](./Inductive.md) コマンドで生成されるコンストラクタに対しても使用可能です。-/
+`def` コマンドに対してだけでなく、[`indudctive`](#{root}/Declarative/Inductive.md) コマンドで生成されるコンストラクタに対しても使用可能です。-/
 section --#
 
 /-- 2分木 -/
@@ -88,7 +88,7 @@ open BinTree
 #check empty
 
 end --#
-/- また [`structure`](./Structure.md) コマンドで生成されるアクセサ関数やコンストラクタに対しても使用可能です。  -/
+/- また [`structure`](#{root}/Declarative/Structure.md) コマンドで生成されるアクセサ関数やコンストラクタに対しても使用可能です。 -/
 section --#
 structure Sample where
   -- コンストラクタも protected にできる

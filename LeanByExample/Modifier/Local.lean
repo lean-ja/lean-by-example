@@ -1,5 +1,5 @@
 /- # local
-`local` はコマンドをその [`section`](./Section.md) の内部でだけ有効にするための修飾子です。
+`local` はコマンドをその [`section`](#{root}/Declarative/Section.md) の内部でだけ有効にするための修飾子です。
 -/
 import Lean --#
 section foo
@@ -20,7 +20,7 @@ section foo
   #check_failure succ'
 end foo
 
-/- コマンドの有効範囲を [`namespace`](./Namespace.md) の内部に限定するのにも使えます。ただし、下記のコードで示しているように、`local` で修飾したコマンドの効果は同じ名前空間の中で永続するのではなく、`end` でその名前空間が閉じられたときに消失します。-/
+/- コマンドの有効範囲を [`namespace`](#{root}/Declarative/Namespace.md) の内部に限定するのにも使えます。ただし、下記のコードで示しているように、`local` で修飾したコマンドの効果は同じ名前空間の中で永続するのではなく、`end` でその名前空間が閉じられたときに消失します。-/
 
 namespace hoge
   -- local を付けて新しい記法を定義
@@ -43,14 +43,14 @@ end hoge
 
 /- ## 修飾可能なコマンド
 `local` で有効範囲を限定できるコマンドには、次のようなものがあります。
-* [`elab`](./Elab.md), `elab_rules`
-* [`infix`](./Infix.md), `infil`, `infixr`
-* [`macro`](./Macro.md), [`macro_rules`](./MacroRules.md)
-* [`notation`](./Notation.md)
-* [`postfix`](./Postfix.md)
-* [`prefix`](./Prefix.md)
-* [`instance`](./Instance.md)
-* [`syntax`](./Syntax.md)
+* [`elab`](#{root}/Declarative/Elab.md), `elab_rules`
+* [`infix`](#{root}/Declarative/Infix.md), `infil`, `infixr`
+* [`macro`](#{root}/Declarative/Macro.md), [`macro_rules`](#{root}/Declarative/MacroRules.md)
+* [`notation`](#{root}/Declarative/Notation.md)
+* [`postfix`](#{root}/Declarative/Postfix.md)
+* [`prefix`](#{root}/Declarative/Prefix.md)
+* [`instance`](#{root}/Declarative/Instance.md)
+* [`syntax`](#{root}/Declarative/Syntax.md)
 * などなど
 
 リストの全体は、`local` の後に修飾できないコマンドを続けたときのエラーメッセージで確認できます。
@@ -93,7 +93,7 @@ end
 #check_failure (0 : MyNat)
 
 /- ## 属性に対する local
-属性付与の効果範囲を限定するためには、[`attribute`](./Attribute.md) コマンドを `local` で修飾するのではなく、`attribute` コマンドの中で `local` を使います。
+属性付与の効果範囲を限定するためには、[`attribute`](#{root}/Declarative/Attribute.md) コマンドを `local` で修飾するのではなく、`attribute` コマンドの中で `local` を使います。
 -/
 
 def MyNat.add (n m : MyNat) : MyNat :=

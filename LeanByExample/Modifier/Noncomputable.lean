@@ -1,9 +1,9 @@
 /- # noncomputable
 `noncomputable` は、宣言された関数が計算可能でないことを Lean に伝えるために使われます。
 
-Lean は、[`def`](./Def.md) で定義された関数はすべて計算可能であると想定しています。したがって、計算可能でない関数を定義すると、エラーが発生します。
+Lean は、[`def`](#{root}/Declarative/Def.md) コマンドで定義された関数はすべて計算可能であると想定しています。したがって、計算可能でない関数を定義すると、エラーが発生します。
 
-計算可能でない関数が生じるのは、選択原理 [`Classical.choice`](./Axiom.md#ClassicalChoice) を使用したときです。選択原理は、型が「空ではない」という証明だけから、その型の項を魔法のように構成できると主張している公理です。`Prop` の[証明無関係](../Type/Prop.md#ProofIrrel)という特性により、空ではないという情報から具体的な項の情報は得られないため、選択原理を使用した関数は計算不能になります。
+計算可能でない関数が生じるのは、選択原理 [`Classical.choice`](#{root}/Declarative/Axiom.md#ClassicalChoice) を使用したときです。選択原理は、型が「空ではない」という証明だけから、その型の項を魔法のように構成できると主張している公理です。`Prop` の[証明無関係](../Type/Prop.md#ProofIrrel)という特性により、空ではないという情報から具体的な項の情報は得られないため、選択原理を使用した関数は計算不能になります。
 -/
 
 variable {X Y : Type}
@@ -42,7 +42,7 @@ noncomputable def inverse (f : X → Y) (hf : Surjective f) : Y → X := by
   have x := Classical.choice this
   exact x.val
 
-/- `noncomputable` とマークされた式を含む式は文字通り評価不能になり、[`#eval`](../Diagnostic/Eval.md) に渡すことができなくなります。-/
+/- `noncomputable` とマークされた式を含む式は文字通り評価不能になり、[`#eval`](#{root}/Diagnostic/Eval.md) に渡すことができなくなります。-/
 
 -- 補助として `id` という恒等写像が全射であることを示しておく
 theorem id_surjective : Surjective (id : Nat → Nat) := by
