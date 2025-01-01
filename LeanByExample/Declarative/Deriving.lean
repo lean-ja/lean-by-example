@@ -27,7 +27,7 @@ deriving instance Repr for Color
 -- `eval` できるようになった
 #eval Color.red
 
-/- ## 利用できる構文
+/- ## deriving 句
 対象の型の直後であれば、省略して `deriving C` だけ書けば十分です。-/
 
 def StrList := List String deriving Inhabited
