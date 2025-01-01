@@ -1,6 +1,10 @@
 /- # private
 `private` は、その定義があるファイルの中でだけ参照可能になるようにする修飾子です。他のファイルからはアクセス不能になります。不安定なAPIなど、外部に公開したくないものに対して使うのが主な用途です。
 
+```admonish warning title="注意"
+このページの内容は <i class="fa fa-play"></i> ボタンから Lean 4 Web で実行することができません。
+```
+
 たとえば、以下のように書かれているファイル `PrivateLib.lean` があったとしましょう。
 
 {{#include ./PrivateLib.md}}
@@ -8,8 +12,7 @@
 このとき、モジュール `PrivateLib` を読み込んでいるファイルからは、`protected` で修飾された名前はアクセス可能ですが、`private` で修飾された名前はアクセスできません。
 -/
 import LeanByExample.Modifier.PrivateLib -- private が使用されているモジュールをインポート
-import Lean
-namespace Private --#
+import Lean --#
 
 -- private を使わずに定義した内容にはアクセスできる
 #check Point.sub
@@ -47,5 +50,3 @@ def foo := "world"
 #guard Lean.isPrivateName ``hoge
 
 #guard Lean.isPrivateName ``foo = false
-
-end Private --#
