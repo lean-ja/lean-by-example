@@ -62,7 +62,7 @@ macro_rules
 Lean ファイルから Markdown ファイルと HTML ファイルを生成する。-/
 script build do
   with_time running "mdgen"
-    runCmd "lake exe mdgen LeanByExample booksrc"
+    runCmd "lake exe mdgen LeanByExample booksrc --count"
 
   with_time running "mdbook"
     runCmd "mdbook build"
