@@ -22,7 +22,7 @@ def add (n m : Nat) : Nat := n + m
 
 def threeAdd (n m l : Nat) : Nat := n + m + l
 
-/- ## where 句
+/- ## where 句 { #Where }
 `where` 句を使うと、定義をする前に変数を使用することができます。主に、ヘルパー関数を宣言するために使用されます。
 -/
 
@@ -51,7 +51,7 @@ where
       else
         loop (d + 1) (target / (d ^ m)) ((d, m) :: acc)
 
-/- ## termination_by 句
+/- ## termination_by 句 { #TerminationBy }
 `termination_by` 句は、再帰関数が有限回の再帰で停止することを Lean にわかってもらうために、「再帰のたびに減少する指標」を指定します。
 -/
 -- 何も指定しないと、停止することが Lean にはわからないのでエラーになる
