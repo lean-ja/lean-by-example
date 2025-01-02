@@ -54,7 +54,6 @@
   - [set_option: オプション設定](./Declarative/SetOption.md)
   - [structure: 構造体を定義する](./Declarative/Structure.md)
   - [syntax: 構文を定義](./Declarative/Syntax.md)
-  - [termination_by: 整礎再帰を使う](./Declarative/TerminationBy.md)
   - [theorem: 命題を証明する](./Declarative/Theorem.md)
   - [variable: 引数を共通化する](./Declarative/Variable.md)
 
