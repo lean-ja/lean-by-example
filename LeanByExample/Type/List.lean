@@ -193,19 +193,19 @@ instance : Monad List where
 
 /- `List` のモナドインスタンスを利用すると、「リスト `xs : List α` の中から要素 `x : α` を選んで `y : β` を構成することをすべての要素 `x ∈ xs` に対して繰り返し、結果の `y` を集めてリスト `ys : List β` を構成する」ということができます。 -/
 
-def List.listUp {α β : Type} (xs : List α) (f : α → β) : List β := do
+def List.map' {α β : Type} (xs : List α) (f : α → β) : List β := do
   -- `x ∈ xs` を選ぶ
   let x ← xs
 
   -- `y := f x` を構成する
   let y := f x
 
-  -- `y : β` を返す。`List.listUp` の結果は、返される `y` を集めたものになる。
+  -- `y : β` を返す。関数全体の返り値は、返される `y` を集めたものになる。
   return y
 
-#guard [1, 2, 3].listUp (· + 1) = [2, 3, 4]
+#guard [1, 2, 3].map' (· + 1) = [2, 3, 4]
 
-#guard [1, 2, 3, 4].listUp (· % 3 == 0) = [false, false, true, false]
+#guard [1, 2, 3, 4].map' (· % 3 == 0) = [false, false, true, false]
 
 /- `List` のモナドインスタンスを利用すると、「選択肢のすべてに対して特定の構成を繰り返して、結果を一つのリストにすべてまとめて返す」系の関数を簡潔に実装できることがあります。 -/
 
