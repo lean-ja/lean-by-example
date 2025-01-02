@@ -18,6 +18,17 @@ fun n m => rfl
 -/
 #guard_msgs in #print Nat.add_succ
 
+/--
+info: structure And (a b : Prop) : Prop
+number of parameters: 2
+fields:
+  And.left : a
+  And.right : b
+constructor:
+  And.intro {a b : Prop} (left : a) (right : b) : a ∧ b
+-/
+#guard_msgs in #print And
+
 /- ## 利用可能な構文
 `#print` 単体で利用できるほか、サブコマンドも定義されています。利用できるサブコマンドの全体は、エラーメッセージから確認できますが、以下の通りです。
 * `axioms`
