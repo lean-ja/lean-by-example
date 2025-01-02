@@ -170,3 +170,69 @@ example : List.foldl (· + ·) 0 = List.sumTR := by
 
   -- 両者は等しい
   rfl
+
+/- ## モナドインスタンス
+
+Lean では、`List` は標準で `Monad` 型クラスのインスタンスになっていません。
+-/
+
+/--
+error: failed to synthesize
+  Monad List
+Additional diagnostic information may be available using the `set_option diagnostics true` command.
+-/
+#guard_msgs in
+  #synth Monad List
+
+/- しかし、`Monad` 型クラスのインスタンスにすることは可能です。 -/
+
+instance : Monad List where
+  pure := @List.singleton
+  map := @List.map
+  bind := @List.flatMap
+
+/- `List` のモナドインスタンスを利用すると、「リスト `xs : List α` の中から要素 `x : α` を選んで `y : β` を構成することをすべての要素 `x ∈ xs` に対して繰り返し、結果の `y` を集めてリスト `ys : List β` を構成する」ということができます。 -/
+
+def List.listUp {α β : Type} (xs : List α) (f : α → β) : List β := do
+  -- `x ∈ xs` を選ぶ
+  let x ← xs
+
+  -- `y := f x` を構成する
+  let y := f x
+
+  -- `y : β` を返す。`List.listUp` の結果は、返される `y` を集めたものになる。
+  return y
+
+#guard [1, 2, 3].listUp (· + 1) = [2, 3, 4]
+
+#guard [1, 2, 3, 4].listUp (· % 3 == 0) = [false, false, true, false]
+
+/- `List` のモナドインスタンスを利用すると、「選択肢のすべてに対して特定の構成を繰り返して、結果を一つのリストにすべてまとめて返す」系の関数を簡潔に実装できることがあります。 -/
+
+/-- `α` 上の n 項演算全体の型 -/
+def Arity (α : Type) : (n : Nat) → Type
+  | 0 => α
+  | n + 1 => α → Arity α n
+
+/-- 3 項演算 `Bool → Bool → Bool` の例 -/
+example : Arity Bool 2 := fun a b => a && b
+
+/-- 真理関数 `p : Arity Bool n` に対して、その真理値表を作成する。-/
+def tablen (n : Nat) (p : Arity Bool n) : List (List Bool) :=
+  match n with
+  | 0 => [[p]]
+  | n + 1 => do
+    let b ← [true, false]
+    let rest ← tablen n (p b)
+    return b :: rest
+
+/-- info: [[true, true, true],
+  [true, false, false],
+  [false, true, false],
+  [false, false, false]] -/
+#guard_msgs (whitespace := lax) in
+  #eval tablen 2 (fun a b => a && b)
+
+-- 結果が false になるものだけ表示
+#guard [[false, false, false, false]] =
+  (tablen 3 (fun a b c => a || b || c) |>.filter (fun xs => ! xs.getLast!))
