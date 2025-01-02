@@ -74,7 +74,11 @@ elab "#expand " t:macro_stx : command => do
 /--
 info: first
 | ring1
-| try_this ring_nf
+|
+  try_this ring_nf"\n\nThe `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+      \nNote that `ring` works primarily in *commutative* rings. \
+      If you have a noncommutative ring, abelian group or module, consider using \
+      `noncomm_ring`, `abel` or `module` instead."
 -/
 #guard_msgs (info, drop warning) in
   #expand ring
