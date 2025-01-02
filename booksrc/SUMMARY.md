@@ -65,6 +65,9 @@
   - [protected: フルネームを強制する](./Modifier/Protected.md)
   - [scoped: 有効範囲を名前空間で限定](./Modifier/Scoped.md)
 
+- [構文](./Parser/README.md)
+  - [`{x y : A}`: 暗黙の引数](./Parser/ImplicitBinder.md)
+
 - [属性](./Attribute/README.md)
   - [app_unexpander: 関数適用の表示](./Attribute/AppUnexpander.md)
   - [cases_eliminator: 独自場合分け](./Attribute/CasesEliminator.md)
