@@ -3,7 +3,7 @@
 
 `set_option option_name value` という構文で使用すれば `option_name` という名前のオプションの値を `value` に設定することができます。使用できる `option_name` は [`#help`](../Diagnostic/Help.md) コマンドで確認できます。
 
-有効範囲はその [`section`](./Section.md) の内部またはそのファイルの最後までです。
+有効範囲はその[セクション](./Section.md)の内部またはそのファイルの最後までです。
 -/
 
 -- P は命題

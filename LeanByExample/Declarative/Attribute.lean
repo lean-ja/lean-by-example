@@ -47,8 +47,9 @@ section
     assumption
 end
 
-/- 属性の削除はデバッグを意図した機能で、常にローカルにはたらき、その [`section`](./Section.md) の外に出ると削除された属性が戻ります。-/
+/- 属性の削除はデバッグを意図した機能で、常にローカルにはたらき、その[セクション](./Section.md)の外に出ると削除された属性が戻ります。-/
 
+-- `simp` で示せるようになった
 example {P Q : Prop} : (P → Q) ∧ P ↔ Q ∧ P := by simp
 
 /- 属性によっては、削除することができないこともあります。-/
@@ -75,7 +76,7 @@ example {P Q : Prop} : (P → Q) ∧ P ↔ Q ∧ P := by
   simp
 
 /- ## 有効範囲を制限する
-特定の [`section`](./Section.md) でのみ付与した属性を有効にするには、[`local`](#{root}/Modifier/Local.md) で属性名を修飾します。
+特定の [`section`](./Section.md) 内でのみ付与した属性を有効にするには、[`local`](#{root}/Modifier/Local.md) で属性名を修飾します。
 -/
 example (P Q : Prop) : ((P ∨ Q) ∧ ¬ Q) ↔ (P ∧ ¬ Q) := by
   -- simp だけでは証明が終わらない

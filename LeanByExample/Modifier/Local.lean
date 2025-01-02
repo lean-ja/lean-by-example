@@ -1,5 +1,5 @@
 /- # local
-`local` はコマンドをその [`section`](#{root}/Declarative/Section.md) の内部でだけ有効にするための修飾子です。
+`local` はコマンドをその[セクション](#{root}/Declarative/Section.md)の内部でだけ有効にするための修飾子です。
 -/
 import Lean --#
 section foo
@@ -72,7 +72,7 @@ error: <input>:1:6: expected 'binder_predicate', 'builtin_dsimproc', 'builtin_si
   run_meta parse `command "local def"
 
 /-
-数が多いためすべての例を挙げることはしませんが、いくつか紹介します。たとえば `instance` の場合、`local` を付けて登録したインスタンスがその `section` の内部限定になります。
+数が多いためすべての例を挙げることはしませんが、いくつか紹介します。たとえば `instance` の場合、`local` を付けて登録したインスタンスがその[セクション](#{root}/Declarative/Section.md)の内部限定になります。
 -/
 
 inductive MyNat : Type where
