@@ -67,6 +67,7 @@
 
 - [構文](./Parser/README.md)
   - [`{x y : A}`: 暗黙の引数](./Parser/ImplicitBinder.md)
+  - [by: タクティクモードに入る](./Parser/By.md)
 
 - [属性](./Attribute/README.md)
   - [app_unexpander: 関数適用の表示](./Attribute/AppUnexpander.md)
@@ -128,7 +129,6 @@
   - [assumption: 仮定を自動で exact](./Tactic/Assumption.md)
   - [by_cases: 排中律](./Tactic/ByCases.md)
   - [by_contra: 背理法](./Tactic/ByContra.md)
-  - [by: タクティクモードに入る](./Tactic/By.md)
   - [calc: 計算モードに入る](./Tactic/Calc.md)
   - [cases: 場合分けをする](./Tactic/Cases.md)
   - [cases': Lean3版のcases](./Tactic/CasesAp.md)
