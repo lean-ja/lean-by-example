@@ -29,7 +29,9 @@ error: could not synthesize a 'Repr' or 'ToString' instance for type
 
 deriving instance Repr for Point
 
-#eval origin
+/-- info: { x := 0, y := 0 } -/
+#guard_msgs in
+  #eval origin
 
 /- あるいは、`Point` の定義時に以下のようにしても構いません。-/
 namespace Hidden --#
@@ -57,7 +59,8 @@ inductive NestedList (α : Type) where
 
 open Std
 
-protected partial def NestedList.repr [Repr α] (a : NestedList α) (n : Nat) : Format :=
+partial def NestedList.repr [Repr α] (a : NestedList α) (n : Nat) : Format :=
+  -- 再帰で `ToFormat` のインスタンスを生成する
   let _instToFormat : ToFormat (NestedList α) := ⟨(NestedList.repr · 0)⟩
   match a, n with
   | elem x, _ => reprPrec x n
