@@ -214,7 +214,7 @@ def Arity (α : Type) : (n : Nat) → Type
   | 0 => α
   | n + 1 => α → Arity α n
 
-/-- 3 項演算 `Bool → Bool → Bool` の例 -/
+/-- 2 項演算 `Bool → Bool → Bool` の例 -/
 example : Arity Bool 2 := fun a b => a && b
 
 /-- 真理関数 `p : Arity Bool n` に対して、その真理値表を作成する。-/
