@@ -187,9 +187,8 @@ Additional diagnostic information may be available using the `set_option diagnos
 /- しかし、`Monad` 型クラスのインスタンスにすることは可能です。 -/
 
 instance : Monad List where
-  pure := @List.singleton
-  map := @List.map
-  bind := @List.flatMap
+  pure := List.singleton
+  bind := List.flatMap
 
 /- `List` のモナドインスタンスを利用すると、「リスト `xs : List α` の中から要素 `x : α` を選んで `y : β` を構成することをすべての要素 `x ∈ xs` に対して繰り返し、結果の `y` を集めてリスト `ys : List β` を構成する」ということができます。 -/
 
