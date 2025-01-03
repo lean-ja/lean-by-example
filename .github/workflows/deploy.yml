@@ -48,7 +48,9 @@ jobs:
         run: lake run build
 
       - name: Run Link Checker
-        uses: lycheeverse/lychee-action@v2
+        # 敢えて古いバージョンを使用している。
+        # 最新の v2 を使用すると、lychee がまともに動作しなくなった。
+        uses: lycheeverse/lychee-action@v1.10.0
         with:
           fail: true
           args: booksrc --base booksrc
