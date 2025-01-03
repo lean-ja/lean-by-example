@@ -9,7 +9,7 @@
 * `#help command` で全コマンドのリストが見られます。
 * `#help term` ですべての term syntax の一覧が見られます。
 
-他にも機能がありますが、詳細は[Mathlib のドキュメント](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Tactic/HelpCmd.html)をご覧ください。
+他にも機能がありますが、詳細は[Batteriesのドキュメント](https://leanprover-community.github.io/mathlib4_docs/Batteries/Tactic/HelpCmd.html)をご覧ください。
 -/
 import Batteries.Tactic.HelpCmd
 

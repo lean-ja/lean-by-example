@@ -51,7 +51,7 @@ jobs:
         uses: lycheeverse/lychee-action@v2
         with:
           fail: true
-          args: --base book .
+          args: booksrc --base booksrc
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
