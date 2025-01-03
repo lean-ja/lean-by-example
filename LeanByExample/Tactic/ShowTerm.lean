@@ -16,7 +16,7 @@ example (n : Nat) : n + 0 = n := by
     rfl
 
 /- ## by? 構文
-[`by`](./By.md) を `by?` に変えることでも、`show_term` を呼び出すことができます。-/
+[`by`](#{root}/Parser/By.md) を `by?` に変えることでも、`show_term` を呼び出すことができます。-/
 
 /-- info: Try this: Eq.refl (n + 0) -/
 #guard_msgs in
