@@ -112,6 +112,7 @@
   - [List: 連結リスト](./Type/List.md)
   - [Macro: マクロ](./Type/Macro.md)
   - [Nat: 自然数](./Type/Nat.md)
+  - [Option: 失敗するかもしれない計算](./Type/Option.md)
   - [Prop: 命題全体](./Type/Prop.md)
   - [String: 文字列](./Type/String.md)
   - [Syntax: 具象構文木](./Type/Syntax.md)
