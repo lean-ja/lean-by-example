@@ -45,25 +45,20 @@ example (x : f α) : Functor.map g x = g <$> x := rfl
 /- ## 典型的なインスタンス
 
 ### List
-`Functor` 型クラスのインスタンスの典型的な例のひとつが `List` です。
+`Functor` 型クラスの典型的なインスタンスのひとつが [`List`](#{root}/Type/List.md) です。
 これにより「リストの各要素に関数を適用する」ための簡単な方法が提供されます。
 -/
 
-#guard [1, 2, 3, 4, 5].map (fun x => x * 2) = [2, 4, 6, 8, 10]
+#guard (fun x => x * 2) <$> [1, 2, 3, 4, 5] = [2, 4, 6, 8, 10]
 
 /- ### Option
-`Option` も `Functor` 型クラスのインスタンスになっています。
-これにより「`x? : Option` が `some x` の場合に関数を適用し、`none` なら `none` を返す」という操作のための簡単な方法が提供されます。
+[`Option`](#{root}/Type/Option.md) も `Functor` 型クラスのインスタンスになっています。これにより「`x? : Option` が `some x` の場合に関数を適用し、`none` なら `none` を返す」という操作のための簡単な方法が提供されます。
 -/
 
-#guard (some 2).map (fun x => x * 2) = some 4
-#guard (none : Option Nat).map (fun x => x * 2) = none
+#guard (fun x => x * 2) <$> some 2 = some 4
+#guard (fun x => x * 2) <$> (none : Option Nat) = none
 
 /- ## Functor 則
 
-`Functor` 型クラスのインスタンスには満たすべきルールがあります。
-このルールを破っていても `Functor` 型クラスのインスタンスにすることは可能ですが、API の使用者が予期せぬ挙動をするので避けるべきです。
-ルール込みで `Functor` 型クラスのインスタンスを定義するためには、[`LawfulFunctor`](./LawfulFunctor.md) 型クラスを使います。
+`Functor` 型クラスのインスタンスには満たすべきルールがあります。このルールを破っていても `Functor` 型クラスのインスタンスにすることは可能ですが、避けるべきです。ルール込みで `Functor` 型クラスのインスタンスを定義するためには、[`LawfulFunctor`](./LawfulFunctor.md) 型クラスを使います。
 -/
-
-#check LawfulFunctor
