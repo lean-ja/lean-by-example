@@ -45,7 +45,7 @@ instance : GetElem (MyList α) Nat α (fun as i => i < as.length) where
 コレクション `as` に対して、`i` 番目の要素を取得すると書きましたが、**i 番目の要素があるとは限らない**という問題があります。これに対処するには様々な方法がありえますが、中でも以下のものは専用の構文が用意されています。
 
 * `as[i]`: インデックス `i` が範囲内であることの証明を自動で構成する。`i` が変数になっていて具体的に計算できないときでも、ローカルコンテキスト内に `i` が範囲内であることの証明があれば動作する。
-* `as[i]?`: 返り値を `Option` に包む。範囲外の場合は `none` を返す
+* `as[i]?`: 返り値を [`Option`](#{root}/Type/Option.md) に包む。範囲外の場合は `none` を返す
 * `xs[i]!`: `i` が範囲外だった時には `panic` する。
 * `xs[i]'h`: `i` が範囲内であることの証明 `h` を渡す。
 -/
@@ -71,4 +71,6 @@ instance : GetElem (MyList α) Nat α (fun as i => i < as.length) where
 #guard Three[2]! = 3
 
 -- インデックスが範囲内であることの証明を明示的に渡す
-#guard Three[2]'(by decide) = 3
+#guard
+  let h := show 2 < Three.length from by decide
+  Three[2]'h = 3
