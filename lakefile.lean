@@ -12,7 +12,7 @@ abbrev linterOptions : Array LeanOption := #[
 ]
 
 package «Lean by Example» where
-  keywords := #["manual", "reference", "tutorial", "japanese", "cheatsheet"]
+  keywords := #["manual", "reference", "japanese"]
   description := "プログラミング言語であるとともに定理証明支援系でもある Lean 言語と、その主要なライブラリの使い方を豊富なコード例とともに解説した資料です。"
   leanOptions := #[
     ⟨`autoImplicit, false⟩,
@@ -24,7 +24,7 @@ require mdgen from git
   "https://github.com/Seasawher/mdgen" @ "main"
 
 require mathlib from git
-  "https://github.com/leanprover-community/mathlib4.git" @ "master"
+  "https://github.com/leanprover-community/mathlib4.git" @ "ec10d9ba44225d66e790787d0f5b19a14830337e"
 
 @[default_target]
 lean_lib LeanByExample where

@@ -21,8 +21,14 @@ info: -- Found 0 errors in 1 declarations
   -- 定理は対象外なのでスルーされる
   #lint only docBlame
 
--- 技術的な理由で `#lint` の出力は省略しているが、
 -- エラーになっている
-#guard_msgs (drop error) in
+/--
+error: -- Found 1 error in 1 declarations (plus 0 automatically generated ones) in the current file with 1 linters
+
+/- The `docBlameThm` linter reports:
+THEOREMS ARE MISSING DOCUMENTATION STRINGS: -/
+#check hoge /- theorem missing documentation string -/
+-/
+#guard_msgs (error) in
   -- ドキュメントコメントのない定理に対して警告するリンタを実行している
   #lint only docBlameThm
