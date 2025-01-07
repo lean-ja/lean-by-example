@@ -7,7 +7,7 @@
 universe u
 
 -- `MyEq` という二項関係を定義する
-inductive MyEq {α : Type u} : α → α → Prop
+inductive MyEq {α : Type u} : α → α → Prop where
   | refl (a : α) : MyEq a a
 
 example (n : Nat) : MyEq n n := by
