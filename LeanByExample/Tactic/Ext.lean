@@ -3,27 +3,35 @@
 `ext` は、外延性(extensionality)を使うタクティクです。外延性とは、「同じものから作られているものは同じである」という主張のことです。たとえば以下のようなことを指します。
 
 * 集合 `A, B ⊂ α` について `A = B` は `x ∈ A ↔ x ∈ B` と同じ。
-* 2つの写像 `f g : A → B` があるとき `f = g` は `∀ a ∈ A, f a = g a` と同じ。
+* 2つの写像 `f g : A → B` があるとき `f = g` は `∀ a : A, f a = g a` と同じ。
 
-`@[ext]` で登録されたルールを使用するため、集合の等式 `A = B` を示すときは `Mathlib.Data.SetLike.Basic` も必要です。-/
+`[ext]` 属性で登録されたルールを使用するため、集合の等式 `A = B` を示すときは 適宜ライブラリが必要です。-/
 import Aesop -- `aesop` タクティクを使うために必要
 import Mathlib.Data.SetLike.Basic -- `ext` タクティクで集合の等号を展開するために必要
-namespace Ext --#
 
-variable {α : Type}
+example {A B : Type} (f g : A → B) (h : ∀ a : A, f a = g a) : f = g := by
+  -- `x : A` を取って外延性を使用する
+  ext x
+
+  -- ゴールが `f x = g x` に変わる
+  guard_target =ₛ f x = g x
+
+  apply h
+section --#
 
 -- `s` と `t` は `α` の部分集合
-variable (s t : Set α)
+variable {α : Type} (s t : Set α)
 
 example : s ∩ t = t ∩ s := by
   -- `x ∈ α` を取る。
   ext x
 
   -- ` x ∈ s ∩ t ↔ x ∈ t ∩ s` を証明すればよい
-  show x ∈ s ∩ t ↔ x ∈ t ∩ s
+  guard_target =ₛ x ∈ s ∩ t ↔ x ∈ t ∩ s
 
   aesop
 
+end --#
 /- ## [ext] 属性
 `[ext]` 属性を命題に与えると、上記のようにその命題は `ext` タクティクで利用できるようになります。さらに、`[ext]` 属性は[構造体](../Declarative/Structure.md)に対しても与えることができます。このとき、その構造体に対して自動的に `.ext` と `.ext_iff` の２つの定理が生成されます。
 -/
@@ -50,5 +58,3 @@ attribute [ext] Point
 -- 自動生成された定理その２
 -- 2つの `Point` の点が等しいことは、各フィールドの値が等しいことと同値
 #check (Point.ext_iff : ∀{x y : Point α}, x = y ↔ x.x = y.x ∧ x.y = y.y)
-
-end Ext --#
