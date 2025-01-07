@@ -36,7 +36,7 @@ inductive Syntax where
     (val : Name) (preresolved : List Syntax.Preresolved) : Syntax
 
 --#--
--- **Syntax の定義の変更を確認するためのコード**
+-- Syntax の定義の変更を確認するためのコード
 /--
 info: inductive Lean.Syntax : Type
 number of parameters: 0
