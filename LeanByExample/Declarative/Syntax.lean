@@ -57,7 +57,7 @@ using the `set_option diagnostics true` command.
   #check_failure (1 + 1 = 2 as Nat)
 
 end --#
-/- パース優先順位(parsing precedence)を設定することで、どの構文から順に解釈されるかを指定することができ、問題を修正できることがあります。このあたりは [`notation`](./Notation.md) コマンドと同様です。 -/
+/- **パース優先順位(parsing precedence)** を設定することで、どの構文から順に解釈されるかを指定することができ、問題を修正できることがあります。このあたりは [`notation`](./Notation.md) コマンドと同様です。 -/
 section --#
 
 -- 十分低いパース優先順位を設定する
