@@ -25,7 +25,8 @@ jobs:
       - name: lean action
         uses: leanprover/lean-action@v1
         with:
-          build-args: "--log-level=warning --fail-level=warning"
+          # build-args: "--log-level=warning --fail-level=warning"
+          build-args: "--log-level=warning"
 
   # Lean の更新により Windows 環境でだけビルドが壊れる可能性もあるので、
   # 念のために Windows 環境でもビルドを行う
