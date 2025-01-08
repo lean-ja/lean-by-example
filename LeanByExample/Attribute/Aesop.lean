@@ -1,5 +1,6 @@
-/- # add_aesop_rules
-`add_aesop_rules` は [`aesop`](#{root}/Tactic/Aesop.md) タクティクに追加のルールを登録するためのコマンドです。-/
+/- # aesop
+
+`[aesop]` は [`aesop`](#{root}/Tactic/Aesop.md) タクティクに追加のルールを登録するための属性です。同様の機能を持つコマンドに [`add_aesop_rules`](#{root}/Declarative/AddAesopRules.md) があります。 -/
 import Aesop
 
 /-- 自然数 n が正の数であることを表す帰納的述語 -/
@@ -14,15 +15,15 @@ example : Pos 1 := by
   apply Pos.succ
 
 -- `Pos` 関連のルールを `aesop` に憶えさせる
-add_aesop_rules safe constructors [Pos]
+attribute [aesop safe constructors] Pos
 
--- aesop で示せる
+-- aesop で示せるようになった！
 example : Pos 1 := by aesop
 
 /-
 なお `aesop` をカスタマイズしたものを専用のタクティクにまとめることも可能ですが、それについてはここでは詳しく述べません。[`declare_aesop_rule_sets`](#{root}/Declarative/DeclareAesopRuleSets.md) コマンドのページを参照してください。
 
-`add_aesop_rules` は、`add_aesop_rules <phase>? <priority>? <builder_name>? <rule_sets>?]` という構文で使用できます。
+`[aesop]` 属性は、`[aesop <phase>? <priority>? <builder_name>? <builder_option>? <rule_sets>?]` という構文で使用できます。
 
 ## phase について
 
@@ -56,11 +57,10 @@ example (P : Prop) (hp : P) : MyAnd P P := by
   -- 最初は aesop で証明できない
   fail_if_success solve
   | aesop
-
   sorry
 
 -- aesop に登録する
-add_aesop_rules norm simp [erase_duplicate]
+attribute [aesop norm simp] erase_duplicate
 
 example (P : Prop) (hp : P) : MyAnd P P := by
   -- aesop で証明できるようになった!
@@ -87,7 +87,7 @@ example : NonEmpty (MyList.cons 1 MyList.nil) := by
   fail_if_success aesop
   sorry
 
-local add_aesop_rules safe apply [NonEmpty.cons]
+attribute [aesop safe apply] NonEmpty.cons
 
 -- aesop で示せるようになった！
 example : NonEmpty (MyList.cons 1 MyList.nil) := by aesop
@@ -107,7 +107,7 @@ example (h1 : a ≤ b) (h2 : b ≤ c) (h3 : c ≤ d) (h4 : d ≤ e) : a ≤ e :=
   sorry
 
 -- 推移律を `unsafe` ルールとして登録する
-local add_aesop_rules unsafe 10% apply [Nat.le_trans]
+attribute [local aesop unsafe 10% apply] Nat.le_trans
 
 example (h1 : a ≤ b) (h2 : b ≤ c) (h3 : c ≤ d) (h4 : d ≤ e) : a ≤ e := by
   -- aesop で証明できるようになった！
@@ -117,8 +117,8 @@ end --#
 /- `safe` ルールは適用すると後戻りができないため、特定の状況でのみ適用したいルールは `unsafe` とすることが推奨されます。誤って `safe` ルールに登録してしまうと上手く動作しないことがあります。 -/
 section --#
 
--- safe ルールとして推移律を登録する
-local add_aesop_rules safe apply [Nat.le_trans]
+-- 同じ推移律を今度は `safe` ルールとして登録する
+attribute [local aesop safe apply] Nat.le_trans
 
 variable (a b c d e : Nat)
 
@@ -145,8 +145,9 @@ open Lean Parser Category in
 -/
 section --#
 
-example (a b c d e : Nat)
-    (h1 : a < b) (h2 : b < c) (h3 : c < d) (h4 : d < e) : a < e := by
+variable (a b c d e : Nat)
+
+example (h1 : a < b) (h2 : b < c) (h3 : c < d) (h4 : d < e) : a < e := by
   -- 最初は aesop で示せない
   fail_if_success aesop
 
@@ -156,11 +157,10 @@ example (a b c d e : Nat)
   apply Nat.lt_trans (m := b) <;> try assumption
 
 -- 推移律を登録する
-local add_aesop_rules unsafe 10% apply [Nat.lt_trans]
+attribute [aesop unsafe 10% apply] Nat.lt_trans
 
-example (a b c d e : Nat)
-    (h1 : a < b) (h2 : b < c) (h3 : c < d) (h4 : d < e) : a < e := by
-  -- aesop で証明できるようになった
+example (h1 : a < b) (h2 : b < c) (h3 : c < d) (h4 : d < e) : a < e := by
+  -- aesop で証明できるようになった!
   aesop
 
 end --#
@@ -183,10 +183,10 @@ example : Even 2 := by
   apply Even.zero
 
 -- aesop にルールを登録する
-local add_aesop_rules safe constructors [Even]
+attribute [aesop safe constructors] Even
 
 example : Even 2 := by
-  -- aesop で証明できるようになった
+  -- aesop で証明できるようになった!
   aesop
 
 end --#
@@ -209,7 +209,7 @@ example (n : Nat) (h : Odd (n + 2)) : Odd n := by
   assumption
 
 -- aesop にルールを登録する
-local add_aesop_rules safe cases [Odd]
+attribute [aesop safe cases] Odd
 
 example (n : Nat) (h : Odd (n + 2)) : Odd n := by
   -- aesop で証明できるようになった
@@ -219,7 +219,12 @@ end --#
 /- ### destruct
 `destruct` ビルダーは、`A₁ → ⋯ → Aₙ → B` という形の命題を登録することで、仮定に `A₁, ..., Aₙ` が含まれている場合に、元の仮定を消去して `B` を仮定に追加します。
 -/
-section --#
+namespace destruct --#
+
+/-- 自前で定義した偶数を表す帰納的述語 -/
+inductive Even : Nat → Prop where
+  | zero : Even 0
+  | succ m : Even m → Even (m + 2)
 
 /-- 任意の数 n について、n か n + 1 のどちらかは偶数 -/
 theorem even_or_even_succ (n : Nat) : Even n ∨ Even (n + 1) := by
@@ -241,13 +246,13 @@ example {n : Nat} (h0 : ¬ Even n) (h1 : ¬ Even (n + 1)) : False := by
   have := even_or_even_succ n
   simp_all
 
-local add_aesop_rules unsafe 30% destruct [even_or_even_succ]
+attribute [aesop unsafe 30% destruct] even_or_even_succ
 
 example {n : Nat} (h0 : ¬ Even n) (h1 : ¬ Even (n + 1)) : False := by
   -- aesop で示せるようになった！
   aesop
 
-end --#
+end destruct --#
 /- ### tactic
 `tactic` ビルダーは、タクティクを追加のルールとして直接利用できるようにします。
 -/
@@ -257,13 +262,28 @@ example (a b : Nat) (h : 3 ∣ (10 * a + b)) : 3 ∣ (a + b) := by
   -- aesop で証明できない
   fail_if_success aesop
 
-  -- omega で証明できる
+  -- omega を使えば証明できる
   omega
 
+open Lean Elab Tactic in
+
 -- aesop にルールを登録する
-local add_aesop_rules safe tactic [(by omega)]
+attribute [aesop safe tactic] Omega.omegaDefault
 
 example (a b : Nat) (h : 3 ∣ (10 * a + b)) : 3 ∣ (a + b) := by
   -- aesop で証明できるようになった!
   aesop
 end --#
+/- ただし `tactic` ビルダーは受け入れる型が少し特殊で、`TacticM Unit` などの少数の型の項しか受け入れません。正確にどの型の項を受け入れるかは、エラーメッセージで確認できます。-/
+
+/--
+error: aesop: tactic builder: expected foo to be a tactic, i.e. to have one of these types:
+  TacticM Unit
+  SimpleRuleTac
+  RuleTac
+  TacGen
+However, it has type
+  String
+-/
+#guard_msgs in
+  @[aesop safe tactic] def foo := "hello"

@@ -42,10 +42,10 @@ example {f : X → Y} {g : Y → Z} (hgfinj : Injective (g ∘ f)) : Injective f
 
 /- 上記の例により、とくに `aesop` が実行の過程で [`simp_all`](./SimpAll.md) タクティクや `intro` タクティク等を使用することがわかります。
 特に、`aesop` は `simp_all` の強化版であるということができます。
-実際には `aesop` は `simp_all` とは異なり、単純化だけでなく「試行錯誤しながらよい証明を探索する」ということができます。これについて詳しくは [`add_aesop_rules`](#{root}/Declarative/AddAesopRules.md) のページを参照してください。-/
+実際には `aesop` は `simp_all` とは異なり、単純化だけでなく「試行錯誤しながらよい証明を探索する」ということができます。-/
 
 /- ## カスタマイズ
-`aesop` はユーザがカスタマイズ可能です。補題やタクティクを登録することで、証明可能な命題を増やすことができます。
+`aesop` はユーザがカスタマイズ可能です。補題やタクティクを [`[aesop]`](#{root}/Attribute/Aesop.md) 属性で登録することで、証明可能な命題を増やすことができます。
 -/
 
 /-- 自然数 n が正の数であることを表す命題 -/
@@ -64,23 +64,6 @@ attribute [aesop safe constructors] Pos
 
 -- `aesop` で証明できるようになった！
 example : Pos 1 := by aesop
-
-/- 上記の例のように `[aesop]` 属性によってルールを追加することもできますし、[`add_aesop_rules`](../Declarative/AddAesopRules.md) というコマンドでルールを追加することもできます。-/
-
-example (n : Nat) (h : Pos n) : 0 < n := by
-  -- ルールが足りないので、`aesop` で示すことはできない
-  fail_if_success aesop
-
-  -- 手動で `h : Pos n` を分解して証明する
-  rcases h with ⟨h⟩
-  simp
-
--- `Pos` 関連のルールを `aesop` に追加
-add_aesop_rules safe cases [Pos]
-
--- `aesop` で証明できるようになった！
-example (n : Nat) (h : Pos n) : 0 < n := by
-  aesop
 
 /-
 カスタマイズ方法の詳細を知りたい方は[aesopのリポジトリ](https://github.com/leanprover-community/aesop)をご参照ください。また、内部のロジックの詳細については論文 [Aesop: White-Box Best-First Proof Search for Lean](https://dl.acm.org/doi/pdf/10.1145/3573105.3575671) で説明されています。

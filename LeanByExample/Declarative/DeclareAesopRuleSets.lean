@@ -41,7 +41,41 @@ macro "hoge?" : tactic => `(tactic| aesop? (rule_sets := [HogeRules]))
 example : True := by
   hoge? says simp_all only
 
-/- `hoge` タクティク用のルールを登録するのは [`add_aesop_rules`](./AddAesopRules.md) コマンドで可能ですが、これに対しても専用のコマンドを用意することができます。-/
+/- `hoge` タクティク用のルールを登録することもできます。
+
+`[aesop]` 属性と同等の機能を持つ `[hoge]` 属性を作成したい場合は、たとえば次のようにします。-/
+
+/-- `hoge` タクティク用のルールを追加する -/
+macro "hoge" e:Aesop.rule_expr : attr =>
+  `(attr| aesop (rule_sets := [HogeRules]) $e)
+
+namespace Attr --#
+
+/-- `True` を模して自作した命題 -/
+inductive MyTrue : Prop where
+  | intro
+
+example : MyTrue := by
+  -- 最初は証明できない
+  fail_if_success hoge
+
+  apply MyTrue.intro
+
+attribute [local hoge safe constructors] MyTrue
+
+example : MyTrue := by
+  -- `hoge` で証明できるようになった！
+  hoge
+
+example : MyTrue := by
+  -- 依然として `aesop` では証明できない
+  fail_if_success aesop
+
+  apply MyTrue.intro
+
+end Attr --#
+
+/- [`add_aesop_rules`](#{root}/Declarative/AddAesopRules.md) コマンドと同様の機能を持つ `add_hoge_rules` コマンドを作成したい場合は、たとえば次のようにします。-/
 
 /-- `hoge` タクティク用のルールを追加する -/
 macro attrKind:attrKind "add_hoge_rules" e:Aesop.rule_expr : command =>
@@ -73,21 +107,3 @@ example : MyTrue := by
   apply MyTrue.intro
 
 end Command --#
-/- あるいは、`[aesop]` 属性と同等の機能を持つ `[hoge]` 属性を作成して、それを使ってルールを登録することもできます。-/
-
-/-- `hoge` タクティク用のルールを追加する -/
-macro "hoge" e:Aesop.rule_expr : attr =>
-  `(attr| aesop (rule_sets := [HogeRules]) $e)
-
-namespace Attr --#
-
-/-- `True` を模して自作した命題 -/
-@[local hoge safe constructors]
-inductive MyTrue : Prop where
-  | intro
-
-example : MyTrue := by
-  -- `hoge` で証明できる!
-  hoge
-
-end Attr --#

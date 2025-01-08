@@ -70,6 +70,7 @@
   - [by: タクティクモードに入る](./Parser/By.md)
 
 - [属性](./Attribute/README.md)
+  - [aesop: aesop カスタマイズ](./Attribute/Aesop.md)
   - [app_unexpander: 関数適用の表示](./Attribute/AppUnexpander.md)
   - [cases_eliminator: 独自場合分け](./Attribute/CasesEliminator.md)
   - [coe: 型強制 ↑ として表示させる](./Attribute/Coe.md)
