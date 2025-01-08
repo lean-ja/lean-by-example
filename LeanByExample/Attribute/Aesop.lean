@@ -1,6 +1,6 @@
 /- # aesop
 
-`[aesop]` は [`aesop`](#{root}/Tactic/Aesop.md) タクティクに追加のルールを登録するためのコマンドです。-/
+`[aesop]` は [`aesop`](#{root}/Tactic/Aesop.md) タクティクに追加のルールを登録するための属性です。同様の機能を持つコマンドに [`add_aesop_rules`](#{root}/Declarative/AddAesopRules.md) があります。 -/
 import Aesop
 
 /-- 自然数 n が正の数であることを表す帰納的述語 -/
