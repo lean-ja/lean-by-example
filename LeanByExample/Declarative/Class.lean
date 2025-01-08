@@ -161,12 +161,12 @@ instance : HasCardinal Bool := by
   -- Fin 2 → Bool を作る
   case invFun => exact (fun ⟨x, _⟩ => x == 1)
 
-  -- invFun ∘ toFun は Bool 上の恒等写像
+  -- invFun ∘ toFun は Bool 上の恒等関数
   case left_inv =>
     ext b
     cases b <;> simp
 
-  -- toFun ∘ invFun は Fin 2 上の恒等写像
+  -- toFun ∘ invFun は Fin 2 上の恒等関数
   case right_inv =>
     ext ⟨x, h⟩
     simp only [Fin.isValue, Function.comp_apply, beq_iff_eq, id_eq]

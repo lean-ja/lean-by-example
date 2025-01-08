@@ -127,7 +127,7 @@ namespace Intro --#
 
 variable {α : Type}
 
-/-- `intro` による恒等写像の構成 -/
+/-- `intro` による恒等関数の構成 -/
 def f : α → α := by
   intro x
   exact x

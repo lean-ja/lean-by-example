@@ -1,6 +1,6 @@
 /- # ext
 
-`ext` は、外延性(extensionality)を使うタクティクです。外延性とは、「同じものから作られているものは同じである」という主張のことです。たとえば、「2つの写像 `f g : A → B` があるとき `∀ a : A, f a = g a` ならば `f = g`」というのは外延性の一種で、**関数外延性(functional extensionality)** と呼ばれます。-/
+`ext` は、外延性(extensionality)を使うタクティクです。外延性とは、「同じものから作られているものは同じである」という主張のことです。たとえば、「2つの関数 `f g : A → B` があるとき `∀ a : A, f a = g a` ならば `f = g`」というのは外延性の一種で、**関数外延性(functional extensionality)** と呼ばれます。-/
 import Aesop -- `aesop` タクティクを使うために必要 --#
 
 example {A B : Type} (f g : A → B) (h : ∀ a : A, f a = g a) : f = g := by

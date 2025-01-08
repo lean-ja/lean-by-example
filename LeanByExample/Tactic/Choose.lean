@@ -1,13 +1,13 @@
 /- # choose
 
-`h : ∀ x, ∃ y, P(x, y)` が成り立っているときに、`choose f hf using h` は写像 `f : X → Y` と `f` が満たす性質 `hf : ∀ x, P(x, f x)` のペアを作ります。
+`h : ∀ x, ∃ y, P(x, y)` が成り立っているときに、`choose f hf using h` は関数 `f : X → Y` と `f` が満たす性質 `hf : ∀ x, P(x, f x)` のペアを作ります。
 -/
 import Mathlib.Tactic.Choose
 
 variable (X Y : Type) (P : X → Y → Prop)
 
 theorem choice (h : ∀ x, ∃ y, P x y) : ∃ f : X → Y, ∀ x, P x (f x) := by
-  -- 写像 `f : X → Y` を構成する
+  -- 関数 `f : X → Y` を構成する
   choose f hf using h
 
   exact ⟨f, hf⟩
