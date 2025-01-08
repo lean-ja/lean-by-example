@@ -1,5 +1,5 @@
 /- # add_aesop_rules
-`add_aesop_rules` は [`aesop`](../Tactic/Aesop.md) タクティクに追加のルールを登録するためのコマンドです。-/
+`add_aesop_rules` は [`aesop`](#{root}/Tactic/Aesop.md) タクティクに追加のルールを登録するためのコマンドです。-/
 import Aesop
 
 /-- 自然数 n が正の数であることを表す帰納的述語 -/
@@ -20,9 +20,9 @@ add_aesop_rules safe constructors [Pos]
 example : Pos 1 := by aesop
 
 /-
-なお `aesop` をカスタマイズしたものを専用のタクティクにまとめることも可能ですが、それについてはここでは詳しく述べません。[`declare_aesop_rule_sets`](./DeclareAesopRuleSets.md) コマンドのページを参照してください。
+なお `aesop` をカスタマイズしたものを専用のタクティクにまとめることも可能ですが、それについてはここでは詳しく述べません。[`declare_aesop_rule_sets`](#{root}/Declarative/DeclareAesopRuleSets.md) コマンドのページを参照してください。
 
-`add_aesop_rules` は、`add_aesop_rules (phase)? (priority)? (builder_name)? [(rule_sets)?]` という構文で使用できます。
+`add_aesop_rules` は、`add_aesop_rules <phase>? <priority>? <builder_name>? <rule_sets>?]` という構文で使用できます。
 
 ## phase について
 
@@ -51,6 +51,14 @@ theorem erase_duplicate {P : Prop} : MyAnd P P ↔ P := by
     exact h
   · exact MyAnd.intro h h
 
+#guard_msgs (drop warning) in --#
+example (P : Prop) (hp : P) : MyAnd P P := by
+  -- 最初は aesop で証明できない
+  fail_if_success solve
+  | aesop
+
+  sorry
+
 -- aesop に登録する
 add_aesop_rules norm simp [erase_duplicate]
 
@@ -73,9 +81,15 @@ inductive MyList (α : Type) where
 inductive NonEmpty {α : Type} : MyList α → Prop where
   | cons x xs : NonEmpty (MyList.cons x xs)
 
+#guard_msgs (drop warning) in --#
+example : NonEmpty (MyList.cons 1 MyList.nil) := by
+  -- 最初は aesop で証明できない
+  fail_if_success aesop
+  sorry
+
 local add_aesop_rules safe apply [NonEmpty.cons]
 
--- aesop で `NonEmpty _` という形のゴールを示せる
+-- aesop で示せるようになった！
 example : NonEmpty (MyList.cons 1 MyList.nil) := by aesop
 
 end --#
@@ -84,11 +98,18 @@ end --#
 -/
 section --#
 
+variable (a b c d e : Nat)
+
+#guard_msgs (drop warning) in --#
+example (h1 : a ≤ b) (h2 : b ≤ c) (h3 : c ≤ d) (h4 : d ≤ e) : a ≤ e := by
+  -- 最初は aesop で証明できない
+  fail_if_success aesop
+  sorry
+
 -- 推移律を `unsafe` ルールとして登録する
 local add_aesop_rules unsafe 10% apply [Nat.le_trans]
 
-example (a b c d e : Nat)
-    (h1 : a ≤ b) (h2 : b ≤ c) (h3 : c ≤ d) (h4 : d ≤ e) : a ≤ e := by
+example (h1 : a ≤ b) (h2 : b ≤ c) (h3 : c ≤ d) (h4 : d ≤ e) : a ≤ e := by
   -- aesop で証明できるようになった！
   aesop
 
@@ -99,16 +120,15 @@ section --#
 -- safe ルールとして推移律を登録する
 local add_aesop_rules safe apply [Nat.le_trans]
 
-example (a b c d e : Nat)
-    (h1 : a ≤ b) (h2 : b ≤ c) (h3 : c ≤ d) (h4 : d ≤ e) : a ≤ e := by
+variable (a b c d e : Nat)
+
+#guard_msgs (drop warning) in --#
+example (h1 : a ≤ b) (h2 : b ≤ c) (h3 : c ≤ d) (h4 : d ≤ e) : a ≤ e := by
   -- aesop で証明できない
+  -- 同じ命題を同じように登録したが、safe にしてしまったからダメだった
   fail_if_success aesop
 
-  calc
-    a ≤ b := by assumption
-    _ ≤ c := by assumption
-    _ ≤ d := by assumption
-    _ ≤ e := by assumption
+  sorry
 
 end --#
 /- ## builder_name について
@@ -145,7 +165,7 @@ example (a b c d e : Nat)
 
 end --#
 /- ### constructors
-`constructors` ビルダーは、[帰納型](../Declarative/Inductive.md) `T` の形をしたゴールに遭遇した際に、コンストラクタを適用するように指示します。
+`constructors` ビルダーは、[帰納型](#{root}/Declarative/Inductive.md) `T` の形をしたゴールに遭遇した際に、コンストラクタを適用するように指示します。
 -/
 section --#
 
@@ -175,7 +195,12 @@ end --#
 -/
 section --#
 
-example (n : Nat) (h : Even (n + 2)) : Even n := by
+/-- 自前で定義した奇数を表す帰納的述語 -/
+inductive Odd : Nat → Prop where
+  | one : Odd 1
+  | succ m : Odd m → Odd (m + 2)
+
+example (n : Nat) (h : Odd (n + 2)) : Odd n := by
   -- 最初は aesop で証明できない
   fail_if_success aesop
 
@@ -184,9 +209,9 @@ example (n : Nat) (h : Even (n + 2)) : Even n := by
   assumption
 
 -- aesop にルールを登録する
-local add_aesop_rules safe cases [Even]
+local add_aesop_rules safe cases [Odd]
 
-example (n : Nat) (h : Even (n + 2)) : Even n := by
+example (n : Nat) (h : Odd (n + 2)) : Odd n := by
   -- aesop で証明できるようになった
   aesop
 
@@ -208,17 +233,17 @@ theorem even_or_even_succ (n : Nat) : Even n ∨ Even (n + 1) := by
     · left
       assumption
 
-example {n : Nat} : Even n ∨ Even (n + 1) := by
+example {n : Nat} (h0 : ¬ Even n) (h1 : ¬ Even (n + 1)) : False := by
   -- 最初は aesop で証明できない
   fail_if_success aesop
 
   -- 手動で補題を示すことで証明する
   have := even_or_even_succ n
-  assumption
+  simp_all
 
 local add_aesop_rules unsafe 30% destruct [even_or_even_succ]
 
-example {n : Nat} : Even n ∨ Even (n + 1) := by
+example {n : Nat} (h0 : ¬ Even n) (h1 : ¬ Even (n + 1)) : False := by
   -- aesop で示せるようになった！
   aesop
 
