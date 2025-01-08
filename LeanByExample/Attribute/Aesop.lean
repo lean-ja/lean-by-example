@@ -21,7 +21,7 @@ attribute [aesop safe constructors] Pos
 example : Pos 1 := by aesop
 
 /-
-なお `aesop` をカスタマイズしたものを専用のタクティクにまとめることも可能ですが、それについてはここでは詳しく述べません。[`declare_aesop_rule_sets`](./DeclareAesopRuleSets.md) コマンドのページを参照してください。
+なお `aesop` をカスタマイズしたものを専用のタクティクにまとめることも可能ですが、それについてはここでは詳しく述べません。[`declare_aesop_rule_sets`](#{root}/Declarative/DeclareAesopRuleSets.md) コマンドのページを参照してください。
 
 `[aesop]` 属性は、`[aesop <phase>? <priority>? <builder_name>? <builder_option>? <rule_sets>?]` という構文で使用できます。
 
