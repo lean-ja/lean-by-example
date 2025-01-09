@@ -22,7 +22,7 @@ section
   -- `relaxedAutoImplicit` が有効の時
   set_option relaxedAutoImplicit true
 
-  -- 二文字の識別子も自動束縛の対象になるのでエラーになる
+  -- 二文字の識別子も自動束縛の対象になるのでエラーにならない
   def nonempty₂ : List AB → Bool
     | [] => false
     | _ :: _ => true
