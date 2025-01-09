@@ -29,10 +29,14 @@ If you use this book for your work, please cite it as follows:
 @misc{leanbyexample,
   title = {Lean by {E}xample},
   url = {https://lean-ja.github.io/lean-by-example/},
-  author = {The lean-ja community},
+  author = {The lean-ja organization},
   note = {Accessed on Month Day, Year},
 }
 ```
+
+## License
+
+この文書は[CC BY-NC-SA 4.0 ライセンス](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja)の下で公開されています。
 
 ## プライバシーポリシー
 
