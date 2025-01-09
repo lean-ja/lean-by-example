@@ -1,7 +1,6 @@
 /- # coe
 
-`[coe]` 属性は、特定の関数を型強制を行う関数として登録し、`↑` 記号で表示されるようにします。
--/
+`[coe]` 属性は、特定の関数を型強制を行う関数として登録し、`↑` 記号で表示されるようにします。-/
 
 /-- 自前で定義した自然数 -/
 inductive MyNat where
@@ -15,6 +14,8 @@ attribute [coe] MyNat.succ
 /-- info: ↑MyNat.zero : MyNat -/
 #guard_msgs in
   #check (MyNat.succ .zero : MyNat)
+
+/- また、`[coe]` 属性は [`norm_cast`](#{root}/Tactic/NormCast.md) タクティクとも関係があります。-/
 
 /- ## 用途
 型強制を [`Coe`](../TypeClass/Coe.md) 型クラスで登録しただけでは、必ずしも型強制を行う関数が `↑` 記号で表示されるわけではありません。`[coe]` 属性を付与することにより、より「型強制らしく」表示されるようになります。
