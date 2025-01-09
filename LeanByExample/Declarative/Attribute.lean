@@ -9,45 +9,39 @@ namespace Attribute --#
 
 theorem foo {P Q : Prop} : (P → Q) ∧ P ↔ Q ∧ P := by
   constructor <;> intro h
-  · obtain ⟨hPQ, hP⟩ := h
-    constructor <;> repeat apply_assumption
-  · obtain ⟨hP, hQ⟩ := h
-    constructor <;> intros
-    all_goals assumption
+  all_goals
+    refine ⟨?_, by simp_all⟩
+    simp_all
 
--- `simp` では示せない
+#guard_msgs (drop warning) in --#
 example {P Q : Prop} : (P → Q) ∧ P ↔ Q ∧ P := by
-  simp
-  show P → P ∨ Q
+  -- `simp` では示せない
+  fail_if_success solve
+  | simp
 
-  intro (h : P)
-  left
-  assumption
+  sorry
 
 -- `attribute` で属性を付与
 attribute [simp] foo
 
--- `simp` で示せるようになった
 example {P Q : Prop} : (P → Q) ∧ P ↔ Q ∧ P := by
+  -- `simp` で示せるようになった
   simp
 
 /- ## 属性の削除
-与えた属性を削除することができることもあります。削除するには `-` を属性の頭に付けます。-/
+与えた属性を削除することができることもあります。削除するには `-` を属性の頭に付けます。属性の削除はデバッグを意図した機能で、常にローカルにはたらき、その[セクション](./Section.md)の外に出ると削除された属性が戻ります。-/
 section
   -- `[simp]` 属性を削除
   attribute [-simp] foo
 
-  -- 再び示せなくなった
+  -- 再び `simp` では示せなくなった
+  #guard_msgs (drop warning) in --#
   example {P Q : Prop} : (P → Q) ∧ P ↔ Q ∧ P := by
-    simp
-    show P → P ∨ Q
+    fail_if_success solve
+    | simp
 
-    intro (h : P)
-    left
-    assumption
+    sorry
 end
-
-/- 属性の削除はデバッグを意図した機能で、常にローカルにはたらき、その[セクション](./Section.md)の外に出ると削除された属性が戻ります。-/
 
 -- `simp` で示せるようになった
 example {P Q : Prop} : (P → Q) ∧ P ↔ Q ∧ P := by simp
@@ -66,11 +60,9 @@ example {P Q : Prop} : (P → Q) ∧ P ↔ Q ∧ P := by simp
 @[simp]
 theorem bar {P Q : Prop} : (P → Q) ∧ P ↔ Q ∧ P := by
   constructor <;> intro h
-  · obtain ⟨hPQ, hP⟩ := h
-    constructor <;> repeat apply_assumption
-  · obtain ⟨hP, hQ⟩ := h
-    constructor <;> intros
-    all_goals assumption
+  all_goals
+    refine ⟨?_, by simp_all⟩
+    simp_all
 
 example {P Q : Prop} : (P → Q) ∧ P ↔ Q ∧ P := by
   simp
@@ -78,42 +70,37 @@ example {P Q : Prop} : (P → Q) ∧ P ↔ Q ∧ P := by
 /- ## 有効範囲を制限する
 特定の [`section`](./Section.md) 内でのみ付与した属性を有効にするには、[`local`](#{root}/Modifier/Local.md) で属性名を修飾します。
 -/
+#guard_msgs (drop warning) in --#
 example (P Q : Prop) : ((P ∨ Q) ∧ ¬ Q) ↔ (P ∧ ¬ Q) := by
-  -- simp だけでは証明が終わらない
-  try simp
-  show ¬Q → Q → P
+  -- simp だけでは証明できない
+  fail_if_success solve
+  | simp
 
-  intro hnQ hQ
-  contradiction
+  sorry
 
 section
   -- 補題
   theorem or_and_neg (P Q : Prop) : ((P ∨ Q) ∧ ¬ Q) ↔ (P ∧ ¬ Q) := by
     constructor <;> intro h
-    · obtain ⟨hPQ, hnQ⟩ := h
-      rcases hPQ with hP | hQ
-      · exact ⟨hP, hnQ⟩
-      · contradiction
-    · obtain ⟨hP, hnQ⟩ := h
-      exact ⟨by left; assumption, hnQ⟩
+    · refine ⟨?_, by simp_all⟩
+      have : ¬ Q := h.right
+      simp_all
+    · refine ⟨?_, by simp_all⟩
+      simp_all
 
   -- local に simp 補題を登録
   attribute [local simp] or_and_neg
 
-  -- simp で証明ができる
+  -- simp で証明ができるようになった！
   example (P Q : Prop) : ((P ∨ Q) ∧ ¬ Q) ↔ (P ∧ ¬ Q) := by simp
 end
 
-variable (P Q : Prop)
-
--- section を抜けると simp 補題が利用できない
+#guard_msgs (drop warning) in --#
 example (P Q : Prop) : ((P ∨ Q) ∧ ¬ Q) ↔ (P ∧ ¬ Q) := by
-  simp
+  -- section を抜けると simp 補題が利用できなくなった
+  fail_if_success solve
+  | simp
 
-  -- 証明すべきことが残ってしまった
-  show ¬Q → Q → P
-
-  intro _ _
-  contradiction
+  sorry
 
 end Attribute --#
