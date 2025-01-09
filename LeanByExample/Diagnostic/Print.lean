@@ -47,7 +47,7 @@ error: <input>:1:7:
 expected 'axioms', 'eqns', 'equations', 'tactic', identifier or string literal
 -/
 #guard_msgs in
-  run_meta parse `command "#print axiom"
+  #eval parse `command "#print axiom"
 
 /- また、このエラーメッセージから、`#print` コマンドに直接渡せるのは識別子(identifier)または文字列リテラル(string literal)だけであることが確認できます。識別子ではない一般の項(term)を渡すと、構文エラーになります。-/
 

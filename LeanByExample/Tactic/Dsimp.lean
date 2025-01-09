@@ -156,9 +156,9 @@ def parse (cat : Name) (s : String) : MetaM Syntax := do
   ofExcept <| runParserCategory (← getEnv) cat s
 
 -- 識別子を渡したときはパースできる
-run_meta parse `tactic "unfold Inter.inter"
+#eval parse `tactic "unfold Inter.inter"
 
 -- 識別子でないものを渡すとパースできない
 /-- error: <input>:1:7: expected identifier -/
 #guard_msgs in
-  run_meta parse `tactic "unfold (· ∩ ·)"
+  #eval parse `tactic "unfold (· ∩ ·)"
