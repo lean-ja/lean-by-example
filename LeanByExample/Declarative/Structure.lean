@@ -4,6 +4,7 @@
 -/
 namespace Structure --#
 
+/-- 2次元空間の点 -/
 structure Point (α : Type) : Type where
   x : α
   y : α
@@ -146,14 +147,26 @@ structure ColorPoint3D (α : Type) extends Point α, RGBValue where
   z : α
 
 /- ## 舞台裏
-構造体は、帰納型の特別な場合であり、コンストラクタが一つしかないケースに対応します。上記の `Point` は以下のように定義しても同じことです。ただしこの場合、アクセサ関数が自動的に作られないため、フィールド記法は自分で実装しないと使用できないほか、波括弧記法が使えません。-/
+構造体は、帰納型の特別な場合であり、おおむねコンストラクタが一つしかないケースに対応します。上記の `Point` は以下のように定義された帰納型 `Point'` と同様の構造を持ちます。-/
 
 inductive Point' (α : Type) : Type where
   | mk : (x : α) → (y : α) → Point' α
 
+/- ただしこの場合、アクセサ関数が自動的に作られないため、フィールド記法は自分で実装しないと使用できないほか、波括弧記法が使えません。 -/
+
 -- フィールド記法が利用できない
 #guard_msgs (drop warning) in --#
 #check_failure Point'.x
+
+/-- 自前で定義した `Point'` へのフィールドへのアクセサ -/
+def Point'.x {α : Type} (p : Point' α) : α :=
+  match p with
+  | Point'.mk x _ => x
+
+-- フィールド記法が使えるようになった
+#eval
+  let p := Point'.mk 1 2
+  p.x
 
 -- 無名コンストラクタは使用できる
 def origin' : Point Int := ⟨0, 0⟩
