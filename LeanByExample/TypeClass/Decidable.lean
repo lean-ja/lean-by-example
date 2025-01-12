@@ -3,7 +3,6 @@
 
 ここで命題 `P : Prop` が決定可能であるとは、その真偽を決定するアルゴリズムが存在することを意味します。具体的には `P : Prop` が `Decidable` のインスタンスであるとき、`decide` 関数を適用することにより `decide P : Bool` が得られます。
 -/
-namespace Decidable --#
 
 -- 決定可能な命題を決定する関数 decide が存在する
 #check (decide : (P : Prop) → [Decidable P] → Bool)
@@ -14,7 +13,7 @@ namespace Decidable --#
 /-- info: false -/
 #guard_msgs in #eval decide (2 + 2 = 5)
 
-/- `Decidable` 型クラスのインスタンスに対しては、[`decide`](../Tactic/Decide.md) タクティクにより証明が可能です。 -/
+/- `Decidable` 型クラスのインスタンスに対しては、[`decide`](#{root}/Tactic/Decide.md) タクティクにより証明が可能です。 -/
 
 /-- 自前で定義した偶数を表す述語 -/
 def Even (n : Nat) : Prop := ∃ m : Nat, n = 2 * m
@@ -44,8 +43,9 @@ instance (n : Nat) : Decidable (Even n) := by
 example : Even 4 := by decide
 
 /- ## class inductive
-`Decidable` 型クラスの定義は少し特殊です。コンストラクタが複数あり、[構造体](../Declarative/Structure.md)ではなく[帰納型](../Declarative/Inductive.md)の構造をしています。これは `Decidable` が [`class inductive`](../Declarative/Class.md#ClassInductive) というコマンドで定義されているためです。-/
+`Decidable` 型クラスの定義は少し特殊です。コンストラクタが複数あり、[構造体](#{root}/Declarative/Structure.md)ではなく[帰納型](#{root}/Declarative/Inductive.md)の構造をしています。これは `Decidable` が [`class inductive`](#{root}/Declarative/Class.md#ClassInductive) というコマンドで定義されているためです。-/
 
+namespace Hidden --#
 --#--
 -- Decidable の定義が変わっていないことを確認する
 /--
@@ -63,5 +63,4 @@ class inductive Decidable (p : Prop) where
   | isFalse (h : Not p) : Decidable p
   /-- `p` であることが分かっているなら、`p` は決定可能 -/
   | isTrue (h : p) : Decidable p
-
-end Decidable --#
+end Hidden --#
