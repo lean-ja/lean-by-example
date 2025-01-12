@@ -2,9 +2,8 @@
 
 `[induction_eliminator]` 属性は、帰納法の枝を変更することを可能にします。
 
-より詳しくいうと、[`induction`](../Tactic/Induction.md) タクティクの `using` キーワードのデフォルトの引数を変更することができます。デフォルトでは、[帰納型](../Declarative/Inductive.md) `T` に対して `T.rec` (および `T.recOn` )という定理が自動生成されてそれが暗黙の裡に `using` キーワードの引数として使われますが、`[induction_eliminator]` 属性で別な定理を指定すると、それが使われるようになります。
+より詳しくいうと、[`induction`](#{root}/Tactic/Induction.md) タクティクの `using` キーワードのデフォルトの引数を変更することができます。デフォルトでは、[帰納型](#{root}/Declarative/Inductive.md) `T` に対して `T.rec` (および `T.recOn` )という定理が自動生成されてそれが暗黙の裡に `using` キーワードの引数として使われますが、`[induction_eliminator]` 属性で別な定理を指定すると、それが使われるようになります。
 -/
-namespace InductionEliminator --#
 
 variable {α : Type}
 
@@ -35,9 +34,9 @@ def Many.cons (x : α) (xs : Many α) : Many α :=
 
 -- Many を定義したときに自動生成される定理
 /--
-info: InductionEliminator.Many.rec.{u} {α : Type} {motive : Many α → Sort u}
-  (none : motive Many.none) (more : (a : α) → (a_1 : Unit → Many α) → ((a : Unit) → motive (a_1 a))
-  → motive (Many.more a a_1)) (t : Many α) : motive t
+info: Many.rec.{u} {α : Type} {motive : Many α → Sort u} (none : motive Many.none)
+  (more : (a : α) → (a_1 : Unit → Many α) → ((a : Unit) → motive (a_1 a)) → motive (Many.more a a_1)) (t : Many α) :
+  motive t
 -/
 #guard_msgs (whitespace := lax) in #check Many.rec
 
@@ -73,5 +72,3 @@ example (xs : Many α) : True := by
     guard_hyp xs : Unit → Many α
 
     trivial
-
-end InductionEliminator --#
