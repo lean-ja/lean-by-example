@@ -7,39 +7,43 @@ inductive MyList (α : Type) where
   | nil : MyList α
   | cons (head : α) (tail : MyList α) : MyList α
 
-private def Three := MyList.cons 1 (MyList.cons 2 (MyList.cons 3 MyList.nil))
+namespace MyList
 
--- 作ったばかりで実装していないため、
--- インデックスアクセスの構文 `as[i]` が使えない
-#guard_msgs (drop warning) in --#
-#check_failure Three[2]
+  def Three := MyList.cons 1 (MyList.cons 2 (MyList.cons 3 MyList.nil))
 
-variable {α : Type}
+  -- 作ったばかりで実装していないため、
+  -- インデックスアクセスの構文 `as[i]` が使えない
+  #guard_msgs (drop warning) in --#
+  #check_failure Three[2]
 
-/-- リストの長さを返す関数 -/
-def MyList.length {α : Type} (l : MyList α) : Nat :=
-  match l with
-  | nil => 0
-  | cons _ t => 1 + length t
+  variable {α : Type}
 
-/-- `as : MyList` の `idx` 番目の要素を取得する。
-`idx` の型は `Fin` としてある。 -/
-def MyList.get (as : MyList α) (idx : Fin as.length) : α :=
-  match as, idx with
-  | .cons head _, ⟨0, _⟩ => head
-  | .cons _ as, ⟨i + 1, h⟩ => by
-    -- インデックスアクセスが範囲内であることを証明する
-    have bound : i < as.length := by
-      simp [MyList.length] at h
-      omega
-    exact MyList.get as ⟨i, bound⟩
+  /-- リストの長さを返す関数 -/
+  def length (l : MyList α) : Nat :=
+    match l with
+    | nil => 0
+    | cons _ t => 1 + length t
 
-/-- MyList を GetElem のインスタンスにする -/
-instance : GetElem (MyList α) Nat α (fun as i => i < as.length) where
-  getElem as i h := as.get ⟨i, h⟩
+  /-- `as : MyList` の `idx` 番目の要素を取得する。
+  `idx` の型は `Fin` としてある。 -/
+  def get (as : MyList α) (idx : Fin as.length) : α :=
+    match as, idx with
+    | .cons head _, ⟨0, _⟩ => head
+    | .cons _ as, ⟨i + 1, h⟩ =>
+      -- インデックスアクセスが範囲内であることを証明する
+      have bound : i < as.length := by
+        simp [MyList.length] at h
+        omega
+      MyList.get as ⟨i, bound⟩
 
--- インデックスアクセスの構文が使えるようになった
-#guard Three[2] = 3
+  /-- MyList を GetElem のインスタンスにする -/
+  instance : GetElem (MyList α) Nat α (fun as i => i < as.length) where
+    getElem as i h := as.get ⟨i, h⟩
+
+  -- インデックスアクセスの構文が使えるようになった
+  #guard Three[2] = 3
+
+end MyList
 
 /- ## インデックスアクセスの種類
 コレクション `as` に対して、`i` 番目の要素を取得すると書きましたが、`i` 番目の要素があるとは限らないという問題があります。これに対処するには様々な方法がありえますが、中でも以下のものは専用の構文が用意されています。
@@ -64,13 +68,14 @@ instance : GetElem (MyList α) Nat α (fun as i => i < as.length) where
     IO.println l[i]
 
 -- 返り値を Option に包む場合
-#guard Three[2]? = some 3
-#guard Three[3]? = none
+#guard [1, 2, 3][2]? = some 3
+#guard [1, 2, 3][3]? = none
 
 -- 範囲外なら panic することにして強引に値を取り出す
-#guard Three[2]! = 3
+#guard [1, 2, 3][2]! = 3
 
 -- インデックスが範囲内であることの証明を明示的に渡す
 #guard
-  let h := show 2 < Three.length from by decide
-  Three[2]'h = 3
+  let arr := [1, 2, 3]
+  let h := show 2 < arr.length from by decide
+  arr[2]'h = 3
