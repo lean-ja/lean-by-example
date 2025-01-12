@@ -1,10 +1,9 @@
 /- # cases_eliminator
 
-`[cases_eliminator]` 属性は、[`cases`](../Tactic/Cases.md) タクティクで場合分けをした際の枝を変更します。
+`[cases_eliminator]` 属性は、[`cases`](#{root}/Tactic/Cases.md) タクティクで場合分けをした際の枝を変更します。
 
-より詳しくいうと、[`cases`](../Tactic/Cases.md) タクティクの `using` キーワードのデフォルトの引数を変更することができます。デフォルトでは、[帰納型](../Declarative/Inductive.md) `T` に対して `T.casesOn` という定理が自動生成されてそれが暗黙の裡に `using` キーワードの引数として使われますが、`[cases_eliminator]` 属性で別な定理を指定すると、それが使われるようになります。
+より詳しくいうと、[`cases`](#{root}/Tactic/Cases.md) タクティクの `using` キーワードのデフォルトの引数を変更することができます。デフォルトでは、[帰納型](#{root}/Declarative/Inductive.md) `T` に対して `T.casesOn` という定理が自動生成されてそれが暗黙の裡に `using` キーワードの引数として使われますが、`[cases_eliminator]` 属性で別な定理を指定すると、それが使われるようになります。
 -/
-namespace CasesEliminator --#
 
 variable {α : Type}
 
@@ -28,8 +27,7 @@ def Many.cons (x : α) (xs : Many α) : Many α :=
 
 -- Many を定義したときに自動生成される定理
 /--
-info: CasesEliminator.Many.casesOn.{u} {α : Type} {motive : Many α → Sort u}
-  (t : Many α) (none : motive Many.none)
+info: Many.casesOn.{u} {α : Type} {motive : Many α → Sort u} (t : Many α) (none : motive Many.none)
   (more : (a : α) → (a_1 : Unit → Many α) → motive (Many.more a a_1)) : motive t
 -/
 #guard_msgs (whitespace := lax) in #check Many.casesOn
@@ -63,7 +61,7 @@ example (x : Many α) : True := by
   case none => trivial
   case more x => trivial
 
-/- なお [`rcases`](../Tactic/Rcases.md) には影響しません。 -/
+/- なお [`rcases`](#{root}/Tactic/Rcases.md) には影響しません。 -/
 
 example (xs : Many α) : True := by
   rcases xs with _ | _
@@ -74,5 +72,3 @@ example (xs : Many α) : True := by
     -- xs の型が Unit → Many α になっている
     guard_hyp xs : Unit → Many α
     trivial
-
-end CasesEliminator --#
