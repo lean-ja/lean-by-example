@@ -4,7 +4,6 @@
 
 以下に示すように、`deriving instance C for T` とすると型 `T` に対して型クラス `C` のインスタンスを生成します。
 -/
-namespace Deriving --#
 
 inductive Color : Type where
   | red
@@ -19,7 +18,8 @@ set_option eval.derive.repr false
 error: could not synthesize a 'Repr' or 'ToString' instance for type
   Color
 -/
-#guard_msgs in #eval Color.red
+#guard_msgs in
+  #eval Color.red
 
 -- インスタンス生成
 deriving instance Repr for Color
@@ -51,10 +51,24 @@ deriving Inhabited, Repr
 class Callable (α : Type) where
   call : α → String
 
-/--
-error: default handlers have not been implemented yet,
-class: 'Deriving.Callable' types: [Deriving.People]
--/
-#guard_msgs in deriving instance Callable for People
+/-- error: default handlers have not been implemented yet,
+class: 'Callable' types: [People] -/
+#guard_msgs in
+  deriving instance Callable for People
 
-end Deriving --#
+/- 例外として、定義を展開して既存のインスタンスが見つかる場合は `deriving` が通ります。-/
+
+/-- 適当に定義した自前の型クラス -/
+class Foo (α : Type) where
+  foo : Unit
+
+/-- String の Foo インスタンスを定義する -/
+instance : Foo String where
+  foo := ()
+
+-- `Foo` の deriving handler は作っていないが、String と bar は同じなので
+-- String のインスタンスが使用される
+def bar := String deriving Foo
+
+-- String のインスタンスが使われている
+#guard Foo.foo bar = ()
