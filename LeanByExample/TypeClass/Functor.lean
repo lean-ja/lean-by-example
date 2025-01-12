@@ -1,8 +1,8 @@
 /- # Functor
 
-`Functor` は圏論における関手(functor)という概念からその名がある型クラスで、非常に雑な表現をすると、この型クラスを実装した型は「値を包んでいる」ものとして扱うことができます。
+`Functor` は圏論における関手(functor)という概念からその名がある型クラスで、非常に雑な表現をすると、この型クラスを実装した型は「値を包んでいるコンテナのようなもの」として扱うことができます。特定のデータ構造に「包まれて」いる中の値に対して関数を適用していくという操作を行いたいことがありますが、`Functor` のインスタンスはそれを可能にします。
 
-より詳細には、`f : Type u → Type v` に対して `Functor` はおおむね次のように定義されています。(実際の定義には `mapConst` というフィールドがありますが、ここでは省略しました)
+より詳細には、`F : Type u → Type v` に対して `Functor` はおおむね次のように定義されています。
 -/
 namespace Hidden --#
 --#--
@@ -22,33 +22,38 @@ constructor:
 universe u v
 
 /-- 関手 -/
-class Functor (f : Type u → Type v) : Type (max (u+1) v) where
-  /-- 関数 `g : α → β` を `g* : f α → f β` に変換する -/
-  map : {α β : Type u} → (α → β) → f α → f β
+class Functor (F : Type u → Type v) : Type (max (u+1) v) where
+  /-- 関数 `f : α → β` を関数 `F α → F β` に変換する -/
+  map : {α β : Type u} → (α → β) → F α → F β
+
+  /-- `a : α` に対して、定数関数 `const a : β → α` を関数 `F β → F α` に変換する。
+  `map` を使うよりも効率的に実装できることがあるので、上書きできるように用意されている。-/
+  mapConst : {α β : Type u} → α → F β → F α := Function.comp map (Function.const _)
 
 end Hidden --#
-/- つまり、`Functor` のインスタンスは `map` メソッドが使用できます。これは型からわかるように、関数を関数に写す高階関数で、「`f` で包まれる前の関数」から「`f` で包まれた関数」を返します。 -/
+/- つまり、`Functor` のインスタンスは `map` メソッドが使用できます。これは型からわかるように、関数を関数に写す高階関数で、「普通の関数 `f : α → β`」を「`F` に包まれた関数 `F α → F β`」に持ち上げます。`Functor.map` はよく使われる操作であるため、`<$>` という専用の記法が用意されています。 -/
+section --#
 
--- `f` は Functor であると仮定
-variable (f : Type → Type) [Functor f]
+-- `F` は Functor であると仮定
+variable (F : Type → Type) [Functor F]
 
--- 関数 `g : α → β` と `x : f α` が与えられたとする
+-- 関数 `g : α → β` と `x : F α` が与えられたとする
 variable {α β : Type} (g : α → β)
 
 -- 高階関数を返す
-#check (Functor.map (f := f) g : f α → f β)
+#check (Functor.map g : F α → F β)
 
-/- `Functor.map` はよく使われる操作であるため、`<$>` という専用の記法が用意されています。-/
+-- `<$>` は `map` と同じ
+example (x : F α) : g <$> x = Functor.map g x := rfl
 
-example (x : f α) : Functor.map g x = g <$> x := rfl
-
+end --#
 /- ## 典型的なインスタンス
 
 ### List
-`Functor` 型クラスの典型的なインスタンスのひとつが [`List`](#{root}/Type/List.md) です。
-これにより「リストの各要素に関数を適用する」ための簡単な方法が提供されます。
+`Functor` 型クラスの典型的なインスタンスのひとつが [`List`](#{root}/Type/List.md) です。これにより「リストの各要素に関数を適用する」ための簡単な方法が提供されます。
 -/
 
+-- リストの各要素を２倍する
 #guard (fun x => x * 2) <$> [1, 2, 3, 4, 5] = [2, 4, 6, 8, 10]
 
 /- ### Option
@@ -60,5 +65,5 @@ example (x : f α) : Functor.map g x = g <$> x := rfl
 
 /- ## Functor 則
 
-`Functor` 型クラスのインスタンスには満たすべきルールがあります。このルールを破っていても `Functor` 型クラスのインスタンスにすることは可能ですが、避けるべきです。ルール込みで `Functor` 型クラスのインスタンスを定義するためには、[`LawfulFunctor`](./LawfulFunctor.md) 型クラスを使います。
+`Functor` 型クラスのインスタンスには満たすべきルールがあります。このルールを破っていても `Functor` 型クラスのインスタンスにすることは可能ですが、避けるべきです。`Functor` 型クラスがルールを満たしていることを証明するためには、[`LawfulFunctor`](#{root}/TypeClass/LawfulFunctor.md) 型クラスを使います。
 -/
