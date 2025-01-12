@@ -1,6 +1,6 @@
 /- # macro
 
-`macro` は、その名の通りマクロを定義するための簡便なコマンドです。ただし[マクロ](#{root}/Type/Macro.md)とは、構文を受け取って新しい構文を返す関数のことです。
+`macro` は、その名の通りマクロを定義するための簡便なコマンドです。ただし[マクロ](#{root}/Type/Macro.md)とは、構文を構文に変換する機能のことです。
 -/
 import Mathlib.Data.Real.Sqrt --#
 
@@ -21,8 +21,12 @@ macro "#greet " : command => `(#eval "Hello World!")
 -- `#greet` コマンドが使用可能になった
 #greet
 
-/- ## 引数を取るマクロの例
-冒頭の例の `#greet` コマンドは引数を持ちませんが、引数を取るようなものも定義できます。-/
+/- ## マクロ作例
+
+マクロでどのようなことができるのかを理解するには、例を見るのが最高の近道です。以下に、`macro` コマンドでマクロを定義する例をいくつか示します。なお [`macro_rules`](#{root}/Declarative/MacroRules.md) コマンドを使用すれば、より複雑なマクロも定義できます。
+
+### 引数を取るマクロ
+冒頭の例の `#greet` コマンドは引数を持ちませんが、引数を取るようなものも定義できます。引数は `$` を付けることでマクロ内で展開することができます。-/
 
 -- 引数を取って、引数に対して挨拶するコマンドを定義する
 -- 引数は `$` を付けると展開できる
@@ -31,7 +35,7 @@ macro "#hello " id:term : command => `(#eval s!"Hello, {$id}!")
 /-- info: "Hello, Lean!" -/
 #guard_msgs in #hello "Lean"
 
-/- ## マクロによるタクティク作例
+/- ### タクティクを自作する
 `macro` コマンドを使用すると、コマンドだけでなくタクティクの定義も行うことができます。-/
 
 -- 平方根の計算
@@ -54,3 +58,49 @@ macro "norm_sqrt" : tactic => `(tactic| with_reducible
 -- 新しいタクティクにより一発で証明が終わるようになった！
 example : √4 = 2 := by norm_sqrt
 example : √18 = 3 * √ 2 := by norm_sqrt
+
+/- ### do 構文を追加する
+
+マクロで `do` 構文を追加することもできます。
+-/
+
+/-- 自前で定義した累積代入構文 -/
+macro x:ident " += " e:term : doElem => `(doElem| ($x) := ($x) + $e)
+
+/-- 0からnまでの和 -/
+def sum (n : Nat) : Nat := Id.run do
+  let mut sum := 0
+  for i in [0:n+1] do
+    sum += i
+  return sum
+
+#guard sum 3 = 6
+#guard sum 4 = 10
+
+/- ### 引数の値ではなく名前を参照
+
+マクロの引数として与えられた変数の値だけではなく、名前も参照することもできます。
+-/
+
+-- 通常の dbg_trace の挙動。
+-- 与えられた式の値だけを返し、与えられた式が何だったかは教えてくれない
+/-- info: 1 -/
+#guard_msgs in
+  #eval
+    let x := 1
+    dbg_trace x
+    return ()
+
+/-- 与えられている変数の名前も出力するような `dbg_trace` の変種 -/
+macro "dbg_trace!" x:ident body:term : term =>
+  -- 与えられている引数 `x` の名前を取得する
+  let ident := Lean.quote x.getId.toString
+  `(term| dbg_trace s!"{$ident} = {$x}"; $body)
+
+-- 与えられた変数の名前を出力するようになった！
+/-- info: y = 1 -/
+#guard_msgs in
+  #eval
+    let y := 1
+    dbg_trace! y
+    return ()
