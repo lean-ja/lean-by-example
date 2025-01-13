@@ -21,7 +21,7 @@ macro_rules
 
 /- ## 使用例
 
-`macro_rules` を使用して、集合の内包記法 `{x : T | P x}` を解釈するマクロを定義する例を以下に示します。
+`macro_rules` を使用して、集合の波括弧記法 `{{ a₁, a₂, ..., aₙ }}` を解釈するマクロを定義する例を以下に示します。
 -/
 
 /-- 部分集合。`α` の部分集合 `A ⊆ α` は、任意の要素 `x : α` に対して
@@ -30,13 +30,13 @@ def Set (α : Type) := α → Prop
 
 namespace Set
 
-variable {α : Type}
+  variable {α : Type}
 
-/-- 1つの要素だけからなる集合 -/
-def singleton (a : α) : Set α := fun x => x = a
+  /-- 1つの要素だけからなる集合 -/
+  def singleton (a : α) : Set α := fun x => x = a
 
-/-- 集合に１つ要素を追加する -/
-def insert (a : α) (s : Set α) := fun x => x = a ∨ s x
+  /-- 集合に１つ要素を追加する -/
+  def insert (a : α) (s : Set α) := fun x => x = a ∨ s x
 
 end Set
 
