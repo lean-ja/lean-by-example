@@ -114,5 +114,5 @@ deriving instance DecidableEq for MyNat
 /-- error: Found a counter-example! -/
 #guard_msgs in
   example : ∀ (a b : MyNat), a = b := by
-    -- `plausible` は最初使うことができない
+    -- `plausible` が使えるようになった！
     plausible (config := { quiet := true})
