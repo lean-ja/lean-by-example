@@ -6,9 +6,8 @@
 
 しかし、`native_decide` を使うと証明が可能です。
 -/
-namespace NativeDecide --#
-#guard_msgs (drop warning) in --#
 
+#guard_msgs (drop warning) in --#
 /-- Euclide のアルゴリズム -/
 def gcd (m n : Nat) : Nat :=
   if m = 0 then
@@ -34,7 +33,7 @@ def gcd (m n : Nat) : Nat :=
 
 theorem native : Nat.gcd 42998431 120019 = 1 := by native_decide
 
-/-- info: 'NativeDecide.native' depends on axioms: [propext, Lean.ofReduceBool] -/
+/-- info: 'native' depends on axioms: [propext, Lean.ofReduceBool] -/
 #guard_msgs in #print axioms native
 
 /- ## 注意
@@ -54,7 +53,5 @@ theorem zero_ne_eq_one : False := by
 
   contradiction
 
-/-- info: 'NativeDecide.zero_ne_eq_one' depends on axioms: [Lean.ofReduceBool] -/
+/-- info: 'zero_ne_eq_one' depends on axioms: [Lean.ofReduceBool] -/
 #guard_msgs in #print axioms zero_ne_eq_one
-
-end NativeDecide --#

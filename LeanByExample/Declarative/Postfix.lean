@@ -3,7 +3,6 @@
 `postfix` は、後置記法を定義するコマンドです。
 -/
 import Lean --#
-namespace Postfix --#
 
 /-- 階乗 -/
 def factorial : Nat → Nat
@@ -11,8 +10,7 @@ def factorial : Nat → Nat
   | n + 1 => (n + 1) * factorial n
 
 -- 後置記法を定義する
--- scoped を付けたのは、この後置記法をこの名前空間内でのみ有効にするため
-scoped postfix:200 "!" => factorial
+postfix:200 "!" => factorial
 
 -- 定義した記法が使える
 #guard 5! = 120
@@ -39,5 +37,3 @@ elab "#expand " t:macro_stx : command => do
 /-- info: notation:200 arg✝:200 "!" => factorial arg✝ -/
 #guard_msgs in
   #expand postfix:200 "!" => factorial
-
-end Postfix --#

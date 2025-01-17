@@ -3,18 +3,16 @@
 `infix` は、中置記法を定義するコマンドです。
 -/
 import Lean --#
-namespace Infix --#
 
 -- 中置記法を定義。中身はただの掛け算
--- 特定の名前空間でだけ有効にするために `scoped` を付けている
-scoped infix:60 " ⋄ " => Nat.mul
+infix:60 " ⋄ " => Nat.mul
 
 #guard 2 ⋄ 3 = 6
 
 /- `:` の後に付けている数字は **パース優先順位(parsing precedence)** で、高いほど結合するタイミングが早くなります。等号 `=` のパース優先順位は 50 であることを覚えておくと良いかもしれません。-/
 
 -- 等号より微妙にパース優先順位が高い
-scoped infix:51 " strong " => Nat.add
+infix:51 " strong " => Nat.add
 
 -- きちんと 1 + (2 strong 3) = 6 と解釈される。
 -- これは、 等号のパース優先順位が 51 未満であることを意味する
@@ -22,15 +20,14 @@ scoped infix:51 " strong " => Nat.add
 
 -- パース優先順位を 50 より低くすると等号より低くなる
 -- したがってエラーになる
-scoped infix:49 " weak " => Nat.add
+infix:49 " weak " => Nat.add
 
 #guard_msgs (drop warning) in --#
 #check_failure 1 + 2 weak 3 = 6
 
 /- `infix` で定義される記法は左結合でも右結合でもなく、必ず括弧が必要です。-/
-section
 
-open Lean Parser
+open Lean Parser in
 
 /-- `s : String` をパースして `Syntax` の項を得る。`cat` は構文カテゴリ。-/
 def parse (cat : Name) (s : String) : MetaM Syntax := do
@@ -43,7 +40,6 @@ def parse (cat : Name) (s : String) : MetaM Syntax := do
 -- 括弧を付ければOK
 #eval parse `term "1 ⋄ (2 ⋄ 3)"
 
-end
 /- ## 舞台裏
 
 `infix` は [`notation`](./Notation.md) コマンドに展開されるマクロとして実装されています。-/
@@ -68,5 +64,3 @@ elab "#expand " t:macro_stx : command => do
 /-- info: notation:50 lhs✝:51 " LXOR " rhs✝:51 => lxor lhs✝ rhs✝ -/
 #guard_msgs in
   #expand infix:50 " LXOR " => lxor
-
-end Infix --#

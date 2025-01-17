@@ -1,7 +1,6 @@
 /- # \#reduce
 `#reduce` は、与えられた式をこれ以上簡約できなくなるまで簡約します。
 -/
-namespace Reduce --#
 
 /-- info: 4 -/
 #guard_msgs in #reduce 1 + 3
@@ -20,5 +19,3 @@ def addOne (x : Nat) := x + 1
 -- 合成が計算できる
 /-- info: fun x => x.succ.succ -/
 #guard_msgs in #reduce addOne ∘ addOne
-
-end Reduce --#

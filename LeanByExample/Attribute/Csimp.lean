@@ -4,7 +4,6 @@
 `A = B` という形の定理に付与することでコンパイラに `A` の計算を `B` の計算に置き換えさせることができます。非効率な関数を効率的な実装に置き換えるために使用されます。
 -/
 import Lean
-namespace Csimp --#
 
 /-- フィボナッチ数列の非効率な実装 -/
 def fibonacci : Nat → Nat
@@ -27,7 +26,8 @@ elab "#in_second " stx:command : command => do
 
 -- `#eval fibonacci 32` は１秒以上かかる
 /-- error: It took more than one second for the command to run. -/
-#guard_msgs (error) in #in_second #eval fibonacci 32
+#guard_msgs (error) in
+  #in_second #eval fibonacci 32
 
 /-- フィボナッチ数列のより高速な実装 -/
 def fib (n : Nat) : Nat :=
@@ -58,5 +58,3 @@ theorem fib_eq_fibonacci : fibonacci = fib := by
 -- `fibonacci` の計算が１秒以内に終わるようになった
 #in_second #eval fibonacci 32
 #in_second #eval fibonacci 132
-
-end Csimp --#

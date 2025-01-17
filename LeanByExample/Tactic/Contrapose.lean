@@ -5,14 +5,13 @@
 -/
 import Mathlib.Tactic
 
-namespace Contrapose --#
-
 variable {f : Int → Int} {a b : Int}
 
-def Monotone (f : Int → Int) : Prop :=
+/-- 自前で定義した単調性 -/
+def MyMonotone (f : Int → Int) : Prop :=
   ∀ ⦃a₁ a₂⦄, a₁ ≤ a₂ → f a₁ ≤ f a₂
 
-example (h : Monotone f) (h' : f a < f b) : a < b := by
+example (h : MyMonotone f) (h' : f a < f b) : a < b := by
   -- 対偶をとる
   contrapose h'
 
@@ -27,7 +26,7 @@ example (h : Monotone f) (h' : f a < f b) : a < b := by
 `contrapose!` は、対偶をとった後に簡略化を実行します。
 -/
 
-example (h : Monotone f) (h' : f a < f b) : a < b := by
+example (h : MyMonotone f) (h' : f a < f b) : a < b := by
   -- 対偶をとる
   contrapose! h'
 
@@ -36,5 +35,3 @@ example (h : Monotone f) (h' : f a < f b) : a < b := by
 
   apply h
   assumption
-
-end Contrapose --#

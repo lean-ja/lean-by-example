@@ -3,8 +3,6 @@
 -/
 import Batteries.Data.List.Lemmas -- リストに対して `⊆` が使えるようにする
 
-namespace guard --#
-
 -- 階乗関数
 def fac : Nat → Nat
 | 0 => 1
@@ -32,7 +30,7 @@ but is expected to have type
 error: cannot evaluate code because 'sorryAx' uses 'sorry' and/or contains errors
 -/
 #guard_msgs (whitespace := lax) in
-#guard ((α : Type) → ∀ (l : List α), [] ⊆ l : Prop)
+  #guard ((α : Type) → ∀ (l : List α), [] ⊆ l : Prop)
 
 /- しかし、 `1 + 1 = 2` 等も `#check` で確かめてみると型は `Prop` です。にも関わらず `#guard` に渡してもエラーになりません。これは不思議に思えますが、理由は `1 + 1 = 2` が [`Decidable`](../TypeClass/Decidable.md) 型クラスのインスタンスであり、決定可能だからです。-/
 
@@ -54,6 +52,5 @@ error: cannot evaluate code because 'sorryAx' uses 'sorry' and/or contains error
 
 -- Bool 型になっている
 /-- info: decide (1 + 1 = 2) : Bool -/
-#guard_msgs in #check decide (1 + 1 = 2)
-
-end guard --#
+#guard_msgs in
+  #check decide (1 + 1 = 2)

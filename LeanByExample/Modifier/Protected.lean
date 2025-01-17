@@ -41,11 +41,11 @@ def bar := "world"
 
 namespace Foo
 
--- 単に bar と書くと Foo.bar が参照される
-#guard bar = "hello"
+  -- 単に bar と書くと Foo.bar が参照される
+  #guard bar = "hello"
 
--- ルートにある bar を参照することも _root_ を付ければ可能
-#guard _root_.bar = "world"
+  -- ルートにある bar を参照することも _root_ を付ければ可能
+  #guard _root_.bar = "world"
 
 end Foo
 
@@ -57,8 +57,8 @@ def baz := "world"
 
 namespace Foo
 
--- 単に baz と書いたらルートの baz が参照される
-#guard baz = "world"
+  -- 単に baz と書いたらルートの baz が参照される
+  #guard baz = "world"
 
 end Foo
 

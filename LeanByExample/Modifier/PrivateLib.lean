@@ -6,9 +6,9 @@ structure Point where
 
 namespace Point
 
-protected def sub (p q : Point) : Point :=
-    { x := p.x - q.x, y := p.y - q.y }
+  protected def sub (p q : Point) : Point :=
+      { x := p.x - q.x, y := p.y - q.y }
 
-private def private_sub := Point.sub
+  private def private_sub := Point.sub
 
 end Point

@@ -36,8 +36,6 @@ namespace MyList
 
 end MyList
 
-
-
 /- ## Repr と ToString の違い
 
 [`Repr`](#{root}/TypeClass/Repr.md) と [`ToString`](#{root}/TypeClass/ToString.md) はどちらも項の表示に関わる型クラスですが、使い分けのルールが存在しており、それは `Repr` のドキュメントコメントに書かれています。

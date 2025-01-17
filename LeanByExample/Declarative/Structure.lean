@@ -2,7 +2,6 @@
 # structure
 `structure` は構造体を定義するためのコマンドです。構造体とは、複数のデータをまとめて一つの型として扱えるようにしたものです。
 -/
-namespace Structure --#
 
 /-- 2次元空間の点 -/
 structure Point (α : Type) : Type where
@@ -30,6 +29,7 @@ example : Point.x origin = 0 := by rfl
 #check (Point.mk : {α : Type} → α → α → Point α)
 
 /- コンストラクタに `mk` 以外の名前を使いたい場合、`::` を使って次のようにします。-/
+namespace Hidden --#
 
 structure Prod (α : Type) (β : Type) where
   gen ::
@@ -39,6 +39,7 @@ structure Prod (α : Type) (β : Type) where
 -- コンストラクタの名前が gen になっている
 #check Prod.gen
 
+end Hidden --#
 /- ## フィールド記法 { #FieldNotation }
 構造体 `S` の項 `s : S` に `x` というフィールドがあるとき、`S.x s` の代わりに `s.x` と書くことができます。これにより、`s : S` におけるフィールド `x` の値を取得することができます。この関数適用を省略して「あたかもフィールドのように」値にアクセスする記法のことを **フィールド記法(field notation)** といいます。
 
@@ -178,5 +179,3 @@ warning: invalid {...} notation, structure type expected
 -/
 #guard_msgs in
   #check_failure ({ x := 1, y := 2 } : Point' Int)
-
-end Structure --#

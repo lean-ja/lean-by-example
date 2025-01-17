@@ -3,7 +3,6 @@
 
 基本的には `obtain <パターン> : 型または命題 := 証明項` という構文で使用します。型は省略することができます。
 -/
-namespace Obtain --#
 
 -- 論理積の分解
 example (P Q : Prop) (h : P ∧ Q) : True := by
@@ -50,5 +49,3 @@ example (s : Sample) : True := by
     guard_hyp z : String
 
     trivial
-
-end Obtain --#

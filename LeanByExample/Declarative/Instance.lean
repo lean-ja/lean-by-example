@@ -2,7 +2,6 @@
 # instance
 `instance` は、型クラスのインスタンスを定義するためのコマンドです。
 -/
-namespace Instance --#
 
 /-- 平面 -/
 structure Point (α : Type) where
@@ -94,5 +93,3 @@ attribute [-instance] instListAdd
 -- リスト同士を足すことができなくなった
 #guard_msgs (drop warning) in --#
 #check_failure [1] + [2]
-
-end Instance --#

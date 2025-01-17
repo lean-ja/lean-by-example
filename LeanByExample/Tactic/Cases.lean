@@ -62,7 +62,7 @@ example (s : Sample) : True := by
     trivial
 
 /- 論理和を分解することができるのも、`Or` が次のように帰納型として定義されているからです。 -/
-namespace Cases --#
+namespace Hidden --#
 
 --#--
 -- Or の定義が変わっていないことを確認するためのコード
@@ -80,4 +80,4 @@ inductive Or (a b : Prop) : Prop where
   | inl (h : a) : Or a b
   | inr (h : b) : Or a b
 
-end Cases --#
+end Hidden --#

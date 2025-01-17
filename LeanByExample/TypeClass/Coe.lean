@@ -8,7 +8,6 @@
 
 例えば、正の自然数からなる型 `Pos` を定義したとします。包含関係から `Pos → Nat` という変換ができるはずです。この変換を関数として定義するだけでは、必要になるごとに毎回書かなければなりませんが、型強制を使うと自動化することができます。
 -/
-namespace Coe --#
 
 /-- 正の自然数 -/
 inductive Pos where
@@ -35,7 +34,7 @@ but is expected to have type
   Nat : Type
 -/
 #guard_msgs (error) in
-#check factorial one
+  #check factorial one
 
 /-- `Pos` から `Nat` への変換 -/
 def Pos.toNat : Pos → Nat
@@ -52,5 +51,3 @@ instance : Coe Pos Nat where
 
 -- 自動的に `Pos` から `Nat` への変換が行われるようになった！
 #guard factorial one = 1
-
-end Coe --#

@@ -4,7 +4,6 @@
 
 `Inhabited` のインスタンスである型は、`default` という項を持ちます。
 -/
-namespace Inhabited --#
 
 variable {α : Type} [Inhabited α]
 
@@ -25,5 +24,3 @@ def get (a : Array α) (i : Nat) : α :=
 
 これは Lean が定理証明支援系としてもプログラミング言語としても使えるようにするための技術的な制約からくる仕様です。もし空の型を返してプログラムがクラッシュすることが許されたとすると、「空の型は `False` に等しい」ので、クラッシュするプログラムを `False` の証明として扱える可能性が生じてしまいます。
 -/
-
-end Inhabited --#

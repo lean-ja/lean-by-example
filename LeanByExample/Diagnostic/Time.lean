@@ -2,7 +2,6 @@
 `#time` は、コマンドの実行時間を計測するためのコマンドです。ミリ秒単位で結果を出してくれます。
 -/
 import Lean
-namespace Time --#
 
 -- フィボナッチ数列の遅い実装
 -- `n` に関して指数関数的な時間がかかる
@@ -78,5 +77,3 @@ elab "#in_second " stx:command : command => do
 /-- error: It took more than one second for the command to run. -/
 #guard_msgs (error) in
   #in_second #eval fibonacci 32
-
-end Time --#
