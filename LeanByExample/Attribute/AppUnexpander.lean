@@ -1,7 +1,6 @@
 /- # app_unexpander
 `[app_unexpander]` 属性を付与すると、関数適用 `f a₁ a₂ ... aₙ` の `#check` コマンドおよび infoview での表示のされ方を変更することができます。
 -/
-namespace AppUnexpander --#
 
 /-- 人に挨拶をする関数 -/
 def greet (x : String) := s!"Hello, {x}!"
@@ -69,5 +68,3 @@ def setOf.unexpander : Lean.PrettyPrinter.Unexpander
 /-- info: {n | ∃ m, n = 2 * m} : Set Nat -/
 #guard_msgs in
   #check {n : Nat | ∃ m, n = 2 * m}
-
-end AppUnexpander --#

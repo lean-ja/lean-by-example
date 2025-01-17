@@ -4,7 +4,6 @@
 
 例として、集合の内包表記 `{x : T | P x}` を定義するコードを示します。
 -/
-namespace DeclareSyntaxCat --#
 
 universe u
 
@@ -61,5 +60,3 @@ macro_rules
 #check
   let Even := { x : Nat | x % 2 = 0 }
   { x ∈ Even | x > 0 }
-
-end DeclareSyntaxCat --#

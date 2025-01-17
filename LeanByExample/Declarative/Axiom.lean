@@ -1,7 +1,6 @@
 /- # axiom
 `axiom` は、公理(axiom)を宣言するためのコマンドです。公理とは、議論の前提のことで、証明を与えることなく正しいと仮定される命題です。
 -/
-namespace Axiom --#
 
 /-- sorryAx を真似て作った公理 -/
 axiom mySorryAx {P : Prop} : P
@@ -10,7 +9,7 @@ axiom mySorryAx {P : Prop} : P
 theorem FLT : ∀ x y z n : Nat, n > 2 → x^n + y^n ≠ z^n := by
   apply mySorryAx
 
-/-- info: 'Axiom.FLT' depends on axioms: [Axiom.mySorryAx] -/
+/-- info: 'FLT' depends on axioms: [mySorryAx] -/
 #guard_msgs in #print axioms FLT
 
 /- ## 組み込みの公理
@@ -30,8 +29,9 @@ theorem ex_prop_ext (a b : Prop) (p : Prop → Prop) (h : a ↔ b) (h₁ : p a) 
   rw [←this]
   assumption
 
-/-- info: 'Axiom.ex_prop_ext' depends on axioms: [propext] -/
-#guard_msgs in #print axioms ex_prop_ext
+/-- info: 'ex_prop_ext' depends on axioms: [propext] -/
+#guard_msgs in
+  #print axioms ex_prop_ext
 
 /- ### 商の公理 Quot.sound
 任意の型 `α : Sort u` と `α` 上の2項関係 `r : α → α → Prop` に対して、その商(quotient)を作ることができます。商の概念は、以下に示す複数の定数から構成されます。
@@ -134,7 +134,7 @@ theorem lambda_eq (f : (x : α) → β x) : f = (fun x => f x) := by rfl
 
 -- 依存関数 `f` がラムダ式 `fun x => f x` に等しいことは、定義から従うので
 -- 何の公理も必要としない。
-/-- info: 'Axiom.lambda_eq' does not depend on any axioms -/
+/-- info: 'lambda_eq' does not depend on any axioms -/
 #guard_msgs in
   #print axioms lambda_eq
 
@@ -153,7 +153,7 @@ theorem funApp_eq (f : (x : α) → β x) : funApp (f := f) = f := calc
   _ = f := by rw [lambda_eq f]
 
 -- これも何の公理も必要としない
-/-- info: 'Axiom.funApp_eq' does not depend on any axioms -/
+/-- info: 'funApp_eq' does not depend on any axioms -/
 #guard_msgs in
   #print axioms funApp_eq
 
@@ -199,7 +199,7 @@ theorem my_funext {f g : (x : α) → β x} (h : ∀ x, f x = g x) : f = g := by
     -- 「`g` を適用する関数」と `g` は等しい
     _ = g := by rw [funApp_eq g]
 
-/-- info: 'Axiom.my_funext' depends on axioms: [Quot.sound] -/
+/-- info: 'my_funext' depends on axioms: [Quot.sound] -/
 #guard_msgs in #print axioms my_funext
 
 /- ### 選択原理 Classical.choice { #ClassicalChoice }
@@ -286,7 +286,7 @@ theorem lemma_em (himp : P → Q) (hor : ¬ Q ∨ P) : P ∨ ¬ P := by
     exact h
 
 -- 何の公理も使用していない
-/-- info: 'Axiom.lemma_em' does not depend on any axioms -/
+/-- info: 'lemma_em' does not depend on any axioms -/
 #guard_msgs in #print axioms lemma_em
 
 /- 選択原理を用いると命題 `Q` を構成することができ、関数外延性と命題外延性により、それが所望の性質を持つことを示すことができます。-/
@@ -349,5 +349,3 @@ theorem em (P : Prop) : P ∨ ¬ P := by
 
     -- 残りの１つでは `u ≠ v` が成り立つ。
     simp [hu, hv]
-
-end Axiom --#

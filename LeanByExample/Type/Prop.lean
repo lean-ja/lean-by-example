@@ -114,14 +114,12 @@ example (P Q : Prop) (hP : P) (hQ : Q) : P ↔ Q :=
 同じ命題 `P : Prop` の２つの証明項 `h1 h2 : P` は必ず等しくなります。直観的には、これは「命題の証明はその命題が真であるという以上の情報を持たない」ということです。これを **証明無関係(proof irrelevance)** と呼びます。
 -/
 
-namespace Proposition --#
-
 -- 各命題の証明項はただ一つしかない
-theorem proof_irrel (P : Prop) (h1 h2 : P) : h1 = h2 := rfl
+theorem my_proof_irrel (P : Prop) (h1 h2 : P) : h1 = h2 := rfl
 
 /- 証明無関係は [`axiom`](../Declarative/Axiom.md) で導入された公理から従う定理ではなく、Lean の型システムに組み込まれたものであることに注意してください。-/
 
-/-- info: 'Proposition.proof_irrel' does not depend on any axioms -/
+/-- info: 'proof_irrel' does not depend on any axioms -/
 #guard_msgs in #print axioms proof_irrel
 
 /- ### No Large Elimination
@@ -152,10 +150,10 @@ h : ∃ x, x ^ 2 = 1
 ⊢ Int
 -/
 #guard_msgs (whitespace := lax) in
-def Bad.extract (h : ∃ x : Int, x ^ 2 = 1) : Int := by
-  -- x を取り出すことができない
-  obtain ⟨x, hx⟩ := h
-  exact x
+  def Bad.extract (h : ∃ x : Int, x ^ 2 = 1) : Int := by
+    -- x を取り出すことができない
+    obtain ⟨x, hx⟩ := h
+    exact x
 
 /- 仮に、上記の例がエラーにならなかったとすると、証明無関係を利用して矛盾を示すことができてしまいます。-/
 
@@ -243,5 +241,3 @@ example (ex : ∃ x, anti_simple x) : ¬ simple anti_simple := by
 
 -- 型宇宙 Type は非可述的ではなく、可述的
 #check (∀ a : Type, a : Type 1)
-
-end Proposition --#

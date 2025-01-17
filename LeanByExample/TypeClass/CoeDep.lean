@@ -4,7 +4,6 @@
 
 たとえば空でないリストからなる型 `NonEmptyList` を定義したとします。空リストを変換する方法がないため、`List α → NonEmptyList α` という変換を定義する自然な方法はありません。しかし `CoeDep` を使えば空でないリストに限って `NonEmptyList` に変換するという型強制を定義することができます。
 -/
-namespace CoeDep --#
 
 /-- 空でないリスト -/
 structure NonEmptyList (α : Type) : Type where
@@ -23,5 +22,3 @@ instance {x : α} {xs : List α} : CoeDep (List α) (x :: xs) (NonEmptyList α) 
 
 -- 型強制が定義された
 #check ([1, 2] : NonEmptyList Nat)
-
-end CoeDep --#

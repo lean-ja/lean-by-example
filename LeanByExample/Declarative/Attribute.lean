@@ -5,7 +5,6 @@
 
 次の例では、命題に `[simp]` 属性を付与しています。これは `simp` タクティクで利用される命題を増やすことを意味します。
 -/
-namespace Attribute --#
 
 theorem foo {P Q : Prop} : (P → Q) ∧ P ↔ Q ∧ P := by
   constructor <;> intro h
@@ -102,5 +101,3 @@ example (P Q : Prop) : ((P ∨ Q) ∧ ¬ Q) ↔ (P ∧ ¬ Q) := by
   | simp
 
   sorry
-
-end Attribute --#

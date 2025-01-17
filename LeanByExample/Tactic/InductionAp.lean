@@ -5,8 +5,6 @@
 -/
 import Mathlib.Tactic -- 大雑把に import する
 
-namespace InductionAp --#
-
 /-- `0` から `n` までの和を計算する。
 多項式関数として表現する都合で、返り値は `Rat` にしてある。-/
 def sum (n : Nat) : Rat :=
@@ -72,5 +70,3 @@ example : fibonacci = fib := by
   | 0 => rfl
   | 1 => rfl
   | n + 2 => simp_all [fibonacci]
-
-end InductionAp --#
