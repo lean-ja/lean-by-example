@@ -40,7 +40,8 @@ import Batteries.Data.Rat.Float --#
 
 -- `1/10` にはならない！
 /-- info: (3602879701896397 : Rat)/36028797018963968 -/
-#guard_msgs in #eval (0.1 : Float).toRat0
+#guard_msgs in
+  #eval (0.1 : Float).toRat0
 
 -- 分母の数は2の冪乗になっている
 -- これは浮動小数点数が内部で2進数で表現されていることを裏付ける
@@ -48,7 +49,7 @@ import Batteries.Data.Rat.Float --#
   let x := (0.1 : Float).toRat0.den
   2 ^ Nat.log2 x = x
 
-/- これでは誤差の存在はわかってもその大きさが分かりづらいので、10進数として正確な表現を出力してみましょう。 -/
+/- これでは誤差の存在はわかってもその大きさが分かりづらいので、10進数として正確な表現を出力してみましょう。[^float] -/
 
 /-- 分母が2のベキであるような正の有理数を10進小数として表示する -/
 def Rat.pow2ToBase10Pos (x : Rat) : String :=
@@ -103,3 +104,5 @@ def Float.toExactDecimal (x : Float) : String := x.toRat0.pow2ToBase10
 /-- info: "0.299999999999999988897769753748434595763683319091796875" -/
 #guard_msgs in
   #eval Float.toExactDecimal 0.3
+
+/- [^float]: この浮動小数点数を正確に表示させる関数の実装例は、筆者が Zulip のスレッド "display all of a Float object" で Daniel Weber 氏に教えていただいたものに基づいています。 -/
