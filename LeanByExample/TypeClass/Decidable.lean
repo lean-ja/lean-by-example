@@ -18,6 +18,12 @@
 /-- 自前で定義した偶数を表す述語 -/
 def Even (n : Nat) : Prop := ∃ m : Nat, n = 2 * m
 
+example : Even 4 := by
+  -- 最初は decide で示すことができない
+  fail_if_success decide
+
+  exists 2
+
 /-- Even が決定可能であることを示す -/
 instance (n : Nat) : Decidable (Even n) := by
   -- n % 2 の計算に帰着させる
@@ -39,7 +45,7 @@ instance (n : Nat) : Decidable (Even n) := by
     obtain ⟨m, rfl⟩ := h
     omega
 
--- decide で証明ができるようになる
+-- decide で証明ができるようになった！
 example : Even 4 := by decide
 
 /- ## class inductive
