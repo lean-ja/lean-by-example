@@ -68,6 +68,7 @@
 - [構文](./Parser/README.md)
   - [`{x y : A}`: 暗黙の引数](./Parser/ImplicitBinder.md)
   - [by: タクティクモードに入る](./Parser/By.md)
+  - [show .. from: 項の型を明示](./Parser/Show.md)
 
 - [属性](./Attribute/README.md)
   - [aesop: aesop カスタマイズ](./Attribute/Aesop.md)
