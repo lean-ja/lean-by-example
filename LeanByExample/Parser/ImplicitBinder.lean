@@ -56,7 +56,7 @@ def List.map' {α β : Type} (f : α → β) : List α → List β
 -- `@` 記号を付けると全ての引数が明示的引数に変化
 #check @List.map' Nat Bool (fun x => x == 1) [1, 2, 3]
 
-/- ## 構文についての補足
+/- ## 構文的な性質
 
 `Lean.Parser.Term.implicitBinder` というパーサが暗黙引数の構文に対応しています。-/
 
