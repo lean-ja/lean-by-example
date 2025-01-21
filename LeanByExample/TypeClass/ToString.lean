@@ -35,26 +35,3 @@ namespace MyList
   #guard (toString <| MyList.cons 1 (MyList.cons 2 (MyList.nil))) = "[1, 2]"
 
 end MyList
-
-/- ## Repr と ToString の違い
-
-[`Repr`](#{root}/TypeClass/Repr.md) と [`ToString`](#{root}/TypeClass/ToString.md) はどちらも項の表示に関わる型クラスですが、使い分けのルールが存在しており、それは `Repr` のドキュメントコメントに書かれています。
--/
-
-open Lean Elab Command in
-
-/-- ドキュメントコメントを取得して表示するコマンド -/
-elab "#doc " x:ident : command => do
-  let name ← liftCoreM do realizeGlobalConstNoOverload x
-  if let some s ← findDocString? (← getEnv) name then
-  logInfo m!"{s}"
-
-/--
-info: A typeclass that specifies the standard way of turning values of some type into `Format`.
-
-When rendered this `Format` should be as close as possible to something that can be parsed as the
-input value.
--/
-#guard_msgs in #doc Repr
-
-/- `Repr` の出力は Lean のコードとしてパース可能なものに可能な限り近くなければならない、つまり Lean のコードとして実行可能であることが期待されます。一方で、`ToString` は単なる `String` への変換であってそのような制約はありません。 -/

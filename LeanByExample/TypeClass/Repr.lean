@@ -4,6 +4,7 @@
 
 たとえば、以下のように新しく[構造体](#{root}/Declarative/Structure.md) `Point` を定義したとき、何も指定しなくても `Point` の項を `#eval` で表示することはできますが、実は裏で `Repr` インスタンスを利用しています。
 -/
+import Lean --#
 
 -- 平面上の点を表す構造体
 structure Point (α : Type) : Type where
@@ -22,12 +23,37 @@ set_option eval.derive.repr false
 
 -- 表示できずにエラーになった！
 /--
-error: could not synthesize a 'Repr' or 'ToString' instance for type
+error: could not synthesize a 'ToExpr', 'Repr', or 'ToString' instance for type
   Point Nat
 -/
 #guard_msgs in #eval origin
 
-/- `Repr` インスタンスの登録方法ですが、通り一遍の表示で構わなければ [`deriving`](#{root}/Declarative/Deriving.md) コマンドで Lean に自動生成させることができます。-/
+/- ## Repr が満たすべきルール
+
+`Repr` の出力は Lean のコードとしてパース可能なものに可能な限り近くなければならない、つまり Lean のコードとして実行可能であることが期待されます。このルールは `Repr` のドキュメントコメントに書かれています。
+-/
+
+open Lean Elab Command in
+
+/-- ドキュメントコメントを取得して表示するコマンド -/
+elab "#doc " x:ident : command => do
+  let name ← liftCoreM do realizeGlobalConstNoOverload x
+  if let some s ← findDocString? (← getEnv) name then
+  logInfo m!"{s}"
+
+/--
+info: A typeclass that specifies the standard way of turning values of some type into `Format`.
+
+When rendered this `Format` should be as close as possible to something that can be parsed as the
+input value.
+-/
+#guard_msgs in #doc Repr
+
+/- ## Repr インスタンスの実装方法
+
+### deriving を使う
+
+[`deriving`](#{root}/Declarative/Deriving.md) コマンドで Lean に `Repr` インスタンスを自動生成させることができます。-/
 
 deriving instance Repr for Point
 
@@ -46,48 +72,114 @@ def origin' : Point' Nat := ⟨0, 0⟩
 -- 評価できる
 #eval origin'
 
-/- ## deriving を使わない場合
-`Repr` のインスタンスは [`deriving`](../Declarative/Deriving.md) コマンドで生成できますが、手動で作ることもできます。
+/- なお `Repr` の実装が満たすべきルールとして「出力は実行可能な Lean のコードでなければならない」というものがあるので、自分で構文を用意しない限り `deriving` を使わずに `Repr` インスタンスを実装する機会はないはずです。 -/
+
+/- ### ToString インスタンスから作る
+[`ToString`](#{root}/TypeClass/ToString.md) クラスのインスタンスから、`Repr` のインスタンスを得ることができます。
 -/
 
-variable {α : Type}
+instance {α : Type} [ToString α] : Repr α where
+  reprPrec x _ := toString x
 
-/-- 入れ子になったリスト -/
-inductive NestedList (α : Type) where
-| elem : α → NestedList α
-| list : List (NestedList α) → NestedList α
+/- 実装すべきメソッド `Repr.reprPrec` の型は `α → Nat → Std.Format` なので型が合わないようですが、上記のコードが通るのは `String` から `Format` への[型強制](#{root}/TypeClass/Coe.md)が存在するためです。-/
+section
 
-open Std
+  variable {α : Type} [Repr α]
 
-partial def NestedList.repr [Repr α] (a : NestedList α) (n : Nat) : Format :=
-  -- 再帰で `ToFormat` のインスタンスを生成する
-  let _instToFormat : ToFormat (NestedList α) := ⟨(NestedList.repr · 0)⟩
-  match a, n with
-  | elem x, _ => reprPrec x n
-  | list as, _ => Format.bracket "[" (Format.joinSep as ("," ++ Format.line)) "]"
+  #check (Repr.reprPrec : α → Nat → Std.Format)
 
-def sample : NestedList Nat :=
-  .list [.elem 1, .list [.elem 2, .elem 3], .elem 4]
+  -- `String → Format` という型強制が存在する
+  #synth Coe String Std.Format
 
-section --#
-/-- Repr インスタンスを登録 -/
-local instance [Repr α] : Repr (NestedList α) where
-  reprPrec := NestedList.repr
+end
+/- これを利用すると `Repr` の実装が手軽に得られます。
 
-/-- info: [1, [2, 3], 4] -/
-#guard_msgs in #eval sample
-end --#
+以下に紹介する例は少し長くて複雑ですが、[`macro_rules`](#{root}/Declarative/MacroRules.md) コマンドを使用して見やすい構文を用意した後、`Repr` の出力がその構文になるように `Repr` インスタンスを定義する例です。
+-/
 
-/- また、`Repr` インスタンスがなくても [`ToString`](./ToString.md) クラスのインスタンスがあればそれが表示に使われます。-/
+/-- 2項演算の集合 -/
+inductive Op where
+  /-- 加法 -/
+  | add
+  /-- 乗法 -/
+  | mul
+deriving BEq
 
-/-- `NestedList` を文字列に変換 -/
-partial def NestedList.toString [ToString α] : NestedList α → String
-  | NestedList.elem x => ToString.toString x
-  | NestedList.list xs => "[" ++ String.intercalate ", " (xs.map toString) ++ "]"
+namespace Op
+  -- ## ToString インスタンスの定義
 
-/-- `NestedList` の `ToString` インスタンスを宣言 -/
-instance [ToString α] : ToString (NestedList α) where
-  toString nl := NestedList.toString nl
+  protected def toString : Op → String
+    | add => "+"
+    | mul => "*"
 
-/-- info: [1, [2, 3], 4] -/
-#guard_msgs in #eval sample
+  instance : ToString Op := ⟨Op.toString⟩
+
+end Op
+
+/-- 数式 -/
+inductive Expr where
+  /-- 数値リテラル -/
+  | val : Nat → Expr
+  /-- 演算子の適用 -/
+  | app : Op → Expr → Expr → Expr
+deriving BEq
+
+namespace Expr
+  -- ## Expr の項を定義するための見やすい構文を用意する
+
+  /-- `Expr` のための構文カテゴリ -/
+  declare_syntax_cat expr
+
+  /-- `Expr` を見やすく定義するための構文 -/
+  syntax "expr!{" expr "}" : term
+
+  syntax:max num : expr
+  syntax:30 expr:30 " + " expr:31 : expr
+  syntax:35 expr:35 " * " expr:36 : expr
+  syntax:max "(" expr ")" : expr
+
+  macro_rules
+    | `(expr!{$n:num}) => `(Expr.val $n)
+    | `(expr!{$l:expr + $r:expr}) => `(Expr.app Op.add expr!{$l} expr!{$r})
+    | `(expr!{$l:expr * $r:expr}) => `(Expr.app Op.mul expr!{$l} expr!{$r})
+    | `(expr!{($e:expr)}) => `(expr!{$e})
+
+  -- 構文が正しく動作しているかテスト
+  #guard
+    let expected := Expr.app Op.add (app Op.mul (val 1) (val 2)) (val 3)
+    let actual := expr!{1 * 2 + 3}
+    expected == actual
+end Expr
+
+namespace Expr
+  -- ## ToString インスタンスを定義する
+
+  protected def toString : Expr → String
+    | Expr.val x => ToString.toString x
+    | Expr.app op l r =>
+      brak l ++ ToString.toString op ++ brak r
+  where
+    brak : Expr → String
+    | .val n => ToString.toString n
+    | e => "(" ++ Expr.toString e ++ ")"
+
+  instance : ToString Expr := ⟨Expr.toString⟩
+
+  -- toString インスタンスのテスト
+  #guard toString expr!{1 + 2 * 3} = "1+(2*3)"
+  #guard toString expr!{1 + (2 + 3 * 4)} = "1+(2+(3*4))"
+end Expr
+
+namespace Expr
+  -- ## Repr インスタンスを定義する
+
+  -- `ToString` インスタンスを利用して `Repr` インスタンスを実装する
+  instance : Repr Expr where
+    reprPrec e _ := "expr!{" ++ toString e ++ "}"
+
+  -- Repr インスタンスのテスト
+  /-- info: expr!{1+(2*3)} -/
+  #guard_msgs in
+    #eval expr!{1 + (2 * 3)}
+
+end Expr
