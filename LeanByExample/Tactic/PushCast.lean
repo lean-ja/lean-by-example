@@ -1,6 +1,6 @@
 /- # push_cast
 
-`push_cast` タクティクは、ゴールや仮定に含まれる型強制（型キャスト）を「内側へ押し込む」はたらきをします。
+`push_cast` タクティクは、ゴールや仮定に含まれる[型強制](#{root}/TypeClass/Coe.md)を「内側へ押し込む」はたらきをします。
 -/
 import Mathlib.Tactic
 
