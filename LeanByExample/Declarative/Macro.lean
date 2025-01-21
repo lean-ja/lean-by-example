@@ -16,10 +16,11 @@ def parse (cat : Name) (s : String) : MetaM Syntax := do
   #eval parse `command "#greet"
 
 -- `#greet` コマンドを定義する
-macro "#greet " : command => `(#eval "Hello World!")
+macro "#greet " : command => `(command| #eval "Hello World!")
 
 -- `#greet` コマンドが使用可能になった
-#greet
+/-- info: "Hello World!" -/
+#guard_msgs in #greet
 
 /- ## マクロ作例
 
@@ -30,13 +31,13 @@ macro "#greet " : command => `(#eval "Hello World!")
 
 -- 引数を取って、引数に対して挨拶するコマンドを定義する
 -- 引数は `$` を付けると展開できる
-macro "#hello " id:term : command => `(#eval s!"Hello, {$id}!")
+macro "#hello " id:term : command => `(command| #eval s!"Hello, {$id}!")
 
 /-- info: "Hello, Lean!" -/
 #guard_msgs in #hello "Lean"
 
 /- ### タクティクを自作する
-`macro` コマンドを使用すると、コマンドだけでなくタクティクの定義も行うことができます。-/
+マクロを使用すると、コマンドだけでなくタクティクの定義も行うことができます。-/
 
 -- 平方根の計算
 example : √4 = 2 := by
@@ -61,7 +62,7 @@ example : √18 = 3 * √ 2 := by norm_sqrt
 
 /- ### do 構文を追加する
 
-マクロで `do` 構文を追加することもできます。
+マクロで `do` 構文を追加することができます。
 -/
 
 /-- 自前で定義した累積代入構文 -/
@@ -79,7 +80,7 @@ def sum (n : Nat) : Nat := Id.run do
 
 /- ### 引数の値ではなく名前を参照
 
-マクロの引数として与えられた変数の値だけではなく、名前も参照することもできます。
+マクロ展開時に、マクロの引数として与えられた変数の値だけでなく、名前も参照することができます。
 -/
 
 -- 通常の dbg_trace の挙動。
