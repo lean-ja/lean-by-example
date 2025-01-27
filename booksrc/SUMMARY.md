@@ -64,6 +64,7 @@
   - [private: 定義を不可視にする](./Modifier/Private.md)
   - [protected: フルネームを強制する](./Modifier/Protected.md)
   - [scoped: 有効範囲を名前空間で限定](./Modifier/Scoped.md)
+  - [unsafe: Leanのルールを破る](./Modifier/Unsafe.md)
 
 - [構文](./Parser/README.md)
   - [`{x y : A}`: 暗黙の引数](./Parser/ImplicitBinder.md)
