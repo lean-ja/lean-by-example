@@ -88,7 +88,7 @@ r a b → Quot.mk r a = Quot.mk r b
 * 関数の商へのリフト `Quot.lift`
 * 商の公理 `Quot.sound`
 
-この中で `Quot.sound` だけが「公理」と呼ばれ、特別扱いされているのは何故でしょうか。以下のように商の公理以外の部分を Lean の[帰納型](../Declarative/Inductive.md)を使って構成してみると理解できるかもしれません。
+この中で `Quot.sound` だけが「公理」と呼ばれ、特別扱いされているのは何故でしょうか。以下のように商の公理以外の部分を Lean の[帰納型](#{root}/Declarative/Inductive.md)を使って構成してみると理解できるかもしれません。
 -/
 
 /-- 標準ライブラリの Quot を真似して自作した型 -/

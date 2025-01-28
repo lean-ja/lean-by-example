@@ -29,7 +29,7 @@ inductive Exists.{u} {α : Sort u} (p : α → Prop) : Prop where
   | intro (w : α) (h : p w) : Exists p
 
 end Exists --#
-/- したがって `Exists` は単一のコンストラクタを持つ[帰納型](../Declarative/Inductive.md)、つまり[構造体](../Declarative/Structure.md)なので、上記の `exists` は `exact` と[無名コンストラクタ](../Declarative/Structure.md#AnonymousConstructor)で次のように書き直すことができます。-/
+/- したがって `Exists` は単一のコンストラクタを持つ[帰納型](#{root}/Declarative/Inductive.md)、つまり[構造体](#{root}/Declarative/Structure.md)なので、上記の `exists` は `exact` と[無名コンストラクタ](#{root}/Declarative/Structure.md#AnonymousConstructor)で次のように書き直すことができます。-/
 
 example : ∃ x : Nat, 3 * x + 1 = 7 := by
   exact ⟨2, show 3 * 2 + 1 = 7 from by rfl⟩

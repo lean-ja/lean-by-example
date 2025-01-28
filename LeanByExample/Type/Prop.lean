@@ -41,7 +41,7 @@ example : 1 + 1 = 2 := one_and_one_eq_two
 #guard (False ∧ True) = False
 #guard (False ∧ False) = False
 
-/- Lean では `And` という名前の[構造体](../Declarative/Structure.md)として表現されます。-/
+/- Lean では `And` という名前の[構造体](#{root}/Declarative/Structure.md)として表現されます。-/
 
 example (P Q : Prop) (hP : P) (hQ : Q) : P ∧ Q := And.intro hP hQ
 
@@ -54,7 +54,7 @@ example (P Q : Prop) (hP : P) (hQ : Q) : P ∧ Q := And.intro hP hQ
 #guard False ∨ True
 #guard (False ∨ False) = False
 
-/- Lean では `Or` という名前の[帰納型](../Declarative/Inductive.md)として表現されます。-/
+/- Lean では `Or` という名前の[帰納型](#{root}/Declarative/Inductive.md)として表現されます。-/
 
 example (P Q : Prop) (hP : P) : P ∨ Q := Or.inl hP
 
@@ -117,7 +117,7 @@ example (P Q : Prop) (hP : P) (hQ : Q) : P ↔ Q :=
 -- 各命題の証明項はただ一つしかない
 theorem my_proof_irrel (P : Prop) (h1 h2 : P) : h1 = h2 := rfl
 
-/- 証明無関係は [`axiom`](../Declarative/Axiom.md) で導入された公理から従う定理ではなく、Lean の型システムに組み込まれたものであることに注意してください。-/
+/- 証明無関係は [`axiom`](#{root}/Declarative/Axiom.md) で導入された公理から従う定理ではなく、Lean の型システムに組み込まれたものであることに注意してください。-/
 
 /-- info: 'proof_irrel' does not depend on any axioms -/
 #guard_msgs in #print axioms proof_irrel
@@ -125,7 +125,7 @@ theorem my_proof_irrel (P : Prop) (h1 h2 : P) : h1 = h2 := rfl
 /- ### No Large Elimination { #NoLargeElim }
 証明無関係の重要な帰結のひとつに、「証明から値を取り出すことができるのは、証明の中だけ」というものがあります。この現象は、「`Prop` は large elimination を許可しない」という言葉で表現されることがあります。
 
-たとえば次のように、証明の中であれば証明項を [`cases`](../Tactic/Cases.md) や [`rcases`](../Tactic/Rcases.md) で分解して値を取り出すことができます。-/
+たとえば次のように、証明の中であれば証明項を [`cases`](#{root}/Tactic/Cases.md) や [`rcases`](#{root}/Tactic/Rcases.md) で分解して値を取り出すことができます。-/
 
 -- 同じ存在命題の２通りの証明
 -- 2乗すると1になる整数を２通り与えた

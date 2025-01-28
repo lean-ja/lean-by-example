@@ -39,4 +39,4 @@ error: could not synthesize a 'Repr' or 'ToString' instance for type
 #guard_msgs in
   #eval (fun x => x + 1)
 
-/- 一般に、[`Repr`](../TypeClass/Repr.md) や [`ToString`](../TypeClass/ToString.md) および `ToExpr` のインスタンスでないような型の項は `#eval` に渡すことができません。-/
+/- 一般に、[`Repr`](#{root}/TypeClass/Repr.md) や [`ToString`](#{root}/TypeClass/ToString.md) および `ToExpr` のインスタンスでないような型の項は `#eval` に渡すことができません。-/

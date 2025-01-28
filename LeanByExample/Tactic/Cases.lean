@@ -43,7 +43,7 @@ example : P ∨ Q → (P → R) → (Q → R) → R := by
 
 /- ## 舞台裏
 
-`cases` は、実際には論理和に限らず[帰納型](../Declarative/Inductive.md)をコンストラクタに分解することができるタクティクです。
+`cases` は、実際には論理和に限らず[帰納型](#{root}/Declarative/Inductive.md)をコンストラクタに分解することができるタクティクです。
 -/
 
 -- 帰納型として定義した例示のための型
