@@ -51,7 +51,33 @@ input value.
 
 /- ## Repr インスタンスの実装方法
 
-### deriving を使う
+`Repr` 型クラスの定義は次のようになっています。-/
+
+--#--
+-- ## Repr の定義を確認するためのコード
+/--
+info: class Repr.{u} (α : Type u) : Type u
+number of parameters: 1
+fields:
+  Repr.reprPrec : α → Nat → Std.Format
+constructor:
+  Repr.mk.{u} {α : Type u} (reprPrec : α → Nat → Std.Format) : Repr α
+-/
+#guard_msgs in #print Repr
+--#--
+namespace Hidden --#
+
+class Repr.{u} (α : Type u) where
+  /--
+  `α` 型の項を、与えられた優先度で `Format` に変換する。
+  優先度は、括弧を付けるかどうかの判断に使用される。
+  -/
+  reprPrec : α → Nat → Std.Format
+
+end Hidden --#
+/- したがって `Repr` のインスタンスを実装するには `Std.Format` の項を構成する必要がありそうですが、実は必ずしもこれを明示的に構成する必要はありません。 -/
+
+/- ### deriving を使う
 
 [`deriving`](#{root}/Declarative/Deriving.md) コマンドで Lean に `Repr` インスタンスを自動生成させることができます。-/
 
@@ -82,16 +108,10 @@ instance {α : Type} [ToString α] : Repr α where
   reprPrec x _ := toString x
 
 /- 実装すべきメソッド `Repr.reprPrec` の型は `α → Nat → Std.Format` なので型が合わないようですが、上記のコードが通るのは `String` から `Format` への[型強制](#{root}/TypeClass/Coe.md)が存在するためです。-/
-section
 
-  variable {α : Type} [Repr α]
+-- `String → Format` という型強制が存在する
+#synth Coe String Std.Format
 
-  #check (Repr.reprPrec : α → Nat → Std.Format)
-
-  -- `String → Format` という型強制が存在する
-  #synth Coe String Std.Format
-
-end
 /- これを利用すると `Repr` の実装が手軽に得られます。
 
 以下に紹介する例は少し長くて複雑ですが、[`macro_rules`](#{root}/Declarative/MacroRules.md) コマンドを使用して見やすい構文を用意した後、`Repr` の出力がその構文になるように `Repr` インスタンスを定義する例です。

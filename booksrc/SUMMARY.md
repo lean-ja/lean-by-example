@@ -105,7 +105,7 @@
   - [Inhabited: 有項にする](./TypeClass/Inhabited.md)
   - [LawfulFunctor: ルール付きファンクタ](./TypeClass/LawfulFunctor.md)
   - [OfNat: 数値リテラルを使用](./TypeClass/OfNat.md)
-  - [Repr: #eval の出力表示を編集](./TypeClass/Repr.md)
+  - [Repr: #eval の出力を表示](./TypeClass/Repr.md)
   - [ToString: 文字列に変換](./TypeClass/ToString.md)
 
 - [データ型](./Type/README.md)
