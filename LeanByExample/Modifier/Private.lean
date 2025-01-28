@@ -21,7 +21,7 @@ import Lean --#
 #guard_msgs (drop warning) in --#
 #check_failure Point.private_sub
 
-/- なお `private` コマンドで定義した名前は、同じファイル内であればそのセクションや名前空間を出てもアクセスすることができます。-/
+/- なお `private` コマンドで定義した名前は、同じファイル内であればそのセクションや名前空間を出ても普通にアクセスすることができます。特に、`private` は [`protected`](#{root}/Modifier/Protected.md) の効果を持ちません。-/
 
 namespace Hoge
   section
@@ -35,18 +35,3 @@ open Hoge
 
 -- 外からでもアクセスできる
 #check addOne
-
-/- ## 舞台裏
-`private` コマンドを用いて宣言した名前は、そのファイルの外部からはアクセス不能になるものの、そのファイル内部からは一見 `private` でない名前と同様に見えます。しかし、特定の名前が `private` であるか判定する関数は存在します。
--/
-
-private def hoge := "hello"
-
-def foo := "world"
-
--- 名前が private かどうか判定する関数
-#check (Lean.isPrivateName : Lean.Name → Bool)
-
-#guard Lean.isPrivateName ``hoge
-
-#guard Lean.isPrivateName ``foo = false
