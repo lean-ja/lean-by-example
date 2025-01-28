@@ -63,46 +63,8 @@ def Point.isOrigin (p : Point Int) : Bool :=
 -- フィールド記法が使える！
 #guard origin.isOrigin
 
-/- ## 無名コンストラクタ { #AnonymousConstructor }
-**無名コンストラクタ(anonymous constructor)** は、構造体 `T` に対して `T` 型の項を構成する方法のひとつです。これは以下に示すように、`⟨x1, x2, ...⟩` という構文により使うことができます。
--/
-set_option linter.unusedVariables false --#
-
-/-- 2つのフィールドを持つ構造体 -/
-structure Hoge where
-  foo : Nat
-  bar : Nat
-
-def hoge : Hoge := ⟨1, 2⟩
-
-/- コンストラクタが入れ子になっていても平坦化することができます。例えば、以下の2つの定義は同じものを定義します。-/
-
-def foo : Nat × (Int × String) := ⟨1, ⟨2, "foo"⟩⟩
-
-def foo' : Nat × (Int × String) := ⟨1, 2, "foo"⟩
-
-#guard foo = foo'
-
-/- 一般の[帰納型](../Declarative/Inductive.md)に対しては使用できません。-/
-
-inductive Sample where
-  | fst (foo bar : Nat) : Sample
-  | snd (foo bar : String) : Sample
-
--- 「コンストラクタが一つしかない帰納型でなければ使用できない」というエラーになる
-/--
-warning: invalid constructor ⟨...⟩, expected type must be an inductive type with only one constructor ⏎
-  Sample
--/
-#guard_msgs in
-  #check_failure (⟨"foo", "bar"⟩ : Sample)
-
--- コンストラクタを指定しても使用できない
-#guard_msgs (drop warning) in --#
-#check_failure (Sample.snd ⟨"foo", "bar"⟩ : Sample)
-
 /- ## 項を定義する様々な構文
-構造体の項を定義したい場合、複数の方法があります。波括弧記法が好まれますが、フィールド名が明らかな状況であれば無名コンストラクタを使用することもあります。-/
+構造体の項を定義したい場合、複数の方法があります。波括弧記法が好まれますが、フィールド名が明らかな状況であれば[無名コンストラクタ](#{root}/Parser/AnonymousConstructor.md)を使用することもあります。-/
 
 -- コンストラクタを使う
 def sample0 : Point Int := Point.mk 1 2
@@ -173,11 +135,6 @@ def Point'.x {α : Type} (p : Point' α) : α :=
 #eval
   let p := Point'.mk 1 2
   p.x
-
-/- 無名コンストラクタは最初から使用できます。 -/
-
--- 無名コンストラクタは使用できる
-def origin' : Point Int := ⟨0, 0⟩
 
 /- 波括弧記法は `structure` コマンドで定義された型でなければ使用できないようです。 -/
 
