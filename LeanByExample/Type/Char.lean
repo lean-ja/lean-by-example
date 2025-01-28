@@ -11,7 +11,7 @@
 #check ('∀' : Char)
 #check ('∅' : Char)
 
-/- `Char` は、以下のように [`structure`](../Declarative/Structure.md) として定義されています。 -/
+/- `Char` は、以下のように [`structure`](#{root}/Declarative/Structure.md) として定義されています。 -/
 
 --#--
 -- Char の定義が変わっていないことを確認するためのコード

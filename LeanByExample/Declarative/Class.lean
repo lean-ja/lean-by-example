@@ -128,7 +128,7 @@ instance : Plus Nat (List Nat) (List Nat) where
 
 end Good --#
 /- ## class inductive { #ClassInductive }
-基本的に型クラスの下部構造は構造体ですが、一般の[帰納型](../Declarative/Inductive.md)を型クラスにすることも可能です。それには `class inductive` というコマンドを使います。
+基本的に型クラスの下部構造は構造体ですが、一般の[帰納型](#{root}/Declarative/Inductive.md)を型クラスにすることも可能です。それには `class inductive` というコマンドを使います。
 -/
 
 /-- 全単射があるという同値関係 -/

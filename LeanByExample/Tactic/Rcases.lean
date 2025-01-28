@@ -23,7 +23,7 @@ example : P ∧ Q → Q ∧ P := by
   -- `Q ∧ P` を証明する
   exact ⟨hQ, hP⟩
 
-/- `rcases` は一般には `⟨x₁, x₂, ...⟩ | ⟨y₁, y₂, ...⟩ | ...` という記法で[帰納型](../Declarative/Inductive.md)の分解が可能です。-/
+/- `rcases` は一般には `⟨x₁, x₂, ...⟩ | ⟨y₁, y₂, ...⟩ | ...` という記法で[帰納型](#{root}/Declarative/Inductive.md)の分解が可能です。-/
 
 inductive Sample where
   | foo (x y : Nat) : Sample

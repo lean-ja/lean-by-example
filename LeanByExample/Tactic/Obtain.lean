@@ -28,7 +28,7 @@ example (h : ∃ e : X, P e) : True := by
   trivial
 
 /-
-`obtain` に与えることのできるパターンは [`rcases`](./Rcases.md) に与えられるパターンと同様で、一般の[帰納型](../Declarative/Inductive.md)を分解することができます。
+`obtain` に与えることのできるパターンは [`rcases`](./Rcases.md) に与えられるパターンと同様で、一般の[帰納型](#{root}/Declarative/Inductive.md)を分解することができます。
 -/
 
 inductive Sample where

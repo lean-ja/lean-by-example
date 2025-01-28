@@ -71,7 +71,7 @@ but is expected to have type
 ## \#print axioms: 依存公理の確認
 ### 概要
 
-`#print axioms` で、与えられた証明項が依存する公理を出します。たとえば Lean では排中律は選択原理 [`Classical.choice`](../Declarative/Axiom.md#ClassicalChoice) を使って証明するので、排中律は選択原理に依存しています。
+`#print axioms` で、与えられた証明項が依存する公理を出します。たとえば Lean では排中律は選択原理 [`Classical.choice`](#{root}/Declarative/Axiom.md#ClassicalChoice) を使って証明するので、排中律は選択原理に依存しています。
 -/
 
 /-- 排中律 -/

@@ -35,7 +35,7 @@
 -- 命題 Prop
 #check True
 
-/- 逆に `term` の型が `T` であることを確かめるには [`example`](../Declarative/Example.md) コマンドを使用して `example : T := term` とします。 -/
+/- 逆に `term` の型が `T` であることを確かめるには [`example`](#{root}/Declarative/Example.md) コマンドを使用して `example : T := term` とします。 -/
 
 example : Nat := 42
 
