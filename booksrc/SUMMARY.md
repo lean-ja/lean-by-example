@@ -67,6 +67,7 @@
   - [unsafe: Leanのルールを破る](./Modifier/Unsafe.md)
 
 - [構文](./Parser/README.md)
+  - [⟨x₁, x₂, ..⟩: 無名コンストラクタ](./Parser/AnonymousConstructor.md)
   - [`{x y : A}`: 暗黙の引数](./Parser/ImplicitBinder.md)
   - [by: タクティクモードに入る](./Parser/By.md)
   - [show .. from: 項の型を明示](./Parser/Show.md)
@@ -122,7 +123,7 @@
   - [Type: 型の型](./Type/Type.md)
 
 - [タクティク](./Tactic/README.md)
-  - [<;> 生成された全ゴールに適用](./Tactic/SeqFocus.md)
+  - [<;>: 生成された全ゴールに適用](./Tactic/SeqFocus.md)
   - [ac_rfl: 可換性と結合性を使う](./Tactic/AcRfl.md)
   - [aesop: 自明な証明の自動探索](./Tactic/Aesop.md)
   - [all_goals: 全ゴールに対して適用](./Tactic/AllGoals.md)
