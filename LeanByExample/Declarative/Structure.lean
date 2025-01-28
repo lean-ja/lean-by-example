@@ -1,6 +1,6 @@
 /-
 # structure
-`structure` は構造体を定義するためのコマンドです。構造体とは、複数のデータをまとめて一つの型として扱えるようにしたものです。
+`structure` は構造体を定義するためのコマンドです。構造体とは、大雑把に説明すれば複数のデータをまとめて一つの型として扱えるようにしたものです。
 -/
 
 /-- 2次元空間の点 -/
@@ -148,14 +148,19 @@ structure ColorPoint3D (α : Type) extends Point α, RGBValue where
   z : α
 
 /- ## 舞台裏
-構造体は、帰納型の特別な場合であり、おおむねコンストラクタが一つしかないケースに対応します。上記の `Point` は以下のように定義された帰納型 `Point'` と同様の構造を持ちます。-/
+
+構造体は、コンストラクタが一つしかない帰納型であると見なすことができます。
+
+### 帰納型による模倣
+
+`structure` コマンドを使って定義した上記の `Point` を、`inductive` コマンドで模倣してみましょう。まず `mk` という単一のコンストラクタだけを持つ帰納型を定義します。このコンストラクタの各引数がフィールドに相当します。 -/
 
 inductive Point' (α : Type) : Type where
-  | mk : (x : α) → (y : α) → Point' α
+  | mk (x y : α)
 
-/- ただしこの場合、アクセサ関数が自動的に作られないため、フィールド記法は自分で実装しないと使用できないほか、波括弧記法が使えません。 -/
+/- アクセサ関数が自動的に作られませんが、自分で作ることができます。-/
 
--- フィールド記法が利用できない
+-- アクセサ関数が利用できない
 #guard_msgs (drop warning) in --#
 #check_failure Point'.x
 
@@ -164,13 +169,17 @@ def Point'.x {α : Type} (p : Point' α) : α :=
   match p with
   | Point'.mk x _ => x
 
--- フィールド記法が使えるようになった
+-- アクセサ関数が使えるようになった
 #eval
   let p := Point'.mk 1 2
   p.x
 
+/- 無名コンストラクタは最初から使用できます。 -/
+
 -- 無名コンストラクタは使用できる
 def origin' : Point Int := ⟨0, 0⟩
+
+/- 波括弧記法は `structure` コマンドで定義された型でなければ使用できないようです。 -/
 
 -- 波括弧記法は使用できない
 /--
@@ -178,4 +187,16 @@ warning: invalid {...} notation, structure type expected
   Point' Int
 -/
 #guard_msgs in
-  #check_failure ({ x := 1, y := 2 } : Point' Int)
+  #check_failure { x := 1, y := 2 : Point' Int}
+
+/- ### 用途
+この `structure` コマンドの代わりに `inductive` コマンドを用いる方法は、定義しようとしている構造体が命題をパラメータに持っているときに必要になります。[`Prop` の Large Elimination が許可されていない](#{root}/Type/Prop.md#NoLargeElim)ことにより、この場合はアクセサ関数が生成できないので `structure` コマンドが使用できず、エラーになります。 -/
+
+-- `w` はデータなので、アクセサ関数が生成できなくてエラーになる
+/-- error: failed to generate projections for 'Prop' structure, field 'w' is not a proof -/
+#guard_msgs in
+  structure Exists'.{v} {α : Sort v} (p : α → Prop) : Prop where
+    intro ::
+
+    w : α
+    h : p w
