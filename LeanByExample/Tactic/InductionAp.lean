@@ -41,9 +41,9 @@ example (n : Nat) : sum n = n * (n + 1) / 2 := by
 
 /-- フィボナッチ数列の通常の定義をそのまま Lean の関数として書いたもの -/
 def fibonacci : Nat → Nat
-| 0 => 0
-| 1 => 1
-| n + 2 => fibonacci n + fibonacci (n + 1)
+  | 0 => 0
+  | 1 => 1
+  | n + 2 => fibonacci n + fibonacci (n + 1)
 
 /-- フィボナッチ数列の線形時間の実装 -/
 def fib (n : Nat) : Nat :=
