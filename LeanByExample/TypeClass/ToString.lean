@@ -14,7 +14,7 @@ namespace MyList
   variable {α : Type}
 
   /-- リストをリストらしく `"[a₁, a₂, ..., aₙ]"` という文字列に変換する
-  **注意**: `ToString.toString` と紛らわしいことがあるので `protected` で修飾している
+  注意: `ToString.toString` と紛らわしいことがあるので `protected` で修飾している
   -/
   protected def toString [ToString α] : MyList α → String
     | nil => "[]"
