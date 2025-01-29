@@ -147,6 +147,10 @@ namespace NestedList
   /-- NestedList を定義するための構文。 -/
   syntax "《" term,* "》" : term
 
+  -- `syntax` コマンドは記法の解釈方法を決めていないので、エラーになる
+  #guard_msgs (drop warning) in --#
+  #check_failure 《1, 《2, 3》, 4》
+
   macro_rules
     | `(《》) => `(NestedList.nil)
     | `(《《$xs,*》》) => `(NestedList.consl 《$xs,*》 NestedList.nil)
