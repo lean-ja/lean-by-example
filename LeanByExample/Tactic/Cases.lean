@@ -48,8 +48,8 @@ example : P ∨ Q → (P → R) → (Q → R) → R := by
 
 -- 帰納型として定義した例示のための型
 inductive Sample where
-  | foo (x y : Nat) : Sample
-  | bar (z : String) : Sample
+  | foo (x y : Nat)
+  | bar (z : String)
 
 example (s : Sample) : True := by
   -- cases で場合分けを実行できる

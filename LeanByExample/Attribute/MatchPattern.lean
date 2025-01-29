@@ -5,8 +5,8 @@
 
 /-- 自前で定義したリスト -/
 inductive MyList (α : Type) where
-  | nil : MyList α
-  | cons : α → MyList α → MyList α
+  | nil
+  | cons (head : α) (tail : MyList α)
 
 variable {α : Type}
 

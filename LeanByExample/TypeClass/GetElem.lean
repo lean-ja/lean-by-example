@@ -4,8 +4,8 @@
 
 /-- 標準にある List を真似て作ったデータ構造 -/
 inductive MyList (α : Type) where
-  | nil : MyList α
-  | cons (head : α) (tail : MyList α) : MyList α
+  | nil
+  | cons (head : α) (tail : MyList α)
 
 namespace MyList
 

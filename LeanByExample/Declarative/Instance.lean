@@ -28,8 +28,8 @@ instance {α : Type} [Add α] : Add (Point α) where
 
 /-- 偶数 -/
 inductive Even : Type where
-  | zero : Even
-  | succ : Even → Even
+  | zero
+  | succ (n : Even)
 deriving DecidableEq
 
 /-- 偶数から自然数への変換 -/

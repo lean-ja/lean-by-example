@@ -32,8 +32,8 @@ example (h : ∃ e : X, P e) : True := by
 -/
 
 inductive Sample where
-  | foo (x y : Nat) : Sample
-  | bar (z : String) : Sample
+  | foo (x y : Nat)
+  | bar (z : String)
 
 example (s : Sample) : True := by
   obtain ⟨x, y⟩ | ⟨z⟩ := s

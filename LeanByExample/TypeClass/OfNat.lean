@@ -3,8 +3,8 @@
 -/
 /-- 偶数全体 -/
 inductive Even where
-  | zero : Even
-  | addTwo : Even → Even
+  | zero
+  | addTwo (n : Even)
 
 -- まだ `OfNat` のインスタンスがないので、
 -- `0` という数値リテラルを `Even` 型の値として解釈することはできない
@@ -37,10 +37,10 @@ instance (n : Nat) : OfNat Rational n where
 
 /- 特定の数値リテラルに対してだけ `OfNat` を実装しないということもできます。-/
 
-/-- 正の自然数全体 -/
-inductive Pos : Type where
-  | one : Pos
-  | succ : Pos → Pos
+/-- 正の自然数 -/
+inductive Pos where
+  | one
+  | succ (n : Pos)
 
 /-- 自然数 `n` を `n + 1` に相当する `Pos` の項に写す -/
 def Pos.ofNatPlus (n : Nat) : Pos :=

@@ -55,8 +55,8 @@ open Plausible
 
 /-- 自前で `Nat` を模倣して定義した型 -/
 inductive MyNat where
-  | zero : MyNat
-  | succ : MyNat → MyNat
+  | zero
+  | succ (n : MyNat)
 deriving Repr
 
 #guard_msgs (drop warning) in --#

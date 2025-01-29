@@ -93,7 +93,7 @@ r a b → Quot.mk r a = Quot.mk r b
 
 /-- 標準ライブラリの Quot を真似して自作した型 -/
 inductive MyQuot (r : α → α → Prop) : Type u where
-  | mk (a : α) : MyQuot r
+  | mk (a : α)
 
 -- 商型のコンストラクタ
 #check (MyQuot.mk : {r : α → α → Prop} → α → MyQuot r)

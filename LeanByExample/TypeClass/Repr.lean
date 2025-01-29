@@ -139,9 +139,9 @@ end Op
 /-- 数式 -/
 inductive Expr where
   /-- 数値リテラル -/
-  | val : Nat → Expr
+  | val (n : Nat)
   /-- 演算子の適用 -/
-  | app : Op → Expr → Expr → Expr
+  | app (op : Op) (left right : Expr)
 deriving BEq
 
 namespace Expr
