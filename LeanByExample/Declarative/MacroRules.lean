@@ -88,6 +88,8 @@ example {α : Type} {P : Prop} (x : α) (h : P) : x = x ∧ P := by
 
 /- ## 使用例
 
+`macro_rules` を理解する一番の近道は、具体例をたくさん見ることです。以下に、`macro_rules` のシンプルな使用例をいくつか紹介します。
+
 ### 集合の波括弧記法
 
 `macro_rules` を使用して、集合の波括弧記法 `{{ a₁, a₂, ..., aₙ }}` を解釈するマクロを定義する例を以下に示します。
@@ -210,6 +212,6 @@ namespace ListComp
   #guard [x | for x in [1, 2, 3], if x < 2] = [1]
 
 end ListComp
-/- [^nestedlist]: ここで紹介しているコード例は、Lean 公式 Zulip の "macro parser for nested lists" というトピックで Kyle Miller さんが挙げていたコードを参考にしています。
-[^listcompr]: ここで紹介しているコード例は、Lean 公式 Zulip の "List Functor" というトピックで Kyle Miller さんが挙げていたコードを参考にしています。
+/- [^nestedlist]: ここで紹介しているコード例は、Lean 公式 Zulip の "macro parser for nested lists" というトピックで [Kyle Miller さんが挙げていたコード](https://leanprover.zulipchat.com/#narrow/channel/113488-general/topic/macro.20parser.20for.20nested.20lists/near/486691429)を参考にしています。
+[^listcompr]: ここで紹介しているコード例は、Lean 公式 Zulip の "List Functor" というトピックで [Kyle Miller さんが挙げていたコード](https://leanprover.zulipchat.com/#narrow/channel/270676-lean4/topic/List.20Functor/near/290456697)を参考にしています。
 -/
