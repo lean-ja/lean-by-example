@@ -212,6 +212,67 @@ namespace ListComp
   #guard [x | for x in [1, 2, 3], if x < 2] = [1]
 
 end ListComp
+/- ### 数式を Lean に埋め込む
+
+`1 + 2 * 3` のような数式（値ではなくて式そのもの）を Lean の式として解釈するマクロを以下に示します。
+-/
+
+/-- 2項演算の集合 -/
+inductive Op where
+  /-- 加法 -/
+  | add
+  /-- 乗法 -/
+  | mul
+
+/-- 数式 -/
+inductive Expr where
+  /-- 数値リテラル -/
+  | val : Nat → Expr
+  /-- 演算子の適用 -/
+  | app : Op → Expr → Expr → Expr
+
+namespace Expr
+  /- ## Expr の項を定義するための簡単な構文を用意する -/
+
+  /-- `Expr` のための構文カテゴリ -/
+  declare_syntax_cat expr
+
+  /-- `Expr` を見やすく定義するための構文 -/
+  syntax "expr!{" expr "}" : term
+
+  -- 数値リテラルは数式
+  syntax:max num : expr
+
+  -- 数式を `+` または `*` で結合したものは数式
+  -- `+` と `*` のパース優先順位を指定しておく
+  syntax:30 expr:30 " + " expr:31 : expr
+  syntax:35 expr:35 " * " expr:36 : expr
+
+  -- 数式を括弧でくくったものは数式
+  syntax:max "(" expr ")" : expr
+
+  macro_rules
+    | `(expr!{$n:num}) => `(Expr.val $n)
+    | `(expr!{$l:expr + $r:expr}) => `(Expr.app Op.add expr!{$l} expr!{$r})
+    | `(expr!{$l:expr * $r:expr}) => `(Expr.app Op.mul expr!{$l} expr!{$r})
+    | `(expr!{($e:expr)}) => `(expr!{$e})
+
+  -- 足し算は左結合になる
+  /-- info: app Op.add (app Op.add (val 1) (val 2)) (val 3) : Expr -/
+  #guard_msgs in
+    #check expr!{1 + 2 + 3}
+
+  -- 掛け算は左結合になる
+  /-- info: app Op.mul (app Op.mul (val 1) (val 2)) (val 3) : Expr -/
+  #guard_msgs in
+    #check expr!{1 * 2 * 3}
+
+  -- 足し算と掛け算が混在する場合は、掛け算が優先される
+  /-- info: app Op.add (app Op.mul (val 1) (val 2)) (val 3) : Expr -/
+  #guard_msgs in
+    #check expr!{1 * 2 + 3}
+end Expr
+
 /- [^nestedlist]: ここで紹介しているコード例は、Lean 公式 Zulip の "macro parser for nested lists" というトピックで [Kyle Miller さんが挙げていたコード](https://leanprover.zulipchat.com/#narrow/channel/113488-general/topic/macro.20parser.20for.20nested.20lists/near/486691429)を参考にしています。
 [^listcompr]: ここで紹介しているコード例は、Lean 公式 Zulip の "List Functor" というトピックで [Kyle Miller さんが挙げていたコード](https://leanprover.zulipchat.com/#narrow/channel/270676-lean4/topic/List.20Functor/near/290456697)を参考にしています。
 -/
