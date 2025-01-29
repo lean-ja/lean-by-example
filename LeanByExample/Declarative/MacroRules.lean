@@ -1,6 +1,6 @@
 /- # macro_rules
 
-`macro_rules` はマクロ展開を定めるための汎用的なコマンドです。
+`macro_rules` は[マクロ](#{root}/Type/Macro.md)を定義するための [`macro`](#{root}/Declarative/Macro.md) より汎用的なコマンドです。
 -/
 
 /-- `#hello` コマンドの構文の定義。
@@ -8,8 +8,8 @@
 syntax "#hello" (str)? : command
 
 macro_rules
-  | `(#hello) => `(#eval "Hello, Lean!")
-  | `(#hello $name) => `(#eval s!"Hello, {$name}!")
+  | `(#hello) => `(command| #eval "Hello, Lean!")
+  | `(#hello $name) => `(command| #eval s!"Hello, {$name}!")
 
 /-- info: "Hello, Lean!" -/
 #guard_msgs in #hello
@@ -17,45 +17,7 @@ macro_rules
 /-- info: "Hello, world!" -/
 #guard_msgs in #hello "world"
 
-/- `macro_rules` コマンドは上記の例のように、`=>` 記号を境に分かれており、左辺の構文要素を右辺の構文に変換するというルールを定義します。 -/
-
-/- ## 使用例
-
-`macro_rules` を使用して、集合の波括弧記法 `{{ a₁, a₂, ..., aₙ }}` を解釈するマクロを定義する例を以下に示します。
--/
-
-/-- 部分集合。`α` の部分集合 `A ⊆ α` は、任意の要素 `x : α` に対して
-それが `A` の要素かどうか判定する述語 `A : α → Prop` と同一視できる。-/
-def Set (α : Type) := α → Prop
-
-namespace Set
-
-  variable {α : Type}
-
-  /-- 1つの要素だけからなる集合 -/
-  def singleton (a : α) : Set α := fun x => x = a
-
-  /-- 集合に１つ要素を追加する -/
-  def insert (a : α) (s : Set α) := fun x => x = a ∨ s x
-
-end Set
-
--- 集合の波括弧記法の定義。
--- 既存の記号と被らないようにするために二重にしている。
--- なお `term,*` は `term` が `,` 区切りで0個以上続く列を表す。
-syntax "{{" term,* "}}" : term
-
--- `syntax` コマンドは記法の解釈方法を決めていないので、エラーになる
-#guard_msgs (drop warning) in --#
-#check_failure {{2, 3}}
-
--- 集合の波括弧記法をどう解釈するかのルールを定める
-macro_rules
-  | `(term| {{$x}}) => `(Set.singleton $x)
-  | `(term| {{$x, $xs:term,*}}) => `(Set.insert $x {{$xs,*}})
-
--- 集合の波括弧記法が使えるようになった
-#check ({{2, 3, 4, 5}} : Set Nat)
+/- `macro_rules` コマンドは上記の例のように、`=>` 記号を境に分かれており、左辺の構文を右辺の構文に変換するというルールを定義します。 -/
 
 /- ## 展開ルールの上書きと追加
 
@@ -105,7 +67,7 @@ example {α : Type} (x : α) : x = x := by
 `macro_rules` の右辺に、これから解釈しようとしている構文自身を含めることができます。これにより、再帰的なマクロ展開を定義することができます。
 -/
 
-example {α : Type} {P : Prop}(x : α) (h : P) : x = x ∧ P := by
+example {α : Type} {P : Prop} (x : α) (h : P) : x = x ∧ P := by
   -- 最初は示せない
   fail_if_success my_trivial
 
@@ -120,5 +82,87 @@ example {α : Type} {P : Prop}(x : α) (h : P) : x = x ∧ P := by
 macro_rules
   | `(tactic| my_trivial) => `(tactic| apply And.intro <;> my_trivial)
 
-example {α : Type} {P : Prop}(x : α) (h : P) : x = x ∧ P := by
+example {α : Type} {P : Prop} (x : α) (h : P) : x = x ∧ P := by
+  -- `my_trivial` で示せるようになった！
   my_trivial
+
+/- ## 使用例
+
+### 集合の波括弧記法
+
+`macro_rules` を使用して、集合の波括弧記法 `{{ a₁, a₂, ..., aₙ }}` を解釈するマクロを定義する例を以下に示します。
+-/
+
+/-- 部分集合。`α` の部分集合 `A ⊆ α` は、任意の要素 `x : α` に対して
+それが `A` の要素かどうか判定する述語 `A : α → Prop` と同一視できる。-/
+def Set (α : Type) := α → Prop
+
+namespace Set
+
+  variable {α : Type}
+
+  /-- 1つの要素だけからなる集合 -/
+  def singleton (a : α) : Set α := fun x => x = a
+
+  /-- 集合に１つ要素を追加する -/
+  def insert (a : α) (s : Set α) := fun x => x = a ∨ s x
+
+end Set
+
+-- 集合の波括弧記法の定義。
+-- 既存の記号と被らないようにするために二重にしている。
+-- なお `term,*` は `term` が `,` 区切りで0個以上続く列を表す。
+syntax "{{" term,* "}}" : term
+
+-- `syntax` コマンドは記法の解釈方法を決めていないので、エラーになる
+#guard_msgs (drop warning) in --#
+#check_failure {{2, 3}}
+
+-- 集合の波括弧記法をどう解釈するかのルールを定める
+macro_rules
+  | `(term| {{$x}}) => `(Set.singleton $x)
+  | `(term| {{$x, $xs:term,*}}) => `(Set.insert $x {{$xs,*}})
+
+-- 集合の波括弧記法が使えるようになった
+#check ({{2, 3, 4, 5}} : Set Nat)
+
+/- ### 入れ子リスト
+
+Lean 標準の `List : Type → Type` はリストの要素が同じ型であることを要求しており、「リストのリスト」にリストではない要素を混入させることを許しませんが、それを許すような入れ子リストを定義して、そのための構文を用意する例を示しましょう。[^nestedlist]
+-/
+
+/-- 入れ子になったリスト -/
+inductive NestedList (α : Type) : Type
+  /-- 空リスト -/
+  | nil : NestedList α
+  /-- NestedList に要素を追加する -/
+  | conse : α → NestedList α → NestedList α
+  /-- NestedList に NestedList を追加する -/
+  | consl : NestedList α → NestedList α → NestedList α
+deriving DecidableEq
+
+namespace NestedList
+  /- ## NestedList を定義する構文を作る -/
+
+  /-- NestedList を定義するための構文。 -/
+  syntax "《" term,* "》" : term
+
+  macro_rules
+    | `(《》) => `(NestedList.nil)
+    | `(《《$xs,*》》) => `(NestedList.consl 《$xs,*》 NestedList.nil)
+    | `(《《$xs,*》, $ys,*》) => `(NestedList.consl 《$xs,*》 《$ys,*》)
+    | `(《$x》) => `(NestedList.conse $x NestedList.nil)
+    | `(《$x, $xs,*》) => `(NestedList.conse $x 《$xs,*》)
+
+  -- NestedList を見やすく定義できるようになった！
+  #check 《1, 《2, 3》, 4》
+
+  #guard
+    let xs := 《1, 2》
+    let ys := NestedList.conse 1 <| .conse 2 NestedList.nil
+
+    -- 両者は同じものを表している！
+    xs = ys
+
+end NestedList
+/- [^nestedlist]: ここで紹介しているコード例は、Lean 公式 Zulip の "macro parser for nested lists" というトピックで Kyle Miller さんが挙げていたコードを参考にしています。 -/
