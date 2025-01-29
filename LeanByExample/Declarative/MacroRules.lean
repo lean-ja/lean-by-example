@@ -251,6 +251,14 @@ namespace Expr
   -- 数式を括弧でくくったものは数式
   syntax:max "(" expr ")" : expr
 
+  -- `syntax` コマンドは記法の解釈方法を決めていないので、エラーになる
+  #guard_msgs (drop warning) in --#
+  #check_failure expr!{1 + 2}
+  #guard_msgs (drop warning) in --#
+  #check_failure expr!{1 * 2}
+  #guard_msgs (drop warning) in --#
+  #check_failure expr!{(1 + 2) * 3}
+
   macro_rules
     | `(expr!{$n:num}) => `(Expr.val $n)
     | `(expr!{$l:expr + $r:expr}) => `(Expr.app Op.add expr!{$l} expr!{$r})
