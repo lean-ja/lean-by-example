@@ -183,6 +183,14 @@ namespace ListComp
   syntax "if " term : compClause
   syntax "[" term " | " compClause,* "]" : term
 
+  -- `syntax` コマンドは記法の解釈方法を決めていないので、エラーになる
+  #guard_msgs (drop warning) in --#
+  #check_failure [x | for x in [1, 2, 3, 4, 5]]
+  #guard_msgs (drop warning) in --#
+  #check_failure [x | if x < 2]
+  #guard_msgs (drop warning) in --#
+  #check_failure [x | for x in [1, 2, 3], if x < 2]
+
   macro_rules
     | `([$t |]) => `([$t])
     | `([$t | for $x in $xs]) => `(List.map (fun $x => $t) $xs)
