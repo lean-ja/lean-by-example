@@ -22,8 +22,8 @@ deriving DecidableEq
 
 /-- 複数のコンストラクタを持つ帰納型の例 -/
 inductive Sample where
-  | fst (foo bar : Nat) : Sample
-  | snd (foo bar : String) : Sample
+  | fst (foo bar : Nat)
+  | snd (foo bar : String)
 
 -- 「コンストラクタが一つしかない帰納型でなければ使用できない」というエラーになる
 /--

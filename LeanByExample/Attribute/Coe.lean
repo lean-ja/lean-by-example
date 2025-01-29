@@ -4,8 +4,8 @@
 
 /-- 自前で定義した自然数 -/
 inductive MyNat where
-  | zero : MyNat
-  | succ : MyNat → MyNat
+  | zero
+  | succ (n : MyNat)
 
 -- `MyNat.succ` を（意味をなしていないが）型強制として登録する
 attribute [coe] MyNat.succ

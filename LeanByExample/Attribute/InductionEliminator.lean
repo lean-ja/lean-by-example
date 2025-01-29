@@ -9,8 +9,8 @@ variable {α : Type}
 
 /-- 遅延評価のリストもどき -/
 inductive Many (α : Type) where
-  | none : Many α
-  | more : α → (Unit → Many α) → Many α
+  | none
+  | more (x : α) (xs : Unit → Many α)
 
 /-- Many に対する合併関数 -/
 def Many.union : Many α → Many α → Many α
@@ -35,7 +35,7 @@ def Many.cons (x : α) (xs : Many α) : Many α :=
 -- Many を定義したときに自動生成される定理
 /--
 info: Many.rec.{u} {α : Type} {motive : Many α → Sort u} (none : motive Many.none)
-  (more : (a : α) → (a_1 : Unit → Many α) → ((a : Unit) → motive (a_1 a)) → motive (Many.more a a_1)) (t : Many α) :
+  (more : (x : α) → (xs : Unit → Many α) → ((a : Unit) → motive (xs a)) → motive (Many.more x xs)) (t : Many α) :
   motive t
 -/
 #guard_msgs (whitespace := lax) in #check Many.rec

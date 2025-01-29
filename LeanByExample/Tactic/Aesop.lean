@@ -48,8 +48,8 @@ example {f : X → Y} {g : Y → Z} (hgfinj : Injective (g ∘ f)) : Injective f
 `aesop` はユーザがカスタマイズ可能です。補題やタクティクを [`[aesop]`](#{root}/Attribute/Aesop.md) 属性で登録することで、証明可能な命題を増やすことができます。
 -/
 
-/-- 自然数 n が正の数であることを表す命題 -/
-inductive Pos : Nat → Prop
+/-- 自然数 n が正の数であることを表す帰納的述語 -/
+inductive Pos : Nat → Prop where
   | succ n : Pos (n + 1)
 
 example : Pos 1 := by

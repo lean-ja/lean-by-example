@@ -39,7 +39,7 @@ example (n : Nat) : sum n = n * (n + 1) / 2 := by
 -/
 namespace Hidden --#
 
-/-- 偶数であることを意味する帰納的命題 -/
+/-- 偶数であることを意味する帰納的述語 -/
 inductive Even : Nat → Prop where
   | zero : Even 0
   | succ : {n : Nat} → Even n → Even (n + 2)

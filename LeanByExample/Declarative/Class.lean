@@ -144,10 +144,10 @@ structure Equiv (α : Type) (β : Type) where
 証明無関係の制約により、返り値の型を Prop にしてはいけない。-/
 class inductive HasCardinal (X : Type) : Type where
   /-- 有限集合は濃度が計算できる -/
-  | finite (n : Nat) (f : X ≃ Fin n) : HasCardinal X
+  | finite (n : Nat) (f : X ≃ Fin n)
 
   /-- 可算無限集合は濃度が計算できる -/
-  | countable (f : X ≃ Nat) : HasCardinal X
+  | countable (f : X ≃ Nat)
 
 /-- Bool の濃度は計算できる -/
 instance : HasCardinal Bool := by
@@ -175,8 +175,8 @@ instance : HasCardinal Bool := by
 
 /-- 可算無限までしかない順序数もどき -/
 inductive Ordinal : Type where
-  | nat (n : Nat) : Ordinal
-  | omega : Ordinal
+  | nat (n : Nat)
+  | omega
 deriving DecidableEq
 
 def Ordinal.toString : Ordinal → String

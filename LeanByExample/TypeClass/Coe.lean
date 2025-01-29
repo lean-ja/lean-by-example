@@ -11,8 +11,8 @@
 
 /-- 正の自然数 -/
 inductive Pos where
-  | one : Pos
-  | succ : Pos → Pos
+  | one
+  | succ (n : Pos)
 
 def one : Pos := Pos.one
 
