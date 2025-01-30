@@ -226,12 +226,6 @@ axiom MyNat.zero : MyNat
 /-- 後者関数 -/
 axiom MyNat.succ : MyNat → MyNat
 
-/-- ゼロと後者関数の像が交わることはない -/
-axiom MyNat.succ_ne_zero (n : MyNat) : MyNat.succ n ≠ MyNat.zero
-
-/-- 後者関数は単射 -/
-axiom MyNat.succ_inj {n m : MyNat} : MyNat.succ n = MyNat.succ m → n = m
-
 /-- 帰納法の原理 -/
 axiom MyNat.induction {P : MyNat → Prop}
   (h0 : P MyNat.zero) (hs : ∀ n, P n → P (MyNat.succ n)) : ∀ n, P n
