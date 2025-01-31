@@ -39,7 +39,7 @@ inductive BinTree (α : Type) where
   /-- ノード `value : α` の左と右に木を付け加えたものは木 -/
   | node (value : α) (left right : BinTree α)
 
-/- ### 帰納型の族
+/- ### 帰納族
 
 ある添字集合 `Λ : Type` の要素 `λ : Λ` のそれぞれに対して、型 `T λ : Sort u` を独立した型として定義することができます。簡単な例として、長さを型の情報として持つリストがあります。
 -/
@@ -49,7 +49,7 @@ inductive Vec (α : Type) : Nat → Type where
   | nil : Vec α 0
   | cons (a : α) {n : Nat} (v : Vec α n) : Vec α (n + 1)
 
-/- これで帰納型の族 `{Vec α 0, Vec α 1, Vec α 2, …}` を定義したことになります。
+/- これで帰納型の族 `{Vec α 0, Vec α 1, Vec α 2, …}` を定義したことになります。このように定義される帰納型の族を **帰納族(inductive family)** と呼びます。
 
 `inductive` コマンドはパラメータと添字(index)を区別するため、次のように書くとエラーになることに注意してください。
 -/
