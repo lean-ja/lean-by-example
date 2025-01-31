@@ -67,7 +67,10 @@ def Char.toIndex (c : Char) : Index :=
 
 
 /-- インデックスをアルファベットに変換する -/
-def Char.ofIndex (i : Index) : Char :=
+def Char.ofIndex (i : Index) : Char := Id.run do
+  if i.index > 25 then
+    panic! s!"ofIndex: index is out of range: {i.index} > 25."
+
   if i.isLower then
     Char.ofNat ('a'.val.toNat + i.index)
   else
