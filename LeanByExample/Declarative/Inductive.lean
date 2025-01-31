@@ -11,7 +11,7 @@
 -/
 
 /-- 真か偽のどちらかの値をとる型 -/
-inductive MyBool : Type where
+inductive MyBool where
   | true
   | false
 
@@ -22,18 +22,22 @@ inductive MyBool : Type where
 /- ### 再帰的なデータ構造
 
 一般には、帰納型のコンストラクタは引数を持つことができます。コンストラクタの引数の型が定義しようとしているその帰納型自身であっても構いません。これにより、連結リストや二分木といった再帰的な構造を持つデータ型を定義することができます。-/
-namespace Hidden --#
 
 /-- 連結リスト -/
-inductive List (α : Type) : Type where
-  | nil : List α
-  | cons (head : α) (tail : List α) : List α
+inductive LinkedList (α : Type) where
+  /-- 空のリスト -/
+  | nil
 
-end Hidden --#
+  /-- リスト `xs : LinkedList α` の先頭に `head : α` をつけたものはリスト -/
+  | cons (head : α) (tail : LinkedList α)
+
 /-- 2分木 -/
-inductive BinTree (α : Type) : Type where
-  | empty : BinTree α
-  | node (value : α) (left right : BinTree α) : BinTree α
+inductive BinTree (α : Type) where
+  /-- 空の木 -/
+  | empty
+
+  /-- ノード `value : α` の左と右に木を付け加えたものは木 -/
+  | node (value : α) (left right : BinTree α)
 
 /- ### 帰納型の族
 
