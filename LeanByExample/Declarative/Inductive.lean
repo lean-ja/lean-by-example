@@ -266,4 +266,37 @@ example (n : MyNat) : MyNat.succ n ≠ n := by
     have : n.succ = n := by injection h
     exact ih this
 
+/- ## strictly positive 制約
+
+帰納型を定義しようとした際に、次のようなエラーになることがあります。帰納型 `T` のコンストラクタの引数の中に `T` 自身が現れる場合、`A → T` の形で現れるのは許容されますが `T → A` の形で現れるのは許されません。これを strictly positive 制約と本書では呼びます。
+-/
+
+/--
+error: (kernel) arg #1 of 'Foo.mk' has a non positive occurrence of the datatypes being declared
+-/
+#guard_msgs in
+  inductive Foo where
+    | mk (f : Foo → Nat)
+
+/- strictly positive 性に違反するような帰納型を仮に定義できたとすると、矛盾が導かれてしまいます。[`unsafe`](#{root}/Modifier/Unsafe.md) 修飾子で実際に試してみることができます。 -/
+
+/-- strictly positive 制約を破っている帰納型 -/
+unsafe inductive Bad where
+  | mk (f : Bad → Bad)
+
+namespace Bad
+  -- Bad の項が構築できる
+  unsafe def default : Bad := Bad.mk id
+
+  -- Bad の項が構築できれば矛盾が導ける
+  unsafe def contradiction (b : Bad) : False := by
+    induction b
+    case mk f ih =>
+      apply ih default
+
+  -- Bad の項が構築できるので矛盾する
+  unsafe example : False := contradiction default
+
+end Bad
+
 /- [^hitchhiker]: [The Hitchhiker’s Guide to Logical Verification](https://github.com/blanchette/interactive_theorem_proving_2024) を参考にいたしました。-/
