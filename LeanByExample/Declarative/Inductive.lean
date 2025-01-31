@@ -126,13 +126,13 @@ def Arith := State → Nat
 /-- 抽象化された単純なプログラミング言語のプログラム -/
 inductive Stmt : Type where
   /-- 何もしないコマンド -/
-  | skip : Stmt
+  | skip
   /-- `x := a` のような代入文。-/
-  | assign : Variable → Arith → Stmt
+  | assign (v : Variable) (expr : Arith)
   /-- 2つのコマンドを続けて実行する。`;;` で表される。-/
-  | seq : Stmt → Stmt → Stmt
+  | seq (S T : Stmt)
   /-- while 文 -/
-  | whileDo : (State → Prop) → Stmt → Stmt
+  | whileDo (B : State → Prop) (S : Stmt)
 
 @[inherit_doc] infix:60 ";; " => Stmt.seq
 
