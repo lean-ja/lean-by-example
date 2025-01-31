@@ -268,7 +268,7 @@ example (n : MyNat) : MyNat.succ n ≠ n := by
 
 /- ## strictly positive 制約
 
-帰納型を定義しようとした際に、次のようなエラーになることがあります。帰納型 `T` のコンストラクタの引数の中に `T` 自身が現れる場合、`A → T` の形で現れるのは許容されますが `T → A` の形で現れるのは許されません。これを strictly positive 制約と本書では呼びます。
+帰納型を定義しようとした際に、次のようなエラーになることがあります。
 -/
 
 /--
@@ -278,7 +278,9 @@ error: (kernel) arg #1 of 'Foo.mk' has a non positive occurrence of the datatype
   inductive Foo where
     | mk (f : Foo → Nat)
 
-/- strictly positive 性に違反するような帰納型を仮に定義できたとすると、矛盾が導かれてしまいます。[`unsafe`](#{root}/Modifier/Unsafe.md) 修飾子で実際に試してみることができます。 -/
+/- 帰納型 `T` のコンストラクタの引数の中に `T` 自身が現れる場合、`A → T` の形で現れるのは許容されますが `T → A` の形で現れるのは許されません。これを strictly positive 制約と本書では呼びます。
+
+strictly positive 性に違反するような帰納型を仮に定義できたとすると、矛盾が導かれてしまいます。[`unsafe`](#{root}/Modifier/Unsafe.md) 修飾子で実際に試してみることができます。 -/
 
 /-- strictly positive 制約を破っている帰納型 -/
 unsafe inductive Bad where
