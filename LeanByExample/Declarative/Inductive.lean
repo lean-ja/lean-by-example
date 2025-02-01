@@ -280,7 +280,7 @@ error: (kernel) arg #1 of 'Foo.mk' has a non positive occurrence of the datatype
 
 /- 帰納型 `T` のコンストラクタの引数の中に `T` 自身が現れる場合、`A → T` の形で現れるのは許容されますが `T → A` の形で現れるのは許されません。これを strictly positive 制約と本書では呼びます。
 
-strictly positive 制約に違反するような帰納型を仮に定義できたとすると、おかしな結論が導かれてしまいます。[`unsafe`](#{root}/Modifier/Unsafe.md) 修飾子で実際に試してみましょう。 -/
+strictly positive 制約に違反するような帰納型を仮に定義できたとすると、矛盾が導かれてしまいます。[`unsafe`](#{root}/Modifier/Unsafe.md) 修飾子で実際に試してみましょう。 -/
 
 -- 任意に型 A が与えられたとして固定する
 opaque A : Type
