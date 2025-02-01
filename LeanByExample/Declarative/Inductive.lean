@@ -280,7 +280,7 @@ error: (kernel) arg #1 of 'Foo.mk' has a non positive occurrence of the datatype
 
 /- 帰納型 `T` のコンストラクタの引数の中に `T` 自身が現れる場合、`A → T` の形で現れるのは許容されますが `T → A` の形で現れるのは許されません。これを strictly positive 制約と本書では呼びます。
 
-strictly positive 性に違反するような帰納型を仮に定義できたとすると、矛盾が導かれてしまいます。[`unsafe`](#{root}/Modifier/Unsafe.md) 修飾子で実際に試してみることができます。 -/
+strictly positive 制約に違反するような帰納型を仮に定義できたとすると、おかしな結論が導かれてしまいます。[`unsafe`](#{root}/Modifier/Unsafe.md) 修飾子で実際に試してみましょう。 -/
 
 -- 任意に型 A が与えられたとして固定する
 opaque A : Type
@@ -293,11 +293,20 @@ unsafe def selfApply (b : Bad) : A :=
   match b with
   | Bad.mk f => f b
 
--- ω を計算すると ω 自身が出てくる
--- つまり無限ループしていることに注意
 unsafe def ω : A := selfApply (Bad.mk selfApply)
 
 -- A は任意の型なのに、Inhabited インスタンスが構築できてしまった！
-unsafe instance allTypeInhabited : Inhabited A := ⟨ω⟩
+unsafe instance : Inhabited A := ⟨ω⟩
+
+/- ここで、`ω` の定義が無限ループに陥っていることは指摘する価値があります。 -/
+
+-- ω を簡約すると ω 自身が出てくる
+-- つまり無限ループしている
+/--
+error: maximum recursion depth has been reached
+use `set_option maxRecDepth <num>` to increase limit
+use `set_option diagnostics true` to get diagnostic information
+-/
+#guard_msgs in #reduce ω
 
 /- [^hitchhiker]: [The Hitchhiker’s Guide to Logical Verification](https://github.com/blanchette/interactive_theorem_proving_2024) を参考にいたしました。-/
