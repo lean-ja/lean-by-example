@@ -282,23 +282,22 @@ error: (kernel) arg #1 of 'Foo.mk' has a non positive occurrence of the datatype
 
 strictly positive 性に違反するような帰納型を仮に定義できたとすると、矛盾が導かれてしまいます。[`unsafe`](#{root}/Modifier/Unsafe.md) 修飾子で実際に試してみることができます。 -/
 
+-- 任意に型 A が与えられたとして固定する
+opaque A : Type
+
 /-- strictly positive 制約を破っている帰納型 -/
 unsafe inductive Bad where
-  | mk (f : Bad → Bad)
+  | mk (f : Bad → A)
 
-namespace Bad
-  -- Bad の項が構築できる
-  unsafe def default : Bad := Bad.mk id
+unsafe def selfApply (b : Bad) : A :=
+  match b with
+  | Bad.mk f => f b
 
-  -- Bad の項が構築できれば矛盾が導ける
-  unsafe def contradiction (b : Bad) : False := by
-    induction b
-    case mk f ih =>
-      apply ih default
+-- ω を計算すると ω 自身が出てくる
+-- つまり無限ループしていることに注意
+unsafe def ω : A := selfApply (Bad.mk selfApply)
 
-  -- Bad の項が構築できるので矛盾する
-  unsafe example : False := contradiction default
-
-end Bad
+-- A は任意の型なのに、Inhabited インスタンスが構築できてしまった！
+unsafe instance allTypeInhabited : Inhabited A := ⟨ω⟩
 
 /- [^hitchhiker]: [The Hitchhiker’s Guide to Logical Verification](https://github.com/blanchette/interactive_theorem_proving_2024) を参考にいたしました。-/
