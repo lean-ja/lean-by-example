@@ -60,7 +60,16 @@ section
     return (s.replace t "").length < s.length
 
   elab_rules : command
-    | `(command| $[$doc?:docComment]? #contain_msg in $cmd:command) => do
+    | `(command| #contain_msg in $_cmd:command) => do
+      logInfo "success: nothing is expected"
+
+    | `(command| $doc:docComment #contain_msg in $cmd:command) => do
+      -- doc comment に書かれた文字列を取得する
+      let expected := String.trim (← getDocStringText doc)
+      if expected.isEmpty then
+        logInfo "success: nothing is expected"
+        return
+
       -- 与えられたコマンドを実行する
       withReader ({ · with snap? := none }) do
         elabCommandTopLevel cmd
@@ -70,18 +79,21 @@ section
       let msgStrs := (← msgs.mapM (·.data.toString))
         |>.map (·.replace "\"" "")
 
-      -- doc comment に書かれた文字列を取得する
-      let expected? := (← doc?.mapM (getDocStringText ·))
-      let some expected := expected?.map String.trim
-        | logInfo "success: nothing is expected"
-
       -- コマンドの実行結果のメッセージに expected が含まれるか検証する
       for msgStr in msgStrs do
         unless String.substr msgStr expected do
           logError "error: output string does not contain the expected string"
 end
 
+-- ドキュメントコメントがある場合
 /-- ello -/ #contain_msg in #eval "hello"
+
+-- ドキュメントコメントがない場合は何もしない
+#contain_msg in #eval "hello"
+
+/-- info: success: nothing is expected -/
+#guard_msgs in
+  /-- -/ #contain_msg in #eval "hello"
 
 /-- error: error: output string does not contain the expected string -/
 #guard_msgs (error) in
