@@ -65,7 +65,7 @@ section
       logInfo "success: nothing is expected"
 
     | `(command| $doc:docComment #contain_msg in $cmd:command) => do
-      -- doc comment に書かれた文字列を取得する
+      -- ドキュメントコメントに書かれた文字列を取得する
       let expected := String.trim (← getDocStringText doc)
       if expected.isEmpty then
         logInfo "success: nothing is expected"
