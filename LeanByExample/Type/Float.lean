@@ -105,4 +105,4 @@ def Float.toExactDecimal (x : Float) : String := x.toRat0.pow2ToBase10
 #guard_msgs in
   #eval Float.toExactDecimal 0.3
 
-/- [^float]: この浮動小数点数を正確に表示させる関数の実装例は、筆者が Zulip のスレッド "display all of a Float object" で Daniel Weber 氏に教えていただいたものに基づいています。 -/
+/- [^float]: この浮動小数点数を正確に表示させる関数の実装例は、Zulip のトピック "display all of a Float object" における [Daniel Weber 氏の投稿](https://leanprover.zulipchat.com/#narrow/channel/217875-Is-there-code-for-X.3F/topic/.E2.9C.94.20display.20all.20of.20a.20.20Float.20object/near/473460360)を参考にしています。 -/
