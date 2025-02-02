@@ -83,9 +83,9 @@ inductive BadVec' (α : Type) (n : Nat) : Type where
 -/
 
 /-- 自然数が偶数であることを表す帰納的述語 -/
-inductive Even : Nat → Prop where
-  | zero : Even 0
-  | add_two : ∀ n, Even n → Even (n + 2)
+inductive MyEven : Nat → Prop where
+  | zero : MyEven 0
+  | add_two : ∀ n, MyEven n → MyEven (n + 2)
 
 /- この場合 `inductive` コマンドを使用せずに、`def` を使って再帰関数として定義しても同じことができます。 -/
 
@@ -104,10 +104,10 @@ def even : Nat → Bool
 
 /--
 error: failed to synthesize
-  Decidable (Even 4)
+  Decidable (MyEven 4)
 Additional diagnostic information may be available using the `set_option diagnostics true` command.
 -/
-#guard_msgs in #eval Even 4
+#guard_msgs in #eval MyEven 4
 
 /-
 帰納的述語として定義するメリットとしては、再帰が停止することを保証しなくて良いことが挙げられます。実際、帰納的述語は本質的に停止する保証がない再帰的な操作でも扱うことができます。以下は、少し複雑ですがプログラムの BigStep 意味論を表現する例です。[^hitchhiker]
@@ -266,7 +266,7 @@ example (n : MyNat) : MyNat.succ n ≠ n := by
     have : n.succ = n := by injection h
     exact ih this
 
-/- ## strictly positive 制約
+/- ## strictly positive 要件
 
 帰納型を定義しようとした際に、次のようなエラーになることがあります。
 -/
@@ -278,14 +278,26 @@ error: (kernel) arg #1 of 'Foo.mk' has a non positive occurrence of the datatype
   inductive Foo where
     | mk (f : Foo → Nat)
 
-/- 帰納型 `T` のコンストラクタの引数の中に `T` 自身が現れる場合、`A → T` の形で現れるのは許容されますが `T → A` の形で現れるのは許されません。これを strictly positive 制約と本書では呼びます。
+/- エラーメッセージには「`Foo.mk` の引数の中に、定義しようとしている型が non positive に現れている」と書かれています。この positive とは、引数における位置のことで、一般に関数型 `X → Y` があるとき `X` は **負の位置(negative position)** であり、`Y` は **正の位置(positive position)** であると呼びます。ただし関数の型が入れ子になっていると正負が変わります。たとえば `(X → Y) → Z` という型の場合、`X` は負の位置の負の位置にあるので、正の位置と見なされます。上記の `Foo` のコンストラクタには `Foo` 自身が現れていますが、コンストラクタの引数の型の中で正の位置に現れていないので、それがルール違反であるとエラーメッセージは言っているわけです。
 
-strictly positive 制約に違反するような帰納型を仮に定義できたとすると、矛盾が導かれてしまいます。[`unsafe`](#{root}/Modifier/Unsafe.md) 修飾子で実際に試してみましょう。 -/
+次の例では、`Bar` のコンストラクタの引数の型の中で `Bar` 自身が正の位置に現れていますが、これも同じエラーになります。
+-/
+
+/--
+error: (kernel) arg #1 of 'Bar.mk' has a non positive occurrence of the datatypes being declared
+-/
+#guard_msgs in
+  inductive Bar where
+    | mk (f : (Bar → Nat) → Nat)
+
+/- どの `→` から見ても正の位置にあるときには strictly positive position と呼ばれるのですが、Lean は実際には狭義の正の位置でなければ定義を拒否します。帰納型 `T` のコンストラクタの引数の中に `T` 自身が現れる場合、狭義の正の位置つまり `A → T` の形で現れるのは許容されますが `T → A` の形で現れるのは許されません。これを strictly positive 要件と本書では呼びます。
+
+strictly positive 要件に違反するような帰納型を仮に定義できたとすると、矛盾が導かれてしまいます。[`unsafe`](#{root}/Modifier/Unsafe.md) 修飾子で実際に試してみましょう。 -/
 
 -- 任意に型 A が与えられたとして固定する
 opaque A : Type
 
-/-- strictly positive 制約を破っている帰納型 -/
+/-- strictly positive 要件を破っている帰納型 -/
 unsafe inductive Bad where
   | mk (f : Bad → A)
 
