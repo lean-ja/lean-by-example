@@ -91,31 +91,32 @@ theorem contra : False := by sorry
   #print axioms contra
 
 /- ### 舞台裏
-`Lean.collectAxioms` という関数を使用することにより、依存公理を調べて何かを行うような `#print axioms` の類似コマンドを自作することができます。ここでは例として、「ある定理が選択原理 `Classical.choice` に依存しているかどうか調べて、依存していればエラーにする」というコマンドを作成します。
+`Lean.collectAxioms` という関数を使用することにより、依存公理を調べて何かを行うような `#print axioms` の類似コマンドを自作することができます。ここでは例として、[`elab`](#{root}/Declarative/Elab.md) コマンドを使用して「ある定理が選択原理 `Classical.choice` に依存しているかどうか調べて、依存していればエラーにする」というコマンドを作成します。
 -/
-section --#
+section
+  open Lean Elab Command
 
-open Lean Elab Command
+  /-- 選択原理に依存していないことを検証するコマンド -/
+  elab "#detect_classical " id:ident : command => do
+    -- 識別子(ident)を Name に変換
+    let constName ← liftCoreM <| realizeGlobalConstNoOverload id
 
-elab "#detect_classical " id:ident : command => do
-  -- 識別子(ident)を Name に変換
-  let constName ← liftCoreM <| realizeGlobalConstNoOverload id
+    -- 依存する公理を取得
+    let axioms ← collectAxioms constName
 
-  -- 依存する公理を取得
-  let axioms ← collectAxioms constName
+    -- 依存公理がなかったときの処理
+    if axioms.isEmpty then
+      logInfo m!"'{constName}' does not depend on any axioms"
+      return ()
 
-  -- 依存公理がなかったときの処理
-  if axioms.isEmpty then
-    logInfo m!"'{constName}' does not depend on any axioms"
-    return ()
-
-  -- Classical で始まる公理があるかどうかチェック
-  -- もしあればエラーにする
-  let caxes := axioms.filter fun nm => Name.isPrefixOf `Classical nm
-  if caxes.isEmpty then
-    logInfo m!"'{constName}' is non-classical and depends on axioms: {axioms.toList}"
-  else
-    throwError m!"'{constName}' depends on classical axioms: {caxes.toList}"
+    -- Classical で始まる公理があるかどうかチェック
+    -- もしあればエラーにする
+    let caxes := axioms.filter fun nm => Name.isPrefixOf `Classical nm
+    if caxes.isEmpty then
+      logInfo m!"'{constName}' is non-classical and depends on axioms: {axioms.toList}"
+    else
+      throwError m!"'{constName}' depends on classical axioms: {caxes.toList}"
+end
 
 -- 以下はテストコード
 
@@ -130,5 +131,3 @@ elab "#detect_classical " id:ident : command => do
 /-- error: 'Classical.em' depends on classical axioms: [Classical.choice] -/
 #guard_msgs in
   #detect_classical Classical.em
-
-end --#
