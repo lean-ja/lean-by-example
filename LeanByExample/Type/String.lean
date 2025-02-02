@@ -66,9 +66,9 @@ and both `String.utf8ByteSize` and `String.length` are cached and O(1).
 -/
 #guard_msgs in #doc String
 
-/- ## 文字列補完
+/- ## 文字列補間
 
-`String` 型の変数の「評価した後の値」を文字列に埋め込むことができます。これを文字列補完と呼びます。Lean では、これは `s!` という構文で行うことができます。
+`String` 型の変数の「評価した後の値」を文字列に埋め込むことができます。これを **文字列補間(string interpolation)** と呼びます。Lean では、これは `s!` という構文で行うことができます。
 -/
 
 def greet := "Hello"
