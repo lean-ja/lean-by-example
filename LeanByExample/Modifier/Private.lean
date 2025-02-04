@@ -18,7 +18,6 @@ import Lean --#
 #check Point.sub
 
 -- private とマークした定義にはアクセスできない
-#guard_msgs (drop warning) in --#
 #check_failure Point.private_sub
 
 /- なお `private` コマンドで定義した名前は、同じファイル内であればそのセクションや名前空間を出ても普通にアクセスすることができます。特に、`private` は [`protected`](#{root}/Modifier/Protected.md) の効果を持ちません。-/

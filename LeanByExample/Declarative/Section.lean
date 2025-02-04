@@ -23,7 +23,6 @@ section
 end
 
 -- `section` の外に出ると無効になる
-#guard_msgs (drop warning) in --#
 #check_failure a
 
 /-
@@ -38,7 +37,6 @@ section
 end
 
 -- `end` 以降は無効になる
-#guard_msgs (drop warning) in --#
 #check_failure choice
 
 /- 次は `set_option` の有効範囲を区切る例です。 -/
@@ -88,10 +86,8 @@ section parent
   end child
 
   -- child セクションの外なので無効
-  #guard_msgs (drop warning) in --#
   #check_failure b
 end parent
 
 -- parent セクションの外なので無効
-#guard_msgs (drop warning) in --#
 #check_failure a

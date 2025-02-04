@@ -15,7 +15,6 @@ structure AdditiveFunction : Type where
 def identity : AdditiveFunction := ⟨id, by intro _ _; rfl⟩
 
 -- `identity` の型は `AdditiveFunction` であって、関数ではないのでこれはエラーになる
-#guard_msgs (drop warning) in --#
 #check_failure (identity 1)
 
 -- 関数に変換してからならOK
@@ -41,14 +40,7 @@ local instance : Coe AdditiveFunction (Nat → Nat) where
 
 -- `Nat → Nat` への型強制が呼び出されず、エラーになってしまう
 -- これは、期待されている型が `Nat → Nat` ではなく、単に `Nat → ?_` であるため。
-/--
-warning: function expected at
-  identity
-term has type
-  AdditiveFunction
--/
-#guard_msgs in
-  #check_failure (identity 1)
+#check_failure (identity 1)
 
 -- 期待される型を明記すればエラーにならない
 #check ((identity : Nat → Nat) 1)

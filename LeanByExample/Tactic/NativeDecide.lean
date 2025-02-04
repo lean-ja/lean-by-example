@@ -23,7 +23,6 @@ def gcd (m n : Nat) : Nat :=
 
 -- `rfl` では証明できない
 -- これは停止性を証明していないため
-#guard_msgs (drop warning) in --#
 #check_failure (by rfl : gcd 42998431 120019 = 1)
 
 -- `native_decide` ならば証明できる

@@ -44,7 +44,6 @@ Additional diagnostic information may be available using the `set_option diagnos
 #guard_msgs in #synth Inv Nat
 
 -- Inv のインスタンスになっていない
-#guard_msgs (drop warning) in --#
 #check_failure (inferInstance : Inv Nat)
 
 /- 自分で無理やり `ℕ` を `Inv` のインスタンスにしてみると、通るようになります。ここでは逆数関数を常に `1` になる定数関数としてみましょう。-/

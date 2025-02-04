@@ -27,11 +27,11 @@ inductive Sample where
 
 -- 「コンストラクタが一つしかない帰納型でなければ使用できない」というエラーになる
 /--
-warning: invalid constructor ⟨...⟩, expected type must be an inductive type with only one constructor ⏎
+error: invalid constructor ⟨...⟩, expected type must be an inductive type with only one constructor ⏎
   Sample
 -/
 #guard_msgs in
-  #check_failure (⟨"foo", "bar"⟩ : Sample)
+  #check (⟨"foo", "bar"⟩ : Sample)
 
 /- ## 構造体への使用
 [構造体](#{root}/Declarative/Structure.md)は単一コンストラクタしか持たない帰納型なので、構造体に対しても無名コンストラクタ構文が使用できます。-/

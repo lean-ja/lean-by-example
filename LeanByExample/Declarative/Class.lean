@@ -60,7 +60,6 @@ def instMonoid'Nat : Monoid' Nat where
 
 /- `self : Monoid' α` が暗黙の引数ではなく明示的な引数なので、型クラスのように書くことはできません。-/
 
-#guard_msgs (drop warning) in --#
 #check_failure (Monoid'.e : Nat)
 
 /- しかし、インスタンスを引数として渡せば、型クラスのように `Nat` の要素を取り出すことができます。-/

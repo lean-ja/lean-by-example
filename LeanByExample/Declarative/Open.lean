@@ -11,7 +11,6 @@ namespace Hoge
 end Hoge
 
 -- 名前空間の外からだと `foo` という短い名前が使えない
-#guard_msgs (drop warning) in --#
 #check_failure foo
 
 section
@@ -23,7 +22,6 @@ section
 end
 
 -- セクションが終わると再び短い名前は使えなくなる
-#guard_msgs (drop warning) in --#
 #check_failure foo
 
 /- ## 入れ子になった名前空間

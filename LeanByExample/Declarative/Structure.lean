@@ -123,7 +123,6 @@ inductive Point' (α : Type) : Type where
 /- アクセサ関数が自動的に作られませんが、自分で作ることができます。-/
 
 -- アクセサ関数が利用できない
-#guard_msgs (drop warning) in --#
 #check_failure Point'.x
 
 /-- 自前で定義した `Point'` へのフィールドへのアクセサ -/
@@ -139,12 +138,7 @@ def Point'.x {α : Type} (p : Point' α) : α :=
 /- 波括弧記法は `structure` コマンドで定義された型でなければ使用できないようです。 -/
 
 -- 波括弧記法は使用できない
-/--
-warning: invalid {...} notation, structure type expected
-  Point' Int
--/
-#guard_msgs in
-  #check_failure { x := 1, y := 2 : Point' Int}
+#check_failure { x := 1, y := 2 : Point' Int}
 
 /- ### 用途
 この `structure` コマンドの代わりに `inductive` コマンドを用いる方法は、定義しようとしている構造体が命題をパラメータに持っているときに必要になります。[`Prop` の Large Elimination が許可されていない](#{root}/Type/Prop.md#NoLargeElim)ことにより、この場合はアクセサ関数が生成できないので `structure` コマンドが使用できず、エラーになります。 -/

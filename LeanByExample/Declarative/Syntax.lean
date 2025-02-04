@@ -45,16 +45,10 @@ local macro_rules
 -- メタ変数の番号を表示しない
 set_option pp.mvars false
 
--- `Nat` と `Prop` を足すことはできないというエラーメッセージ。
--- `1 + (1 = 2)` だと認識されてしまっているようだ。
-/--
-warning: failed to synthesize
-  HAdd Nat Prop ?_
-Additional diagnostic information may be available
-using the `set_option diagnostics true` command.
--/
-#guard_msgs (warning) in
-  #check_failure (1 + 1 = 2 as Nat)
+-- `1 + (1 = 2)` だと認識されてしまっている
+/-- info: 1 + (1 = 2) : ?_ -/
+#guard_msgs (info, drop error) in
+  #check (1 + 1 = 2 as Nat)
 
 end --#
 /- **パース優先順位(parsing precedence)** を設定することで、どの構文から順に解釈されるかを指定することができ、問題を修正できることがあります。このあたりは [`notation`](./Notation.md) コマンドと同様です。 -/

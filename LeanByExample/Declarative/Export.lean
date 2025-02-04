@@ -16,7 +16,6 @@ namespace N -- export コマンドが実行される名前空間
 
   -- foo は名前空間 Sample 上にあるので、
   -- 短い名前ではアクセスできない
-  #guard_msgs (drop warning) in --#
   #check_failure foo
   #check Sample.foo
 
@@ -30,7 +29,6 @@ end N
 
 -- 名前空間 `N` の外部からアクセスするには、
 -- 普通はフルネームが必要
-#guard_msgs (drop warning) in --#
 #check_failure N.bar
 #check N.Sample.bar
 

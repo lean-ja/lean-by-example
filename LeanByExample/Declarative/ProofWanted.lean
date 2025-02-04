@@ -19,5 +19,4 @@ theorem another_result : n + 0 = n := by sorry
 #check another_result
 
 -- proof_wanted で宣言した定理は参照できない
-#guard_msgs (drop warning) in --#
 #check_failure result
