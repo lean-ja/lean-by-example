@@ -54,9 +54,7 @@ section --#
 
 local instance : Coe FinCat Type := ⟨fun S ↦ S.base⟩
 
-#guard_msgs (drop warning) in --#
 #check_failure ((1 : Fin 2) : Two)
-#guard_msgs (drop warning) in --#
 #check_failure (Two → Two)
 
 end --#
@@ -76,7 +74,6 @@ structure AltType where
 def A : AltType := ⟨Nat⟩
 
 -- `zero` は `Type` を期待しているのでエラーになる
-#guard_msgs (drop warning) in --#
 #check_failure zero A
 
 /-- `AltType` を `Type` に型強制する -/

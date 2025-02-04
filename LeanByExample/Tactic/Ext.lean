@@ -68,9 +68,7 @@ structure Point (α : Type) where
   y : α
 
 -- 最初は存在しない
-#guard_msgs (drop warning) in --#
 #check_failure Point.ext
-#guard_msgs (drop warning) in --#
 #check_failure Point.ext_iff
 
 -- `Point` に `[ext]` 属性を与える

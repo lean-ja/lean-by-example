@@ -20,7 +20,6 @@ def List.subsₑ (α : Type) (xs : List α) : List (List α) :=
 #eval List.subsₑ Nat [1, 2]
 
 -- 型引数を与えないと（当然ながら）エラーになってしまう
-#guard_msgs (drop warning) in --#
 #check_failure List.subs [1, 2]
 
 /- 引数 `α` を暗黙の引数として受け取るように変更すれば、Lean が `α : Type` の内容を推論してくれるようになり、`α` を省略できるようになります。-/
@@ -37,7 +36,6 @@ def List.subsᵢ {α : Type} (xs : List α) : List (List α) :=
 #eval List.subsᵢ [1, 2]
 
 -- 逆に今度は型引数を与えるとエラーになる
-#guard_msgs (drop warning) in --#
 #check_failure List.subsᵢ Nat [1, 2]
 
 /- ## 明示引数モード

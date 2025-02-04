@@ -15,7 +15,6 @@ structure AdditiveFunction : Type where
 def identity : AdditiveFunction := ⟨id, by intro _ _; rfl⟩
 
 -- `identity` の型は `AdditiveFunction` であって、関数ではないのでこれはエラーになる
-#guard_msgs (drop warning) in --#
 #check_failure (identity 1)
 
 -- 関数に変換してからならOK

@@ -11,12 +11,10 @@ section foo
 end foo
 
 -- section を抜けると使えなくなる
-#guard_msgs (drop warning) in --#
 #check_failure succ'
 
 section foo
   -- 同じ名前の section を再度開いても使えない
-  #guard_msgs (drop warning) in --#
   #check_failure succ'
 end foo
 
@@ -31,13 +29,11 @@ namespace hoge
 end hoge
 
 -- namespace の外では使用できない
-#guard_msgs (drop warning) in --#
 #check_failure succ' 2
 
 -- 再び同じ名前の namespace をオープンする
 namespace hoge
   -- 使用できない！
-  #guard_msgs (drop warning) in --#
   #check_failure succ'
 end hoge
 
@@ -89,7 +85,6 @@ section
 end
 
 -- section を抜けると使えなくなる
-#guard_msgs (drop warning) in --#
 #check_failure (0 : MyNat)
 
 /- ## 属性に対する local
@@ -115,7 +110,6 @@ section
 end
 
 -- section を抜けると simp 補題が利用できなくなる
-#guard_msgs (drop warning) in --#
 #check_failure (by simp : MyNat.add .zero .zero = .zero)
 
 /- ## 構文的な性質

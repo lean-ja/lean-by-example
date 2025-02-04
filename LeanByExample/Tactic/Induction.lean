@@ -220,7 +220,7 @@ def bar : Nat → Nat
   | 0 => 0
   | _ => 1
 
-#guard_msgs (drop warning) in --#
+-- 帰納原理が生成されていない
 #check_failure bar.induct
 
 /- ## よくあるエラー
