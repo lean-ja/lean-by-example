@@ -139,7 +139,7 @@ example [Foldr α β] {a₁ a₂ a₃ : α} (init : β) :
     [a₁, a₂, a₃].foldr (· ⋄ ·) init = a₁ ⋄ a₂ ⋄ a₃ ⋄ init := by
   rfl
 
-/- `List.foldl` と `List.foldr` の違いは、演算が左結合的と仮定するか右結合的と仮定するか以外にも、`List.foldl` は末尾再帰(tail recursion)であるが `List.foldr` はそうでないことが挙げられます。 -/
+/- `List.foldl` と `List.foldr` の違いは、演算が左結合的と仮定するか右結合的と仮定するか以外にも、`List.foldl` は **末尾再帰(tail recursion)** であるが `List.foldr` はそうでないことが挙げられます。 -/
 
 /-- 自然数のリストの総和を計算する関数 -/
 def List.sum' : List Nat → Nat
@@ -176,19 +176,14 @@ example : List.foldl (· + ·) 0 = List.sumTR := by
 Lean では、`List` は標準で `Monad` 型クラスのインスタンスになっていません。
 -/
 
-/--
-error: failed to synthesize
-  Monad List
-Additional diagnostic information may be available using the `set_option diagnostics true` command.
--/
-#guard_msgs in
-  #synth Monad List
+#check_failure (inferInstance : Monad List)
 
 /- しかし、`Monad` 型クラスのインスタンスにすることは可能です。 -/
 
 instance : Monad List where
-  pure := List.singleton
-  bind := List.flatMap
+  pure x := [x]
+  bind l f := l.flatMap f
+  map f l := l.map f
 
 /- `List` のモナドインスタンスを利用すると、「リスト `xs : List α` の中から要素 `x : α` を選んで `y : β` を構成することをすべての要素 `x ∈ xs` に対して繰り返し、結果の `y` を集めてリスト `ys : List β` を構成する」ということができます。 -/
 
@@ -225,13 +220,18 @@ def tablen (n : Nat) (p : Arity Bool n) : List (List Bool) :=
     let rest ← tablen n (p b)
     return b :: rest
 
-/-- info: [[true, true, true],
-  [true, false, false],
-  [false, true, false],
-  [false, false, false]] -/
-#guard_msgs (whitespace := lax) in
-  #eval tablen 2 (fun a b => a && b)
+#guard
+  let expected := [
+    [true, true, true],
+    [true, false, false],
+    [false, true, false],
+    [false, false, false]
+  ]
+  let actual := tablen 2 (fun a b => a && b)
+  expected = actual
 
--- 結果が false になるものだけ表示
-#guard [[false, false, false, false]] =
-  (tablen 3 (fun a b c => a || b || c) |>.filter (fun xs => ! xs.getLast!))
+#guard
+  let result := tablen 3 (fun a b c => a || b || c)
+
+  -- 結果が false になるものだけ集める
+  result.filter (fun xs => ! xs.getLast!) = [[false, false, false, false]]
