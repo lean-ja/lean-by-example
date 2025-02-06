@@ -45,7 +45,7 @@
 -- 関数
 /-⋆-//-- info: fun x => x + 42 : Nat → Nat -/
 #guard_msgs in --#
-#check fun x ↦ x + 42
+#check fun x => x + 42
 
 -- 真偽値
 /-⋆-//-- info: Bool.true : Bool -/
@@ -63,8 +63,7 @@ example : Nat := 42
 
 example : Int := - 13
 
-/- ## 型の型
-「すべての」項には型があるので、特に型も型を持ちます。多くの組み込み型の型は [`Type`](#{root}/Type/Type.md) になっています。
+/- なお「すべての」項に型があるので、特に型も型を持ちます。多くの組み込み型の型は [`Type`](#{root}/Type/Type.md) になっています。
 -/
 
 -- 文字列型の型は Type
