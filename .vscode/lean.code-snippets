@@ -31,5 +31,22 @@
       "set_option linter.unusedTactic false in --#",
     ],
     "description": "unusedTactic linter disable"
-  }
+  },
+  "stardoc": {
+    "scope": "lean,lean4",
+    "prefix": "stardoc",
+    "body": [
+      "/-⋆-/",
+    ],
+    "description": "convert doc to block comment"
+  },
+  "starguard": {
+    "scope": "lean,lean4",
+    "prefix": "starguard",
+    "body": [
+      "/-⋆-/",
+      "#guard_msgs in --#",
+    ],
+    "description": "#guard_msgs for convert doc to block comment"
+  },
 }
