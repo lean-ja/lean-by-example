@@ -1,21 +1,19 @@
 /- # Macro
 
-`Lean.Macro` 型の項は、マクロを表現しています。一般のプログラミング言語においてマクロとは構文を構文に変換することを指す言葉で、必ずしも特定の型や項に対応する概念ではありませんが、Lean の `m : Macro` は、`Syntax → MacroM Syntax` という型の関数そのものです。
-
-[`Syntax`](./Syntax.md) 型が Lean の構文木をダイレクトに表していたように、`Macro` 型は Lean のマクロをダイレクトに表しています。
--/
-import Mathlib.Util.WhatsNew
+`Lean.Macro` 型の項は、マクロを表現しています。一般のプログラミング言語においてマクロとは構文を構文に変換することを指す言葉で、必ずしも特定の型や項に対応する概念ではありませんが、Lean の `m : Macro` は、`Syntax → MacroM Syntax` という型の関数そのものです。-/
+import Mathlib.Util.WhatsNew --#
 
 open Lean in
 
-/-- `Macro` とは、おおむね `Syntax` から `Syntax` への関数である -/
 example : Macro = (Syntax → MacroM Syntax) := by rfl
+/- [`Syntax`](./Syntax.md) 型が Lean の構文木をダイレクトに表していたように、`Macro` 型は Lean のマクロをダイレクトに表しています。
+-/
 
 /- ## Macro 型とマクロの関係
 
 ### Macro 型からマクロ
 
-項 `m : Macro` を使ってマクロを定義するには、以下のように `[macro]` 属性を使用します。これは多くの場合かなり冗長な方法です。
+項 `m : Macro` を使ってマクロを定義するには、以下のように `[macro]` 属性を付与します。
 -/
 open Lean
 
@@ -30,11 +28,7 @@ def zeroLitExpand : Macro := fun stx =>
   | _ => Macro.throwUnsupported
 
 -- まだマクロとして登録されていないのでエラーになる
-/--
-error: elaboration function for 'zeroLitPar' has not been implemented
-  zeroLit
--/
-#guard_msgs in #check zeroLit
+#check_failure zeroLit
 
 -- マクロとして登録する
 attribute [macro zeroLitPar] zeroLitExpand
@@ -44,7 +38,7 @@ attribute [macro zeroLitPar] zeroLitExpand
 
 /- ### マクロから Macro 型
 
-実際にマクロを定義する際は、[`notation`](#{root}/Declarative/Notation.md) コマンドや [`macro`](#{root}/Declarative/Macro.md) コマンドなどを使用するでしょう。こういったコマンドでマクロを定義したとき、それが裏で `Macro` 型の項を生成していることを確かめることができます。特定のコマンドの実行後に新たに生成された識別子の名前をリストアップすることができる、`whatsnew` コマンドを使えば可能です。以下の出力の中に `Lean.Macro` 型の項があるはずです。-/
+実際にマクロを定義する際は、[`notation`](#{root}/Declarative/Notation.md) コマンドや [`macro`](#{root}/Declarative/Macro.md) コマンド、[`macro_rules`](#{root}/Declarative/MacroRules.md) コマンドなどを使用するでしょう。こういったコマンドでマクロを定義したとき、それが裏で `Macro` 型の項を生成していることを確かめることができます。特定のコマンドの実行後に新たに生成された識別子の名前をリストアップすることができる、`whatsnew` コマンドを使えば可能です。-/
 
 section
   open Lean Elab Command
@@ -86,7 +80,7 @@ section
           logError "error: output string does not contain the expected string"
 end
 
--- `whatsnew` コマンドの出力の中に、`Macro` 型の項が含まれている
-/-- Type_Macro___macroRules_termOneLit_1 : Macro -/
+-- `macro` コマンドの `whatsnew` コマンドによる出力の中に、`Macro` 型の項が含まれている
+/-- unsafe def _aux_LeanByExample_Type_Macro___macroRules_termOneLit_1._cstage1 : Macro := -/
 #contain_msg in
   whatsnew in macro "oneLit" : term => `(1)
