@@ -276,7 +276,7 @@ example (a b : Nat) (h : 3 ∣ (10 * a + b)) : 3 ∣ (a + b) := by
 end --#
 /- ただし `tactic` ビルダーは受け入れる型が少し特殊で、`TacticM Unit` などの少数の型の項しか受け入れません。正確にどの型の項を受け入れるかは、エラーメッセージで確認できます。-/
 
-/--
+/-⋆-//--
 error: aesop: tactic builder: expected foo to be a tactic, i.e. to have one of these types:
   TacticM Unit
   SimpleRuleTac
@@ -285,5 +285,5 @@ error: aesop: tactic builder: expected foo to be a tactic, i.e. to have one of t
 However, it has type
   String
 -/
-#guard_msgs in
-  @[aesop safe tactic] def foo := "hello"
+#guard_msgs in --#
+@[aesop safe tactic] def foo := "hello"
