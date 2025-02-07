@@ -5,15 +5,20 @@
 
 -- `Int` は `Mul` 型クラスのインスタンスで、
 -- インスタンス名は `Int.instMul`
-#check (Int.instMul : Mul Int)
+/-⋆-//-- info: Int.instMul -/
+#guard_msgs in --#
+#synth Mul Int
 
--- `x, y` の型がわからないので `x * y` をどう解釈すればいいか Lean はわからない
-/--
+-- メタ変数名を表示しない
+set_option pp.mvars false
+
+-- エラー。`x, y` の型がわからないので `x * y` をどう解釈すればいいか Lean はわからない。
+/-⋆-//--
 error: typeclass instance problem is stuck, it is often due to metavariables
-  HMul (?m.27 y) ?m.18 (?m.28 y x)
+  HMul (?_ y) ?_ (?_ y x)
 -/
-#guard_msgs in
-  #reduce fun y => (fun x => x * y)
+#guard_msgs in --#
+#reduce fun y => (fun x => x * y)
 
 -- `y` の型を明示的に与えればエラーは消える
 #reduce fun (y : Nat) => (fun x => x * y)
@@ -35,20 +40,23 @@ def NatPair := Nat × Nat
 instance instNatPair : OfNat NatPair 0 := ⟨(0, 0)⟩
 
 -- 期待される型を指定しない場合、数値リテラルは `Nat` の項であると解釈される
-/-- info: 0 : Nat -/
-#guard_msgs in #check 0
+/-⋆-//-- info: 0 : Nat -/
+#guard_msgs in --#
+#check 0
 
 -- 期待される型を指定しなければ、数値リテラルを `NatPair` の項として解釈する
 attribute [default_instance] instNatPair
 
 -- `NatPair` の項として解釈されるようになった！
-/-- info: 0 : NatPair -/
-#guard_msgs in #check 0
+/-⋆-//-- info: 0 : NatPair -/
+#guard_msgs in --#
+#check 0
 
 -- 期待される型を指定したときの挙動は変わらない。
 -- 相変わらず `Nat` の項として解釈される
-/-- info: 0 : Nat -/
-#guard_msgs in #check (0 : Nat)
+/-⋆-//-- info: 0 : Nat -/
+#guard_msgs in --#
+#check (0 : Nat)
 
 /- ## インスタンス優先度との違い
 
@@ -82,8 +90,9 @@ attribute [default_instance] instDiaZero
 
 -- 期待される型が不明な状況であれば、
 -- デフォルトインスタンスが使用される
-/-- info: 0 -/
-#guard_msgs in #eval ⋄
+/-⋆-//-- info: 0 -/
+#guard_msgs in --#
+#eval ⋄
 
 /-- `⋄ : Nat` が `2` を表すものとする。優先度を `high` にしておく -/
 instance (priority := high) instDiaTwo : Diamond Nat where
