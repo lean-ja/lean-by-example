@@ -268,7 +268,7 @@ example (n : MyNat) : MyNat.succ n ≠ n := by
     have : n.succ = n := by injection h
     exact ih this
 
-/- ## strictly positive 要件
+/- ## strictly positive 要件 { #StrictlyPositiveRequirement }
 
 帰納型を定義しようとした際に、次のようなエラーになることがあります。
 -/
