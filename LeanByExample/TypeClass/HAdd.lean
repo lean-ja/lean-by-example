@@ -16,13 +16,7 @@ def sample : Colour := { red := 2, blue := 4, green := 8 }
 set_option pp.mvars false
 
 -- 最初は `+` 記号が定義されていないのでエラーになる
-/--
-error: failed to synthesize
-  HAdd Colour Colour ?_
-Additional diagnostic information may be available
-using the `set_option diagnostics true` command.
--/
-#guard_msgs in #eval sample + sample
+#check_failure sample + sample
 
 /-- HAdd 型クラスのインスタンスを実装する -/
 instance : HAdd Colour Colour Colour where

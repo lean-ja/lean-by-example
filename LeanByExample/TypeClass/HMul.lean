@@ -7,13 +7,7 @@
 set_option pp.mvars false
 
 -- 最初は `*` 記号が定義されていないのでエラーになる
-/--
-error: failed to synthesize
-  HMul (List Nat) (List Nat) ?_
-Additional diagnostic information may be available
-using the `set_option diagnostics true` command.
--/
-#guard_msgs in #eval [1, 2, 3] * [4, 5, 6]
+#check_failure [1, 2, 3] * [4, 5, 6]
 
 /-- `HMul` のインスタンスを定義する。
 `List Nat` 同士の積を、要素ごとの積で定義した。-/
