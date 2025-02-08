@@ -11,11 +11,13 @@ def greet : String := "hello world!"
 
 -- reduce の結果と eval の結果が一致する
 
-/-- info: "hello world!" -/
-#guard_msgs in #eval greet
+/-⋆-//-- info: "hello world!" -/
+#guard_msgs in --#
+#eval greet
 
-/-- info: "hello world!" -/
-#guard_msgs in #reduce greet
+/-⋆-//-- info: "hello world!" -/
+#guard_msgs in --#
+#reduce greet
 
 
 -- opaque を使った定義
@@ -23,28 +25,23 @@ opaque opaque_greet : String := "hello world!"
 
 -- 簡約できないので eval と一致しなくなる
 
-/-- info: "hello world!" -/
-#guard_msgs in #eval opaque_greet
+/-⋆-//-- info: "hello world!" -/
+#guard_msgs in --#
+#eval opaque_greet
 
-/-- info: opaque_greet -/
-#guard_msgs in #reduce opaque_greet
+/-⋆-//-- info: opaque_greet -/
+#guard_msgs in --#
+#reduce opaque_greet
 
 /- `opaque` で宣言された名前は [`partial`](#{root}/Modifier/Partial.md) で修飾された名前と同様に証明の中で簡約できなくなり、コンパイラを信頼しないとそれに関する証明ができなくなります。-/
 
 -- 等しいものだという判定はできる
 #eval opaque_greet == greet
 
--- 等しいことの証明が rfl ではできない
-/--
-error: tactic 'rfl' failed, the left-hand side
-  opaque_greet
-is not definitionally equal to the right-hand side
-  greet
-⊢ opaque_greet = greet
--/
-#guard_msgs in example : opaque_greet = greet := by rfl
-
 example : opaque_greet = greet := by
+  -- 等しいことの証明が rfl ではできない
+  fail_if_success rfl
+
   -- greet は展開できるが
   dsimp [greet]
 
@@ -60,20 +57,22 @@ example : opaque_greet = greet := by
 opaque some_string : String
 
 -- 値は空文字列
-/-- info: "" -/
-#guard_msgs in #eval some_string
+/-⋆-//-- info: "" -/
+#guard_msgs in --#
+#eval some_string
 
 -- 適当な構造体を用意する
 structure Something where
   val : String
 
 -- Inhabited インスタンスがないのでエラーになる
-/--
+/-⋆-//--
 error: failed to synthesize
   Inhabited Something
 Additional diagnostic information may be available using the `set_option diagnostics true` command.
 -/
-#guard_msgs in opaque something : Something
+#guard_msgs in --#
+opaque something : Something
 
 /- ## variable との違い
 `opaque` と同じく [`variable`](./Variable.md) コマンドも「特定の型を持つ項がとりあえず何かある」という表現をするために使用されることがありますが、両者には重要な違いがあります。
@@ -99,21 +98,9 @@ opaque B : Type
 opaque C : Type
 
 -- 実装は与えないが C は Inhabited のインスタンスだと仮定
-#guard_msgs (drop warning) in --#
-instance : Inhabited C where
-  default := sorry
+variable [Inhabited C]
 
 opaque f : (A → B) → C
 
 -- 想定通りエラーになる
-/--
-error: application type mismatch
-  f f
-argument
-  f
-has type
-  (A → B) → C : Type
-but is expected to have type
-  A → B : Type
--/
-#guard_msgs (error) in #check f f
+#check_failure f f
