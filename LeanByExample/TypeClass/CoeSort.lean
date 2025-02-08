@@ -37,32 +37,32 @@ error: type expected, got
 #check ((1 : Fin 2) : Two.base)
 #check (Two.base → Two.base)
 
-section --#
-/-- `FinCat` から `Type` への型強制。
-`S : FinCat` を、`S.base : Type` に変換する。-/
-local instance : CoeSort FinCat Type := ⟨fun S ↦ S.base⟩
+section
 
--- 型強制があるのでこういう書き方ができる
-#check ((1 : Fin 2) : Two)
-#check Two → Two
-end --#
+  /-- `FinCat` から `Type` への型強制。
+  `S : FinCat` を、`S.base : Type` に変換する。-/
+  local instance : CoeSort FinCat Type := ⟨fun S ↦ S.base⟩
 
+  -- 型強制があるのでこういう書き方ができる
+  #check ((1 : Fin 2) : Two)
+  #check Two → Two
+
+end
 /- ## Coe との違い
 
 `Coe` で同様のコードを書いても、上記の `FinCat` の例はうまくいきません。-/
-section --#
+section
 
-local instance : Coe FinCat Type := ⟨fun S ↦ S.base⟩
+  local instance : Coe FinCat Type := ⟨fun S ↦ S.base⟩
 
-#check_failure ((1 : Fin 2) : Two)
-#check_failure (Two → Two)
+  #check_failure ((1 : Fin 2) : Two)
+  #check_failure (Two → Two)
 
-end --#
+end
 /- しかし、これは「`Coe` では型宇宙への変換は扱えないから」ではありません。`Coe` と `CoeSort` では型強制が呼ばれるタイミングが異なるからです。`Coe` は「ある型の項が期待される場所に、異なる型の項が来た時」にトリガーされますが、`CoeSort` は「型が期待される場所に型が来ていないとき」にトリガーされます。
 
 実際、`Coe` を使っても `Type` への型強制は定義することができます。
 -/
-section --#
 
 /-- 型を受け取ってゼロを返す関数 -/
 def zero (_ : Type) : Nat := 0
@@ -76,10 +76,12 @@ def A : AltType := ⟨Nat⟩
 -- `zero` は `Type` を期待しているのでエラーになる
 #check_failure zero A
 
-/-- `AltType` を `Type` に型強制する -/
-local instance : Coe AltType Type := ⟨fun S ↦ S.base⟩
+section
 
--- 成功するようになった！
-#check zero A
+  /-- `AltType` を `Type` に型強制する -/
+  local instance : Coe AltType Type := ⟨fun S ↦ S.base⟩
 
-end --#
+  -- 成功するようになった！
+  #check zero A
+
+end
