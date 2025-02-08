@@ -218,6 +218,7 @@ inductive Op where
   | add
   /-- 乗法 -/
   | mul
+deriving DecidableEq
 
 /-- 数式 -/
 inductive Expr where
@@ -225,6 +226,7 @@ inductive Expr where
   | val : Nat → Expr
   /-- 演算子の適用 -/
   | app : Op → Expr → Expr → Expr
+deriving DecidableEq
 
 namespace Expr
   /- ## Expr の項を定義するための簡単な構文を用意する -/
@@ -258,19 +260,23 @@ namespace Expr
     | `(expr!{($e:expr)}) => `(expr!{$e})
 
   -- 足し算は左結合になる
-  /-- info: app Op.add (app Op.add (val 1) (val 2)) (val 3) : Expr -/
-  #guard_msgs in
-    #check expr!{1 + 2 + 3}
+  #guard
+    let expected := app Op.add (app Op.add (val 1) (val 2)) (val 3)
+    let actual := expr!{1 + 2 + 3}
+    actual = expected
 
   -- 掛け算は左結合になる
-  /-- info: app Op.mul (app Op.mul (val 1) (val 2)) (val 3) : Expr -/
-  #guard_msgs in
-    #check expr!{1 * 2 * 3}
+  #guard
+    let expected := app Op.mul (app Op.mul (val 1) (val 2)) (val 3)
+    let actual := expr!{1 * 2 * 3}
+    actual = expected
 
   -- 足し算と掛け算が混在する場合は、掛け算が優先される
-  /-- info: app Op.add (app Op.mul (val 1) (val 2)) (val 3) : Expr -/
-  #guard_msgs in
-    #check expr!{1 * 2 + 3}
+  #guard
+    let expected := app Op.add (app Op.mul (val 1) (val 2)) (val 3)
+    let actual := expr!{1 * 2 + 3}
+    actual = expected
+
 end Expr
 
 /- [^nestedlist]: ここで紹介しているコード例は、Lean 公式 Zulip の "macro parser for nested lists" というトピックで [Kyle Miller さんが挙げていたコード](https://leanprover.zulipchat.com/#narrow/channel/113488-general/topic/macro.20parser.20for.20nested.20lists/near/486691429)を参考にしています。
