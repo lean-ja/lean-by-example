@@ -17,24 +17,25 @@ notation:60 a:60 " ≃ " b:60 " mod " k:60 => modulo k a b
 
 section
 
-/-- 階乗関数 -/
-def factorial : Nat → Nat
-  | 0 => 1
-  | n+1 => (n+1) * factorial n
+  /-- 階乗関数 -/
+  def factorial : Nat → Nat
+    | 0 => 1
+    | n+1 => (n+1) * factorial n
 
-/-- 階乗関数を表す記法 -/
-notation:100 a:100 "!" => factorial a
+  /-- 階乗関数を表す記法 -/
+  notation:100 a:100 "!" => factorial a
 
--- 表示する際に導入された記法を無効にする
-set_option pp.notation false
+  -- 表示する際に導入された記法を無効にする
+  set_option pp.notation false
 
-/-- info: factorial 5 : Nat -/
-#guard_msgs in #check 5!
+  /-⋆-//-- info: factorial 5 : Nat -/
+  #guard_msgs in --#
+  #check 5!
 
 end
 
 /- ## パース優先順位
-`notation` で記法を定義するときに、その記法の他の演算子などと比べた **パース優先順位(parsing precedence)** を数値で指定することができます。パース優先順位が高い演算子ほど、他の演算子より先に適用されます。言い換えれば、パース優先順位を正しく設定することにより、括弧を省略しても意図通りに式が解釈されるようにすることができます。
+`notation` コマンドで記法を定義するときに、その記法の他の演算子などと比べた **パース優先順位(parsing precedence)** を数値で指定することができます。パース優先順位が高い演算子ほど、他の演算子より先に適用されます。言い換えれば、パース優先順位を正しく設定することにより、括弧を省略しても意図通りに式が解釈されるようにすることができます。
 -/
 
 /-- 結合が弱い方。中身は足し算 -/
@@ -53,6 +54,8 @@ example : (3 weak 1 strong 2) = 5 := calc
 example : (2 strong 2 weak 3) = 7 := calc
   _ = (4 weak 3) := rfl
   _ = 7 := rfl
+
+/- パース優先順位についての構文は [`syntax`](#{root}/Declarative/Syntax.md) コマンドでも同様です。 -/
 
 /- ### プレースホルダのパース優先順位
 プレースホルダのパース優先順位の数字は、「この位置に来る記号は、指定された数字以上のパース優先順位を持たなければならない」ことを意味します。下記の例の場合、仮に右結合になるとすると `LXOR` 自身のパース優先順位が `60` でしかなくて `61` 以上という制約を満たさないため、右結合になることがありえないことがわかります。
@@ -121,23 +124,22 @@ example : (2 -* 2 -+ 3) = 7 := calc
 
 /- ## 記法の重複問題
 `notation` を使って定義した記法のパース優先順位が意図通りに反映されないことがあります。-/
-section --#
+section
 
--- 排他的論理和の記号を定義
-local notation:60 x:60 " ⊕ " y:61 => xor x y
+  -- 排他的論理和の記号を定義
+  local notation:60 x:60 " ⊕ " y:61 => xor x y
 
--- メタ変数を表示させないため
-set_option pp.mvars false
+  -- メタ変数を表示させないため
+  set_option pp.mvars false
 
--- 等号（パース優先順位 50）より優先順位が低いという問題でエラーになる
--- 上では60で定義しているのに、なぜ？
-#check_failure true ⊕ true = false
+  -- 等号（パース優先順位 50）より優先順位が低いという問題でエラーになる
+  -- 上では60で定義しているのに、なぜ？
+  #check_failure true ⊕ true = false
 
--- 括弧を付けるとエラーにならない
-#check (true ⊕ true) = false
+  -- 括弧を付けるとエラーにならない
+  #check (true ⊕ true) = false
 
-end --#
-
+end
 /- ここでのエラーの原因は、記法が被っていることです。`⊕` という記法は型の直和に対して既に使用されており、直和記法のパース優先順位が等号より低いためにエラーが発生していました。-/
 
 -- 集合の直和の記号と被っていた。
@@ -145,32 +147,32 @@ end --#
 #check Nat ⊕ Fin 2
 
 /- この問題の解決策は、まず第一に括弧を付けることですが、裏技として記法を上書きしてしまうこともできます。-/
-section --#
--- ⊕ という記号をオーバーライドする
--- local コマンドを使っているのは、セクション内でだけ有効にするため
-local macro_rules | `($x ⊕ $y) => `(xor $x $y)
+section
+  -- ⊕ という記号をオーバーライドする
+  -- local コマンドを使っているのは、セクション内でだけ有効にするため
+  local macro_rules | `($x ⊕ $y) => `(xor $x $y)
 
--- もう ⊕ が Sum として解釈されることはなく、エラーにならない
-#guard true ⊕ true = false
-#guard true ⊕ false = true
-#guard false ⊕ true = true
-#guard false ⊕ false = false
+  -- もう ⊕ が Sum として解釈されることはなく、エラーにならない
+  #guard true ⊕ true = false
+  #guard true ⊕ false = true
+  #guard false ⊕ true = true
+  #guard false ⊕ false = false
 
--- 上書きされたので、 Sum の意味で ⊕ を使うことはできなくなった
-#check_failure Nat ⊕ Fin 2
-end --#
-
+  -- 上書きされたので、 Sum の意味で ⊕ を使うことはできなくなった
+  #check_failure Nat ⊕ Fin 2
+end
 /- ## 半角スペースの扱い
 なお、`notation` を定義する際に半角スペースを入れることがしばしばありますが、これは表示の際に使われるだけで記法の認識には影響しません。-/
 section
 
--- 足し算を ⋄ で表す
--- local コマンドを付けているのは、この記法をセクション内でだけ有効にするため
-local notation a "⋄" b => Add.add a b
+  -- 足し算を ⋄ で表す
+  -- local コマンドを付けているのは、この記法をセクション内でだけ有効にするため
+  local notation a "⋄" b => Add.add a b
 
--- ⋄ の左右に半角スペースが入っていない！
--- 違いはそれだけで、記法としては同様の書き方で認識される
-/-- info: 1⋄2 : Nat -/
-#guard_msgs in #check 1 ⋄ 2
+  -- ⋄ の左右に半角スペースが入っていない！
+  -- 違いはそれだけで、記法としては同様の書き方で認識される
+  /-⋆-//-- info: 1⋄2 : Nat -/
+  #guard_msgs in --#
+  #check 1 ⋄ 2
 
 end
