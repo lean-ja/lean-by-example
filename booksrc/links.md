@@ -26,8 +26,9 @@
 
 ## 📖 書籍
 
-* [Theorem Proving in Lean 4](https://leanprover.github.io/theorem_proving_in_lean4) Lean 4の定理証明支援系としての側面に焦点を当てた公式チュートリアルテキストです。理論的な記述が多めです。
+* [Lean Language Reference](https://lean-lang.org/doc/reference/latest/) Lean 言語の公式リファレンス。Verso という Lean 製のツールで執筆されています。
 * [Lean Manual](https://lean-lang.org/lean4/doc/) Lean 言語の公式ドキュメント。執筆中であり欠けている個所がいくつもあります。
+* [Theorem Proving in Lean 4](https://leanprover.github.io/theorem_proving_in_lean4) Lean 4の定理証明支援系としての側面に焦点を当てた公式チュートリアルテキストです。理論的な記述が多めです。
 * [Functional Programming in Lean](https://leanprover.github.io/functional_programming_in_lean/) 関数型プログラミング言語としての Lean の入門書。
 * [Mathematics in Lean](https://leanprover-community.github.io/mathematics_in_lean/) Lean で数学を形式化する方法を学ぶ教科書。初等整数論をはじめ、位相空間論や測度論も扱われるなど内容が充実しており、多くの演習問題があります。
 * [Metaprogramming in Lean 4](https://leanprover-community.github.io/lean4-metaprogramming-book/) Lean で独自のコマンドやタクティクを作る方法を解説した本。
