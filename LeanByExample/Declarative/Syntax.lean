@@ -77,6 +77,9 @@ end
 `(name := ...)` という構文により、名前を付けることができます。名前を付けると、その名前で `Lean.ParserDescr` の項が生成されます。
 -/
 
+-- 最初は存在しない
+#check_failure (hogeCmd : ParserDescr)
+
 -- `#hoge` というコマンドを定義する
 -- `name` 構文で名前を付けることができる
 syntax (name := hogeCmd) "#hoge" : command
