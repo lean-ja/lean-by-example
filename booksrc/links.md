@@ -34,6 +34,7 @@
 * [Metaprogramming in Lean 4](https://leanprover-community.github.io/lean4-metaprogramming-book/) Lean で独自のコマンドやタクティクを作る方法を解説した本。
 * [The Mechanics of Proof](https://hrmacbeth.github.io/math2001/) 大学の初級レベルの授業のための Lean を使った教科書。Mathlib にはない独自のタクティクが使用されていることに注意が必要です。
 * [The Hitchhiker's Guide to Logical Verification](https://github.com/blanchette/interactive_theorem_proving_2024) 「	Formal Proof and Verification」という授業の参考書。テーマは形式検証であり、形式数学の形式化だけでなくプログラミング意味論にも触れています。
+* [Logic and Mechanized Reasoning](https://avigad.github.io/lamr/) Lean を使った論理学および自動証明の教科書。ソースコードも[GitHubリポジトリ](https://github.com/avigad/lamr)で公開されています。
 
 ## 📝 書籍以外の参考資料
 
