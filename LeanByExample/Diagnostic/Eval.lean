@@ -24,14 +24,26 @@ def main : IO Unit :=
 #eval main
 
 /- ## よくあるエラー
-式の評価を行うコマンドであるため、型や関数など、評価のしようがないものを与えるとエラーになります。-/
 
--- 型は評価できない
+### 計算不能
+
+`not computationally relevant` というエラーになることがあります。-/
+
 /-⋆-//-- error: cannot evaluate, types are not computationally relevant -/
 #guard_msgs in --#
 #eval Nat
 
--- 関数そのものも評価できない
+/-⋆-//-- error: cannot evaluate, proofs are not computationally relevant -/
+#guard_msgs in --#
+#eval (rfl : 1 + 1 = 2)
+
+/- これは、Lean の型や証明項は計算可能な解釈を持たないためです。 -/
+
+/- ### 表示方法がわからない
+
+一般に [`Repr`](#{root}/TypeClass/Repr.md) や [`ToString`](#{root}/TypeClass/ToString.md) および `ToExpr` のインスタンスでないような型の項は、表示方法がわからないので `#eval` に渡すことができません。
+-/
+
 /-⋆-//--
 error: could not synthesize a 'ToExpr', 'Repr', or 'ToString' instance for type
   Nat → Nat
@@ -39,4 +51,24 @@ error: could not synthesize a 'ToExpr', 'Repr', or 'ToString' instance for type
 #guard_msgs in --#
 #eval (fun x => x + 1)
 
-/- 一般に、[`Repr`](#{root}/TypeClass/Repr.md) や [`ToString`](#{root}/TypeClass/ToString.md) および `ToExpr` のインスタンスでないような型の項は `#eval` に渡すことができません。-/
+/- `Repr` インスタンスがあれば関数であっても `#eval` に渡すことができます。 -/
+
+-- 最初はエラーになってしまう
+/-⋆-//--
+error: could not synthesize a 'ToExpr', 'Repr', or 'ToString' instance for type
+  Unit → Nat
+-/
+#guard_msgs in --#
+#eval (fun _ => 1 : Unit → Nat)
+
+instance {α : Type} [Repr α] : ToString (Unit → α) where
+  toString x := s!"fun (_ : Unit) => {reprStr (x ())}"
+
+-- Repr インスタンスを定義する
+instance {α : Type} [Repr α] : Repr (Unit → α) where
+  reprPrec x _ := toString x
+
+-- #eval に渡せるようになった！
+/-⋆-//-- info: fun (_ : Unit) => 1 -/
+#guard_msgs in --#
+#eval (fun _ => 1 : Unit → Nat)
