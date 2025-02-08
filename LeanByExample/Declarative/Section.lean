@@ -49,8 +49,9 @@ section
 end
 
 -- `end` 以降は無効になり、α が未定義だというエラーになる
-/-- error: unknown identifier 'α' -/
-#guard_msgs in def nilList' : List α := []
+/-⋆-//-- error: unknown identifier 'α' -/
+#guard_msgs in --#
+def nilList' : List α := []
 
 /- 次は `local` で修飾されたコマンドの有効範囲を区切る例です。-/
 
