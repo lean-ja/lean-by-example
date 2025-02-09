@@ -135,11 +135,6 @@ def Point'.x {α : Type} (p : Point' α) : α :=
   let p := Point'.mk 1 2
   p.x
 
-/- 波括弧記法は `structure` コマンドで定義された型でなければ使用できないようです。 -/
-
--- 波括弧記法は使用できない
-#check_failure { x := 1, y := 2 : Point' Int}
-
 /- ### 用途
 この `structure` コマンドの代わりに `inductive` コマンドを用いる方法は、定義しようとしている構造体が命題をパラメータに持っているときに必要になります。[`Prop` の Large Elimination が許可されていない](#{root}/Type/Prop.md#NoLargeElim)ことにより、この場合はアクセサ関数が生成できないので `structure` コマンドが使用できず、エラーになります。 -/
 
