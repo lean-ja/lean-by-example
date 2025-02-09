@@ -21,9 +21,7 @@ open Lean
 syntax (name := zeroLitPar) "zeroLit" : term
 
 /-- `zeroLit` という構文を展開するマクロ -/
-def zeroLitExpand : Macro := fun stx =>
-  -- `stx : Syntax` に対するパターンマッチで関数を定義できる
-  match stx with
+def zeroLitExpand : Macro
   | `(zeroLit) => `(0)
   | _ => Macro.throwUnsupported
 
@@ -80,7 +78,9 @@ section
           logError "error: output string does not contain the expected string"
 end
 
--- `macro` コマンドの `whatsnew` コマンドによる出力の中に、`Macro` 型の項が含まれている
-/-- unsafe def _aux_LeanByExample_Type_Macro___macroRules_termOneLit_1._cstage1 : Macro := -/
+-- `macro_rules` コマンドの `whatsnew` コマンドによる出力の中に、`Macro` 型の項が含まれている
+/-- unsafe def _aux_LeanByExample_Type_Macro___macroRules_zeroLitPar_1._cstage1 : Macro := -/
 #contain_msg in
-  whatsnew in macro "oneLit" : term => `(1)
+  whatsnew in
+    macro_rules
+    | `(zeroLit) => `(1)
