@@ -43,8 +43,8 @@ def parse (cat : Name) (s : String) : MetaM Syntax := do
 #guard_msgs in
   #eval parse `tactic "exists (discharger := linarith) 1"
 
-/- ### Exists 以外の構造体にも使用できる
-`exists` は、ゴールの型が `Exists` であるという想定をしているため、フィールドの数が３以上であるような構造体に対して使うとエラーになります。
+/- ### Exists 以外の型にも使用できる
+`exists` は、ゴールの型が `Exists` であるという想定をしているため、たとえばフィールドの数が３以上であるような構造体に対して使うとエラーになります。
 -/
 
 /-- 例示のための構造体。フィールドの数が `Exists` より多い -/
