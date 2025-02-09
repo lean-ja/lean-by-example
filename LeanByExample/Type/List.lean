@@ -63,21 +63,23 @@ end Hidden --#
 
 ### map
 
-`List` は [`Functor`](#{root}/TypeClass/Functor.md) 型クラスのインスタンスになっているため `<$>` 演算子が利用できます。
+`List` は [`Functor`](#{root}/TypeClass/Functor.md) 型クラスのインスタンスになっているため `<$>` 演算子が利用できます。`<$>` は `List.map` で実装されています。
 -/
 
 -- `<$>` 演算子が利用できる
 #guard (fun x => x * 2) <$> [1, 2, 3] = [2, 4, 6]
 
-/- `f <$> xs` は `List` においては `List.map f xs` と解釈され、これは「リストの中身全部に関数を適用する」操作を表します。-/
+example {α β : Type} (f : α → β) (xs : List α) : f <$> xs = List.map f xs := by
+  rfl
+
+/- `List.map f` は「リストの中身のそれぞれに独立に関数を適用する」操作を表します。-/
 
 variable {α β : Type}
 
 /-- #### List.map の使用例
 
-`xs.map f` は、関数 `f : α → β` をリスト `xs : List α` の各要素に適用して、
-新しく `List β` の項を作る。
--/
+`xs.map f` は、関数 `f : α → β` をリスト `xs : List α` の各要素に適用して得られる、
+`List β` の項。-/
 example {a₁ a₂ a₃ : α} (f : α → β)
     : [a₁, a₂, a₃].map f = [f a₁, f a₂, f a₃] := by
   rfl
