@@ -1,6 +1,6 @@
 /- # macro_rules
 
-`macro_rules` は[マクロ](#{root}/Type/Macro.md)を定義するための [`macro`](#{root}/Declarative/Macro.md) より汎用的なコマンドです。
+`macro_rules` は[マクロ](#{root}/Type/Macro.md)展開を定義するためのコマンドです。類似のコマンドに [`macro`](#{root}/Declarative/Macro.md) コマンドがあります。
 -/
 
 /-- `#hello` コマンドの構文の定義。
@@ -11,11 +11,13 @@ macro_rules
   | `(#hello) => `(command| #eval "Hello, Lean!")
   | `(#hello $name) => `(command| #eval s!"Hello, {$name}!")
 
-/-- info: "Hello, Lean!" -/
-#guard_msgs in #hello
+/-⋆-//-- info: "Hello, Lean!" -/
+#guard_msgs in --#
+#hello
 
-/-- info: "Hello, world!" -/
-#guard_msgs in #hello "world"
+/-⋆-//-- info: "Hello, world!" -/
+#guard_msgs in --#
+#hello "world"
 
 /- `macro_rules` コマンドは上記の例のように、`=>` 記号を境に分かれており、左辺の構文を右辺の構文に変換するというルールを定義します。 -/
 
