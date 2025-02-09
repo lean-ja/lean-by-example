@@ -1,6 +1,6 @@
 /- # macro
 
-`macro` は、その名の通りマクロを定義するための簡便なコマンドです。ただし[マクロ](#{root}/Type/Macro.md)とは、構文を構文に変換する機能のことです。
+`macro` は、その名の通り[マクロ](#{root}/Type/Macro.md)を定義するためのコマンドです。ただし[マクロ](#{root}/Type/Macro.md)とは、構文を構文に変換する機能のことです。
 -/
 import Mathlib.Data.Real.Sqrt --#
 
@@ -19,8 +19,43 @@ def parse (cat : Name) (s : String) : MetaM Syntax := do
 macro "#greet " : command => `(command| #eval "Hello World!")
 
 -- `#greet` コマンドが使用可能になった
-/-- info: "Hello World!" -/
-#guard_msgs in #greet
+/-⋆-//-- info: "Hello World!" -/
+#guard_msgs in --#
+#greet
+
+/- ## 舞台裏
+[`syntax`](#{root}/Declarative/Syntax.md) コマンドと[`macro_rules`](#{root}/Declarative/MacroRules.md) コマンドを使用すれば、`macro` コマンドと同様のことが実現できます。`macro_rules` コマンドと比較すると、`macro` コマンドはマクロのための構文と展開ルールを同時に定義しているところが異なります。
+-/
+namespace Macro
+
+  scoped macro "#hello " : command => `(command| #eval "Hello Lean!")
+
+  -- `#hello` コマンドが使用可能になった
+  /-⋆-//-- info: "Hello Lean!" -/
+  #guard_msgs in --#
+  #hello
+
+end Macro
+
+namespace MacroRules
+
+  -- 構文の定義
+  scoped syntax "#hello " : command
+
+  -- 構文は認識されるが、解釈方法が定義されていないのでエラーになる
+  /-⋆-//-- error: elaboration function for 'MacroRules.«command#hello»' has not been implemented -/
+  #guard_msgs in --#
+  #hello
+
+  scoped macro_rules
+    | `(#hello) => `(command| #eval "Hello Lean!")
+
+  -- `#hello` コマンドが使用可能になった
+  /-⋆-//-- info: "Hello Lean!" -/
+  #guard_msgs in --#
+  #hello
+
+end MacroRules
 
 /- ## マクロ作例
 
