@@ -66,21 +66,18 @@ example {α : Type} (xs ys : List α) : xs ++ ys = List.append xs ys := by
 example {α β : Type} (f : α → β) (xs : List α) : f <$> xs = List.map f xs := by
   rfl
 
-/- `List.map f` は「リストの中身のそれぞれに独立に関数を適用する」操作を表します。-/
+/- `List.map f` は「リストの中身のそれぞれに独立に関数を適用する」操作を表します。具体的には関数 `f : α → β` があるとき、`List.map f` は関数 `List α → List β` であって、リスト `xs : List α` の各要素に `f` を適用するようなものです。 -/
+section
 
-variable {α β : Type}
+  variable {α β : Type} {a₁ a₂ a₃ : α}
 
-/-- #### List.map の使用例
+  example (f : α → β) : [a₁, a₂, a₃].map f = [f a₁, f a₂, f a₃] := by
+    rfl
 
-`xs.map f` は、関数 `f : α → β` をリスト `xs : List α` の各要素に適用して得られる、
-`List β` の項。-/
-example {a₁ a₂ a₃ : α} (f : α → β)
-    : [a₁, a₂, a₃].map f = [f a₁, f a₂, f a₃] := by
-  rfl
+  -- リストの各要素を 2 倍する
+  #guard List.map (fun x => x * 2) [1, 2, 3] = [2, 4, 6]
 
--- リストの各要素を 2 倍する
-#guard List.map (fun x => x * 2) [1, 2, 3] = [2, 4, 6]
-
+end
 /- ### filter
 
 `List` の中の要素から、ある条件を満たすものだけを取り出すには `List.filter` を使います。
@@ -92,29 +89,10 @@ example {a₁ a₂ a₃ : α} (f : α → β)
 -- 偶数を残す
 #guard [1, 2, 3, 4, 5].filter (· % 2 = 0) = [2, 4]
 
-/- ### foldl と foldr
+/- ### foldr
 
-`List.foldl` と `List.foldr` は、リストの各要素を指定した二項演算で繋げます。
+`List.foldr` は、右結合的な二項演算でリストの各要素を繋げて畳み込む(fold)関数です。
 -/
-
-/-- `List.foldl` の例示のための型クラス -/
-class Foldl (α β : Type) where
-  /-- 左結合的な二項演算 -/
-  op : α → β → α
-
--- 左結合的な演算子として `⊗` を定義する
-@[inherit_doc] infixl:70 "⊗" => Foldl.op
-
-/-- #### List.foldl の使用例
-
-デフォルト値が `init : α` で、適用する二項演算が `⊗ : α → β → α` だとする。
-また `⊗` は左結合的、つまり `a ⊗ b ⊗ c = (a ⊗ b) ⊗ c` であるとする。
-このとき `[b₁, b₂, b₃] : List β` に対して、
-`List.foldl` は左にデフォルト値を挿入して順に `⊗` を適用したものに等しい。
--/
-example [Foldl α β] {b₁ b₂ b₃ : β} (init : α) :
-    [b₁, b₂, b₃].foldl (· ⊗ ·) init = init ⊗ b₁ ⊗ b₂ ⊗ b₃ := by
-  rfl
 
 /-- `List.foldr` の例示のための型クラス -/
 class Foldr (α β : Type) where
@@ -124,49 +102,111 @@ class Foldr (α β : Type) where
 -- 右結合的な演算子として `⋄` を定義する
 @[inherit_doc] infixr:70 "⋄" => Foldr.op
 
-/-- #### List.foldr の使用例
+section
+  variable {α β : Type} [Foldr α β] {a₁ a₂ a₃ : α}
 
-デフォルト値が `init : β` で、適用する二項演算が `⋄ : α → β → β` だとする。
-また `⋄` は右結合的、つまり `a ⋄ b ⋄ c = a ⋄ (b ⋄ c)` であるとする。
-このとき `[a₁, a₂, a₃] : List α` に対して、
-`List.foldr` は右にデフォルト値を挿入して順に `⋄` を適用したものに等しい。
+  -- foldr を適用することは、リストの要素を二項演算で繋げることに等しい
+  example (init : β) : [a₁, a₂, a₃].foldr (· ⋄ ·) init = a₁ ⋄ a₂ ⋄ a₃ ⋄ init := by
+    rfl
+
+end
+/- `List.foldr` は、多くの再帰関数に共通に現れる再帰のパターンを抽象化したものになっています。たとえば、リストの長さを求める関数 `List.length` を次のように定義すると、これは `List.foldr` の具体例になっています。[^prohaskell] -/
+namespace Foldr
+  variable {α : Type}
+
+  /-- リストの長さを求める -/
+  def length (xs : List α) : Nat :=
+    match xs with
+    | [] => 0
+    | _ :: xs => 1 + length xs
+
+  #guard length [1, 2, 3, 4, 5] = 5
+
+  -- length は foldr で表すことができる！
+  example (xs : List α) : length xs = xs.foldr (fun _ n => 1 + n) 0 := by
+    delta length List.foldr
+    rfl
+
+end Foldr
+/- また、リストの順番を逆にする関数 `List.reverse` を次のように定義すると、これも `List.foldr` の具体例になっています。-/
+namespace Foldr
+  variable {α : Type}
+
+  /-- リストの順番を逆にする関数 -/
+  def reverse : List α → List α
+    | [] => []
+    | x :: xs => reverse xs ++ [x]
+
+  #guard reverse [1, 2, 3, 4, 5] = [5, 4, 3, 2, 1]
+
+  -- reverse は foldr で表すことができる！
+  example (xs : List α) : reverse xs = xs.foldr (fun x xs => xs ++ [x]) [] := by
+    delta reverse List.foldr
+    rfl
+
+end Foldr
+/- ### foldl
+
+`List.foldl` は、左結合的な二項演算でリストの各要素を繋げて畳み込む関数です。
 -/
-example [Foldr α β] {a₁ a₂ a₃ : α} (init : β) :
-    [a₁, a₂, a₃].foldr (· ⋄ ·) init = a₁ ⋄ a₂ ⋄ a₃ ⋄ init := by
-  rfl
+/-- `List.foldl` の例示のための型クラス -/
+class Foldl (α β : Type) where
+  /-- 左結合的な二項演算 -/
+  op : α → β → α
 
-/- `List.foldl` と `List.foldr` の違いは、演算が左結合的と仮定するか右結合的と仮定するか以外にも、`List.foldl` は **末尾再帰(tail recursion)** であるが `List.foldr` はそうでないことが挙げられます。 -/
+-- 左結合的な演算子として `⊗` を定義する
+@[inherit_doc] infixl:70 "⊗" => Foldl.op
 
-/-- 自然数のリストの総和を計算する関数 -/
-def List.sum' : List Nat → Nat
-  | [] => 0
-  | n :: ns => n + sum ns
+section
+  variable {α β : Type} [Foldl α β] {b₁ b₂ b₃ : β}
 
-/-- List.sum は List.foldr で表すことができる -/
-example : List.foldr (· + ·) 0 = List.sum := by
-  -- 再帰的な定義を分解する
-  delta List.foldr List.sum
+  -- foldl を適用することは、リストの要素を二項演算で繋げることに等しい
+  example (init : α) : [b₁, b₂, b₃].foldl (· ⊗ ·) init = init ⊗ b₁ ⊗ b₂ ⊗ b₃ := by
+    rfl
+end
+/- `List.foldl` も `List.foldr` と同様、多くの再帰関数に共通に現れる再帰のパターンを抽象化したものになっていますが、`List.foldr` とは異なり **末尾再帰(tail recursion)** になります。たとえば、リストの長さを求める関数 `List.lengthTR` を次のように定義すると、これは `List.foldl` の具体例になっています。 -/
+namespace Foldl
+  variable {α : Type}
 
-  -- 両者は等しい
-  rfl
+  /-- リストの長さを求める -/
+  def lengthTR (xs : List α) : Nat :=
+    aux xs 0
+  where
+    /-- リストの長さを求めるヘルパ関数 -/
+    aux : List α → Nat → Nat
+      | [], n => n
+      | _ :: xs, n => aux xs (1 + n)
 
-/-- 末尾再帰にした総和関数 -/
-def List.sumTR (l : List Nat) : Nat :=
-  aux 0 l
-where
-  -- ある初期値から始めてリストの各要素の総和を求めるヘルパ関数
-  aux : Nat → List Nat → Nat
-  | x, [] => x
-  | x, n :: ns => aux (x + n) ns
+  #guard lengthTR [1, 2, 3, 4, 5] = 5
 
-/-- List.sumTR は List.foldl で表すことができる -/
-example : List.foldl (· + ·) 0 = List.sumTR := by
-  -- 再帰的な定義を分解する
-  delta List.foldl List.sumTR List.sumTR.aux
+  -- lengthTR は foldl で表すことができる！
+  example (xs : List α) : lengthTR xs = xs.foldl (fun n _ => 1 + n) 0 := by
+    delta lengthTR lengthTR.aux List.foldl
+    rfl
 
-  -- 両者は等しい
-  rfl
+end Foldl
+/- また、リストの順番を逆にする関数 `List.reverseTR` を次のように定義すると、これも `List.foldl` の具体例になっています。 -/
+namespace Foldl
 
+  variable {α : Type}
+
+  /-- リストの順番を逆にする関数 -/
+  def reverseTR (xs : List α) : List α :=
+    aux xs []
+  where
+    /-- リストの順番を逆にするヘルパ関数 -/
+    aux : List α → List α → List α
+      | [], acc => acc
+      | x :: xs, acc => aux xs (x :: acc)
+
+  #guard reverseTR [1, 2, 3, 4, 5] = [5, 4, 3, 2, 1]
+
+  -- reverseTR は foldl で表すことができる！
+  example (xs : List α) : reverseTR xs = xs.foldl (fun xs x => x :: xs) [] := by
+    delta reverseTR reverseTR.aux List.foldl
+    rfl
+
+end Foldl
 /- ## モナドインスタンス
 
 Lean では、`List` は標準で `Monad` 型クラスのインスタンスになっていません。
@@ -231,3 +271,5 @@ def tablen (n : Nat) (p : Arity Bool n) : List (List Bool) :=
 
   -- 結果が false になるものだけ集める
   result.filter (fun xs => ! xs.getLast!) = [[false, false, false, false]]
+
+/- [^prohaskell] ここで使用した例は、Graham Hutton著, 山本和彦訳「Programming Haskell 第2版」（ラムダノート）の7.3章を参考にさせていただきました。 -/
