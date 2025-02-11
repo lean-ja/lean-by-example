@@ -40,6 +40,7 @@
   - [export: 現在の名前空間に追加](./Declarative/Export.md)
   - [inductive: 帰納型を定義する](./Declarative/Inductive.md)
   - [infix: 中置記法](./Declarative/Infix.md)
+  - [infixl: 左結合の中値記法](./Declarative/Infixl.md)
   - [instance: インスタンスを定義する](./Declarative/Instance.md)
   - [macro_rules: マクロ展開を定義](./Declarative/MacroRules.md)
   - [macro: マクロの構文と解釈を定義](./Declarative/Macro.md)
