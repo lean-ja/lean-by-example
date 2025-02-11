@@ -98,7 +98,7 @@
   - [CoeFun: 関数型への強制](./TypeClass/CoeFun.md)
   - [CoeSort: 型宇宙への強制](./TypeClass/CoeSort.md)
   - [Decidable: 決定可能](./TypeClass/Decidable.md)
-  - [Functor: ファンクタ](./TypeClass/Functor.md)
+  - [Functor: 関手](./TypeClass/Functor.md)
   - [GetElem: n番目の要素を取得](./TypeClass/GetElem.md)
   - [HAdd: + のための記法クラス](./TypeClass/HAdd.md)
   - [HMul: * のための記法クラス](./TypeClass/HMul.md)
