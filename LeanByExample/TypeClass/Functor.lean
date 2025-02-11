@@ -86,6 +86,15 @@ section
     map f g := f ∘ g
 
 end
+/- 上記で定義した `Hom` は Lean の標準ライブラリでは `ReaderM` と呼ばれます。 -/
+section
+
+  universe u
+
+  /-- 上で定義した Hom は ReaderM に等しい -/
+  example (A : Type u) : ReaderM A = Hom A := rfl
+
+end
 /- ## Functor 則
 
 `Functor` 型クラスのインスタンスには満たすべきルールがあります。このルールを破っていても `Functor` 型クラスのインスタンスにすることは可能ですが、避けるべきです。`Functor` 型クラスがルールを満たしていることを証明するためには、[`LawfulFunctor`](#{root}/TypeClass/LawfulFunctor.md) 型クラスを使います。
