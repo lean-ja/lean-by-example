@@ -35,7 +35,7 @@ def fib (n : Nat) : Nat :=
 where
   -- ヘルパー関数
   loop : Nat → Nat × Nat
-    | 0   => (0, 1)
+    | 0 => (0, 1)
     | n + 1 =>
       let p := loop n
       (p.2, p.1 + p.2)

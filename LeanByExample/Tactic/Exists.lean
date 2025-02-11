@@ -35,22 +35,23 @@ example : ∃ x : Nat, 3 * x + 1 = 7 := by
   exact ⟨2, show 3 * 2 + 1 = 7 from by rfl⟩
 
 /- 一般に `exists e₁, e₂, .., eₙ` は `refine ⟨e₁, e₂, .., eₙ, ?_⟩; try trivial` の糖衣構文です。-/
+section
+  open Lean
 
-/-- `#expand` の入力に渡すための構文カテゴリ -/
-syntax macro_stx := command <|> tactic <|> term
+  /-- `#expand` の入力に渡すための構文カテゴリ -/
+  syntax macro_stx := command <|> tactic <|> term
 
-open Lean in
-
-/-- マクロを展開するコマンド -/
-elab "#expand " t:macro_stx : command => do
-  let t : Syntax :=
-    match t.raw with
-    | .node _ _ #[t] => t
-    | _ => t.raw
-  match ← Elab.liftMacroM <| Macro.expandMacro? t with
-  | none => logInfo m!"Not a macro"
-  | some t => logInfo m!"{t}"
+  /-- マクロを展開するコマンド -/
+  elab "#expand " "(" stx:macro_stx ")" : command => do
+    let t : Syntax :=
+      match stx.raw with
+      | .node _ _ #[t] => t
+      | _ => stx.raw
+    match ← Elab.liftMacroM <| Macro.expandMacro? t with
+    | none => logInfo m!"Not a macro"
+    | some t => logInfo m!"{t}"
+end
 
 /-- info: (refine ⟨1, 2, 3, ?_⟩; try trivial) -/
 #guard_msgs in
-  #expand exists 1, 2, 3
+  #expand (exists 1, 2, 3)
