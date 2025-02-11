@@ -54,21 +54,22 @@ example {n : Nat} : n - n + n = n := by
   simp
 
 /- 実際、`ring` タクティクは失敗すると常に `ring_nf` を提案するようなマクロとして定義されています。 -/
+section
+  open Lean
 
-/-- `#expand` の入力に渡すための構文カテゴリ -/
-syntax macro_stx := command <|> tactic <|> term
+  /-- `#expand` の入力に渡すための構文カテゴリ -/
+  syntax macro_stx := command <|> tactic <|> term
 
-open Lean in
-
-/-- マクロを展開するコマンド -/
-elab "#expand " t:macro_stx : command => do
-  let t : Syntax :=
-    match t.raw with
-    | .node _ _ #[t] => t
-    | _ => t.raw
-  match ← Elab.liftMacroM <| Macro.expandMacro? t with
-  | none => logInfo m!"Not a macro"
-  | some t => logInfo m!"{t}"
+  /-- マクロを展開するコマンド -/
+  elab "#expand " "(" stx:macro_stx ")" : command => do
+    let t : Syntax :=
+      match stx.raw with
+      | .node _ _ #[t] => t
+      | _ => stx.raw
+    match ← Elab.liftMacroM <| Macro.expandMacro? t with
+    | none => logInfo m!"Not a macro"
+    | some t => logInfo m!"{t}"
+end
 
 -- マクロ展開の中に `try_this ring_nf` が含まれる
 /--
@@ -81,7 +82,7 @@ info: first
       `noncomm_ring`, `abel` or `module` instead."
 -/
 #guard_msgs (info, drop warning) in
-  #expand ring
+  #expand (ring)
 
 /- ## カスタマイズ
 

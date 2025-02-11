@@ -45,21 +45,23 @@ def parse (cat : Name) (s : String) : MetaM Syntax := do
 
 def lxor (l r : Bool) : Bool := !l && r
 
-/-- `#expand` の入力に渡すための構文カテゴリ -/
-syntax macro_stx := command <|> tactic <|> term
+section
+  open Lean
 
-open Lean in
+  /-- `#expand` の入力に渡すための構文カテゴリ -/
+  syntax macro_stx := command <|> tactic <|> term
 
-/-- マクロを展開するコマンド -/
-elab "#expand " t:macro_stx : command => do
-  let t : Syntax :=
-    match t.raw with
-    | .node _ _ #[t] => t
-    | _ => t.raw
-  match ← Elab.liftMacroM <| Macro.expandMacro? t with
-  | none => logInfo m!"Not a macro"
-  | some t => logInfo m!"{t}"
+  /-- マクロを展開するコマンド -/
+  elab "#expand " "(" stx:macro_stx ")" : command => do
+    let t : Syntax :=
+      match stx.raw with
+      | .node _ _ #[t] => t
+      | _ => stx.raw
+    match ← Elab.liftMacroM <| Macro.expandMacro? t with
+    | none => logInfo m!"Not a macro"
+    | some t => logInfo m!"{t}"
+end
 
 /-- info: notation:50 lhs✝:51 " LXOR " rhs✝:51 => lxor lhs✝ rhs✝ -/
 #guard_msgs in
-  #expand infix:50 " LXOR " => lxor
+  #expand (infix:50 " LXOR " => lxor)

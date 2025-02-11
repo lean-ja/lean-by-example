@@ -24,22 +24,23 @@ example (n : Nat) : n + 0 = n := by
     rfl
 
 /- 実際、`by?` は `show_term` に展開されるマクロです。-/
+section
+  open Lean
 
-/-- `#expand` の入力に渡すための構文カテゴリ -/
-syntax macro_stx := command <|> tactic <|> term
+  /-- `#expand` の入力に渡すための構文カテゴリ -/
+  syntax macro_stx := command <|> tactic <|> term
 
-open Lean in
-
-/-- マクロを展開するコマンド -/
-elab "#expand " t:macro_stx : command => do
-  let t : Syntax :=
-    match t.raw with
-    | .node _ _ #[t] => t
-    | _ => t.raw
-  match ← Elab.liftMacroM <| Macro.expandMacro? t with
-  | none => logInfo m!"Not a macro"
-  | some t => logInfo m!"{t}"
+  /-- マクロを展開するコマンド -/
+  elab "#expand " "(" stx:macro_stx ")" : command => do
+    let t : Syntax :=
+      match stx.raw with
+      | .node _ _ #[t] => t
+      | _ => stx.raw
+    match ← Elab.liftMacroM <| Macro.expandMacro? t with
+    | none => logInfo m!"Not a macro"
+    | some t => logInfo m!"{t}"
+end
 
 /-- info: show_term by rfl -/
 #guard_msgs in
-  #expand by? rfl
+  #expand (by? rfl)
