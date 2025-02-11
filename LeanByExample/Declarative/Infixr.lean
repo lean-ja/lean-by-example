@@ -1,19 +1,19 @@
-/- # infixl
+/- # infixr
 
-`infixl` は、左結合の2項演算子を定義するためのコマンドです。
+`infixr` は、右結合の2項演算子を定義するためのコマンドです。
 -/
 import Lean --#
 -- 2項演算子を定義。中身はただの引き算
-infixl:60 " ⋄ " => fun x y => x - y
+infixr:60 " ⋄ " => fun x y => x - y
 
--- 左結合になっている
+-- 右結合になっている
 #guard (16 ⋄ 5) ⋄ 4 = 7
 #guard 16 ⋄ (5 ⋄ 4) = 15
-#guard 16 ⋄ 5 ⋄ 4 = 7
+#guard 16 ⋄ 5 ⋄ 4 = 15
 
 /- ## 舞台裏
 
-`infixl` は [`notation`](#{root}/Declarative/Notation.md) コマンドに展開されるマクロとして実装されています。
+`infixr` は [`notation`](#{root}/Declarative/Notation.md) コマンドに展開されるマクロとして実装されています。
 -/
 section
   open Lean
@@ -32,6 +32,6 @@ section
     | some t => logInfo m!"{t}"
 end
 
-/-- info: notation:60 lhs✝:60 " ⋄ " rhs✝:61 => (fun x y => x - y) lhs✝ rhs✝ -/
+/-- info: notation:60 lhs✝:61 " ⋄ " rhs✝:60 => (fun x y => x - y) lhs✝ rhs✝ -/
 #guard_msgs in
-  #expand (infixl:60 " ⋄ " => fun x y => x - y)
+  #expand (infixr:60 " ⋄ " => fun x y => x - y)

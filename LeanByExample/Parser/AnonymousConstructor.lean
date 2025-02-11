@@ -63,7 +63,7 @@ inductive MyProd (α β : Type) where
   | mk (fst : α) (snd : β)
 deriving DecidableEq
 
--- Prod のための中置記法
+-- Prod のための2項演算子
 @[inherit_doc] infixr:35 " ×ₘ " => MyProd
 
 -- 平坦化ができている！
