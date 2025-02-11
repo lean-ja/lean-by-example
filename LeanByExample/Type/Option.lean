@@ -39,7 +39,7 @@ end Hidden --#
 
 /- ## Functor インスタンス
 
-`Option` は [`Functor`](#{root}/TypeClass/Functor.md) 型クラスのインスタンスであり、`<$>` が使用できます。実装上は `Option.map` が使用されます。`Option.map f x?` は、`x?` が `some x` ならば `some (f x)` を返し、`x?` が `none` ならば `none` を返します。
+`Option` は [`Functor`](#{root}/TypeClass/Functor.md) 型クラスのインスタンスであり、`<$>` が使用できます。実装上は `Option.map` が使用されます。
 -/
 section
 
@@ -48,6 +48,11 @@ section
   -- `<$>` は `Option.map` で実装されている
   example (x? : Option α) (f : α → β) : f <$> x? = Option.map f x? := by
     rfl
+
+end
+/- `Option.map f x?` は、`x?` が `some x` ならば `some (f x)` を返し、`x?` が `none` ならば `none` を返します。 -/
+section
+  variable {α β : Type}
 
   -- `Option.map f` は some x を some (f x) に写す
   example (x : α) (f : α → β) : Option.map f (some x) = some (f x) := by
