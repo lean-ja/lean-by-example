@@ -67,7 +67,6 @@ end --#
 `Id : Type u → Type u` は「何もしない」関手です。
 -/
 
--- Id は何もしない。ただ単に関数を適用するだけ
 /-⋆-//-- info: 20 -/
 #guard_msgs in --#
 #eval (· * 2) <$> (10 : Id Nat)
