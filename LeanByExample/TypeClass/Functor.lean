@@ -76,24 +76,55 @@ end --#
 任意の型 `A : Type u` に対して、`fun X => (A → X)` という対応は関手になります。
 -/
 section
-  universe u v
 
   /-- 型から、その型への関数型を返す -/
-  abbrev Hom (A : Type u) (X : Type v) := A → X
+  abbrev Hom (A : Type) (X : Type) := A → X
 
   /-- 関数合成を map として `Hom A` は関手になる -/
-  instance {A : Type u} : Functor (Hom A) where
+  instance {A : Type} : Functor (Hom A) where
     map f g := f ∘ g
+
+  #guard
+    let doubleLength : Hom String Nat := (· * 2) <$> String.length
+    doubleLength "hello" = 10 && doubleLength "world!" = 12
 
 end
 /- 上記で定義した `Hom` は Lean の標準ライブラリでは `ReaderM` と呼ばれます。 -/
+
+/-- 上で定義した Hom は ReaderM に等しい -/
+example (A : Type) : ReaderM A = Hom A := rfl
+
+/- ### (A × ·)
+
+任意の型 `A : Type` に対して、`A` との直積を取る対応 `fun X => A × X` は関手になります。
+-/
 section
+  -- 最初 Functor インスタンスは用意されていない
+  #check_failure (· * 2) <$> ("hello", 20)
 
-  universe u
+  abbrev prodWith (A : Type) (X : Type) := A × X
 
-  /-- 上で定義した Hom は ReaderM に等しい -/
-  example (A : Type u) : ReaderM A = Hom A := rfl
+  local instance {A : Type} : Functor (prodWith A) where
+    map f := fun (a, x) => (a, f x)
 
+  #guard (· * 2) <$> ("hello", 20) = ("hello", 40)
+end
+/- ### (A ⊕ ·)
+任意の型 `A : Type` に対して、`A` との直和を取る対応 `fun X => A ⊕ X` は関手になります。
+-/
+section
+  -- 最初 Functor インスタンスは用意されていない
+  #check_failure (· * 2) <$> (Sum.inr 20 : String ⊕ Nat)
+
+  abbrev sumWith (A : Type) (X : Type) := Sum A X
+
+  local instance {A : Type} : Functor (sumWith A) where
+    map f := fun z =>
+      match z with
+      | .inl a => Sum.inl a
+      | .inr x => Sum.inr (f x)
+
+  #eval (· * 2) <$> (Sum.inr 20 : String ⊕ Nat)
 end
 /- ## Functor 則
 
