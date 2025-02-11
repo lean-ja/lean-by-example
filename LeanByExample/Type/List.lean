@@ -91,7 +91,7 @@ end
 
 /- ### foldr
 
-`List.foldr` は、右結合的な二項演算でリストの各要素を繋げて畳み込む(fold)関数です。
+`List.foldr` は、二項演算でリストの各要素を右結合的に繋げて畳み込む(fold)関数です。
 -/
 
 /-- `List.foldr` の例示のための型クラス -/
@@ -147,7 +147,7 @@ namespace Foldr
 end Foldr
 /- ### foldl
 
-`List.foldl` は、左結合的な二項演算でリストの各要素を繋げて畳み込む関数です。
+`List.foldl` は、二項演算でリストの各要素を左結合的に繋げて畳み込む関数です。
 -/
 /-- `List.foldl` の例示のための型クラス -/
 class Foldl (α β : Type) where
