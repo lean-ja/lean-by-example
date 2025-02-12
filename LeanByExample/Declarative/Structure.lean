@@ -29,39 +29,14 @@ example : Point.x origin = 0 := by rfl
 #check (Point.mk : {α : Type} → α → α → Point α)
 
 /- コンストラクタに `mk` 以外の名前を使いたい場合、`::` を使って次のようにします。-/
-namespace Hidden --#
 
-structure Prod (α : Type) (β : Type) where
+structure MyProd (α : Type) (β : Type) where
   gen ::
   fst : α
   snd : β
 
 -- コンストラクタの名前が gen になっている
-#check Prod.gen
-
-end Hidden --#
-/- ## フィールド記法 { #FieldNotation }
-構造体 `S` の項 `s : S` に `x` というフィールドがあるとき、`S.x s` の代わりに `s.x` と書くことができます。これにより、`s : S` におけるフィールド `x` の値を取得することができます。この関数適用を省略して「あたかもフィールドのように」値にアクセスする記法のことを **フィールド記法(field notation)** といいます。
-
-Nim 言語や D 言語における [Uniform Function Call Syntax](https://ja.wikipedia.org/wiki/Uniform_Function_Call_Syntax) に似た仕様です。
--/
-
--- `.x` を付けるだけで値にアクセスできる
-#guard origin.x = 0
-
-/- 構造体のフィールドへのアクセスが典型的な使い方ですが、より一般の型に対してもフィールド記法は使用できます。
-
-名前空間 `T` にある関数 `f` があって、項 `t : T` があったとします。このとき「`f` の `T` 型の非暗黙の引数のうち、最初のものに `x` を代入したもの」を `x.f` で表すことができます。-/
-
-/-- 点が原点かどうか判定する。以下の２点に注意：
-* 名前空間 `Point` の直下に定義されていること
-* `Point α` 型の引数を持つこと
--/
-def Point.isOrigin (p : Point Int) : Bool :=
-  p.x = 0 && p.y = 0
-
--- フィールド記法が使える！
-#guard origin.isOrigin
+#check MyProd.gen
 
 /- ## 項を定義する様々な構文
 構造体の項を定義したい場合、複数の方法があります。波括弧記法が好まれますが、フィールド名が明らかな状況であれば[無名コンストラクタ](#{root}/Parser/AnonymousConstructor.md)を使用することもあります。-/
@@ -139,10 +114,10 @@ def Point'.x {α : Type} (p : Point' α) : α :=
 この `structure` コマンドの代わりに `inductive` コマンドを用いる方法は、定義しようとしている構造体が命題をパラメータに持っているときに必要になります。[`Prop` の Large Elimination が許可されていない](#{root}/Type/Prop.md#NoLargeElim)ことにより、この場合はアクセサ関数が生成できないので `structure` コマンドが使用できず、エラーになります。 -/
 
 -- `w` はデータなので、アクセサ関数が生成できなくてエラーになる
-/-- error: failed to generate projections for 'Prop' structure, field 'w' is not a proof -/
-#guard_msgs in
-  structure Exists'.{v} {α : Sort v} (p : α → Prop) : Prop where
-    intro ::
+/-⋆-//-- error: failed to generate projections for 'Prop' structure, field 'w' is not a proof -/
+#guard_msgs in --#
+structure MyExists.{v} {α : Sort v} (p : α → Prop) : Prop where
+  intro ::
 
-    w : α
-    h : p w
+  w : α
+  h : p w

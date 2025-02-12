@@ -72,6 +72,7 @@
   - [⟨x₁, x₂, ..⟩: 無名コンストラクタ](./Parser/AnonymousConstructor.md)
   - [`{x y : A}`: 暗黙の引数](./Parser/ImplicitBinder.md)
   - [by: タクティクモードに入る](./Parser/By.md)
+  - [e.f: フィールド記法](./Parser/FieldNotation.md)
   - [show .. from: 項の型を明示](./Parser/Show.md)
 
 - [属性](./Attribute/README.md)

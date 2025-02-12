@@ -9,8 +9,6 @@ def greet := "hello"
 -- `greet` のドキュメントコメントを引き継ぐ
 @[inherit_doc greet] abbrev greet' := greet
 
-section
-
 open Lean Elab Command in
 
 /-- ドキュメントコメントを取得して表示するコマンド -/
@@ -18,8 +16,6 @@ elab "#doc " x:ident : command => do
   let name ← liftCoreM do realizeGlobalConstNoOverload x
   if let some s ← findDocString? (← getEnv) name then
   logInfo m!"{s}"
-
-end
 
 /-- info: 最初に与えた doc コメント -/
 #guard_msgs in #doc greet'
