@@ -45,6 +45,10 @@ If you use this book for your work, please cite it as follows:
 
 * [Google アナリティクス利用規約](https://www.google.com/analytics/terms/)
 
+## 謝辞
+
+このリポジトリのSNSカードおよび、lean-jaのロゴを作成してくださった [@aconite](https://github.com/aconite-ac) さんに感謝いたします。
+
 ## スポンサー
 
 このプロジェクトは [Proxima Technology](https://proxima-ai-tech.com/) 様よりご支援を頂いています。
