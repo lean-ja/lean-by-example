@@ -68,3 +68,18 @@ deriving DecidableEq
 
 -- 平坦化ができている！
 #check (⟨1, 2, 1, 2, 1⟩ : Nat × Nat ×ₘ Nat ×ₘ Nat × Nat)
+
+/- しかし、時には平坦化ができないケースもあります。-/
+section
+
+  variable {α β : Type} (f : α → Option (α × β))
+
+  example (a : α) (h : ∃ (x : α × β), f a = some x) : True := by
+    -- 平坦化ができない
+    fail_if_success obtain ⟨a, b, hx⟩ := h
+
+    -- 代わりにネストさせると通る
+    obtain ⟨⟨a, b⟩, hx⟩ := h
+
+    trivial
+end
