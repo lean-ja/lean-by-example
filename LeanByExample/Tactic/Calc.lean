@@ -37,7 +37,7 @@ example : ∀ x y ε : ℝ, 0 < ε → ε ≤ 1 → |x| < ε → |y| < ε → |x
 /-- 絶対値が同じであることを表す二項関係 -/
 def same_abs (x y : Int) : Prop := x = y ∨ x = - y
 
--- same_abs のための2項演算子を用意する
+-- same_abs のための中置記法の2項演算子を用意する
 -- このファイル内でだけ有効にするために local と付けた
 local infix:50 " ≡ " => same_abs
 
