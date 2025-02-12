@@ -2,7 +2,7 @@
 
 **フィールド記法(field notation)** とは、大雑把に言えば `T` が `e` の型であるときに、関数適用 `T.f e` を `e.f` と書き表せるという記法のことです。あたかも `f` が `e` のフィールドであるかのように見えるのでこの名前があります。
 
-典型的な例は、構造体 `S` の項 `e : S` に対して、構造体のフィールドのアクセサ関数 `S.f` の適用を `e.f` と書けることです。
+典型的な例は、[構造体](#{root}/Declarative/Structure.md) `S` の項 `e : S` に対して、構造体のフィールドのアクセサ関数 `S.f` の適用を `e.f` と書けることです。
 -/
 import Lean --#
 
@@ -21,7 +21,75 @@ def bar : Foo := { x := 0, y := "" }
 #guard bar.x = Foo.x bar
 #guard bar.y = Foo.y bar
 
-/- より詳細な仕様が、パーサのドキュメントコメントに書かれています。 -/
+/- ここで `S` は構造体である必要はなく、任意の型で構いません。すなわち任意の型 `S` とその項 `e : S` に対して、`e.f` は `S.f (p := e)` と解釈されます。ただし、ここで `p` は関数 `S.f` の型 `S` を持つような最初の明示的引数です。 -/
+
+/-- 例示のための意味のない帰納型 -/
+inductive S where
+  | fst (n : Nat)
+  | snd (s : String) (n : Nat)
+
+/-- `_x : Unit` という余計な引数を持つ関数 -/
+def S.toNat (_x : Unit) (s : S) : Nat :=
+  match s with
+  | S.fst n => n
+  | S.snd _ n => n
+
+#guard
+  let e : S := S.fst 42
+
+  -- フィールド記法が使える
+  e.toNat () = 42
+
+/- ## 関数型に対して
+
+`e` が関数であるとき、`e.f` は `Function.f (p := e)` に翻訳されます。ただし、ここで `p` は関数 `Function.f` の、関数型を持つような最初の明示的引数です。
+-/
+section
+  variable {α β γ : Type}
+
+  /-- 関数の単射性 -/
+  def Function.injective (f : α → β) : Prop := ∀ {x y}, f x = f y → x = y
+
+  example (f : α → β) (g : β → γ) : (g ∘ f).injective → f.injective := by
+    -- `g ∘ f` が単射だと仮定する。
+    intro h
+
+    -- このとき `f` は単射である。
+    exact show f.injective from by
+      -- なぜなら、仮に `f x = f y` とすると
+      intro x y hg
+
+      -- `(g ∘ f) x = (g ∘ f) y` が成り立っており
+      have : (g ∘ f) x = (g ∘ f) y := by simp [hg]
+
+      -- `g ∘ f` が単射であることから `x = y` が導かれるため。
+      exact h this
+
+end
+/- ## パラメータを取る型に対して
+
+`e` が `T ...` の項であり、かつ関数 `T.f` が存在するとき、`e.f` は `T.f (p := e)` に翻訳されます。ただし、ここで `p` は関数 `T.f` の型 `T ...` を持つような最初の明示的引数です。
+-/
+
+/-- リストの最小値をそのインデックスと共に出力する -/
+def List.minIdx? {α : Type} [LE α] [DecidableLE α] (xs : List α) : Option (Nat × α) :=
+  loop xs 0
+where
+  loop : List α → Nat → Option (Nat × α)
+  | [], _ => none
+  | x :: xs, i =>
+    match loop xs (i + 1) with
+    | none => some (i, x)
+    | some (j, y) =>
+      if x ≤ y then (i, x) else some (j, y)
+
+-- フィールド記法が使用できている
+#guard
+  let e := [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]
+  e.minIdx? = some (1, 1)
+
+/- ## 詳細な仕様
+詳細な仕様は、パーサのドキュメントコメントに書かれています。 -/
 
 open Lean Elab Command in
 
