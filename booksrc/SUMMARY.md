@@ -97,7 +97,6 @@
 
 - [型クラス](./TypeClass/README.md)
   - [Add: 閉じた + 演算のための記法クラス](./TypeClass/Add.md)
-  - [Mul: 閉じた * 演算のための記法クラス](./TypeClass/Mul.md)
   - [Coe: 型強制](./TypeClass/Coe.md)
   - [CoeDep: 依存型強制](./TypeClass/CoeDep.md)
   - [CoeFun: 関数型への強制](./TypeClass/CoeFun.md)
@@ -109,6 +108,8 @@
   - [HMul: 一般の * 演算のための記法クラス](./TypeClass/HMul.md)
   - [Inhabited: 有項にする](./TypeClass/Inhabited.md)
   - [LawfulFunctor: ルール付きファンクタ](./TypeClass/LawfulFunctor.md)
+  - [Mul: 閉じた * 演算のための記法クラス](./TypeClass/Mul.md)
+  - [Neg: - 演算のための記法クラス](./TypeClass/Neg.md)
   - [OfNat: 数値リテラルを使用](./TypeClass/OfNat.md)
   - [Repr: #eval の出力を表示](./TypeClass/Repr.md)
   - [ToString: 文字列に変換](./TypeClass/ToString.md)
