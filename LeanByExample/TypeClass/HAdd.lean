@@ -13,3 +13,5 @@ instance : HAdd Nat (Nat → Nat) (Nat → Nat) where
 
 -- 足し算記号が使えるようになった
 #check 1 + (· + 2)
+
+/- 足し算 `(· + ·) : α → β → γ` が一つの型の中で閉じているとき、つまり `α = β = γ` のときは [`Add`](#{root}/TypeClass/Add.md) が使用できます。 -/
