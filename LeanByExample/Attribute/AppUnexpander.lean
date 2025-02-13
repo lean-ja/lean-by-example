@@ -1,5 +1,5 @@
 /- # app_unexpander
-`[app_unexpander]` 属性を付与すると、関数適用 `f a₁ a₂ ... aₙ` の `#check` コマンドおよび infoview での表示のされ方を変更することができます。
+`[app_unexpander]` 属性を付与すると、関数適用 `f a₁ a₂ ... aₙ` の `#check` コマンドでの表示のされ方を変更することができます。
 -/
 
 /-- 人に挨拶をする関数 -/
@@ -23,7 +23,7 @@ def unexpGreet : Lean.PrettyPrinter.Unexpander
 #guard_msgs in --#
 #eval greet "Alice"
 
-/- より実用的な例として、集合の内包記法の表示のされ方を制御する例が挙げられます。 -/
+/- より実用的な例として、[`macro_rules`](#{root}/Declarative/MacroRules.md) コマンドで定義した集合の内包記法の表示のされ方を制御する例が挙げられます。 -/
 
 /-- α を全体集合として、その部分集合の全体。
 α の部分集合と α 上の述語を同一視していることに注意。 -/
