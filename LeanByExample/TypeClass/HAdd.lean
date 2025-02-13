@@ -4,23 +4,15 @@
 任意の型 `α, β, γ : Type` に対して足し算 `(· + ·) : α → β → γ` を定義することができます。
 -/
 
-structure Colour where
-  red : Nat
-  blue : Nat
-  green : Nat
-deriving Repr
-
-def sample : Colour := { red := 2, blue := 4, green := 8 }
-
 -- メタ変数の番号を表示しない
-set_option pp.mvars false
+set_option pp.mvars false in
 
 -- 最初は `+` 記号が定義されていないのでエラーになる
-#check_failure sample + sample
+#check_failure 1 + (· + 2)
 
 /-- HAdd 型クラスのインスタンスを実装する -/
-instance : HAdd Colour Colour Colour where
-  hAdd c1 c2 := ⟨c1.red + c2.red, c1.blue + c2.blue, c1.green + c2.green⟩
+instance : HAdd Nat (Nat → Nat) (Nat → Nat) where
+  hAdd n f := fun m => n + f m
 
 -- 足し算記号が使えるようになった
-#eval sample + sample
+#check 1 + (· + 2)
