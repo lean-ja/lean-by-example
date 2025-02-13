@@ -96,6 +96,7 @@
   - [relaxedAutoImplicit: 更にautoImplicit](./Option/RelaxedAutoImplicit.md)
 
 - [型クラス](./TypeClass/README.md)
+  - [Add: 閉じた + 演算のための記法クラス](./TypeClass/Add.md)
   - [Coe: 型強制](./TypeClass/Coe.md)
   - [CoeDep: 依存型強制](./TypeClass/CoeDep.md)
   - [CoeFun: 関数型への強制](./TypeClass/CoeFun.md)
@@ -103,7 +104,7 @@
   - [Decidable: 決定可能](./TypeClass/Decidable.md)
   - [Functor: 関手](./TypeClass/Functor.md)
   - [GetElem: n番目の要素を取得](./TypeClass/GetElem.md)
-  - [HAdd: + のための記法クラス](./TypeClass/HAdd.md)
+  - [HAdd: 一般の + 演算のための記法クラス](./TypeClass/HAdd.md)
   - [HMul: * のための記法クラス](./TypeClass/HMul.md)
   - [Inhabited: 有項にする](./TypeClass/Inhabited.md)
   - [LawfulFunctor: ルール付きファンクタ](./TypeClass/LawfulFunctor.md)
