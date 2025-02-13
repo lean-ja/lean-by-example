@@ -8,12 +8,26 @@ inductive MyList (α : Type) where
   | cons (head : α) (tail : MyList α)
 
 namespace MyList
+  /- ## MyList のための外延記法 -/
 
-  def Three := MyList.cons 1 (MyList.cons 2 (MyList.cons 3 MyList.nil))
+  /-- MyList のための外延記法 -/
+  syntax "my[" term,* "]" : term
+
+  macro_rules
+    | `(my[]) => `(MyList.nil)
+    | `(my[$e]) => `(MyList.cons $e MyList.nil)
+    | `(my[$e, $elems,* ]) => `(MyList.cons $e (my[$elems,*]))
+
+  #check my[1, 2, 3]
+
+end MyList
+
+namespace MyList
+  /- ## GetElem 型クラスの定義 -/
 
   -- 作ったばかりで実装していないため、
   -- インデックスアクセスの構文 `as[i]` が使えない
-  #check_failure Three[2]
+  #check_failure my[1, 2, 3][2]
 
   variable {α : Type}
 
@@ -40,7 +54,7 @@ namespace MyList
     getElem as i h := as.get ⟨i, h⟩
 
   -- インデックスアクセスの構文が使えるようになった
-  #guard Three[2] = 3
+  #guard my[1, 2, 3][2] = 3
 
 end MyList
 
@@ -53,10 +67,10 @@ end MyList
 -/
 
 -- 具体的な数値を渡せば、それが範囲内であることを自動的に証明してくれる
-#guard [1, 2, 3][2] = 3
+#guard my[1, 2, 3][2] = 3
 
 #eval show IO Unit from do
-  let l : List Nat := [1, 2, 3]
+  let l := my[1, 2, 3]
 
   -- for 文を回すときに `h : i` とすると
   -- `i` についての情報を取得できる
@@ -71,15 +85,15 @@ end MyList
 -/
 
 -- 返り値を Option に包む場合
-#guard [1, 2, 3][2]? = some 3
-#guard [1, 2, 3][3]? = none
+#guard my[1, 2, 3][2]? = some 3
+#guard my[1, 2, 3][3]? = none
 
 /- ### as[i]!
 `as[i]!` という構文では、`i` が範囲外だった時には `panic` することにして `Option` で包まずに直接値を取り出します。
 -/
 
--- 範囲外なら panic することにして強引に値を取り出す
-#guard [1, 2, 3][2]! = 3
+-- 範囲外ならエラーで落とすことにして強引に値を取り出す
+#guard my[1, 2, 3][2]! = 3
 
 /- ### as[i]'h
 `xs[i]'h` という構文では、`i` が範囲内であることの証明 `h` を明示的に渡して値を取り出します。
@@ -87,6 +101,6 @@ end MyList
 
 -- インデックスが範囲内であることの証明を明示的に渡す
 #guard
-  let arr := [1, 2, 3]
-  let h := show 2 < arr.length from by decide
-  arr[2]'h = 3
+  let xs := my[1, 2, 3]
+  let h := show 2 < xs.length from by decide
+  xs[2]'h = 3
