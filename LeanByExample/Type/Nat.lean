@@ -60,7 +60,7 @@ end Hidden --#
 
 example (m n : Nat) (h : n ≥ m) : m - n = 0 := by omega
 
-/- `Nat` における引き算は誤解を招きやすいので、注意深く避けた方が良いかもしれません。 -/
+/- `Nat` における引き算は誤解を招きやすいので、注意深く避けた方が良いかもしれません。[^fermat] -/
 section
   /- ## Nat における引き算が誤解を招くものであるという例 -/
 
@@ -100,3 +100,5 @@ def safeDiv (m n : Nat) (_nez : n ≠ 0 := by decide) : Nat :=
 #check_failure safeDiv 32 0
 
 /- 他にも返り値を [`Option`](#{root}/Type/Option.md) で包んだり、ゼロ除算をしたときに `panic!` を呼び出したりすることが考えられます。しかし、いずれも除算を呼び出すたびにゼロかどうかの場合分けが発生してしまうのが手間です。現行の定義であれば、ゼロ除算をチェックするのは関数を呼び出す時ではなくて定理を適用する時だけで済みます。-/
+
+/- [^fermat]: このコード例は Lean の公式 Zulip の Fermat Last theorem by omega というトピックで [Anton Mellit さんが示したコード例](https://leanprover.zulipchat.com/#narrow/channel/113488-general/topic/Fermat.20Last.20theorem.20by.20omega/near/471640946)を参考にしています。 -/
