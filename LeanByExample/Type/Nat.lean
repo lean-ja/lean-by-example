@@ -4,8 +4,9 @@
 `Nat` の項は、数値リテラルとして表現することができます。
 -/
 
-/-- info: 42 : Nat -/
-#guard_msgs in #check 42
+/-⋆-//-- info: 42 : Nat -/
+#guard_msgs in --#
+#check 42
 
 /- ## 定義
 
@@ -59,6 +60,19 @@ end Hidden --#
 
 example (m n : Nat) (h : n ≥ m) : m - n = 0 := by omega
 
+/- `Nat` における引き算は誤解を招きやすいので、注意深く避けた方が良いかもしれません。 -/
+section
+  /- ## Nat における引き算が誤解を招くものであるという例 -/
+
+  variable (x y z n : Nat)
+
+  -- 一瞬、Fermat の最終定理が `omega` 一発で示せてしまったかのように見える。
+  -- しかし `2 - n < 0` となることはありえないので、この仮定は偽で、
+  -- 偽の仮定があるから証明が通っているだけ。
+  theorem Fermat (h1 : 2 - n < 0) : x ^ n + y ^ n = z ^ n → (x * y * z = 0) := by
+    omega
+
+end
 /- ### 割り算
 また `Nat` 上の割り算 `m / n` はゼロ除算を許すように定義されていて、`m / 0 = 0` が成り立ちます。-/
 
@@ -83,14 +97,6 @@ def safeDiv (m n : Nat) (_nez : n ≠ 0 := by decide) : Nat :=
 #eval safeDiv 32 4
 
 -- ゼロで割ろうとすると、分母がゼロでないことが確かめられないというエラーになる
-/--
-error: could not synthesize default value for parameter '_nez' using tactics
----
-error: tactic 'decide' proved that the proposition
-  0 ≠ 0
-is false
--/
-#guard_msgs in
-  #eval safeDiv 32 0
+#check_failure safeDiv 32 0
 
-/- 他にも返り値を `Option` で包んだり、ゼロ除算をしたときに `panic!` を呼び出したりすることが考えられます。しかし、いずれも除算を呼び出すたびにゼロかどうかの場合分けが発生してしまうのが手間です。現行の定義であれば、ゼロ除算をチェックするのは関数を呼び出す時ではなくて定理を適用する時だけで済みます。-/
+/- 他にも返り値を [`Option`](#{root}/Type/Option.md) で包んだり、ゼロ除算をしたときに `panic!` を呼び出したりすることが考えられます。しかし、いずれも除算を呼び出すたびにゼロかどうかの場合分けが発生してしまうのが手間です。現行の定義であれば、ゼロ除算をチェックするのは関数を呼び出す時ではなくて定理を適用する時だけで済みます。-/
