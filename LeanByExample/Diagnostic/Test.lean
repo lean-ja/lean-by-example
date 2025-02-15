@@ -3,10 +3,24 @@
 -/
 import Plausible
 
--- 命題 `P : Prop` に対して、`#test P` で `P` が成り立つかどうかを検証する
-#test ∀ (n : Nat), n + 0 = n
+instance : Monad List where
+  pure x := [x]
+  bind l f := l.flatMap f
+  map f l := l.map f
 
--- 反例が見つからなければ「反例が見つからない」と教えてくれる
-/-- info: Unable to find a counter-example -/
-#guard_msgs in
-  #test ∀ (n : Nat), n + n = 2 * n
+section
+  /- ## do 構文で実装した関数とデフォルト実装が一致することのテスト -/
+
+  variable {α β : Type}
+
+  /-- do 構文による map の実装 -/
+  def List.doMap (f : α → β) (xs : List α) : List β := do
+    let x ← xs
+    return f x
+
+  /-⋆-//-- info: Unable to find a counter-example -/
+  #guard_msgs in --#
+  #test
+    ∀ {α β : Type} (f : α → β) (xs : List α),
+    List.doMap f xs = xs.map f
+end
