@@ -191,7 +191,7 @@
   - [rename_i: 死んだ変数に名前を付ける](./Tactic/RenameI.md)
   - [repeat: 繰り返し適用](./Tactic/Repeat.md)
   - [replace: 補題の入れ替え](./Tactic/Replace.md)
-  - [rfl: 関係の反射性を利用する](./Tactic/Rfl.md)
+  - [rfl: 定義に展開して等式を示す](./Tactic/Rfl.md)
   - [right: 論理和∨を示す](./Tactic/Right.md)
   - [ring_nf: 可換(半)環の標準形に](./Tactic/RingNf.md)
   - [ring: 可換(半)環の等式を示す](./Tactic/Ring.md)
