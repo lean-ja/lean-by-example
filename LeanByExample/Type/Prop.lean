@@ -123,7 +123,7 @@ theorem my_proof_irrel (P : Prop) (h1 h2 : P) : h1 = h2 := rfl
 #guard_msgs in #print axioms proof_irrel
 
 /- ### No Large Elimination { #NoLargeElim }
-証明無関係の重要な帰結のひとつに、「証明から値を取り出すことができるのは、証明の中だけ」というものがあります。この現象は、「`Prop` は large elimination を許可しない」という言葉で表現されます。[^large_elim] 誤解を恐れずに雑にかみ砕いて言えば、型 `T : Sort u` が命題宇宙 `Prop` よりも大きい宇宙に棲んでいる場合（つまり `u > 0` の場合）、`T` への命題 `P : Prop` からの関数 `P → T` を定義することはできないということです。
+証明無関係の重要な帰結のひとつに、「証明から値を取り出すことができるのは、証明の中だけ」というものがあります。この現象は、「`Prop` は large elimination を許可しない」という言葉で表現されます。[^large_elim] 誤解を恐れずに雑にかみ砕いて言えば、型 `T : Sort u` が命題宇宙 `Prop` よりも大きい宇宙に棲んでいる場合（つまり `u > 0` の場合）、命題 `P : Prop` から`T` への関数 `P → T` を定義することはできないということです。
 
 たとえば次のように、証明の中であれば証明項を [`cases`](#{root}/Tactic/Cases.md) や [`rcases`](#{root}/Tactic/Rcases.md) で分解して値を取り出すことができます。-/
 
@@ -170,7 +170,7 @@ example : False := by
 
   -- extract が満たすべき条件から、`1 = -1` が導けてしまう
   have : 1 = -1 := calc
-    1 = extract foo := by rw [extract_foo]
+    _ = extract foo := by rw [extract_foo]
     _ = extract bar := by rw [irr]
     _ = -1 := by rw [extract_bar]
 
