@@ -123,7 +123,7 @@ theorem my_proof_irrel (P : Prop) (h1 h2 : P) : h1 = h2 := rfl
 #guard_msgs in #print axioms proof_irrel
 
 /- ### No Large Elimination { #NoLargeElim }
-証明無関係の重要な帰結のひとつに、「証明から値を取り出すことができるのは、証明の中だけ」というものがあります。この現象は、「`Prop` は large elimination を許可しない」という言葉で表現されることがあります。
+証明無関係の重要な帰結のひとつに、「証明から値を取り出すことができるのは、証明の中だけ」というものがあります。この現象は、「`Prop` は large elimination を許可しない」という言葉で表現されます。[^large_elim] 誤解を恐れずに雑にかみ砕いて言えば、型 `T : Sort u` が命題宇宙 `Prop` よりも大きい宇宙に棲んでいる場合（つまり `u > 0` の場合）、`T` への命題 `P : Prop` からの関数 `P → T` を定義することはできないということです。
 
 たとえば次のように、証明の中であれば証明項を [`cases`](#{root}/Tactic/Cases.md) や [`rcases`](#{root}/Tactic/Rcases.md) で分解して値を取り出すことができます。-/
 
@@ -141,19 +141,18 @@ def Ok.extract (h : ∃ x : Int, x ^ 2 = 1) : True := by
 
 /- しかし、命題の証明という文脈ではなく関数の定義という文脈（つまり返り値の型が命題ではない状況）にすると一転、分解することができなくなります。これは証明無関係の制約によるものです。-/
 
--- 仮定で存在が主張されている `x` を取得して、
--- 返り値として返すために返り値の型を `Int` に変更するとエラーになる
-/--
+/-⋆-//--
 error: tactic 'cases' failed, nested error:
 tactic 'induction' failed, recursor 'Exists.casesOn' can only eliminate into Prop
 h : ∃ x, x ^ 2 = 1
 ⊢ Int
 -/
-#guard_msgs (whitespace := lax) in
-  def Bad.extract (h : ∃ x : Int, x ^ 2 = 1) : Int := by
-    -- x を取り出すことができない
-    obtain ⟨x, hx⟩ := h
-    exact x
+#guard_msgs (whitespace := lax) in --#
+def Bad.extract (h : ∃ x : Int, x ^ 2 = 1) : Int := by
+  -- 仮定で存在が主張されている `x` を取得して、
+  -- 返り値として返すために返り値の型を `Int` に変更するとエラーになる
+  obtain ⟨x, hx⟩ := h
+  exact x
 
 /- 仮に、上記の例がエラーにならなかったとすると、証明無関係を利用して矛盾を示すことができてしまいます。-/
 
@@ -241,3 +240,5 @@ example (ex : ∃ x, anti_simple x) : ¬ simple anti_simple := by
 
 -- 型宇宙 Type は非可述的ではなく、可述的
 #check (∀ a : Type, a : Type 1)
+
+/- [^large_elim]: "large elimination" という用語は、The Hitchhiker's Guide to Logical Verification の 12.2.3 節より拝借しました。 -/
