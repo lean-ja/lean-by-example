@@ -26,8 +26,8 @@ example : ∀ (n : ℤ), Even (5 * n) → Even n := by
   guard_hyp hk : 5 * n = 2 * k
 
   -- 計算をする
-  have := calc
-    n = 5 * n - 4 * n := by ring
+  have : n = 2 * (k - 2 * n) := calc
+    _ = 5 * n - 4 * n := by ring
     _ = 2 * k - 4 * n := by rw [hk]
     _ = 2 * (k - 2 * n) := by ring
 

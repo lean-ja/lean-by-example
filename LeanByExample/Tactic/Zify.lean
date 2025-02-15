@@ -13,6 +13,7 @@ example (x : Nat) (h : x ≥ 5) : 15 ≤ 3 * x := by
   guard_hyp h : x ≥ (5 : Int)
   guard_target = (15 : Int) ≤ 3 * ↑x
 
-  calc
+  have : (15 : Int) ≤ 3 * ↑x := calc
     (15 : Int) = 3 * 5 := by rfl
-    _ ≤ 3 * ↑x := by gcongr; decide
+    _ ≤ 3 * ↑x := by gcongr; simp_all
+  assumption

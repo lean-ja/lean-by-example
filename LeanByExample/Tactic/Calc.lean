@@ -8,13 +8,14 @@ variable (a b : ℝ)
 
 example : 2 * a * b ≤ a ^ 2 + b ^ 2 := by
   -- `a ^ 2 - 2 * a * b + b ^ 2 ≥ 0` を示せばよい
-  suffices a ^ 2 - 2 * a * b + b ^ 2 ≥ 0 from by
+  suffices hyp : a ^ 2 - 2 * a * b + b ^ 2 ≥ 0 from by
     linarith
 
   -- 少しずつ式変形して示していく
-  calc a ^ 2 - 2 * a * b + b ^ 2
+  have : a ^ 2 - 2 * a * b + b ^ 2 ≥ 0 := calc
     _ = (a - b) ^ 2 := by ring
     _ ≥ 0 := by positivity
+  assumption
 
 /- `calc` の直後に来る項も `_` で省略することができます。 -/
 
@@ -22,14 +23,12 @@ example : 2 * a * b ≤ a ^ 2 + b ^ 2 := by
 example : ∀ x y ε : ℝ, 0 < ε → ε ≤ 1 → |x| < ε → |y| < ε → |x * y| < ε := by
   intro x y ε epos ele1 xlt ylt
 
-  -- 以下を示せばよい
-  show |x * y| < ε
-
-  calc
+  have : |x * y| < ε := calc
     _ = |x| * |y| := abs_mul x y
     _ < ε * ε := by gcongr
     _ ≤ 1 * ε := by gcongr
     _ = ε := by simp
+  assumption
 
 /- ## カスタマイズ
 自前で定義した二項関係も、`Trans` 型クラスのインスタンスにすれば `calc` で使用することができます。-/

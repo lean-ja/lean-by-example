@@ -93,7 +93,7 @@ where
     else
       have : n + 11 - 10 ≤ M (n + 11) := (M (n + 11)).property
       have lem : n - 10 ≤ M (M (n + 11)) := calc
-        n - 10 ≤ (n + 11) - 10 - 10 := by omega
+        _ ≤ (n + 11) - 10 - 10 := by omega
         _ ≤ (M (n + 11)) - 10 := by omega
         _ ≤ M (M (n + 11)) := (M (M (n + 11)).val).property
 

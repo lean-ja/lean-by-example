@@ -11,11 +11,11 @@ example (x : Nat) (h : x ≥ 1) : 2 * x ≥ 2 := by
 
   -- 次の状態になる
   guard_hyp h : 1 ≤ (x : ℚ)
-  show (2 : ℚ) ≤ 2 * x
 
-  calc
-    (2 : ℚ) = 2 * 1 := by simp
+  have : (2 : ℚ) ≤ 2 * x := calc
+    _ = 2 * 1 := by simp
     _ ≤ 2 * (x : ℚ) := by gcongr
+  assumption
 
 /- ## 用途
 

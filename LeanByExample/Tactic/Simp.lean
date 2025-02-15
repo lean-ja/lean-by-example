@@ -105,13 +105,18 @@ set_option linter.flexible false in --#
 
 example {x y : Nat} : 0 < 1 + x ∧ x + y + 2 ≥ y + 1 := by
   -- `simp` だけでは証明が終わらない
-  simp
-  show y ≤ x + y + 1
+  fail_if_success solve
+  | simp
 
-  -- 残りを適当に証明する
-  calc y = 0 + y := by simp
+  -- 適当に証明する
+  suffices y ≤ x + y + 1 from by
+    simp_all
+
+  have : y ≤ x + y + 1 := calc
+    _ = 0 + y := by simp
     _ ≤ x + 1 + y := by gcongr; simp
     _ = x + y + 1 := by ac_rfl
+  assumption
 
 example {x y : Nat} : 0 < 1 + x ∧ x + y + 2 ≥ y + 1 := by
   -- config を与えれば一発で終わる

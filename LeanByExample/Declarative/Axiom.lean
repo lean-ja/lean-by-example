@@ -144,7 +144,7 @@ def funApp (a : α) (f : (x : α) → β x) : β a := f a
 /-- 「`f` を適用する関数」と `f` は等しい -/
 theorem funApp_eq (f : (x : α) → β x) : funApp (f := f) = f := calc
   -- 関数とラムダ式は等しい
-  funApp (f := f) = (fun a => funApp a f) := by rw [lambda_eq funApp]
+  _ = (fun a => funApp a f) := by rw [lambda_eq funApp]
 
   -- funApp の定義から等しい
   _ = (fun a => f a) := by dsimp only [funApp]
@@ -185,7 +185,7 @@ theorem my_funext {f g : (x : α) → β x} (h : ∀ x, f x = g x) : f = g := by
   -- 商での等式に帰着させることができる。
   exact show f = g from calc
     -- 「`f` を適用する関数」と `f` は等しい
-    f = funApp (f := f) := by rw [funApp_eq f]
+    _ = funApp (f := f) := by rw [funApp_eq f]
 
     -- 商への関数の持ち上げの定義から等しい
     _ = «[funApp]» (f' := Quot.mk eqv f) := by rfl
