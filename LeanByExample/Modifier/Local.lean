@@ -40,7 +40,7 @@ end hoge
 /- ## 修飾可能なコマンド
 `local` で有効範囲を限定できるコマンドには、次のようなものがあります。
 * [`elab`](#{root}/Declarative/Elab.md), `elab_rules`
-* [`infix`](#{root}/Declarative/Infix.md), `infil`, `infixr`
+* [`infix`](#{root}/Declarative/Infix.md), [`infixl`](#{root}/Declarative/Infixl.md), [`infixr`](#{root}/Declarative/Infixr.md)
 * [`macro`](#{root}/Declarative/Macro.md), [`macro_rules`](#{root}/Declarative/MacroRules.md)
 * [`notation`](#{root}/Declarative/Notation.md)
 * [`postfix`](#{root}/Declarative/Postfix.md)

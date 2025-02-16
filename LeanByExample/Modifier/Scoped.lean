@@ -36,7 +36,7 @@ end
 /- ## 修飾可能なコマンド
 `scoped` で有効範囲を限定できるコマンドには、次のようなものがあります。
 * [`elab`](#{root}/Declarative/Elab.md), `elab_rules`
-* [`infix`](#{root}/Declarative/Infix.md), `infixl`, `infixr`
+* [`infix`](#{root}/Declarative/Infix.md), [`infixl`](#{root}/Declarative/Infixl.md), [`infixr`](#{root}/Declarative/Infixr.md)
 * [`instance`](#{root}/Declarative/Instance.md)
 * [`macro`](#{root}/Declarative/Macro.md), [`macro_rules`](#{root}/Declarative/MacroRules.md)
 * [`notation`](#{root}/Declarative/Notation.md)
