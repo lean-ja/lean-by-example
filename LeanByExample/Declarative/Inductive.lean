@@ -172,101 +172,63 @@ inductive BigStep : Stmt → State → State → Prop where
 
 /- 「プログラムを評価する」という操作は `while` 文の評価が終わらない可能性があるため、再帰関数として定義することができません。そのため上記の BigStep 意味論の例は帰納的述語が真に有用なケースであるといえます。-/
 
-/- ## Peano の公理と帰納型
+/- ## 帰納型の仕様
 
-### 帰納型の仕様
-帰納型を利用すると、「Peano の公理に基づく自然数の定義」のような帰納的な公理による定義を表現することができます。
+### 再帰子
 
-Peano の公理とは、次のようなものです:
-* `0` は自然数。
-* 後者関数と呼ばれる関数 `succ : ℕ → ℕ` が存在する。
-* 任意の自然数 `n` に対して `succ n ≠ 0` が成り立つ。
-* `succ` 関数は単射。つまり2つの異なる自然数 `n` と `m` に対して `succ n ≠ succ m` が成り立つ。
-* 帰納法の原理が成り立つ。つまり、任意の述語 `P : ℕ → Prop` に対して `P 0` かつ `∀ n : ℕ, P n → P (succ n)` ならば `∀ n : ℕ, P n` が成り立つ。
+`inductive` コマンドで帰納型 `T` を定義すると、**再帰子(recursor)** `T.rec` が自動生成されます。再帰子は [`induction`](#{root}/Tactic/Induction.md) タクティクで使用されるほか、[`[induction_eliminator]`](#{root}/Attribute/InductionEliminator.md) 属性にも関係があります。
 
-これを `inductive` コマンドを使用して再現すると次のようになります。
+たとえば列挙型である `Bool` の場合、再帰子は次のようになっています。
+-/
+
+/-⋆-//--
+info: recursor Bool.rec.{u} : {motive : Bool → Sort u} → motive false → motive true → (t : Bool) → motive t
+-/
+#guard_msgs in --#
+#print Bool.rec
+
+/- この再帰子の型をよく見ると、`Bool` から型 `motive _` への依存関数 `(t : Bool) → motive t` を構成する手段を提供していることがわかります。
+
+`Nat` の場合はもっとわかりやすいです。
+-/
+
+/-⋆-//--
+info: recursor Nat.rec.{u} : {motive : ℕ → Sort u} →
+  motive Nat.zero → ((n : ℕ) → motive n → motive n.succ) → (t : ℕ) → motive t
+-/
+#guard_msgs in --#
+#print Nat.rec
+
+/- `Nat` から型 `motive _` への依存関数 `(t : Nat) → motive t` を構成する手段を提供しているのは同じなのですが、よく見ると帰納法の原理そのものの形をしています。
+
+型 `motive t` が棲んでいる宇宙 `Sort u` に `Prop` を代入してみましょう。このとき `motive Nat.zero` 型の引数というのは、命題 `motive Nat.zero : Prop` の証明にほかならず、`(n : ℕ) → motive n → motive n.succ` 型の引数というのは、命題 `∀ n, motive n → motive (n + 1)` の証明にほかなりません。この条件の下で関数 `(t : Nat) → motive t` つまり `∀ t, motive t` の証明が得られると主張しているのですから、帰納法の原理そのものであることがわかります。 -/
+
+/- ### noConfusion
+
+帰納型のコンストラクタは必ず単射になり、異なるコンストラクタの像は決して重なりません。このルールは、`injection` タクティクで利用することができます。
 -/
 
 /-- Peano の公理によって定義された自然数 -/
 inductive MyNat : Type where
-  | zero : MyNat
-  | succ (n : MyNat) : MyNat
+  | zero
+  | succ (n : MyNat)
 
-/- 一見すると、これは不完全なように見えます。ゼロが自然数であること、後者関数が存在することは明示的に表現されているのでわかりますが、他の条件が表現されているかどうかは一見して明らかではありません。しかし、実は他の条件も暗黙のうちに表現されています。
-
-まず `0 = succ n` となる自然数 `n` がないことですが、一般に帰納型の異なるコンストラクタ同士の像は重ならないことが保証されています。`injection` タクティクで証明ができます。
--/
-
+/-- コンストラクタの像は重ならない -/
 example (n : MyNat) : .succ n ≠ MyNat.zero := by
   intro h
   injection h
 
-/- また後者関数の単射性については、帰納型のコンストラクタは常に単射であることが保証されていて、ここから従います。-/
-
+/-- コンストラクタは必ず単射である -/
 example (n m : MyNat) : MyNat.succ n = MyNat.succ m → n = m := by
   intro h
   injection h
 
-/- 数学的帰納法の原理については、帰納型を定義したときに自動で生成される `.rec` という関数が対応しています。-/
+/- [`show_term`](#{root}/Tactic/ShowTerm.md) を使用して証明項を出してみると、`injection` タクティクにより `MyNat.noConfusion` という定理が呼ばれていることがわかります。 -/
 
-/-⋆-//--
-info: recursor MyNat.rec.{u} : {motive : MyNat → Sort u} →
-  motive MyNat.zero → ((n : MyNat) → motive n → motive n.succ) → (t : MyNat) → motive t
--/
+/-⋆-//-- info: Try this: MyNat.noConfusion h fun n_eq => n_eq -/
 #guard_msgs in --#
-#print MyNat.rec
-
-/- ### 帰納法の原理が意味するもの
-
-ところで、Peano の公理の中でも帰納法の原理だけが述語に対する量化を含んでいて複雑ですね。複雑さのために何を意味しているのかわかりづらくなっているので、帰納法の原理から何が導かれるか考えてみます。
-
-たとえば、帰納法の原理から「すべての `n : MyNat` は `.zero` か `.succ m` のどちらかの形である」ことが導かれます。以下の証明では [`axiom`](./Axiom.md) コマンドで `MyNat` を再構築することで証明しています。これは、`inductive` コマンドで定義された型に対しては、[`cases`](#{root}/Tactic/Cases.md) タクティクでコンストラクタに応じた場合分けが自動的にできてしまうからです。
--/
-namespace Hidden --#
-
-opaque MyNat : Type
-
-/-- ゼロ -/
-axiom MyNat.zero : MyNat
-
-/-- 後者関数 -/
-axiom MyNat.succ : MyNat → MyNat
-
-/-- 帰納法の原理 -/
-axiom MyNat.induction {P : MyNat → Prop}
-  (h0 : P MyNat.zero) (hs : ∀ n, P n → P (MyNat.succ n)) : ∀ n, P n
-
-example (n : MyNat) : n = MyNat.zero ∨ ∃ m, n = MyNat.succ m := by
-  -- 述語の定義
-  let P : MyNat → Prop := fun n => n = MyNat.zero ∨ ∃ m, n = MyNat.succ m
-
-  -- `∀ n, P n` を示せばよい。
-  suffices goal : ∀ n, P n from by
-    exact goal n
-
-  have h0 : P MyNat.zero := by
-    simp [P]
-
-  have hs : ∀ n, P n → P (MyNat.succ n) := by
-    intro n hn
-    dsimp [P]
-    right
-    exists n
-
-  -- 帰納法の原理から従う
-  intro n
-  exact MyNat.induction h0 hs n
-
-end Hidden --#
-/- また、「`.succ n = n` となる `n : MyNat` は存在しない」ということも帰納法の原理から導かれます。-/
-
-example (n : MyNat) : MyNat.succ n ≠ n := by
-  intro h
-  induction n with
-  | zero => injection h
-  | succ n ih =>
-    have : n.succ = n := by injection h
-    exact ih this
+example (n m : MyNat) (h : MyNat.succ n = MyNat.succ m) : n = m := show_term by
+  injection h
 
 /- ## strictly positive 要件 { #StrictlyPositiveRequirement }
 
