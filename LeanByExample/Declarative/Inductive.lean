@@ -189,7 +189,7 @@ info: recursor Bool.rec.{u} : {motive : Bool → Sort u} → motive false → mo
 
 /- この再帰子の型をよく見ると、`Bool` から型 `motive _` への依存関数 `(t : Bool) → motive t` を構成する手段を提供していることがわかります。
 
-`Nat` の場合はもっとわかりやすいです。
+[`Nat`](#{root}/Type/Nat.md) の場合はもっとわかりやすいです。
 -/
 
 /-⋆-//--
