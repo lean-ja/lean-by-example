@@ -83,8 +83,9 @@ end Hidden --#
 
 deriving instance Repr for Point
 
-/-- info: { x := 0, y := 0 } -/
-#guard_msgs in #eval origin
+/-⋆-//-- info: { x := 0, y := 0 } -/
+#guard_msgs in --#
+#eval origin
 
 /- あるいは、そもそも型を定義する際に [`deriving`](#{root}/Declarative/Deriving.md) 句を用いて生成しても良いでしょう。-/
 
@@ -145,7 +146,7 @@ inductive Expr where
 deriving BEq
 
 namespace Expr
-  -- ## Expr の項を定義するための見やすい構文を用意する
+  /- ## Expr の項を定義するための見やすい構文を用意する -/
 
   /-- `Expr` のための構文カテゴリ -/
   declare_syntax_cat expr
@@ -172,13 +173,14 @@ namespace Expr
 end Expr
 
 namespace Expr
-  -- ## ToString インスタンスを定義する
+  /- ## ToString インスタンスを定義する -/
 
   protected def toString : Expr → String
-    | Expr.val x => ToString.toString x
-    | Expr.app op l r =>
-      brak l ++ ToString.toString op ++ brak r
+    | .val x => ToString.toString x
+    | .app op l r =>
+      brak l ++ " " ++ ToString.toString op ++ " " ++ brak r
   where
+    /-- 式全体を括弧で囲うことを回避するための補助関数 -/
     brak : Expr → String
     | .val n => ToString.toString n
     | e => "(" ++ Expr.toString e ++ ")"
@@ -186,20 +188,20 @@ namespace Expr
   instance : ToString Expr := ⟨Expr.toString⟩
 
   -- toString インスタンスのテスト
-  #guard toString expr!{1 + 2 * 3} = "1+(2*3)"
-  #guard toString expr!{1 + (2 + 3 * 4)} = "1+(2+(3*4))"
+  #guard toString expr!{1 + 2 * 3} = "1 + (2 * 3)"
+  #guard toString expr!{1 + (2 + 3 * 4)} = "1 + (2 + (3 * 4))"
 end Expr
 
 namespace Expr
-  -- ## Repr インスタンスを定義する
+  /- ## Repr インスタンスを定義する -/
 
   -- `ToString` インスタンスを利用して `Repr` インスタンスを実装する
   instance : Repr Expr where
     reprPrec e _ := "expr!{" ++ toString e ++ "}"
 
   -- Repr インスタンスのテスト
-  /-- info: expr!{1+(2*3)} -/
-  #guard_msgs in
-    #eval expr!{1 + (2 * 3)}
+  /-⋆-//-- info: expr!{1 + (2 * 3)} -/
+  #guard_msgs in --#
+  #eval expr!{1 + (2 * 3)}
 
 end Expr
