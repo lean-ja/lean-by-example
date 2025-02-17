@@ -7,7 +7,7 @@
 1. `Functor.map` は恒等関数を保存する。つまり `id <$> x = x` が成り立つ。
 2. `Functor.map` は関数合成を保存する。つまり `(f ∘ g) <$> x = f <$> (g <$> x)` が成り立つ。
 
-`LawfulFunctor` クラスは、これをほぼそのままコードに落とし込んだものとして、おおむね次のように定義されています。（実際の定義には `map_const` というフィールドがありますが、ここでは省略しました）
+`LawfulFunctor` クラスは、これをほぼそのままコードに落とし込んだものとして、おおむね次のように定義されています。
 -/
 --#--
 -- # LawfulFunctor の仕様変更を監視するためのコード
@@ -29,11 +29,16 @@ constructor:
 
 namespace Hidden --#
 
+open Function
+
 universe u v
 
 variable {α β γ : Type u}
 
 class LawfulFunctor (f : Type u → Type v) [Functor f] : Prop where
+  /-- `Functor.mapConst` が仕様を満たす -/
+  map_const : (Functor.mapConst : α → f β → f α) = Functor.map ∘ const β
+
   /-- 恒等関数を保つ -/
   id_map (x : f α) : id <$> x = x
 
