@@ -1,8 +1,8 @@
 /- # LawfulFunctor
 
-`LawfulFunctor` は、[`Functor`](./Functor.md) 型クラスにファンクタ則を満たすという条件を加えたものです。
+`LawfulFunctor` は、[`Functor`](./Functor.md) 型クラスに関手則を満たすという条件を加えたものです。
 
-ファンクタ則とは、ファンクタ `F : Type u → Type u` が満たしているべきルールで、以下のようなものです。
+関手則とは、関手 `F : Type u → Type u` が満たしているべきルールで、以下のようなものです。
 
 1. `Functor.map` は恒等関数を保存する。つまり `id <$> x = x` が成り立つ。
 2. `Functor.map` は関数合成を保存する。つまり `(f ∘ g) <$> x = f <$> (g <$> x)` が成り立つ。
