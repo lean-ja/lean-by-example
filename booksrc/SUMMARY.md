@@ -3,6 +3,7 @@
 [はじめに](./README.md)
 
 [リンク集](./links.md)
+[Mathlib4 Help](./Mathlib4Help.md)
 
 ---
 
