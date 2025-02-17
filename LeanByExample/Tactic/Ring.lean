@@ -93,80 +93,90 @@ info: first
 @[ext] structure MyNat : Type where
   val : Nat
 
-/-- `MyNat` に掛け算を定義 -/
-instance : Mul MyNat where
-  mul x y := ⟨x.val * y.val⟩
+namespace MyNat
+  /- ## MyNat に掛け算と足し算を定義する -/
 
-/-- `MyNat` に足し算を定義 -/
-instance : Add MyNat where
-  add x y := ⟨x.val + y.val⟩
+  /-- `MyNat` に掛け算を定義 -/
+  instance : Mul MyNat where
+    mul x y := ⟨x.val * y.val⟩
 
-/-- `MyNat` として等しいことと、`val` を取って自然数として等しいことは同値 -/
-@[simp]
-theorem MyNat.translate (m n : MyNat) : m = n ↔ m.val = n.val := by
-  constructor <;> intro h
-  · rw [h]
-  · ext
-    assumption
+  /-- `MyNat` に足し算を定義 -/
+  instance : Add MyNat where
+    add x y := ⟨x.val + y.val⟩
 
-/-- `MyNat` の和を自然数の和に翻訳する -/
-@[simp] theorem MyNat.add_val (m n : MyNat) : (m + n).val = m.val + n.val := by rfl
+end MyNat
 
-/-- `MyNat` の積を自然数の積に翻訳する -/
-@[simp] theorem MyNat.mul_val (m n : MyNat) : (m * n).val = m.val * n.val := by rfl
-
+#guard_msgs (drop warning) in --#
 example (m n : MyNat) : n * (n + m) = n * n + n * m := by
   -- `ring` は `MyNat` に対しては使えない
   fail_if_success solve
   | ring
 
-  -- 自然数の話に翻訳して示す
-  suffices goal : n.val * (n.val + m.val) = n.val * n.val + n.val * m.val from by
-    simpa
-  ring
+  sorry
 
-/-- `MyNat` についての等式を自然数に翻訳して示す -/
-local macro "translate" : tactic => `(tactic| with_reducible
-  intros
-  simp
-  try ring
-)
+namespace MyNat
+  /- ## MyNat が半環であることを証明するための準備 -/
 
-/-- `MyNat` は加法について半群(semigroup)である -/
-instance : AddSemigroup MyNat where
-  add_assoc := by translate
+  /-- `MyNat` として等しいことと、`val` を取って自然数として等しいことは同値 -/
+  @[simp]
+  theorem translate (m n : MyNat) : m = n ↔ m.val = n.val := by
+    constructor <;> intro h
+    · rw [h]
+    · ext
+      assumption
 
-instance : Zero MyNat where
-  zero := ⟨0⟩
+  /-- `MyNat` の和を自然数の和に翻訳する -/
+  @[simp] theorem add_val (m n : MyNat) : (m + n).val = m.val + n.val := by rfl
 
-/-- `MyNat` のゼロを自然数のゼロに翻訳する -/
-@[simp] theorem MyNat.zero_val : (0 : MyNat).val = 0 := by rfl
+  /-- `MyNat` の積を自然数の積に翻訳する -/
+  @[simp] theorem mul_val (m n : MyNat) : (m * n).val = m.val * n.val := by rfl
 
-/-- `MyNat` は加法についてモノイドである -/
-instance : AddMonoid MyNat where
-  zero_add := by translate
-  add_zero := by translate
-  nsmul := fun n a => ⟨n * a.val⟩
-  nsmul_zero := by translate
-  nsmul_succ := by translate
+  /-- `MyNat` についての等式を自然数に翻訳して示す -/
+  macro "translate" : tactic => `(tactic| with_reducible
+    intros
+    simp
+    try ring
+  )
+end MyNat
 
-instance : One MyNat where
-  one := ⟨1⟩
+namespace MyNat
+  /- ## MyNat を AddCommMonoid のインスタンスにする -/
 
-/-- `MyNat` の1を自然数の1に翻訳する -/
-@[simp] theorem MyNat.one_val : (1 : MyNat).val = 1 := by rfl
+  instance : Zero MyNat where
+    zero := ⟨0⟩
 
-/-- `MyNat` は可換な半環(semiring)である -/
-instance : CommSemiring MyNat where
-  add_comm := by translate
-  left_distrib := by translate
-  right_distrib := by translate
-  zero_mul := by translate
-  mul_zero := by translate
-  mul_assoc := by translate
-  one_mul := by translate
-  mul_one := by translate
-  mul_comm := by translate
+  /-- `MyNat` のゼロを自然数のゼロに翻訳する -/
+  @[simp] theorem zero_val : (0 : MyNat).val = 0 := by rfl
+
+  instance : AddCommMonoid MyNat where
+    zero_add := by translate
+    add_zero := by translate
+    add_assoc := by translate
+    add_comm := by translate
+    nsmul := nsmulRec
+
+end MyNat
+
+namespace MyNat
+  /- ## MyNat を CommSemiring のインスタンスにする -/
+
+  instance : One MyNat where
+    one := ⟨1⟩
+
+  /-- `MyNat` の1を自然数の1に翻訳する -/
+  @[simp] theorem one_val : (1 : MyNat).val = 1 := by rfl
+
+  /-- `MyNat` は可換な半環(semiring)である -/
+  instance : CommSemiring MyNat where
+    left_distrib := by translate
+    right_distrib := by translate
+    zero_mul := by translate
+    mul_zero := by translate
+    one_mul := by translate
+    mul_one := by translate
+    mul_assoc := by translate
+    mul_comm := by translate
+end MyNat
 
 example (m n : MyNat) : n * (n + m) = n * n + n * m := by
   -- `ring` が使えるようになった！
