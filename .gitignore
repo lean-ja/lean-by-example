@@ -2,8 +2,6 @@
 book
 /booksrc/*
 !booksrc/image
-!booksrc/links.md
-!booksrc/README.md
 !booksrc/404.md
 !booksrc/SUMMARY.md
 # macOS leaves these files everywhere:
