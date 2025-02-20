@@ -20,8 +20,9 @@ info: Try these:
     hint
 
 /- ## 登録されているタクティク
-デフォルトでは以下の8つのタクティクを試します。
+デフォルトでは以下の9つのタクティクを試します。
 
+* [`gcongr`](./Gcongr.md)
 * [`linarith`](./Linarith.md)
 * [`omega`](./Omega.md)
 * [`decide`](./Decide.md)
@@ -44,7 +45,8 @@ def getRegisteredTactics : CoreM Unit := do
     IO.println arr[0]!
 
 /--
-info: "linarith"
+info: "gcongr"
+"linarith"
 "omega"
 "decide"
 "exact?"
