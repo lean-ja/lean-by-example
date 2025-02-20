@@ -9,6 +9,7 @@
 
 `LawfulFunctor` クラスは、これをほぼそのままコードに落とし込んだものとして、おおむね次のように定義されています。
 -/
+import Mathlib.Logic.Equiv.Defs --#
 --#--
 -- # LawfulFunctor の仕様変更を監視するためのコード
 /--
@@ -46,3 +47,49 @@ class LawfulFunctor (f : Type u → Type v) [Functor f] : Prop where
   comp_map (g : α → β) (h : β → γ) (x : f α) : (h ∘ g) <$> x = h <$> g <$> x
 
 end Hidden --#
+/- ## 関手則の帰結
+
+関手則の意味について理解していただくために、関手則の帰結をひとつ紹介します。
+
+まず、型 `A, B` は全単射 `f : A → B` とその逆射 `g : B → A` が存在するとき **同値(equivalent)** であるといい、これを `(· ≃ ·)` で表します。つまり `A ≃ B` であるとは、`f : A → B` と `g : B → A` が存在して `f ∘ g = id` かつ `g ∘ f = id` が成り立つことを意味します。
+
+関手則が守られているとき、関手 `F` は合成を保ち、かつ `id` を `id` に写すので、関手は同値性を保つことになります。
+-/
+section
+  variable {A B : Type} {F : Type → Type}
+
+  example [Functor F] [LawfulFunctor F] (h : A ≃ B) : F A ≃ F B := by
+    obtain ⟨f, g, hf, hg⟩ := h
+
+    -- 関手 `F` による像で同値になる
+    refine ⟨Functor.map f, Functor.map g, ?hFf, ?hFg⟩
+
+    -- infoviewを見やすくする
+    all_goals
+      dsimp [Function.RightInverse] at *
+      dsimp [Function.LeftInverse] at *
+
+    case hFf =>
+      have gfid : g ∘ f = id := by
+        ext x
+        simp_all
+
+      intro x
+      have : g <$> f <$> x = x := calc
+        _ = (g ∘ f) <$> x := by rw [LawfulFunctor.comp_map]
+        _ = id <$> x := by rw [gfid]
+        _ = x := by rw [LawfulFunctor.id_map]
+      assumption
+
+    case hFg =>
+      have fgid : f ∘ g = id := by
+        ext x
+        simp_all
+
+      intro x
+      have : f <$> g <$> x = x := calc
+        _ = (f ∘ g) <$> x := by rw [LawfulFunctor.comp_map]
+        _ = id <$> x := by rw [fgid]
+        _ = x := by rw [LawfulFunctor.id_map]
+      assumption
+end
