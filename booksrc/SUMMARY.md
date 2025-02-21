@@ -111,7 +111,7 @@
   - [HAdd: 一般の + 演算用の記法クラス](./TypeClass/HAdd.md)
   - [HMul: 一般の * 演算用の記法クラス](./TypeClass/HMul.md)
   - [Inhabited: 有項にする](./TypeClass/Inhabited.md)
-  - [LawfulFunctor: ルール付きファンクタ](./TypeClass/LawfulFunctor.md)
+  - [LawfulFunctor: 関手則](./TypeClass/LawfulFunctor.md)
   - [Mul: 閉じた * 演算用の記法クラス](./TypeClass/Mul.md)
   - [Neg: - 演算用の記法クラス](./TypeClass/Neg.md)
   - [OfNat: 数値リテラルを使用](./TypeClass/OfNat.md)
