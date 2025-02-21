@@ -4,14 +4,16 @@
 -/
 import Mathlib.Tactic.Choose
 
-variable (X Y : Type) (P : X → Y → Prop)
+section
+  -- X,Y は型で P : X → Y → Prop は述語
+  variable (X Y : Type) (P : X → Y → Prop)
 
-theorem choice (h : ∀ x, ∃ y, P x y) : ∃ f : X → Y, ∀ x, P x (f x) := by
-  -- 関数 `f : X → Y` を構成する
-  choose f hf using h
+  theorem choice (h : ∀ x, ∃ y, P x y) : ∃ f : X → Y, ∀ x, P x (f x) := by
+    -- 関数 `f : X → Y` を構成する
+    choose f hf using h
 
-  exact ⟨f, hf⟩
-
+    exact ⟨f, hf⟩
+end
 /- ## 舞台裏
 `choose` は裏で選択原理 [`Classical.choice`](#{root}/Declarative/Axiom.md#ClassicalChoice) を使用しています。
 -/
@@ -19,26 +21,29 @@ theorem choice (h : ∀ x, ∃ y, P x y) : ∃ f : X → Y, ∀ x, P x (f x) := 
 /-- info: 'choice' depends on axioms: [Classical.choice] -/
 #guard_msgs in #print axioms choice
 
-/-- info: @Classical.choice : {α : Sort u_1} → Nonempty α → α -/
-#guard_msgs in #check @Classical.choice
-
 /- `choose` が自動で示してくれることを選択原理 `Classical.choice` を使って手動で示すこともできます。例えば以下のようになります。
 -/
+section
+  /- ## choose タクティクを使わずに同等のことをする例 -/
 
-example (h : ∀ x, ∃ y, P x y) : ∃ f : X → Y, ∀ x, P x (f x) := by
-  -- `f` を作る
-  let f' : (x : X) → {y // P x y} := by
-    intro x
-    have hne_st : Nonempty {y // P x y} := by
-      let ⟨y, py⟩ := h x
-      exact ⟨⟨y, py⟩⟩
-    exact Classical.choice hne_st
+  variable (X Y : Type) (P : X → Y → Prop)
 
-  let f : X → Y := fun x ↦ (f' x).val
+  example (h : ∀ x, ∃ y, P x y) : ∃ f : X → Y, ∀ x, P x (f x) := by
+    -- `f` を作る
+    let f' : (x : X) → {y // P x y} := by
+      intro x
+      have hne_st : Nonempty {y // P x y} := by
+        let ⟨y, py⟩ := h x
+        exact ⟨⟨y, py⟩⟩
+      exact Classical.choice hne_st
 
-  -- 上記で作った関数が条件を満たすことを示す
-  have h₁ : ∀ x, P x (f x) := by
-    intro x
-    exact (f' x).property
+    let f : X → Y := fun x ↦ (f' x).val
 
-  exists f
+    -- 上記で作った関数が条件を満たすことを示す
+    have h₁ : ∀ x, P x (f x) := by
+      intro x
+      exact (f' x).property
+
+    exists f
+
+end
