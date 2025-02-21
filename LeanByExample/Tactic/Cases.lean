@@ -7,10 +7,7 @@
 上位互換にあたるタクティクに [`rcases`](./Rcases.md) があります。
 -/
 
--- `P`, `Q`, `R` を命題とする
-variable (P Q R : Prop)
-
-example : P ∨ Q → (P → R) → (Q → R) → R := by
+example (P Q R : Prop) : P ∨ Q → (P → R) → (Q → R) → R := by
   -- `h: P ∨ Q`
   intro h hPR hQR
 
@@ -25,12 +22,12 @@ example : P ∨ Q → (P → R) → (Q → R) → R := by
   case inr hQ =>
     exact hQR hQ
 
-/- ## with を使う書き方
+/- ## cases .. with 構文
 
 `case` を使わずに、`with` を使って次のように書くこともできます
 -/
 
-example : P ∨ Q → (P → R) → (Q → R) → R := by
+example (P Q R : Prop) : P ∨ Q → (P → R) → (Q → R) → R := by
   -- `h: P ∨ Q`
   intro h hPR hQR
 
