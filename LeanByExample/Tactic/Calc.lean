@@ -4,9 +4,7 @@
 -- `calc` そのものは `import` なしで使える
 import Mathlib.Tactic -- 大雑把に import する
 
-variable (a b : ℝ)
-
-example : 2 * a * b ≤ a ^ 2 + b ^ 2 := by
+example (a b : ℝ) : 2 * a * b ≤ a ^ 2 + b ^ 2 := by
   -- `a ^ 2 - 2 * a * b + b ^ 2 ≥ 0` を示せばよい
   suffices hyp : a ^ 2 - 2 * a * b + b ^ 2 ≥ 0 from by
     linarith
@@ -37,32 +35,29 @@ example : ∀ x y ε : ℝ, 0 < ε → ε ≤ 1 → |x| < ε → |y| < ε → |x
 def same_abs (x y : Int) : Prop := x = y ∨ x = - y
 
 -- same_abs のための中置記法の2項演算子を用意する
--- このファイル内でだけ有効にするために local と付けた
-local infix:50 " ≡ " => same_abs
+infix:50 " ≡ " => same_abs
 
 /-- `same_abs` の反射性 -/
 @[refl] theorem same_abs_refl (x : Int) : x ≡ x := by
   simp [same_abs]
-
-variable {x y z : Int}
 
 -- メタ変数の番号を表示しないようにする
 set_option pp.mvars false
 
 -- `calc` を使おうとすると
 -- `Trans` 型クラスのインスタンスではないというエラーになってしまう
-/--
+/-⋆-//--
 error: invalid 'calc' step, failed to synthesize `Trans` instance
   Trans same_abs same_abs ?_
 Additional diagnostic information may be available using the `set_option diagnostics true` command.
 -/
-#guard_msgs in
-  example (hxy : x ≡ y) (h : y = z) : x ≡ z := calc
-    x ≡ y := hxy
-    _ ≡ z := by rw [h]
+#guard_msgs in --#
+example {x y z : Int}(hxy : x ≡ y)(h : y = z) : x ≡ z := calc
+  x ≡ y := hxy
+  _ ≡ z := by rw [h]
 
 /-- same_abs の推移律 -/
-def same_abs_trans (hxy : x ≡ y) (hyz : y ≡ z) : x ≡ z := by
+def same_abs_trans {x y z : Int}(hxy : x ≡ y)(hyz : y ≡ z) : x ≡ z := by
   dsimp [same_abs]
 
   -- hxy と hyz について場合分けをする
@@ -76,7 +71,7 @@ instance : Trans same_abs same_abs same_abs where
   trans := same_abs_trans
 
 -- same_abs についても calc が使えるようになった！
-example (hxy : x ≡ y) (h : y = z) : x ≡ z := calc
+example {x y z : Int}(hxy : x ≡ y)(h : y = z) : x ≡ z := calc
   x ≡ y := hxy
   _ ≡ z := by rw [h]
 
@@ -85,10 +80,11 @@ example (hxy : x ≡ y) (h : y = z) : x ≡ z := calc
 `calc` を使用しているとき、証明を見やすく保つためには各行の証明は１行で完結させた方が良いのですが、そうもいかない場合があります。そのような場合、その行の証明項をメタ変数で置き換えると、証明を後回しにすることができます。
 -/
 
-example (x y z : Nat) (hxy : x = y) (h : y = z) : x = z := by
-  calc
+example {x y z : Int} (hxy : x = y) (h : y = z) : x = z := by
+  have : x = z := calc
     x = y := ?lem -- この行の証明を後回しにすることができる
     _ = z := by rw [h]
+  assumption
 
   -- 後回しにした証明を埋める
   case lem =>
