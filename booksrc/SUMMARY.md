@@ -87,6 +87,7 @@
   - [default_instance: デフォルトの解決法](./Attribute/DefaultInstance.md)
   - [induction_eliminator: 独自帰納法](./Attribute/InductionEliminator.md)
   - [inherit_doc: ドキュメントの継承](./Attribute/InheritDoc.md)
+  - [irreducible: 定義に展開できなくする](./Attribute/Irreducible.md)
   - [macro_inline: 短絡評価など](./Attribute/MacroInline.md)
   - [match_pattern: 独自パタンマッチ](./Attribute/MatchPattern.md)
   - [simps: simp 補題の自動生成](./Attribute/Simps.md)
