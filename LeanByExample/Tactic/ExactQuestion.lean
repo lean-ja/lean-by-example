@@ -1,11 +1,9 @@
 /- # exact?
 
-`exact?` は、カレントゴールを `exact` で閉じることができないか、ライブラリから検索して提案してくれるタクティクです。閉じることができなければ、エラーになります。-/
+`exact?` は、カレントゴールを `exact` で閉じることができないか、`import` されているファイル群から検索して提案してくれるタクティクです。閉じることができなければ、エラーになります。-/
 import Mathlib.Algebra.Order.Floor -- `Nat.floor` を使うために必要
 import Mathlib.Data.Rat.Floor -- `ℚ` の性質を使うために必要
 import Mathlib.Tactic.Says -- `says` を使うために必要
-
-variable (P Q R : Prop)
 
 -- `says` のチェックを有効にする --#
 set_option says.verify true --#
@@ -16,22 +14,58 @@ example (x : Nat) : x < x + 1 := by
     exact lt_add_one x
 
 -- ローカルコンテキストにある仮定を自動で使ってゴールを導いてくれる
-example (hPQ : P → Q) (hQR : Q → R) (hQ : P) : R := by
+example {P Q R : Prop} (hPQ : P → Q) (hQR : Q → R) (hQ : P) : R := by
   exact? says
     exact hQR (hPQ hQ)
 
 /- `exact? using h` とするとローカルコンテキストにある仮定 `h` を使用してほしいと明示的に指定することができます。-/
+section
+  /- ## using 構文の例 -/
 
-example (h1 : P) (_h2 : P) : P := by
-  -- `h1` を指定すると `h2` は使わない
-  exact? using h1 says
-    exact h1
+  variable {P : Prop}
 
-example (_h1 : P) (h2 : P) : P := by
-  -- `h2` を指定すると `h1` は使わない
-  exact? using h2 says
-    exact h2
+  example (h1 : P) (_h2 : P) : P := by
+    -- `h1` を指定すると `h2` は使わない
+    exact? using h1 says
+      exact h1
 
+  example (_h1 : P) (h2 : P) : P := by
+    -- `h2` を指定すると `h1` は使わない
+    exact? using h2 says
+      exact h2
+end
+/- ## ローカルにある定理の検索
+
+`exact?` は現在の環境にある定理・定数などを読み取るので、ローカルにある定理も検索してくれます。
+-/
+
+inductive MyNat where
+  | zero
+  | succ (n : MyNat)
+
+namespace MyNat
+
+  def add (m n : MyNat) : MyNat :=
+    match n with
+    | zero => m
+    | succ n => succ (add m n)
+
+  -- `+`記号と`0`が使えるようにする
+  instance : Add MyNat := ⟨MyNat.add⟩
+  instance : Zero MyNat := ⟨MyNat.zero⟩
+
+  theorem add_zero (n : MyNat) : 0 + n = n := by
+    induction n
+    case zero => rfl
+    case succ n ih =>
+      rw [show 0 + n.succ = succ (0 + n) from by rfl]
+      rw [ih]
+
+  example (n : MyNat) : 0 + n = n := by
+    -- 自前で示した定理をちゃんと見つけてくれる
+    exact? says
+      exact add_zero n
+end MyNat
 /-
 ## exact? を使用する際のコツ
 
