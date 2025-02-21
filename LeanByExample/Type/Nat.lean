@@ -43,7 +43,60 @@ end Hidden --#
 
 しかし、実は他の条件も暗黙のうちに表現されています。コンストラクタの像が重ならないこと、コンストラクタが単射であること、帰納法の原理が成り立つことは [`inductive`](#{root}/Declarative/Inductive.md) コマンドで定義した時点で暗黙のうちに保証されているからです。
 -/
+/- ## 帰納法の原理の帰結
 
+ところで、Peano の公理の中でも帰納法の原理だけが述語に対する量化を含んでいて複雑ですね。複雑さのために何を意味しているのかわかりづらくなっているので、帰納法の原理から何が導かれるか考えてみます。
+
+たとえば、帰納法の原理から「すべての `n : MyNat` は `.zero` か `.succ m` のどちらかの形である」ことが導かれます。以下の証明では [`axiom`](#{root}/Declarative/Axiom.md) コマンドで `MyNat` を再構築することで証明しています。これは、`inductive` コマンドで定義された型に対しては、[`cases`](#{root}/Tactic/Cases.md) タクティクでコンストラクタに応じた場合分けが自動的にできてしまうからです。
+-/
+namespace Hidden --#
+
+opaque MyNat : Type
+
+/-- ゼロ -/
+axiom MyNat.zero : MyNat
+
+/-- 後者関数 -/
+axiom MyNat.succ : MyNat → MyNat
+
+/-- 帰納法の原理 -/
+axiom MyNat.induction {P : MyNat → Prop}
+  (h0 : P MyNat.zero) (hs : ∀ n, P n → P (MyNat.succ n)) : ∀ n, P n
+
+example (n : MyNat) : n = MyNat.zero ∨ ∃ m, n = MyNat.succ m := by
+  -- 述語の定義
+  let P : MyNat → Prop := fun n => n = MyNat.zero ∨ ∃ m, n = MyNat.succ m
+
+  -- `∀ n, P n` を示せばよい。
+  suffices goal : ∀ n, P n from by
+    exact goal n
+
+  have h0 : P MyNat.zero := by
+    simp [P]
+
+  have hs : ∀ n, P n → P (MyNat.succ n) := by
+    intro n hn
+    dsimp [P]
+    right
+    exists n
+
+  -- 帰納法の原理から従う
+  intro n
+  exact MyNat.induction h0 hs n
+
+end Hidden --#
+/- また、「`.succ n = n` となる `n : MyNat` は存在しない」ということも帰納法の原理から導かれます。-/
+
+inductive MyNat where
+  | zero : MyNat
+  | succ (n : MyNat) : MyNat
+
+example (n : MyNat) : MyNat.succ n ≠ n := by
+  intro h
+  induction n with
+  | zero => injection h
+  | succ n ih =>
+    exact ih (show n.succ = n from by injection h)
 /- ## Nat 上の演算
 
 `Nat` にも四則演算が定義されていますが、少し特殊な定義になっています。
