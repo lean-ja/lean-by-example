@@ -72,7 +72,8 @@
   - [where: 補助定義を追加](./Modifier/Where.md)
 
 - [構文](./Parser/README.md)
-  - [⟨x₁, x₂, ..⟩: 無名コンストラクタ](./Parser/AnonymousConstructor.md)
+  - [⟨x₁, x₂, .., xₙ⟩: 無名コンストラクタ](./Parser/AnonymousConstructor.md)
+  - [`[x₁, x₂, .., xₙ]`: リストリテラル](./Parser/ListLiteral.md)
   - [`{x y : A}`: 暗黙の引数](./Parser/ImplicitBinder.md)
   - [by: タクティクモードに入る](./Parser/By.md)
   - [e.f: フィールド記法](./Parser/FieldNotation.md)
