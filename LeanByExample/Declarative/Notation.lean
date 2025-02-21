@@ -129,9 +129,6 @@ section
   -- 排他的論理和の記号を定義
   local notation:60 x:60 " ⊕ " y:61 => xor x y
 
-  -- メタ変数を表示させないため
-  set_option pp.mvars false
-
   -- 等号（パース優先順位 50）より優先順位が低いという問題でエラーになる
   -- 上では60で定義しているのに、なぜ？
   #check_failure true ⊕ true = false
@@ -146,6 +143,19 @@ end
 -- 集合の直和記号は等号よりパース優先順位が低いからエラーになっていた
 #check Nat ⊕ Fin 2
 
+/- このケースの場合、`priority` で記法の優先度を指定しても解決されません。 -/
+section
+
+  -- 排他的論理和の記号を定義
+  local notation:60 (priority := high) x:60 " ⊕ " y:61 => xor x y
+
+  -- やっぱりエラーになる
+  #check_failure true ⊕ true = false
+
+  -- 括弧を付けるとエラーにならない
+  #check (true ⊕ true) = false
+
+end
 /- この問題の解決策は、まず第一に括弧を付けることですが、裏技として記法を上書きしてしまうこともできます。-/
 section
   -- ⊕ という記号をオーバーライドする
