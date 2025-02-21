@@ -225,6 +225,12 @@ example (n m : MyNat) : MyNat.succ n = MyNat.succ m → n = m := by
 
 /- [`show_term`](#{root}/Tactic/ShowTerm.md) を使用して証明項を出してみると、`injection` タクティクにより `MyNat.noConfusion` という定理が呼ばれていることがわかります。 -/
 
+/-⋆-//-- info: Try this: fun h => MyNat.noConfusion h -/
+#guard_msgs in --#
+example (n : MyNat) : .succ n ≠ MyNat.zero := show_term by
+  intro h
+  injection h
+
 /-⋆-//-- info: Try this: MyNat.noConfusion h fun n_eq => n_eq -/
 #guard_msgs in --#
 example (n m : MyNat) (h : MyNat.succ n = MyNat.succ m) : n = m := show_term by
