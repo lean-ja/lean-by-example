@@ -79,39 +79,57 @@ inductive BadVec' (α : Type) (n : Nat) : Type where
 /- しかし、元々の `Vec` とは似て非なるものになってしまいます。上記の `BadVec'` では、`nil : BadVec α 0` だけでなく `nil : BadVec α 1` や `nil : BadVec α 2` なども存在すると宣言したことになってしまいます。-/
 
 /- ### 帰納的述語
-帰納型を使って命題や述語を定義することもできます。作為的ではありますが簡単な例として、自然数が偶数であることを表す命題が挙げられます。
+帰納型を使って命題や述語を定義することもできます。Lean の標準ライブラリにある簡単な例として、自然数における順序関係の定義が挙げられます。([`infix`](#{root}/Declarative/Infix.md) コマンドは見やすくするために使用しています。)
 -/
 
-/-- 自然数が偶数であることを表す帰納的述語 -/
-inductive MyEven : Nat → Prop where
-  | zero : MyEven 0
-  | add_two : ∀ n, MyEven n → MyEven (n + 2)
+/-- 標準ライブラリの定義を真似て構成した順序関係 -/
+inductive Nat.myle (n : Nat) : Nat → Prop where
+  /-- 常に `n ≤ n` が成り立つ -/
+  | refl : myle n n
 
-/- この場合 `inductive` コマンドを使用せずに、`def` を使って再帰関数として定義しても同じことができます。 -/
+  /-- `n ≤ m` ならば `n ≤ m + 1` が成り立つ -/
+  | step {m : Nat} : myle n m → myle n (m + 1)
 
-/-- 自然数が偶数であることを表す再帰関数 -/
-def even : Nat → Bool
-  | 0 => true
-  | 1 => false
-  | n + 2 => even n
+@[inherit_doc] infix:50 " ≤ₘ " => Nat.myle
+
+/- この場合 `inductive` コマンドを使用せずに、`def` を使って `Bool` 値の再帰関数として定義しても意味的に同じものができます。 -/
+
+/-- 自然数における順序関係を計算する関数 -/
+def Nat.myble (m n : Nat) : Bool :=
+  match m, n with
+  -- 常に `0 ≤ n` が成り立つ
+  | 0, _ => true
+  -- 常に `¬ m + 1 ≤ 0` が成り立つ
+  | _ + 1, 0 => false
+  -- `m + 1 ≤ n + 1 ↔ m ≤ n` が成り立つ
+  | m + 1, n + 1 => Nat.myble m n
 
 /- 両者の違いは何でしょうか？双方にメリットとデメリットがあります。
 
-再帰関数として定義するメリットとして、計算可能になることが挙げられます。再帰関数として定義されていれば [`#eval`](#{root}/Diagnostic/Eval.md) コマンドなど、Lean に組み込まれた機能を使って計算を行うことができます。一方で帰納的述語として定義されていると、計算をさせるための準備をこちらで行う必要があります。-/
+`Bool` 値の再帰関数として定義するメリットとして、計算可能になることが挙げられます。再帰関数として定義されていれば [`#eval`](#{root}/Diagnostic/Eval.md) コマンドなど、Lean に組み込まれた機能を使って計算を行うことができます。一方で帰納的述語として定義されていると、計算をさせるための準備をこちらで行う必要があります。-/
 
 -- すぐに計算できる
-#guard even 4
+#guard Nat.myble 12 24
 
 /-⋆-//--
 error: failed to synthesize
-  Decidable (MyEven 4)
+  Decidable (2 ≤ₘ 4)
 Additional diagnostic information may be available using the `set_option diagnostics true` command.
 -/
 #guard_msgs in --#
-#eval MyEven 4
+#eval 2 ≤ₘ 4
+
+/- 帰納的述語として定義するメリットとしては、たとえば証明に使う論理モデルと計算に使うモデルを分離できることがあります。計算可能でないというデメリットは [`Decidable`](#{root}/TypeClass/Decidable.md) クラスのインスタンスにすることで補うことができるならば、大きな問題にはならないと考えられます。計算を気にせずに証明時に楽なシンプルなモデルを採用できるのは、帰納的述語のメリットです。 -/
+
+-- 論理モデルに基づいて帰納法を回して証明をする例
+example {m n k : Nat} (h₁ : m ≤ₘ n) (h₂ : n ≤ₘ k) : m ≤ₘ k := by
+  induction h₂ with
+  | refl => assumption
+  | @step l h₂ ih =>
+    apply Nat.myle.step (by assumption)
 
 /-
-帰納的述語として定義するメリットとしては、再帰が停止することを保証しなくて良いことが挙げられます。実際、帰納的述語は本質的に停止する保証がない再帰的な操作でも扱うことができます。以下は、少し複雑ですがプログラムの BigStep 意味論を表現する例です。[^hitchhiker]
+帰納的述語として定義することの更なるメリットとしては、再帰が停止することを保証しなくて良いことが挙げられます。実際、帰納的述語は本質的に停止する保証がない再帰的な操作でも扱うことができます。以下は、少し複雑ですがプログラムの BigStep 意味論を表現する例です。[^hitchhiker]
 -/
 
 /-- 変数。ここでは簡単のために、すべての文字列が変数として存在するものとする -/
