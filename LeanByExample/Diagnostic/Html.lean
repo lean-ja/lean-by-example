@@ -35,9 +35,6 @@ open scoped ProofWidgets.Jsx
 
 `<MarkdownDisplay />` コンポーネントを使用すると、Markdown や TeX を表示させることができます。
 
-```admonish warning title="注意"
-`MarkdownDisplay` の例は Lean 4 Playground では動作しないようです。VSCode 上で試してみてください。
-```
 -/
 section --#
 
