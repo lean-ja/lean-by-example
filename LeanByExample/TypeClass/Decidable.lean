@@ -24,22 +24,18 @@ example : Even 4 := by
 
   exists 2
 
-theorem even_impl (n : Nat) : Even n ↔ n % 2 = 0 := by
+theorem even_impl (n : Nat) : n % 2 = 0 ↔ Even n := by
   constructor <;> intro h
-  -- 左から右を示す
   case mp =>
-    obtain ⟨m, rfl⟩ := h
-    omega
-  -- 右から左を示す
-  case mpr =>
     exists (n / 2)
+    omega
+  case mpr =>
+    obtain ⟨m, rfl⟩ := h
     omega
 
 /-- Even が決定可能であることを示す -/
-instance (n : Nat) : Decidable (Even n) := by
-  -- n % 2 の計算に帰着させる
-  apply decidable_of_iff (n % 2 = 0)
-  rw [even_impl]
+instance (n : Nat) : Decidable (Even n) :=
+  decidable_of_iff (n % 2 = 0) (even_impl n)
 
 -- decide で証明ができるようになった！
 example : Even 4 := by decide
