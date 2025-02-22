@@ -51,7 +51,7 @@ section SelectionSort
 end SelectionSort
 /- ## partial との違い
 
-[`partial`](#{root}/Modifier/Partial.md) と比較すると、`partial_fixpoint` で定義された関数は簡約が通ります。以下の例では、`partial` と指定された関数は [`#reduce`](#{root}/Modifier/Reduce.md) コマンドで一切簡約されないのに対して、`partial_fixpoint` と指定された関数は多少簡約されています。
+[`partial`](#{root}/Modifier/Partial.md) と比較すると、`partial_fixpoint` で定義された関数は簡約が通ります。以下の例では、`partial` と指定された関数は [`#reduce`](#{root}/Diagnostic/Reduce.md) コマンドで一切簡約されないのに対して、`partial_fixpoint` と指定された関数は多少簡約されています。
 -/
 
 /-- 何もつけずに定義した階乗もどき関数 -/
