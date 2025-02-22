@@ -63,6 +63,7 @@
 - [修飾子](./Modifier/README.md)
   - [local: 有効範囲をセクションで限定](./Modifier/Local.md)
   - [noncomputable: 計算不能にする](./Modifier/Noncomputable.md)
+  - [partial_fixpoint: 部分不動点](./Modifier/PartialFixpoint.md)
   - [partial: 再帰の停止証明をしない](./Modifier/Partial.md)
   - [private: 定義を不可視にする](./Modifier/Private.md)
   - [protected: フルネームを強制する](./Modifier/Protected.md)
