@@ -24,26 +24,22 @@ example : Even 4 := by
 
   exists 2
 
-/-- Even が決定可能であることを示す -/
-instance (n : Nat) : Decidable (Even n) := by
-  -- n % 2 の計算に帰着させる
-  refine decidable_of_iff (n % 2 = 0) ?_
-
-  -- 以下の同値性を示せばよい
-  dsimp [Even]
-  show n % 2 = 0 ↔ ∃ m, n = 2 * m
-
+theorem even_impl (n : Nat) : Even n ↔ n % 2 = 0 := by
   constructor <;> intro h
-
   -- 左から右を示す
   case mp =>
+    obtain ⟨m, rfl⟩ := h
+    omega
+  -- 右から左を示す
+  case mpr =>
     exists (n / 2)
     omega
 
-  -- 右から左を示す
-  case mpr =>
-    obtain ⟨m, rfl⟩ := h
-    omega
+/-- Even が決定可能であることを示す -/
+instance (n : Nat) : Decidable (Even n) := by
+  -- n % 2 の計算に帰着させる
+  apply decidable_of_iff (n % 2 = 0)
+  rw [even_impl]
 
 -- decide で証明ができるようになった！
 example : Even 4 := by decide
