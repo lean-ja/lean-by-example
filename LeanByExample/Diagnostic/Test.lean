@@ -3,24 +3,22 @@
 -/
 import Plausible
 
-instance : Monad List where
-  pure x := [x]
-  bind l f := l.flatMap f
-  map f l := l.map f
+/-- 農民の掛け算と呼ばれるよくわからない関数 -/
+def peasantMul (x y : Nat) : Nat := Id.run do
+  let mut x := x
+  let mut y := y
+  let mut prod := 0
+  while x > 0 do
+    if x % 2 = 1 then
+      prod := prod + y
+    x := x / 2
+    y := y * 2
+  return prod
 
-section
-  /- ## do 構文で実装した関数とデフォルト実装が一致することのテスト -/
+-- どうやら a * b と等しいようだが…？
+-- これは本当に正しいのだろうか
+#guard peasantMul 3 2 = 6
+#guard peasantMul 2 4 = 8
 
-  variable {α β : Type}
-
-  /-- do 構文による map の実装 -/
-  def List.doMap (f : α → β) (xs : List α) : List β := do
-    let x ← xs
-    return f x
-
-  /-⋆-//-- info: Unable to find a counter-example -/
-  #guard_msgs in --#
-  #test
-    ∀ {α β : Type} (f : α → β) (xs : List α),
-    List.doMap f xs = xs.map f
-end
+-- 正しそう！
+#test ∀ n m, peasantMul n m = n * m
