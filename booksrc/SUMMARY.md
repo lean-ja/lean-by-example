@@ -134,6 +134,7 @@
   - [String: 文字列](./Type/String.md)
   - [Syntax: 具象構文木](./Type/Syntax.md)
   - [Type: 型の型](./Type/Type.md)
+  - [Unit: 要素が一つしかない型](./Type/Unit.md)
 
 - [タクティク](./Tactic/README.md)
   - [<;>: 生成された全ゴールに適用](./Tactic/SeqFocus.md)
