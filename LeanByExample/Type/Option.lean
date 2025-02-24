@@ -42,7 +42,7 @@ end Hidden --#
 `Option` は [`Functor`](#{root}/TypeClass/Functor.md) 型クラスのインスタンスであり、`<$>` が使用できます。実装上は `Option.map` が使用されます。
 -/
 section
-
+  /- ## Functor インスタンスの実装を確かめる例 -/
   variable {α β : Type}
 
   -- `<$>` は `Option.map` で実装されている
@@ -50,7 +50,7 @@ section
     rfl
 
 end
-/- `Option.map f x?` は、`x?` が `some x` ならば `some (f x)` を返し、`x?` が `none` ならば `none` を返します。 -/
+/- `Option.map` は、計算が成功すれば関数を適用し、失敗したら失敗を伝搬します。つまり、`Option.map f x?` は、`x?` が `some x` ならば `some (f x)` を返し、`x?` が `none` ならば `none` を返します。 -/
 section
   variable {α β : Type}
 
