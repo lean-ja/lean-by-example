@@ -1,6 +1,6 @@
 /- # zify
 
-`zify` タクティクは、自然数 `Nat` についての命題を整数 `Int` についての命題に変換します。
+`zify` タクティクは、自然数 [`Nat`](#{root}/Type/Nat.md) についての命題を整数 `Int` についての命題に変換します。
 -/
 import Mathlib.Tactic.Zify -- `zify` タクティクを使うのに必要
 import Mathlib.Tactic.GCongr

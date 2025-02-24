@@ -26,7 +26,7 @@ example {x y z : Rat} (hy : y = z ^ 2 + 1) : (x + 2 * y) / y = x / y + 2 := by
   field_simp
 
 /- ## 制約
-`field_simp` という名前の通り、割り算が体の割り算でなければ動作しないことがあります。たとえば以下のコードは、自然数 `Nat` における割り算なので `field_simp` では扱うことができないという例です。-/
+`field_simp` という名前の通り、割り算が体の割り算でなければ動作しないことがあります。たとえば以下のコードは、自然数 [`Nat`](#{root}/Type/Nat.md) における割り算なので `field_simp` では扱うことができないという例です。-/
 
 example (n m : Nat) : n * m = ((n + m) ^ 2 - n ^ 2 - m ^ 2 ) / 2 := by
   -- field_simp は動作しない

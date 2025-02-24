@@ -1,7 +1,7 @@
 /- # Type
 `Type` は、型がなす型宇宙です。ここで型宇宙とは、項が再び型であるような型のことをいいます。
 
-たとえば `Nat` や `Int`, `Bool` や `String` などが `Type` の項になっています。
+たとえば [`Nat`](#{root}/Type/Nat.md) や `Int`, `Bool` や `String` などが `Type` の項になっています。
 -/
 import Mathlib.Tactic --#
 
