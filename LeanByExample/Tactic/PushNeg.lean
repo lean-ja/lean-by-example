@@ -5,7 +5,7 @@
 * `¬ (P ∧ Q)` は `P → ¬ Q` に変形。
 * `¬ ∀ x, P x` は `∃ x, ¬ P x` に変形。
 -/
-import Mathlib.Tactic.PushNeg
+import Mathlib.Tactic.Push
 
 example (P Q : Prop) (h : P → Q) : ¬ (P ∧ ¬ Q) := by
   -- ドモルガン則を適用して、`¬` を内側に押し込む
