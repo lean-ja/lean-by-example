@@ -26,17 +26,21 @@ inductive List.{u} (α : Type u) where
   | cons (head : α) (tail : List α) : List α
 
 end Hidden --#
-/- `List α` の項はカンマ区切りの値を `[]` で囲むことによって作ることができます。-/
+/- ## 構文と記法
+
+`List α` の項はカンマ区切りの値を `[]` で囲むことによって作ることができます。これは[リストリテラル](#{root}/Parser/ListLiteral.md)と呼ばれる構文です。 -/
 
 #check ([1, 2, 3] : List Nat)
 
-/- ## 先頭への要素の追加
-`List α` の先頭に要素を追加した新しいリストを作るのは、コンストラクタ `List.cons` で可能ですが、これには `::` という記法が割り当てられています。
--/
+/- また、`List` のコンストラクタ `List.nil` は `[]` で、`List.cons` は `::` で表すことができます。 -/
+
+example : [] = @List.nil (α := Unit) := by rfl
 
 -- List.cons x xs は x :: xs と書ける
 example {α : Type} (x : α) (xs : List α) : List.cons x xs = x :: xs := by
   rfl
+
+/- `(· :: ·)` は「リストの先頭に要素を追加して新しいリストを作る操作」を表していると考えることができます。-/
 
 -- `::` で先頭に要素を追加する
 #guard "hello" :: ["world"] = ["hello", "world"]
