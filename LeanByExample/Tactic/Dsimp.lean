@@ -4,57 +4,22 @@
 
 `dsimp [e₁, e₂, ..., eᵢ]` という構文でゴールに登場する名前 `e₁, ..., eᵢ` を定義に展開します。-/
 import Lean --#
-/-- 算術式 -/
-inductive Expr where
-  | const : Nat → Expr
-  | plus : Expr → Expr → Expr
-  | times : Expr → Expr → Expr
 
-open Expr
+/-- `n < m`を真似て構成した自前の述語 -/
+def Nat.mylt (n m : Nat) := (n + 1) ≤ m
 
-/-- サイズ２の Expr を計算によって簡略化する -/
-def simpConst : Expr → Expr
-  | plus (const n₁) (const n₂) => const (n₁ + n₂)
-  | times (const n₁) (const n₂) => const (n₁ * n₂)
-  | e => e
+/-- `n < m`と書いたら標準の`Nat.lt`の代わりに上記の`Nat.mylt`を使用する -/
+instance : LT Nat where
+  lt := Nat.mylt
 
-/-- simpConst を良い感じに再帰的に適用して、Expr を単一の Expr.const に簡略化する。-/
-def fuse : Expr → Expr
-  | plus e₁ e₂ => simpConst (plus (fuse e₁) (fuse e₂))
-  | times e₁ e₂ => simpConst (times (fuse e₁) (fuse e₂))
-  | e => e
+example : 1 < 2 := by
+  -- `<`という記号、およびその実装である`Nat.mylt`を展開する
+  dsimp [(· < ·), Nat.mylt]
 
-/-- fuse は実際に Expr を const に簡略化する。-/
-theorem fuse_in_const {e : Expr} : ∃ n, fuse e = .const n := by
-  induction e with
-  | const n => exists n
-  | plus e₁ e₂ ih₁ ih₂ =>
-    -- ゴールに fuse が登場する
-    guard_target =ₛ ∃ n, fuse (e₁.plus e₂) = const n
+  -- ゴールが展開されて変形された
+  guard_target =ₛ 2 ≤ 2
 
-    -- fuse を定義に展開する
-    dsimp [fuse]
-    guard_target =ₛ ∃ n, simpConst (.plus (fuse e₁) (fuse e₂)) = const n
-
-    -- ローカルコンテキストの存在命題を利用してゴールを書き換える
-    obtain ⟨n₁, ih₁⟩ := ih₁
-    obtain ⟨n₂, ih₂⟩ := ih₂
-    rw [ih₁, ih₂]
-    guard_target =ₛ ∃ n, simpConst (.plus (const n₁) (const n₂)) = const n
-
-    -- simpConst を定義に展開する
-    dsimp [simpConst]
-    guard_target =ₛ ∃ n, const (n₁ + n₂) = const n
-
-    -- n = n₁ + n₂ とすれば良い
-    exists n₁ + n₂
-  | times e₁ e₂ ih₁ ih₂ =>
-    -- plus の場合と同様
-    dsimp [fuse, simpConst]
-    obtain ⟨n₁, ih₁⟩ := ih₁
-    obtain ⟨n₂, ih₂⟩ := ih₂
-    rw [ih₁, ih₂]
-    exists n₁ * n₂
+  omega
 
 /- ## 舞台裏
 「定義上等しいような変形だけを行う」というのは、`rfl` で示せるような命題だけを使用するという意味です。`rfl` で示せないような簡約は `dsimp` ではできません。-/
