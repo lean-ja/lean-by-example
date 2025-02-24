@@ -2,7 +2,7 @@
 # abbrev
 `abbrev` は、略称(abbreviation)を宣言するコマンドです。
 
-たとえば、`Nat` 型に別の名前を与えたかったとしましょう。Lean では型も他の項と同様に宣言できるので、次のように書いて問題がないように見えます。
+たとえば、`Nat` 型に別の名前を与えたかったとしましょう。Lean では型も他の項と同様に宣言できるので、次のように書いて問題がないように見えます。[^fpil]
 -/
 namespace Abbrev0 --#
 
@@ -42,3 +42,5 @@ Nat
 -/
 #guard_msgs in --#
 #print NaturalNumber
+
+/- [^fpil]: 以下のコード例は、[Functional Programming in Lean の１章３節の記述](https://lean-lang.org/functional_programming_in_lean/getting-to-know/functions-and-definitions.html#messages-you-may-meet)を参考にさせていただきました。 -/
