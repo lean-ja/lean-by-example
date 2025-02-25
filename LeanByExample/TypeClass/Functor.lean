@@ -74,24 +74,31 @@ end --#
 /- ### (A → ·)
 任意の型 `A : Type u` に対して、`fun X => (A → X)` という対応は関手になります。
 -/
-section
 
-  /-- 型から、その型への関数型を返す -/
-  abbrev Hom (A : Type) (X : Type) := A → X
+/-- 型から、その型への関数型を返す -/
+abbrev Hom (A : Type) (X : Type) := A → X
 
-  /-- 関数合成を map として `Hom A` は関手になる -/
-  instance {A : Type} : Functor (Hom A) where
-    map f g := f ∘ g
+/-- 関数合成を map として `Hom A` は関手になる -/
+instance {A : Type} : Functor (Hom A) where
+  map f g := f ∘ g
 
-  #guard
-    let doubleLength : Hom String Nat := (· * 2) <$> String.length
-    doubleLength "hello" = 10 && doubleLength "world!" = 12
+#guard
+  let doubleLength : Hom String Nat := (· * 2) <$> String.length
+  doubleLength "hello" = 10 && doubleLength "world!" = 12
 
-end
 /- 上記で定義した `Hom` は Lean の標準ライブラリでは `ReaderM` と呼ばれます。 -/
 
 /-- 上で定義した Hom は ReaderM に等しい -/
 example (A : Type) : ReaderM A = Hom A := rfl
+
+/- ### ((· → A) → A)
+任意の型 `A : Type u` に対して、`fun X => (X → A) → A` という対応は関手になります。
+-/
+
+abbrev Cont (A : Type) (X : Type) := (X → A) → A
+
+instance {A : Type} : Functor (Cont A) where
+  map f g := fun h => g (h ∘ f)
 
 /- ### (A × ·)
 
