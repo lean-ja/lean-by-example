@@ -93,3 +93,76 @@ section
         _ = x := by rw [LawfulFunctor.id_map]
       assumption
 end
+/- ## 関手の例
+
+いくつか `LawfulFunctor` クラスのインスタンスを作ってみます。
+
+### List
+
+[`List`](#{root}/Type/List.md) は関手則を満たします。
+-/
+
+/-- 自前で定義したリスト -/
+inductive MyList (α : Type) where
+  | nil
+  | cons (head : α) (tail : MyList α)
+
+notation:80 "[]" => MyList.nil
+infixr:80 "::" => MyList.cons
+
+/-- リストの中身に関数をそれぞれ適用する -/
+def MyList.map {α β : Type} (f : α → β) (xs : MyList α) : MyList β :=
+  match xs with
+  | [] => []
+  | x :: xs => f x :: MyList.map f xs
+
+instance : Functor MyList where
+  map := MyList.map
+
+instance : LawfulFunctor MyList where
+  map_const := by
+    intros
+    rfl
+  id_map := by
+    intro α xs
+    dsimp [(· <$> ·)]
+    induction xs with
+    | nil => rfl
+    | cons x xs ih =>
+      dsimp [MyList.map]
+      rw [ih]
+  comp_map := by
+    intro α β γ g h xs
+    induction xs with
+    | nil => rfl
+    | cons x xs ih =>
+      dsimp [(· <$> ·), MyList.map] at ih ⊢
+      rw [ih]
+
+/- ### Option
+
+[`Option`](#{root}/Type/Option.md) は関手則を満たします。
+-/
+
+inductive MyOption (α : Type) where
+  | none
+  | some (x : α)
+
+def MyOption.map {α β : Type} (f : α → β) (x : MyOption α) : MyOption β :=
+  match x with
+  | none => none
+  | some x => some (f x)
+
+instance : Functor MyOption where
+  map := MyOption.map
+
+instance : LawfulFunctor MyOption where
+  map_const := by
+    intros
+    rfl
+  id_map := by
+    intro α x
+    cases x <;> rfl
+  comp_map := by
+    intro α β γ g h x
+    cases x <;> rfl
