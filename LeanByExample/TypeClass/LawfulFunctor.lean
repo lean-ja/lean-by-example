@@ -93,3 +93,43 @@ section
         _ = x := by rw [LawfulFunctor.id_map]
       assumption
 end
+/- ## 関手の例
+
+### List は関手則を満たす
+-/
+
+/-- 自前で定義したリスト -/
+inductive MyList (α : Type) where
+  | nil
+  | cons (head : α) (tail : MyList α)
+
+notation:80 "[]" => MyList.nil
+infixr:80 "::" => MyList.cons
+
+def MyList.map {α β : Type} (f : α → β) (xs : MyList α) : MyList β :=
+  match xs with
+  | [] => []
+  | x :: xs => f x :: MyList.map f xs
+
+instance : Functor MyList where
+  map := MyList.map
+
+instance : LawfulFunctor MyList where
+  map_const := by
+    intros
+    rfl
+  id_map := by
+    intro α xs
+    dsimp [(· <$> ·)]
+    induction xs with
+    | nil => rfl
+    | cons x xs ih =>
+      dsimp [MyList.map]
+      rw [ih]
+  comp_map := by
+    intro α β γ g h xs
+    induction xs with
+    | nil => rfl
+    | cons x xs ih =>
+      dsimp [(· <$> ·), MyList.map] at ih ⊢
+      rw [ih]
