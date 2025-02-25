@@ -1,7 +1,7 @@
 import Plausible --#
 /- # Alternative
 
-`Alternative` 関手は、回復可能な失敗を表現します。
+`Alternative` [関手](#{root}/TypeClass/Functor.md)は、回復可能な失敗を表現します。
 
 ## インスタンス
 重要なインスタンスとして、`Option` は `Alternative` のインスタンスです。
