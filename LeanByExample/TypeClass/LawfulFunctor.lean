@@ -95,7 +95,11 @@ section
 end
 /- ## 関手の例
 
-### List は関手則を満たす
+いくつか `LawfulFunctor` クラスのインスタンスを作ってみます。
+
+### List
+
+[`List`](#{root}/Type/List.md) は関手則を満たします。
 -/
 
 /-- 自前で定義したリスト -/
@@ -106,6 +110,7 @@ inductive MyList (α : Type) where
 notation:80 "[]" => MyList.nil
 infixr:80 "::" => MyList.cons
 
+/-- リストの中身に関数をそれぞれ適用する -/
 def MyList.map {α β : Type} (f : α → β) (xs : MyList α) : MyList β :=
   match xs with
   | [] => []
@@ -134,7 +139,10 @@ instance : LawfulFunctor MyList where
       dsimp [(· <$> ·), MyList.map] at ih ⊢
       rw [ih]
 
-/- ### Option は関手則を満たす -/
+/- ### Option
+
+[`Option`](#{root}/Type/Option.md) は関手則を満たします。
+-/
 
 inductive MyOption (α : Type) where
   | none
