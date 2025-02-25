@@ -133,3 +133,28 @@ instance : LawfulFunctor MyList where
     | cons x xs ih =>
       dsimp [(· <$> ·), MyList.map] at ih ⊢
       rw [ih]
+
+/- ### Option は関手則を満たす -/
+
+inductive MyOption (α : Type) where
+  | none
+  | some (x : α)
+
+def MyOption.map {α β : Type} (f : α → β) (x : MyOption α) : MyOption β :=
+  match x with
+  | none => none
+  | some x => some (f x)
+
+instance : Functor MyOption where
+  map := MyOption.map
+
+instance : LawfulFunctor MyOption where
+  map_const := by
+    intros
+    rfl
+  id_map := by
+    intro α x
+    cases x <;> rfl
+  comp_map := by
+    intro α β γ g h x
+    cases x <;> rfl
