@@ -1,3 +1,5 @@
+import Mathlib.Logic.Equiv.Defs --#
+import Aesop --#
 /- # LawfulFunctor
 
 `LawfulFunctor` は、[`Functor`](./Functor.md) 型クラスに関手則を満たすという条件を加えたものです。
@@ -9,7 +11,6 @@
 
 `LawfulFunctor` クラスは、これをほぼそのままコードに落とし込んだものとして、おおむね次のように定義されています。
 -/
-import Mathlib.Logic.Equiv.Defs --#
 --#--
 -- # LawfulFunctor の仕様変更を監視するためのコード
 /--
@@ -120,9 +121,7 @@ instance : Functor MyList where
   map := MyList.map
 
 instance : LawfulFunctor MyList where
-  map_const := by
-    intros
-    rfl
+  map_const := by aesop
   id_map := by
     intro α xs
     dsimp [(· <$> ·)]
@@ -143,7 +142,7 @@ instance : LawfulFunctor MyList where
 
 [`Option`](#{root}/Type/Option.md) は関手則を満たします。
 -/
-
+@[aesop unsafe 70% cases]
 inductive MyOption (α : Type) where
   | none
   | some (x : α)
@@ -157,12 +156,39 @@ instance : Functor MyOption where
   map := MyOption.map
 
 instance : LawfulFunctor MyOption where
-  map_const := by
-    intros
-    rfl
-  id_map := by
-    intro α x
-    cases x <;> rfl
-  comp_map := by
-    intro α β γ g h x
-    cases x <;> rfl
+  map_const := by aesop
+  id_map := by aesop
+  comp_map := by aesop
+
+/- ### Id
+
+`Id` は関手則を満たします。
+-/
+
+def MyId (α : Type) := α
+
+def MyId.map {α β : Type} (f : α → β) (x : MyId α) : MyId β := f x
+
+instance : Functor MyId where
+  map := MyId.map
+
+instance : LawfulFunctor MyId where
+  map_const := by aesop
+  id_map := by aesop
+  comp_map := by aesop
+
+/- ### (A → ·)
+
+`fun X => (A → X)` という対応 `Type → Type` は関手則を満たします。
+-/
+
+/-- 型から、その型への関数型を返す -/
+abbrev Hom (A : Type) (X : Type) := A → X
+
+instance {A : Type} : Functor (Hom A) where
+  map f g := f ∘ g
+
+instance {A : Type} : LawfulFunctor (Hom A) where
+  map_const := by aesop
+  id_map := by aesop
+  comp_map := by aesop
