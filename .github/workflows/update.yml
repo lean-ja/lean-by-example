@@ -1,8 +1,8 @@
 name: Update Lean
 on:
   schedule:
-    # 月曜日と木曜日に実行
-    - cron: "0 0 * * 1,4"
+    # 毎日実行
+    - cron: "0 3 * * *"
   workflow_dispatch:
 
 jobs:
@@ -17,9 +17,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Update Lean project
-        uses: oliver-butterley/lean-update-action@v1-alpha
+        uses: Seasawher/lean-update@main
         with:
           #  Allowed values: "silent", "commit", "issue" or "pr". Default: "commit".
           on_update_succeeds: pr
           # Allowed values: "silent", "issue" or "fail". Default: "issue".
           on_update_fails: issue
+          what_to_update: lean-toolchain
+          build_args: "--log-level=warning --fail-level=warning"
