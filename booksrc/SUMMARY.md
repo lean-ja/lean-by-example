@@ -189,6 +189,7 @@
   - [nth_rw: n 番目の項だけ rw](./Tactic/NthRw.md)
   - [obtain: 分解して取り出す](./Tactic/Obtain.md)
   - [omega: 自然数の線形計画を解く](./Tactic/Omega.md)
+  - [order: 順序関係を扱う](./Tactic/Order.md)
   - [plausible: 反例を見つける](./Tactic/Plausible.md)
   - [positivity: 正値性を示す](./Tactic/Positivity.md)
   - [push_cast: 型キャストを内側へ](./Tactic/PushCast.md)
