@@ -80,6 +80,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 processedUrl = processedUrl.substring(1);
               }
 
+              // README.htmlで終わるURLは除外
+              if (processedUrl.endsWith('README.html') || processedUrl === 'README.html') {
+                continue;
+              }
+
               // 最終的に本番サイトのURLとして構築
               const fullUrl = siteBaseUrl + processedUrl;
 
