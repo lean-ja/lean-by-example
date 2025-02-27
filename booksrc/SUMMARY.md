@@ -4,6 +4,7 @@
 
 [リンク集](./Links.md)
 [Mathlib4 Help](./Mathlib4Help.md)
+[ランダムページ](./Random.md)
 
 ---
 
