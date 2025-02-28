@@ -20,8 +20,7 @@ example (n : Nat) : sum n = n * (n + 1) / 2 := by
   induction n with
 
   -- `n = 0` の場合
-  | zero =>
-    simp [sum]
+  | zero => simp [sum]
 
   -- `0` から `n` までの自然数で成り立つと仮定する
   | succ n ih =>
@@ -33,6 +32,25 @@ example (n : Nat) : sum n = n * (n + 1) / 2 := by
 
     -- 後は可換環の性質から示せる
     ring
+
+/- なお帰納法は自然数の専売特許ではありません。[`inductive`](#{root}/Declarative/Inductive.md) コマンドで定義されたものであれば、帰納法を使うことができます。-/
+
+/-- 標準ライブラリの定義を真似て構成した順序関係 -/
+inductive Nat.myle (n : Nat) : Nat → Prop where
+  /-- 常に `n ≤ n` が成り立つ -/
+  | refl : myle n n
+
+  /-- `n ≤ m` ならば `n ≤ m + 1` が成り立つ -/
+  | step {m : Nat} : myle n m → myle n (m + 1)
+
+@[inherit_doc] infix:50 " ≤ₘ " => Nat.myle
+
+-- 順序関係について帰納法を回して証明をする例
+example {m n k : Nat} (h₁ : m ≤ₘ n) (h₂ : n ≤ₘ k) : m ≤ₘ k := by
+  induction h₂ with
+  | refl => assumption
+  | @step l h₂ ih =>
+    apply Nat.myle.step (by assumption)
 
 /- ## generalizing 構文
 時として、帰納法の仮定が弱すぎると感じることがあります。
