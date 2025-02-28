@@ -119,7 +119,7 @@ instance {A : Type} : Functor (Hom A) where
 example (A : Type) : ReaderM A = Hom A := rfl
 
 /- ### ((· → A) → A)
-任意の型 `A : Type u` に対して、`fun X => (X → A) → A` という対応は関手になります。
+任意の型 `A : Type u` に対して、`fun X => (X → A) → A` という対応は関手になります。[^cont]
 -/
 
 abbrev Cont (A : Type) (X : Type) := (X → A) → A
@@ -162,4 +162,6 @@ end
 /- ## Functor 則
 
 `Functor` 型クラスのインスタンスには満たすべきルールがあります。このルールを破っていても `Functor` 型クラスのインスタンスにすることは可能ですが、避けるべきです。`Functor` 型クラスがルールを満たしていることを証明するためには、[`LawfulFunctor`](#{root}/TypeClass/LawfulFunctor.md) 型クラスを使います。
+
+[^cont]: この関手は、 継続モナド(continuation monad) として知られているものです。詳細は、たとえば [Andrzej Filinski 「Representing monads」(1994)](https://dl.acm.org/doi/10.1145/174675.178047) などを参照のこと。
 -/
