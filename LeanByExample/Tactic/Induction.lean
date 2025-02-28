@@ -250,13 +250,13 @@ inductive MyEven : Nat → Prop where
   | zero : MyEven 0
   | succ : {n : Nat} → MyEven n → MyEven (n + 2)
 
-/--
+/-⋆-//--
 error: index in target's type is not a variable (consider using the `cases` tactic instead)
   0
 -/
-#guard_msgs in
-  example (h : MyEven 0) : True := by
-    induction h
+#guard_msgs in --#
+example (h : MyEven 0) : True := by
+  induction h
 
 /- これは型族の添え字が変数ではないから起こることです。その証拠に、変数にするとエラーにならなくなります。-/
 
