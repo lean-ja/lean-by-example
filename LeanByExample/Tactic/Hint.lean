@@ -20,7 +20,7 @@ info: Try these:
     hint
 
 /- ## 登録されているタクティク
-デフォルトでは以下の9つのタクティクを試します。
+デフォルトでは以下の11個のタクティクを試します。
 
 * [`gcongr`](./Gcongr.md)
 * [`linarith`](./Linarith.md)
@@ -31,6 +31,8 @@ info: Try these:
 * [`aesop`](./Aesop.md)
 * [`intro`](./Intro.md)
 * [`split`](./Split.md)
+* [`tauto`](./Tauto.md)
+* [`trivial`](./Trivial.md)
 
 `hint` に登録されているタクティクのリストは、`Mathlib.Tactic.Hint.getHints` 関数を介して確認することができます。
 -/
@@ -54,6 +56,8 @@ info: "gcongr"
 "aesop"
 "intro"
 "split"
+"tauto"
+"trivial"
 -/
 #guard_msgs in #eval getRegisteredTactics
 
