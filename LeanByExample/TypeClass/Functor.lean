@@ -63,22 +63,36 @@ example {α β : Type} (f : α → β) (xs : List α) : List.myMap f xs = f <$> 
   induction xs with
   | nil => rfl
   | cons x xs ih =>
-    simp [List.myMap, Functor.map] at ih ⊢
-    rw [ih]
+    simp_all [List.myMap, Functor.map]
 
 -- リストの各要素を２倍する例
 #guard (· * 2) <$> [1, 2, 3, 4, 5] = [2, 4, 6, 8, 10]
 
 /- ### Option
-[`Option`](#{root}/Type/Option.md) も `Functor` 型クラスのインスタンスになっています。これにより「`x? : Option` が `some x` の場合に関数を適用し、`none` なら `none` を返す」という操作のための簡単な方法が提供されます。
+[`Option`](#{root}/Type/Option.md) も `Functor` 型クラスのインスタンスになっています。これにより「`x? : Option` が `some x` の場合にだけ関数を適用し、`none` なら `none` を返す」という操作のための簡単な方法が提供されます。
 -/
 
-#guard (fun x => x * 2) <$> some 2 = some 4
-#guard (fun x => x * 2) <$> (none : Option Nat) = none
+/-- 標準にある `Option.map` の実装を真似て実装した `map` 処理 -/
+def Option.myMap {α β : Type} (f : α → β) : Option α → Option β
+  | some x => some (f x)
+  | none => none
+
+/-- `Option` の `Functor.map` は `Option.myMap` のように定義されている -/
+example {α β : Type} (f : α → β) (x : Option α) : Option.myMap f x = f <$> x := by
+  cases x <;> rfl
+
+#guard (· * 2) <$> some 2 = some 4
+#guard (· * 2) <$> [1, 2, 3][4]? = none
 
 /- ### Id
 `Id : Type u → Type u` は「何もしない」関手です。
 -/
+
+/-- `Id` の `Functor.map` の実装を真似て作った関数 -/
+def Id.myMap {α β : Type} (f : α → β) (x : Id α) : Id β := f x
+
+/-- `Id` の `Functor.map` は `Id.myMap` のように定義されている -/
+example {α β : Type} (f : α → β) (x : Id α) : Id.myMap f x = f <$> x := rfl
 
 /-⋆-//-- info: 20 -/
 #guard_msgs in --#
