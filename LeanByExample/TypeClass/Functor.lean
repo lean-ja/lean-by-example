@@ -53,8 +53,21 @@ end --#
 `Functor` 型クラスの典型的なインスタンスのひとつが [`List`](#{root}/Type/List.md) です。これにより「リストの各要素に関数を適用する」ための簡単な方法が提供されます。
 -/
 
--- リストの各要素を２倍する
-#guard (fun x => x * 2) <$> [1, 2, 3, 4, 5] = [2, 4, 6, 8, 10]
+/-- 標準にある `List.map` の実装を真似て実装した `map` 処理 -/
+def List.myMap {α β : Type} (f : α → β) : List α → List β
+  | [] => []
+  | x :: xs => f x :: List.myMap f xs
+
+/-- `List` の `Functor.map` は `List.myMap` のように定義されている -/
+example {α β : Type} (f : α → β) (xs : List α) : List.myMap f xs = f <$> xs := by
+  induction xs with
+  | nil => rfl
+  | cons x xs ih =>
+    simp [List.myMap, Functor.map] at ih ⊢
+    rw [ih]
+
+-- リストの各要素を２倍する例
+#guard (· * 2) <$> [1, 2, 3, 4, 5] = [2, 4, 6, 8, 10]
 
 /- ### Option
 [`Option`](#{root}/Type/Option.md) も `Functor` 型クラスのインスタンスになっています。これにより「`x? : Option` が `some x` の場合に関数を適用し、`none` なら `none` を返す」という操作のための簡単な方法が提供されます。
