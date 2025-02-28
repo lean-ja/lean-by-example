@@ -2,40 +2,40 @@
 
 `cases` は場合分けを行うことができるタクティクです。
 
-たとえば、ローカルコンテキストに `h : P ∨ Q` があるときに `cases h` とすると、仮定に `P` を付け加えたゴール `case inl` と、仮定に `Q` を付け加えたゴール `case inr` を生成します。
+たとえば、ローカルコンテキストに `h : P ∨ Q` があるときに `cases h` とすると、仮定に `P` を付け加えたゴールと、仮定に `Q` を付け加えたゴールをそれぞれ生成します。
 
-上位互換にあたるタクティクに [`rcases`](./Rcases.md) があります。
+よく似たタクティクに [`rcases`](./Rcases.md) があります。
 -/
 
 example (P Q R : Prop) : P ∨ Q → (P → R) → (Q → R) → R := by
   -- `h: P ∨ Q`
   intro h hPR hQR
 
-  -- `case inl` と `case inr` の２つのゴールを生成する
-  cases h
+  -- `inl` と `inr` の２つのゴールを生成する
+  cases h with
 
   -- `P` が成り立つ場合
-  case inl hP =>
+  | inl hP =>
     exact hPR hP
 
   -- `Q` が成り立つ場合
-  case inr hQ =>
+  | inr hQ =>
     exact hQR hQ
 
-/- ## cases .. with 構文
+/- ## case タクティク
 
-`case` を使わずに、`with` を使って次のように書くこともできます
+`cases .. with` 構文を使わずに、`case` タクティクを使って次のように書くこともできます。
 -/
 
 example (P Q R : Prop) : P ∨ Q → (P → R) → (Q → R) → R := by
-  -- `h: P ∨ Q`
   intro h hPR hQR
 
-  -- `case inl` と `case inr` の２つのゴールを生成する
-  cases h with
-  | inl hP =>
+  cases h
+
+  case inl hP =>
     exact hPR hP
-  | inr hQ =>
+
+  case inr hQ =>
     exact hQR hQ
 
 /- ## 舞台裏
