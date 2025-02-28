@@ -9,13 +9,12 @@ set_option relaxedAutoImplicit false --#
 -- `autoImplicit` が無効の時
 set_option autoImplicit false in
 
--- `nonempty` の定義には `α` という未定義の識別子が含まれるため、
--- エラーになる
-/-- error: unknown identifier 'α' -/
-#guard_msgs in
-  def nonempty : List α → Bool
-    | [] => false
-    | _ :: _ => true
+-- `nonempty` の定義には `α` という未定義の識別子が含まれるため、エラーになる
+/-⋆-//-- error: unknown identifier 'α' -/
+#guard_msgs in --#
+def nonempty : List α → Bool
+  | [] => false
+  | _ :: _ => true
 
 -- `autoImplicit` が有効の時
 set_option autoImplicit true in
@@ -32,22 +31,22 @@ section autoImpl
 -- `autoImplicit` が有効の時
 set_option autoImplicit true
 
--- ギリシャ文字ではなくて1文字の小文字でも暗黙引数として追加される
-def nonempty₂ : List a → Bool
-  | [] => false
-  | _ :: _ => true
-
--- `ℱ` も暗黙引数になる
-def nonempty₃ : List ℱ → Bool
-  | [] => false
-  | _ :: _ => true
-
--- ２文字の識別子は暗黙引数として追加されない
-/-- error: unknown identifier 'AB' -/
-#guard_msgs in
-  def nonempty₄ : List AB → Bool
+  -- ギリシャ文字ではなくて1文字の小文字でも暗黙引数として追加される
+  def nonempty₂ : List a → Bool
     | [] => false
     | _ :: _ => true
+
+  -- `ℱ` も暗黙引数になる
+  def nonempty₃ : List ℱ → Bool
+    | [] => false
+    | _ :: _ => true
+
+  -- ２文字の識別子は暗黙引数として追加されない
+  /-⋆-//-- error: unknown identifier 'AB' -/
+  #guard_msgs in --#
+    def nonempty₄ : List AB → Bool
+      | [] => false
+      | _ :: _ => true
 
 end autoImpl
 
@@ -62,7 +61,7 @@ end autoImpl
 デフォルトではこのオプションは有効になっているため、`lakefile` の設定で無効にすることをお勧めします。
 -/
 
-open Lean Elab Command
+open Lean Elab Command in
 
 /-- オプションのデフォルト値を取得する関数 -/
 def getDefaultValue (opt : Name) : CommandElabM Unit := do
@@ -73,6 +72,6 @@ def getDefaultValue (opt : Name) : CommandElabM Unit := do
   | none =>
     logInfo m!"{opt} is unknown"
 
-/-- info: default value of autoImplicit is true -/
-#guard_msgs in
-  #eval getDefaultValue `autoImplicit
+/-⋆-//-- info: default value of autoImplicit is true -/
+#guard_msgs in --#
+#eval getDefaultValue `autoImplicit

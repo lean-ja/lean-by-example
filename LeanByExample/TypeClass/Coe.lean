@@ -23,7 +23,7 @@ def factorial (n : Nat) : Nat :=
   | n + 1 => (n + 1) * factorial n
 
 -- `factorial` の引数は `Nat` なのに、`Pos` を渡したのでエラーになる
-/--
+/-⋆-//--
 error: application type mismatch
   factorial one
 argument
@@ -33,8 +33,8 @@ has type
 but is expected to have type
   Nat : Type
 -/
-#guard_msgs (error) in
-  #check factorial one
+#guard_msgs (error) in --#
+#check factorial one
 
 /-- `Pos` から `Nat` への変換 -/
 def Pos.toNat : Pos → Nat
