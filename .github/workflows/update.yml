@@ -9,17 +9,11 @@ jobs:
   update_lean:
     runs-on: ubuntu-latest
     if: github.repository_owner == 'lean-ja'
-    permissions:
-      issues: write
-      pull-requests: write
-      contents: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Update Lean project
         uses: Seasawher/lean-update@main
         with:
-          on_update_succeeds: pr
-          on_update_fails: issue
           update_if_modified: lean-toolchain
           build_args: "--log-level=warning --fail-level=warning"
