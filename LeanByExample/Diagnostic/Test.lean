@@ -27,7 +27,7 @@ def peasantMul (x y : Nat) : Nat := Id.run do
 
 /-- 与えられたリストに含まれない最小の要素を求める -/
 def minFree (xs : List Nat) : Nat :=
-  List.range (xs.length + 2)
+  List.range (xs.length + 1)
     |>.removeAll xs
     |>.head!
 
