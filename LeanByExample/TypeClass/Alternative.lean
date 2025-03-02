@@ -42,16 +42,7 @@ end
 /- ## インスタンス
 
 ### Option
-重要なインスタンスとして、`Option` は `Alternative` のインスタンスです。
--/
-
--- `failure`が存在する
-example {α : Type} : Option α := failure
-
--- `(· <|> ·)` が使える
-example {α : Type} : Option α → Option α → Option α := fun x y => (x <|> y)
-
-/- `failure` は `none` として実装されていて、`(· <|> ·)` は最初の `none` でない値を選択するような処理として実装されています。-/
+重要なインスタンスとして、`Option` は `Alternative` のインスタンスです。`failure` は `none` として実装されていて、`(· <|> ·)` は最初の `none` でない値を選択するような処理として実装されています。-/
 
 #guard (failure : Option Nat) = none
 
@@ -81,6 +72,8 @@ instance : Alternative List where
   orElse l l' := List.append l (l' ())
 
 #guard ([] <|> [1, 2, 3]) = [1, 2, 3]
+
+#guard ([1, 2, 3] <|> [4, 5, 6]) = [1, 2, 3, 4, 5, 6]
 
 /- ## guard 関数
 
