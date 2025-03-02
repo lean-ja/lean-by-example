@@ -18,17 +18,52 @@ class Alternative (f : Type u → Type v) extends Applicative f where
   failure : {α : Type u} → f α
   /--
   `Alternative`インスタンスに応じて、値を拾ったり最初に成功した結果を返すことで
-  `failure`から回復したりする。専用に`<|>`演算子が用意されている。
+  `failure`から回復したりする。
   -/
   orElse : {α : Type u} → f α → (Unit → f α) → f α
 
 end Hidden --#
+/- ## 構文
+`Alternative` のインスタンスにすると、`<|>` という二項演算子が使えるようになります。`<|>` は `orElse` とほぼ対応していますが、少し型が異なります。
+-/
+section
+  variable {α : Type}
+
+  -- `F` は `Alternative` 関手
+  variable {F : Type → Type} [Alternative F]
+
+  -- `orElse` と `<|>` は基本的には同じもの
+  example (a : F α) (b : Unit → F α) : Alternative.orElse a b = (a <|> b ()) := rfl
+
+  -- 型が少し `orElse` と異なる
+  example : F α → F α → F α := fun x y => (x <|> y)
+
+end
 /- ## インスタンス
 
 ### Option
 重要なインスタンスとして、`Option` は `Alternative` のインスタンスです。
 -/
-#synth Alternative Option
+
+-- `failure`が存在する
+example {α : Type} : Option α := failure
+
+-- `(· <|> ·)` が使える
+example {α : Type} : Option α → Option α → Option α := fun x y => (x <|> y)
+
+/- `failure` は `none` として実装されていて、`(· <|> ·)` は最初の `none` でない値を選択するような処理として実装されています。-/
+
+#guard (failure : Option Nat) = none
+
+#guard (some 2 <|> none <|> some 5) = some 2
+
+#guard (none <|> none <|> some 5 <|> some 4) = some 5
+
+/- `Option` の `(· <|> ·)` は評価を順に行っていって、失敗したら単に次に進むということを繰り返しながら、成功するまで評価を続けます。早期に成功した場合、後続の項は評価されません。 -/
+
+/-⋆-//-- info: some "hello" -/
+#guard_msgs in --#
+#eval some "hello" <|> (dbg_trace "foo!"; some "world")
 
 /-
 ### List
@@ -46,20 +81,6 @@ instance : Alternative List where
   orElse l l' := List.append l (l' ())
 
 #guard ([] <|> [1, 2, 3]) = [1, 2, 3]
-
-/- ## 構文
-`Alternative` のインスタンスにすると、`<|>` という二項演算子が使えるようになります。
-これは評価を順に行っていって、失敗したら単に次に進むということを繰り返しながら、成功するまで評価を続けます。
--/
-
-#eval (some 2 <|> none <|> some 5) = some 2
-#eval (none <|> none <|> some 5 <|> some 4) = some 5
-
-/- 早期に成功した場合、後続の項は評価されません。 -/
-
-/-⋆-//-- info: some "hello" -/
-#guard_msgs in --#
-#eval some "hello" <|> (dbg_trace "foo!"; some "world")
 
 /- ## guard 関数
 
