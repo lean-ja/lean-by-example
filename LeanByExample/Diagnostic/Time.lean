@@ -54,26 +54,27 @@ elab "#my_time " stx:command : command => do
   -- 差分を実行時間としてミリ秒単位で出力
   logInfo m!"time: {end_time - start_time}ms"
 
-#my_time #eval fib 32
+#my_time #eval fib 28
 
-/- また、派生コマンドを作ることもできます。次に挙げるのは「コマンドが１秒以内に終了するか」を検証するコマンドを自作する例です。-/
+/- また、派生コマンドを作ることもできます。次に挙げるのは「コマンドが100ミリ秒以内に終了するか」を検証するコマンドを自作する例です。-/
 
-elab "#in_second " stx:command : command => do
+elab "#speed_test " stx:command : command => do
   let start_time ← IO.monoMsNow
   elabCommand stx
   let end_time ← IO.monoMsNow
   let time := end_time - start_time
 
-  -- 1秒以内に終わったかどうか判定
+  let deadline := 100
+  -- 指定された時間以内に終わったかどうか判定
   -- 終わっていなければエラーにする
-  if time <= 1000 then
+  if time <= deadline then
     logInfo m!"time: {time}ms"
   else
-    throwError m!"It took more than one second for the command to run."
+    throwError m!"It took more than {deadline}ms for the command to run."
 
--- 1秒以内に終わる
-#in_second #eval fib 32
+-- 指定時間以内に終わる
+#speed_test #eval fib 28
 
-/-- error: It took more than one second for the command to run. -/
-#guard_msgs (error) in
-  #in_second #eval fibonacci 32
+/-⋆-//-- error: It took more than 100ms for the command to run. -/
+#guard_msgs (error) in --#
+#speed_test #eval fibonacci 28
