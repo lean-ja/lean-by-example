@@ -2,8 +2,30 @@ import Plausible --#
 /- # Alternative
 
 `Alternative` [関手](#{root}/TypeClass/Functor.md)は、回復可能な失敗を表現します。
+-/
+/- ## 定義
 
-## インスタンス
+`Alternative` クラスは、`Applicative` 型クラスを継承して概ね次のように定義されています。
+-/
+namespace Hidden --#
+
+universe u v --#
+
+class Alternative (f : Type u → Type v) extends Applicative f where
+  /--
+  空のコレクションまたは回復可能な失敗を生成する。
+  -/
+  failure : {α : Type u} → f α
+  /--
+  `Alternative`インスタンスに応じて、値を拾ったり最初に成功した結果を返すことで
+  `failure`から回復したりする。専用に`<|>`演算子が用意されている。
+  -/
+  orElse : {α : Type u} → f α → (Unit → f α) → f α
+
+end Hidden --#
+/- ## インスタンス
+
+### Option
 重要なインスタンスとして、`Option` は `Alternative` のインスタンスです。
 -/
 #synth Alternative Option
