@@ -30,7 +30,9 @@ end Hidden --#
 -/
 #synth Alternative Option
 
-/- また [`List`](#{root}/Type/List.md) も `Alternative` のインスタンスにすることができます。 -/
+/-
+### List
+[`List`](#{root}/Type/List.md) も `Alternative` のインスタンスにすることができます。 -/
 
 -- モナドのインスタンスにする
 instance : Monad List where
@@ -42,6 +44,8 @@ instance : Monad List where
 instance : Alternative List where
   failure := @List.nil
   orElse l l' := List.append l (l' ())
+
+#guard ([] <|> [1, 2, 3]) = [1, 2, 3]
 
 /- ## 構文
 `Alternative` のインスタンスにすると、`<|>` という二項演算子が使えるようになります。
