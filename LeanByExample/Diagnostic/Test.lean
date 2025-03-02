@@ -25,12 +25,9 @@ def peasantMul (x y : Nat) : Nat := Id.run do
 
 /- `#test` コマンドを使う利点としては、期待される仕様をそのまま表現したものがテストとして機能するので、テストを作る労力が軽減されるというのがあります。仕様を述語論理で表現することが容易な関数のテストや、異なる実装をした関数同士が実は等しいといったテストで有用でしょう。 -/
 
-def List.max! {α : Type} [Inhabited α] [Max α] (xs : List α) : α :=
-  xs.max? |>.getD default
-
 /-- 与えられたリストに含まれない最小の要素を求める -/
 def minFree (xs : List Nat) : Nat :=
-  List.range (xs.max! + 2)
+  List.range (xs.length + 2)
     |>.removeAll xs
     |>.head!
 
