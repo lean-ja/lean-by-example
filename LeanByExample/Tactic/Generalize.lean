@@ -26,4 +26,4 @@ example : m ^ 2 + 1 ≥ m ^ 2 := by
   -- ローカルコンテキストに命題 `h` が追加される
   guard_hyp h : m ^ 2 = x
 
-  simp_arith
+  simp

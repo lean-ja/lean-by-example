@@ -18,4 +18,4 @@ example (n : Nat) : myFun n ≥ 1 := by
 
   -- `myFun` を定義に展開する
   unfold myFun
-  simp_arith
+  simp

@@ -30,10 +30,10 @@ end Hidden --#
 -/
 
 -- インデックス 0 の要素は存在するので取得できる
-#guard Array.get? #[1, 2, 3] 0 = some 1
+#guard #[1, 2, 3][0]? = some 1
 
 -- インデックス 3 の要素は存在しないので取得できず、none が返ってくる
-#guard Array.get? #[1, 2, 3] 3 = none
+#guard #[1, 2, 3][3]? = none
 
 /- 配列やリストなどのコレクション型から要素を取り出す類の操作には、多くの場合返り値が `Option` に包まれた関数が用意されます。より詳しくは [`GetElem`](#{root}/TypeClass/GetElem.md) のページを参照してください。 -/
 

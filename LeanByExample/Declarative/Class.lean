@@ -102,6 +102,7 @@ set_option pp.mvars false
 /--
 error: failed to synthesize
   Plus Nat (List Nat) (IO ?_)
+
 Additional diagnostic information may be available using the `set_option diagnostics true` command.
 -/
 #guard_msgs in #eval 1 +ₚ [1, 2]

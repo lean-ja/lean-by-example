@@ -99,7 +99,6 @@ example {P Q R : Prop} : (P ∨ Q ∨ R) ∧ R ↔ R := by
 
 /- ## simp_arith
 `simp` の設定で `arith` を有効にすると、算術的な単純化もできるようになります。
-これはよく使用されるので、`simp_arith` という省略形が用意されています。
 -/
 set_option linter.flexible false in --#
 
@@ -120,10 +119,7 @@ example {x y : Nat} : 0 < 1 + x ∧ x + y + 2 ≥ y + 1 := by
 
 example {x y : Nat} : 0 < 1 + x ∧ x + y + 2 ≥ y + 1 := by
   -- config を与えれば一発で終わる
-  simp (config := { arith := true, decide := true })
-
-example {x y : Nat} : 0 < 1 + x ∧ x + y + 2 ≥ y + 1 := by
-  simp_arith
+  simp +arith
 
 /- ## simp_all
 [`simp_all`](./SimpAll.md) はローカルコンテキストとゴールをこれ以上単純化できなくなるまですべて単純化します。-/

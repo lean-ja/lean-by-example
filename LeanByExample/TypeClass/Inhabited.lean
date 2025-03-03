@@ -16,7 +16,7 @@ variable {α : Type} [Inhabited α]
 
 def get (a : Array α) (i : Nat) : α :=
   if h : i < a.size then
-    a.get i h
+    a[i]'h
   else
     panic! "index out of bounds"
 

@@ -46,13 +46,13 @@ example (h1 : 2 * x < 3 * y) (h2 : -4 * x + 2 * z < 0) :
 
 end --#
 /- ## linarith と他のタクティクの使い分け
-`1 < 2` のような簡単な数値のみの不等式の場合、`norm_num` や `simp_arith` でも証明ができます。
+`1 < 2` のような簡単な数値のみの不等式の場合、`norm_num` や `simp` でも証明ができます。
 同じ命題を示すのに複数のタクティクがあるわけですが、タクティク実行にかかる時間に違いがあります。
 
 実行環境により正確な実行時間は異なりますが、`linarith` は比較的重いタクティクです。
 -/
 
-#time example : 1 < 2 := by simp_arith
+#time example : 1 < 2 := by simp
 
 #time example : 1 < 2 := by norm_num
 

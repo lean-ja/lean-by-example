@@ -69,6 +69,7 @@ structure Something where
 /-⋆-//--
 error: failed to synthesize
   Inhabited Something
+
 Additional diagnostic information may be available using the `set_option diagnostics true` command.
 -/
 #guard_msgs in --#

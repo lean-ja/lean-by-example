@@ -20,6 +20,7 @@ variable (α : Type)
 /--
 error: failed to synthesize
   Inv α
+
 Additional diagnostic information may be available using the `set_option diagnostics true` command.
 -/
 #guard_msgs in #check (_ : α)⁻¹
@@ -39,6 +40,7 @@ Additional diagnostic information may be available using the `set_option diagnos
 /--
 error: failed to synthesize
   Inv ℕ
+
 Additional diagnostic information may be available using the `set_option diagnostics true` command.
 -/
 #guard_msgs in #synth Inv Nat

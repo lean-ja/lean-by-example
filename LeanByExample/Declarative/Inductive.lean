@@ -114,6 +114,7 @@ def Nat.myble (m n : Nat) : Bool :=
 /-⋆-//--
 error: failed to synthesize
   Decidable (2 ≤ₘ 4)
+
 Additional diagnostic information may be available using the `set_option diagnostics true` command.
 -/
 #guard_msgs in --#
