@@ -17,13 +17,14 @@ import Mathlib.Data.Real.Basic -- 実数 --#
 
 variable (α : Type)
 
-/--
+/-⋆-//--
 error: failed to synthesize
   Inv α
 
 Additional diagnostic information may be available using the `set_option diagnostics true` command.
 -/
-#guard_msgs in #check (_ : α)⁻¹
+#guard_msgs in --#
+#check (_ : α)⁻¹
 
 /- 一般の型に対して逆数は定義できないので、エラーになってしまいました。エラーメッセージで `α` は `Inv` のインスタンスではないと言われています。この `Inv` が型クラスです。`Inv` のインスタンスであるような型 `T` に対しては、逆数関数 `(·)⁻¹ : T → T` が定義できるというわけです。-/
 
@@ -31,19 +32,21 @@ Additional diagnostic information may be available using the `set_option diagnos
 例えば実数 `ℝ` に対して逆数は定義できるだろうと予想されますが、実際 `ℝ` は `Inv` のインスタンスであることが確認できます。
 -/
 
-/-- info: Real.instInv -/
-#guard_msgs in #synth Inv Real
+/-⋆-//-- info: Real.instInv -/
+#guard_msgs in --#
+#synth Inv Real
 
 /- 自然数 `ℕ` に対しては逆数が定義されていないと予想されますが、実際 `Inv` のインスタンスになっていません。-/
 
 -- エラーになってしまう
-/--
+/-⋆-//--
 error: failed to synthesize
   Inv ℕ
 
 Additional diagnostic information may be available using the `set_option diagnostics true` command.
 -/
-#guard_msgs in #synth Inv Nat
+#guard_msgs in --#
+#synth Inv Nat
 
 -- Inv のインスタンスになっていない
 #check_failure (inferInstance : Inv Nat)
