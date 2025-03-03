@@ -36,31 +36,40 @@ where
 -/
 
 /- ## 舞台裏
-`IO.monoMsNow` という関数でそのときの時刻を取得し、その差を計算することで実行時間を計測することができます。これにより `#time` コマンドと同様のコマンドを自作することができます。次に挙げるのは「コマンドが100ミリ秒以内に終了するか」を検証するコマンドを自作する例です。
+`IO.monoMsNow` という関数でそのときの時刻を取得し、その差を計算することで実行時間を計測することができます。これにより `#time` コマンドと同様のコマンドを自作することができます。次に挙げるのは「コマンドが`n`ミリ秒以内に終了するか」を検証するコマンドを自作する例です。
 -/
 
-open Lean Elab Command Term Meta in
+open Lean Elab Command in
 
-elab "#speed_test " stx:command : command => do
+elab "#speed_test " "|" stx:command "|" "finish" n:num "ms" : command => do
+  -- 実行直前に計測開始
   let start_time ← IO.monoMsNow
+
+  -- 与えられたコマンドを実行
   elabCommand stx
+
+  -- 実行後に計測終了して差分をミリ秒単位で計算
   let end_time ← IO.monoMsNow
   let time := end_time - start_time
 
-  let deadline := 100
-  -- 指定された時間以内に終わったかどうか判定
-  -- 終わっていなければエラーにする
-  if time <= deadline then
-    logInfo m!"time: {time}ms"
-  else
+  -- 与えられた期限を取得
+  let deadline := n.getNat
+
+  -- 指定時間以内に終わったかどうかを検証
+  unless time ≤ deadline do
     throwError m!"It took more than {deadline}ms for the command to run."
+  logInfo m!"time: {time}ms"
 
 -- 指定時間以内に終わる
-#speed_test #eval fib 28
+#speed_test
+  | #eval fib 28
+  | finish 100 ms
 
 /-⋆-//-- error: It took more than 100ms for the command to run. -/
 #guard_msgs (error) in --#
-#speed_test #eval fibonacci 28
+#speed_test
+  | #eval fibonacci 28
+  | finish 100 ms
 
 /- なお `IO.monoNanosNow` という関数も存在し、これはナノ秒単位で結果を取得します。これを使うと、単位がナノ秒であるような `#time` の派生コマンドを自作できます。 -/
 
