@@ -6,12 +6,14 @@
 import Mathlib.Tactic.Conv -- `#whnf` コマンドを使うために必要
 
 -- 弱頭正規形
-/-- info: (fun x => x + 1) 1 :: List.map (fun x => x + 1) [2, 3] -/
-#guard_msgs in #whnf [1, 2, 3].map (· + 1)
+/-⋆-//-- info: (fun x => x + 1) 1 :: List.map (fun x => x + 1) [2, 3] -/
+#guard_msgs in --#
+#whnf [1, 2, 3].map (· + 1)
 
 -- 弱頭正規形で止まらずに完全に簡約した場合
-/-- info: [2, 3, 4] -/
-#guard_msgs in #reduce [1, 2, 3].map (· + 1)
+/-⋆-//-- info: [2, 3, 4] -/
+#guard_msgs in --#
+#reduce [1, 2, 3].map (· + 1)
 
 -- 上記の式がなぜ弱頭正規形であるのかの説明
 example : [1, 2, 3].map (· + 1) = [2, 3, 4] := calc
@@ -48,13 +50,12 @@ variable {α β : Type}
 def Many.one (x : α) : Many α := Many.more x (fun () => Many.none)
 
 def Many.union {α : Type} : Many α → Many α → Many α
-  | Many.none, ys => ys
-  | Many.more x xs, ys => Many.more x (fun () => union (xs ()) ys)
+  | .none, ys => ys
+  | .more x xs, ys => Many.more x (fun () => union (xs ()) ys)
 
 def Many.bind : Many α → (α → Many β) → Many β
-  | Many.none, _ =>
-    Many.none
-  | Many.more x xs, f =>
+  | .none, _ => Many.none
+  | .more x xs, f =>
     (f x).union (bind (xs ()) f)
 
 /-- Many にモナドの実装を与える -/
@@ -66,32 +67,36 @@ instance instMonadMany : Monad Many where
 
 def instManyFunctor : Functor Many := inferInstance
 
-/--
+/-⋆-//--
 info: def instManyFunctor : Functor Many :=
 inferInstance
 -/
-#guard_msgs in #print instManyFunctor
+#guard_msgs in --#
+#print instManyFunctor
 
 /- しかし、`#whnf` コマンドに渡すと実装内容を表示してくれます。-/
 
 -- Functor の実装を表示させることができた
-/--
+/-⋆-//--
 info: { map := fun {α β} f x => x.bind (Many.one ∘ f),
   mapConst := fun {α β} => (fun f x => x.bind (Many.one ∘ f)) ∘ Function.const β }
 -/
-#guard_msgs in #whnf (inferInstance : Functor Many)
+#guard_msgs in --#
+#whnf (inferInstance : Functor Many)
 
 -- Applicative については、実装を得るためには下位クラスを使う必要がある
-/-- info: Applicative.mk -/
-#guard_msgs in #whnf (inferInstance : Applicative Many)
+/-⋆-//-- info: Applicative.mk -/
+#guard_msgs in --#
+#whnf (inferInstance : Applicative Many)
 
 -- seq の実装を表示させることができた
-/-- info: { seq := fun {α β} f x => f.bind fun y => (x ()).bind (Many.one ∘ y) } -/
-#guard_msgs in #whnf (inferInstance : Seq Many)
+/-⋆-//-- info: { seq := fun {α β} f x => f.bind fun y => (x ()).bind (Many.one ∘ y) } -/
+#guard_msgs in --#
+#whnf (inferInstance : Seq Many)
 
 /- なお、これを `#reduce` で行おうとすると簡約しすぎて読みづらい表示が出てきます。-/
 
-/--
+/-⋆-//--
 info: {
   map := fun {α β} f x =>
     (Many.rec ⟨fun x => Many.none, PUnit.unit⟩
@@ -118,4 +123,5 @@ info: {
           x_1).1
       fun x_2 => Many.more x fun x => Many.none }
 -/
-#guard_msgs in #reduce (inferInstance : Functor Many)
+#guard_msgs in --#
+#reduce (inferInstance : Functor Many)
