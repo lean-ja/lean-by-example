@@ -84,3 +84,29 @@ end
   whatsnew in
     macro_rules
     | `(zeroLit) => `(1)
+
+/- ## マクロ展開を確認する方法
+
+マクロがどのように展開されているか確かめるには、次で示すように `Macro.expandMacro?` 関数が利用できます。
+-/
+
+section
+  open Lean
+
+  /-- `#expand` の入力に渡すための構文カテゴリ -/
+  syntax macro_stx := command <|> tactic <|> term
+
+  /-- マクロを展開するコマンド -/
+  elab "#expand " "(" stx:macro_stx ")" : command => do
+    let t : Syntax :=
+      match stx.raw with
+      | .node _ _ #[t] => t
+      | _ => stx.raw
+    match ← Elab.liftMacroM <| Macro.expandMacro? t with
+    | none => logInfo m!"Not a macro"
+    | some t => logInfo m!"{t}"
+end
+
+/-⋆-//-- info: notation:50 lhs✝:51 " LXOR " rhs✝:51 => lxor lhs✝ rhs✝ -/
+#guard_msgs in --#
+#expand (infix:50 " LXOR " => lxor)
