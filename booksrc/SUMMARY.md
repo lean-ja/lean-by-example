@@ -132,6 +132,7 @@
   - [Macro: マクロ](./Type/Macro.md)
   - [Nat: 自然数](./Type/Nat.md)
   - [Option: 失敗するかもしれない計算](./Type/Option.md)
+  - [Prod: 型の積](./Type/Prod.md)
   - [Prop: 命題全体](./Type/Prop.md)
   - [String: 文字列](./Type/String.md)
   - [Sum: 型の和](./Type/Sum.md)
