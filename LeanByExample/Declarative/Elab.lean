@@ -22,17 +22,17 @@ elab "tada" : tactic => do
     -- エラーにする
     throwAbortTactic
 
-/--
+/-⋆-//--
 error: unsolved goals
 ⊢ True
 -/
-#guard_msgs in
-  example : True := by tada
+#guard_msgs in --#
+example : True := by tada
 
-/-- info: Goals accomplished 🎉 -/
-#guard_msgs in
-  example : True := by
-    trivial
-    tada
+/-⋆-//-- info: Goals accomplished 🎉 -/
+#guard_msgs in --#
+example : True := by
+  trivial
+  tada
 
 /- [^zulip]: Zulip のスレッド [new members > lean3 or 4?](https://leanprover.zulipchat.com/#narrow/stream/113489-new-members/topic/Lean.203.20or.204.3F) からコード例を引用しています。-/
