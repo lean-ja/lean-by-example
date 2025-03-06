@@ -1,6 +1,6 @@
 /- # rfl
 
-`rfl` は、定義に展開すれば等しそうなもの同士が等しいことを示すタクティクです。-/
+`rfl` は、**definitionally equal** なもの同士が等しいことを示すタクティクです。-/
 
 /-- 自前で定義した自然数 -/
 inductive MyNat where
@@ -31,10 +31,24 @@ def MyNat.two : MyNat := .succ one
 example : MyNat.one + MyNat.one = MyNat.two := by
   rfl
 
+-- definitionally equal でないと証明できない
+/-⋆-//--
+error: tactic 'rfl' failed, the left-hand side
+  MyNat.one
+is not definitionally equal to the right-hand side
+  MyNat.two
+⊢ MyNat.one = MyNat.two
+-/
+#guard_msgs in --#
+example : MyNat.one = MyNat.two := by
+  rfl
+
 /- ## \#reduce コマンドとの関係
 
-ここで「定義に展開すれば等しそう」というのは、おおむね [`#reduce`](#{root}/Diagnostic/Reduce.md) コマンドに与えた結果の式が等しいという意味です。 -/
+ここで definitionally equal というのは、おおむね [`#reduce`](#{root}/Diagnostic/Reduce.md) コマンドに与えた結果の式が等しいという意味です。 -/
 section
+  /- ## rfl で等しいと示せるもの同士の #reduce の出力が等しいことの確認 -/
+
   -- フィールド記法を無効にする
   set_option pp.fieldNotation false
 
@@ -68,10 +82,8 @@ end
 
 関係 `R` が反射的であることを `rfl` に利用させるには、`R` の反射性を示した定理に `[refl]` 属性を付与します。-/
 
-universe u
-
 -- `MyEq` という二項関係を定義する
-inductive MyEq {α : Type u} : α → α → Prop where
+inductive MyEq.{u} {α : Type u} : α → α → Prop where
   | refl (a : α) : MyEq a a
 
 example (n : Nat) : MyEq n n := by
