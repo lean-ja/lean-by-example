@@ -10,17 +10,3 @@ def FermatLastTheorem :=
 #guard_msgs (drop warning) in --#
 theorem flt : FermatLastTheorem :=
   sorry
-
-/- ## 舞台裏
-`Lean.Elab.admitGoal` を使用することで `sorry` と同様のタクティクを作ることができます。
--/
-
-open Lean Elab Tactic
-
-elab "my_sorry" : tactic => withMainContext do
-  let goal ← getMainGoal
-  admitGoal goal
-
-#guard_msgs (drop warning) in --#
-theorem flt' : FermatLastTheorem := by
-  my_sorry
