@@ -3,22 +3,24 @@
 -/
 import Lean --#
 
-/--
+/-⋆-//--
 info: inductive Or : Prop → Prop → Prop
 number of parameters: 2
 constructors:
 Or.inl : ∀ {a b : Prop}, a → a ∨ b
 Or.inr : ∀ {a b : Prop}, b → a ∨ b
 -/
-#guard_msgs in #print Or
+#guard_msgs in --#
+#print Or
 
-/--
+/-⋆-//--
 info: theorem Nat.add_succ : ∀ (n m : Nat), n + m.succ = (n + m).succ :=
 fun n m => rfl
 -/
-#guard_msgs in #print Nat.add_succ
+#guard_msgs in --#
+#print Nat.add_succ
 
-/--
+/-⋆-//--
 info: structure And (a b : Prop) : Prop
 number of parameters: 2
 fields:
@@ -27,7 +29,8 @@ fields:
 constructor:
   And.intro {a b : Prop} (left : a) (right : b) : a ∧ b
 -/
-#guard_msgs in #print And
+#guard_msgs in --#
+#print And
 
 /- ## 利用可能な構文
 `#print` 単体で利用できるほか、サブコマンドも定義されています。利用できるサブコマンドの全体は、エラーメッセージから確認できますが、以下の通りです。
@@ -42,18 +45,18 @@ open Lean Parser in
 def parse (cat : Name) (s : String) : MetaM Syntax := do
   ofExcept <| runParserCategory (← getEnv) cat s
 
-/--
+/-⋆-//--
 error: <input>:1:7:
 expected 'axioms', 'eqns', 'equations', 'tactic', identifier or string literal
 -/
-#guard_msgs in
-  #eval parse `command "#print axiom"
+#guard_msgs in --#
+#eval parse `command "#print axiom"
 
 /- また、このエラーメッセージから、`#print` コマンドに直接渡せるのは識別子(identifier)または文字列リテラル(string literal)だけであることが確認できます。識別子ではない一般の項(term)を渡すと、構文エラーになります。-/
 
 open Lean in
 
-/--
+/-⋆-//--
 error: application type mismatch
   a.raw
 argument
@@ -63,7 +66,8 @@ has type
 but is expected to have type
   TSyntax [`ident, `str] : Type
 -/
-#guard_msgs in run_meta
+#guard_msgs in --#
+run_meta
   let a ← `(1 + 1)
   let _ ← `(#print $a)
 
@@ -77,18 +81,18 @@ but is expected to have type
 /-- 排中律 -/
 example : ∀ (p : Prop), p ∨ ¬p := Classical.em
 
-/-- info: 'Classical.em' depends on axioms: [propext, Classical.choice, Quot.sound] -/
-#guard_msgs in
-  #print axioms Classical.em
+/-⋆-//-- info: 'Classical.em' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in --#
+#print axioms Classical.em
 
 /- また、`sorry` という命題を「証明したことにする」タクティクがありますが、これは `sorryAx` という万能な公理を導入していることが確認できます。-/
 
 #guard_msgs (drop warning) in --#
 theorem contra : False := by sorry
 
-/-- info: 'contra' depends on axioms: [sorryAx] -/
-#guard_msgs in
-  #print axioms contra
+/-⋆-//-- info: 'contra' depends on axioms: [sorryAx] -/
+#guard_msgs in --#
+#print axioms contra
 
 /- ### 舞台裏
 `Lean.collectAxioms` という関数を使用することにより、依存公理を調べて何かを行うような `#print axioms` の類似コマンドを自作することができます。ここでは例として、[`elab`](#{root}/Declarative/Elab.md) コマンドを使用して「ある定理が選択原理 `Classical.choice` に依存しているかどうか調べて、依存していればエラーにする」というコマンドを作成します。
@@ -118,16 +122,17 @@ section
       throwError m!"'{constName}' depends on classical axioms: {caxes.toList}"
 end
 
--- 以下はテストコード
+-- 依存公理がないケース
+/-⋆-//-- info: 'Nat.add_zero' does not depend on any axioms -/
+#guard_msgs in --#
+#detect_classical Nat.add_zero
 
-/-- info: 'Nat.add_zero' does not depend on any axioms -/
-#guard_msgs in
-  #detect_classical Nat.add_zero
+-- 選択公理に依存しないケース
+/-⋆-//-- info: 'Nat.div_add_mod' is non-classical and depends on axioms: [propext] -/
+#guard_msgs in --#
+#detect_classical Nat.div_add_mod
 
-/-- info: 'Nat.div_add_mod' is non-classical and depends on axioms: [propext] -/
-#guard_msgs in
-  #detect_classical Nat.div_add_mod
-
-/-- error: 'Classical.em' depends on classical axioms: [Classical.choice] -/
-#guard_msgs in
-  #detect_classical Classical.em
+-- 選択公理に依存するときはエラー
+/-⋆-//-- error: 'Classical.em' depends on classical axioms: [Classical.choice] -/
+#guard_msgs in --#
+#detect_classical Classical.em
