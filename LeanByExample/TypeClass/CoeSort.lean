@@ -18,19 +18,21 @@ def Two : FinCat := { base := Fin 2, fin := inferInstance }
 -- `Two` は有限集合の圏のオブジェクトなので集合っぽいものであってほしいが、
 -- `Two` の型は `FinCat` であって `Type` などの型宇宙ではないので、
 -- `a : Two` という書き方ができない。
-/--
-error: type expected, got
+/-⋆-//--
+info: type expected, got
   (Two : FinCat)
 -/
-#guard_msgs in #check ((1 : Fin 2) : Two)
+#guard_msgs in --#
+#check_failure ((1 : Fin 2) : Two)
 
 -- `Two → Two` という書き方もできない。
 -- `A → A` も `A` の型が `Type` などの型宇宙であることを要求する。
-/--
-error: type expected, got
+/-⋆-//--
+info: type expected, got
   (Two : FinCat)
 -/
-#guard_msgs in #check (Two → Two)
+#guard_msgs in --#
+#check_failure (Two → Two)
 
 -- 台集合はあくまで `Two.base` なので、
 -- `.base` をつける必要がある。
