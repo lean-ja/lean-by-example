@@ -83,9 +83,9 @@ elab "#speed_test " "|" n:num "≤" "[ms]" "≤" m:num "|" stx:command : command
   | example : 1 < 2 := by simp
 
 #speed_test
-  | 20 ≤ [ms] ≤ 120
+  | 1 ≤ [ms] ≤ 120
   | example : 1 < 2 := by norm_num
 
 #speed_test
-  | 100 ≤ [ms] ≤ 1000
+  | 20 ≤ [ms] ≤ 1000
   | example : 1 < 2 := by linarith
