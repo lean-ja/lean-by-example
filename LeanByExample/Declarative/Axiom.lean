@@ -9,8 +9,9 @@ axiom mySorryAx {P : Prop} : P
 theorem FLT : ∀ x y z n : Nat, n > 2 → x^n + y^n ≠ z^n := by
   apply mySorryAx
 
-/-- info: 'FLT' depends on axioms: [mySorryAx] -/
-#guard_msgs in #print axioms FLT
+/-⋆-//-- info: 'FLT' depends on axioms: [mySorryAx] -/
+#guard_msgs in --#
+#print axioms FLT
 
 /- ## 組み込みの公理
 組み込みで用意されている公理をいくつか紹介します。
@@ -20,8 +21,9 @@ theorem FLT : ∀ x y z n : Nat, n > 2 → x^n + y^n ≠ z^n := by
 -/
 
 -- 命題外延性の公理
-/-- info: axiom propext : ∀ {a b : Prop}, (a ↔ b) → a = b -/
-#guard_msgs in #print propext
+/-⋆-//-- info: axiom propext : ∀ {a b : Prop}, (a ↔ b) → a = b -/
+#guard_msgs in --#
+#print propext
 
 -- 命題外延性の公理を使って命題を置換する
 theorem ex_prop_ext (a b : Prop) (p : Prop → Prop) (h : a ↔ b) (h₁ : p a) : p b := by
@@ -29,55 +31,56 @@ theorem ex_prop_ext (a b : Prop) (p : Prop → Prop) (h : a ↔ b) (h₁ : p a) 
   rw [←this]
   assumption
 
-/-- info: 'ex_prop_ext' depends on axioms: [propext] -/
-#guard_msgs in
-  #print axioms ex_prop_ext
+/-⋆-//-- info: 'ex_prop_ext' depends on axioms: [propext] -/
+#guard_msgs in --#
+#print axioms ex_prop_ext
 
 /- ### 商の公理 Quot.sound
 任意の型 `α : Sort u` と `α` 上の2項関係 `r : α → α → Prop` に対して、その商(quotient)を作ることができます。商の概念は、以下に示す複数の定数から構成されます。
 -/
-section quot --#
-universe u
+section
+  universe u
 
-variable {α : Sort u}
+  variable {α : Sort u}
 
--- 商
-#check (Quot : (α → α → Prop) → Sort u)
+  -- 商
+  #check (Quot : (α → α → Prop) → Sort u)
 
--- 商の構築
-#check (Quot.mk : (r : α → α → Prop) → α → Quot r)
+  -- 商の構築
+  #check (Quot.mk : (r : α → α → Prop) → α → Quot r)
 
--- 帰納法の原理。
--- 任意の部分集合 `β ⊆ Quot r` に対して、
--- β が `Quot.mk r a` の形の項を全て含むならば、
--- β は商 `Quot r` 全体に一致する。
-#check (Quot.ind :
-  {r : α → α → Prop} → {β : Quot r → Prop}
-  → (∀ a, β (Quot.mk r a)) → ∀ q, β q)
+  -- 帰納法の原理。
+  -- 任意の部分集合 `β ⊆ Quot r` に対して、
+  -- β が `Quot.mk r a` の形の項を全て含むならば、
+  -- β は商 `Quot r` 全体に一致する。
+  #check (Quot.ind :
+    {r : α → α → Prop} → {β : Quot r → Prop}
+    → (∀ a, β (Quot.mk r a)) → ∀ q, β q)
 
--- 要するに商 `Quot r` の全ての項は `Quot.mk r a` の形をしている。
--- Quot.ind から直ちに従う。
-example (r : α → α → Prop) (q : Quot r) : ∃ a : α, q = Quot.mk r a := by
-  have := Quot.ind (β := fun q => ∃ a : α, q = Quot.mk r a)
-  apply this
-  intro a
-  exists a
+  -- 要するに商 `Quot r` の全ての項は `Quot.mk r a` の形をしている。
+  -- Quot.ind から直ちに従う。
+  example (r : α → α → Prop) (q : Quot r) : ∃ a : α, q = Quot.mk r a := by
+    have := Quot.ind (β := fun q => ∃ a : α, q = Quot.mk r a)
+    apply this
+    intro a
+    exists a
 
--- 関数の商へのリフト。
--- 関数 `f : α → β` が、関係 `r` に関して合同性を持つならば、
--- `f` をリフトして関数 `Quot r → β` が得られる。
-#check (Quot.lift :
-  {r : α → α → Prop} → {β : Sort u} → (f : α → β)
-  → (∀ a b, r a b → f a = f b) → Quot r → β)
-
+  -- 関数の商へのリフト。
+  -- 関数 `f : α → β` が、関係 `r` に関して合同性を持つならば、
+  -- `f` をリフトして関数 `Quot r → β` が得られる。
+  #check (Quot.lift :
+    {r : α → α → Prop} → {β : Sort u} → (f : α → β)
+    → (∀ a b, r a b → f a = f b) → Quot r → β)
+end
 /- 商の公理 `Quot.sound` は上記の「商のような」概念を本物の商にします。-/
 
 -- `r a b` が成り立つならば、商に送った時に同じ値になることを主張する。
-/--
+/-⋆-//--
 info: axiom Quot.sound.{u} : ∀ {α : Sort u} {r : α → α → Prop} {a b : α},
 r a b → Quot.mk r a = Quot.mk r b
 -/
-#guard_msgs in #print Quot.sound
+#guard_msgs (whitespace := lax) in --#
+#print Quot.sound
 
 /- #### 商の公理はなぜ重要か
 上記で挙げた商を構成する以下の定数は、いずれも他の型からは独立したオブジェクトです。
@@ -90,28 +93,30 @@ r a b → Quot.mk r a = Quot.mk r b
 
 この中で `Quot.sound` だけが「公理」と呼ばれ、特別扱いされているのは何故でしょうか。以下のように商の公理以外の部分を Lean の[帰納型](#{root}/Declarative/Inductive.md)を使って構成してみると理解できるかもしれません。
 -/
+section
+  universe u
+  variable {α : Type}
 
-/-- 標準ライブラリの Quot を真似して自作した型 -/
-inductive MyQuot (r : α → α → Prop) : Type u where
-  | mk (a : α)
+  /-- 標準ライブラリの Quot を真似して自作した型 -/
+  inductive MyQuot (r : α → α → Prop) : Type u where
+    | mk (a : α)
 
--- 商型のコンストラクタ
-#check (MyQuot.mk : {r : α → α → Prop} → α → MyQuot r)
+  -- 商型のコンストラクタ
+  #check (MyQuot.mk : {r : α → α → Prop} → α → MyQuot r)
 
--- 自動生成された商型の帰納法の原理
--- Quot.ind とそっくりであることがわかる
-#check (MyQuot.rec :
-  {r : α → α → Prop} → {β : MyQuot r → Sort _}
-  → (mk : ∀ a : α, β (MyQuot.mk a)) → ∀ q, β q)
-
+  -- 自動生成された商型の帰納法の原理
+  -- Quot.ind とそっくりであることがわかる
+  #check (MyQuot.rec :
+    {r : α → α → Prop} → {β : MyQuot r → Sort _}
+    → (mk : ∀ a : α, β (MyQuot.mk a)) → ∀ q, β q)
+end
 /- ここで、関数の商へのリフト `Quot.lift` に対応するものを具体的に関数として作ることができます。-/
 
 /-- 商へのリフトの対応物 -/
-def MyQuot.lift {r : α → α → Prop} {β : Sort u}
+def MyQuot.lift.{u} {α : Type}{r : α → α → Prop} {β : Sort u}
   (f : α → β) (_ : ∀ a b, r a b → f a = f b) : MyQuot r → β
   | MyQuot.mk a => f a
 
-end quot --#
 /- こうして `Quot.sound` を使わず、Lean に備わっている帰納型の構成だけを使って作った `MyQuot` は、商の公理以外のすべての点で商型にそっくりですが、全然商になっていません。コンストラクタを使って作られる項 `MyQuot.mk a` は、`a : α` が異なればすべて異なる項であり、同一視が全く入っていません。このような観点から、`Quot.sound` は商を商たらしめる重要なものであり、「商の公理」と呼ぶにふさわしいと考えられるわけです。 -/
 
 /- #### 関数外延性
@@ -134,9 +139,9 @@ theorem lambda_eq (f : (x : α) → β x) : f = (fun x => f x) := by rfl
 
 -- 依存関数 `f` がラムダ式 `fun x => f x` に等しいことは、定義から従うので
 -- 何の公理も必要としない。
-/-- info: 'lambda_eq' does not depend on any axioms -/
-#guard_msgs in
-  #print axioms lambda_eq
+/-⋆-//-- info: 'lambda_eq' does not depend on any axioms -/
+#guard_msgs in --#
+#print axioms lambda_eq
 
 /-- 関数適用を行う高階関数 -/
 def funApp (a : α) (f : (x : α) → β x) : β a := f a
@@ -153,9 +158,9 @@ theorem funApp_eq (f : (x : α) → β x) : funApp (f := f) = f := calc
   _ = f := by rw [lambda_eq f]
 
 -- これも何の公理も必要としない
-/-- info: 'funApp_eq' does not depend on any axioms -/
-#guard_msgs in
-  #print axioms funApp_eq
+/-⋆-//-- info: 'funApp_eq' does not depend on any axioms -/
+#guard_msgs in --#
+#print axioms funApp_eq
 
 /- この事実を使うと、商の公理から関数外延性の証明ができます。-/
 
@@ -199,8 +204,9 @@ theorem my_funext {f g : (x : α) → β x} (h : ∀ x, f x = g x) : f = g := by
     -- 「`g` を適用する関数」と `g` は等しい
     _ = g := by rw [funApp_eq g]
 
-/-- info: 'my_funext' depends on axioms: [Quot.sound] -/
-#guard_msgs in #print axioms my_funext
+/-⋆-//-- info: 'my_funext' depends on axioms: [Quot.sound] -/
+#guard_msgs in --#
+#print axioms my_funext
 
 /- ### 選択原理 Classical.choice { #ClassicalChoice }
 選択原理は、ある型が空ではないという情報だけから、「魔法のように」具体的な元を構成することができると主張します。これは計算不可能な操作であるため、選択原理を使用する関数には [`noncomputable`](#{root}/Modifier/Noncomputable.md) 修飾子が必要になります。
