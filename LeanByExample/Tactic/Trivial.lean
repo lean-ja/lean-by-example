@@ -12,9 +12,9 @@ example : 1 + 1 = 2 := by trivial
 example (P : Prop) (h : False) : P := by trivial
 
 /- ## 舞台裏
-`trivial` は、複数のタクティクを順に試すマクロとして実装されています。`trace.Elab.step` というオプションを `true` にすると、展開の様子を順を追って見ることができます。-/
+`trivial` は、複数の基本的なタクティクを順に試すマクロとして実装されています。`trace.Elab.step` というオプションを `true` にすると、展開の様子を順を追って見ることができます。-/
 
-/--
+/-⋆-//--
 info: [Elab.step] trivial
   [Elab.step] trivial
     [Elab.step] trivial
@@ -36,7 +36,7 @@ info: [Elab.step] trivial
       [Elab.step] decide
       [Elab.step] contradiction
 -/
-#guard_msgs in
+#guard_msgs in --#
 example (P : Prop) (h : False) : P := by
   set_option trace.Elab.step true in
   trivial
