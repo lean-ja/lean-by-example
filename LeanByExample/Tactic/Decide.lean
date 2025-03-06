@@ -17,12 +17,13 @@ example : 1 + 1 ≠ 3 := by
   decide
 
 -- 示そうとした式が間違っていると教えてくれた
-/--
+/-⋆-//--
 error: tactic 'decide' proved that the proposition
   1 + 1 = 3
 is false
 -/
-#guard_msgs in example : 1 + 1 = 3 := by decide
+#guard_msgs in --#
+example : 1 + 1 = 3 := by decide
 
 /- `decide` は `rfl` の上位互換ではなく、ゴールにローカル変数やメタ変数があると使えません。-/
 
