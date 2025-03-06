@@ -19,6 +19,7 @@
   - [#html: HTMLをインフォビューに表示](./Diagnostic/Html.md)
   - [#instances: インスタンスを列挙](./Diagnostic/Instances.md)
   - [#lint: リンタ実行](./Diagnostic/Lint.md)
+  - [#loogle: Loogleで検索](./Diagnostic/Loogle.md)
   - [#print: 中身を見る](./Diagnostic/Print.md)
   - [#reduce: 式を簡約する](./Diagnostic/Reduce.md)
   - [#synth: 型クラスの検査](./Diagnostic/Synth.md)
