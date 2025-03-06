@@ -20,29 +20,31 @@ example (h₁ : a < b) (h₂ : b < c) : a < c := by
   apply Nat.lt_trans (m := b) <;> assumption
 
 /- 今からすることは、この２つの命題を１つのタクティクで証明できるようにすることです。コードを素直に共通化しようとして次のようにマクロを定義すると上手くいきません。-/
-section --#
-/-- 推移律を扱うタクティク -/
-syntax "my_trans" term : tactic
+section
+  /- ## マクロによるタクティクの定義が上手くいかない例 -/
 
--- `<` に対するルール
-local macro_rules
-  | `(tactic| my_trans $e) => `(tactic| apply Nat.lt_trans (m := $e))
+  /-- 推移律を扱うタクティク -/
+  syntax "my_trans" term : tactic
 
--- `≤` に対するルール
-local macro_rules
-  | `(tactic| my_trans $e) => `(tactic| apply Nat.le_trans (m := $e))
+  -- `<` に対するルール
+  local macro_rules
+    | `(tactic| my_trans $e) => `(tactic| apply Nat.lt_trans (m := $e))
 
-example (h₁ : a ≤ b) (h₂ : b ≤ c) : a ≤ c := by
-  -- 成功
-  my_trans b <;> assumption
+  -- `≤` に対するルール
+  local macro_rules
+    | `(tactic| my_trans $e) => `(tactic| apply Nat.le_trans (m := $e))
 
-example (h₁ : a < b) (h₂ : b < c) : a < c := by
-  -- 失敗
-  my_trans b <;> try assumption
+  example (h₁ : a ≤ b) (h₂ : b ≤ c) : a ≤ c := by
+    -- 成功
+    my_trans b <;> assumption
 
-  exact Nat.le_of_succ_le h₂
+  example (h₁ : a < b) (h₂ : b < c) : a < c := by
+    -- 失敗
+    my_trans b <;> try assumption
 
-end --#
+    exact Nat.le_of_succ_le h₂
+
+end
 /- マクロ展開のルールとして、Lean は後に定義されたルールを先に適用するので、常に `Nat.le_trans` を先に適用します。ところが `<` は `≤` を使って定義されているため、`<` に対しても `apply Nat.le_trans` が成功してしまいます。その結果、`<` に対して `Nat.lt_trans` を使ってくれないという結果になっています。-/
 
 /-- `<` は `≤` を使って定義されている -/
@@ -62,22 +64,23 @@ example (h₁ : a < b) (h₂ : b < c) : a < c := by with_reducible
 
   apply Nat.lt_trans (m := b) <;> assumption
 
-section --#
+section
+  /- ## タクティクマクロを with_reducible で定義する例 -/
 
--- `<` に対するルール
-local macro_rules
-  | `(tactic| my_trans $e) => `(tactic| with_reducible apply Nat.lt_trans (m := $e))
+  -- `<` に対するルール
+  local macro_rules
+    | `(tactic| my_trans $e) => `(tactic| with_reducible apply Nat.lt_trans (m := $e))
 
--- `≤` に対するルール
-local macro_rules
-  | `(tactic| my_trans $e) => `(tactic| with_reducible apply Nat.le_trans (m := $e))
+  -- `≤` に対するルール
+  local macro_rules
+    | `(tactic| my_trans $e) => `(tactic| with_reducible apply Nat.le_trans (m := $e))
 
-example (h₁ : a ≤ b) (h₂ : b ≤ c) : a ≤ c := by
-  -- 成功
-  my_trans b <;> assumption
+  example (h₁ : a ≤ b) (h₂ : b ≤ c) : a ≤ c := by
+    -- 成功
+    my_trans b <;> assumption
 
-example (h₁ : a < b) (h₂ : b < c) : a < c := by
-  -- 成功
-  my_trans b <;> try assumption
+  example (h₁ : a < b) (h₂ : b < c) : a < c := by
+    -- 成功
+    my_trans b <;> try assumption
 
-end --#
+end
