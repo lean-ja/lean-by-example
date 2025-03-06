@@ -11,7 +11,7 @@ Lean では再帰関数も再帰的でない関数と同様に定義できます
 namespace WithoutPartial --#
 
 -- 何も指定しないと、停止することが Lean にはわからないのでエラーになる
-/--
+/-⋆-//--
 error: fail to show termination for
   WithoutPartial.M
 with errors
@@ -29,16 +29,16 @@ n : Nat
 h✝ : ¬n > 100
 ⊢ n + 11 < n
 -/
-#guard_msgs in
-  /-- McCarthy の 91 関数 -/
-  def M (n : Nat) : Nat :=
-    if n > 100 then
-      n - 10
-    else
-      M (M (n + 11))
+#guard_msgs in --#
+/-- McCarthy の 91 関数 -/
+def M (n : Nat) : Nat :=
+  if n > 100 then
+    n - 10
+  else
+    M (M (n + 11))
 
 end WithoutPartial --#
-namespace Partial --#
+
 -- `partial` を使うと、停止性の証明が不要になる
 partial def M (n : Nat) : Nat :=
   if n > 100 then
@@ -63,8 +63,9 @@ def more := @forever
 
 -- 実際に #reduce を実行してみると、
 -- forever の部分が簡約されていないことがわかる
-/-- info: forever (Int.ofNat 5) -/
-#guard_msgs in #reduce forever 5
+/-⋆-//-- info: forever (Int.ofNat 5) -/
+#guard_msgs in --#
+#reduce forever 5
 
 /-- 正しい階乗関数 -/
 def factorial (x : Nat) : Nat :=
@@ -74,8 +75,9 @@ def factorial (x : Nat) : Nat :=
 
 -- 正しい階乗関数と比較してみると、
 -- 正しい方は簡約ができていることがわかる
-/-- info: 120 -/
-#guard_msgs in #reduce factorial 5
+/-⋆-//-- info: 120 -/
+#guard_msgs in --#
+#reduce factorial 5
 
 /- ## 例外的な挙動
 再帰的でない関数に `partial` をマークしても何も起こりません。-/
@@ -83,7 +85,6 @@ def factorial (x : Nat) : Nat :=
 partial def square (x : Int) := x * x
 
 -- 簡約が実行される
-/-- info: Int.ofNat 1024 -/
-#guard_msgs in #reduce square 32
-
-end Partial --#
+/-⋆-//-- info: Int.ofNat 1024 -/
+#guard_msgs in --#
+#reduce square 32
