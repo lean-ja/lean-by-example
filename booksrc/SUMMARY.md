@@ -78,6 +78,7 @@
   - [⟨x₁, x₂, .., xₙ⟩: 無名コンストラクタ](./Parser/AnonymousConstructor.md)
   - [`[x₁, x₂, .., xₙ]`: リストリテラル](./Parser/ListLiteral.md)
   - [`{x y : A}`: 暗黙の引数](./Parser/ImplicitBinder.md)
+  - [`#[x₁, x₂, .., xₙ]`: 配列リテラル](./Parser/ArrayLiteral.md)
   - [at h: タクティクの書き換え先を指定](./Parser/AtLocation.md)
   - [by: タクティクモードに入る](./Parser/By.md)
   - [e.f: フィールド記法](./Parser/FieldNotation.md)
