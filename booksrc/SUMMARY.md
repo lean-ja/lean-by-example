@@ -136,6 +136,7 @@
   - [Prod: 型の積](./Type/Prod.md)
   - [Prop: 命題全体](./Type/Prop.md)
   - [String: 文字列](./Type/String.md)
+  - [Subtype: 部分型](./Type/Subtype.md)
   - [Sum: 型の和](./Type/Sum.md)
   - [Syntax: 具象構文木](./Type/Syntax.md)
   - [Type: 型の型](./Type/Type.md)
