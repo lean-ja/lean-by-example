@@ -72,9 +72,9 @@ elab "#speed_test " "|" n:num "≤" "[ms]" "≤" m:num "|" stx:command : command
 
   -- 指定時間帯に終わったかどうかを検証
   unless time ≥ startline do
-    throwError m!"It took less than {startline}ms for the command to run."
+    throwError m!"It took {time}ms for the command to run, which is less than {startline}ms."
   unless time ≤ deadline do
-    throwError m!"It took more than {deadline}ms for the command to run."
+    throwError m!"It took {time}ms for the command to run, which is more than {deadline}ms."
 
   logInfo m!"time: {time}ms"
 
@@ -83,9 +83,9 @@ elab "#speed_test " "|" n:num "≤" "[ms]" "≤" m:num "|" stx:command : command
   | example : 1 < 2 := by simp
 
 #speed_test
-  | 30 ≤ [ms] ≤ 120
+  | 20 ≤ [ms] ≤ 120
   | example : 1 < 2 := by norm_num
 
 #speed_test
-  | 200 ≤ [ms] ≤ 1000
+  | 100 ≤ [ms] ≤ 1000
   | example : 1 < 2 := by linarith

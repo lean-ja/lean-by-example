@@ -41,6 +41,7 @@ where
 
 open Lean Elab Command in
 
+/-- コマンドの実行時間がnミリ秒以上mミリ秒以下であることを確かめるコマンド -/
 elab "#speed_test " "|" n:num "≤" "[ms]" "≤" m:num "|" stx:command : command => do
   -- 実行直前に計測開始
   let start_time ← IO.monoMsNow
@@ -58,9 +59,9 @@ elab "#speed_test " "|" n:num "≤" "[ms]" "≤" m:num "|" stx:command : command
 
   -- 指定時間帯に終わったかどうかを検証
   unless time ≥ startline do
-    throwError m!"It took less than {startline}ms for the command to run."
+    throwError m!"It took {time}ms for the command to run, which is less than {startline}ms."
   unless time ≤ deadline do
-    throwError m!"It took more than {deadline}ms for the command to run."
+    throwError m!"It took {time}ms for the command to run, which is more than {deadline}ms."
 
   logInfo m!"time: {time}ms"
 
