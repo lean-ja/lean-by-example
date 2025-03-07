@@ -7,7 +7,7 @@ import Lean --#
 -- 正の数を表す subtype
 #check Subtype (fun n => n > 0)
 
-/- `{x // p x}` という専用の構文が用意されていて、これで `Subtype` を表すことができます。 -/
+/- [`{x : T // p x}`](#{root}/Parser/Subtype.md) という専用の構文が用意されていて、これで `Subtype` を表すことができます。 -/
 
 -- 正の数を表す subtype
 #check { n : Nat // n > 0 }
