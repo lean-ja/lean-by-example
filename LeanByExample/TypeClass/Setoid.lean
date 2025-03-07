@@ -44,7 +44,7 @@ section
     fun a₁ a₂ => r (f a₁) (f a₂)
 
   /-- `β` 上の同値関係から誘導される `α` 上の同値関係 -/
-  def Setoid.contra_map [Setoid β] (f : α → β) : Setoid α where
+  def Setoid.contra_map (f : α → β) (sb : Setoid β) : Setoid α where
     r := Rel.contra_map f (· ≈ ·)
     iseqv := by
       constructor <;> dsimp [Rel.contra_map]
