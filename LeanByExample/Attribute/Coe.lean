@@ -19,6 +19,8 @@ attribute [coe] MyNat.succ
 
 /- ## 用途
 型強制を [`Coe`](#{root}/TypeClass/Coe.md) 型クラスで登録しただけでは、必ずしも型強制を行う関数が `↑` 記号で表示されるわけではありません。`[coe]` 属性を付与することにより、より「型強制らしく」表示されるようになります。
+
+例として、以下に [`Quotient`](#{root}/Type/Quotient.md) によって構成した整数への変換を挙げます。
 -/
 
 /-- 自然数の組 -/
@@ -29,7 +31,7 @@ def IntBase.equiv : IntBase → IntBase → Prop :=
   fun (a₁, b₁) (a₂, b₂) => a₁ + b₂ = b₁ + a₂
 
 /-- `IntBase` 上の同値関係として `IntBase.equiv` を登録する -/
-instance IntBase.setoid : Setoid IntBase where
+@[instance] def IntBase.sequiv : Setoid IntBase where
   r := IntBase.equiv
   iseqv := by
     constructor
@@ -47,7 +49,7 @@ instance IntBase.setoid : Setoid IntBase where
       omega
 
 /-- 整数を表す型 -/
-abbrev myInt := Quotient IntBase.setoid
+abbrev myInt := Quotient IntBase.sequiv
 
 /-- 自然数を `myInt` に変換する -/
 def myInt.ofNat (n : Nat) : myInt := Quotient.mk' (n, 0)
@@ -57,14 +59,14 @@ instance : Coe Nat myInt where
   coe := myInt.ofNat
 
 -- この時点では、`myInt.ofNat` が型強制として表示されない
-/-- info: myInt.ofNat Nat.zero : myInt -/
-#guard_msgs in
-  #check (Nat.zero : myInt)
+/-⋆-//-- info: myInt.ofNat Nat.zero : myInt -/
+#guard_msgs in --#
+#check (Nat.zero : myInt)
 
 -- `[coe]` 属性を付与する
 attribute [coe] myInt.ofNat
 
 -- `myInt.ofNat` ではなく `↑` と表示されるようになった！
-/-- info: ↑Nat.zero : myInt -/
-#guard_msgs in
-  #check (Nat.zero : myInt)
+/-⋆-//-- info: ↑Nat.zero : myInt -/
+#guard_msgs in --#
+#check (Nat.zero : myInt)
