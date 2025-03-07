@@ -41,7 +41,7 @@ def IntBase.equiv : IntBase → IntBase → Prop :=
   fun (a₁, b₁) (a₂, b₂) => a₁ + b₂ = b₁ + a₂
 
 /-- `IntBase` と同値関係 `IntBase.equiv` をペアにする -/
-instance IntBase.setoid : Setoid IntBase where
+@[instance] def IntBase.sequiv : Setoid IntBase where
   r := IntBase.equiv
   iseqv := by
     constructor
@@ -59,7 +59,7 @@ instance IntBase.setoid : Setoid IntBase where
       omega
 
 /-- 自前で定義した整数 -/
-abbrev myInt := Quotient IntBase.setoid
+abbrev myInt := Quotient IntBase.sequiv
 
 /-- 自然数を `myInt` と解釈する関数 -/
 def myInt.ofNat (n : ℕ) : myInt := ⟦(n, 0)⟧
@@ -77,12 +77,12 @@ theorem myInt_eq {x y : ℕ} : (x : myInt) = (y : myInt) ↔ x = y := by
 -- `[norm_cast]` 属性の制約として、
 -- 登録する補題の中には型強制が含まれていなくてはいけない
 -- たとえば `↑` など
-/--
+/-⋆-//--
 error: norm_cast: badly shaped lemma, lhs must contain at least one coe
   myInt.ofNat x = myInt.ofNat y
 -/
-#guard_msgs in
-  attribute [norm_cast] myInt_eq
+#guard_msgs in --#
+attribute [norm_cast] myInt_eq
 
 -- `[coe]` 属性を付与し、`myInt.ofNat` を型キャストを行う関数として認識させる
 attribute [coe] myInt.ofNat
