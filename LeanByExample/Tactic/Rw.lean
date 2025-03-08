@@ -47,7 +47,8 @@ example (h : a = b) (hb : a + 3 = 0) : b + 3 = 0 := by
   assumption
 
 /- ### 書き換え場所の指定
-ゴールではなく、ローカルコンテキストにある `h : P` を書き換えたいときには `at` をつけて `rw [hPQ] at h` とします。すべての箇所で置き換えたいときは `rw [hPQ] at *` とします。
+
+`rw` は [at 構文](#{root}/Parser/AtLocation.md) を受け入れます。ゴールではなく、ローカルコンテキストにある `h : P` を書き換えたいときには `at` をつけて `rw [hPQ] at h` とします。すべての箇所で置き換えたいときは `rw [hPQ] at *` とします。
 
 また、ゴールとローカルコンテキストの仮定 `h` に対して同時に書き換えたいときは `⊢` 記号を使って `rw [hPQ] at h ⊢` のようにします。-/
 
@@ -68,7 +69,7 @@ example (h : a * b = c * d) (h' : e = f + 0) : a * (b * e + 0) = c * (d * f) := 
   rw [← Nat.mul_assoc, h]
 
   -- 結合法則を使う
-  rw [Nat.mul_assoc]
+  ac_rfl
 
 /- ## rw の制約
 
@@ -116,13 +117,10 @@ example : ∃ x : Nat, x < 5 := by
 `rewrite` というタクティクもあります。`rw` とよく似ていて、違いは `rw` が書き換え後に自動的に `rfl` を実行するのに対して、`rewrite` は行わないということです。`rewrite` はユーザにとっては `rw` の下位互換なので、あまり使うことはないかもしれません。-/
 
 example (h : a = b) : a = b := by
-  try
-    -- `rw` を使用した場合は一発で証明が終わる
-    rw [h]
-    done
+  -- `rw` を使用した場合は一発で証明が終わる
+  rw [h]
 
-    fail
-
+example (h : a = b) : a = b := by
   rewrite [h]
 
   -- ゴールを `b = b` にするところまでしかやってくれない

@@ -43,28 +43,29 @@ example {P Q R : Prop} : (P ∨ Q ∨ R) ∧ R ↔ R := by simp
 左辺と右辺を間違えて登録すると、無限ループになって `simp` の動作が破壊されることがあります。`[simp]` 属性は慎重に登録してください。-/
 section
 
--- 何もしていなければ simp で通る
-example (n m : Nat) : (n + 0) * m = n * m := by simp
+  -- 何もしていなければ simp で通る
+  example (n m : Nat) : (n + 0) * m = n * m := by simp
 
--- 良くない simp 補題の例
--- 「左辺を右辺に」単純化するため、かえって複雑になってしまう
--- なお local を付けているのは、この simp 補題登録の影響をセクション内に限定するため
-@[local simp]
-theorem bad_add_zero (n : Nat) : n = n + 0 := by rw [Nat.add_zero]
+  -- 良くない simp 補題の例
+  -- 「左辺を右辺に」単純化するため、かえって複雑になってしまう
+  -- なお local を付けているのは、この simp 補題登録の影響をセクション内に限定するため
+  @[local simp]
+  theorem bad_add_zero (n : Nat) : n = n + 0 := by rw [Nat.add_zero]
 
--- 今まで通った証明が通らなくなる
-/--
-error: tactic 'simp' failed, nested error:
-maximum recursion depth has been reached
-use `set_option maxRecDepth <num>` to increase limit
-use `set_option diagnostics true` to get diagnostic information
--/
-#guard_msgs in
+  -- 今まで通った証明が通らなくなる
+  /-⋆-//--
+  error: tactic 'simp' failed, nested error:
+  maximum recursion depth has been reached
+  use `set_option maxRecDepth <num>` to increase limit
+  use `set_option diagnostics true` to get diagnostic information
+  -/
+  #guard_msgs (whitespace := lax) in --#
   example (n m : Nat) : (n + 0) * m = n * m := by simp
 
 end
 /- ## simp で使用できる構文
 
+### 補題の指定
 既知の `h : P` という命題を使って単純化させたいときは、明示的に `simp [h]` と指定することで可能です。複数個指定することもできます。また `simp only [h₁, ... , hₖ]` とすると `h₁, ... , hₖ` だけを使用して単純化を行います。-/
 
 example {P Q R : Prop} (h : R) : (P ∨ Q ∨ R) ∧ R := by
@@ -72,7 +73,10 @@ example {P Q R : Prop} (h : R) : (P ∨ Q ∨ R) ∧ R := by
   assumption
 
 /- 単に名前を定義に展開したい場合は [`dsimp`](./Dsimp.md) を使用します。
-`simp` は何も指定しなければゴールを単純化しますが、ローカルコンテキストにある `h : P` を単純化させたければ `simp at h` と指定することで可能です。ゴールと `h` の両方を単純化したいときは `simp at h ⊢` とします。-/
+
+### at 構文
+
+`simp` は [at 構文](#{root}/Parser/AtLocation.md) を受け入れます。`simp` は何も指定しなければゴールを単純化しますが、ローカルコンテキストにある `h : P` を単純化させたければ `simp at h` と指定することで可能です。ゴールと `h` の両方を単純化したいときは `simp at h ⊢` とします。-/
 
 example {n m : Nat} (h : n + 0 + 0 = m) : n = m + (0 * n) := by
   simp only [add_zero, zero_mul] at h ⊢
@@ -80,24 +84,7 @@ example {n m : Nat} (h : n + 0 + 0 = m) : n = m + (0 * n) := by
 
 /- ローカルコンテキストとゴールをまとめて全部単純化したい場合は `simp at *` とします。 -/
 
-/- ## simpa
-`simpa` は、`simp` を実行した後 `assumption` を実行するという一連の流れを一つのタクティクにしたものです。`simpa at h` 構文は存在せず、`simpa using h` と書くことに注意してください。-/
-
-example {P Q R : Prop} (h : R) : (P ∨ Q ∨ R) ∧ R := by
-  simpa only [or_and]
-
-example {n m : Nat} (h : n + 0 + 0 = m) : n = m := by
-  simpa using h
-
-/- ## simp?
-
-`simp` は自動的に証明を行ってくれますが、何が使われたのか知りたいときもあります。`simp?` は単純化に何が使われたのかを示してくれるので、`simp only` などを用いて明示的に書き直すことができます。-/
-
-example {P Q R : Prop} : (P ∨ Q ∨ R) ∧ R ↔ R := by
-  simp? says
-    simp only [or_and]
-
-/- ## simp_arith
+/- ## arith オプション
 `simp` の設定で `arith` を有効にすると、算術的な単純化もできるようになります。
 -/
 set_option linter.flexible false in --#
@@ -121,7 +108,25 @@ example {x y : Nat} : 0 < 1 + x ∧ x + y + 2 ≥ y + 1 := by
   -- config を与えれば一発で終わる
   simp +arith
 
-/- ## simp_all
+/- ## 関連タクティク -/
+/- ### simpa
+`simpa` は、`simp` を実行した後 `assumption` を実行するという一連の流れを一つのタクティクにしたものです。`simpa at h` 構文は存在せず、`simpa using h` と書くことに注意してください。-/
+
+example {P Q R : Prop} (h : R) : (P ∨ Q ∨ R) ∧ R := by
+  simpa only [or_and]
+
+example {n m : Nat} (h : n + 0 + 0 = m) : n = m := by
+  simpa using h
+
+/- ### simp?
+
+`simp` は自動的に証明を行ってくれますが、何が使われたのか知りたいときもあります。`simp?` は単純化に何が使われたのかを示してくれるので、`simp only` などを用いて明示的に書き直すことができます。-/
+
+example {P Q R : Prop} : (P ∨ Q ∨ R) ∧ R ↔ R := by
+  simp? says
+    simp only [or_and]
+
+/- ### simp_all
 [`simp_all`](./SimpAll.md) はローカルコンテキストとゴールをこれ以上単純化できなくなるまですべて単純化します。-/
 
 example {P Q : Prop} (hP : P) (hQ : Q) : P ∧ (Q ∧ (P → Q)) := by
