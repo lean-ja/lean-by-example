@@ -226,3 +226,5 @@ def MyInt.add : MyInt → MyInt → MyInt := Quotient.lift₂ PreInt.add <| by
   dsimp [PreInt.add]; apply Quotient.sound
   dsimp [(· ≈ ·), PreInt.srel, PreInt.rel] at *
   omega
+
+instance : Add MyInt := ⟨MyInt.add⟩
