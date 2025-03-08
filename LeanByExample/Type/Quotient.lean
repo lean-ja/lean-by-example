@@ -38,9 +38,27 @@ end
 
 理解しにくいと思うのでもう一度別な表現をすると、たとえば２人の人物に対して、そのひとたちの「年齢の和」を考えることはナンセンスです。これは、年齢の和が生まれた年だけによっては決まらず、「今が何年であるか」という情報にも依存してしまうからです。これが、上記で述べた「同値類のどの要素を選ぶかに依存せず同じ値を返す」という前提が成立しない状況の例になっています。逆に、「年齢の差」を考えることはできて、年齢の差を与える関数が作れます。これは、年齢の差がまさに「生年にしか依存しない」からで、生年が同じという同値類で割った商からの関数に持ち上げることができます。
 
-この操作は Lean では `Quotient.lift` で実現できます。
+この操作は Lean では `Quotient.lift` で実現できます。もし `α : Type` 上の同値関係 `sr : Setoid α` と関数 `f : α → β` が与えられていて `h : ∀ x, x ≈ y → f x = f y` が成り立つならば、商への持ち上げ `Quotient.lift f h : Quotient sr → β` が得られます。
 -/
+section
+  /- ## Quotient.lift は商からの関数を作る -/
 
+  variable {α β : Type} (sr : Setoid α)
+  variable (f : α → β) (h : ∀ x y, x ≈ y → f x = f y)
+
+  #check (Quotient.lift f h : Quotient sr → β)
+end
+/- `Quotient.lift` が持ち上げであると言われるのは、元の `f` と値が同じになるからです。つまり、`f' := Quotient.lift f h` としたとき `f' (Quotient.mk x) = f x` が成り立ちます。 -/
+section
+  /- ## Quotient.lift は元の関数の値を変えない -/
+
+  variable {α β : Type} (sr : Setoid α)
+  variable (f : α → β) (h : ∀ x y, x ≈ y → f x = f y)
+
+  example : ∀ x, (Quotient.lift f h) (Quotient.mk sr x) = f x := by
+    intro x
+    rfl
+end
 /-
 ## 具体例: 人間の性別による商
 
