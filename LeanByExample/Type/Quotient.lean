@@ -162,7 +162,7 @@ abbrev PreInt := Nat × Nat
 
 /- これは全ての整数を表すことができますが、重複があるので整数そのものになりません。この構成だとたとえば `(0, 1)` と `(1, 2)` は同じ整数に対応するので、適切に同一視を入れる必要があります。`(x₁, y₁) : PreInt` と `(x₂, y₂) : PreInt` が同じ整数に対応するのは `x₁ - y₁ = x₂ - y₂` のときですが、これは `x₁ + y₂ = x₂ + y₁` と書き直すことができます。したがって、`PreInt` 上の２項関係 `r` を `x₁ + y₂ = x₂ + y₁` で定義して `r` に関する商を取れば、整数を構成できます。-/
 
-namespace MyPreInt
+namespace PreInt
   /- ## MyIntのための同値関係の構成 -/
 
   /-- PreInt 上の二項関係 -/
@@ -195,7 +195,21 @@ namespace MyPreInt
   /-- `PreInt` 上の同値関係 -/
   @[instance] def srel : Setoid PreInt := ⟨rel, rel.equiv⟩
 
-end MyPreInt
+end PreInt
 
 /-- 整数の定義 -/
-def MyInt := Quotient MyPreInt.srel
+def MyInt := Quotient PreInt.srel
+
+/- `MyInt` 上にマイナス演算 `(- ·) : MyInt → MyInt` を定義しましょう。商からの関数は `lift` で構成することができます。そこでまず `PreInt` 上で関数を実装し、それを持ち上げる方針を取ります。 -/
+
+def PreInt.neg (m : PreInt) : MyInt := match m with
+  | (m₁, m₂) => Quotient.mk _ (m₂, m₁)
+
+/-- 整数上のマイナス演算 -/
+def MyInt.neg : MyInt → MyInt := Quotient.lift PreInt.neg <| by
+  intro (m₁, m₂) (n₁, n₂) h
+  dsimp [PreInt.neg]; apply Quotient.sound
+  dsimp [(· ≈ ·), PreInt.srel, PreInt.rel] at *
+  omega
+
+instance : Neg MyInt := ⟨MyInt.neg⟩
