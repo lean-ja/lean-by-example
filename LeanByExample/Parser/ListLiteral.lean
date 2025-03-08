@@ -32,6 +32,9 @@ macro_rules
 -- 項を作るのが楽になった！
 #check my[1, 2, 3]
 
+-- 末尾のコンマは無視される
+#check my[1, 2, 3, ]
+
 -- リストリテラル構文のテスト
 #guard
   let actual := my[1, 2, 3]

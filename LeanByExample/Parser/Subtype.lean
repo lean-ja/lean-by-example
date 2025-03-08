@@ -27,3 +27,6 @@ macro_rules
 
 -- 正の自然数全体を表す部分型
 #check my{ x // x > 0 }
+
+-- 正の整数全体の型
+#check my{ x : Int // x > 0 }
