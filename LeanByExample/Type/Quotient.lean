@@ -122,18 +122,18 @@ def «↑gender» : «Human/≈» → Gender := Quotient.lift gender <| by
 axiom pick : Gender → Human
 
 /-- `pick` 関数の仕様 -/
-axiom Human.gender_pick_eq_id (g : Gender) : gender (pick g) = g
+axiom Human.pick_spec (g : Gender) : gender (pick g) = g
 
 noncomputable def «pick↑» : Gender → «Human/≈» := fun g =>
   Quotient.mk Human.sr <| pick g
 
 /- このとき、`↑gender` と `pick↑` は互いに逆の関係にあります。つまり、`↑gender ∘ pick↑ = id` であり `pick↑ ∘ ↑gender = id` が成り立ちます。つまり、`Human/≈` と `Gender` は型として同値です。 -/
 
-theorem Human.gender_pick_eq_id' (g : Gender) : «↑gender» («pick↑» g) = g := calc
+theorem Human.gender_pick_eq_id (g : Gender) : «↑gender» («pick↑» g) = g := calc
   _ = gender (pick g) := rfl -- 定義から従う
-  _ = g := by apply Human.gender_pick_eq_id
+  _ = g := by apply Human.pick_spec
 
-theorem Human.pick_gender_eq_id' (a : «Human/≈») : «pick↑» («↑gender» a) = a := by
+theorem Human.pick_gender_eq_id (a : «Human/≈») : «pick↑» («↑gender» a) = a := by
   -- `a : Human/≈` が与えられているが、
   -- `a = Quotient.mk Human.sr ax` を満たす `ax : Human` が存在する
   induction a using Quotient.inductionOn with
@@ -147,7 +147,7 @@ theorem Human.pick_gender_eq_id' (a : «Human/≈») : «pick↑» («↑gender�
 
     have : gender (pick («↑gender» (Quotient.mk sr ax))) = gender ax := calc
       _ = gender (pick (gender ax)) := rfl -- 定義から従う
-      _ = gender ax := by rw [Human.gender_pick_eq_id]
+      _ = gender ax := by rw [Human.pick_spec]
     assumption
 
 /- ## 具体例：自然数の積の商として整数を得る
