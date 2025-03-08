@@ -213,3 +213,16 @@ def MyInt.neg : MyInt → MyInt := Quotient.lift PreInt.neg <| by
   omega
 
 instance : Neg MyInt := ⟨MyInt.neg⟩
+
+/- 次に `MyInt` 上に足し算 `(· + ·) : MyInt → MyInt → MyInt` を定義しましょう。商からの関数なのでやはり `Quotient.lift` を使いたくなるのですが、引数が二つあるので `Quotient.lift₂` を使う方が良いです。 -/
+
+def PreInt.add (m n : PreInt) : MyInt :=
+  match m, n with
+  | (m₁, m₂), (n₁, n₂) => Quotient.mk _ (m₁ + n₁, m₂ + n₂)
+
+/-- 整数上の足し算 -/
+def MyInt.add : MyInt → MyInt → MyInt := Quotient.lift₂ PreInt.add <| by
+  intro (m₁, m₂) (n₁, n₂) (m₁', m₂') (n₁', n₂') h₁ h₂
+  dsimp [PreInt.add]; apply Quotient.sound
+  dsimp [(· ≈ ·), PreInt.srel, PreInt.rel] at *
+  omega
