@@ -77,6 +77,23 @@ section
 
       trivial
 end
+/- ### Quotient.sound: 同値なら商へ送って等しい
+
+型 `α` の同値関係 `sr : Setoid α` による商 `α/r` において、`x y : α` が同値つまり `x ≈ y` であるとき、これは商へ送った時には同一視されます。つまり、言い換えれば自然な関数 `Quotient.mk sr : α → α/r` による像が等しくなっているはずです。
+
+これは、Lean では `Quotient.sound` という定理で表されています。
+-/
+section
+  /- ## 同値なら商へ送って等しい -/
+
+  variable {α : Type} (sr : Setoid α)
+  variable (x y : α) (h : x ≈ y)
+
+  example : Quotient.mk sr x = Quotient.mk sr y := by
+    apply Quotient.sound
+    exact h
+end
+
 /- ## 使用例
 ### 人間の性別による商
 
