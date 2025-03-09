@@ -14,12 +14,12 @@ inductive Color : Type where
 set_option eval.derive.repr false
 
 -- `Repr` が定義されていないので `eval` できない
-/--
+/-⋆-//--
 error: could not synthesize a 'Repr' or 'ToString' instance for type
   Color
 -/
-#guard_msgs in
-  #eval Color.red
+#guard_msgs in --#
+#eval Color.red
 
 -- インスタンス生成
 deriving instance Repr for Color
@@ -51,10 +51,10 @@ deriving Inhabited, Repr
 class Callable (α : Type) where
   call : α → String
 
-/-- error: default handlers have not been implemented yet,
+/-⋆-//-- error: default handlers have not been implemented yet,
 class: 'Callable' types: [People] -/
-#guard_msgs in
-  deriving instance Callable for People
+#guard_msgs in --#
+deriving instance Callable for People
 
 /- 例外として、定義を展開して既存のインスタンスが見つかる場合は `deriving` が通ります。-/
 
