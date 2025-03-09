@@ -46,7 +46,7 @@ Lean は開発が活発に続いているソフトウェアであり、毎月の
 
 このプロジェクトは [Proxima Technology](https://proxima-ai-tech.com/) 様よりご支援を頂いています。
 
-![logo of Proxima Technology](./image/proxima.svg)
+![logo of Proxima Technology](./image/proxima.inkscape.svg)
 
 Proxima Technology（プロキシマテクノロジー）は数学の社会実装を目指し、その⼀環としてモデル予測制御の民主化を掲げているAIスタートアップ企業です。数理科学の力で社会を変えることを企業の使命としています。
 
