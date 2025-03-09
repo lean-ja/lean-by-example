@@ -59,6 +59,24 @@ section
     intro x
     rfl
 end
+/- ### Quotient.inductionOn: 同値類の代表元を取る
+
+同値類 `a : α/r` は、`r` に関して同値な要素の集まりでした。同値類 `a` に対して、その中から一つ要素を選び出すことを **代表元** を取ると言います。「どれを選んでも `r` の意味で同じなので、どれかを取ってその同値類の代表とする」というニュアンスです。
+
+これは Lean では `Quotient.inductionOn` で実現できます。これを使うと、証明の中で「同値類から代表元を取って～」というよくある議論ができます。
+-/
+section
+
+  variable {α : Type} (sr : Setoid α)
+
+  example (a : Quotient sr) : True := by
+    induction a using Quotient.inductionOn with
+    | h x =>
+      -- `x : α` が得られる
+      guard_hyp x : α
+
+      trivial
+end
 /- ## 使用例
 ### 人間の性別による商
 
