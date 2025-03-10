@@ -22,11 +22,12 @@ def origin : Point Nat := ⟨0, 0⟩
 set_option eval.derive.repr false
 
 -- 表示できずにエラーになった！
-/--
+/-⋆-//--
 error: could not synthesize a 'ToExpr', 'Repr', or 'ToString' instance for type
   Point Nat
 -/
-#guard_msgs in #eval origin
+#guard_msgs in --#
+#eval origin
 
 /- ## Repr が満たすべきルール
 
@@ -176,13 +177,13 @@ namespace Expr
   /- ## ToString インスタンスを定義する -/
 
   protected def toString : Expr → String
-    | .val x => ToString.toString x
+    | .val x => toString x
     | .app op l r =>
-      brak l ++ " " ++ ToString.toString op ++ " " ++ brak r
+      brak l ++ " " ++ toString op ++ " " ++ brak r
   where
     /-- 式全体を括弧で囲うことを回避するための補助関数 -/
     brak : Expr → String
-    | .val n => ToString.toString n
+    | .val n => toString n
     | e => "(" ++ Expr.toString e ++ ")"
 
   instance : ToString Expr := ⟨Expr.toString⟩
