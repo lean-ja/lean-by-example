@@ -28,10 +28,10 @@ section
   variable (a b : Nat)
 
   example (h : (a - b : Int) ≤ 0) : (a - b = 0) := by
-    -- `linarith` では示すことができません
+    -- `linarith` では示すことができない
     fail_if_success linarith
 
-    -- `omega` では示すことができます
+    -- `omega` では示すことができる
     omega
 
   example (h : a > 0) : (a - 1) + 1 = a := by
