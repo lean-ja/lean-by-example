@@ -68,8 +68,9 @@ end MacroRules
 -- 引数は `$` を付けると展開できる
 macro "#hello " id:term : command => `(command| #eval s!"Hello, {$id}!")
 
-/-- info: "Hello, Lean!" -/
-#guard_msgs in #hello "Lean"
+/-⋆-//-- info: "Hello, Lean!" -/
+#guard_msgs in --#
+#hello "Lean"
 
 /- ### タクティクを自作する
 マクロを使用すると、コマンドだけでなくタクティクの定義も行うことができます。-/
@@ -86,10 +87,11 @@ example : √18 = 3 * √ 2 := by
   norm_num
 
 -- 新たなタクティクを定義する
-macro "norm_sqrt" : tactic => `(tactic| with_reducible
-  rw [Real.sqrt_eq_cases]
-  try ring_nf
-  norm_num)
+macro "norm_sqrt" : tactic => `(tactic| focus
+    rw [Real.sqrt_eq_cases]
+    try ring_nf
+    norm_num
+  )
 
 -- 新しいタクティクにより一発で証明が終わるようになった！
 example : √4 = 2 := by norm_sqrt
@@ -115,17 +117,17 @@ def sum (n : Nat) : Nat := Id.run do
 
 /- ### 引数の値ではなく名前を参照
 
-マクロ展開時に、マクロの引数として与えられた変数の値だけでなく、名前も参照することができます。
+[`Quote`](#{root}/TypeClass/Quote.md) と組み合わせることで、マクロ展開時に、マクロの引数として与えられた変数の値だけでなく名前も参照することができます。
 -/
 
 -- 通常の dbg_trace の挙動。
 -- 与えられた式の値だけを返し、与えられた式が何だったかは教えてくれない
-/-- info: 1 -/
-#guard_msgs in
-  #eval
-    let x := 1
-    dbg_trace x
-    return ()
+/-⋆-//-- info: 1 -/
+#guard_msgs in --#
+#eval
+  let x := 1
+  dbg_trace x
+  return ()
 
 /-- 与えられている変数の名前も出力するような `dbg_trace` の変種 -/
 macro "dbg_trace!" x:ident body:term : term =>
@@ -134,9 +136,9 @@ macro "dbg_trace!" x:ident body:term : term =>
   `(term| dbg_trace s!"{$ident} = {$x}"; $body)
 
 -- 与えられた変数の名前を出力するようになった！
-/-- info: y = 1 -/
-#guard_msgs in
-  #eval
-    let y := 1
-    dbg_trace! y
-    return ()
+/-⋆-//-- info: y = 1 -/
+#guard_msgs in --#
+#eval
+  let y := 1
+  dbg_trace! y
+  return ()
