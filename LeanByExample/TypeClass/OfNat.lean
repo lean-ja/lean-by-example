@@ -58,3 +58,27 @@ instance (n : Nat) : OfNat Pos (n + 1) where
 
 -- `0` は除外したのでエラーになる
 #check_failure (0 : Pos)
+
+/- ## 応用例
+
+`OfNat` の応用として、[`macro`](#{root}/Declarative/Macro.md) コマンドと組み合わせることで数値リテラル `n` を `1 + 1 + ⋯ + 1` (`n` 個の `1` の和) に分解するタクティクを自作することができます。[^expand]
+-/
+
+theorem unfoldNat (x : Nat) : OfNat.ofNat (x + 2) = OfNat.ofNat (x + 1) + 1 :=
+  rfl
+
+theorem unfoldNatZero (x : Nat) : OfNat.ofNat (0 + x) = x :=
+  Nat.zero_add x
+
+/-- 自然数を `1 + 1 + ⋯ + 1` に分解する -/
+macro "expand_num" : tactic => `(tactic| simp only [unfoldNat, unfoldNatZero])
+
+example (n : Nat) : 3 * n = 2 * n + 1 * n := by
+  expand_num
+
+  -- 数値が `1 + 1 + ⋯ + 1` に分解された
+  guard_target =ₛ (1 + 1 + 1) * n = (1 + 1) * n + 1 * n
+
+  simp only [Nat.add_mul]
+
+/- [^expand]: このコード例は、Lean 公式 Zulip の [expand_nums tactic](https://leanprover.zulipchat.com/#narrow/channel/217875-Is-there-code-for-X.3F/topic/expand_nums.20tactic/near/504627783) トピックにおける Robin Arnez 氏の投稿を参考にしています。 -/
