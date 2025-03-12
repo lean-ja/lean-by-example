@@ -8,14 +8,14 @@
 -/
 
 -- 第二引数は評価されていない。
-/-- info: false -/
-#guard_msgs in
-  #eval false && (dbg_trace "hello"; true)
+/-⋆-//-- info: false -/
+#guard_msgs in --#
+#eval false && (dbg_trace "hello"; true)
 
 -- 第二引数は評価されていない。
-/-- info: true -/
-#guard_msgs in
-  #eval true || (dbg_trace "hello"; true)
+/-⋆-//-- info: true -/
+#guard_msgs in --#
+#eval true || (dbg_trace "hello"; true)
 
 /- 実際に `Bool.and`（つまり `&&`）を真似て関数を自作してみて、`[macro_inline]` 属性の挙動を確認してみましょう。 -/
 
@@ -25,18 +25,18 @@ def Bool.myAnd : Bool → Bool → Bool
   | _, _ => false
 
 -- 第二引数が評価されており、短絡評価になっていない
-/--
+/-⋆-//--
 info: hello
 ---
 info: false
 -/
-#guard_msgs in
-  #eval Bool.myAnd false (dbg_trace "hello"; true)
+#guard_msgs in --#
+#eval Bool.myAnd false (dbg_trace "hello"; true)
 
 -- `[macro_inline]` 属性を付与する
 attribute [macro_inline] Bool.myAnd
 
 -- 短絡評価になった！！
-/-- info: false -/
-#guard_msgs in
-  #eval Bool.myAnd false (dbg_trace "hello"; true)
+/-⋆-//-- info: false -/
+#guard_msgs in --#
+#eval Bool.myAnd false (dbg_trace "hello"; true)
