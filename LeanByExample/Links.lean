@@ -47,5 +47,5 @@
 * [Theorem Proving in Lean 4 日本語訳](https://aconite-ac.github.io/theorem_proving_in_lean4_ja/) Lean で数学の証明を行う方法を解説した公式チュートリアルの、有志による日本語訳です。
 * [数学系のためのLean勉強会](https://github.com/yuma-mizuno/lean-math-workshop) Lean で数学をどのように実装するのか、実際に実装する過程を追うことで学べる教材です。
 * [Leanのインストール方法・elanとLakeの使い方](https://aconite-ac.github.io/how_to_install_lean/) Leanのインストール方法・elanとLakeの使い方をまとめた有志による資料。
-
+* [自然数を作って学ぶLean言語](https://www.lambdanote.com/products/n-vol-5-no-1) n月刊ラムダノートに掲載されたLeanの入門記事。
 -/
