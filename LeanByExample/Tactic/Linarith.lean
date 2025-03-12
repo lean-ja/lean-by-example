@@ -52,40 +52,8 @@ end --#
 実行環境により正確な実行時間は異なりますが、`linarith` は比較的重いタクティクです。
 -/
 
-open Lean Elab Command in
+#time example : 1 < 2 := by simp
 
-/-- コマンドの実行時間がnミリ秒以上mミリ秒以下であることを確かめるコマンド -/
-elab "#speed_test " "|" n:num "≤" "[ms]" "≤" m:num "|" stx:command : command => do
-  -- 実行直前に計測開始
-  let start_time ← IO.monoMsNow
+#time example : 1 < 2 := by norm_num
 
-  -- 与えられたコマンドを実行
-  elabCommand stx
-
-  -- 実行後に計測終了して差分をミリ秒単位で計算
-  let end_time ← IO.monoMsNow
-  let time := end_time - start_time
-
-  -- 与えられた期限を取得
-  let startline := n.getNat
-  let deadline := m.getNat
-
-  -- 指定時間帯に終わったかどうかを検証
-  unless time ≥ startline do
-    throwError m!"It took {time}ms for the command to run, which is less than {startline}ms."
-  unless time ≤ deadline do
-    throwError m!"It took {time}ms for the command to run, which is more than {deadline}ms."
-
-  logInfo m!"time: {time}ms"
-
-#speed_test
-  | 10 ≤ [ms] ≤ 90
-  | example : 1 < 2 := by simp
-
-#speed_test
-  | 1 ≤ [ms] ≤ 120
-  | example : 1 < 2 := by norm_num
-
-#speed_test
-  | 20 ≤ [ms] ≤ 1000
-  | example : 1 < 2 := by linarith
+#time example : 1 < 2 := by linarith
