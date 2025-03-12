@@ -42,7 +42,7 @@ instance {α : Type} : Monoid (List α) where
 
 /- ## 型クラス解決
 
-型クラスが行っていることを `class` を使わずにDIYしてみると、型クラスの理解が深まるでしょう。`class` として上で定義したものを、もう一度 [構造体](./Structure.md)として定義してみます。-/
+型クラスが行っていることを `class` を使わずにDIYしてみると、型クラスの理解が深まるでしょう。`class` として上で定義したものを、もう一度 [構造体](./Structure.md)として定義してみます。[^mil] -/
 
 /-- 構造体でモノイドクラスを真似たもの -/
 structure Monoid' (α : Type) where
@@ -196,3 +196,5 @@ export HasCardinal (card)
 
 -- Bool の濃度が計算できた
 #guard card Bool = Ordinal.nat 2
+
+/- [^mil]: この説明は [Mathematics in Lean の7章](https://leanprover-community.github.io/mathematics_in_lean/C07_Hierarchies.html)を参考にしています。 -/
