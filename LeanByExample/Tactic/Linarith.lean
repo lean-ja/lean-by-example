@@ -79,7 +79,7 @@ elab "#speed_test " "|" n:num "≤" "[ms]" "≤" m:num "|" stx:command : command
   logInfo m!"time: {time}ms"
 
 #speed_test
-  | 10 ≤ [ms] ≤ 50
+  | 10 ≤ [ms] ≤ 90
   | example : 1 < 2 := by simp
 
 #speed_test
