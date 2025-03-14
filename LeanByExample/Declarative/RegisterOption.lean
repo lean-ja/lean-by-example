@@ -23,10 +23,10 @@ open Lean in
 
 elab "#greet" : command => do
   let opts ← getOptions
-  logInfo s!"greeting : {opts.get greeting.name greeting.defValue}"
+  logInfo s!"{opts.get greeting.name greeting.defValue}"
 
 -- デフォルト値が表示される
-/-⋆-//-- info: greeting : Hello World -/
+/-⋆-//-- info: Hello World -/
 #guard_msgs in --#
 #greet
 
@@ -34,7 +34,7 @@ elab "#greet" : command => do
 set_option greeting "Hi there"
 
 -- 表示も変更される
-/-⋆-//-- info: greeting : Hi there -/
+/-⋆-//-- info: Hi there -/
 #guard_msgs in --#
 #greet
 
