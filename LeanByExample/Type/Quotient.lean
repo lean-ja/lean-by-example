@@ -93,7 +93,19 @@ section
     apply Quotient.sound
     exact h
 end
+/- ### Quotient.exact: 商に送って等しいなら同値
 
+`Quotient.sound` とは逆に、商に送って等しいことから同値であることを導く定理には `Quotient.exact` という名前がついています。
+-/
+section
+  /- ## 商に送って等しいなら同値 -/
+
+  variable {α : Type} (sr : Setoid α)
+  variable (x y : α)
+
+  example (h : Quotient.mk sr x = Quotient.mk sr y) : x ≈ y := by
+    exact Quotient.exact h
+end
 /- ## 使用例
 ### 人間の性別による商
 
