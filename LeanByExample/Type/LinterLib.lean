@@ -1,8 +1,11 @@
+-- LinterLib.lean の内容
+
 import Lean.Util.CollectAxioms
 import Mathlib.Tactic.DeclarationNames
 
 /--
 「detectClassical」リンターは、`Classical.choice` 公理に依存する宣言に対して警告を発する。
+デフォルト値は `true`
 -/
 register_option linter.detectClassical : Bool := {
   defValue := true
