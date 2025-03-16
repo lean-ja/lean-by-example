@@ -34,3 +34,5 @@ set_option greeting "Hi there"
 /-⋆-//-- info: Hi there -/
 #guard_msgs in --#
 #greet
+
+/- 設定したオプションを活用する例は、[`Linter`](#{root}/Type/Linter.md) のページを参照のこと。 -/
