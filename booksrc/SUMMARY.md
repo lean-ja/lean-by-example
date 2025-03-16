@@ -85,6 +85,7 @@
   - [at h: タクティクの書き換え先を指定](./Parser/AtLocation.md)
   - [by: タクティクモードに入る](./Parser/By.md)
   - [e.f: フィールド記法](./Parser/FieldNotation.md)
+  - [match .. with: パターンマッチ](./Parser/Match.md)
   - [show .. from: 項の型を明示](./Parser/Show.md)
 
 - [属性](./Attribute/README.md)
