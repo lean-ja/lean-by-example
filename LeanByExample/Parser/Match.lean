@@ -37,3 +37,15 @@ def Pos.factorial (n : Pos) : Nat :=
   | ⟨m + 2, h⟩ => (m + 2) * factorial ⟨m + 1, by omega⟩
 
 #guard Pos.factorial ⟨4, by omega⟩ = 1 * 2 * 3 * 4
+
+/- ## パターンマッチのネスト
+
+パターンマッチはネストさせることができます。以下の例では [`String`](#{root}/Type/String.md) を `List Char` に分解した後、[`List`](#{root}/Type/List.md) を更に `[]` と `::` に分解しています。
+-/
+
+def String.myLength (s : String) : Nat :=
+  match s with
+  | ⟨[]⟩ => 0
+  | ⟨c :: cs⟩ => 1 + myLength ⟨cs⟩
+
+#guard "Hello, Lean!".myLength = 12
