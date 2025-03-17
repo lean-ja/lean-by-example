@@ -48,6 +48,7 @@
   - [instance: インスタンスを定義する](./Declarative/Instance.md)
   - [macro_rules: マクロ展開を定義](./Declarative/MacroRules.md)
   - [macro: マクロの構文と解釈を定義](./Declarative/Macro.md)
+  - [mutual: 相互再帰](./Declarative/Mutual.md)
   - [namespace: 名前空間を宣言する](./Declarative/Namespace.md)
   - [notation: 記法を導入する](./Declarative/Notation.md)
   - [opaque: 簡約できない名前を宣言](./Declarative/Opaque.md)
