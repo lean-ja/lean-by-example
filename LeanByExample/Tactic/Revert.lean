@@ -113,7 +113,7 @@ example (m : MyInt) : 0 + m = m := by
   dsimp [(· ≈ ·), Setoid.r, PreInt.r] at *
   omega
 
-/- 2つの証明はまったく同じです！そこで証明を共通化すべくマクロを定義してみると、素朴には上手くいきません。 -/
+/- 2つの証明はまったく同じです！そこで証明を共通化すべく [`macro`](#{root}/Declarative/Macro.md) コマンドでマクロを定義してみると、素朴には上手くいきません。 -/
 section
   local macro "unfold_int" : tactic => `(tactic| focus
     refine Quotient.inductionOn m ?_
@@ -129,7 +129,23 @@ section
     fail_if_success unfold_int
     sorry
 end
-/- なぜ上手くいかないかというと、マクロ内で参照している`m`という識別子がLeanのマクロ衛生機構に引っかかって使用不可になってしまうからです。仮に引っかからなかったとしても、証明すべき命題の変数が`m`ではなかったらどうするのでしょうか？このままではこのマクロは使い物になりません。
+/- なぜ上手くいかないかというと、マクロ内で参照している`m`という識別子がLeanのマクロ衛生機構に引っかかって使用不可になってしまうからです。実際、[`hygiene`](#{root}/Option/Hygiene.md) オプションでマクロ衛生を無効にすると通るようになります。-/
+section
+  set_option hygiene false
+
+  local macro "unfold_int" : tactic => `(tactic| focus
+    refine Quotient.inductionOn m ?_
+    intro (a₁, a₂)
+    apply Quot.sound
+    dsimp [(· ≈ ·), Setoid.r, PreInt.r] at *
+    omega
+  )
+
+  example (m : MyInt) : m + 0 = m := by
+    -- 証明が通るようになる
+    unfold_int
+end
+/- しかしこの解決策は本質的な解決ではありません。仮にマクロ衛生機構に引っかからなかったとしても、証明すべき命題の変数が `m` ではなかったらどうするのでしょうか？このままではこのマクロは使い物になりません。
 
 この問題を解決する方法の一つが、`revert` を使って自由変数を消してしまうことです。
 -/
