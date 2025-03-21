@@ -100,6 +100,35 @@ section
   #check_failure greet
 end
 
+/- ## 属性に対する scoped
+
+`attribute` コマンドの中で `scoped` を使用すると、属性付与の効果範囲を限定することができます。
+-/
+namespace Bar
+
+  @[scoped simp]
+  def bar : Nat := 12
+
+  example : bar = 12 := by
+    simp
+
+end Bar
+
+example : Bar.bar = 12 := by
+  -- `scoped`が付いているので、使えない
+  fail_if_success simp
+
+  dsimp [Bar.bar]
+
+section
+  -- 名前空間を開く
+  open Bar
+
+  example : bar = 12 := by
+    -- 名前空間を開いたので、`simp`が使える
+    simp
+
+end
 /- ## 構文的な性質
 [`local`](./Local.md) と [`scoped`](./Scoped.md) はともに構文的には `attrKind` に相当します。
 -/
