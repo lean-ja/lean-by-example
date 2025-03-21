@@ -1,6 +1,6 @@
 /- # revert
 
-`revert` は、[`intro`](#{root}/Tactic/Intro.md) の逆の操作をするタクティクです。ゴールが `⊢ P` であるときに `revert x` を実行すると、ゴールが `∀ x, P` に変わります。
+`revert` は、[`intro`](#{root}/Tactic/Intro.md) の逆の操作をするタクティクです。ゴールが `⊢ P x` であるときに `revert x` を実行すると、ゴールが `∀ x, P` に変わります。
 -/
 
 #guard_msgs (drop warning) in --#
@@ -11,6 +11,16 @@ example (x : Nat) : x = 1 := by
   guard_target =ₛ ∀ x, x = 1
 
   sorry
+
+/- また、ゴールが `⊢ P` であって仮定 `hq : Q` があるときに `revert hq` を実行すると、ゴールが `⊢ Q → P` に変わります。 -/
+
+example {P Q : Prop} (hq : Q) (h : Q → P) : P := by
+  revert hq
+
+  -- ゴールが `Q → P` に変わる
+  guard_target =ₛ Q → P
+
+  assumption
 
 /- ## 用途
 
