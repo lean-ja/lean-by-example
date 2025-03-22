@@ -124,6 +124,7 @@
   - [HMul: 一般の * 演算用の記法クラス](./TypeClass/HMul.md)
   - [Inhabited: 有項にする](./TypeClass/Inhabited.md)
   - [LawfulFunctor: 関手則](./TypeClass/LawfulFunctor.md)
+  - [Monad: モナド](./TypeClass/Monad.md)
   - [Mul: 閉じた * 演算用の記法クラス](./TypeClass/Mul.md)
   - [Neg: - 演算用の記法クラス](./TypeClass/Neg.md)
   - [OfNat: 数値リテラルを使用](./TypeClass/OfNat.md)
