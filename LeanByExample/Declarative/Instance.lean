@@ -66,6 +66,73 @@ instance {n : Nat} [OfNat Even n] : OfNat Even (n + 2) where
 -- 上限を超えてしまった
 #check_failure (256 : Even)
 
+/- ## インスタンス優先度
+
+Lean では、同じ型と型クラスの組に対して複数のインスタンスを定義することができます。たとえば、次のようにモノイドという型クラスを定義したとします。
+-/
+
+/-- モノイド -/
+class Monoid (α : Type) where
+  /-- 単位元 -/
+  unit : α
+
+  /-- 演算 -/
+  op : α → α → α
+
+  /-- 結合法則 -/
+  assoc : ∀ x y z : α, op (op x y) z = op x (op y z)
+
+/- このとき `Nat` という一つの型に対して、２つの `Monoid` のインスタンスを定義することができ、後から定義した方が優先されます。 -/
+section
+  /- ## 優先度を指定しないインスタンスを２つ重ねた例 -/
+
+  local instance : Monoid Nat where
+    unit := 0
+    op x y := x + y
+    assoc x y z := by ac_rfl
+
+  local instance : Monoid Nat where
+    unit := 1
+    op x y := x * y
+    assoc x y z := by ac_rfl
+
+  -- 後から宣言した方が優先される
+  #guard (Monoid.unit : Nat) = 1
+end
+/- しかし、`priority` 構文を使うとインスタンス優先度を設定することができます。たとえば、`priority := low` とするとインスタンス優先度が `low` に設定されて、優先されなくなります。 -/
+section
+  /- ## priority := low の使用例 -/
+
+  local instance : Monoid Nat where
+    unit := 0
+    op x y := x + y
+    assoc x y z := by ac_rfl
+
+  local instance (priority := low) : Monoid Nat where
+    unit := 1
+    op x y := x * y
+    assoc x y z := by ac_rfl
+
+  -- 後から宣言した方が優先されなくなる！
+  #guard (Monoid.unit : Nat) = 0
+end
+/- 逆に `priority := high` とするとインスタンス優先度が `high` に設定されて、優先されるようになります。 -/
+section
+  /- ## priority := high の使用例 -/
+
+  local instance (priority := high) : Monoid Nat where
+    unit := 0
+    op x y := x + y
+    assoc x y z := by ac_rfl
+
+  local instance : Monoid Nat where
+    unit := 1
+    op x y := x * y
+    assoc x y z := by ac_rfl
+
+  -- 後から宣言した方が優先されなくなる！
+  #guard (Monoid.unit : Nat) = 0
+end
 /-
 ## 舞台裏
 `instance` は `[instance]` 属性を付与された [`def`](./Def.md) と同じようにはたらきます。ただし `instance` はインスタンス名を省略することができるという違いがあります。
