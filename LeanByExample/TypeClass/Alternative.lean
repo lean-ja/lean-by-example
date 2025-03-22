@@ -1,7 +1,7 @@
 import Plausible --#
 /- # Alternative
 
-`Alternative` [関手](#{root}/TypeClass/Functor.md)は、回復可能な失敗を表現します。
+`Alternative` [関手](#{root}/TypeClass/Functor.md)は、回復可能な失敗を表現します。あるいは、選択的な計算を表すと表現することもできます。
 -/
 /- ## 定義
 
@@ -42,7 +42,7 @@ end
 /- ## インスタンス
 
 ### Option
-重要なインスタンスとして、`Option` は `Alternative` のインスタンスです。`failure` は `none` として実装されていて、`(· <|> ·)` は最初の `none` でない値を選択するような処理として実装されています。-/
+重要なインスタンスとして、[`Option`](#{root}/Type/Option.md) は `Alternative` のインスタンスです。`failure` は `none` として実装されていて、`(· <|> ·)` は最初の `none` でない値を選択するような処理として実装されています。-/
 
 #guard (failure : Option Nat) = none
 
