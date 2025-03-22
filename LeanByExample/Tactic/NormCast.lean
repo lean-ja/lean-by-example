@@ -1,6 +1,6 @@
 /- # norm_cast
 
-`norm_cast` は、型キャスト（ある型からある型への変換）と[型強制](#{root}/TypeClass/Coe.md)を簡約するタクティクです。
+`norm_cast` は、型キャスト（ある型からある型への変換）を簡約するタクティクです。
 
 詳細については論文 [「Simplifying Casts and Coercions」](https://arxiv.org/abs/2001.10594) などを参照してください。
 -/
