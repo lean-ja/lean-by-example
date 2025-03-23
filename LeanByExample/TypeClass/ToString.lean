@@ -1,8 +1,12 @@
+import Lean --#
 /-
 # ToString
-`ToString` は、文字列 `String` への変換方法を提供する型クラスです。`ToString` のインスタンスになっている型の項は、`toString` 関数で文字列に変換することができます。
+`ToString` は、文字列 `String` への変換方法を提供する型クラスです。`ToString` のインスタンスになっている型の項は、`ToString.toString` 関数で文字列に変換することができます。また、[`export`](#{root}/Declarative/Export.md) されているので、単に `toString` と書いても使えます。
 -/
-import Lean --#
+
+example {α : Type} [ToString α] : ToString.toString (α := α) = toString := by rfl
+
+/- ## 使用例 -/
 
 /-- 標準ライブラリの `List` を真似て作った自前のリスト -/
 inductive MyList (α : Type) where
