@@ -114,3 +114,26 @@ is short for accessing the `i`-th field (1-indexed) of `e` if it is of a structu
 -/
 #guard_msgs in
   #doc Lean.Parser.Term.proj
+
+/- ## 制約
+
+フィールド記法の制約として、フィールド記法を使用すると型強制が通らなくなります。
+-/
+
+/-- 標準のリストのラッパー -/
+structure MyList (α : Type) where
+  data : List α
+
+/-- `MyList` から `List` への型強制 -/
+instance {α : Type} : Coe (MyList α) (List α) where
+  coe l := l.data
+
+-- 型強制がはたらくので本来 List が来るべきところに MyList が来ていても通る
+#check
+  let l : MyList Nat := { data := [1, 2, 3] }
+  List.foldl (· + ·) 0 l
+
+-- フィールド記法だと型強制がはたらかない
+#check_failure
+  let l : MyList Nat := { data := [1, 2, 3] }
+  l.foldl (· + ·) 0
