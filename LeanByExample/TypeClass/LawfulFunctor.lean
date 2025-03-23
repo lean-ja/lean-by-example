@@ -96,9 +96,26 @@ section
 end
 /- ## 関手の例
 
-いくつか `LawfulFunctor` クラスのインスタンスを作ってみます。
+いくつか `LawfulFunctor` クラスのインスタンスを作ってみます。-/
 
-### List
+/- ### Id
+
+`Id` は関手則を満たします。
+-/
+
+def MyId (α : Type) := α
+
+def MyId.map {α β : Type} (f : α → β) (x : MyId α) : MyId β := f x
+
+instance : Functor MyId where
+  map := MyId.map
+
+instance : LawfulFunctor MyId where
+  map_const := by aesop
+  id_map := by aesop
+  comp_map := by aesop
+
+/- ### List
 
 [`List`](#{root}/Type/List.md) は関手則を満たします。
 -/
@@ -156,23 +173,6 @@ instance : Functor MyOption where
   map := MyOption.map
 
 instance : LawfulFunctor MyOption where
-  map_const := by aesop
-  id_map := by aesop
-  comp_map := by aesop
-
-/- ### Id
-
-`Id` は関手則を満たします。
--/
-
-def MyId (α : Type) := α
-
-def MyId.map {α β : Type} (f : α → β) (x : MyId α) : MyId β := f x
-
-instance : Functor MyId where
-  map := MyId.map
-
-instance : LawfulFunctor MyId where
   map_const := by aesop
   id_map := by aesop
   comp_map := by aesop

@@ -47,9 +47,19 @@ variable {α β : Type} (g : α → β)
 example (x : F α) : g <$> x = Functor.map g x := rfl
 
 end --#
-/- ## 典型的なインスタンス
+/- ## 典型的なインスタンス -/
 
-### List
+/- ### Id
+`Id : Type u → Type u` は「何もしない」関手です。
+-/
+
+/-- `Id` の `Functor.map` の実装を真似て作った関数 -/
+def Id.myMap {α β : Type} (f : α → β) (x : Id α) : Id β := f x
+
+/-- `Id` の `Functor.map` は `Id.myMap` のように定義されている -/
+example {α β : Type} (f : α → β) (x : Id α) : Id.myMap f x = f <$> x := rfl
+
+/- ### List
 `Functor` 型クラスの典型的なインスタンスのひとつが [`List`](#{root}/Type/List.md) です。これにより「リストの各要素に関数を適用する」ための簡単な方法が提供されます。
 -/
 
@@ -83,16 +93,6 @@ example {α β : Type} (f : α → β) (x : Option α) : Option.myMap f x = f <$
 
 #guard (· * 2) <$> some 2 = some 4
 #guard (· * 2) <$> [1, 2, 3][4]? = none
-
-/- ### Id
-`Id : Type u → Type u` は「何もしない」関手です。
--/
-
-/-- `Id` の `Functor.map` の実装を真似て作った関数 -/
-def Id.myMap {α β : Type} (f : α → β) (x : Id α) : Id β := f x
-
-/-- `Id` の `Functor.map` は `Id.myMap` のように定義されている -/
-example {α β : Type} (f : α → β) (x : Id α) : Id.myMap f x = f <$> x := rfl
 
 /-⋆-//-- info: 20 -/
 #guard_msgs in --#
