@@ -139,6 +139,7 @@
   - [Bool: 真偽値](./Type/Bool.md)
   - [Char: Unicode 文字](./Type/Char.md)
   - [Float: 浮動小数点数](./Type/Float.md)
+  - [IO: 入出力](./Type/IO.md)
   - [Linter: リンター](./Type/Linter.md)
   - [List: 連結リスト](./Type/List.md)
   - [Macro: マクロ](./Type/Macro.md)
