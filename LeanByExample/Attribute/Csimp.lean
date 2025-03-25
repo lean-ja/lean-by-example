@@ -25,9 +25,9 @@ elab "#in_second " stx:command : command => do
     throwError m!"It took more than one second for the command to run."
 
 -- `#eval fibonacci 32` は１秒以上かかる
-/-- error: It took more than one second for the command to run. -/
-#guard_msgs (error) in
-  #in_second #eval fibonacci 32
+/-⋆-//-- error: It took more than one second for the command to run. -/
+#guard_msgs (error) in --#
+#in_second #eval fibonacci 32
 
 /-- フィボナッチ数列のより高速な実装 -/
 def fib (n : Nat) : Nat :=
