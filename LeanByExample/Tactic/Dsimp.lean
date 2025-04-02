@@ -128,3 +128,19 @@ def parse (cat : Name) (s : String) : MetaM Syntax := do
 /-⋆-//-- error: <input>:1:7: expected identifier -/
 #guard_msgs in --#
 #eval parse `tactic "unfold (· ∩ ·)"
+
+/- ## unfold と比べた短所
+
+ただし、`dsimp` が失敗して `unfold` が成功するケースも存在します。
+たとえば、`dsimp` は `[irreducible]` 属性が付与された定義を展開することができませんが `unfold` は展開することができます。
+-/
+
+@[irreducible]
+def foo : Nat := 0
+
+example : foo = 0 := by
+  -- dsimp は失敗する
+  fail_if_success dsimp [foo]
+  -- unfold は成功する
+  unfold foo
+  rfl
