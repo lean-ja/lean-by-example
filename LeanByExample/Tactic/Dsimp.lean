@@ -63,8 +63,8 @@ example (n : MyNat) : MyNat.zero + n = n := by
 
   rw [MyNat.zero_add]
 
-/- ## unfold との違い
-同じく名前を定義に展開するタクティクとして [`unfold`](./Unfold.md) があります。たいていの場合両者は同じように使うことができますが、`unfold` は次のような意外な挙動をすることがあるので `dsimp` を使うことを推奨します。
+/- ## unfold と比べた長所
+同じく名前を定義に展開するタクティクとして [`unfold`](./Unfold.md) があります。たいていの場合両者は同じように使うことができますが、`unfold` は次のような意外な挙動をすることがあります。
 -/
 
 -- α の部分集合を表す型
@@ -124,6 +124,6 @@ def parse (cat : Name) (s : String) : MetaM Syntax := do
 #eval parse `tactic "unfold Inter.inter"
 
 -- 識別子でないものを渡すとパースできない
-/-- error: <input>:1:7: expected identifier -/
-#guard_msgs in
-  #eval parse `tactic "unfold (· ∩ ·)"
+/-⋆-//-- error: <input>:1:7: expected identifier -/
+#guard_msgs in --#
+#eval parse `tactic "unfold (· ∩ ·)"
