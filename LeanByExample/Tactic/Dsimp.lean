@@ -132,7 +132,7 @@ def parse (cat : Name) (s : String) : MetaM Syntax := do
 /- ## unfold と比べた短所
 
 ただし、`dsimp` が失敗して `unfold` が成功するケースも存在します。
-たとえば、`dsimp` は `[irreducible]` 属性が付与された定義を展開することができませんが `unfold` は展開することができます。
+たとえば、`dsimp` は [`[irreducible]`](#{root}/Attribute/Irreducible.md) 属性が付与された定義を展開することができませんが `unfold` は展開することができます。
 -/
 
 @[irreducible]
