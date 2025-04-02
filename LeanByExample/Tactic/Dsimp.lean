@@ -49,8 +49,9 @@ theorem MyNat.zero_add {n : MyNat} : MyNat.zero + n = n := by
 
 example (n : MyNat) : n + MyNat.zero = n := by
   -- rfl で証明ができる
-  try rfl; done; fail
+  rfl
 
+example (n : MyNat) : n + MyNat.zero = n := by
   -- dsimp でも証明ができる
   dsimp [MyNat.add]
 
