@@ -11,11 +11,11 @@ section
   set_option relaxedAutoImplicit false
 
   -- 二文字の識別子は自動束縛の対象にならないのでエラーになる
-  /-- error: unknown identifier 'AB' -/
-  #guard_msgs in
-    def nonempty₁ : List AB → Bool
-      | [] => false
-      | _ :: _ => true
+  /-⋆-//-- error: unknown identifier 'AB' -/
+  #guard_msgs in --#
+  def nonempty₁ : List AB → Bool
+    | [] => false
+    | _ :: _ => true
 end
 
 section
@@ -39,7 +39,7 @@ end
 デフォルトではこのオプションは有効になっているため、`lakefile` の設定で無効にすることをお勧めします。
 -/
 
-open Lean Elab Command
+open Lean Elab Command in
 
 /-- オプションのデフォルト値を取得する関数 -/
 def getDefaultValue (opt : Name) : CommandElabM Unit := do
@@ -50,6 +50,6 @@ def getDefaultValue (opt : Name) : CommandElabM Unit := do
   | none =>
     logInfo m!"{opt} is unknown"
 
-/-- info: default value of relaxedAutoImplicit is true -/
-#guard_msgs in
-  #eval getDefaultValue `relaxedAutoImplicit
+/-⋆-//-- info: default value of relaxedAutoImplicit is true -/
+#guard_msgs in --#
+#eval getDefaultValue `relaxedAutoImplicit
