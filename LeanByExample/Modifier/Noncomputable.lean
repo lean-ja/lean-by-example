@@ -55,8 +55,9 @@ noncomputable def id_inverse := inverse (id : Nat → Nat) id_surjective
 
 -- 逆写像の `3` での値を評価しようとするとエラーになる
 /-⋆-//--
-error: failed to compile definition, consider marking it as 'noncomputable'
-because it depends on 'id_inverse', and it does not have executable code
+error: (interpreter) unknown declaration '_eval'
+---
+error: failed to compile definition, consider marking it as 'noncomputable' because it depends on 'id_inverse', and it does not have executable code
 -/
 #guard_msgs in --#
 #eval id_inverse 3

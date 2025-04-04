@@ -77,20 +77,16 @@ inferInstance
 /- しかし、`#whnf` コマンドに渡すと実装内容を表示してくれます。-/
 
 -- Functor の実装を表示させることができた
-/-⋆-//--
-info: { map := fun {α β} f x => x.bind (Many.one ∘ f),
-  mapConst := fun {α β} => (fun f x => x.bind (Many.one ∘ f)) ∘ Function.const β }
--/
+/-⋆-//-- info: { map := fun {α β} f x => (fun {α β} => Many.bind) x ((fun {α} => Many.one) ∘ f) } -/
 #guard_msgs in --#
 #whnf (inferInstance : Functor Many)
 
--- Applicative については、実装を得るためには下位クラスを使う必要がある
-/-⋆-//-- info: Applicative.mk -/
-#guard_msgs in --#
-#whnf (inferInstance : Applicative Many)
-
 -- seq の実装を表示させることができた
-/-⋆-//-- info: { seq := fun {α β} f x => f.bind fun y => (x ()).bind (Many.one ∘ y) } -/
+/-⋆-//--
+info: {
+  seq := fun {α β} f x =>
+    (fun {α β} => Many.bind) f fun y => (fun {α β} => Many.bind) (x ()) ((fun {α} => Many.one) ∘ y) }
+-/
 #guard_msgs in --#
 #whnf (inferInstance : Seq Many)
 

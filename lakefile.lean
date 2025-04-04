@@ -1,24 +1,13 @@
 import Lake
 open Lake DSL
 
-abbrev linterOptions : Array LeanOption := #[
-  ⟨`linter.flexible, true⟩,
-  ⟨`linter.oldObtain, true⟩,
-  ⟨`linter.style.cdot, true⟩,
-  ⟨`linter.style.dollarSyntax, true⟩,
-  ⟨`linter.style.missingEnd, true⟩,
-  ⟨`linter.style.lambdaSyntax, true⟩,
-  ⟨`structureDiamondWarning, true⟩
-]
-
 package «Lean by Example» where
   keywords := #["manual", "reference", "japanese"]
   description := "プログラミング言語であるとともに定理証明支援系でもある Lean 言語と、その主要なライブラリの使い方を豊富なコード例とともに解説した資料です。"
   leanOptions := #[
     ⟨`autoImplicit, false⟩,
     ⟨`relaxedAutoImplicit, false⟩
-  ] ++ linterOptions.map (fun s ↦ {s with name := `weak ++ s.name})
-  moreServerOptions := linterOptions
+  ]
 
 require mdgen from git
   "https://github.com/Seasawher/mdgen" @ "main"

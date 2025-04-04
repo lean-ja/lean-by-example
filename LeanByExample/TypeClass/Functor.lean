@@ -11,7 +11,8 @@ info: class Functor.{u, v} (f : Type u → Type v) : Type (max (u + 1) v)
 number of parameters: 1
 fields:
   Functor.map : {α β : Type u} → (α → β) → f α → f β
-  Functor.mapConst : {α β : Type u} → α → f β → f α
+  Functor.mapConst : {α β : Type u} → α → f β → f α :=
+    fun {α β} => Functor.map ∘ Function.const β
 constructor:
   Functor.mk.{u, v} {f : Type u → Type v} (map : {α β : Type u} → (α → β) → f α → f β)
     (mapConst : {α β : Type u} → α → f β → f α) : Functor f

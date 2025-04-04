@@ -6,11 +6,11 @@
 -/
 
 /-⋆-//--
-error: (kernel) arg #1 of 'Bad.mk' has a non positive occurrence of the datatypes being declared
+error: (kernel) arg #1 of 'Bad'.mk' has a non positive occurrence of the datatypes being declared
 -/
 #guard_msgs in --#
-inductive Bad where
-  | mk : (Bad → Bad) → Bad
+inductive Bad' where
+  | mk : (Bad' → Bad') → Bad'
 
 /- `unsafe` で修飾すれば定義が通るようになります。 -/
 

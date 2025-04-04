@@ -59,10 +59,12 @@ elab "#doc " x:ident : command => do
   logInfo m!"{s}"
 
 /--
-info: `String` is the type of (UTF-8 encoded) strings.
+info: A string is a sequence of Unicode code points.
 
-The compiler overrides the data representation of this type to a byte sequence,
-and both `String.utf8ByteSize` and `String.length` are cached and O(1).
+At runtime, strings are represented by [dynamic arrays](https://en.wikipedia.org/wiki/Dynamic_array)
+of bytes using the UTF-8 encoding. Both the size in bytes (`String.utf8ByteSize`) and in characters
+(`String.length`) are cached and take constant time. Many operations on strings perform in-place
+modifications when the reference to the string is unique.
 -/
 #guard_msgs in #doc String
 

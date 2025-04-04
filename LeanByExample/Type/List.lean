@@ -79,7 +79,7 @@ example {α : Type} (x : α) (xs : List α) : List.cons x xs = x :: xs := by
 リスト `xs : List α` の `i` 番目に `x : α` を追加し、`i + 1` 番目以降を後ろにずらしたリストを返すには、`List.insertIdx` という関数が用意されています。
 -/
 
-#guard List.insertIdx 2 "hello" ["f", "b", "z"] = ["f", "b", "hello", "z"]
+#guard ["f", "b", "z"].insertIdx 2 "hello" = ["f", "b", "hello", "z"]
 
 /- ### 要素の削除
 

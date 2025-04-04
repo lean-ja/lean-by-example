@@ -11,7 +11,7 @@
 -/
 
 private def eratosthenesAux (n : Nat) : Array Bool := Id.run do
-  let mut isPrime := Array.mkArray (n + 1) true
+  let mut isPrime := Array.replicate (n + 1) true
 
   isPrime := isPrime.set! 0 false
   isPrime := isPrime.set! 1 false
