@@ -1,6 +1,6 @@
 /- # split
 
-仮定やゴールにある `if ... then ... else` や `match ... with ...` 式を扱うのに有用なタクティクです。
+`split` は、仮定やゴールにある `if ... then ... else` や `match ... with ...` 式を扱うのに有用なタクティクです。
 
 `if/match` 式を扱う必要が生じるのは、典型的には Lean で定義したアルゴリズムや関数に関して、何か性質を証明しようとしたときです。
 
@@ -11,7 +11,7 @@
 
 `split` によって追加される仮定は名前がついているとは限りません。名前がついていなかった場合、`case` などで名前を付けることができます。
 
-仮定に対して用いる場合は `split at h` のように利用します。 -/
+`split` は [at 構文](#{root}/Parser/AtLocation.md) に対応しており、仮定に対して用いる場合は `split at h` のように利用します。 -/
 import Mathlib.Tactic.Set -- `set` のために必要 --#
 import Mathlib.Tactic.Linarith -- `linarith` を使うため --#
 
@@ -54,8 +54,8 @@ example (x : Int) : myabs (2 * x) = 2 * myabs x := by
     -- `simp` で単純化
     simp [h, hx]
 
-/- ## match 式と split
-`if` 式だけでなく `match` 式に対しても使うことができます。
+/-
+`if` 式だけでなく [`match`](#{root}/Parser/Match.md) 式に対しても使うことができます。
 -/
 
 -- match式を使って関数を定義する
