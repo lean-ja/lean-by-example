@@ -10,10 +10,10 @@
 `Id` 関手はモナドです。`Id` の場合、do 構文は単に手続き型プログラミングを模したものになります。
 -/
 
-/-- エラトステネスの篩 -/
-def eratosthenesSieve (n : Nat) : List Nat := Id.run do
+/-- `n`以下の素数のリストを `Array Bool` の形で返す。
+`i` 番目が `true` ならば `i` は素数で、`false` ならば合成数。 -/
+def eratosthenesAux (n : Nat) : Array Bool := Id.run do
   let mut isPrime := Array.replicate (n + 1) true
-  let mut primes : List Nat := []
 
   isPrime := isPrime.set! 0 false
   isPrime := isPrime.set! 1 false
@@ -23,20 +23,35 @@ def eratosthenesSieve (n : Nat) : List Nat := Id.run do
       continue
 
     if p ^ 2 > n then
-      primes := p :: primes
-      continue
+      break
 
-    primes := p :: primes
+    -- `p` の倍数を消していく
     let mut q := p * p
     while q ≤ n do
       isPrime := isPrime.set! q false
       q := q + p
 
-  return primes.reverse
+  return isPrime
 
-#guard eratosthenesSieve 10 = [2, 3, 5, 7]
+/-- エラトステネスの篩 -/
+def eratosthenes (n : Nat) : Array Nat :=
+  eratosthenesAux n
+  |>.zipIdx
+  |>.filterMap fun ⟨isPrime, i⟩ =>
+    if isPrime then some i else none
 
-#guard (eratosthenesSieve 100).length = 25
+#guard eratosthenes 10 = #[2, 3, 5, 7]
+
+#guard
+  let actual := eratosthenes 100
+  let expected := #[
+    2, 3, 5, 7, 11,
+    13, 17, 19, 23, 29,
+    31, 37, 41, 43, 47,
+    53, 59, 61, 67, 71,
+    73, 79, 83, 89, 97
+  ]
+  expected == actual
 
 /- ### Option
 
