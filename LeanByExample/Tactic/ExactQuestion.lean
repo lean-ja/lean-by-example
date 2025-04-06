@@ -1,7 +1,7 @@
 /- # exact?
 
 `exact?` は、カレントゴールを `exact` で閉じることができないか、`import` されているファイル群から検索して提案してくれるタクティクです。閉じることができなければ、エラーになります。-/
-import Mathlib.Algebra.Order.Floor -- `Nat.floor` を使うために必要
+import Mathlib.Algebra.Order.Floor.Defs -- `Nat.floor` を使うために必要
 import Mathlib.Data.Rat.Floor -- `ℚ` の性質を使うために必要
 import Mathlib.Tactic.Says -- `says` を使うために必要
 
