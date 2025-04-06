@@ -10,8 +10,10 @@
 `Id` 関手はモナドです。`Id` の場合、do 構文は単に手続き型プログラミングを模したものになります。
 -/
 
-private def eratosthenesAux (n : Nat) : Array Bool := Id.run do
+/-- エラトステネスの篩 -/
+def eratosthenesSieve (n : Nat) : List Nat := Id.run do
   let mut isPrime := Array.replicate (n + 1) true
+  let mut primes : List Nat := []
 
   isPrime := isPrime.set! 0 false
   isPrime := isPrime.set! 1 false
@@ -21,25 +23,20 @@ private def eratosthenesAux (n : Nat) : Array Bool := Id.run do
       continue
 
     if p ^ 2 > n then
-      break
+      primes := p :: primes
+      continue
 
+    primes := p :: primes
     let mut q := p * p
-    while q <= n do
+    while q ≤ n do
       isPrime := isPrime.set! q false
       q := q + p
 
-  return isPrime
+  return primes.reverse
 
-/-- エラトステネスの篩 -/
-def eratosthenes (n : Nat) : Array Nat :=
-  eratosthenesAux n
-    |>.zipIdx
-    |>.filterMap fun ⟨isPrime, i⟩ =>
-      if isPrime then some i else none
+#guard eratosthenesSieve 10 = [2, 3, 5, 7]
 
-#guard eratosthenes 10 = #[2, 3, 5, 7]
-
-#guard (eratosthenes 100).size = 25
+#guard (eratosthenesSieve 100).length = 25
 
 /- ### Option
 
