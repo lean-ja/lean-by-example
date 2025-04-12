@@ -33,9 +33,9 @@ example (x y : ℚ) (h : x ≤ y) (pos : 0 ≤ x) : x + x ^ 2 ≤ y + y ^ 2 := b
   linarith [pow_le_pow_left₀ pos h 2]
 
 /- ## 舞台裏
-`linarith` は一般に、型クラス `LinearOrderedCommRing` のインスタンスに対して動作します。ここで linear order とは全順序のことです。-/
+`linarith` は一般に、`[CommRing R], [LinearOrder R], [IsStrictOrderedRing R]` のインスタンスであれば使用することができます。ここで linear order とは全順序のことです。-/
 section --#
-variable {R : Type} [LinearOrderedCommRing R]
+variable {R : Type} [CommRing R] [LinearOrder R] [IsStrictOrderedRing R]
 
 variable (x y z : R)
 
