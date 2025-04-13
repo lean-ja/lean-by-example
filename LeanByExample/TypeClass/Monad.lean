@@ -91,3 +91,22 @@ def fstSndThird? (a : Array Nat) : Option (Nat × Nat × Nat) := do
 #guard fstSndThird? #[1, 2, 3] = some (1, 2, 3)
 
 end Do --#
+
+/- ### List
+
+[`List`](#{root}/Type/List.md) 関手もモナドにすることができます。`List` の場合、do 構文を使用することで、リスト内包表記のような操作を簡潔に記述できます。
+
+たとえば、2つのリストの直積を計算する関数は次のように書けます。 -/
+
+/-- `List` をモナドインスタンスにする -/
+instance : Monad List where
+  pure x := [x]
+  bind l f := l.flatMap f
+  map f l := l.map f
+
+def cartesianProduct (xs : List Nat) (ys : List Nat) : List (Nat × Nat) := do
+  let x ← xs
+  let y ← ys
+  return (x, y)
+
+#guard cartesianProduct [1, 2] [3, 4] = [(1, 3), (1, 4), (2, 3), (2, 4)]

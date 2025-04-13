@@ -257,7 +257,7 @@ namespace Foldl
 end Foldl
 /- ## モナドインスタンス
 
-Lean では、`List` は標準で `Monad` 型クラスのインスタンスになっていません。
+Lean では、`List` は標準では `Monad` 型クラスのインスタンスになっていません。
 -/
 
 #check_failure (inferInstance : Monad List)
