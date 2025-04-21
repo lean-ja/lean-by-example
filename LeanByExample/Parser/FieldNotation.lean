@@ -6,20 +6,19 @@
 -/
 import Lean --#
 
-structure Foo where
-  x : Nat
-  y : String
+/-- 平面 -/
+structure Point (α : Type) where
+  x : α
+  y : α
 
-/-- Foo の項 -/
-def bar : Foo := { x := 0, y := "" }
-
--- Foo のフィールドのアクセサ関数
-#check Foo.x
-#check Foo.y
+-- `Point` のフィールドへのアクセサ関数
+#check Point.x
+#check Point.y
 
 -- フィールド記法を使ってアクセスすることができる
-#guard bar.x = Foo.x bar
-#guard bar.y = Foo.y bar
+#guard
+  let p : Point Nat := { x := 1, y := 2 }
+  p.x = Point.x p
 
 /- ここで `S` は構造体である必要はなく、任意の型で構いません。すなわち任意の型 `S` とその項 `e : S` に対して、`e.f` は `S.f (p := e)` と解釈されます。ただし、ここで `p` は関数 `S.f` の型 `S` を持つような最初の明示的引数です。 -/
 
