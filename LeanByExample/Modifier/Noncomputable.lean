@@ -57,7 +57,7 @@ noncomputable def id_inverse := inverse (id : Nat → Nat) id_surjective
 /-⋆-//--
 error: (interpreter) unknown declaration '_eval'
 ---
-error: failed to compile definition, consider marking it as 'noncomputable' because it depends on 'id_inverse', and it does not have executable code
+error: failed to compile definition, consider marking it as 'noncomputable' because it depends on 'id_inverse', which is 'noncomputable'
 -/
 #guard_msgs in --#
 #eval id_inverse 3
