@@ -7,7 +7,6 @@ import Mathlib.Tactic -- `hint` は検索を伴うので、おおざっぱに im
 info: Try these:
 • bound
 • group
-• ring_nf
 • norm_num
 -/
 #guard_msgs in --#
@@ -18,7 +17,6 @@ example (P Q : Prop) (p : P) (h : P → Q) : Q := by
 info: Try these:
 • bound
 • group
-• ring_nf
 • norm_num
 -/
 #guard_msgs in --#
