@@ -90,8 +90,27 @@ example (f g : Nat → Nat) (h : ∀ a, f (a + 0) = g a) : f = g := by
 
 /- ### nth_rw
 
-`rw` はマッチした項をすべて置き換えてしまいます。
-特定の項だけを書き換えたいとき、[`nth_rw`](./NthRw.md) が使用できます。-/
+`rw` は何も設定しないとマッチした項をすべて置き換えてしまいます。-/
+
+example {P Q : Prop} (h : P ↔ Q) (hq : Q) : P ∧ P ∧ P ∧ P := by
+  -- 単に `rw` するとすべて置き換わる
+  rw [h]
+
+  guard_target =ₛ Q ∧ Q ∧ Q ∧ Q
+
+  simp [hq]
+
+/- このとき `config` を適切に渡すことで、指定した `n` 番目の出現だけを書き換えることができます。 -/
+
+example {P Q : Prop} (h : P ↔ Q) (hq : Q) : P ∧ P ∧ P ∧ P := by
+  rw (config := {occs := .pos [2]}) [h]
+
+  -- 2番目の出現だけが置き換わる
+  guard_target =ₛ P ∧ Q ∧ P ∧ P
+
+  simp [h, hq]
+
+/- `config` を渡さなくても、[`nth_rw`](./NthRw.md) が使用できればそれによって同じことができます。 -/
 
 /- ### ローカル変数の展開
 `rw` はローカル変数の展開を行うことができません。代わりに [`dsimp`](./Dsimp.md) タクティクなどを使用してください。-/
