@@ -32,8 +32,9 @@ def gcd (m n : Nat) : Nat :=
 
 theorem native : Nat.gcd 42998431 120019 = 1 := by native_decide
 
-/-- info: 'native' depends on axioms: [propext, Lean.ofReduceBool] -/
-#guard_msgs in #print axioms native
+/-⋆-//-- info: 'native' depends on axioms: [propext, Lean.ofReduceBool] -/
+#guard_msgs in --#
+#print axioms native
 
 /- ## 注意
 `native_decide` を使うことは安全ではなく、`native_decide` を使うと簡単に `False` を示すことができます。つまり、`native_decide` を使った証明は正式な証明ではありません。-/
@@ -52,5 +53,6 @@ theorem zero_ne_eq_one : False := by
 
   contradiction
 
-/-- info: 'zero_ne_eq_one' depends on axioms: [Lean.ofReduceBool] -/
-#guard_msgs in #print axioms zero_ne_eq_one
+/-⋆-//-- info: 'zero_ne_eq_one' depends on axioms: [Lean.ofReduceBool] -/
+#guard_msgs in --#
+#print axioms zero_ne_eq_one
