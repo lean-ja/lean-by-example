@@ -57,9 +57,9 @@ expected 'axioms', 'eqns', 'equations', 'tactic', identifier or string literal
 open Lean in
 
 /-⋆-//--
-error: application type mismatch
+error: Application type mismatch: In the application
   a.raw
-argument
+the argument
   a
 has type
   TSyntax `term : Type

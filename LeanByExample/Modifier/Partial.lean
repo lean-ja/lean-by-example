@@ -21,13 +21,16 @@ Cannot use parameter n:
     M (n + 11)
 
 
-failed to prove termination, possible solutions:
-  - Use `have`-expressions to prove the remaining goals
-  - Use `termination_by` to specify a different well-founded relation
-  - Use `decreasing_by` to specify your own tactic for discharging this kind of goal
-n : Nat
-h✝ : ¬n > 100
-⊢ n + 11 < n
+Could not find a decreasing measure.
+The basic measures relate at each recursive call as follows:
+(<, ≤, =: relation proved, ? all proofs failed, _: no proof attempted)
+           n #1
+1) 41:7-17 ?  ≤
+2) 41:4-18 _  ?
+
+#1: 100 - n
+
+Please use `termination_by` to specify a decreasing measure.
 -/
 #guard_msgs in --#
 /-- McCarthy の 91 関数 -/

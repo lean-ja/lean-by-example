@@ -15,7 +15,7 @@ example (P : Prop) (h : False) : P := by trivial
 `trivial` は、複数の基本的なタクティクを順に試すマクロとして実装されています。`trace.Elab.step` というオプションを `true` にすると、展開の様子を順を追って見ることができます。-/
 
 /-⋆-//--
-info: [Elab.step] trivial
+trace: [Elab.step] trivial
   [Elab.step] trivial
     [Elab.step] trivial
       [Elab.step] (apply And.intro✝) <;> trivial

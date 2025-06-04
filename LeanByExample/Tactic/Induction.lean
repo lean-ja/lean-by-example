@@ -90,10 +90,7 @@ example {m n : Nat} (h : m + n = 0) : m = 0 ∧ n = 0 := by
 
 /- ただし注意点として、`induction .. generalizing` 構文を実行するとき、帰納法を行う変数が一般化される変数に依存していてはいけないというルールがあります。-/
 
-/-⋆-//--
-error: variable cannot be generalized because target depends on it
-  m
--/
+/-⋆-//-- error: Variable 'm' cannot be generalized because the induction target depends on it -/
 #guard_msgs in --#
 example {n m : Nat} (h : Even (n + m)) (hm : Even m) : Even n := by
   induction hm generalizing m
@@ -251,7 +248,7 @@ inductive MyEven : Nat → Prop where
   | succ : {n : Nat} → MyEven n → MyEven (n + 2)
 
 /-⋆-//--
-error: index in target's type is not a variable (consider using the `cases` tactic instead)
+error: Invalid target: Index in target's type is not a variable (consider using the `cases` tactic instead)
   0
 -/
 #guard_msgs in --#

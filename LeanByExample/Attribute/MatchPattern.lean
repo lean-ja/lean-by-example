@@ -15,7 +15,7 @@ def MyList.myCons (a : α) (as : MyList α) : MyList α :=
   MyList.cons a as
 
 -- 最初は `match` の中で `MyList.myCons` を使うことはできない
-/-- error: invalid pattern, constructor or constant marked with '[match_pattern]' expected -/
+/-- error: Invalid pattern: Expected a constructor or constant marked with `[match_pattern]` -/
 #guard_msgs in
   def badLength : MyList α → Nat
     | MyList.nil => 0

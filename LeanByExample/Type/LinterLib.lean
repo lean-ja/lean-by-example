@@ -20,7 +20,7 @@ namespace DetectClassical
   def detectClassicalLinter : Linter where
     run := withSetOptionIn fun stx ↦ do
       -- リンターが有効になっていなければ何もしない
-      unless Linter.getLinterValue linter.detectClassical (← getOptions) do
+      unless Linter.getLinterValue linter.detectClassical (← Linter.getLinterOptions) do
         return
 
       -- どこかにエラーがあれば何もしない

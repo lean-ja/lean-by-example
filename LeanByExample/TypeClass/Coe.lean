@@ -24,9 +24,9 @@ def factorial (n : Nat) : Nat :=
 
 -- `factorial` の引数は `Nat` なのに、`Pos` を渡したのでエラーになる
 /-⋆-//--
-error: application type mismatch
+error: Application type mismatch: In the application
   factorial one
-argument
+the argument
   one
 has type
   Pos : Type

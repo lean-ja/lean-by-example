@@ -40,13 +40,14 @@ example (a b : Point) : (Point.sub a b).x = a.x - b.x := by simp
 /- `@[simps?]` に換えると、生成された補題を確認することができます。-/
 
 /-⋆-//--
-info: [simps.verbose] The projections for this structure have already been initialized by a previous invocation of `initialize_simps_projections` or `@[simps]`.
+trace: [simps.verbose] The projections for this structure have already been initialized by a previous invocation of `initialize_simps_projections` or `@[simps]`.
     Generated projections for Point:
     Projection x: fun x => x.x
     Projection y: fun x => x.y
 [simps.verbose] adding projection Point.mul_x:
       ∀ (p q : Point), (p.mul q).x = p.x * q.x
-[simps.verbose] adding projection Point.mul_y: ∀ (p q : Point), (p.mul q).y = p.y * q.y
+[simps.verbose] adding projection Point.mul_y:
+      ∀ (p q : Point), (p.mul q).y = p.y * q.y
 -/
 #guard_msgs (whitespace := lax) in --#
 @[simps?] def Point.mul (p q : Point) : Point :=

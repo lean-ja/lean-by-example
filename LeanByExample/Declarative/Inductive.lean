@@ -55,10 +55,14 @@ inductive Vec (α : Type) : Nat → Type where
 -/
 
 /-⋆-//--
-error: inductive datatype parameter mismatch
+error: Mismatched inductive type parameter in
+  BadVec α 0
+The provided argument
   0
-expected
+is not definitionally equal to the expected parameter
   n
+
+Note: The value of parameter 'n' must be fixed throughout the inductive declaration. Consider making this parameter an index if it must vary.
 -/
 #guard_msgs in --#
 inductive BadVec (α : Type) (n : Nat) : Type where
@@ -250,7 +254,7 @@ example (n : MyNat) : .succ n ≠ MyNat.zero := show_term by
   intro h
   injection h
 
-/-⋆-//-- info: Try this: MyNat.noConfusion h fun n_eq => n_eq -/
+/-⋆-//-- info: Try this: MyNat.noConfusion h fun x => x -/
 #guard_msgs in --#
 example (n m : MyNat) (h : MyNat.succ n = MyNat.succ m) : n = m := show_term by
   injection h

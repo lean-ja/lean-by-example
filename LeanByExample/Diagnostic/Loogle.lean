@@ -36,9 +36,9 @@ info: Loogle Search Results
 • #check List.foldl
 • #check List.foldl_nil
 • #check List.foldl_cons
-• #check List.foldl.eq_1
-• #check List.foldl_eq_foldlM
 • #check List.id_run_foldlM
+• #check List.foldl_eq_foldr_reverse
+• #check List.foldl_reverse
 -/
 #guard_msgs in --#
 #loogle List.foldl
