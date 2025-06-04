@@ -197,4 +197,4 @@ export HasCardinal (card)
 -- Bool の濃度が計算できた
 #guard card Bool = Ordinal.nat 2
 
-/- [^mil]: この説明は [Mathematics in Lean の7章](https://leanprover-community.github.io/mathematics_in_lean/C07_Hierarchies.html)を参考にしています。 -/
+/- [^mil]: この説明は [Mathematics in Lean](https://leanprover-community.github.io/mathematics_in_lean/C08_Hierarchies.html)を参考にしています。 -/
