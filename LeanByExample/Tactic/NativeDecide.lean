@@ -2,7 +2,7 @@
 # native_decide
 `native_decide` は、式を評価したときに判ることを示すことができます。
 
-たとえば、Lean では再帰関数 `f` を定義したらそれが停止することの証明を求められますが、それを `sorry` で回避したとしましょう。このとき `f` の具体的な値を評価することは `#eval!` を使えば可能ですが、その値をとることを `rfl` で証明することはできなくなります。
+たとえば、Lean では再帰関数 `f` を定義したらそれが停止することの証明を求められますが、それを [`sorry`](#{root}/Tactic/Sorry.md) で回避したとしましょう。このとき `f` の具体的な値を評価することは `#eval!` を使えば可能ですが、その値をとることを [`rfl`](#{root}/Tactic/Rfl.md) で証明することはできなくなります。
 
 しかし、`native_decide` を使うと証明が可能です。
 -/
@@ -37,7 +37,7 @@ theorem native : Nat.gcd 42998431 120019 = 1 := by native_decide
 #print axioms native
 
 /- ## 注意
-`native_decide` を使うことは安全ではなく、`native_decide` を使うと簡単に `False` を示すことができます。つまり、`native_decide` を使った証明は正式な証明ではありません。-/
+`native_decide` を使うことは安全ではなく、`native_decide` を使うと簡単に `False` を示す（つまり矛盾を導く）ことができてしまいます。つまり、`native_decide` を使った証明は正式な証明ではありません。しかし、`native_decide` を使用した不正な証明は [`#print axioms`](#{root}/Diagnostic/Print.md#PrintAxioms) コマンドを確認することで見破ることができます。 -/
 
 def one := 1
 
