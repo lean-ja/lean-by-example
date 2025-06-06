@@ -110,6 +110,7 @@
   - [linter.flexible: 脆弱な証明を指摘する](./Option/Flexible.md)
   - [linter.style.multiGoal: フォーカス強制](./Option/MultiGoal.md)
   - [relaxedAutoImplicit: 更にautoImplicit](./Option/RelaxedAutoImplicit.md)
+  - [skipKernelTC: 型検査をスキップ](./Option/SkipKernelTC.md)
 
 - [型クラス](./TypeClass/README.md)
   - [Add: 閉じた + 演算用の記法クラス](./TypeClass/Add.md)

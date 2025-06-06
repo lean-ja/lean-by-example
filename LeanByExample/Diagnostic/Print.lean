@@ -85,7 +85,7 @@ example : ∀ (p : Prop), p ∨ ¬p := Classical.em
 #guard_msgs in --#
 #print axioms Classical.em
 
-/- また、`sorry` という命題を「証明したことにする」タクティクがありますが、これは `sorryAx` という万能な公理を導入していることが確認できます。-/
+/- また、`#print axioms` は不正な証明を見つけるのにも有用です。[`sorry`](#{root}/Tactic/Sorry.md) という命題を「証明したことにする」タクティクがありますが、これは `sorryAx` という万能な公理を導入していることが確認できます。-/
 
 #guard_msgs (drop warning) in --#
 theorem contra : False := by sorry
@@ -93,6 +93,8 @@ theorem contra : False := by sorry
 /-⋆-//-- info: 'contra' depends on axioms: [sorryAx] -/
 #guard_msgs in --#
 #print axioms contra
+
+/- ただし、`#print axioms` で常に不正な証明が発見できるわけではありません。たとえば [`debug.skipKernelTC`](#{root}/Option/SkipKernelTC.md) オプションを使用することですり抜けることができてしまいます。 -/
 
 /- ### 舞台裏
 `Lean.collectAxioms` という関数を使用することにより、依存公理を調べて何かを行うような `#print axioms` の類似コマンドを自作することができます。ここでは例として、[`elab`](#{root}/Declarative/Elab.md) コマンドを使用して「ある定理が選択原理 `Classical.choice` に依存しているかどうか調べて、依存していればエラーにする」というコマンドを作成します。
