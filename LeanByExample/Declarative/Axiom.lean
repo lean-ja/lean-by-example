@@ -355,3 +355,29 @@ theorem em (P : Prop) : P ∨ ¬ P := by
 
     -- 残りの１つでは `u ≠ v` が成り立つ。
     simp [hu, hv]
+
+/- ### Lean.ofReduceBool
+
+`Lean.ofReduceBool` は、[`native_decide`](#{root}/Tactic/NativeDecide.md) タクティクまたは `decide +native` タクティクを使用したときに使用される公理です。ある定理が `Lean.ofReduceBool` に依存しているということは、証明の中でコンパイラの出す結果を信頼していることを意味します。
+-/
+
+theorem nd_sample : 1 + 1 = 2 := by
+  decide +native
+
+/-⋆-//-- info: 'nd_sample' depends on axioms: [Lean.ofReduceBool] -/
+#guard_msgs in --#
+#print axioms nd_sample
+
+/- ### 万能公理 SorryAx
+
+`SorryAx` は、[`sorry`](#{root}/Tactic/Sorry.md) タクティクを使用したときに使用される公理です。どんな命題でも証明することができ、どんなデータでも構成することができる万能な公理ですが、これを使用して証明を埋めるのはもちろんズルです。
+-/
+
+#guard_msgs (drop warning) in --#
+/-- Fermat の最終定理 -/
+theorem flt (x y z n : Nat) : n > 2 → x ^ n + y ^ n = z ^ n → x * y * z = 0 := by
+  sorry
+
+/-⋆-//-- info: 'flt' depends on axioms: [sorryAx] -/
+#guard_msgs in --#
+#print axioms flt
