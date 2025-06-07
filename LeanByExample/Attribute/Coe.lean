@@ -11,9 +11,9 @@ inductive MyNat where
 attribute [coe] MyNat.succ
 
 -- `MyNat.succ` ではなく `↑` と表示されるようになった
-/-- info: ↑MyNat.zero : MyNat -/
-#guard_msgs in
-  #check (MyNat.succ .zero : MyNat)
+/-⋆-//-- info: ↑MyNat.zero : MyNat -/
+#guard_msgs in --#
+#check (MyNat.succ .zero : MyNat)
 
 /- また、`[coe]` 属性は [`norm_cast`](#{root}/Tactic/NormCast.md) タクティクとも関係があります。-/
 
