@@ -22,6 +22,16 @@ example (P Q R : Prop) : P ∨ Q → (P → R) → (Q → R) → R := by
   | inr hQ =>
     exact hQR hQ
 
+/- `=>` を省略することもできます。 -/
+
+example (P Q R : Prop) : P ∨ Q → (P → R) → (Q → R) → R := by
+  intro h hPR hQR
+
+  cases h with | inl hP | inr hQ
+
+  · exact hPR hP
+  · exact hQR hQ
+
 /- ## case タクティク
 
 `cases .. with` 構文を使わずに、`case` タクティクを使って次のように書くこともできます。
@@ -33,10 +43,12 @@ example (P Q R : Prop) : P ∨ Q → (P → R) → (Q → R) → R := by
   cases h
 
   case inl hP =>
-    exact hPR hP
+    apply hPR
+    assumption
 
   case inr hQ =>
-    exact hQR hQ
+    apply hQR
+    assumption
 
 /- ## 舞台裏
 

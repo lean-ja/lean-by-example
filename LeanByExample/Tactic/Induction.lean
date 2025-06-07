@@ -33,7 +33,17 @@ example (n : Nat) : sum n = n * (n + 1) / 2 := by
     -- 後は可換環の性質から示せる
     ring
 
-/- なお帰納法は自然数の専売特許ではありません。[`inductive`](#{root}/Declarative/Inductive.md) コマンドで定義されたものであれば、帰納法を使うことができます。-/
+/- なお、`=>` は省略することができます。 -/
+
+example (n : Nat) : sum n = n * (n + 1) / 2 := by
+  induction n with | zero | succ n ih
+  · simp [sum]
+  · simp [sum, ih]
+    ring
+
+/- ## 帰納法の対象
+
+実際には帰納法は自然数の専売特許ではありません。[`inductive`](#{root}/Declarative/Inductive.md) コマンドで定義されたものであれば、帰納法を使うことができます。-/
 
 /-- 標準ライブラリの定義を真似て構成した順序関係 -/
 inductive Nat.myle (n : Nat) : Nat → Prop where
