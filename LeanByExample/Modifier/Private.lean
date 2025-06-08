@@ -12,6 +12,7 @@
 このとき、モジュール `PrivateLib` を読み込んでいるファイルからは、`protected` で修飾された名前はアクセス可能ですが、`private` で修飾された名前はアクセスできません。
 -/
 import LeanByExample.Modifier.PrivateLib -- private が使用されているモジュールをインポート
+import Batteries.Tactic.OpenPrivate --#
 import Lean --#
 
 -- private を使わずに定義した内容にはアクセスできる
@@ -34,3 +35,19 @@ open Hoge
 
 -- 外からでもアクセスできる
 #check addOne
+
+/- ## 補足: `private`で隠された定義に一時的にアクセスする
+
+`private` で隠された定義にアクセスする方法はあります。手軽なのは、`open private` コマンドを使う方法です。
+-/
+
+section
+  -- 最初はアクセスできない
+  #check_failure Point.private_sub
+
+  -- `open private` コマンドを使用する
+  open private Point.private_sub from LeanByExample.Modifier.PrivateLib
+
+  -- アクセスできるようになった
+  #check Point.private_sub
+end
