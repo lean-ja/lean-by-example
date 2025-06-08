@@ -36,7 +36,7 @@ example (hl : n ≤ m) (hg : m < n) : False := by
   -- `contradiction` は知らないから。
 
   -- 次のようにして教えてあげると…
-  have := hl.not_lt
+  have := hl.not_gt
 
   -- `contradiction` が通るようになる
   contradiction
