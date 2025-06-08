@@ -292,8 +292,9 @@ theorem lemma_em (himp : P → Q) (hor : ¬ Q ∨ P) : P ∨ ¬ P := by
     exact h
 
 -- 何の公理も使用していない
-/-- info: 'lemma_em' does not depend on any axioms -/
-#guard_msgs in #print axioms lemma_em
+/-⋆-//-- info: 'lemma_em' does not depend on any axioms -/
+#guard_msgs in --#
+#print axioms lemma_em
 
 /- 選択原理を用いると命題 `Q` を構成することができ、関数外延性と命題外延性により、それが所望の性質を持つことを示すことができます。-/
 
@@ -356,7 +357,7 @@ theorem em (P : Prop) : P ∨ ¬ P := by
     -- 残りの１つでは `u ≠ v` が成り立つ。
     simp [hu, hv]
 
-/- ### Lean.ofReduceBool
+/- ### Lean.ofReduceBool { #ofReduceBool }
 
 `Lean.ofReduceBool` は、[`native_decide`](#{root}/Tactic/NativeDecide.md) タクティクまたは `decide +native` タクティクを使用したときに使用される公理です。ある定理が `Lean.ofReduceBool` に依存しているということは、証明の中でコンパイラの出す結果を信頼していることを意味します。
 -/

@@ -21,7 +21,7 @@ theorem flt : FermatLastTheorem :=
 #guard_msgs in --#
 #print axioms flt
 
-/- しかし、[`[csimp]`](#{root}/Attribute/Csimp.md) 属性を経由することで `sorryAx` を隠し、`Lean.ofReduceBool` の背後に隠してしまうことができます。 -/
+/- しかし、[`[csimp]`](#{root}/Attribute/Csimp.md) 属性を経由することで `sorryAx` を隠し、[`Lean.ofReduceBool`](#{root}/Declarative/Axiom.md#ofReduceBool) の背後に隠してしまうことができます。 -/
 
 def one := 1
 def two := 2
