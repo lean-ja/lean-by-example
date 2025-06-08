@@ -58,3 +58,26 @@ theorem fib_eq_fibonacci : fibonacci = fib := by
 -- `fibonacci` の計算が１秒以内に終わるようになった
 #in_second #eval fibonacci 32
 #in_second #eval fibonacci 132
+
+/- ## 注意: `[csimp]` 属性による公理の隠蔽
+
+`[csimp]` 属性が付与された定理の証明にどんな公理を使用していようと、それを [`#print axioms`](#{root}/Diagnostic/Print.md#PrintAxioms) で追跡することはできず、`Lean.ofReduceBool` の陰に隠れてしまいます。
+-/
+
+def one := 1
+def two := 2
+
+/-- 何かの公理 -/
+axiom my_axiom : False
+
+@[csimp] theorem one_eq_two : one = two := by
+  exact my_axiom.elim
+
+theorem false_theorem : 1 = 2 := by
+  rw [show 1 = one from rfl]
+  native_decide
+
+-- `my_axiom` に依存しているはずだが、`ofReduceBool` の陰に隠れて見えなくなっている
+/-⋆-//-- info: 'false_theorem' depends on axioms: [Lean.ofReduceBool] -/
+#guard_msgs in --#
+#print axioms false_theorem
