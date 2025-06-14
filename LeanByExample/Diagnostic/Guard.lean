@@ -19,7 +19,7 @@ example (α : Type) (l : List α) : [] ⊆ l := by simp
 -- Prop 型を持つ
 #check ((α : Type) → ∀ (l : List α), [] ⊆ l : Prop)
 
-/--
+/-⋆-//--
 error: type mismatch
   ∀ (α : Type) (l : List α), [] ⊆ l
 has type
@@ -29,14 +29,15 @@ but is expected to have type
 ---
 error: cannot evaluate code because 'sorryAx' uses 'sorry' and/or contains errors
 -/
-#guard_msgs (whitespace := lax) in
-  #guard ((α : Type) → ∀ (l : List α), [] ⊆ l : Prop)
+#guard_msgs (whitespace := lax) in --#
+#guard ((α : Type) → ∀ (l : List α), [] ⊆ l : Prop)
 
 /- しかし、 `1 + 1 = 2` 等も `#check` で確かめてみると型は `Prop` です。にも関わらず `#guard` に渡してもエラーになりません。これは不思議に思えますが、理由は `1 + 1 = 2` が [`Decidable`](#{root}/TypeClass/Decidable.md) 型クラスのインスタンスであり、決定可能だからです。-/
 
 -- 型は Prop
-/-- info: 1 + 1 = 2 : Prop -/
-#guard_msgs in #check 1 + 1 = 2
+/-⋆-//-- info: 1 + 1 = 2 : Prop -/
+#guard_msgs in --#
+#check 1 + 1 = 2
 
 #guard 1 + 1 = 2
 
@@ -51,6 +52,6 @@ error: cannot evaluate code because 'sorryAx' uses 'sorry' and/or contains error
 #check (decide : (p : Prop) → [_h : Decidable p] → Bool)
 
 -- Bool 型になっている
-/-- info: decide (1 + 1 = 2) : Bool -/
-#guard_msgs in
-  #check decide (1 + 1 = 2)
+/-⋆-//-- info: decide (1 + 1 = 2) : Bool -/
+#guard_msgs in --#
+#check decide (1 + 1 = 2)
