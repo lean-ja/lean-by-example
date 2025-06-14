@@ -71,3 +71,9 @@ example {P Q : Prop} (h1 : P → Q) (h2 : P → Q → False) (hP : P) : False :=
   refine h2 ?a ?_ -- `?a` は `P` の証明を要求するメタ変数
   · exact hP
   · exact h1 ?a -- `?a` を `P` の証明の代替として使うことができる
+
+example {P : Prop} (h : P → P → False) (hP : P) : False := by
+  -- 本来２つの場合分けがあるが、証明が全く同じなので１つの証明で済ませることができる
+  refine h ?a ?a
+
+  · exact hP
