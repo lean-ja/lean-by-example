@@ -51,5 +51,6 @@ section
     | some t => logInfo m!"{t}"
 end
 
-/-- info: refine_lift show P from ?_ -/
-#guard_msgs in #expand (show P)
+/-⋆-//-- info: refine_lift show P from ?_ -/
+#guard_msgs in --#
+#expand (show P)

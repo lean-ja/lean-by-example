@@ -11,9 +11,9 @@ def parse (cat : Name) (s : String) : MetaM Syntax := do
   ofExcept <| runParserCategory (← getEnv) cat s
 
 -- 最初は `#greet` が未定義なので、合法的なLeanのコマンドとして認識されない
-/-- error: <input>:1:0: expected command -/
-#guard_msgs in
-  #eval parse `command "#greet"
+/-⋆-//-- error: <input>:1:0: expected command -/
+#guard_msgs in --#
+#eval parse `command "#greet"
 
 -- `#greet` コマンドを定義する
 macro "#greet " : command => `(command| #eval "Hello World!")

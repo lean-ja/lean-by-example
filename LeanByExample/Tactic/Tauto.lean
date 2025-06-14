@@ -41,8 +41,9 @@ example (Q : Prop) : ∀ (P : Prop), P → (Q → P) := by
 theorem not_neg_iff {P : Prop} : ¬ (P ↔ ¬ P) := by tauto
 
 -- 選択原理を使っているが、これは排中律を使っているため
-/-- info: 'not_neg_iff' depends on axioms: [propext, Classical.choice, Quot.sound] -/
-#guard_msgs in #print axioms not_neg_iff
+/-⋆-//-- info: 'not_neg_iff' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in --#
+#print axioms not_neg_iff
 
 -- 実際には排中律は必要ない
 theorem not_neg_iff' {P : Prop} : ¬ (P ↔ ¬ P) := by
@@ -54,5 +55,6 @@ theorem not_neg_iff' {P : Prop} : ¬ (P ↔ ¬ P) := by
   have hp : P := by rwa [← h] at hnp
   contradiction
 
-/-- info: 'not_neg_iff'' depends on axioms: [propext] -/
-#guard_msgs in #print axioms not_neg_iff'
+/-⋆-//-- info: 'not_neg_iff'' depends on axioms: [propext] -/
+#guard_msgs in --#
+#print axioms not_neg_iff'

@@ -103,13 +103,13 @@ namespace Color
 
   -- エラーになっているので、
   -- Commutative のインスタンスはないことが確認できる
-  /--
+  /-⋆-//--
   error: failed to synthesize
     Std.Commutative fun x1 x2 => x1 + x2
   Additional diagnostic information may be available using the `set_option diagnostics true` command.
   -/
-  #guard_msgs (whitespace := lax) in
-    #synth Std.Commutative (α := Color) (· + ·)
+  #guard_msgs (whitespace := lax) in --#
+  #synth Std.Commutative (α := Color) (· + ·)
 
   /-- `add_comm` を `Std.Associative` に登録する。 -/
   local instance : Std.Associative (α := Color) (· + ·) where

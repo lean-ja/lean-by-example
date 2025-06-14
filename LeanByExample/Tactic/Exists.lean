@@ -52,6 +52,6 @@ section
     | some t => logInfo m!"{t}"
 end
 
-/-- info: (refine ⟨1, 2, 3, ?_⟩; try trivial) -/
-#guard_msgs in
-  #expand (exists 1, 2, 3)
+/-⋆-//-- info: (refine ⟨1, 2, 3, ?_⟩; try trivial) -/
+#guard_msgs in --#
+#expand (exists 1, 2, 3)

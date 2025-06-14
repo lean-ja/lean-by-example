@@ -119,8 +119,9 @@ theorem my_proof_irrel (P : Prop) (h1 h2 : P) : h1 = h2 := rfl
 
 /- 証明無関係は [`axiom`](#{root}/Declarative/Axiom.md) で導入された公理から従う定理ではなく、Lean の型システムに組み込まれたものであることに注意してください。-/
 
-/-- info: 'proof_irrel' does not depend on any axioms -/
-#guard_msgs in #print axioms proof_irrel
+/-⋆-//-- info: 'proof_irrel' does not depend on any axioms -/
+#guard_msgs in --#
+#print axioms proof_irrel
 
 /- ### No Large Elimination { #NoLargeElim }
 証明無関係の重要な帰結のひとつに、「証明から値を取り出すことができるのは、証明の中だけ」というものがあります。この現象は、「`Prop` は large elimination を許可しない」という言葉で表現されます。[^large_elim] 誤解を恐れずに雑にかみ砕いて言えば、型 `T : Sort u` が命題宇宙 `Prop` よりも大きい宇宙に棲んでいる場合（つまり `u > 0` の場合）、命題 `P : Prop` から`T` への関数 `P → T` を定義することはできないということです。

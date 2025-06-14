@@ -59,7 +59,7 @@ example (h : P → Q) (p : P) : Q := by
 set_option says.verify true
 
 -- チェックを有効にするとエラーになる
-/--
+/-⋆-//--
 error: Tactic `exact?` produced `exact h p`,
 but was expecting it to produce `
   try contradiction
@@ -67,8 +67,8 @@ but was expecting it to produce `
 
 You can reproduce this error locally using `set_option says.verify true`.
 -/
-#guard_msgs (whitespace := lax) in
-  example (h : P → Q) (p : P) : Q := by
-    exact? says
-      try contradiction
-      exact h p
+#guard_msgs (whitespace := lax) in --#
+example (h : P → Q) (p : P) : Q := by
+  exact? says
+    try contradiction
+    exact h p

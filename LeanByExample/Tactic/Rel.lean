@@ -10,9 +10,9 @@ example {a b c d : Nat} (h1 : a ≤ b) (h2 : c ≤ d) : a + c ≤ b + d := by
 
 /- 下記で示すように、ゴールが関係式でないときにはエラーになります。-/
 
-/-- error: rel failed, goal not a relation -/
-#guard_msgs in
-  example (x : Nat) : Nat := by rel [x]
+/-⋆-//-- error: rel failed, goal not a relation -/
+#guard_msgs in --#
+example (x : Nat) : Nat := by rel [x]
 
 /- なお、基本的に `rel` よりも [`gcongr`](./Gcongr.md) の方が強いタクティクです。`gcongr` は `rel` とは異なり、ローカルコンテキストから必要な命題を自動的に読み込むことができます。
 -/

@@ -33,15 +33,16 @@ import Batteries.Data.Rat.Float --#
 次のように `0.1 : Float` を表示させると気が付きませんが、これは表示の際に数値が丸められているためです。
 -/
 
-/-- info: 0.100000 -/
-#guard_msgs in #eval 0.1
+/-⋆-//-- info: 0.100000 -/
+#guard_msgs in --#
+#eval 0.1
 
 /- `Float` を関数 `Float.toRat0` で有理数に変換してみると、誤差の存在が明るみになります。-/
 
 -- `1/10` にはならない！
-/-- info: (3602879701896397 : Rat)/36028797018963968 -/
-#guard_msgs in
-  #eval (0.1 : Float).toRat0
+/-⋆-//-- info: (3602879701896397 : Rat)/36028797018963968 -/
+#guard_msgs in --#
+#eval (0.1 : Float).toRat0
 
 -- 分母の数は2の冪乗になっている
 -- これは浮動小数点数が内部で2進数で表現されていることを裏付ける
@@ -73,12 +74,14 @@ def Rat.pow2ToBase10 (x : Rat) : String :=
 /-- `Float` を丸めを行わずに正確に表示する -/
 def Float.toExactDecimal (x : Float) : String := x.toRat0.pow2ToBase10
 
-/-- info: "0.1000000000000000055511151231257827021181583404541015625" -/
-#guard_msgs in #eval Float.toExactDecimal 0.1
+/-⋆-//-- info: "0.1000000000000000055511151231257827021181583404541015625" -/
+#guard_msgs in --#
+#eval Float.toExactDecimal 0.1
 
 -- ２進数で表現されているので、0.5 は正確に表現できる
-/-- info: "0.5" -/
-#guard_msgs in #eval Float.toExactDecimal 0.5
+/-⋆-//-- info: "0.5" -/
+#guard_msgs in --#
+#eval Float.toExactDecimal 0.5
 
 /- `Float` では明らかに正しそうに見える等式がしばしば誤差のために偽になるということに注意してください。-/
 
@@ -87,22 +90,24 @@ def Float.toExactDecimal (x : Float) : String := x.toRat0.pow2ToBase10
 
 -- 両辺を `#eval` で評価してみても理由はわからない…
 
-/-- info: 0.300000 -/
-#guard_msgs in #eval 0.1 + 0.2
+/-⋆-//-- info: 0.300000 -/
+#guard_msgs in --#
+#eval 0.1 + 0.2
 
-/-- info: 0.300000 -/
-#guard_msgs in #eval 0.3
+/-⋆-//-- info: 0.300000 -/
+#guard_msgs in --#
+#eval 0.3
 
 -- 両辺の正確な値を表示させてみると理由がわかる
 
 -- `0.1 + 0.2 : Float` は `0.3 : Rat` より大きい
-/-- info: "0.3000000000000000444089209850062616169452667236328125" -/
-#guard_msgs in
-  #eval Float.toExactDecimal (0.1 + 0.2)
+/-⋆-//-- info: "0.3000000000000000444089209850062616169452667236328125" -/
+#guard_msgs in --#
+#eval Float.toExactDecimal (0.1 + 0.2)
 
 -- `0.3 : Float` は `0.3 : Rat` より小さい
-/-- info: "0.299999999999999988897769753748434595763683319091796875" -/
-#guard_msgs in
-  #eval Float.toExactDecimal 0.3
+/-⋆-//-- info: "0.299999999999999988897769753748434595763683319091796875" -/
+#guard_msgs in --#
+#eval Float.toExactDecimal 0.3
 
 /- [^float]: この浮動小数点数を正確に表示させる関数の実装例は、Zulip のトピック "display all of a Float object" における [Daniel Weber 氏の投稿](https://leanprover.zulipchat.com/#narrow/channel/217875-Is-there-code-for-X.3F/topic/.E2.9C.94.20display.20all.20of.20a.20.20Float.20object/near/473460360)を参考にしています。 -/

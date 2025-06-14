@@ -60,58 +60,58 @@ def parse (cat : Name) (s : String) : MetaM Syntax := do
   ofExcept <| runParserCategory (← getEnv) cat s
 
 -- `true` は識別子としてパースされている。
-/--
+/-⋆-//--
 info: Lean.Syntax.ident
   (Lean.SourceInfo.original "".toSubstring { byteIdx := 0 } "".toSubstring { byteIdx := 4 })
   "true".toSubstring
   `true
   []
 -/
-#guard_msgs in
-  #eval parse `term "true"
+#guard_msgs in --#
+#eval parse `term "true"
 
 -- `0` は構文木のノードになっていて、
 -- 子としてアトムが一つある。
-/--
+/-⋆-//--
 info: Lean.Syntax.node
   (Lean.SourceInfo.none)
   `num
   #[Lean.Syntax.atom (Lean.SourceInfo.original "".toSubstring { byteIdx := 0 } "".toSubstring { byteIdx := 1 }) "0"]
 -/
-#guard_msgs in
-  #eval parse `term "0"
+#guard_msgs in --#
+#eval parse `term "0"
 
 /- 見ての通りすぐに複雑怪奇になってしまうので、以降は表示を簡略化しましょう。`Syntax` は [`ToString`](#{root}/TypeClass/ToString.md) のインスタンスを実装しており、これは `SourceInfo` などを含まないシンプルな表現をしてくれるので、それを利用します。-/
 
 -- 文字列として表示するとかなり簡略化される
-/-- info: `true -/
-#guard_msgs in
-  run_meta IO.println (← parse `term "true")
+/-⋆-//-- info: `true -/
+#guard_msgs in --#
+run_meta IO.println (← parse `term "true")
 
-/-- info: (num "0") -/
-#guard_msgs in
-  run_meta IO.println (← parse `term "0")
+/-⋆-//-- info: (num "0") -/
+#guard_msgs in --#
+run_meta IO.println (← parse `term "0")
 
-/-- info: (term!_ "!" `false) -/
-#guard_msgs in
-  run_meta IO.println (← parse `term "! false")
+/-⋆-//-- info: (term!_ "!" `false) -/
+#guard_msgs in --#
+run_meta IO.println (← parse `term "! false")
 
 -- 識別子はアトムと違って `Name` を受け取るのでバッククォートがつく
-/-- info: `Nat.zero -/
-#guard_msgs in
-  run_meta IO.println (← parse `term "Nat.zero")
+/-⋆-//-- info: `Nat.zero -/
+#guard_msgs in --#
+run_meta IO.println (← parse `term "Nat.zero")
 
 /- もちろん項(`term`)以外の構文カテゴリについてもパースを行うことができます。あと少しだけ例を見ましょう。 -/
 
 -- コマンドをパースする例
-/-- info: (Command.eval "#eval" (str "\"hello\"")) -/
-#guard_msgs in
-  run_meta IO.println (← parse `command "#eval \"hello\"")
+/-⋆-//-- info: (Command.eval "#eval" (str "\"hello\"")) -/
+#guard_msgs in --#
+run_meta IO.println (← parse `command "#eval \"hello\"")
 
 -- タクティクをパースする例
 -- 木構造が現れている
-/--
+/-⋆-//--
 info: (Tactic.«tactic_<;>_» (Tactic.constructor "constructor") "<;>" (Tactic.intro "intro" [`h]))
 -/
-#guard_msgs in
-  run_meta IO.println (← parse `tactic "constructor <;> intro h")
+#guard_msgs in --#
+run_meta IO.println (← parse `tactic "constructor <;> intro h")

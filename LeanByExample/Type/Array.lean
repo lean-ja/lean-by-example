@@ -40,7 +40,7 @@ elab "#doc " x:ident : command => do
   if let some s ← findDocString? (← getEnv) name then
   logInfo m!"{s}"
 
-/--
+/-⋆-//--
 info: `Array α` is the type of [dynamic arrays](https://en.wikipedia.org/wiki/Dynamic_array) with elements
 from `α`. This type has special support in the runtime.
 
@@ -56,7 +56,8 @@ exceeds the capacity, allocation is required to grow the array.
 
 From the point of view of proofs, `Array α` is just a wrapper around `List α`.
 -/
-#guard_msgs in #doc Array
+#guard_msgs in --#
+#doc Array
 
 /- `List` のラッパーとしての定義は、証明を行おうとしたときに参照されます。-/
 

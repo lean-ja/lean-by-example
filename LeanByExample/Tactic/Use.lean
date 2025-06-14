@@ -39,9 +39,9 @@ def parse (cat : Name) (s : String) : MetaM Syntax := do
   ofExcept <| runParserCategory (← getEnv) cat s
 
 -- `exists (discharger := linarith)` と書くとパースエラーになる
-/-- error: <input>:1:19: expected ')', ',' or ':' -/
-#guard_msgs in
-  #eval parse `tactic "exists (discharger := linarith) 1"
+/-⋆-//-- error: <input>:1:19: expected ')', ',' or ':' -/
+#guard_msgs in --#
+#eval parse `tactic "exists (discharger := linarith) 1"
 
 /- ### Exists 以外の型にも使用できる
 `exists` は、ゴールの型が `Exists` であるという想定をしているため、たとえばフィールドの数が３以上であるような構造体に対して使うとエラーになります。
@@ -56,12 +56,12 @@ structure Foo where
 /-- `Foo` の項を具体的に与える例 -/
 example : Foo := ⟨3, by simp, by simp⟩
 
-/--
+/-⋆-//--
 error: invalid constructor ⟨...⟩, insufficient number of arguments, constructs 'Foo.mk' has #3 explicit fields, but only #2 provided
 -/
-#guard_msgs in
-  example : Foo := by
-    exists 3
+#guard_msgs in --#
+example : Foo := by
+  exists 3
 
 /- しかし、`use` タクティクであれば対応することができます。 -/
 

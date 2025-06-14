@@ -10,18 +10,18 @@ example (n : Nat) : n + 0 = n := by
   rfl
 
 -- `show_term` で `rfl` が生成している具体的な項を表示
-/-- info: Try this: Eq.refl (n + 0) -/
-#guard_msgs in
-  example (n : Nat) : n + 0 = n := show_term by
-    rfl
+/-⋆-//-- info: Try this: Eq.refl (n + 0) -/
+#guard_msgs in --#
+example (n : Nat) : n + 0 = n := show_term by
+  rfl
 
 /- ## by? 構文
 [`by`](#{root}/Parser/By.md) を `by?` に変えることでも、`show_term` を呼び出すことができます。-/
 
-/-- info: Try this: Eq.refl (n + 0) -/
-#guard_msgs in
-  example (n : Nat) : n + 0 = n := by?
-    rfl
+/-⋆-//-- info: Try this: Eq.refl (n + 0) -/
+#guard_msgs in --#
+example (n : Nat) : n + 0 = n := by?
+  rfl
 
 /- 実際、`by?` は `show_term` に展開されるマクロです。-/
 section
@@ -41,6 +41,6 @@ section
     | some t => logInfo m!"{t}"
 end
 
-/-- info: show_term by rfl -/
-#guard_msgs in
-  #expand (by? rfl)
+/-⋆-//-- info: show_term by rfl -/
+#guard_msgs in --#
+#expand (by? rfl)

@@ -72,7 +72,7 @@ section
 end
 
 -- マクロ展開の中に `try_this ring_nf` が含まれる
-/--
+/-⋆-//--
 info: first
 | ring1
 |
@@ -81,8 +81,8 @@ info: first
       If you have a noncommutative ring, abelian group or module, consider using \
       `noncomm_ring`, `abel` or `module` instead."
 -/
-#guard_msgs (info, drop warning) in
-  #expand (ring)
+#guard_msgs (info, drop warning) in --#
+#expand (ring)
 
 /- ## カスタマイズ
 

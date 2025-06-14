@@ -22,8 +22,9 @@ example : (m - n) - n = m - 2 * n := by
 
 /- `rw` では同値関係も扱うことができますが、`rw_search` が扱うのは等式のみです。 -/
 
-/-- error: Goal is not an equality. -/
-#guard_msgs in example (h : n + m = 0) : n = 0 ↔ m = 0 := by
+/-⋆-//-- error: Goal is not an equality. -/
+#guard_msgs in --#
+example (h : n + m = 0) : n = 0 ↔ m = 0 := by
   -- ゴールが等式でないのでエラーになる
   rw_search
 
