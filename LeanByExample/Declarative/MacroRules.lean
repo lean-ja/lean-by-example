@@ -38,8 +38,9 @@ macro_rules
   | `(command| #greet) => `(#eval "Good morning, Lean!")
 
 -- 最後に宣言されたルールが適用される
-/-- info: "Good morning, Lean!" -/
-#guard_msgs in #greet
+/-⋆-//-- info: "Good morning, Lean!" -/
+#guard_msgs in --#
+#greet
 
 /- このとき古い方の展開ルールは常に上書きされて消えるわけではありません。`macro_rules` で宣言されたルールは最後に宣言されたものから順に試され、展開に失敗するとスキップされ、最初に展開に成功したルールが採用されます。具体例でこの挙動を確認してみましょう。
 -/

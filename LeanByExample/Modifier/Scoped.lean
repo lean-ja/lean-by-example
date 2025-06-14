@@ -16,8 +16,9 @@ namespace Scoped
 end Scoped
 
 -- 名前空間を抜けると使えなくなる
-/-- error: elaboration function for '«command#greet»' has not been implemented -/
-#guard_msgs in #greet
+/-⋆-//-- error: elaboration function for '«command#greet»' has not been implemented -/
+#guard_msgs in --#
+#greet
 
 -- 再び同じ名前で名前空間を開く
 namespace Scoped
@@ -55,14 +56,14 @@ def parse (cat : Name) (s : String) : MetaM Syntax := do
   ofExcept <| runParserCategory (← getEnv) cat s
 
 -- `def` は有効範囲を制限できないのでエラーになる
-/--
+/-⋆-//--
 error: <input>:1:7: expected 'binder_predicate', 'builtin_dsimproc', 'builtin_simproc', 'dsimproc',
 'elab', 'elab_rules', 'infix', 'infixl', 'infixr', 'instance',
 'macro', 'macro_rules', 'notation', 'postfix', 'prefix', 'simproc',
 'syntax' or 'unif_hint'
 -/
-#guard_msgs in
-  #eval parse `command "scoped def"
+#guard_msgs in --#
+#eval parse `command "scoped def"
 
 /- ## open scoped
 `open scoped` コマンドを利用すると、特定の名前空間にある `scoped` が付けられた名前だけを有効にすることができます。単に [`open`](#{root}/Declarative/Open.md) コマンドを利用するとその名前空間にあるすべての名前が有効になります。
@@ -141,11 +142,11 @@ elab "#doc " x:ident : command => do
   if let some s ← findDocString? (← getEnv) name then
   logInfo m!"{s}"
 
-/--
+/-⋆-//--
 info: `attrKind` matches `("scoped" <|> "local")?`, used before an attribute like `@[local simp]`.
 -/
-#guard_msgs in
-  #doc Lean.Parser.Term.attrKind
+#guard_msgs in --#
+#doc Lean.Parser.Term.attrKind
 
 /-- 例示のための意味のないコマンド。直前に `attrKind` のみを受け付ける。-/
 macro attrKind "#greet " : command => `(#eval "hello")

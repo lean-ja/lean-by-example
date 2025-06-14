@@ -6,8 +6,9 @@
 有効範囲はその[セクション](#{root}/Declarative/Section.md)の内部またはそのファイルの最後までです。
 -/
 
-/-- info: ¬1 + 1 = 2 : Prop -/
-#guard_msgs in #check ¬ (1 + 1 = 2)
+/-⋆-//-- info: ¬1 + 1 = 2 : Prop -/
+#guard_msgs in --#
+#check ¬ (1 + 1 = 2)
 
 section
 
@@ -15,11 +16,13 @@ section
   set_option pp.notation false
 
   -- 表示される内容が変わった！
-  /-- info: Not (Eq (HAdd.hAdd 1 1) 2) : Prop -/
-  #guard_msgs in #check ¬ (1 + 1 = 2)
+  /-⋆-//-- info: Not (Eq (HAdd.hAdd 1 1) 2) : Prop -/
+  #guard_msgs in --#
+  #check ¬ (1 + 1 = 2)
 
 end
 
 -- `section` を抜けると元に戻る
-/-- info: ¬1 + 1 = 2 : Prop -/
-#guard_msgs in #check ¬ (1 + 1 = 2)
+/-⋆-//-- info: ¬1 + 1 = 2 : Prop -/
+#guard_msgs in --#
+#check ¬ (1 + 1 = 2)

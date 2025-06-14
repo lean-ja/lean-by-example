@@ -24,11 +24,11 @@ example (hPQ : P → Q) (hQR : Q → R) : P → R := by
 `by` の代わりに `by?` を使うとタクティクモードで構成した証明を直接構成した証明に変換してくれます。詳細は [`show_term`](#{root}/Tactic/ShowTerm.md) のページを参照してください。
 -/
 
-/-- info: Try this: fun hP => hQR (hPQ hP) -/
-#guard_msgs in
-  example (hPQ : P → Q) (hQR : Q → R) : P → R := by?
-    intro hP
-    exact hQR (hPQ hP)
+/-⋆-//-- info: Try this: fun hP => hQR (hPQ hP) -/
+#guard_msgs in --#
+example (hPQ : P → Q) (hQR : Q → R) : P → R := by?
+  intro hP
+  exact hQR (hPQ hP)
 
 /- ## 構文的な性質
 
@@ -42,9 +42,9 @@ def parse (cat : Name) (s : String) : MetaM Syntax := do
   ofExcept <| runParserCategory (← getEnv) cat s
 
 -- `by` 自身は構文的にタクティクではない
-/-- error: <input>:1:0: expected tactic -/
-#guard_msgs in
-  #eval parse `tactic "by"
+/-⋆-//-- error: <input>:1:0: expected tactic -/
+#guard_msgs in --#
+#eval parse `tactic "by"
 
 /- `by` のパーサのドキュメントコメントに書かれている通り、`by` の後にタクティクを続けたものは項(term)になります。-/
 
@@ -56,9 +56,9 @@ elab "#doc " x:ident : command => do
   if let some s ← findDocString? (← getEnv) name then
   logInfo m!"{s}"
 
-/-- info: `by tac` constructs a term of the expected type by running the tactic(s) `tac`. -/
-#guard_msgs in
-  #doc Lean.Parser.Term.byTactic
+/-⋆-//-- info: `by tac` constructs a term of the expected type by running the tactic(s) `tac`. -/
+#guard_msgs in --#
+#doc Lean.Parser.Term.byTactic
 
 -- `by` の後にタクティクを続けたものは構文的に項(term)になる
 #eval parse `term "by rfl"

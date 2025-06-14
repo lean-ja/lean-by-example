@@ -17,8 +17,9 @@ elab "#doc " x:ident : command => do
   if let some s ← findDocString? (← getEnv) name then
   logInfo m!"{s}"
 
-/-- info: 最初に与えた doc コメント -/
-#guard_msgs in #doc greet'
+/-⋆-//-- info: 最初に与えた doc コメント -/
+#guard_msgs in --#
+#doc greet'
 
 /- `[inherit_doc]` 属性を使用するのは、記法を導入する際であることが多いでしょう。この場合、ドキュメントコメントの継承元を指定する必要がありません。 -/
 

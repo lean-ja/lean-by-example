@@ -15,8 +15,9 @@ structure Point (α : Type) : Type where
 def origin : Point Nat := ⟨0, 0⟩
 
 -- `origin` の中身を表示することができる
-/-- info: { x := 0, y := 0 } -/
-#guard_msgs in #eval origin
+/-⋆-//-- info: { x := 0, y := 0 } -/
+#guard_msgs in --#
+#eval origin
 
 -- Repr インスタンスを暗黙的に生成しないように設定
 set_option eval.derive.repr false
@@ -42,13 +43,14 @@ elab "#doc " x:ident : command => do
   if let some s ← findDocString? (← getEnv) name then
   logInfo m!"{s}"
 
-/--
+/-⋆-//--
 info: A typeclass that specifies the standard way of turning values of some type into `Format`.
 
 When rendered this `Format` should be as close as possible to something that can be parsed as the
 input value.
 -/
-#guard_msgs in #doc Repr
+#guard_msgs in --#
+#doc Repr
 
 /- ## Repr インスタンスの実装方法
 

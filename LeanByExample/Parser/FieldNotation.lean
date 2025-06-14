@@ -98,7 +98,7 @@ elab "#doc " x:ident : command => do
   if let some s ← findDocString? (← getEnv) name then
   logInfo m!"{s}"
 
-/--
+/-⋆-//--
 info: The *extended field notation* `e.f` is roughly short for `T.f e` where `T` is the type of `e`.
 More precisely,
 * if `e` is of a function type, `e.f` is translated to `Function.f (p := e)`
@@ -111,8 +111,8 @@ More precisely,
 The field index notation `e.i`, where `i` is a positive number,
 is short for accessing the `i`-th field (1-indexed) of `e` if it is of a structure type.
 -/
-#guard_msgs in
-  #doc Lean.Parser.Term.proj
+#guard_msgs in --#
+#doc Lean.Parser.Term.proj
 
 /- ## 制約
 

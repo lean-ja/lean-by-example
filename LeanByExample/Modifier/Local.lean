@@ -59,13 +59,13 @@ def parse (cat : Name) (s : String) : MetaM Syntax := do
   ofExcept <| runParserCategory (← getEnv) cat s
 
 -- `def` は有効範囲を制限できないのでエラーになる
-/--
+/-⋆-//--
 error: <input>:1:6: expected 'binder_predicate', 'builtin_dsimproc', 'builtin_simproc', 'dsimproc',
 'elab', 'elab_rules', 'infix', 'infixl', 'infixr', 'instance', 'macro', 'macro_rules',
 'notation', 'postfix', 'prefix', 'simproc', 'syntax' or 'unif_hint'
 -/
-#guard_msgs in
-  #eval parse `command "local def"
+#guard_msgs in --#
+#eval parse `command "local def"
 
 /-
 数が多いためすべての例を挙げることはしませんが、いくつか紹介します。たとえば `instance` の場合、`local` を付けて登録したインスタンスがその[セクション](#{root}/Declarative/Section.md)の内部限定になります。
@@ -124,11 +124,11 @@ elab "#doc " x:ident : command => do
   if let some s ← findDocString? (← getEnv) name then
   logInfo m!"{s}"
 
-/--
+/-⋆-//--
 info: `attrKind` matches `("scoped" <|> "local")?`, used before an attribute like `@[local simp]`.
 -/
-#guard_msgs in
-  #doc Lean.Parser.Term.attrKind
+#guard_msgs in --#
+#doc Lean.Parser.Term.attrKind
 
 /-- 例示のための意味のないコマンド。直前に `attrKind` のみを受け付ける。-/
 macro attrKind "#greet " : command => `(#eval "hello")

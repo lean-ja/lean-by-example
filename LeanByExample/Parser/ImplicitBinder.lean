@@ -66,7 +66,7 @@ elab "#doc " x:ident : command => do
   if let some s ← findDocString? (← getEnv) name then
   logInfo m!"{s}"
 
-/--
+/-⋆-//--
 info: Implicit binder, like `{x y : A}` or `{x y}`.
 In regular applications, whenever all parameters before it have been specified,
 then a `_` placeholder is automatically inserted for this parameter.
@@ -75,8 +75,8 @@ by unification.
 
 In `@` explicit mode, implicit binders behave like explicit binders.
 -/
-#guard_msgs in
-  #doc Lean.Parser.Term.implicitBinder
+#guard_msgs in --#
+#doc Lean.Parser.Term.implicitBinder
 
 /- 上記のドキュメントコメントにも書かれていますが、構文としては暗黙の引数に型を指定しないことも許されます。 -/
 

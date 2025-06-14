@@ -33,12 +33,13 @@ def Many.cons (x : α) (xs : Many α) : Many α :=
   .more x (fun () => xs)
 
 -- Many を定義したときに自動生成される定理
-/--
+/-⋆-//--
 info: Many.rec.{u} {α : Type} {motive : Many α → Sort u} (none : motive Many.none)
   (more : (x : α) → (xs : Unit → Many α) → ((a : Unit) → motive (xs a)) → motive (Many.more x xs)) (t : Many α) :
   motive t
 -/
-#guard_msgs (whitespace := lax) in #check Many.rec
+#guard_msgs (whitespace := lax) in --#
+#check Many.rec
 
 -- Many.rec の `Many.more` の部分を `Many.cons` に置き換えた定理を作る。
 -- これに `[induction_eliminator]` 属性を与えることで、

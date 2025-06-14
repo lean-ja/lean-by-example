@@ -33,8 +33,9 @@ def parse (cat : Name) (s : String) : MetaM Syntax := do
   ofExcept <| runParserCategory (← getEnv) cat s
 
 -- 単に連結するとパース不可でエラーになる
-/-- error: <input>:1:6: expected end of input -/
-#guard_msgs in #eval parse `term "1 ⋄ 2 ⋄ 3"
+/-⋆-//-- error: <input>:1:6: expected end of input -/
+#guard_msgs in --#
+#eval parse `term "1 ⋄ 2 ⋄ 3"
 
 -- 括弧を付ければOK
 #eval parse `term "1 ⋄ (2 ⋄ 3)"
@@ -62,6 +63,6 @@ section
     | some t => logInfo m!"{t}"
 end
 
-/-- info: notation:50 lhs✝:51 " LXOR " rhs✝:51 => lxor lhs✝ rhs✝ -/
-#guard_msgs in
-  #expand (infix:50 " LXOR " => lxor)
+/-⋆-//-- info: notation:50 lhs✝:51 " LXOR " rhs✝:51 => lxor lhs✝ rhs✝ -/
+#guard_msgs in --#
+#expand (infix:50 " LXOR " => lxor)

@@ -7,11 +7,13 @@
 -- 決定可能な命題を決定する関数 decide が存在する
 #check (decide : (P : Prop) → [Decidable P] → Bool)
 
-/-- info: true -/
-#guard_msgs in #eval decide (2 + 2 = 4)
+/-⋆-//-- info: true -/
+#guard_msgs in --#
+#eval decide (2 + 2 = 4)
 
-/-- info: false -/
-#guard_msgs in #eval decide (2 + 2 = 5)
+/-⋆-//-- info: false -/
+#guard_msgs in --#
+#eval decide (2 + 2 = 5)
 
 /- `Decidable` 型クラスのインスタンスに対しては、[`decide`](#{root}/Tactic/Decide.md) タクティクにより証明が可能です。 -/
 
