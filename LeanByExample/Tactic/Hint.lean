@@ -24,26 +24,6 @@ example (P Q R : Prop) (x : P ∧ Q ∧ R ∧ R) : Q ∧ P ∧ R := by
   hint
 
 /- ## 登録されているタクティク
-デフォルトでは以下の18個のタクティクを試します。
-
-* `group`
-* `noncomm_ring`
-* [`gcongr`](./Gcongr.md)
-* [`ring`](./Ring.md)
-* [`linarith`](./Linarith.md)
-* `norm_num`
-* [`positivity`](./Positivity.md)
-* `bound`
-* `abel`
-* [`omega`](./Omega.md)
-* [`decide`](./Decide.md)
-* [`exact?`](./ExactQuestion.md)
-* `simp_all?`
-* [`aesop`](./Aesop.md)
-* [`intro`](./Intro.md)
-* [`split`](./Split.md)
-* [`tauto`](./Tauto.md)
-* [`trivial`](./Trivial.md)
 
 `hint` に登録されているタクティクのリストは、`Mathlib.Tactic.Hint.getHints` 関数を介して確認することができます。
 -/
@@ -60,7 +40,9 @@ def getRegisteredTactics : CoreM Unit := do
 /-⋆-//--
 info: "group"
 "noncomm_ring"
-"gcongr"
+"finiteness"
+"field_simp"
+"compute_degree"
 "ring"
 "linarith"
 "norm_num"
@@ -76,6 +58,7 @@ info: "group"
 "split"
 "tauto"
 "trivial"
+"gcongr"
 -/
 #guard_msgs in --#
 #eval getRegisteredTactics

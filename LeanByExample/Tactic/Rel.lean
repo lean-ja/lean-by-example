@@ -3,7 +3,7 @@
 `rel` は、一般化された合同性を用いてゴールを分解し、命題を代入することで示すタクティクです。ゴールが関係(relation)について述べているときに使用できます。
 
 典型的には不等式を代入して適用し、不等式を示します。 -/
-import Mathlib.Tactic.GCongr -- `rel` を使用するのに必要
+import Mathlib.Tactic
 
 example {a b c d : Nat} (h1 : a ≤ b) (h2 : c ≤ d) : a + c ≤ b + d := by
   rel [h1, h2]
