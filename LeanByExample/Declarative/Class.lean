@@ -99,13 +99,14 @@ instance : Plus Nat (List Nat) (List Nat) where
 set_option pp.mvars false
 
 -- 返り値の型がわからないので型クラス解決ができないというエラーが出ている
-/--
+/-⋆-//--
 error: failed to synthesize
   Plus Nat (List Nat) (IO ?_)
 
 Additional diagnostic information may be available using the `set_option diagnostics true` command.
 -/
-#guard_msgs in #eval 1 +ₚ [1, 2]
+#guard_msgs in --#
+#eval 1 +ₚ [1, 2]
 
 -- 返り値の型を教えると評価できる
 #eval (1 +ₚ [1, 2] : List Nat)
