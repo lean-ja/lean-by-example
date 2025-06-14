@@ -12,9 +12,9 @@ def parse (cat : Name) (s : String) : MetaM Syntax := do
 
 -- 最初は `#greet` などというコマンドは定義されていないので
 -- そもそも Lean の合法な構文として認められない。
-/-- error: <input>:1:0: expected command -/
-#guard_msgs (error) in
-  #eval parse `command "#greet"
+/-⋆-//-- error: <input>:1:0: expected command -/
+#guard_msgs (error) in --#
+#eval parse `command "#greet"
 
 -- `#greet` というコマンドのための構文を定義
 syntax "#greet" : command
@@ -51,9 +51,9 @@ section
   set_option pp.mvars false
 
   -- `1 + (1 = 2)` だと認識されてしまっている
-  /-- info: 1 + (1 = 2) : ?_ -/
-  #guard_msgs (info, drop error) in
-    #check (1 + 1 = 2 as Nat)
+  /-⋆-//-- info: 1 + (1 = 2) : ?_ -/
+  #guard_msgs (info, drop error) in --#
+  #check (1 + 1 = 2 as Nat)
 
 end
 /- **パース優先順位(parsing precedence)** を設定することで、どの構文から順に解釈されるかを指定することができ、問題を修正できることがあります。このあたりは [`notation`](./Notation.md) コマンドと同様です。 -/
