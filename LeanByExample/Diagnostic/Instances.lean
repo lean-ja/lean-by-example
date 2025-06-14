@@ -16,10 +16,11 @@ instance : Hoge Bool where
   hoge := ()
 
 -- 今登録した2つのインスタンスが表示される
-/--
+/-⋆-//--
 info: 2 instances:
 
 instHogeBool : Hoge Bool
 instHogeNat : Hoge Nat
 -/
-#guard_msgs in #instances Hoge
+#guard_msgs in --#
+#instances Hoge
