@@ -26,11 +26,12 @@ def Many.cons (x : α) (xs : Many α) : Many α :=
   .more x (fun () => xs)
 
 -- Many を定義したときに自動生成される定理
-/--
+/-⋆-//--
 info: Many.casesOn.{u} {α : Type} {motive : Many α → Sort u} (t : Many α) (none : motive Many.none)
   (more : (x : α) → (xs : Unit → Many α) → motive (Many.more x xs)) : motive t
 -/
-#guard_msgs (whitespace := lax) in #check Many.casesOn
+#guard_msgs (whitespace := lax) in --#
+#check Many.casesOn
 
 /-- Many.casesOn の more を cons に置き換えたバージョン。
 この定理に `[cases_eliminator]` 属性を与えることで、
