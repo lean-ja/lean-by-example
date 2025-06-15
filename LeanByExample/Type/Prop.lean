@@ -99,7 +99,7 @@ example (P Q : Prop) (hP : P) (hQ : Q) : P ↔ Q :=
   Iff.intro (fun _ => hQ) (fun _ => hP)
 
 /- ## Bool と Prop の違い
-どちらも言明に対応するため、`Bool` と似ているようですが以下のような目立つ相違点があります：
+どちらも言明に対応するため、[`Bool`](#{root}/Type/Bool.md) と似ているようですが以下のような目立つ相違点があります：
 
 1. `Prop` の項はそれ自身が型であるため、`Prop` は型宇宙であると言われます。`Bool` の項は型ではありません。
 
@@ -179,10 +179,37 @@ example : False := by
   contradiction
 
 /- ### Singleton Elimination
-No Large Elimination のルールの例外として、`P : Prop` が以下の条件を満たすとき、任意の型への関数を定義することができます。
+No Large Elimination のルールの例外として、`P : Prop` が以下の全ての条件を満たすとき、任意の型への関数を定義することができます。
 
-* `P`　の機能型としてのコンストラクタは１つしかない
+* `P` の帰納型としてのコンストラクタは１つしかない。
+* `P` のコンストラクタの引数はすべて `Prop` か添え字（インデックス）である。
+
+たとえば以下のコードは singleton elimination の例になっています。
 -/
+
+-- 証明項 `h : α = β` からデータ `p α → p β` を生成する関数
+def castFunc {α β : Type} (p : Type → Type) (h : α = β) : p α → p β := fun x =>
+  match h with
+  | rfl => x
+
+/- `h : α = β` は、`α = β` つまり `Eq α β` の項ですが、`Eq` は以下のように定義されている帰納型であり、コンストラクタの引数がインデックスです。したがって、まさに上記の条件を満たしていることになります。 -/
+namespace Hidden --#
+
+universe u
+
+inductive Eq {α : Sort u} : α → α → Prop where
+  | refl (a : α) : Eq a a
+
+end Hidden --#
+--#--
+/--
+info: inductive Eq.{u_1} : {α : Sort u_1} → α → α → Prop
+number of parameters: 2
+constructors:
+Eq.refl : ∀ {α : Sort u_1} (a : α), a = a
+-/
+#guard_msgs in #print Eq
+--#--
 
 /- ## 非可述性 { #Impredicativity }
 もう一つの重要な `Prop` と `Type` の差異が **非可述性(impredicativity)** です。非可述性について簡単に概略を述べるのは難しいので、まず例から入りましょう。
