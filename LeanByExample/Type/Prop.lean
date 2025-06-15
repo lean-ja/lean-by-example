@@ -99,7 +99,7 @@ example (P Q : Prop) (hP : P) (hQ : Q) : P ↔ Q :=
   Iff.intro (fun _ => hQ) (fun _ => hP)
 
 /- ## Bool と Prop の違い
-どちらも言明に対応するため、`Bool` と似ているようですが以下のような目立つ相違点があります：
+どちらも言明に対応するため、[`Bool`](#{root}/Type/Bool.md) と似ているようですが以下のような目立つ相違点があります：
 
 1. `Prop` の項はそれ自身が型であるため、`Prop` は型宇宙であると言われます。`Bool` の項は型ではありません。
 
@@ -124,7 +124,7 @@ theorem my_proof_irrel (P : Prop) (h1 h2 : P) : h1 = h2 := rfl
 #print axioms proof_irrel
 
 /- ### No Large Elimination { #NoLargeElim }
-証明無関係の重要な帰結のひとつに、「証明から値を取り出すことができるのは、証明の中だけ」というものがあります。この現象は、「`Prop` は large elimination を許可しない」という言葉で表現されます。[^large_elim] 誤解を恐れずに雑にかみ砕いて言えば、型 `T : Sort u` が命題宇宙 `Prop` よりも大きい宇宙に棲んでいる場合（つまり `u > 0` の場合）、命題 `P : Prop` から`T` への関数 `P → T` を定義することはできないということです。
+証明無関係の重要な帰結のひとつに、「証明から値を取り出すことができるのは、証明の中だけ」というものがあります。この現象は、「`Prop` は large elimination を許可しない」という言葉で表現されます。[^large_elim] 誤解を恐れずに雑にかみ砕いて言えば、型 `T : Sort u` が命題宇宙 `Prop` よりも大きい宇宙に棲んでいる場合（つまり `u > 0` の場合）、少数の例外を除き命題 `P : Prop` から`T` への関数 `P → T` を定義することはできないということです。
 
 たとえば次のように、証明の中であれば証明項を [`cases`](#{root}/Tactic/Cases.md) や [`rcases`](#{root}/Tactic/Rcases.md) で分解して値を取り出すことができます。-/
 
@@ -140,7 +140,7 @@ def Ok.extract (h : ∃ x : Int, x ^ 2 = 1) : True := by
 
   trivial
 
-/- しかし、命題の証明という文脈ではなく関数の定義という文脈（つまり返り値の型が命題ではない状況）にすると一転、分解することができなくなります。これは証明無関係の制約によるものです。-/
+/- しかし、命題の証明という文脈ではなく関数の定義という文脈（つまり返り値の型が命題ではない状況）にすると一転、分解することができなくなります。これは証明無関係の制約によるものです。直観的に言えば、証明には「その命題が成立する」という情報しかないので、そこからデータを生成することはできないということです。-/
 
 /-⋆-//--
 error: tactic 'cases' failed, nested error:
@@ -177,6 +177,39 @@ example : False := by
 
   -- これは矛盾
   contradiction
+
+/- ### Singleton Elimination
+No Large Elimination のルールの例外として、`P : Prop` が以下の全ての条件を満たすとき、任意の型への関数を定義することができます。
+
+* `P` の帰納型としてのコンストラクタは１つしかない。
+* `P` のコンストラクタの引数はすべて `Prop` か添え字（インデックス）である。
+
+たとえば以下のコードは singleton elimination の例になっています。
+-/
+
+-- 証明項 `h : α = β` からデータ `p α → p β` を生成する関数
+def castFunc {α β : Type} (p : Type → Type) (h : α = β) : p α → p β := fun x =>
+  match h with
+  | rfl => x
+
+/- `h : α = β` は、`α = β` つまり `Eq α β` の項ですが、`Eq` は以下のように定義されている帰納型であり、コンストラクタの引数がインデックスです。したがって、まさに上記の条件を満たしていることになります。 -/
+namespace Hidden --#
+
+universe u
+
+inductive Eq {α : Sort u} : α → α → Prop where
+  | refl (a : α) : Eq a a
+
+end Hidden --#
+--#--
+/--
+info: inductive Eq.{u_1} : {α : Sort u_1} → α → α → Prop
+number of parameters: 2
+constructors:
+Eq.refl : ∀ {α : Sort u_1} (a : α), a = a
+-/
+#guard_msgs in #print Eq
+--#--
 
 /- ## 非可述性 { #Impredicativity }
 もう一つの重要な `Prop` と `Type` の差異が **非可述性(impredicativity)** です。非可述性について簡単に概略を述べるのは難しいので、まず例から入りましょう。
