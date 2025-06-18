@@ -14,7 +14,7 @@ example : Tactic = (Syntax → TacticM Unit) := by rfl
 
 `Tactic` 型の項からはタクティクを定義することができます。
 
-以下では、例として [`trivial`](#{root}/Tactic/Trivial.md) タクティクの機能を制限し、`True` というゴールを閉じる機能だけを持つタクティクを構成してみます。
+以下では、例として [`trivial`](#{root}/Tactic/Trivial.md) タクティクの機能を制限し、`True` というゴールを閉じる機能だけを持つタクティクを構成してみます。[^trivial]
 -/
 
 syntax (name := trivialStx) "my_trivial" : tactic
@@ -40,3 +40,5 @@ example : True := by
 #guard_msgs in --#
 example : False := by
   my_trivial
+
+/- [^trivial]: このコード例を書くにあたり [lean-tactic-programming-guide](https://github.com/mirefek/lean-tactic-programming-guide) を参考にしました。-/
