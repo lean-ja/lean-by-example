@@ -1,6 +1,6 @@
 /- # Macro
 
-`Lean.Macro` 型の項は、マクロを表現しています。一般のプログラミング言語においてマクロとは構文を構文に変換することを指す言葉で、必ずしも特定の型や項に対応する概念ではありませんが、Lean の `m : Macro` は、`Syntax → MacroM Syntax` という型の関数そのものです。-/
+`Lean.Macro` 型の項は、マクロを表現しています。一般のプログラミング言語においてマクロとは構文を構文に変換することを指す言葉で、必ずしも特定の型や項に対応する概念ではありませんが、Lean の `m : Macro` は、`Syntax → MacroM Syntax` という関数型そのものです。-/
 import Mathlib.Util.WhatsNew --#
 
 open Lean in
@@ -13,7 +13,7 @@ example : Macro = (Syntax → MacroM Syntax) := by rfl
 
 ### Macro 型からマクロ
 
-項 `m : Macro` を使ってマクロを定義するには、以下のように `[macro]` 属性を付与します。
+項 `m : Macro` を使ってマクロを定義するには、以下のように [`[macro]`](#{root}/Attribute/Macro.md) 属性を付与します。
 -/
 open Lean
 
