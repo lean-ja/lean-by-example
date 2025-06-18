@@ -10,11 +10,11 @@ open Lean Elab Tactic in
 
 example : Tactic = (Syntax → TacticM Unit) := by rfl
 
-/- ## Tactic 型からタクティク
+/- ## Tactic 型からタクティクを作る
 
 `Tactic` 型の項からはタクティクを定義することができます。
 
-以下では、例として [`trivial`](#{root}/Tactic/Trivial.md) タクティクの機能を制限し、`True` というゴールを閉じる機能だけを持つタクティクを構成してみます。[^trivial]
+例として [`trivial`](#{root}/Tactic/Trivial.md) タクティクの機能を制限し、`True` というゴールを閉じる機能だけを持つタクティクを構成してみます。[^trivial]
 -/
 
 syntax (name := trivialStx) "my_trivial" : tactic
