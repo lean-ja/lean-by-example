@@ -103,3 +103,40 @@ namespace Bar
 
 end Bar
 end --#
+
+/- ## 用途：定義すると同時に記法を使う
+
+通常、[`notation`](#{root}/Declarative/Notation.md) コマンドなどによって導入された記法は定義の途中では使うことができません。定義が終了した後で記法を宣言するのが一般的です。
+-/
+namespace Ordinary
+
+  inductive Nat.myle (n : Nat) : Nat → Prop where
+    | refl : myle n n
+    | step {m : Nat} : myle n m → myle n (m + 1)
+
+  scoped notation:50 a:50 " ≤ₘ " b:50 => Nat.myle a b
+
+end Ordinary
+/- もし定義の途中で記法を使いたければ、[`hygiene`](#{root}/Option/Hygiene.md) オプションと [`local`](#{root}/Modifier/Local.md) 修飾子を利用して次のようにすれば可能です。 -/
+section
+  set_option hygiene false
+
+  -- 定義の間だけ有効になるように記法を一時的に与える
+  local notation:50 a:50 " ≤ₘ " b:50 => Nat.myle a b
+
+  inductive Nat.myle (n : Nat) : Nat → Prop where
+    | refl : n ≤ₘ n
+    | step {m : Nat} : n ≤ₘ m → n ≤ₘ m + 1
+
+end
+
+-- 改めて記法を付与する
+notation:50 a:50 " ≤ₘ " b:50 => Nat.myle a b
+
+-- 通常通り証明が行える
+example {n m k : Nat} (hnm : n ≤ₘ m) (hmk : m ≤ₘ k) : n ≤ₘ k := by
+  induction hmk with
+  | refl => assumption
+  | step hmk ih =>
+    apply Nat.myle.step
+    assumption
