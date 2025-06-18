@@ -1,6 +1,6 @@
 /- # Macro
 
-`Lean.Macro` 型の項は、マクロを表現しています。一般のプログラミング言語においてマクロとは構文を構文に変換することを指す言葉で、必ずしも特定の型や項に対応する概念ではありませんが、Lean の `m : Macro` は、`Syntax → MacroM Syntax` という関数型そのものです。-/
+`Lean.Macro` 型の項は、マクロの内部実装を表現しています。一般のプログラミング言語においてマクロとは構文を構文に変換することを指す言葉で、必ずしも特定の型や項に対応する概念ではありませんが、Lean の `m : Macro` は、`Syntax → MacroM Syntax` という関数型そのものです。-/
 import Mathlib.Util.WhatsNew --#
 
 open Lean in

@@ -144,7 +144,7 @@
   - [IO: 入出力](./Type/IO.md)
   - [Linter: リンター](./Type/Linter.md)
   - [List: 連結リスト](./Type/List.md)
-  - [Macro: マクロ](./Type/Macro.md)
+  - [Macro: マクロの実装](./Type/Macro.md)
   - [Nat: 自然数](./Type/Nat.md)
   - [Option: 失敗するかもしれない計算](./Type/Option.md)
   - [Prod: 型の積](./Type/Prod.md)
@@ -156,6 +156,7 @@
   - [Syntax: 具象構文木](./Type/Syntax.md)
   - [Type: 型の型](./Type/Type.md)
   - [Unit: 要素が一つしかない型](./Type/Unit.md)
+  - [Tactic: タクティクの実装](./Type/Tactic.md)
 
 - [タクティク](./Tactic/README.md)
   - [<;>: 生成された全ゴールに適用](./Tactic/SeqFocus.md)
