@@ -1,6 +1,6 @@
 /- # macro
 
-`[macro]` 属性は、[`Macro`](#{root}/Type/Macro.md) 型を持つ項をマクロとして動作するようにします。
+`[macro]` 属性は、マクロの実装である [`Macro`](#{root}/Type/Macro.md) 型の関数とマクロの構文を結び付け、マクロとして動作するようにします。
 -/
 import Lean
 
