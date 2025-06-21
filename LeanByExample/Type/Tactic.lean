@@ -17,12 +17,12 @@ example : Tactic = (Syntax → TacticM Unit) := by rfl
 例として [`trivial`](#{root}/Tactic/Trivial.md) タクティクの機能を制限し、`True` というゴールを閉じる機能だけを持つタクティクを構成してみます。[^trivial]
 -/
 
-syntax (name := trivialStx) "my_trivial" : tactic
+syntax (name := myTrivial) "my_trivial" : tactic
 
 open Lean Elab Tactic Qq in
 
-@[tactic trivialStx]
-def trivialImpl : Tactic := fun _stx => do
+@[tactic myTrivial]
+def evalMyTrivial : Tactic := fun _stx => do
   -- 現在のゴールを取得する
   let goal : MVarId ← getMainGoal
   try
