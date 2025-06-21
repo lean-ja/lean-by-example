@@ -21,7 +21,8 @@ open Lean
 syntax (name := zeroLitPar) "zeroLit" : term
 
 /-- `zeroLit` という構文を展開するマクロ -/
-def zeroLitExpand : Macro
+def zeroLitExpand : Macro := fun stx =>
+  match stx with
   | `(zeroLit) => `(0)
   | _ => Macro.throwUnsupported
 
