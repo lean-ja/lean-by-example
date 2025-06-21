@@ -14,7 +14,9 @@ example : Tactic = (Syntax → TacticM Unit) := by rfl
 
 `Tactic` 型の項からはタクティクを定義することができます。
 
-例として [`trivial`](#{root}/Tactic/Trivial.md) タクティクの機能を制限し、`True` というゴールを閉じる機能だけを持つタクティクを構成してみます。[^trivial]
+### trivial タクティクの制限版
+
+[`trivial`](#{root}/Tactic/Trivial.md) タクティクの機能を制限し、`True` というゴールを閉じる機能だけを持つタクティクを構成することができます。[^trivial]
 -/
 
 syntax (name := myTrivial) "my_trivial" : tactic
@@ -40,5 +42,42 @@ example : True := by
 #guard_msgs in --#
 example : False := by
   my_trivial
+
+/- ### assumption タクティク
+
+`assumption` タクティクのように、ゴールの証明が既に仮定にあるときにゴールを閉じるタクティクは次のように `Tactic` 型の関数によって実装できます。
+-/
+
+syntax (name := myAssumption) "my_assumption" : tactic
+
+open Lean Elab Tactic in
+
+@[tactic myAssumption]
+def evalMyAssumption : Tactic := fun _stx => withMainContext do
+  -- 現在のゴールとローカルコンテキストを取得する
+  let goal ← getMainGoal
+  let ctx ← getLCtx
+
+  for (decl : LocalDecl) in ctx do
+    -- ローカル宣言の種類がデフォルトでない場合はスキップする
+    if decl.kind != .default then
+      continue
+    try
+      -- ゴールにローカル宣言の変数を代入する
+      goal.assignIfDefEq decl.toExpr
+      -- 成功したら終了
+      return
+    catch _ =>
+      -- 失敗しても無視して次の候補に進む
+      pure ()
+  throwError "my_assumptionタクティクが失敗しました。"
+
+example {P : Prop} (hP : P) : P := by
+  my_assumption
+
+/-⋆-//-- error: my_assumptionタクティクが失敗しました。 -/
+#guard_msgs in --#
+example {P Q : Prop} (hP : P) : Q := by
+  my_assumption
 
 /- [^trivial]: このコード例を書くにあたり [lean-tactic-programming-guide](https://github.com/mirefek/lean-tactic-programming-guide) を参考にしました。-/
