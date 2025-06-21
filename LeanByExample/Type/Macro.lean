@@ -18,19 +18,19 @@ example : Macro = (Syntax → MacroM Syntax) := by rfl
 open Lean
 
 /-- `zeroLit` という構文の定義 -/
-syntax (name := zeroLitPar) "zeroLit" : term
+syntax (name := zeroLitStx) "zeroLit" : term
 
 /-- `zeroLit` という構文を展開するマクロ -/
-def zeroLitExpand : Macro := fun stx =>
+def expandZeroLit : Macro := fun stx =>
   match stx with
-  | `(zeroLit) => `(0)
+  | `(term| zeroLit) => `(term| 0)
   | _ => Macro.throwUnsupported
 
 -- まだマクロとして登録されていないのでエラーになる
 #check_failure zeroLit
 
 -- マクロとして登録する
-attribute [macro zeroLitPar] zeroLitExpand
+attribute [macro zeroLitStx] expandZeroLit
 
 -- マクロ展開されるので、0 に等しいという結果になる
 #guard zeroLit = 0
@@ -80,7 +80,7 @@ section
 end
 
 -- `macro_rules` コマンドの `whatsnew` コマンドによる出力の中に、`Macro` 型の項が含まれている
-/-- unsafe def _aux_LeanByExample_Type_Macro___macroRules_zeroLitPar_1._cstage1 : Macro := -/
+/-- unsafe def _aux_LeanByExample_Type_Macro___macroRules_zeroLitStx_1._cstage1 : Macro := -/
 #contain_msg in
   whatsnew in
     macro_rules

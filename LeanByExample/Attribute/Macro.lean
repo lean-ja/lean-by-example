@@ -8,7 +8,7 @@ open Lean
 
 syntax:10 (name := lxor) term:10 " LXOR " term:11 : term
 
-def lxorImpl : Macro := fun stx =>
+def expandLxor : Macro := fun stx =>
   match stx with
   | `($l:term LXOR $r:term) => `(term| !$l && $r)
   | _ => Macro.throwUnsupported
@@ -17,7 +17,7 @@ def lxorImpl : Macro := fun stx =>
 #check_failure true LXOR false
 
 -- マクロとして登録する
-attribute [macro lxor] lxorImpl
+attribute [macro lxor] expandLxor
 
 -- マクロ展開されるので、`!true && false` になる
 #guard (true LXOR false) = false
