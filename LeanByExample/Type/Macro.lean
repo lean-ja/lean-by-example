@@ -21,16 +21,11 @@ open Lean
 syntax (name := zeroLitStx) "zeroLit" : term
 
 /-- `zeroLit` という構文を展開するマクロ -/
+@[macro zeroLitStx]
 def expandZeroLit : Macro := fun stx =>
   match stx with
   | `(term| zeroLit) => `(term| 0)
   | _ => Macro.throwUnsupported
-
--- まだマクロとして登録されていないのでエラーになる
-#check_failure zeroLit
-
--- マクロとして登録する
-attribute [macro zeroLitStx] expandZeroLit
 
 -- マクロ展開されるので、0 に等しいという結果になる
 #guard zeroLit = 0
