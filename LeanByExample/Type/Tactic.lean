@@ -45,7 +45,7 @@ example : False := by
 
 /- ### assumption タクティク
 
-`assumption` タクティクのように、ゴールの証明が既に仮定にあるときにゴールを閉じるタクティクは次のように `Tactic` 型の関数によって実装できます。
+[`assumption`](#{root}/Tactic/Assumption.md) タクティクのように、ゴールの証明が既に仮定にあるときにゴールを閉じるタクティクは次のように `Tactic` 型の関数によって実装できます。
 -/
 
 syntax (name := myAssumption) "my_assumption" : tactic
