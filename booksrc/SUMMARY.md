@@ -155,9 +155,9 @@
   - [Subtype: 部分型](./Type/Subtype.md)
   - [Sum: 型の和](./Type/Sum.md)
   - [Syntax: 具象構文木](./Type/Syntax.md)
+  - [Tactic: タクティクの実装](./Type/Tactic.md)
   - [Type: 型の型](./Type/Type.md)
   - [Unit: 要素が一つしかない型](./Type/Unit.md)
-  - [Tactic: タクティクの実装](./Type/Tactic.md)
 
 - [タクティク](./Tactic/README.md)
   - [<;>: 生成された全ゴールに適用](./Tactic/SeqFocus.md)
