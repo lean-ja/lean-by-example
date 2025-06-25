@@ -30,14 +30,13 @@ attribute [my_tag] foo
 
 open Lean
 
+/-- `[tagAttr]`属性が付与されているものをリストアップする -/
 def listAllTagged (tagAttr : TagAttribute) : MetaM (List Name) := do
   let env ← getEnv
-  let mut taggedDecls : List Name := []
-  for declName in tagAttr.ext.getState env do
-    taggedDecls := declName :: taggedDecls
-  return taggedDecls
+  let taggedDecls := tagAttr.ext.getState env
+  return taggedDecls.toList
 
-/-⋆-//-- info: `[my_tag]`が付与されているもの: [foo, hello] -/
+/-⋆-//-- info: `[my_tag]`が付与されているもの: [hello, foo] -/
 #guard_msgs in --#
 run_meta
   let tagged ← listAllTagged myTagAttribute
