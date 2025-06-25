@@ -4,4 +4,4 @@ import Lean
 open Lean
 
 initialize myTagAttribute : TagAttribute ←
-  registerTagAttribute `my_tag "タグ属性のテスト"
+  registerTagAttribute (name := `my_tag) (descr := "タグ属性のテスト")
