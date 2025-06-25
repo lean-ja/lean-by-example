@@ -56,6 +56,7 @@
   - [postfix: 後置記法](./Declarative/Postfix.md)
   - [prefix: 前置記法](./Declarative/Prefix.md)
   - [proof_wanted: 証明を公募する](./Declarative/ProofWanted.md)
+  - [register_label_attr: 属性自作](./Declarative/RegisterLabelAttr.md)
   - [register_option: オプション自作](./Declarative/RegisterOption.md)
   - [register_simp_attr: simpでタクティク自作](./Declarative/RegisterSimpAttr.md)
   - [section: 有効範囲を制限する](./Declarative/Section.md)
