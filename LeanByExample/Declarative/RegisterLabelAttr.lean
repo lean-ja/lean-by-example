@@ -1,6 +1,6 @@
 /- # register_label_attr
 
-`register_label_attr` コマンドを使用すると、タグ属性を定義することができます。
+`register_label_attr` コマンドを使用すると、ラベル属性を定義することができます。
 
 ```admonish warning title="注意"
 このページの内容は <i class="fa fa-play"></i> ボタンから Lean 4 Web で実行することができません。
@@ -8,7 +8,7 @@
 
 ## 使用例
 
-タグ属性を作るシンプルな例を示しましょう。
+ラベル属性を作るシンプルな例を示しましょう。
 
 まず、以下のような内容のファイルを作成します。仮に `RegisterLabelAttrLib.lean` というファイル名だとします。
 
@@ -21,7 +21,7 @@ import LeanByExample.Declarative.RegisterLabelAttrLib
 @[my_tag]
 def greet := "Hello, world!"
 
-/- もちろんタグとしてだけでなく普通の属性としても使用可能です。 -/
+/- もちろんタグとしてだけでなく `attribute` コマンドによっても使用可能です。 -/
 
 def foo := 42
 
