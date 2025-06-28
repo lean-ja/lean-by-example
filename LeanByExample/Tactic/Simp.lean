@@ -1,45 +1,66 @@
+import Mathlib.Tactic --#
 /- # simp
 
 `simp` は、ターゲットを決められた規則に基づいて自動で単純化（simplify）するタクティクです。`[simp]` 属性を付けることにより単純化に使ってほしい命題を登録することができます。-/
-import Mathlib.Tactic.Ring -- `ring` を使うため --#
-import Mathlib.Tactic.Says -- `says` を使うために必要 --#
-import Mathlib.Tactic.Tauto -- `tauto` を使うため
 
-set_option linter.flexible false in --#
+/-- 標準の`Nat`を真似て自作した型 -/
+inductive MyNat where
+  | zero
+  | succ (n : MyNat)
 
-example {P Q R : Prop} : (P ∨ Q ∨ R) ∧ R ↔ R := by
-  -- simp だけでは証明が終わらない
-  simp
-  show R → P ∨ Q ∨ R
+/-- `MyNat`上の足し算 -/
+def MyNat.add (m n : MyNat) : MyNat :=
+  match n with
+  | .zero => m
+  | .succ n => succ (add m n)
 
-  -- 残りを適当に証明する
-  intro hR
-  tauto
+instance : Add MyNat where
+  add := MyNat.add
+
+instance : Zero MyNat where
+  zero := MyNat.zero
 
 @[simp]
-theorem or_and {P Q R : Prop} : (P ∨ Q ∨ R) ∧ R ↔ R := by
-  constructor
+theorem MyNat.add_zero (n : MyNat) : n + 0 = n := by
+  rfl
 
-  -- 左から右を示す
-  case mp =>
-    intro ⟨_, hR⟩
-    assumption
+@[simp]
+theorem MyNat.zero_add (n : MyNat) : 0 + n = n := by
+  induction n with
+  | zero => rfl
+  | succ n ih =>
+    rw [show 0 + n.succ = (0 + n).succ from by rfl]
+    rw [ih]
 
-  -- 右から左を示す
-  case mpr =>
-    -- R が成り立つと仮定する
-    intro hR
+example (n : MyNat) : (0 + n + 0) + 0 = n := by
+  -- 単に`simp`と書くだけで自動的に登録した補題が使用される
+  simp
 
-    -- R は成り立つので、後は P ∨ Q ∨ R が成り立つことを示せばよい
-    refine ⟨?_, hR⟩
 
-    -- R が成り立つことから明らか。
-    tauto
+/- ## simp で使用できる構文
 
--- 一度登録した命題は `simp` で示せるようになる。
-example {P Q R : Prop} : (P ∨ Q ∨ R) ∧ R ↔ R := by simp
+### 補題の指定
+既知の `h : P` という命題を使って単純化させたいときは、明示的に `simp [h]` と指定することで可能です。複数個指定することもできます。また `simp only [h₁, ... , hₖ]` とすると `h₁, ... , hₖ` だけを使用して単純化を行います。-/
 
-/- なお、`[simp]` 属性を付与した命題は「左辺を右辺に」単純化するルールとして登録されます。
+example {P Q R : Prop} (h : R) : (P ∨ Q ∨ R) ∧ R := by
+  simp only [or_and]
+  assumption
+
+/- 単に名前を定義に展開したい場合は [`dsimp`](./Dsimp.md) を使用します。
+
+### at 構文
+
+`simp` は [at 構文](#{root}/Parser/AtLocation.md) を受け入れます。`simp` は何も指定しなければゴールを単純化しますが、ローカルコンテキストにある `h : P` を単純化させたければ `simp at h` と指定することで可能です。ゴールと `h` の両方を単純化したいときは `simp at h ⊢` とします。-/
+
+example {n m : Nat} (h : n + 0 + 0 = m) : n = m + (0 * n) := by
+  simp only [add_zero, zero_mul] at h ⊢
+  assumption
+
+/- ローカルコンテキストとゴールをまとめて全部単純化したい場合は `simp at *` とします。 -/
+
+/- ## 注意点: simp 補題のループ
+
+なお、`[simp]` 属性を付与した命題は「左辺を右辺に」単純化するルールとして登録されます。
 左辺と右辺を間違えて登録すると、無限ループになって `simp` の動作が破壊されることがあります。`[simp]` 属性は慎重に登録してください。-/
 section
 
@@ -63,33 +84,13 @@ section
   example (n m : Nat) : (n + 0) * m = n * m := by simp
 
 end
-/- ## simp で使用できる構文
-
-### 補題の指定
-既知の `h : P` という命題を使って単純化させたいときは、明示的に `simp [h]` と指定することで可能です。複数個指定することもできます。また `simp only [h₁, ... , hₖ]` とすると `h₁, ... , hₖ` だけを使用して単純化を行います。-/
-
-example {P Q R : Prop} (h : R) : (P ∨ Q ∨ R) ∧ R := by
-  simp only [or_and]
-  assumption
-
-/- 単に名前を定義に展開したい場合は [`dsimp`](./Dsimp.md) を使用します。
-
-### at 構文
-
-`simp` は [at 構文](#{root}/Parser/AtLocation.md) を受け入れます。`simp` は何も指定しなければゴールを単純化しますが、ローカルコンテキストにある `h : P` を単純化させたければ `simp at h` と指定することで可能です。ゴールと `h` の両方を単純化したいときは `simp at h ⊢` とします。-/
-
-example {n m : Nat} (h : n + 0 + 0 = m) : n = m + (0 * n) := by
-  simp only [add_zero, zero_mul] at h ⊢
-  assumption
-
-/- ローカルコンテキストとゴールをまとめて全部単純化したい場合は `simp at *` とします。 -/
 
 /- ## arith オプション
 `simp` の設定で `arith` を有効にすると、算術的な単純化もできるようになります。
 -/
 set_option linter.flexible false in --#
 
-example {x y : Nat} : 0 < 1 + x ∧ x + y + 2 ≥ y + 1 := by
+example (x y : Nat) : 0 < 1 + x ∧ x + y + 2 ≥ y + 1 := by
   -- `simp` だけでは証明が終わらない
   fail_if_success solve
   | simp
@@ -112,8 +113,8 @@ example {x y : Nat} : 0 < 1 + x ∧ x + y + 2 ≥ y + 1 := by
 /- ### simpa
 `simpa` は、`simp` を実行した後 `assumption` を実行するという一連の流れを一つのタクティクにしたものです。`simpa at h` 構文は存在せず、`simpa using h` と書くことに注意してください。-/
 
-example {P Q R : Prop} (h : R) : (P ∨ Q ∨ R) ∧ R := by
-  simpa only [or_and]
+example (P : Prop) (h : P) : True → P := by
+  simpa
 
 example {n m : Nat} (h : n + 0 + 0 = m) : n = m := by
   simpa using h
@@ -122,9 +123,10 @@ example {n m : Nat} (h : n + 0 + 0 = m) : n = m := by
 
 `simp` は自動的に証明を行ってくれますが、何が使われたのか知りたいときもあります。`simp?` は単純化に何が使われたのかを示してくれるので、`simp only` などを用いて明示的に書き直すことができます。-/
 
-example {P Q R : Prop} : (P ∨ Q ∨ R) ∧ R ↔ R := by
-  simp? says
-    simp only [or_and]
+/-⋆-//-- info: Try this: simp only [forall_const, imp_self, or_true] -/
+#guard_msgs in --#
+example (P : Prop) : (True → P) ∨ (P → P) := by
+  simp?
 
 /- ### simp_all
 [`simp_all`](./SimpAll.md) はローカルコンテキストとゴールをこれ以上単純化できなくなるまですべて単純化します。-/
