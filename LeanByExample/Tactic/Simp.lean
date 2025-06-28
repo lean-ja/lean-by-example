@@ -42,8 +42,8 @@ example (n : MyNat) : (0 + n + 0) + 0 = n := by
 ### 補題の指定
 既知の `h : P` という命題を使って単純化させたいときは、明示的に `simp [h]` と指定することで可能です。複数個指定することもできます。また `simp only [h₁, ... , hₖ]` とすると `h₁, ... , hₖ` だけを使用して単純化を行います。-/
 
-example {P Q R : Prop} (h : R) : (P ∨ Q ∨ R) ∧ R := by
-  simp only [or_and]
+example {P Q : Prop} (h : Q) : (P → P) ∧ Q := by
+  simp only [imp_self, true_and]
   assumption
 
 /- 単に名前を定義に展開したい場合は [`dsimp`](./Dsimp.md) を使用します。
