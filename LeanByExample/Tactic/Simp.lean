@@ -40,6 +40,53 @@ example (n : MyNat) : (0 + n + 0) + 0 = n := by
   -- 単に`simp`と書くだけで自動的に登録した補題が使用される
   simp
 
+/- ## 等式・同値性以外のルールを登録した場合
+
+等式や同値性以外のルールを登録した場合、等式・同値性への変換が自動的に行われたうえで登録されます。
+
+たとえば下記の例のように、`1 ≠ 0` というルールを `simp` 補題として登録した場合、`(1 = 0) = False` という定理が自動生成されそれに基づいて単純化が行われるようになります。
+-/
+
+instance : One MyNat where
+  one := MyNat.succ MyNat.zero
+
+theorem MyNat.one_neq_zero : (1 : MyNat) ≠ 0 := by
+  intro h
+  injection h
+
+-- `simp`属性を追加したことによって、
+/-⋆-//--
+info: theorem MyNat.one_neq_zero._proof_1 : (1 = 0) = False :=
+eq_false MyNat.one_neq_zero
+
+-- Lean.Meta.simpExtension extension: 1 new entries
+-/
+#guard_msgs in --#
+whatsnew in attribute [simp] MyNat.one_neq_zero
+
+example (h : (1 : MyNat) = 0) (P : Prop) : P := by
+  simp at h
+
+/- 一般に `P` という命題を登録すると `P = True` という定理が自動生成されて単純化に使われるようになります。 -/
+
+/-- 偶数を表す帰納的述語 -/
+inductive MyEven : Nat → Prop where
+  | zero : MyEven 0
+  | step (n : Nat) : MyEven n → MyEven (n + 2)
+
+theorem MyEven_two : MyEven 2 := by
+  apply MyEven.step
+  apply MyEven.zero
+
+-- `MyEven 2 = True` という書き換えルールが自動生成されている
+/-⋆-//--
+info: theorem MyEven_two._proof_1 : MyEven 2 = True :=
+eq_true MyEven_two
+
+-- Lean.Meta.simpExtension extension: 1 new entries
+-/
+#guard_msgs in --#
+whatsnew in attribute [simp] MyEven_two
 
 /- ## simp で使用できる構文
 
