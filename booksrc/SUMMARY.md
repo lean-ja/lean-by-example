@@ -105,6 +105,7 @@
   - [macro_inline: 短絡評価など](./Attribute/MacroInline.md)
   - [macro: マクロの構文と実装の紐づけ](./Attribute/Macro.md)
   - [match_pattern: 独自パタンマッチ](./Attribute/MatchPattern.md)
+  - [simp: 単純化ルール登録](./Attribute/Simp.md)
   - [simps: simp 補題の自動生成](./Attribute/Simps.md)
   - [tactic: タクティクの構文と実装の紐づけ](./Attribute/Tactic.md)
 
