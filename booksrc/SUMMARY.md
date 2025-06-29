@@ -62,6 +62,7 @@
   - [register_simp_attr: simpでタクティク自作](./Declarative/RegisterSimpAttr.md)
   - [section: 有効範囲を制限する](./Declarative/Section.md)
   - [set_option: オプション設定](./Declarative/SetOption.md)
+  - [simproc: simp プロシージャを宣言](./Declarative/Simproc.md)
   - [structure: 構造体を定義する](./Declarative/Structure.md)
   - [syntax: 構文を定義](./Declarative/Syntax.md)
   - [theorem: 命題を証明する](./Declarative/Theorem.md)
