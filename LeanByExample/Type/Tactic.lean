@@ -80,4 +80,57 @@ example {P : Prop} (hP : P) : P := by
 example {P Q : Prop} (hP : P) : Q := by
   my_assumption
 
-/- [^trivial]: このコード例を書くにあたり [lean-tactic-programming-guide](https://github.com/mirefek/lean-tactic-programming-guide) を参考にしました。-/
+/- ### constructor タクティクの制限版
+
+`constructor` タクティクの機能を制限し、`And` 型のゴールを分割する機能だけを持つタクティクを構成する例を示します。[^constructor]
+-/
+
+/-- ゴールが`P ∧ Q`という形をしていたら、分解してそれぞれ別ゴールにする -/
+syntax (name := andConstructor) "and_constructor" : tactic
+
+section
+  open Lean Elab Tactic Qq Meta
+
+  /-- ゴールが `P ∧ Q` の形をしているかチェックして、
+  `P ∧ Q` の形をしていたら `P` と `Q` をそれぞれ返す -/
+  def extracetAndGoals : TacticM (Q(Prop) × Q(Prop)) := do
+    have tgt : Q(Prop) := ← getMainTarget -- 右辺でQqを使用していないのでhaveを使う
+    match tgt with
+    | ~q($p ∧ $q) => return (p, q)
+    | _ => throwError "ゴールが `P ∧ Q` の形ではありません。"
+
+  -- テスト
+  example : True ∧ True := by
+    run_tac
+      let (p, q) ← extracetAndGoals
+      logInfo m!"ゴールは {p} ∧ {q} の形です。"
+
+    constructor <;> trivial
+
+  @[tactic andConstructor]
+  def evalAndConstructor : Tactic := fun _stx => withMainContext do
+    -- ゴールを取得する
+    let goal ← getMainGoal
+    have (p, q) := ← extracetAndGoals
+
+    -- 新しいメタ変数（ゴール）を作成する
+    have left : Q($p) := ← mkFreshExprSyntheticOpaqueMVar p (tag := `left)
+    have right : Q($q) := ← mkFreshExprSyntheticOpaqueMVar q (tag := `right)
+
+    -- ゴールを`?_ ∧ ?_`の形にする
+    goal.assign q(And.intro $left $right)
+
+    -- アクティブなゴールのリストは自動的には後進されないので、
+    -- ２つのゴールを作ったことを宣言する
+    replaceMainGoal [left.mvarId!, right.mvarId!]
+end
+
+example : True ∧ True := by
+  and_constructor
+  · trivial
+  · trivial
+
+/- [^trivial]: このコード例を書くにあたり [lean-tactic-programming-guide](https://github.com/mirefek/lean-tactic-programming-guide) を参考にしました。
+
+[^constructor]: このコード例を書くにあたり [lean-tactic-programming-guide](https://github.com/mirefek/lean-tactic-programming-guide) を参考にしました。
+-/
