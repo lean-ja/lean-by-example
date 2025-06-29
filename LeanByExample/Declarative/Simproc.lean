@@ -48,7 +48,7 @@ section
     rw [this]
 
 end
-/- 続いて、simpプロシージャの本体を構成します。単に単純化の結果を返せばよいわけではなく、元の式との等価性を証明する必要があることに気を付けてください。 -/
+/- 続いて、simpプロシージャの本体を構成します。単に単純化の結果を返せばよいわけではなく、元の式との等価性を証明する必要があることに気を付けてください。[^reduceMyIte] -/
 
 open Lean Meta Simp Qq
 
@@ -121,3 +121,5 @@ example : (mif 1 < 2 then 3 else 4) = 3 := by
 
 example : (mif 1 = 2 then 3 else 4) = 4 := by
   simp
+
+/- [^reduceMyIte]: こちらのコードを書くにあたり、Zulip 上で Eric Wieser 氏に多くの助言をいただきました。ありがとうございました。 -/
