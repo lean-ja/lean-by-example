@@ -80,9 +80,9 @@ example {P : Prop} (hP : P) : P := by
 example {P Q : Prop} (hP : P) : Q := by
   my_assumption
 
-/- ### constructor タクティクの制限版
+/- ### And 専用 constructor
 
-[`constructor`](#{root}/Tactic/Constructor.md) タクティクの機能を制限し、`And` 型のゴールを分割する機能だけを持つタクティクを構成する例を示します。[^constructor]
+[`constructor`](#{root}/Tactic/Constructor.md) タクティクの機能を制限し、`And` 型のゴールを分割する機能だけを持つタクティクを構成する例を示します。[^and_constructor]
 -/
 
 /-- ゴールが`P ∧ Q`という形をしていたら、分解してそれぞれ別ゴールにする -/
@@ -117,10 +117,10 @@ section
     have left : Q($p) := ← mkFreshExprSyntheticOpaqueMVar p (tag := `left)
     have right : Q($q) := ← mkFreshExprSyntheticOpaqueMVar q (tag := `right)
 
-    -- ゴールを`?_ ∧ ?_`の形にする
+    -- ゴールを`?_ ∧ ?_`の形にはめる
     goal.assign q(And.intro $left $right)
 
-    -- アクティブなゴールのリストは自動的には後進されないので、
+    -- アクティブなゴールのリストは自動的には更新されないので、
     -- ２つのゴールを作ったことを宣言する
     replaceMainGoal [left.mvarId!, right.mvarId!]
 end
@@ -130,7 +130,51 @@ example : True ∧ True := by
   · trivial
   · trivial
 
+/- ### Iff 専用 constructor
+
+[`constructor`](#{root}/Tactic/Constructor.md) タクティクの機能を制限し、`P ↔ Q` という形のゴールを分解する機能だけを持つタクティクを構成する例を示します。[^iff_constructor]
+-/
+
+/-- ゴールが`P ↔ Q`という形をしていたら`P → Q`と`Q → P`という二つのゴールに分解する -/
+syntax (name := iffConstructor) "iff_constructor" : tactic
+
+section
+  open Lean Elab Tactic Qq Meta
+
+  /-- ゴールが `P ↔ Q` の形をしているかチェックして、
+  `P ↔ Q` の形をしていたら `P` と `Q` をそれぞれ返す -/
+  def extracetIffGoals : TacticM (Q(Prop) × Q(Prop)) := do
+    have tgt : Q(Prop) := ← getMainTarget -- 右辺でQqを使用していないのでhaveを使う
+    match tgt with
+    | ~q($p ↔ $q) => return (p, q)
+    | _ => throwError "ゴールが `P ↔ Q` の形ではありません。"
+
+  @[tactic iffConstructor]
+  def evalIffConstructor : Tactic := fun _stx => withMainContext do
+    -- ゴールを取得する
+    let goal ← getMainGoal
+    have (p, q) := ← extracetIffGoals
+
+    -- 新しいメタ変数（ゴール）を作成する
+    have mp : Q($p → $q) := ← mkFreshExprSyntheticOpaqueMVar q($p → $q) (tag := `mp)
+    have mpr : Q($q → $p) := ← mkFreshExprSyntheticOpaqueMVar q($q → $p) (tag := `mpr)
+
+    -- ゴールを`?_ ↔ ?_`の形にはめる
+    goal.assign q(Iff.intro $mp $mpr)
+
+    -- アクティブなゴールのリストは自動的には更新されないので、
+    -- ２つのゴールを作ったことを宣言する
+    replaceMainGoal [mp.mvarId!, mpr.mvarId!]
+end
+
+example : True ↔ True := by
+  iff_constructor
+  · simp
+  · simp
+
 /- [^trivial]: このコード例を書くにあたり [lean-tactic-programming-guide](https://github.com/mirefek/lean-tactic-programming-guide) を参考にしました。
 
-[^constructor]: このコード例を書くにあたり [lean-tactic-programming-guide](https://github.com/mirefek/lean-tactic-programming-guide) を参考にしました。
+[^and_constructor]: このコード例を書くにあたり [lean-tactic-programming-guide](https://github.com/mirefek/lean-tactic-programming-guide) を参考にしました。
+
+[^iff_constructor]: このコード例を書くにあたり [Metaprogramming in Lean 4](https://leanprover-community.github.io/lean4-metaprogramming-book/) を参考にしました。
 -/
