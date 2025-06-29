@@ -67,7 +67,7 @@ whatsnew in attribute [simp] MyNat.one_neq_zero
 example (h : (1 : MyNat) = 0) (P : Prop) : P := by
   simp at h
 
-/- 一般に `P` という命題を登録すると `P = True` という定理が自動生成されて単純化に使われるようになります。 -/
+/- 一般に `P` という命題を登録すると `P = True` という定理が、`¬ P` という命題を登録すると `P = False` という定理が自動生成されて単純化に使用されます。-/
 
 /-- 偶数を表す帰納的述語 -/
 inductive MyEven : Nat → Prop where
