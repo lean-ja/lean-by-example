@@ -124,3 +124,58 @@ attribute [simp↓] foo
 #guard_msgs in --#
 example : 37 * (Nat.fib 0 + 0) = 0 := by
   simp?
+
+/- ### 優先度指定
+
+`simp` 補題の中でも早い段階で適用してほしい補題や、遅い段階で適用してほしい補題があるとき、優先度を指定することができます。
+
+#### simp high
+
+`[simp high]` とすると優先度が高まり、他のsimp補題よりも先に適用されるようになります。
+-/
+section
+
+  set_option trace.Meta.Tactic.simp true
+
+  theorem MyNat.zero_zero : (0 : MyNat) + 0 = 0 := by
+    rfl
+
+  -- 普通にsimp補題に登録する
+  attribute [simp] MyNat.zero_zero
+
+  -- `MyNat.zero_zero` が使用されていない。
+  -- これは部分式の単純化が優先されるため。
+  /-⋆-//--
+  trace: [Meta.Tactic.simp.rewrite] MyNat.add_zero:1000:
+        0 + 0
+      ==>
+        0
+  [Meta.Tactic.simp.rewrite] eq_self:1000:
+        0 = 0
+      ==>
+        True
+  -/
+  #guard_msgs (whitespace := lax) in --#
+  example : (0 : MyNat) + 0 = 0 := by
+    simp
+
+  attribute [-simp] MyNat.add_zero -- 先ほどのsimp属性を削除する
+  attribute [simp high] MyNat.zero_zero -- `simp high` を指定し直す
+
+  -- デフォルトでは優先度は1000になるが、
+  -- highに指定すると優先度が10000になり、先に適用される
+  /-⋆-//--
+  trace: [Meta.Tactic.simp.rewrite] MyNat.zero_zero:10000:
+        0 + 0
+      ==>
+        0
+  [Meta.Tactic.simp.rewrite] eq_self:1000:
+        0 = 0
+      ==>
+        True
+  -/
+  #guard_msgs (whitespace := lax) in --#
+  example : (0 : MyNat) + 0 = 0 := by
+    simp
+
+end
