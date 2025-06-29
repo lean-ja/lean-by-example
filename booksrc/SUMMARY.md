@@ -38,6 +38,7 @@
   - [declare_syntax_cat: 構文カテゴリ](./Declarative/DeclareSyntaxCat.md)
   - [def: 関数などを定義する](./Declarative/Def.md)
   - [deriving: インスタンス自動生成](./Declarative/Deriving.md)
+  - [dsimproc: simp プロシージャを宣言する](./Declarative/Dsimproc.md)
   - [elab: 構文に意味を与える](./Declarative/Elab.md)
   - [example: 名前をつけずに証明](./Declarative/Example.md)
   - [export: 現在の名前空間に追加](./Declarative/Export.md)
