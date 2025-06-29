@@ -82,7 +82,7 @@ example {P Q : Prop} (hP : P) : Q := by
 
 /- ### constructor タクティクの制限版
 
-`constructor` タクティクの機能を制限し、`And` 型のゴールを分割する機能だけを持つタクティクを構成する例を示します。[^constructor]
+[`constructor`](#{root}/Tactic/Constructor.md) タクティクの機能を制限し、`And` 型のゴールを分割する機能だけを持つタクティクを構成する例を示します。[^constructor]
 -/
 
 /-- ゴールが`P ∧ Q`という形をしていたら、分解してそれぞれ別ゴールにする -/
