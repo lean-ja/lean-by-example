@@ -41,7 +41,7 @@ dsimproc computeFib (Nat.fib _) := fun e => do
 
   return .visit <| Lean.toExpr l
 
--- 簡単化をやってくれる
+-- 単純化をやってくれる
 example (P : Nat → Prop) (h : P (Nat.fib 5)) : P 5 := by
   simp at h
   assumption
