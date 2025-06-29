@@ -26,7 +26,7 @@ example (P : Nat → Prop) (h : P (Nat.fib 5)) : P 5 := by
   assumption
 
 dsimproc computeFib (Nat.fib _) := fun e => do
-  -- パターンマッチ。`e : Expr` が `revRange n` の形であることを確認する
+  -- パターンマッチ。`e : Expr` が `Nat.fib n` の形であることを確認する
   -- そうでなければ即終了する
   let_expr Nat.fib m ← e
     | return .continue
@@ -36,7 +36,7 @@ dsimproc computeFib (Nat.fib _) := fun e => do
   let some n := m.nat?
     | return .continue
 
-  -- `revRange n` を評価する
+  -- `Nat.fib n` を評価する
   let l := Nat.fib n
 
   return .visit <| Lean.toExpr l
