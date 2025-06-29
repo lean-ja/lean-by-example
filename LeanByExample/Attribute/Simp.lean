@@ -77,3 +77,50 @@ trace: [Meta.Tactic.simp.rewrite] Nat.fib_zero:1000:
 #guard_msgs in --#
 theorem foo : 37 * (Nat.fib 0 + 0) = 0 := by
   simp
+
+/- ## [simp] 属性で利用できる構文
+
+### [simp←]
+
+`simp` 補題は「左辺を右辺に」単純化するために使用されますが、逆方向に使用したい場合は `[simp←]` とします。
+-/
+
+@[simp←]
+theorem MyNat.zero_add (n : MyNat) : n = 0 + n := by
+  induction n with
+  | zero => rfl
+  | succ n ih =>
+    rw [show 0 + n.succ = (0 + n).succ from by rfl]
+    rw [←ih]
+
+-- 該当するsimp補題に `←` が付いている
+/-⋆-//-- info: Try this: simp only [← MyNat.zero_add, MyNat.add_zero] -/
+#guard_msgs in --#
+example (n : MyNat) : 0 + n + 0 = n := by
+  simp?
+
+/- ### [simp↓]
+
+`simp` はデフォルトでは部分式をすべて単純化した後に全体の式に単純化を適用しています。
+-/
+section
+  -- `foo`定理をsimp補題として登録する
+  attribute [local simp] foo
+
+  -- `foo`を示そうとしているのに、単純化に`foo`が使用されていない！
+  -- これは、部分式が先に単純化されるため。
+  /-⋆-//-- info: Try this: simp only [Nat.fib_zero, Nat.add_zero, Nat.mul_zero] -/
+  #guard_msgs in --#
+  example : 37 * (Nat.fib 0 + 0) = 0 := by
+    simp?
+
+end
+/- `simp` タクティクに、部分式が単純化されるよりも先に前処理として単純化したいルールがある場合は、`[simp↓]` を使用します。-/
+
+attribute [simp↓] foo
+
+-- `foo`が使われて終了するようになった！
+/-⋆-//-- info: Try this: simp only [↓foo] -/
+#guard_msgs in --#
+example : 37 * (Nat.fib 0 + 0) = 0 := by
+  simp?
