@@ -6,9 +6,7 @@ import Lean
 import Qq --#
 import Batteries.Tactic.Exact --#
 
-open Lean Elab Tactic in
-
-example : Tactic = (Syntax → TacticM Unit) := by rfl
+example : Lean.Elab.Tactic.Tactic = (Lean.Syntax → Lean.Elab.Tactic.TacticM Unit) := by rfl
 
 /- ## Tactic 型からタクティクを作る
 
