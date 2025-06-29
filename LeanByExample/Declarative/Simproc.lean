@@ -59,8 +59,8 @@ simproc ↓reduceMyIte (myIte _ _ _) := .ofQ fun u _α expr => do
   match u, α, expr with
   | 1, _, ~q(@myIte _ $cond $h $t $e) =>
     -- 条件式の部分を単純化する
-    let simp_cond : Result ← simp cond
-    let simp_cond_prop : Q(Prop) := simp_cond.expr
+    have simp_cond : Result := ← simp cond -- 右辺が`Qq`を使用していないので`have`を使う
+    have simp_cond_prop : Q(Prop) := simp_cond.expr
     trace[debug] "条件式の部分が {simp_cond_prop} に単純化されました。"
 
     -- 単純化された結果`cond`が`True`または`False`として評価されていなければ、
@@ -70,13 +70,16 @@ simproc ↓reduceMyIte (myIte _ _ _) := .ofQ fun u _α expr => do
 
     -- 単純化なので`cond = simp_cond_prop`という命題が成り立つ。
     -- その証明を取得して名前を付けておく。
-    let cond_eq_simp_cond ← simp_cond.getProof
+    have cond_eq_simp_cond : Q($cond = $simp_cond_prop) := ← simp_cond.getProof
     trace[debug] "条件式に対して {← inferType cond_eq_simp_cond} という単純化が行われました。"
 
     -- 条件式が真と評価された場合
     if simp_cond_prop.isTrue then
+      -- このとき`simp_cond_prop`は`True`であることを`Qq`に教えておく
+      have : $simp_cond_prop =Q True := ⟨⟩
+
       -- このとき`myIte cond t e = t`が成り立つので、結果の`Expr`としては`t`を返すべき。
-      let result_expr := t
+      have result_expr := t
       trace[debug] "{expr} を単純化した結果は {result_expr} であるべきです。"
 
       -- 結果の`Expr`が元の`Expr`と同じであることの証明も必要。
@@ -86,15 +89,15 @@ simproc ↓reduceMyIte (myIte _ _ _) := .ofQ fun u _α expr => do
 
       -- `target`の証明を構成する。
       -- これは定理`myIte_cond_eq_true`を使って構成できる。
-      let target_proof : Q($target) := mkApp q(myIte_cond_eq_true $cond $t $e) cond_eq_simp_cond
+      let target_proof : Q($target) := q(myIte_cond_eq_true $cond $t $e $cond_eq_simp_cond)
       trace[debug] "{← inferType target_proof} の証明を構成しました。"
       return .visit { expr := result_expr, proof? := target_proof }
 
     -- 条件式が偽と評価された場合(説明は省略)
     if simp_cond_prop.isFalse then
-      let result_expr := e
-      let target : Q(Prop) := q(myIte $cond $t $e = $e) -- 証明したい命題
-      let target_proof : Q($target) := mkApp q(myIte_cond_eq_false $cond $t $e) cond_eq_simp_cond
+      have : $simp_cond_prop =Q False := ⟨⟩
+      have result_expr := e
+      let target_proof := q(myIte_cond_eq_false $cond $t $e $cond_eq_simp_cond)
       return .visit { expr := result_expr, proof? := target_proof }
 
     return .continue
