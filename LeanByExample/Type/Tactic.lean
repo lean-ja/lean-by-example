@@ -170,9 +170,77 @@ example : True ↔ True := by
   · simp
   · simp
 
+/- ### `A₁ ∧ A₂ ∧ ... ∧ Aₙ` という形の前提から `⊢ Aᵢ` を示すタクティク
+`h : A₁ ∧ A₂ ∧ ... ∧ Aₙ` という形の前提から `⊢ Aᵢ` を示すタクティクを実装する例を示します。これは引数を持つタクティクの例であるとともに、再帰的な挙動をするタクティクの例でもあります。[^destruct_and]
+-/
+
+/-- `A₁ ∧ A₂ ∧ ... ∧ Aₙ` という形の前提から `⊢ Aᵢ` を示すタクティク -/
+syntax (name := destructAnd) "destruct_and" ident : tactic
+
+section
+  open Lean Elab Tactic Qq Meta
+
+  /-- 証明の前提 `hp : Expr` が `A₁ ∧ A₂ ∧ ... ∧ Aₙ` の形の命題の証明であるかチェックして、
+  再帰的に分解して現在のゴールと一致する証明が得られるかを確認し、
+  もし一致すればゴールを閉じて`true`を返す。一致しなければ`false`を返す。 -/
+  partial def destructAndExpr (hp : Expr) : TacticM Bool := withMainContext do
+    -- 今証明を構成しようとしている命題を取得
+    have target : Q(Prop) := ← getMainTarget
+
+    -- 前提として証明が得られている命題を取得
+    have P : Q(Prop) := ← inferType hp
+    have hp : Q($P) := hp -- 前提の型をQqで注釈
+
+    -- `P` が `target` と一致しているなら、示すべきゴールの証明が得られたことになる。
+    if (← isDefEq P target) then
+      let goal ← getMainGoal
+      goal.assignIfDefEq hp
+      return true
+
+    match P with
+    | ~q($Q ∧ $R) =>
+      let hq : Q($Q) := q(And.left $hp)
+      let success ← destructAndExpr hq -- 再帰的にチェック
+      -- 成功していたら早期リターン
+      if success then
+        return true
+
+      let hr : Q($R) := q(And.right $hp)
+      destructAndExpr hr -- 再帰的にチェック
+    | _ => return false
+
+  @[tactic destructAnd]
+  def evalDestructAnd : Tactic := fun stx => withMainContext do
+    match stx with
+    | `(tactic| destruct_and $h) =>
+      let h ← getFVarFromUserName h.getId
+      let success ← destructAndExpr h
+      if !success then
+        failure
+
+    | _ => throwUnsupportedSyntax
+end
+
+example (a b c d : Prop) (h : a ∧ b ∧ c ∧ d) : a := by
+  destruct_and h
+
+example (a b c d : Prop) (h : a ∧ b ∧ c ∧ d) : b := by
+  destruct_and h
+
+example (a b c d : Prop) (h : a ∧ b ∧ c ∧ d) : c := by
+  destruct_and h
+
+example (a b c d : Prop) (h : a ∧ b ∧ c ∧ d) : d := by
+  destruct_and h
+
+example (a b c : Prop) (h : a ∧ b ∧ c) : a ∧ b := by
+  constructor <;> destruct_and h
+
 /- [^trivial]: このコード例を書くにあたり [lean-tactic-programming-guide](https://github.com/mirefek/lean-tactic-programming-guide) を参考にしました。
 
 [^and_constructor]: このコード例を書くにあたり [lean-tactic-programming-guide](https://github.com/mirefek/lean-tactic-programming-guide) を参考にしました。
 
 [^iff_constructor]: このコード例を書くにあたり [Metaprogramming in Lean 4](https://leanprover-community.github.io/lean4-metaprogramming-book/) を参考にしました。
+
+[^destruct_and]: このコード例を書くにあたり The Hitchhiker's Guide to Logical Verification を参考にしました。
 -/
