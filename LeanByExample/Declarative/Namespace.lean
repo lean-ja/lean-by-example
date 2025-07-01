@@ -58,7 +58,7 @@ def List.unpack (l : List (List α)) : List α :=
   | x :: xs => x ++ unpack xs
 
 /-⋆-//--
-error: invalid field 'unpack', the environment does not contain 'List.unpack'
+error: Invalid field `unpack`: The environment does not contain `List.unpack`
   [[1, 2], [3]]
 has type
   List (List Nat)

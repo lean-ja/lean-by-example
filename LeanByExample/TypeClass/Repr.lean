@@ -44,7 +44,7 @@ elab "#doc " x:ident : command => do
   logInfo m!"{s}"
 
 /-⋆-//--
-info: A typeclass that specifies the standard way of turning values of some type into `Format`.
+info: The standard way of turning values of some type into `Format`.
 
 When rendered this `Format` should be as close as possible to something that can be parsed as the
 input value.

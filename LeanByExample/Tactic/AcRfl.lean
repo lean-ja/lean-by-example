@@ -106,7 +106,8 @@ namespace Color
   /-⋆-//--
   error: failed to synthesize
     Std.Commutative fun x1 x2 => x1 + x2
-  Additional diagnostic information may be available using the `set_option diagnostics true` command.
+
+  Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
   -/
   #guard_msgs (whitespace := lax) in --#
   #synth Std.Commutative (α := Color) (· + ·)

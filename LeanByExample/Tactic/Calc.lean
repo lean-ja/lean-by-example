@@ -50,7 +50,7 @@ set_option pp.mvars false
 error: invalid 'calc' step, failed to synthesize `Trans` instance
   Trans same_abs same_abs ?_
 
-Additional diagnostic information may be available using the `set_option diagnostics true` command.
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
 -/
 #guard_msgs in --#
 example {x y z : Int}(hxy : x ≡ y)(h : y = z) : x ≡ z := calc

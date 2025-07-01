@@ -26,7 +26,7 @@ def get {α : Type} [Inhabited α] (a : Array α) (i : Nat) : α :=
 error: failed to synthesize
   Inhabited α
 
-Additional diagnostic information may be available using the `set_option diagnostics true` command.
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
 -/
 #guard_msgs in --#
 def get' {α : Type} (a : Array α) (i : Nat) : α :=

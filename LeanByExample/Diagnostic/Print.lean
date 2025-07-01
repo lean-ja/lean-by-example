@@ -14,7 +14,7 @@ Or.inr : ∀ {a b : Prop}, b → a ∨ b
 #print Or
 
 /-⋆-//--
-info: theorem Nat.add_succ : ∀ (n m : Nat), n + m.succ = (n + m).succ :=
+info: @[defeq] theorem Nat.add_succ : ∀ (n m : Nat), n + m.succ = (n + m).succ :=
 fun n m => rfl
 -/
 #guard_msgs in --#
@@ -37,6 +37,7 @@ constructor:
 * `axioms`
 * `eqns`
 * `equations`
+* `sig`
 * `tactic`
 -/
 open Lean Parser in
@@ -46,8 +47,7 @@ def parse (cat : Name) (s : String) : MetaM Syntax := do
   ofExcept <| runParserCategory (← getEnv) cat s
 
 /-⋆-//--
-error: <input>:1:7:
-expected 'axioms', 'eqns', 'equations', 'tactic', identifier or string literal
+error: <input>:1:7: expected 'axioms', 'eqns', 'equations', 'sig', 'tactic', identifier or string literal
 -/
 #guard_msgs in --#
 #eval parse `command "#print axiom"

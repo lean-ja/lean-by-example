@@ -75,7 +75,7 @@ section
 end
 
 -- `macro_rules` コマンドの `whatsnew` コマンドによる出力の中に、`Macro` 型の項が含まれている
-/-- unsafe def _aux_LeanByExample_Type_Macro___macroRules_zeroLitStx_1._cstage1 : Macro := -/
+/-- def _aux_LeanByExample_Type_Macro___macroRules_zeroLitStx_1 : Macro := -/
 #contain_msg in
   whatsnew in
     macro_rules

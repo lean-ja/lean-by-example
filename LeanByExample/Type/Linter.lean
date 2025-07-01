@@ -24,7 +24,8 @@ warning: 'prop_iff_neg_self₀' depends on 'Classical.choice'.
 
 All axioms: [Classical.choice, propext, Quot.sound]
 
-note: this linter can be disabled with `set_option linter.detectClassical false`
+
+Note: This linter can be disabled with `set_option linter.detectClassical false`
 -/
 #guard_msgs in --#
 theorem prop_iff_neg_self₀ (P : Prop) : ¬ (P ↔ ¬ P) := by

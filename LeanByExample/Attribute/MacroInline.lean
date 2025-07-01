@@ -19,10 +19,12 @@
 
 /- 実際に `Bool.and`（つまり `&&`）を真似て関数を自作してみて、`[macro_inline]` 属性の挙動を確認してみましょう。 -/
 
-/-- `Bool.and` を真似て自作した関数 -/
+/-- `Bool.and` を真似て自作した関数
+(わざと冗長な定義を採用している) -/
 def Bool.myAnd : Bool → Bool → Bool
+  | false, _ => false
   | true, true => true
-  | _, _ => false
+  | _, false => false
 
 -- 第二引数が評価されており、短絡評価になっていない
 /-⋆-//--

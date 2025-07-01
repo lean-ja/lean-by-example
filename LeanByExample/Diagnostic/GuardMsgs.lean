@@ -12,7 +12,7 @@ import Mathlib.Algebra.Group.Defs -- 逆数を使うために必要 --#
 error: failed to synthesize
   HAdd ℕ String String
 
-Additional diagnostic information may be available using the `set_option diagnostics true` command.
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
 -/
 #guard_msgs in #eval (2 + "hello" : String)
 
@@ -27,16 +27,16 @@ variable (α : Type)
 error: failed to synthesize
   Inv α
 
-Additional diagnostic information may be available using the `set_option diagnostics true` command.
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
 -/
 #guard_msgs in #check (_ : α)⁻¹
 
 -- スペースを入れてもエラーにならない
 /--
-error:
-  failed to synthesize
+  error: failed to synthesize
     Inv α
-  Additional diagnostic information may be available using the `set_option diagnostics true` command.
+
+  Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
 -/
 #guard_msgs (whitespace := lax) in #check (_ : α)⁻¹
 

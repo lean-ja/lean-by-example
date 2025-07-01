@@ -59,7 +59,8 @@ set_option linter.flexible true
 
 /-⋆-//--
 warning: 'simp' is a flexible tactic modifying '⊢'…
-note: this linter can be disabled with `set_option linter.flexible false`
+
+Note: This linter can be disabled with `set_option linter.flexible false`
 -/
 #guard_msgs (warning) in --#
 example {n m : Nat} (h : n = m) : True ∧ (n = m) := by

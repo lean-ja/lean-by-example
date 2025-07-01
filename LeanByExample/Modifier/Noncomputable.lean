@@ -15,8 +15,7 @@ def Surjective (f : X → Y) : Prop := ∀ y, ∃ x, f x = y
 -- しかし、全射という情報だけからは逆写像を具体的に作ることはできないので、
 -- 計算不能になりエラーになってしまう
 /-⋆-//--
-error: failed to compile definition, consider marking it as 'noncomputable'
-because it depends on 'Classical.choice', and it does not have executable code
+error: axiom 'Classical.choice' not supported by code generator; consider marking definition as 'noncomputable'
 -/
 #guard_msgs in --#
 def inverse' (f : X → Y) (hf : Surjective f) : Y → X := by

@@ -56,7 +56,7 @@ theorem MyNat.one_neq_zero : (1 : MyNat) ≠ 0 := by
 
 -- `simp`属性を追加したことによって、
 /-⋆-//--
-info: theorem MyNat.one_neq_zero._proof_1 : (1 = 0) = False :=
+info: theorem MyNat.one_neq_zero._simp_1 : (1 = 0) = False :=
 eq_false MyNat.one_neq_zero
 
 -- Lean.Meta.simpExtension extension: 1 new entries
@@ -80,7 +80,7 @@ theorem MyEven_two : MyEven 2 := by
 
 -- `MyEven 2 = True` という書き換えルールが自動生成されている
 /-⋆-//--
-info: theorem MyEven_two._proof_1 : MyEven 2 = True :=
+info: theorem MyEven_two._simp_1 : MyEven 2 = True :=
 eq_true MyEven_two
 
 -- Lean.Meta.simpExtension extension: 1 new entries

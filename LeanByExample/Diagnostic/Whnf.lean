@@ -99,11 +99,9 @@ info: {
           (fun a a_1 a_ih =>
             ⟨fun x =>
               (Many.rec ⟨fun x => x, PUnit.unit⟩
-                    (fun a a_2 a_ih =>
-                      ⟨fun x => Many.more a fun x_1 => (a_ih PUnit.unit).1 x, fun a => (a_ih a).1, fun a => (a_ih a).2⟩)
-                    (x a)).1
+                    (fun a a_2 a_ih => ⟨fun x => Many.more a fun x_1 => (a_ih PUnit.unit).1 x, a_ih⟩) (x a)).1
                 ((a_ih PUnit.unit).1 x),
-              fun a => (a_ih a).1, fun a => (a_ih a).2⟩)
+              a_ih⟩)
           x).1
       fun x => Many.more (f x) fun x => Many.none,
   mapConst := fun {α β} x x_1 =>
@@ -111,11 +109,9 @@ info: {
           (fun a a_1 a_ih =>
             ⟨fun x =>
               (Many.rec ⟨fun x => x, PUnit.unit⟩
-                    (fun a a_2 a_ih =>
-                      ⟨fun x => Many.more a fun x_2 => (a_ih PUnit.unit).1 x, fun a => (a_ih a).1, fun a => (a_ih a).2⟩)
-                    (x a)).1
+                    (fun a a_2 a_ih => ⟨fun x => Many.more a fun x_2 => (a_ih PUnit.unit).1 x, a_ih⟩) (x a)).1
                 ((a_ih PUnit.unit).1 x),
-              fun a => (a_ih a).1, fun a => (a_ih a).2⟩)
+              a_ih⟩)
           x_1).1
       fun x_2 => Many.more x fun x => Many.none }
 -/
