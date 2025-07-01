@@ -12,6 +12,17 @@ def FermatLastTheorem :=
 theorem flt : FermatLastTheorem :=
   sorry
 
+/- ## 警告を消すオプション
+
+`sorry` を使用すると通常は警告が出ますが、問題がない場合は `warn.sorry` オプションをオフにすることで警告を消すことができます。
+-/
+
+set_option warn.sorry false in
+
+-- 警告が出ない
+example : True := by
+  sorry
+
 /- ## 補足: sorry 使用の痕跡は隠すことができる
 
 基本的に、`sorry` タクティクを使用すれば `sorryAx` という公理が使用されて、[`#print axioms`](#{root}/Diagnostic/Print.md#PrintAxioms) コマンドの出力に現れるようになります。
