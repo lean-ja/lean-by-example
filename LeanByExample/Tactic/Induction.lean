@@ -8,6 +8,7 @@
 * `∀ n, P n → P (n + 1)` が成り立つ。
 -/
 import Mathlib.Tactic.Ring -- `ring` を使うため --#
+set_option warn.sorry false --#
 
 /-- `0` から `n` までの和を計算する関数 -/
 def sum (n : Nat) : Rat :=
@@ -66,7 +67,6 @@ example {m n k : Nat} (h₁ : m ≤ₘ n) (h₂ : n ≤ₘ k) : m ≤ₘ k := by
 時として、帰納法の仮定が弱すぎると感じることがあります。
 -/
 
-#guard_msgs (drop warning) in --#
 example {m n : Nat} (h : m + n = 0) : m = 0 ∧ n = 0 := by
   induction m with
   | zero =>
@@ -127,7 +127,6 @@ theorem sum_exp (n : Nat) : sum n = n * (n + 1) / 2 := by
     ring
 
 /- `have` で宣言された命題の証明の中では、この方法は使用できません。-/
-#guard_msgs (drop warning) in --#
 
 theorem sample : True := by
   have h : ∀ n, sum n = n * (n + 1) / 2 := by

@@ -6,8 +6,8 @@
 
 しかし、`native_decide` を使うと証明が可能です。
 -/
+set_option warn.sorry false --#
 
-#guard_msgs (drop warning) in --#
 /-- Euclide のアルゴリズム -/
 def gcd (m n : Nat) : Nat :=
   if m = 0 then

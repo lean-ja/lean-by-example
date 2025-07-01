@@ -26,7 +26,8 @@ theorem flt : FermatLastTheorem :=
 def one := 1
 def two := 2
 
-#guard_msgs (drop warning) in --#
+set_option warn.sorry false in --#
+
 @[csimp] theorem one_eq_two : one = two := by
   sorry
 

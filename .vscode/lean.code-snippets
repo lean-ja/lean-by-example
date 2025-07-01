@@ -49,4 +49,12 @@
     ],
     "description": "#guard_msgs for convert doc to block comment"
   },
+  "dropsorry": {
+    "scope": "lean,lean4",
+    "prefix": "dropsorry",
+    "body": [
+      "set_option warn.sorry false --#",
+    ],
+    "description": "drop sorry warning"
+  }
 }

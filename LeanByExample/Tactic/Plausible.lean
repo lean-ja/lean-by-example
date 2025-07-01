@@ -2,6 +2,7 @@
 
 `plausible` は、証明しようとしているゴールが間違っていないかランダムに例を生成してチェックし、反例を見つけるとエラーで警告するタクティクです。 -/
 import Plausible
+set_option warn.sorry false --#
 
 section --#
 
@@ -18,11 +19,7 @@ end --#
 /-
 100 個のテストケースでテストして反例が見つからなかった場合、ギブアップして [`sorry`](./Sorry.md) と同様にはたらきます。-/
 
-/-⋆-//--
-warning: Gave up after failing to generate values that fulfill the preconditions 100 times.
----
-warning: declaration uses 'sorry'
--/
+/-⋆-//-- warning: Gave up after failing to generate values that fulfill the preconditions 100 times. -/
 #guard_msgs (warning) in --#
 example (a : Nat) : a ≠ a → a ≤ 1 := by
   plausible
@@ -37,11 +34,7 @@ example (a : Nat) : a ≠ a → a ≤ 1 := by
 `numInst` を設定すると、ギブアップするまでに行うテストの回数を指定することができます。
 -/
 
-/-⋆-//--
-warning: Gave up after failing to generate values that fulfill the preconditions 10 times.
----
-warning: declaration uses 'sorry'
--/
+/-⋆-//-- warning: Gave up after failing to generate values that fulfill the preconditions 10 times. -/
 #guard_msgs (warning) in --#
 example (a : Nat) : a ≠ a → a ≤ 1 := by
   plausible (config := { numInst := 10 })
@@ -59,7 +52,6 @@ inductive MyNat where
   | succ (n : MyNat)
 deriving Repr
 
-#guard_msgs (drop warning) in --#
 example : ∀ (a b : MyNat), a = b := by
   -- `plausible` は最初使うことができない
   fail_if_success plausible

@@ -1,6 +1,7 @@
 /- # axiom
 `axiom` は、公理(axiom)を宣言するためのコマンドです。公理とは、議論の前提のことで、証明を与えることなく正しいと仮定される命題です。
 -/
+set_option warn.sorry false --#
 
 /-- sorryAx を真似て作った公理 -/
 axiom mySorryAx {P : Prop} : P
@@ -374,7 +375,6 @@ theorem nd_sample : 1 + 1 = 2 := by
 `sorryAx` は、[`sorry`](#{root}/Tactic/Sorry.md) タクティクを使用したときに使用される公理です。どんな命題でも証明することができ、どんなデータでも構成することができる万能な公理ですが、これを使用して証明を埋めるのはもちろんズルです。
 -/
 
-#guard_msgs (drop warning) in --#
 /-- Fermat の最終定理 -/
 theorem flt (x y z n : Nat) : n > 2 → x ^ n + y ^ n = z ^ n → x * y * z = 0 := by
   sorry

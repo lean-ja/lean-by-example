@@ -6,8 +6,8 @@
 -/
 import Mathlib.Tactic.Use
 import Mathlib.Tactic.Linarith
+set_option warn.sorry false --#
 
-#guard_msgs (drop warning) in --#
 example {α : Type} (P : α → Prop) (x : α) : ∃ y, P y := by
   use x
   -- ゴールが `P x` に変わる

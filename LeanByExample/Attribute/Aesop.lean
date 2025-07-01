@@ -3,6 +3,8 @@
 `[aesop]` は [`aesop`](#{root}/Tactic/Aesop.md) タクティクに追加のルールを登録するための属性です。同様の機能を持つコマンドに [`add_aesop_rules`](#{root}/Declarative/AddAesopRules.md) があります。 -/
 import Aesop
 
+set_option warn.sorry false --#
+
 /-- 自然数 n が正の数であることを表す帰納的述語 -/
 inductive Pos : Nat → Prop where
   | succ n : Pos (n + 1)
@@ -52,7 +54,6 @@ theorem erase_duplicate {P : Prop} : MyAnd P P ↔ P := by
     exact h
   · exact MyAnd.intro h h
 
-#guard_msgs (drop warning) in --#
 example (P : Prop) (hp : P) : MyAnd P P := by
   -- 最初は aesop で証明できない
   fail_if_success solve
@@ -81,7 +82,6 @@ inductive MyList (α : Type) where
 inductive NonEmpty {α : Type} : MyList α → Prop where
   | cons x xs : NonEmpty (MyList.cons x xs)
 
-#guard_msgs (drop warning) in --#
 example : NonEmpty (MyList.cons 1 MyList.nil) := by
   -- 最初は aesop で証明できない
   fail_if_success aesop
@@ -100,7 +100,6 @@ section --#
 
 variable (a b c d e : Nat)
 
-#guard_msgs (drop warning) in --#
 example (h1 : a ≤ b) (h2 : b ≤ c) (h3 : c ≤ d) (h4 : d ≤ e) : a ≤ e := by
   -- 最初は aesop で証明できない
   fail_if_success aesop
@@ -122,7 +121,6 @@ attribute [local aesop safe apply] Nat.le_trans
 
 variable (a b c d e : Nat)
 
-#guard_msgs (drop warning) in --#
 example (h1 : a ≤ b) (h2 : b ≤ c) (h3 : c ≤ d) (h4 : d ≤ e) : a ≤ e := by
   -- aesop で証明できない
   -- 同じ命題を同じように登録したが、safe にしてしまったからダメだった
