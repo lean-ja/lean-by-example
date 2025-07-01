@@ -5,22 +5,25 @@
 `dsimp [e₁, e₂, ..., eᵢ]` という構文でゴールに登場する名前 `e₁, ..., eᵢ` を定義に展開します。-/
 import Lean --#
 
-/-- `n < m`を真似て構成した自前の述語 -/
-def Nat.mylt (n m : Nat) := (n + 1) ≤ m
+section
 
-/-- `n < m`と書いたら標準の`Nat.lt`の代わりに上記の`Nat.mylt`を使用する -/
-instance : LT Nat where
-  lt := Nat.mylt
+  /-- `n < m`を真似て構成した自前の述語 -/
+  def Nat.mylt (n m : Nat) := (n + 1) ≤ m
 
-example : 1 < 2 := by
-  -- `<`という記号、およびその実装である`Nat.mylt`を展開する
-  dsimp [(· < ·), Nat.mylt]
+  /-- `n < m`と書いたら標準の`Nat.lt`の代わりに上記の`Nat.mylt`を使用する -/
+  local instance : LT Nat where
+    lt := Nat.mylt
 
-  -- ゴールが展開されて変形された
-  guard_target =ₛ 2 ≤ 2
+  example : 1 < 2 := by
+    -- `<`という記号、およびその実装である`Nat.mylt`を展開する
+    dsimp [(· < ·), Nat.mylt]
 
-  omega
+    -- ゴールが展開されて変形された
+    guard_target =ₛ 2 ≤ 2
 
+    omega
+
+end
 /- ## 舞台裏
 「definitionally equal であるような変形だけを行う」というのは、[`rfl`](#{root}/Tactic/Rfl.md) で示せるような命題だけを使用するという意味です。`rfl` で示せないような簡約は `dsimp` ではできません。-/
 
@@ -29,33 +32,35 @@ inductive MyNat where
   | zero : MyNat
   | succ : MyNat → MyNat
 
+instance : Zero MyNat where
+  zero := MyNat.zero
+
 /-- MyNat の足し算 -/
 def MyNat.add (n m : MyNat) : MyNat :=
   match m with
-  | MyNat.zero => n
-  | MyNat.succ m => MyNat.succ (MyNat.add n m)
+  | .zero => n
+  | .succ m => MyNat.succ (MyNat.add n m)
 
 /-- MyNat.add を足し算記号で書けるようにする -/
 infix:65 " + " => MyNat.add
 
-/-- ゼロを左から足しても変わらない。
-自明なようだが、MyNat.add は m に対する場合分けで定義されているので定義上明らかではない。-/
-theorem MyNat.zero_add {n : MyNat} : MyNat.zero + n = n := by
+/-- ゼロを左から足しても変わらない。-/
+theorem MyNat.zero_add {n : MyNat} : (0 : MyNat) + n = n := by
   induction n with
   | zero => rfl
   | succ n ih =>
     dsimp [MyNat.add]
     rw [ih]
 
-example (n : MyNat) : n + MyNat.zero = n := by
+example (n : MyNat) : n + (0 : MyNat) = n := by
   -- rfl で証明ができる
   rfl
 
-example (n : MyNat) : n + MyNat.zero = n := by
+example (n : MyNat) : n + (0 : MyNat) = n := by
   -- dsimp でも証明ができる
   dsimp [MyNat.add]
 
-example (n : MyNat) : MyNat.zero + n = n := by
+example (n : MyNat) : (0 : MyNat) + n = n := by
   -- rfl では証明ができない
   fail_if_success rfl
 
@@ -63,6 +68,40 @@ example (n : MyNat) : MyNat.zero + n = n := by
   fail_if_success dsimp [MyNat.add]
 
   rw [MyNat.zero_add]
+
+/- ## カスタマイズ
+
+`dsimp` で自動的に示せる命題を増やすには、`[defeq]` 属性と [`[simp]`](#{root}/Attribute/Simp.md) 属性を付与します。
+ただし、`[defeq]` 属性は `[simp]` 属性の前に付与しなければなりません。
+-/
+
+theorem MyNat.add_zero (n : MyNat) : n + (0 : MyNat) = n := by
+  rfl
+
+example (n : MyNat) : n + (0 : MyNat) = n := by
+  -- 最初は `dsimp` で証明ができない
+  fail_if_success dsimp
+
+  rfl
+
+section
+  -- `simp`, `defeq` の順に属性を与える
+  attribute [local simp, defeq] MyNat.add_zero
+
+  example (n : MyNat) : n + (0 : MyNat) = n := by
+    -- まだ `dsimp` では証明ができない
+    fail_if_success dsimp
+
+    -- `simp` では証明ができる
+    simp
+end
+
+-- `defeq` 属性を先に付与する
+attribute [defeq, simp] MyNat.add_zero
+
+example (n : MyNat) : n + (0 : MyNat) = n := by
+  -- `dsimp` で証明ができるようになった！
+  dsimp
 
 /- ## unfold と比べた長所
 同じく名前を定義に展開するタクティクとして [`unfold`](./Unfold.md) があります。たいていの場合両者は同じように使うことができますが、`unfold` は次のような意外な挙動をすることがあります。
