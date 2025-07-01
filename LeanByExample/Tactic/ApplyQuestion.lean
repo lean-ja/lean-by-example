@@ -4,6 +4,7 @@
 複数の候補が提案されたときは、どれを選ぶとゴールが何に変わるのか表示されるので、その中から好ましいものを選ぶと良いでしょう。-/
 import Mathlib.Algebra.Algebra.Basic -- 群を使うのに必要
 import Mathlib.Tactic.Says -- `says` を使うのに必要
+set_option warn.sorry false --#
 
 set_option says.verify true
 
@@ -24,7 +25,6 @@ example [Group G] [Group H] (f : G →* H) (a b : G) :
 -/
 set_option linter.unusedTactic false in --#
 
-#guard_msgs (drop warning) in --#
 theorem T (x y : Nat) (_: x ≤ y) : 8 ^ x ≤ 16 ^ y := by
   apply?
 

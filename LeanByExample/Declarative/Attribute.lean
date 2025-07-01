@@ -5,6 +5,7 @@
 
 次の例では、命題に `[simp]` 属性を付与しています。これは `simp` タクティクで利用される命題を増やすことを意味します。
 -/
+set_option warn.sorry false --#
 
 theorem foo {P Q : Prop} : (P → Q) ∧ P ↔ Q ∧ P := by
   constructor <;> intro h
@@ -12,7 +13,6 @@ theorem foo {P Q : Prop} : (P → Q) ∧ P ↔ Q ∧ P := by
     refine ⟨?_, by simp_all⟩
     simp_all
 
-#guard_msgs (drop warning) in --#
 example {P Q : Prop} : (P → Q) ∧ P ↔ Q ∧ P := by
   -- `simp` では示せない
   fail_if_success solve
@@ -34,7 +34,6 @@ section
   attribute [-simp] foo
 
   -- 再び `simp` では示せなくなった
-  #guard_msgs (drop warning) in --#
   example {P Q : Prop} : (P → Q) ∧ P ↔ Q ∧ P := by
     fail_if_success solve
     | simp
@@ -69,7 +68,6 @@ example {P Q : Prop} : (P → Q) ∧ P ↔ Q ∧ P := by
 /- ## 有効範囲を制限する
 特定の [`section`](./Section.md) 内でのみ付与した属性を有効にするには、[`local`](#{root}/Modifier/Local.md) で属性名を修飾します。
 -/
-#guard_msgs (drop warning) in --#
 example (P Q : Prop) : ((P ∨ Q) ∧ ¬ Q) ↔ (P ∧ ¬ Q) := by
   -- simp だけでは証明できない
   fail_if_success solve
@@ -94,7 +92,6 @@ section
   example (P Q : Prop) : ((P ∨ Q) ∧ ¬ Q) ↔ (P ∧ ¬ Q) := by simp
 end
 
-#guard_msgs (drop warning) in --#
 example (P Q : Prop) : ((P ∨ Q) ∧ ¬ Q) ↔ (P ∧ ¬ Q) := by
   -- section を抜けると simp 補題が利用できなくなった
   fail_if_success solve

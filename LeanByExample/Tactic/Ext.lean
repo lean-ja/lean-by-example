@@ -2,6 +2,7 @@
 
 `ext` は、外延性(extensionality)を使うタクティクです。外延性とは、「同じものから作られているものは同じである」という主張のことです。たとえば、「2つの関数 `f g : A → B` があるとき `∀ a : A, f a = g a` ならば `f = g`」というのは外延性の一種で、**関数外延性(functional extensionality)** と呼ばれます。-/
 import Aesop -- `aesop` タクティクを使うために必要 --#
+set_option warn.sorry false --#
 
 example {A B : Type} (f g : A → B) (h : ∀ a : A, f a = g a) : f = g := by
   -- `x : A` を取って外延性を使用する
@@ -40,7 +41,6 @@ theorem ext {a b : Set α} (h : ∀ x, x ∈ a ↔ x ∈ b) : a = b := by
   intro x
   rw [show a x ↔ b x from h x]
 
-#guard_msgs (drop warning) in --#
 example {a b : Set α} (h : ∀ x, x ∈ a ↔ x ∈ b) : a = b := by
   -- 最初は使えない
   fail_if_success ext x
@@ -88,7 +88,6 @@ structure Foo where
   x : Nat
   y : Nat
 
-#guard_msgs (drop warning) in --#
 example (p q : Foo) (hx : p.x = q.x) (hy : p.y = q.y) : p = q := by
   -- 最初は ext タクティクが使えない
   fail_if_success ext

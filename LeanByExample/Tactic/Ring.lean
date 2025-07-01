@@ -6,6 +6,7 @@
 -/
 import Mathlib.Tactic.Ring -- `ring` のために必要
 import Mathlib.Tactic.Says --#
+set_option warn.sorry false --#
 
 example (x y : ℤ) : (x - y) ^ 2 = x ^ 2 - 2 * x * y + y ^ 2 := by
   ring
@@ -106,7 +107,6 @@ namespace MyNat
 
 end MyNat
 
-#guard_msgs (drop warning) in --#
 example (m n : MyNat) : n * (n + m) = n * n + n * m := by
   -- `ring` は `MyNat` に対しては使えない
   fail_if_success solve

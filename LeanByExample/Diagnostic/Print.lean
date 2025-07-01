@@ -2,6 +2,7 @@
 `#print` コマンドには複数の機能がありますが、単体で使うと定義を表示することができます。
 -/
 import Lean --#
+set_option warn.sorry false --#
 
 /-⋆-//--
 info: inductive Or : Prop → Prop → Prop
@@ -87,7 +88,6 @@ example : ∀ (p : Prop), p ∨ ¬p := Classical.em
 
 /- また、`#print axioms` は不正な証明を見つけるのにも有用です。[`sorry`](#{root}/Tactic/Sorry.md) という命題を「証明したことにする」タクティクがありますが、これは `sorryAx` という万能な公理を導入していることが確認できます。-/
 
-#guard_msgs (drop warning) in --#
 theorem contra : False := by sorry
 
 /-⋆-//-- info: 'contra' depends on axioms: [sorryAx] -/

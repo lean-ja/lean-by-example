@@ -2,8 +2,8 @@
 
 `revert` は、[`intro`](#{root}/Tactic/Intro.md) の逆の操作をするタクティクです。ゴールが `⊢ P x` であるときに `revert x` を実行すると、ゴールが `∀ x, P` に変わります。
 -/
+set_option warn.sorry false --#
 
-#guard_msgs (drop warning) in --#
 example (x : Nat) : x = 1 := by
   revert x
 
@@ -123,7 +123,6 @@ section
     omega
   )
 
-  #guard_msgs (drop warning) in --#
   example (m : MyInt) : m + 0 = m := by
     -- 証明が通らない！
     fail_if_success unfold_int
