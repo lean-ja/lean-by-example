@@ -236,6 +236,58 @@ example (a b c d : Prop) (h : a ∧ b ∧ c ∧ d) : d := by
 example (a b c : Prop) (h : a ∧ b ∧ c) : a ∧ b := by
   constructor <;> destruct_and h
 
+/- ### exact? タクティク
+
+ゴールを直接閉じることができる定理を探すタクティクとして [`exact?`](#{root}/Tactic/ExactQuestion.md) タクティクがあります。これに相当する（しかしかなり原始的で低性能な）ものを自前で実装する例を示します。[^exact?]
+-/
+
+-- `my_exact?` というタクティックの構文を定義する（構文として `my_exact?` を認識させる）
+syntax (name := myExact?) "my_exact?" : tactic
+
+open Lean Elab Tactic in
+
+-- `my_exact?` タクティックの実装を定義する
+@[tactic myExact?]
+def evalMyExact? : Tactic := fun _stx => do
+  -- 現在の環境（定理などが格納されている）を取得
+  let env ← getEnv
+
+  -- 環境中の定数を取得し、以下の条件でフィルターする：
+  -- 1. unsafe な定数ではない
+  -- 2. 種類が axiom か thm（定理）のもの
+  let theorems : List Name := SMap.toList (Environment.constants env)
+    |>.filter (fun (_name, info) => ! ConstantInfo.isUnsafe info)
+    |>.filterMap (fun (name, _info) => do
+        let kind ← getOriginalConstKind? env name
+        match kind with
+        | .axiom | .thm => name
+        | _ => none
+      )
+
+  -- 条件を満たす定理に対して順に試す
+  for name in theorems do
+    try
+      -- 名前を構文ノードに変換
+      let nameStx := mkIdent name
+
+      -- `apply name <;> assumption` を構文的に展開・実行する
+      evalTactic <| ← `(tactic| apply $nameStx <;> assumption)
+
+      -- 成功したらログを出力し、タクティックの実行を終了する
+      logInfo m!"Applied {name} successfully."
+      return
+
+    catch _ =>
+      -- 失敗しても続行（次の定理を試す）
+      continue
+
+  -- どの定理も適用できなかった場合はタクティックとして失敗を返す
+  failure
+
+-- 使用例
+example (x y : Nat) (h : x = y) : y = x := by
+  my_exact?
+
 /- [^trivial]: このコード例を書くにあたり [lean-tactic-programming-guide](https://github.com/mirefek/lean-tactic-programming-guide) を参考にしました。
 
 [^and_constructor]: このコード例を書くにあたり [lean-tactic-programming-guide](https://github.com/mirefek/lean-tactic-programming-guide) を参考にしました。
@@ -243,4 +295,6 @@ example (a b c : Prop) (h : a ∧ b ∧ c) : a ∧ b := by
 [^iff_constructor]: このコード例を書くにあたり [Metaprogramming in Lean 4](https://leanprover-community.github.io/lean4-metaprogramming-book/) を参考にしました。
 
 [^destruct_and]: このコード例を書くにあたり The Hitchhiker's Guide to Logical Verification を参考にしました。
+
+[^exact?]: このコード例を書くにあたり The Hitchhiker's Guide to Logical Verification を参考にしました。
 -/
