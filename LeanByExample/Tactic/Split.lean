@@ -52,7 +52,7 @@ example (x : Int) : myabs (2 * x) = 2 * myabs x := by
     have hx : ¬ x ≥ 0 := by linarith [h]
 
     -- `simp` で単純化
-    simp [h, hx]
+    simp [hx]
 
 /-
 `if` 式だけでなく [`match`](#{root}/Parser/Match.md) 式に対しても使うことができます。

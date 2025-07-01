@@ -54,5 +54,5 @@ example (g : Int → X) (h : x = 0) (hf : ∀ x, f x = f (- x)) :
   -- ちょうどよい分解になった
   show f (2 + x) = f (-2)
 
-  simp only [h, Nat.add_zero]
+  simp only [h]
   exact hf _
