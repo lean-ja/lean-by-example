@@ -58,6 +58,7 @@ info: "group"
 "split"
 "tauto"
 "trivial"
+"grind"
 "gcongr"
 -/
 #guard_msgs in --#
