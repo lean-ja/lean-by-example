@@ -19,11 +19,10 @@ theorem cons_append (head : α) (tail l : MyList α) :
     head ::: tail ++ l = head ::: (tail ++ l) := by
   rfl
 
+#see List.append_cons
 theorem append_cons (head : α) (tail l : MyList α) :
     l ++ head ::: tail = l ++ (head ::: tail) := by
-  induction l with
-  | nil => rfl
-  | cons h t ih => rfl
+  simp
 
 #see List.nil_append
 @[simp, grind]
@@ -34,5 +33,11 @@ theorem nil_append (l : MyList α) : m[] ++ l = l := by
 @[simp, grind]
 theorem append_nil (l : MyList α) : l ++ m[] = l := by
   induction l with simp_all
+
+#see List.append_assoc
+@[grind _=_]
+theorem append_assoc (l₁ l₂ l₃ : MyList α) :
+    l₁ ++ (l₂ ++ l₃) = (l₁ ++ l₂) ++ l₃ := by
+  induction l₁ with simp_all
 
 end MyList
