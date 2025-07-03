@@ -2,13 +2,15 @@ import Playground.SeeCmd
 
 /- # List を自前で定義して Append の基本的性質を示す -/
 
+open Lean
+
 /-- 自前で定義した`List` -/
 inductive MyList (α : Type) where
   /-- 空のリスト -/
   | nil
   /-- リストの先頭に要素を追加する -/
   | cons (head : α) (tail : MyList α)
-deriving DecidableEq
+deriving DecidableEq, ToExpr
 
 
 /-- 空の`MyList` -/
