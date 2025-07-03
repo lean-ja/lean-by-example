@@ -11,32 +11,33 @@ inductive MyList (α : Type) where
   | cons (head : α) (tail : MyList α)
 deriving DecidableEq
 
-notation:max " [] " => MyList.nil
-infixr:80 " :: " => MyList.cons
+/-- 空リスト。標準の`List`のための記法と被るのを避けている。 -/
+notation:max " ⟦⟧ " => MyList.nil
+
+/-- `MyList`に要素を追加する。標準の`List`のための記法と被るのを避けている。 -/
+infixr:80 " ::: " => MyList.cons
 
 -- 項を作るのが面倒
-/-⋆-//-- info: 1 :: 2 :: 3 :: [] : MyList Nat -/
+/-⋆-//-- info: 1 ::: 2 ::: 3 ::: ⟦⟧ : MyList Nat -/
 #guard_msgs in --#
-#check 1 :: 2 :: 3 :: []
+#check 1 ::: 2 ::: 3 ::: ⟦⟧
 
 /- しかし、リストリテラル構文があるおかげで、次のように見やすく簡潔に書くことができます。 -/
 
-/-- 自作のリストリテラル構文。なお末尾のカンマは許可される -/
-syntax "my[" term,*,? "]" : term
+/-- 自作のリストリテラル構文。なお末尾のカンマは許可される。
+なお標準の`List`のための記法と被るのを避けている。 -/
+syntax "⟦" term,*,? "⟧" : term
 
 macro_rules
-  | `(my[]) => `([])
-  | `(my[$x]) => `($x :: [])
-  | `(my[$x, $xs,*]) => `($x :: (my[$xs,*]))
+  | `(⟦ ⟧) => `(⟦⟧)
+  | `(⟦$x⟧) => `($x ::: ⟦⟧)
+  | `(⟦$x, $xs,*⟧) => `($x ::: (⟦$xs,*⟧))
 
 -- 項を作るのが楽になった！
-#check my[1, 2, 3]
+#guard ⟦1, 2, 3⟧ = 1 ::: 2 ::: 3 ::: ⟦⟧
 
 -- 末尾のコンマは無視される
-#check my[1, 2, 3, ]
+#guard ⟦1, ⟧ = 1 ::: ⟦⟧
 
--- リストリテラル構文のテスト
-#guard
-  let actual := my[1, 2, 3]
-  let expected := 1 :: 2 :: 3 :: []
-  actual = expected
+-- 空リストもリストリテラル構文で書ける
+#guard ⟦⟧ = MyList.nil (α := Unit)
