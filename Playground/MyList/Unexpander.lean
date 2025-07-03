@@ -4,17 +4,23 @@ namespace MyList
 
 open Lean PrettyPrinter
 
-#check Unexpander
+@[app_unexpander MyList.nil]
+def unexpandMyListNil : Unexpander := fun stx =>
+  match stx with
+  | `($(_)) => `(m[])
 
 @[app_unexpander MyList.cons]
 def cons.unexpander : Unexpander := fun stx =>
   match stx with
-  | `(MyList.cons $head $tail) => `(m[$head, $tail])
+  | `($(_) $head $tail) =>
+    match tail with
+    | `(m[]) => `(m[ $head ])
+    | `(m[ $xs,* ]) => `(m[ $head, $xs,* ])
+    | `(⋯) => `(m[ $head, $tail ])
+    | _ => throw ()
   | _ => throw ()
 
--- **TODO**: 上手くいかない
-#check MyList.cons 1 (MyList.cons 2 (MyList.cons 3 MyList.nil))
-
+#check (m[] : MyList Nat)
 #check m[1, 2, 3]
 
 end MyList
