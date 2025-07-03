@@ -1,15 +1,18 @@
 /- # app_unexpander
-`[app_unexpander]` 属性を付与すると、関数適用 `f a₁ a₂ ... aₙ` の `#check` コマンドでの表示のされ方を変更することができます。
+`[app_unexpander]` 属性を `Unexpander` 型の関数に付与すると、関数適用 `f a₁ a₂ ... aₙ` の [`#check`](#{root}/Diagnostic/Check.md) コマンドおよびinfoviewでの表示のされ方を変更することができます。
 -/
 
 /-- 人に挨拶をする関数 -/
 def greet (x : String) := s!"Hello, {x}!"
 
-set_option linter.unusedVariables false in --#
+set_option linter.unusedVariables false --#
+
+open Lean PrettyPrinter in
 
 /-- すべての挨拶の表示を強制的に hello world に変えてしまう -/
 @[app_unexpander greet]
-def unexpGreet : Lean.PrettyPrinter.Unexpander
+def unexpGreet : Unexpander := fun stx =>
+  match stx with
   | `(greet $x) => `("hello world")
   | _ => throw ()
 
@@ -17,6 +20,11 @@ def unexpGreet : Lean.PrettyPrinter.Unexpander
 /-⋆-//-- info: "hello world" : String -/
 #guard_msgs in --#
 #check greet "Alice"
+
+-- infoview における表示も変わってしまう
+example : String := by
+  let x := greet "Alice"
+  exact "hello"
 
 -- #eval の表示は変わらない
 /-⋆-//-- info: "Hello, Alice!" -/
@@ -54,9 +62,12 @@ end
 #guard_msgs in --#
 #check {n : Nat | ∃ m, n = 2 * m}
 
+open Lean PrettyPrinter in
+
 /-- #check コマンドの出力でも内包表記を使用するようにする -/
 @[app_unexpander setOf]
-def setOf.unexpander : Lean.PrettyPrinter.Unexpander
+def setOf.unexpander : Unexpander := fun stx =>
+  match stx with
   | `($_ fun $x:ident => $p) => `({ $x:ident | $p })
   | `($_ fun ($x:ident : $ty:term) => $p) => `({ $x:ident : $ty:term | $p })
   | _ => throw ()
