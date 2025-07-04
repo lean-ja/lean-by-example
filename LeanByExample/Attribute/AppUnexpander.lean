@@ -115,6 +115,11 @@ macro_rules
   | `(⟦ $x ⟧) => `($x ::: ⟦⟧)
   | `(⟦ $x, $xs,* ⟧) => `($x ::: (⟦ $xs,* ⟧))
 
+-- 構文は正しく動作しているが、`#check` コマンドの出力に構文が反映されていない
+/-⋆-//-- info: 1 ::: 2 ::: 3 ::: ⟦⟧ : MyList Nat -/
+#guard_msgs in --#
+#check ⟦1, 2, 3⟧
+
 namespace MyList
 
   open Lean PrettyPrinter
