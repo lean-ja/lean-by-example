@@ -24,8 +24,15 @@ def unexpGreet : Unexpander := fun stx =>
 #check greet "Alice"
 
 -- infoview における表示も変わってしまう
-example : String := by
-  let x := greet "Alice"
+/-⋆-//--
+trace: s : String
+h : s = "hello world"
+⊢ String
+-/
+#guard_msgs in --#
+example (s : String) (h : s = greet "Alice" ) : String := by
+  trace_state
+
   exact "hello"
 
 -- #eval の表示は変わらない
