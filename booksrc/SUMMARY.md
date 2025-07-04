@@ -116,6 +116,7 @@
   - [hygiene: マクロ衛生](./Option/Hygiene.md)
   - [linter.flexible: 脆弱な証明を指摘する](./Option/Flexible.md)
   - [linter.style.multiGoal: フォーカス強制](./Option/MultiGoal.md)
+  - [pp.macroStack: マクロ展開過程を表示](./Option/MacroStack.md)
   - [relaxedAutoImplicit: 更にautoImplicit](./Option/RelaxedAutoImplicit.md)
   - [skipKernelTC: 型検査をスキップ](./Option/SkipKernelTC.md)
 
