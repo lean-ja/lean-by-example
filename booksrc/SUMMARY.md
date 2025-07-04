@@ -95,7 +95,7 @@
 
 - [属性](./Attribute/README.md)
   - [aesop: aesop カスタマイズ](./Attribute/Aesop.md)
-  - [app_unexpander: 関数適用の表示](./Attribute/AppUnexpander.md)
+  - [app_unexpander: #checkコマンドやinfoviewでの表示を変更](./Attribute/AppUnexpander.md)
   - [cases_eliminator: 独自場合分け](./Attribute/CasesEliminator.md)
   - [coe: 型強制 ↑ として表示させる](./Attribute/Coe.md)
   - [command_elab: コマンドの構文と実装の紐づけ](./Attribute/CommandElab.md)
