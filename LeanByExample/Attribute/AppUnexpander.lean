@@ -1,5 +1,7 @@
 /- # app_unexpander
 `[app_unexpander]` 属性を `Unexpander` 型の関数に付与すると、[`#check`](#{root}/Diagnostic/Check.md) コマンドおよびinfoviewでの表示のされ方を変更することができます。
+
+一般に、`[app_unexpander c]` 属性を `Unexpander` 型の関数に付与することで、`c` の（関数適用の）表示を変更することができます。
 -/
 
 /-- 人に挨拶をする関数 -/
@@ -76,7 +78,7 @@ def setOf.unexpander : Unexpander := fun stx =>
   | _ => throw ()
 
 
--- app_unexpander のテスト
+-- ## app_unexpander のテスト
 
 /-⋆-//-- info: {n | ∃ m, n = 2 * m} : Set Nat -/
 #guard_msgs in --#
@@ -85,3 +87,55 @@ def setOf.unexpander : Unexpander := fun stx =>
 /-⋆-//-- info: {n | ∃ m, n = 2 * m} : Set Nat -/
 #guard_msgs in --#
 #check {n : Nat | ∃ m, n = 2 * m}
+
+/- ### リストリテラル
+
+`List` 型の項を作る構文である、[リストリテラル](#{root}/Parser/ListLiteral.md)を自作して、リストリテラルの表示を調整する例を挙げます。
+-/
+
+/-- 自前で定義した`List` -/
+inductive MyList (α : Type) where
+  /-- 空のリスト -/
+  | nil
+  /-- リストの先頭に要素を追加する -/
+  | cons (head : α) (tail : MyList α)
+deriving DecidableEq
+
+/-- 空の`MyList` -/
+notation:max "⟦⟧" => MyList.nil
+
+/-- `MyList`に要素を追加する -/
+infixr:70 " ::: " => MyList.cons
+
+/-- 自作のリストリテラル構文。なお末尾のカンマは許可される -/
+syntax "⟦" term,*,? "⟧" : term
+
+macro_rules
+  | `(⟦ ⟧) => `(⟦⟧)
+  | `(⟦ $x ⟧) => `($x ::: ⟦⟧)
+  | `(⟦ $x, $xs,* ⟧) => `($x ::: (⟦ $xs,* ⟧))
+
+namespace MyList
+
+  open Lean PrettyPrinter
+
+  @[app_unexpander MyList.cons]
+  def unexpandCons : Unexpander := fun stx =>
+    match stx with
+    | `($(_) $head $tail) =>
+      match tail with
+      | `(⟦⟧) => `(⟦ $head ⟧)
+      | `(⟦ $xs,* ⟧) => `(⟦ $head, $xs,* ⟧)
+      | `(⋯) => `(⟦ $head, $tail ⟧)
+      | _ => throw ()
+    | _ => throw ()
+
+  /-⋆-//-- info: ⟦1, 2, 3⟧ : MyList Nat -/
+  #guard_msgs in --#
+  #check ⟦1, 2, 3⟧
+
+  /-⋆-//-- info: ⟦1⟧ : MyList Nat -/
+  #guard_msgs in --#
+  #check ⟦1, ⟧
+
+end MyList
