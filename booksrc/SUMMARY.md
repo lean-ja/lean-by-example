@@ -69,6 +69,7 @@
   - [variable: 引数を共通化する](./Declarative/Variable.md)
 
 - [修飾子](./Modifier/README.md)
+  - [decreasing_by: 関数の停止性を示す](./Modifier/DecreasingBy.md)
   - [local: 有効範囲をセクションで限定](./Modifier/Local.md)
   - [noncomputable: 計算不能にする](./Modifier/Noncomputable.md)
   - [partial_fixpoint: 部分不動点](./Modifier/PartialFixpoint.md)
