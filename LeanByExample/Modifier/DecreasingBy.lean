@@ -35,7 +35,7 @@ def Nat.toListNat (n : Nat) : List Nat :=
   else
     Nat.toListNat (n / 10) ++ [(n % 10)]
 
-end Hidden
+end Hidden --#
 /- `decreasing_by` に続けて停止することの証明を与えれば Lean に受け入れられるようになります。 -/
 
 def Nat.toListNat (n : Nat) : List Nat :=
