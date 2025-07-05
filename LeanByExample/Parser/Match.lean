@@ -64,3 +64,18 @@ def List.myTail {α : Type} (l : List α) : List α :=
     -- `l` が `x :: xs` という形をしていることの証明が取得できている
     guard_hyp h : l = x :: xs
     exact xs
+
+/- ## @ パターン
+
+部分にマッチしつつ、その全体の値を変数として保持したいとき、@ パターンと呼ばれる構文が利用できます。
+-/
+
+/-- 自然数を１桁ごとのリストに変換する -/
+def Nat.toListNat (n : Nat) : List Nat :=
+  match n with
+  | 0 => []
+  | m@(n + 1) =>
+    have : m / 10 < m := by grind
+    Nat.toListNat (m / 10) ++ [(m % 10)]
+
+#guard Nat.toListNat 1234 == [1, 2, 3, 4]
