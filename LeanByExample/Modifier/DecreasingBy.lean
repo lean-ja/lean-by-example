@@ -62,7 +62,7 @@ def Nat.toListNat (n : Nat) : List Nat :=
     Nat.toListNat (n / 10) ++ [(n % 10)]
 
 end Have --#
-/- ## 舞台裏
+/- ## 部分関数を禁止するのはなぜか？ { #PartialNotAllowed }
 
 そもそもなぜ Lean では関数の停止性を示す必要があるのでしょうか？それは、Lean の論理体系の健全性を保つためです。[^recursive]
 
