@@ -282,6 +282,185 @@ namespace Expr
 
 end Expr
 
+/- ### IMP 言語の構文
+
+簡単な命令型プログラミング言語（ここでは IMP と呼ばれるものを使用します）を Lean の中に埋め込んでしまうことができます。[^imp]
+-/
+
+namespace IMP
+  /- ## IMPのASTを定義する -/
+
+  /-- リテラル -/
+  inductive Lit where
+    /-- 数値リテラル -/
+    | nat (n : Nat)
+    /-- 真偽値リテラル -/
+    | bool (b : Bool)
+
+  /-- 単項演算子 -/
+  inductive UnOp where
+    /-- 否定演算子 -/
+    | not
+
+  inductive BinOp where
+    /-- 論理積 -/
+    | and
+    /-- 和 -/
+    | add
+    /-- 順序関係 `<` -/
+    | less
+
+  /-- IMPの式 -/
+  inductive Expr where
+    /-- リテラル式 -/
+    | lit (l : Lit)
+    /-- 変数 -/
+    | var (x : String)
+    /-- 単項演算子の適用 -/
+    | un (op : UnOp) (e : Expr)
+    /-- 二項演算子の適用 -/
+    | bin (op : BinOp) (e1 e2 : Expr)
+
+  inductive Program where
+    /-- 何もしないプログラム -/
+    | skip
+    /-- 変数代入 `v := e` -/
+    | assign (v : String) (e : Expr)
+    /-- 逐次実行 `p1; p2` -/
+    | seq (p1 p2 : Program)
+    /-- 条件分岐 `if e then p1 else p2` -/
+    | ite (e : Expr) (p1 p2 : Program)
+    /-- ループ `while e do p` -/
+    | while (e : Expr) (p : Program)
+
+end IMP
+
+
+namespace IMP
+  /- ## リテラルのための構文を定義する -/
+
+  /-- IMPのリテラルのための構文 -/
+  declare_syntax_cat imp_lit
+  syntax num : imp_lit
+  syntax "true" : imp_lit
+  syntax "false" : imp_lit
+
+  syntax "[imp_lit|" imp_lit "]" : term
+
+  macro_rules
+    | `([imp_lit| $n:num]) => `(Lit.nat $(n))
+    | `([imp_lit| true]) => `(Lit.bool $(Lean.mkIdent ``Bool.true))
+    | `([imp_lit| false]) => `(Lit.bool $(Lean.mkIdent ``Bool.false))
+
+  #check [imp_lit| 42]
+  #check [imp_lit| true]
+  #check [imp_lit| false]
+end IMP
+
+
+namespace IMP
+  /- ## 単項演算子のための構文を定義する -/
+
+  /-- 単項演算子のための構文 -/
+  declare_syntax_cat imp_unop
+  syntax "!" : imp_unop
+
+  syntax "[imp_unop|" imp_unop "]" : term
+
+  macro_rules
+    | `([imp_unop| !]) => `(UnOp.not)
+
+  #check [imp_unop| !]
+end IMP
+
+
+namespace IMP
+  /- ## 2項演算子のための構文を定義する -/
+
+  /-- 2項演算子のための構文 -/
+  declare_syntax_cat imp_binop
+  syntax "+" : imp_binop
+  syntax "&&" : imp_binop
+  syntax "<" : imp_binop
+
+  syntax "[imp_binop|" imp_binop "]" : term
+
+  macro_rules
+    | `([imp_binop| +]) => `(BinOp.add)
+    | `([imp_binop| &&]) => `(BinOp.and)
+    | `([imp_binop| <]) => `(BinOp.less)
+
+  #check [imp_binop| +]
+  #check [imp_binop| &&]
+  #check [imp_binop| <]
+end IMP
+
+namespace IMP
+  /- ## 式のための構文を定義する -/
+  open Lean
+
+  declare_syntax_cat imp_expr
+  syntax imp_lit : imp_expr
+  syntax ident : imp_expr
+  syntax imp_unop imp_expr : imp_expr
+  syntax imp_expr imp_binop imp_expr : imp_expr
+  syntax "(" imp_expr ")" : imp_expr
+
+  syntax "[imp_expr|" imp_expr "]" : term
+
+  -- 余計な警告が出るので消す
+  set_option linter.unusedVariables false in
+
+  macro_rules
+    | `([imp_expr| $lit:imp_lit]) => `(Expr.lit [imp_lit| $lit])
+    | `([imp_expr| $x:ident]) => `(Expr.var $(quote x.getId.toString))
+    | `([imp_expr| !$e]) => `(Expr.un UnOp.not [imp_expr| $e])
+    | `([imp_expr| $e1 $op:imp_binop $e2]) => `(Expr.bin [imp_binop| $op] [imp_expr| $e1] [imp_expr| $e2])
+    | `([imp_expr| ($e)]) => `([imp_expr| e])
+
+  #check [imp_expr| a]
+  #check [imp_expr| a + 5]
+  #check [imp_expr| 1 + true]
+end IMP
+
+namespace IMP
+  /- ## IMPプログラムのための構文を定義する -/
+
+  declare_syntax_cat imp_program
+  syntax "skip" : imp_program
+  syntax ident ":=" imp_expr : imp_program
+  syntax imp_program ";" imp_program : imp_program
+  syntax "if" imp_expr "then" imp_program "else" imp_program "endif" : imp_program
+  syntax "while" imp_expr "do" imp_program "endwhile" : imp_program
+
+  syntax "[IMP|" imp_program "]" : term
+
+  open Lean
+
+  macro_rules
+    | `([IMP| skip]) => `(Program.skip)
+    | `([IMP| $x:ident := $e]) => `(Program.assign $(quote x.getId.toString) [imp_expr| $e])
+    | `([IMP| $p1; $p2]) => `(Program.seq [IMP| $p1] [IMP| $p2])
+    | `([IMP| if $e then $p1 else $p2 endif]) => `(Program.ite [imp_expr| $e] [IMP| $p1] [IMP| $p2])
+    | `([IMP| while $e do $p endwhile]) => `(Program.while [imp_expr| $e] [IMP| $p])
+
+  #check [IMP|
+    a := 5;
+    if ! a && 3 < 4 then
+      c := 5
+    else
+      a := a + 1
+    endif;
+    b := 10;
+    while 1 < 2 do
+      b := b + 1
+    endwhile
+  ]
+end IMP
+
 /- [^nestedlist]: ここで紹介しているコード例は、Lean 公式 Zulip の "macro parser for nested lists" というトピックで [Kyle Miller さんが挙げていたコード](https://leanprover.zulipchat.com/#narrow/channel/113488-general/topic/macro.20parser.20for.20nested.20lists/near/486691429)を参考にしています。
+
 [^listcompr]: ここで紹介しているコード例は、Lean 公式 Zulip の "List Functor" というトピックで [Kyle Miller さんが挙げていたコード](https://leanprover.zulipchat.com/#narrow/channel/270676-lean4/topic/List.20Functor/near/290456697)を参考にしています。
+
+[^imp]: ここで紹介しているコード例は、Metaprogramming in Lean 4 の [Embedding DSLs By Elaboration](https://leanprover-community.github.io/lean4-metaprogramming-book/main/08_dsls.html) という章の記述を参考にしています。
 -/
