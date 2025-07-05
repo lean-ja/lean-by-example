@@ -1,5 +1,4 @@
-import Playground.MyList.Append
-import Playground.MyList.Unexpander
+import Playground.MyList.C02
 
 namespace MyList
 
@@ -9,8 +8,8 @@ variable {α : Type}
 @[grind]
 def reverse (l : MyList α) : MyList α :=
   match l with
-  | m[] => m[]
-  | head ::: tail => reverse tail ++ m[head]
+  | ⟦⟧ => ⟦⟧
+  | head ::: tail => reverse tail ++ ⟦head⟧
 
 @[grind =]
 theorem reverse_append (l₁ l₂ : MyList α) :

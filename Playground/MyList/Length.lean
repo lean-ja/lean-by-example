@@ -1,11 +1,11 @@
-import Playground.MyList.Unexpander
+import Playground.MyList.C02
 
 variable {α : Type}
 
 /-- リストの長さを返す -/
 def MyList.length (l : MyList α) : Nat :=
   match l with
-  | m[] => 0
+  | ⟦⟧ => 0
   | _ ::: tail => 1 + length tail
 
 attribute [grind] MyList.length

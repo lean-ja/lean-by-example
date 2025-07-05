@@ -1,12 +1,14 @@
-import Playground.MyList.Basic
+import Playground.MyList.C01
+/- # MyList に Append を定義して基本的性質を示す -/
 
 namespace MyList
+
 
 variable {α : Type}
 
 protected def append (l₁ l₂ : MyList α) : MyList α :=
   match l₁ with
-  | m[] => l₂
+  | ⟦⟧ => l₂
   | head ::: tail => head ::: (MyList.append tail l₂)
 
 /-- `MyList.append`を`++`で書けるようにする -/
@@ -26,18 +28,19 @@ theorem append_cons (head : α) (tail l : MyList α) :
 
 #see List.nil_append
 @[simp, grind]
-theorem nil_append (l : MyList α) : m[] ++ l = l := by
+theorem nil_append (l : MyList α) : ⟦⟧ ++ l = l := by
   rfl
 
 #see List.append_nil
 @[simp, grind]
-theorem append_nil (l : MyList α) : l ++ m[] = l := by
+theorem append_nil (l : MyList α) : l ++ ⟦⟧ = l := by
   induction l with simp_all
 
 #see List.append_assoc
 @[grind _=_]
 theorem append_assoc (l₁ l₂ l₃ : MyList α) :
-    l₁ ++ (l₂ ++ l₃) = (l₁ ++ l₂) ++ l₃ := by
+    (l₁ ++ l₂) ++ l₃ = l₁ ++ (l₂ ++ l₃) := by
   induction l₁ with simp_all
+
 
 end MyList
