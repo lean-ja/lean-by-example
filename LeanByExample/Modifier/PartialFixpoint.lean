@@ -1,6 +1,6 @@
 /- # partial_fixpoint
 
-`partial_fixpoint` は、Leanが自動的に停止性を証明できない関数の宣言に対して、「停止すると証明する」「停止するという証明を放棄する」以外の選択肢を提供します。
+`partial_fixpoint` は、Leanが自動的に停止性を証明できない関数の宣言に対して、「停止すると証明する」「停止するという証明を放棄して、その関数に関する証明を諦める」以外の選択肢を提供します。
 -/
 import Plausible
 import Mathlib.Order.Defs.LinearOrder
@@ -92,3 +92,42 @@ partial_fixpoint
 /-⋆-//-- info: Decidable.rec (fun h => none) (fun h => (Classical.choice ⋯).1) (Classical.choice ⋯) -/
 #guard_msgs in --#
 #reduce fixpointFactorial 5
+
+/- これが何を意味するかというと、`partial` で定義された関数について証明を行うことはできないのに対して、`partial_fixpoint` で定義された関数については何かを証明することが可能です。-/
+section
+
+  variable {α : Type}
+
+  /-- `partial`で定義された検索関数 -/
+  partial def searchP (f : Nat → Option α) (start : Nat) : Option Nat :=
+    match f start with
+    | some _ => some start
+    | none => searchP f (start + 1)
+
+  /-- `partial_fixpoint`で定義された検索関数 -/
+  @[grind]
+  def searchF (f : Nat → Option α) (start : Nat) : Option Nat :=
+    match f start with
+    | some _ => some start
+    | none => searchF f (start + 1)
+  partial_fixpoint
+
+  example (f : Nat → Option α) (n : Nat) (h : (f n).isSome) : (searchF f n).isSome := by
+    induction n with
+    | zero =>
+      unfold searchF
+      split <;> simp_all
+    | succ n ih => grind
+
+  set_option warn.sorry false --#
+
+  example (f : Nat → Option α) (n : Nat) (h : (f n).isSome) : (searchP f n).isSome := by
+    induction n with
+    | zero =>
+      -- 全く展開することができず、上手くいかない
+      fail_if_success unfold searchP
+      sorry
+    | succ n ih =>
+      sorry
+
+end
