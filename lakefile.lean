@@ -19,10 +19,7 @@ require mathlib from git
 lean_lib LeanByExample where
   -- `lake build` の実行時にビルドされるファイルの設定
   -- `.submodules` と指定すると、そのディレクトリ以下の全ての Lean ファイルがビルドされる
-  globs := #[.submodules `LeanByExample]
-
-lean_lib Playground where
-  globs := #[.submodules `Playground]
+  globs := #[.submodules `LeanByExample, .submodules `Playground]
 
 section Script
 

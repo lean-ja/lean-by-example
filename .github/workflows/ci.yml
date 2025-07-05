@@ -42,13 +42,3 @@ jobs:
         with:
           build-args: "--log-level=error"
 
-  playground:
-    runs-on: ubuntu-latest
-    steps:
-      - name: checkout
-        uses: actions/checkout@v4
-
-      - name: lean action
-        uses: leanprover/lean-action@v1
-        with:
-          build-args: "Playground"
