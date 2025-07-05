@@ -81,7 +81,7 @@ unsafe def search (f : Nat → Option α) (start : Nat) : α :=
 -- `α` は任意なので、どんな型の項でも作れることになる
 unsafe def anything : α := search (fun _ => none) 0
 
-/- したがって特に `Empty` 型の項を作ることもできて、カリー・ハワード同型対応により「型の項を作る」ことは「命題を証明する」ことに対応するので、矛盾が導かれたことになってしまいます。 -/
+/- したがって特に `Empty` 型の項を作ることもできて、[カリー・ハワード同型対応](#{root}/Type/Prop.md#CH)により「型の項を作る」ことは「命題を証明する」ことに対応するので、矛盾が導かれたことになってしまいます。 -/
 
 unsafe example : False := by
   have _ : Empty := anything
