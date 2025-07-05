@@ -1,6 +1,6 @@
 /- # dsimp
 
-`dsimp` は、definitionally equal であるような変形だけを行うという制約付きの [`simp`](./Simp.md) で、一言でいえば「名前を定義に展開する」タクティクです。
+`dsimp` は、**定義的等価(definitionally equal)** な変形だけを行うという制約付きの [`simp`](./Simp.md) で、一言でいえば「名前を定義に展開する」タクティクです。
 
 `dsimp [e₁, e₂, ..., eᵢ]` という構文でゴールに登場する名前 `e₁, ..., eᵢ` を定義に展開します。-/
 import Lean --#
@@ -25,7 +25,7 @@ section
 
 end
 /- ## 舞台裏
-「definitionally equal であるような変形だけを行う」というのは、[`rfl`](#{root}/Tactic/Rfl.md) で示せるような命題だけを使用するという意味です。`rfl` で示せないような簡約は `dsimp` ではできません。-/
+「定義的等価(definitionally equal)であるような変形だけを行う」というのは、[`rfl`](#{root}/Tactic/Rfl.md) で示せるような命題だけを使用するという意味です。`rfl` で示せないような簡約は `dsimp` ではできません。-/
 
 /-- 自前で定義した自然数 -/
 inductive MyNat where

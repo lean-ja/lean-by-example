@@ -4,7 +4,7 @@
 
 simproc は、ある式 `expr` にマッチする部分を見つけたときに、より単純な式 `result` を動的に計算し、`expr = result` の証明も同時に構成するような、`simp` タクティクから呼び出される書き換え規則のことです。
 
-`dsimproc` は simproc を定義するものですが、定義的に等しい(definitionally equal)変形だけを行います。
+`dsimproc` は simproc を定義するものですが、**定義的等価(definitionally equal)** な変形だけを行います。
 したがって、`expr = result` の証明が不要です。(`rfl` を使うだけで済むので)
 
 以下は、具体的な数値に対する関数呼び出しを計算して単純化するようなシンプルな simproc を定義する例です。

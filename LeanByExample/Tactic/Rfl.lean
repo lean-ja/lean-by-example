@@ -1,6 +1,6 @@
 /- # rfl
 
-`rfl` は、**definitionally equal** なもの同士が等しいことを示すタクティクです。-/
+`rfl` は、**定義的等価(definitionally equal)** なもの同士が等しいことを示すタクティクです。-/
 
 /-- 自前で定義した自然数 -/
 inductive MyNat where
@@ -31,7 +31,7 @@ def MyNat.two : MyNat := .succ one
 example : MyNat.one + MyNat.one = MyNat.two := by
   rfl
 
--- definitionally equal でないと証明できない
+-- 定義的等価(definitionally equal)でないと証明できない
 /-⋆-//--
 error: tactic 'rfl' failed, the left-hand side
   MyNat.one
@@ -45,7 +45,7 @@ example : MyNat.one = MyNat.two := by
 
 /- ## \#reduce コマンドとの関係
 
-ここで definitionally equal というのは、おおむね [`#reduce`](#{root}/Diagnostic/Reduce.md) コマンドに与えた結果の式が等しいという意味です。 -/
+ここで定義的等価(definitionally equal)というのは、おおむね [`#reduce`](#{root}/Diagnostic/Reduce.md) コマンドに与えた結果の式が等しいというのと同じことです。 -/
 section
   /- ## rfl で等しいと示せるもの同士の #reduce の出力が等しいことの確認 -/
 
