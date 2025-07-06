@@ -27,11 +27,11 @@ theorem MyNat.add_right_cancel_iff : l + m = n + m ↔ l = n := by
 theorem MyNat.add_left_cancel_iff : l + m = l + n ↔ m = n := by
   grind
 
+instance : Lean.Grind.AddRightCancel MyNat where
+  add_right_cancel := by grind
+
 @[grind =>]
 theorem MyNat.add_right_eq_self (m n : MyNat) : m + n = m ↔ n = 0 := by
-  refine ⟨?_, by grind⟩
-  intro h
-  have : m + n = m + 0 := by grind
   grind
 
 @[grind =>]
