@@ -2,10 +2,15 @@ import Playground.SeeCmd
 
 /-- 群 -/
 class Group (G : Type) [One G] [Mul G] [Inv G] where
-  one_mul : ∀ g : G, g * 1 = g
-  mul_one : ∀ g : G, 1 * g = g
+  /-- 単位元を右から掛けても変わらない -/
+  mul_one : ∀ g : G, g * 1 = g
+  /-- 単位元を左から掛けても変わらない -/
+  one_mul : ∀ g : G, 1 * g = g
+  /-- 元とその逆元を掛けると単位元になる -/
   mul_inv : ∀ g : G, g * g⁻¹ = 1
+  /-- 逆元と元を掛けると単位元になる -/
   inv_mul : ∀ g : G, g⁻¹ * g = 1
+  /-- 掛け算は結合的である -/
   mul_assoc : ∀ g₁ g₂ g₃ : G, g₁ * (g₂ * g₃) = (g₁ * g₂) * g₃
 
 variable {G : Type} [One G] [Mul G] [Inv G] [Group G]
