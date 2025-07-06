@@ -77,9 +77,39 @@ trace: [grind.assert] f a = b
 example (a b c : Nat) (h1 : f a = b) (h2 : a = g c) : b = c := by
   grind
 
+/- #### [grind →]
+
+等式を主張する定理に `[grind →]` 属性を付与すると、定理の前提の命題が満たされたときに定理がインスタンス化されるようになります。
+-/
+section --#
+
+/-- 自然数上の広義の順序関係を再定義する -/
+protected inductive Nat.myle (n : Nat) : Nat → Prop
+  /-- `∀ n, n ≤ n` -/
+  | refl : Nat.myle n n
+  /-- `n ≤ m`ならば`n ≤ m + 1` -/
+  | step {m : Nat} : Nat.myle n m → Nat.myle n (m + 1)
+
+/-- 標準の`≤`を`myle`で置き換える -/
+infix:50 " ≤? " => Nat.myle
+
+attribute [grind →] Nat.myle.step
+
+-- m, n, k はMyNatの項とする
+variable {m n a b k : Nat}
+
+/-- 推移律 -/
+@[grind →]
+theorem Nat.myle_trans (hnm : n ≤? m) (hmk : m ≤? k) : n ≤? k := by
+  induction hmk with grind
+
+example (h1 : a ≤? b) (h2 : b ≤? k) (h3 : k ≤? m) : a ≤? m := by
+  grind
+
+end --#
 /- #### [grind =>]
 
-等式を主張する定理に `[grind =>]` 属性を付与すると、定理の前提が満たされたときに定理がインスタンス化されるようになります。（つまり、結論の等式が黒板に書き込まれる）
+等式を主張する定理に `[grind =>]` 属性を付与すると、定理の前提が見つかったときに定理がインスタンス化されるようになります。この場合、定理の前提は命題である必要はありません。
 -/
 section --#
 
@@ -102,18 +132,16 @@ attribute [grind =>]
   Group.mul_one Group.one_mul
   Group.mul_inv Group.inv_mul Group.mul_assoc
 
-@[grind =>]
 theorem mul_right_inv {g h : G} (hy : g * h = 1) : h = g⁻¹ := calc
   _ = 1 * h := by grind
   _ = g⁻¹ := by grind
 
-@[grind =>]
 theorem mul_left_inv {g h : G} (hy : h * g = 1) : h = g⁻¹ := calc
   _ = h * 1 := by grind
   _ = g⁻¹ := by grind
 
 theorem inv_inv (g : G) : g⁻¹⁻¹ = g := by
-  grind
+  grind [mul_right_inv]
 
 end --#
 /- ### ケース分割
