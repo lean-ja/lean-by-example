@@ -168,5 +168,5 @@ example : ¬ Even 1 := by
   grind
 
 /-
-[^reference]: このページの記述は全体的に The Lean Language Reference の [The grind tactic という章](https://lean-lang.org/doc/reference/latest/The--grind--tactic/#grind) を参考にしています。
+[^reference]: このページの記述は全体的に The Lean Language Reference の [The grind tactic という章](https://lean-lang.org/doc/reference/latest/The--grind--tactic/#grind) と Lean4 リポジトリの [grind_guide ファイル](https://github.com/leanprover/lean4/blob/4322a0c7d33fd6722caf84b2c780d72cf824993e/tests/lean/run/grind_guide.lean)を参考にしています。
 -/
