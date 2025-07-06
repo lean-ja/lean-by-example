@@ -18,13 +18,13 @@ instance : Append (MyList α) where
 #see List.cons_append
 @[simp, grind _=_]
 theorem cons_append (head : α) (tail l : MyList α) :
-    head ::: tail ++ l = head ::: (tail ++ l) := by
+    (head ::: tail) ++ l = head ::: (tail ++ l) := by
   rfl
 
 #see List.append_cons
 theorem append_cons (head : α) (tail l : MyList α) :
-    l ++ head ::: tail = l ++ (head ::: tail) := by
-  simp
+    l ++ head ::: tail = l ++ (⟦head⟧ ++ tail) := by
+  rfl
 
 #see List.nil_append
 @[simp, grind]
@@ -34,13 +34,13 @@ theorem nil_append (l : MyList α) : ⟦⟧ ++ l = l := by
 #see List.append_nil
 @[simp, grind]
 theorem append_nil (l : MyList α) : l ++ ⟦⟧ = l := by
-  induction l with simp_all
+  induction l with grind
 
 #see List.append_assoc
 @[grind _=_]
 theorem append_assoc (l₁ l₂ l₃ : MyList α) :
     (l₁ ++ l₂) ++ l₃ = l₁ ++ (l₂ ++ l₃) := by
-  induction l₁ with simp_all
+  induction l₁ with grind
 
 
 end MyList
