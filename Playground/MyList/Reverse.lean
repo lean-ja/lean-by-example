@@ -11,7 +11,7 @@ def reverse (l : MyList α) : MyList α :=
   | ⟦⟧ => ⟦⟧
   | head ::: tail => reverse tail ++ ⟦head⟧
 
-@[grind =]
+@[grind _=_]
 theorem reverse_append (l₁ l₂ : MyList α) :
   reverse (l₁ ++ l₂) = reverse l₂ ++ reverse l₁ := by
   -- `try?`で解くことができた。
