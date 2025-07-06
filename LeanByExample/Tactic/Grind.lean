@@ -26,6 +26,21 @@ example (f : α → α) (h : a₁ = a₂) : f (f a₁) = f (f a₂) := by
   grind
 
 end --#
+/- なお、`grind` は初手で結論の否定を黒板に書き込み、矛盾を示す（つまり `True` の同値類と `False` の同値類をマージする）ことでゴールを閉じるという設計になっていることに注意してください。-/
+
+set_option trace.grind.assert true in
+set_option trace.grind.eqc true in
+
+/-⋆-//--
+trace: [grind.assert] P
+[grind.eqc] P = True
+[grind.assert] ¬P
+[grind.eqc] P = False
+-/
+#guard_msgs in --#
+example (P : Prop) (h : P) : P := by
+  grind
+
 /- ### E-マッチング
 
 新たに分かったことを `grind` が黒板に書き込むことを「定理をインスタンス化する」と呼びます。`grind` は、定理を効率的にインスタンス化するために E-マッチング(E‑matching)と呼ばれる手法を使用します。なおE-マッチングとは、SMT ソルバなどで使われる、等式を考慮したパターンマッチの手法のことです。
