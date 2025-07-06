@@ -15,10 +15,15 @@ class Group (G : Type) [One G] [Mul G] [Inv G] where
 
 variable {G : Type} [One G] [Mul G] [Inv G] [Group G]
 
-attribute [grind] Group
-attribute [simp] Group.one_mul Group.mul_one Group.mul_inv Group.inv_mul
+attribute [grind =>]
+  Group.mul_one Group.one_mul
+  Group.mul_inv Group.inv_mul Group.mul_assoc
 
-@[grind]
+set_option trace.grind.assert true
+set_option trace.grind.debug.congr true
+set_option trace.grind.ematch.instance true
+
+@[grind =>]
 theorem mul_right_inv {g h : G} (hy : g * h = 1) : h = g⁻¹ := calc
   _ = 1 * h := by grind
   -- _ = (g⁻¹ * g) * h := by grind
@@ -26,11 +31,11 @@ theorem mul_right_inv {g h : G} (hy : g * h = 1) : h = g⁻¹ := calc
   -- _ = g⁻¹ * 1 := by grind
   _ = g⁻¹ := by grind
 
-@[grind]
+@[grind =>]
 theorem mul_left_inv {g h : G} (hy : h * g = 1) : h = g⁻¹ := calc
   _ = h * 1 := by grind
   _ = g⁻¹ := by grind
 
-@[simp, grind]
+@[grind =]
 theorem inv_inv (g : G) : g⁻¹⁻¹ = g := by
   grind
