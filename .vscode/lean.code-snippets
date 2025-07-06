@@ -53,7 +53,7 @@
     "scope": "lean,lean4",
     "prefix": "dropsorry",
     "body": [
-      "set_option warn.sorry false --#",
+      "set_option warn.sorry false in --#",
     ],
     "description": "drop sorry warning"
   }

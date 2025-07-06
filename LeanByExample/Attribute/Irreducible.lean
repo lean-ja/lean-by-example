@@ -1,6 +1,7 @@
+import Lean --#
 /- # irreducible
 
-`[irreducible]` 属性を付与すると、定義に展開できなくなることがあります。
+`[irreducible]` 属性を付与すると、定義に展開できなくなり、[`rfl`](#{root}/Tactic/Rfl.md) タクティクや [`dsimp`](#{root}/Tactic/Dsimp.md) タクティクが通らなくなります。
 -/
 
 /-- 階乗関数 -/
@@ -16,25 +17,32 @@ example : factorial 5 = 120 := by rfl
 #guard_msgs in --#
 #reduce factorial 3
 
-section
-  /- ## irreducible 属性を与えると rfl が通らなくなる例 -/
+-- [irreducible]属性を与える
+attribute [irreducible] factorial
 
-  -- [irreducible]属性を与える
-  attribute [local irreducible] factorial
+set_option warn.sorry false in --#
+example : factorial 5 = 120 := by
+  fail_if_success rfl
+  fail_if_success dsimp [factorial]
+  sorry
 
-  /-⋆-//--
-  error: tactic 'rfl' failed, the left-hand side
-    factorial 5
-  is not definitionally equal to the right-hand side
-    120
-  ⊢ factorial 5 = 120
-  -/
-  #guard_msgs (whitespace := lax) in --#
-  example : factorial 5 = 120 := by
-    rfl
+-- `#reduce` は相変わらずできる
+/-⋆-//-- info: 6 -/
+#guard_msgs in --#
+#reduce factorial 3
 
-  -- `#reduce` は相変わらずできる
-  /-⋆-//-- info: 6 -/
-  #guard_msgs in --#
-  #reduce factorial 3
-end
+/- ## reducibility を確認する
+
+Lean が暗黙の裡に `[irreducible]` 属性や `[reducible]` 属性を付与していることがあります。`Lean.getReducibilityStatus` 関数を使うと確認することができます。
+-/
+
+def searchF {α : Type} (f : Nat → Option α) (start : Nat) : Option Nat :=
+  match f start with
+  | some _ => some start
+  | none => searchF f (start + 1)
+partial_fixpoint
+
+-- `partial_fixpoint` を使ったので irreducible になっている
+/-⋆-//-- info: Lean.ReducibilityStatus.irreducible -/
+#guard_msgs in --#
+#eval Lean.getReducibilityStatus `searchF
