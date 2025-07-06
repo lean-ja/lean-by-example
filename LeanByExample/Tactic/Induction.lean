@@ -8,7 +8,6 @@
 * `∀ n, P n → P (n + 1)` が成り立つ。
 -/
 import Mathlib.Tactic.Ring -- `ring` を使うため --#
-set_option warn.sorry false --#
 
 /-- `0` から `n` までの和を計算する関数 -/
 def sum (n : Nat) : Rat :=
@@ -42,6 +41,14 @@ example (n : Nat) : sum n = n * (n + 1) / 2 := by
   · simp [sum, ih]
     ring
 
+/- また `induction .. with` の直後にタクティクを書くと、そのタクティクをすべてのゴールに対して適用します。 -/
+
+example (n : Nat) : sum n = n * (n + 1) / 2 := by
+  induction n with simp [sum]
+  | succ n ih =>
+    simp [ih]
+    ring
+
 /- ## 帰納法の対象
 
 実際には帰納法は自然数の専売特許ではありません。[`inductive`](#{root}/Declarative/Inductive.md) コマンドで定義されたものであれば、帰納法を使うことができます。-/
@@ -66,6 +73,7 @@ example {m n k : Nat} (h₁ : m ≤ₘ n) (h₂ : n ≤ₘ k) : m ≤ₘ k := by
 /- ## generalizing 構文
 時として、帰納法の仮定が弱すぎると感じることがあります。
 -/
+set_option warn.sorry false in --#
 
 example {m n : Nat} (h : m + n = 0) : m = 0 ∧ n = 0 := by
   induction m with
@@ -127,6 +135,7 @@ theorem sum_exp (n : Nat) : sum n = n * (n + 1) / 2 := by
     ring
 
 /- `have` で宣言された命題の証明の中では、この方法は使用できません。-/
+set_option warn.sorry false in --#
 
 theorem sample : True := by
   have h : ∀ n, sum n = n * (n + 1) / 2 := by
