@@ -71,40 +71,54 @@ example {m n k : Nat} (h₁ : m ≤ₘ n) (h₂ : n ≤ₘ k) : m ≤ₘ k := by
     apply Nat.myle.step (by assumption)
 
 /- ## generalizing 構文
-時として、帰納法の仮定が弱すぎると感じることがあります。
+
+時として、帰納法の仮定が弱すぎることがあります。
 -/
 set_option warn.sorry false in --#
 
-example {m n : Nat} (h : m + n = 0) : m = 0 ∧ n = 0 := by
-  induction m with
-  | zero =>
-    simp_all
-  | succ m ih =>
-    -- 矛盾を示せばよい
-    exfalso
+/-- 階乗関数 -/
+def factorial (n : Nat) : Nat :=
+  match n with
+  | 0 => 1
+  | n + 1 => factorial n * (n + 1)
 
-    -- 帰納法の仮定が弱すぎて、
-    -- ちょっと仮定 `h` に適用しづらい
-    guard_hyp ih : m + n = 0 → m = 0 ∧ n = 0
-    guard_hyp h : m + 1 + n = 0
+/-- 階乗関数の末尾再帰バージョン -/
+@[grind]
+def factorialTR (n : Nat) : Nat :=
+  aux n 1
+where
+  @[grind] aux (n acc : Nat) :=
+    match n with
+    | 0 => acc
+    | n + 1 => aux n (acc * (n + 1))
+
+set_option warn.sorry false in --#
+example (n acc : Nat) : factorialTR.aux n acc = acc * factorialTR.aux n 1 := by
+  induction n with
+  | zero => simp [factorialTR.aux]
+  | succ n ih =>
+    dsimp [factorialTR.aux]
+
+    -- 得られている帰納法の仮定では `.aux` の2つめの引数は `acc` だが
+    guard_hyp ih : factorialTR.aux n acc = acc * factorialTR.aux n 1
+
+    -- これは示すべきことに合致しないので使えない。
+    guard_target = factorialTR.aux n (acc * (n + 1)) = acc * factorialTR.aux n (1 * (n + 1))
 
     sorry
 
-/- このとき `generalizing` 構文で帰納法の仮定の中の特定の変数を一般化することができます。 -/
+/- `generalizing` 構文で帰納法の仮定の中の特定の変数を一般化することができて、そうすると証明が通るようになることがあります。 -/
 
-example {m n : Nat} (h : m + n = 0) : m = 0 ∧ n = 0 := by
-  induction m generalizing n with
-  | zero =>
-    simp_all
-  | succ m ih =>
-    exfalso
+example (n acc : Nat) : factorialTR.aux n acc = acc * factorialTR.aux n 1 := by
+  induction n generalizing acc with
+  | zero => simp [factorialTR.aux]
+  | succ n ih =>
+    dsimp [factorialTR.aux]
 
-    -- 帰納法の仮定が `n` に関して一般化されている！
-    guard_hyp ih : ∀ n, m + n = 0 → m = 0 ∧ n = 0
+    -- 帰納法の仮定が強くなっている！！
+    guard_hyp ih : ∀ (acc : ℕ), factorialTR.aux n acc = acc * factorialTR.aux n 1
 
-    rw [show m + 1 + n = m + (n + 1) from by ac_rfl] at h
-    have ⟨mh, nh⟩ := ih h
-    simp_all
+    grind
 
 /- ただし注意点として、`induction .. generalizing` 構文を実行するとき、帰納法を行う変数が一般化される変数に依存していてはいけないというルールがあります。-/
 
