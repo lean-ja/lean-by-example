@@ -95,7 +95,6 @@ infix:50 " ≤? " => Nat.myle
 
 attribute [grind →] Nat.myle.step
 
--- m, n, k はMyNatの項とする
 variable {m n a b k : Nat}
 
 /-- 推移律 -/
