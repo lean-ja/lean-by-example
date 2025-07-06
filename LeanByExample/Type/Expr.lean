@@ -15,27 +15,42 @@ section --#
 
 open Qq Lean Parser
 
-/-- 排中律という命題に対応する `Expr` -/
-def excludeMiddleExpr : Q(Prop) := q(∀ p : Prop, p ∨ ¬ p)
+/-- コンストラクタを使って定義した `[1]` というリスト -/
+def listByCtorExpr : Q(List Nat) := q(List.cons 1 List.nil)
 
-/-⋆-//-- info: "forall (p : Prop), Or p (Not p)" -/
+/-⋆-//-- info: "List.cons.{0} Nat (OfNat.ofNat.{0} Nat 1 (instOfNatNat 1)) (List.nil.{0} Nat)" -/
 #guard_msgs in --#
-#eval toString excludeMiddleExpr
+#eval toString listByCtorExpr
+
+/-- リストリテラルから定義した `[1]` というリスト -/
+def listByListLitExpr : Q(List Nat) := q([1])
+
+/-⋆-//-- info: "List.cons.{0} Nat (OfNat.ofNat.{0} Nat 1 (instOfNatNat 1)) (List.nil.{0} Nat)" -/
+#guard_msgs in --#
+#eval toString listByListLitExpr
+
 
 /-- `s : String` をパースして `Syntax` の項を得る。`cat` は構文カテゴリ。-/
 def parse (cat : Name) (s : String) : MetaM Syntax := do
   ofExcept <| runParserCategory (← getEnv) cat s
 
-/-⋆-//--
-info: (Term.forall "∀" [`p] [(Term.typeSpec ":" (Term.prop "Prop"))] "," («term_∨_» `p "∨" («term¬_» "¬" `p)))
--/
+/-⋆-//-- info: "(Term.app `List.cons [(num \"1\") `List.nil])" -/
 #guard_msgs in --#
-#eval show MetaM Unit from do
-  let stx ← parse `term "∀ p : Prop, p ∨ ¬ p"
-  IO.println stx
+#eval show MetaM String from do
+  -- コンストラクタを使って定義した `[1]` というリストの Syntax
+  let stx ← parse `term "List.cons 1 List.nil"
+  return toString stx
+
+/-⋆-//-- info: "(«term[_]» \"[\" [(num \"1\")] \"]\")" -/
+#guard_msgs in --#
+#eval show MetaM String from do
+  -- リストリテラルから定義した `[1]` というリストの Syntax
+  let stx ← parse `term "[1]"
+  return toString stx
 
 end --#
-/- [`Repr`](#{root}/TypeClass/Repr.md) の出力を比較すると極めて長くなるので [`ToString`](#{root}/TypeClass/ToString.md) の出力を比較しましたが、このように [`Syntax`](#{root}/Type/Syntax.md) の方には抽象度の低いコードの情報が含まれています。-/
+/- [`Repr`](#{root}/TypeClass/Repr.md) の出力を比較すると極めて長くなるので [`ToString`](#{root}/TypeClass/ToString.md) の出力を比較しましたが、このように [`Syntax`](#{root}/Type/Syntax.md) は「同じものを意味するが構文が異なるもの」を区別する一方で、`Expr` は区別しません。
+-/
 
 /- ## 定義
 
