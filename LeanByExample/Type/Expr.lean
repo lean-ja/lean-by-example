@@ -30,22 +30,20 @@ def listByListLitExpr : Q(List Nat) := q([1])
 #eval toString listByListLitExpr
 
 
-/-- `s : String` をパースして `Syntax` の項を得る。`cat` は構文カテゴリ。-/
-def parse (cat : Name) (s : String) : MetaM Syntax := do
-  ofExcept <| runParserCategory (← getEnv) cat s
+set_option hygiene false in
 
 /-⋆-//-- info: "(Term.app `List.cons [(num \"1\") `List.nil])" -/
 #guard_msgs in --#
 #eval show MetaM String from do
   -- コンストラクタを使って定義した `[1]` というリストの Syntax
-  let stx ← parse `term "List.cons 1 List.nil"
+  let stx ← `(term| List.cons 1 List.nil)
   return toString stx
 
 /-⋆-//-- info: "(«term[_]» \"[\" [(num \"1\")] \"]\")" -/
 #guard_msgs in --#
 #eval show MetaM String from do
   -- リストリテラルから定義した `[1]` というリストの Syntax
-  let stx ← parse `term "[1]"
+  let stx ← `(term| [1])
   return toString stx
 
 end --#
