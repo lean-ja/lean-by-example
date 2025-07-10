@@ -6,7 +6,7 @@
 
 `grind` の中核には、合同閉包(congruence closure)アルゴリズムが使用されています。これは、黒板に「今まで分かったこと」を蓄積していくところをイメージすると分かりやすいかもしれません。
 
-`grind` は新しい等式や不等式を発見するたびに、その事実を黒板に書き込んでいきます。そして、「互いに等しいと分かっているグループ」を同値類(equivalence class)としてまとめて管理します。
+`grind` は新しい等式や不等式を発見するたびに、その事実を黒板に書き込んでいきます。そして、「互いに等しいと分かっているグループ」を同値類(equivalence class)としてまとめて管理します。この同値類を「バケツ」と呼ぶことがあります。
 
 `grind` は合同性(congruence)つまり `a₁ = a₂` ならば `f a₁ = f a₂` が成り立つことを認識しているので、そういったパターンを見つけると黒板に書き込んでいきます。
 -/
@@ -207,6 +207,26 @@ attribute [grind cases] Even
 
 example : ¬ Even 1 := by
   -- grind で示せるようになった
+  grind
+
+/- ## 制約伝播(Constraint Propagation)
+
+`grind` タクティクがホワイトボードに新たな事実を書き込み、`True` または `False` の同値類が更新されたとき、`grind` は多数の前方推論を行い、新たな事実を導出していきます。これを制約伝播(Constraint Propagation)と呼びます。
+
+制約伝播で使用される導出ルールには様々な種類のものがあります。
+
+### ブール演算
+
+`grind` は `A` が `True` であれば `A ∨ B` も `True` である、などの基本的な導出を行います。
+-/
+
+example {P Q : Prop} (h : P) : P ∨ Q := by
+  grind
+
+example {P Q R : Prop} (h : P ∧ Q ∧ R) : P ∧ Q := by
+  grind
+
+example (a : Bool) : (a && !a) = false := by
   grind
 
 /-
