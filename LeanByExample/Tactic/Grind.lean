@@ -26,7 +26,7 @@ example (f : α → α) (h : a₁ = a₂) : f (f a₁) = f (f a₂) := by
   grind
 
 end --#
-/- なお、`grind` は初手で結論の否定を黒板に書き込み、矛盾を示す（つまり `True` の同値類と `False` の同値類をマージする）ことでゴールを閉じるという設計になっていることに注意してください。-/
+/- なお、`grind` は初手で結論の否定を黒板に書き込み、矛盾を示す（つまり `True` の同値類と `False` の同値類をマージする）ことでゴールを閉じるという設計になっていることに注意してください。特に、`grind` はそれが不要な場合であっても選択原理を使用することがあります。 -/
 
 set_option trace.grind.assert true in
 set_option trace.grind.eqc true in
@@ -38,8 +38,12 @@ trace: [grind.assert] P
 [grind.eqc] P = False
 -/
 #guard_msgs in --#
-example (P : Prop) (h : P) : P := by
+theorem foo (P : Prop) (h : P) : P := by
   grind
+
+/-⋆-//-- info: 'foo' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in --#
+#print axioms foo
 
 /- ### E-マッチング
 
@@ -76,6 +80,18 @@ trace: [grind.assert] f a = b
 #guard_msgs in --#
 example (a b c : Nat) (h1 : f a = b) (h2 : a = g c) : b = c := by
   grind
+
+/- なお、結論が等式になっていないような命題に付与するとエラーになります。 -/
+
+theorem bar (n m : Nat) (h : n ≤ m) (hm : m = 1) : n ≤ 1 := by
+  grind
+
+/-⋆-//--
+error: invalid E-matching equality theorem, conclusion must be an equality
+  n ≤ 1
+-/
+#guard_msgs in --#
+attribute [grind =] bar
 
 /- #### [grind →]
 
