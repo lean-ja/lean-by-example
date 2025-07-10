@@ -124,7 +124,7 @@ example (h1 : a ≤? b) (h2 : b ≤? k) (h3 : k ≤? m) : a ≤? m := by
 end --#
 /- #### [grind =>]
 
-等式を主張する定理に `[grind =>]` 属性を付与すると、定理の前提が見つかったときに定理がインスタンス化されるようになります。この場合、定理の前提は命題である必要はありません。
+定理に `[grind =>]` 属性を付与すると、定理の前提が見つかったときに定理がインスタンス化されるようになります。この場合、定理の前提は命題である必要はありません。
 -/
 section --#
 
@@ -151,12 +151,13 @@ theorem mul_right_inv {g h : G} (hy : g * h = 1) : h = g⁻¹ := calc
   _ = 1 * h := by grind
   _ = g⁻¹ := by grind
 
+@[grind =>]
 theorem mul_left_inv {g h : G} (hy : h * g = 1) : h = g⁻¹ := calc
   _ = h * 1 := by grind
   _ = g⁻¹ := by grind
 
 theorem inv_inv (g : G) : g⁻¹⁻¹ = g := by
-  grind [mul_right_inv]
+  grind
 
 end --#
 /- ### ケース分割
