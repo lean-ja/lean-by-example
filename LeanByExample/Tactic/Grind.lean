@@ -2,9 +2,7 @@
 
 `grind` は、現代の SMT ソルバにインスパイアされた証明自動化タクティクです。[^reference]
 
-## grind の動作原理
-
-### 合同閉包(congruence closure)
+## 合同閉包(congruence closure)
 
 `grind` の中核には、合同閉包(congruence closure)アルゴリズムが使用されています。これは、黒板に「今まで分かったこと」を蓄積していくところをイメージすると分かりやすいかもしれません。
 
@@ -45,11 +43,11 @@ theorem foo (P : Prop) (h : P) : P := by
 #guard_msgs in --#
 #print axioms foo
 
-/- ### E-マッチング
+/- ## E-マッチング
 
 新たに分かったことを `grind` が黒板に書き込むことを「定理をインスタンス化する」と呼びます。`grind` は、定理を効率的にインスタンス化するために E-マッチング(E‑matching)と呼ばれる手法を使用します。なおE-マッチングとは、SMT ソルバなどで使われる、等式を考慮したパターンマッチの手法のことです。
 
-#### [grind =]
+### [grind =]
 
 等式を主張する定理に `[grind =]` 属性を付与すると、結論の等式の左辺がパターンとして登録され、「左辺を見かけたらその定理をインスタンス化して、黒板に新たな事実を書き留める」という挙動をするようになります。
 -/
@@ -93,7 +91,7 @@ error: invalid E-matching equality theorem, conclusion must be an equality
 #guard_msgs in --#
 attribute [grind =] bar
 
-/- #### [grind →]
+/- ### [grind →]
 
 定理に `[grind →]` 属性を付与すると、定理の前提の命題が満たされたときに定理がインスタンス化されるようになります。
 -/
@@ -122,7 +120,7 @@ example (h1 : a ≤? b) (h2 : b ≤? k) (h3 : k ≤? m) : a ≤? m := by
   grind
 
 end --#
-/- #### [grind =>]
+/- ### [grind =>]
 
 定理に `[grind =>]` 属性を付与すると、定理の前提が見つかったときに定理がインスタンス化されるようになります。この場合、定理の前提は命題である必要はありません。
 -/
@@ -160,7 +158,7 @@ theorem inv_inv (g : G) : g⁻¹⁻¹ = g := by
   grind
 
 end --#
-/- ### ケース分割
+/- ## ケース分割
 
 `grind` は `match` 式や `if` 式を場合分けして分解することができます。
 -/
