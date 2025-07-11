@@ -1,4 +1,4 @@
-import Playground.Grind.MyNat.C03CommSemiring
+import Playground.MyNat.C03CommSemiring
 
 -- 以降、l m nはすべてMyNat型の項とする
 variable {l m n : MyNat}
@@ -8,22 +8,22 @@ theorem MyNat.add_one_right_cancel (h : l + 1 = n + 1) : l = n := by
   injection h
 
 /-- 右から足す演算`(· + m)`は単射 -/
-@[grind →, simp]
+@[grind →]
 theorem MyNat.add_right_cancel (h : l + m = n + m) : l = n := by
   induction m with grind
 
 /-- 左から足す演算`(l + ·)`は単射 -/
-@[grind →, simp]
+@[grind →]
 theorem MyNat.add_left_cancel (h : l + m = l + n) : m = n := by
   grind
 
 /-- 右からの足し算のキャンセル -/
-@[grind =, simp]
+@[grind =, simp↓]
 theorem MyNat.add_right_cancel_iff : l + m = n + m ↔ l = n := by
   grind
 
 /-- 左からの足し算のキャンセル -/
-@[grind =, simp]
+@[grind =, simp↓]
 theorem MyNat.add_left_cancel_iff : l + m = l + n ↔ m = n := by
   grind
 
@@ -61,6 +61,6 @@ theorem MyNat.add_eq_zero_of_eq_zero (h : m = 0 ∧ n = 0) : m + n = 0 := by
   grind
 
 /-- 和がゼロであることと両方がゼロであることは同値 -/
-@[grind =]
+@[grind =, simp]
 theorem MyNat.add_eq_zero_iff_eq_zero : m + n = 0 ↔ m = 0 ∧ n = 0 := by
   grind

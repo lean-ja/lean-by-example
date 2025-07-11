@@ -1,4 +1,4 @@
-import Playground.Grind.MyNat.C02MulAssoc
+import Playground.MyNat.C02MulAssoc
 
 open Lean Grind
 
@@ -16,7 +16,7 @@ def MyNat.hPow (n : MyNat) (k : Nat) : MyNat :=
 instance : HPow MyNat Nat MyNat where
   hPow := MyNat.hPow
 
-@[grind =]
+@[grind =, simp]
 theorem MyNat.pow_zero (n : MyNat) : n ^ (0 : Nat) = 1 := by
   rfl
 

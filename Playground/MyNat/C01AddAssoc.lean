@@ -35,7 +35,7 @@ def MyNat.recAux.{u} {motive : MyNat → Sort u}
   | .zero => zero
   | .succ n => succ n (MyNat.recAux zero succ n)
 
-@[grind =]
+@[grind =, simp]
 theorem MyNat.ctor_succ (n : MyNat) : MyNat.succ n = n + 1 := by
   rfl
 
@@ -50,11 +50,11 @@ instance : Repr MyNat where
   reprPrec n _ := repr n.toNat
 
 /-- 0 を右から足しても変わらない -/
-@[grind =]
+@[grind =, simp]
 theorem MyNat.add_zero (n : MyNat) : n + 0 = n := by rfl
 
 /-- 右のオペランドに付いた`.succ`は外側に出せる -/
-@[grind =]
+@[grind =, simp]
 theorem MyNat.add_succ (m n : MyNat) : m + .succ n = .succ (m + n) := by
   rfl
 
@@ -64,7 +64,7 @@ theorem MyNat.add_one (m n : MyNat) : m + (n + 1) = (m + n) + 1 := by
   rfl
 
 /-- 左のオペランドに付いた`.succ`は外側に出せる -/
-@[grind =]
+@[grind =, simp]
 theorem MyNat.succ_add (m n : MyNat) : .succ m + n = .succ (m + n) := by
   induction n with grind
 
@@ -74,7 +74,7 @@ theorem MyNat.one_add (m n : MyNat) : (m + 1) + n = (m + n) + 1 := by
   induction n with grind
 
 /-- 0を左から足しても変わらない -/
-@[grind =]
+@[grind =, simp]
 theorem MyNat.zero_add (n : MyNat) : 0 + n = n := by
   induction n with grind
 
