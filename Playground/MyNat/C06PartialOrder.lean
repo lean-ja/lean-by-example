@@ -36,6 +36,11 @@ theorem MyNat.zero_ne_one : 0 ≠ 1 := by
   intro h
   injection h
 
+/-- `1 ≠ 0`が成り立つ -/
+@[simp] theorem MyNat.one_neq_zero : 1 ≠ 0 := by
+  intro h
+  injection h
+
 @[grind =>, simp]
 theorem MyNat.not_add_one_le_self (n : MyNat) : ¬ (n + 1 ≤ n) := by
   intro h
@@ -44,6 +49,7 @@ theorem MyNat.not_add_one_le_self (n : MyNat) : ¬ (n + 1 ≤ n) := by
   rw [show (n + 1) + k = n + (1 + k) from by ac_rfl] at hk
   grind
 
+@[grind →]
 theorem MyNat.le_antisymm (h1 : n ≤ m) (h2 : m ≤ n) : n = m := by
   induction h1 with grind
 
