@@ -1,4 +1,4 @@
-import Playground.MyList.C01
+import Playground.MyList.C01Basic
 /- # MyList に Append を定義して基本的性質を示す -/
 
 namespace MyList

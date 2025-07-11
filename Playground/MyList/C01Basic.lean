@@ -12,7 +12,6 @@ inductive MyList (α : Type) where
   | cons (head : α) (tail : MyList α)
 deriving DecidableEq
 
-
 section Notation
   /- ## `MyList`のための `notation` -/
 
