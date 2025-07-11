@@ -21,6 +21,9 @@ lean_lib LeanByExample where
   -- `.submodules` と指定すると、そのディレクトリ以下の全ての Lean ファイルがビルドされる
   globs := #[.submodules `LeanByExample, .submodules `Playground]
 
+lean_lib Playground where
+  globs := #[.submodules `Playground]
+
 section Script
 
 /-- 与えられた文字列をシェルで実行する -/
