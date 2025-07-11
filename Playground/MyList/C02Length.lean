@@ -1,4 +1,4 @@
-import Playground.MyList.C02
+import Playground.MyList.C01Basic
 
 variable {α : Type}
 

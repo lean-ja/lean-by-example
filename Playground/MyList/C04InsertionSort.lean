@@ -1,4 +1,4 @@
-import Playground.MyList.C02Append
+import Playground.MyList.C03Append
 
 variable {α : Type} {β : Type} (r : α → α → Prop) (s : β → β → Prop)
 variable [DecidableRel r] [DecidableRel s]
@@ -7,7 +7,6 @@ local infixl:50 " ≼ " => r
 local infixl:50 " ≼ " => s
 
 /-! ### Insertion sort -/
-
 
 section InsertionSort
 
@@ -31,4 +30,3 @@ theorem orderedInsert_of_le {a b : α} (l : MyList α) (h : a ≼ b) :
 def insertionSort : MyList α → MyList α
   | ⟦⟧ => ⟦⟧
   | b ::: l => orderedInsert r b (insertionSort l)
-

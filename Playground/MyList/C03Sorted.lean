@@ -1,4 +1,4 @@
-import Playground.MyList.C01Basic
+import Playground.MyList.C02Syntax
 
 variable {α : Type}
 
@@ -14,5 +14,3 @@ inductive Sorted : MyList α → Prop where
 
 @[simp]
 theorem sorted_of_singleton {a : α} : Sorted r ⟦a⟧ := by grind
-
-

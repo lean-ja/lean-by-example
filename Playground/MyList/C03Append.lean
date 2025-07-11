@@ -1,8 +1,8 @@
-import Playground.MyList.C01Basic
+import Playground.MyList.C02Syntax
+
 /- # MyList に Append を定義して基本的性質を示す -/
 
 namespace MyList
-
 
 variable {α : Type}
 
