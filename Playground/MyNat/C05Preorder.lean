@@ -53,26 +53,3 @@ instance : Preorder MyNat where
   le := (· ≤ ·)
   le_refl := MyNat.le_refl
   le_trans := MyNat.le_trans
-
-/-- `a ≤ b`から和の等式を導く -/
-@[grind <=]
-theorem MyNat.le.dest (h : n ≤ m) : ∃ k, n + k = m := by
-  induction h with
-  | refl => exists 0
-  | @step l h ih =>
-    obtain ⟨k, ih⟩ := ih
-    exists k + 1
-    grind
-
-@[grind ←]
-theorem MyNat.le_add_right (n m : MyNat) : n ≤ n + m := by
-  induction m with grind
-
-/-- 和の等式から`a ≤ b`を導く -/
-@[grind =>]
-theorem MyNat.le.intro (h : n + k = m) : n ≤ m := by
-  induction k with grind
-
-/-- 順序関係`n ≤ m`を足し算で書き換える -/
-theorem MyNat.le_iff_add : n ≤ m ↔ ∃ k, n + k = m := by
-  constructor <;> grind

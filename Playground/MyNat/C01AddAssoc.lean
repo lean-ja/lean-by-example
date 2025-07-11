@@ -1,3 +1,5 @@
+import Playground.SeeCmd
+
 /-- 自前で実装した自然数 -/
 inductive MyNat where
   /-- ゼロ -/
