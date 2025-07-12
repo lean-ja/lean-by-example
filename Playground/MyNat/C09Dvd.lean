@@ -67,9 +67,8 @@ theorem MyNat.dvd_add {a b c : MyNat} (h₁ : a ∣ b) (h₂ : a ∣ c) : a ∣ 
   obtain ⟨e, he⟩ := h₂
   grind
 
-set_option warn.sorry false in --#
+@[grind →]
 theorem MyNat.dvd_sub {a b c : MyNat} (h₁ : a ∣ b) (h₂ : a ∣ c) : a ∣ b - c := by
   obtain ⟨d, hd⟩ := h₁
   obtain ⟨e, he⟩ := h₂
-  exists d - e
-  sorry
+  grind
