@@ -83,9 +83,7 @@ theorem factorial_pos (n : MyNat) : 0 < n ! := by
 -- **TODO**: 適切な場所に移動させる
 @[simp↓, grind =]
 theorem MyNat.add_one_le_add_iff_right {m n : MyNat} : m + 1 ≤ n + 1 ↔ m ≤ n := by
-  constructor <;> intro h
-  case mp => apply le_of_succ_le_succ h
-  case mpr => grind
+  constructor <;> grind [MyNat.le_iff_add]
 
 set_option warn.sorry false in --#
 
