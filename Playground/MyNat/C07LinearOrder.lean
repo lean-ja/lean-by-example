@@ -72,7 +72,7 @@ theorem MyNat.lt_iff_le_and_ne (m n : MyNat) : n < m ↔ n ≤ m ∧ n ≠ m := 
   constructor <;> grind
 
 @[grind →]
-theorem MyNat.foo {a b : MyNat} (h : a < b) : a + 1 ≤ b := by
+theorem MyNat.add_one_le_of_lt {a b : MyNat} (h : a < b) : a + 1 ≤ b := by
   rw [MyNat.lt_iff_le_and_ne] at h
   obtain ⟨hle, hne⟩ := h
   rw [MyNat.le_iff_add] at *
