@@ -58,3 +58,18 @@ theorem MyNat.dvd_one (n : MyNat) : n ∣ 1 ↔ n = 1 := by
   intro h
   obtain ⟨c, hc⟩ := h
   grind
+
+/- ## 整除関係を足し算・引き算は保つ -/
+
+@[grind →]
+theorem MyNat.dvd_add {a b c : MyNat} (h₁ : a ∣ b) (h₂ : a ∣ c) : a ∣ b + c := by
+  obtain ⟨d, hd⟩ := h₁
+  obtain ⟨e, he⟩ := h₂
+  grind
+
+set_option warn.sorry false in --#
+theorem MyNat.dvd_sub {a b c : MyNat} (h₁ : a ∣ b) (h₂ : a ∣ c) : a ∣ b - c := by
+  obtain ⟨d, hd⟩ := h₁
+  obtain ⟨e, he⟩ := h₂
+  exists d - e
+  sorry

@@ -49,3 +49,12 @@ theorem MyNat.add_sub_self_right (m n : MyNat) : (n + m) - m = n := by
 theorem MyNat.sub_self_zero (n : MyNat) : n - n = 0 := by
   have := MyNat.add_sub_self_left n 0
   grind
+
+
+#see Nat.sub_mul
+set_option warn.sorry false in --#
+theorem MyNat.sub_mul (m n k : MyNat) : (n - m) * k = n * k - m * k := by
+  induction m with
+  | zero => simp
+  | succ m ih =>
+    sorry
