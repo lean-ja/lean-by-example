@@ -3,15 +3,18 @@ import Playground.MyNat.C09Dvd
 namespace MyNat
 
 /-- 素数。１より大きく、自分自身と１以外で割り切れない数 -/
-@[simp]
+@[simp, grind]
 def IsPrime (n : MyNat) : Prop :=
   n > 1 ∧ ∀ k, 1 < k → k < n → ¬ k ∣ n
 
+-- **TODO**: 適切な場所に移動させる
 theorem not_lt_zero (n : MyNat) : ¬n < 0 := by grind
 
+-- **TODO**: 適切な場所に移動させる
 theorem le_of_succ_le_succ {n m : MyNat} : n.succ ≤ m.succ → n ≤ m := by
   induction n with grind
 
+-- **TODO**: 証明を考え直す
 def lt_wfRel : WellFoundedRelation MyNat where
   rel := (· < ·)
   wf := by
@@ -76,23 +79,65 @@ theorem factorial_succ (n : MyNat) : (n + 1)! = (n + 1) * n ! := by
 theorem factorial_pos (n : MyNat) : 0 < n ! := by
   induction n with grind
 
+#see Nat.add_le_add_iff_right
+-- **TODO**: 適切な場所に移動させる
+@[simp↓, grind =]
+theorem MyNat.add_one_le_add_iff_right {m n : MyNat} : m + 1 ≤ n + 1 ↔ m ≤ n := by
+  constructor <;> intro h
+  case mp => apply le_of_succ_le_succ h
+  case mpr => grind
+
 set_option warn.sorry false in --#
 
 /-- 1 ≤ k ≤ n なら k は n! の約数 -/
-@[grind ←]
+@[grind →]
 theorem dvd_factorial (n : MyNat) {k : MyNat} (hk : k ≤ n) (kpos : 0 < k) : k ∣ (n !) := by
   induction n with
   | zero =>
     grind
   | succ n ih =>
     have : k = n + 1 ∨ k ≤ n := by
-      sorry
+      have : k = n + 1 ∨ k < n + 1 := by grind
+      cases this with grind
 
     rcases this with eq | le
-    · rw [eq]
-      grind
+    · grind
     · replace ih := ih le
       rw [show (n + 1)! = (n + 1) * n ! from by rfl]
       grind
+
+-- **TODO**: 適切な場所に移動させる
+#see Nat.not_le
+@[grind _=_]
+theorem not_le (m n : MyNat) : ¬ n ≤ m ↔ m < n := by
+  constructor <;> grind
+
+/-- 素数は無限に存在する -/
+theorem InfinitudeOfPrimes : ∀ n : MyNat, ∃ p > n, IsPrime p := by
+  -- n が与えられたとする。
+  intro n
+  -- このとき n! + 1 の素因数 p を考える。
+  have : 1 < n ! + 1 := by grind
+  obtain ⟨p, hp, _⟩ := exists_prime_factor (n ! + 1) this
+
+  -- p は素数なので、p > n を示せばよい。
+  suffices p > n from by grind
+
+  -- 仮に p ≤ n だとする。
+  suffices ¬ (p ≤ n) from by grind
+  intro hle
+
+  -- このとき p は n! の約数である。
+  have hpdvd : p ∣ n ! := by
+    apply dvd_factorial <;> grind
+
+  -- p は n! + 1 の約数でもあるので、したがって p は 1 の約数であることになる。
+  have : p ∣ 1 := by
+    rw [show 1 = (n ! + 1) - n ! from by grind]
+    grind [Nat.dvd_sub]
+
+  -- つまり、p = 1 である。
+  -- これは p が素数であることに矛盾する。
+  grind
 
 end MyNat

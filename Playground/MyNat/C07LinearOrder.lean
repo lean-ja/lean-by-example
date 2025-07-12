@@ -88,6 +88,7 @@ theorem MyNat.add_one_le_of_lt {a b : MyNat} (h : a < b) : a + 1 ≤ b := by
 theorem MyNat.lt_or_ge (a b : MyNat) : a < b ∨ b ≤ a := by
   induction a with grind
 
+@[grind =>]
 theorem MyNat.le_total (a b : MyNat) : a ≤ b ∨ b ≤ a := by
   induction a with grind
 
