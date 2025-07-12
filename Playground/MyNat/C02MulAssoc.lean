@@ -32,15 +32,13 @@ theorem MyNat.zero_mul (n : MyNat) : 0 * n = 0 := by
 
 /-- 右から`1`を掛けても変わらない -/
 @[grind =, simp]
-theorem MyNat.mul_one (n : MyNat) : n * 1 = n := calc
-  _ = n * (0 + 1) := by grind
-  _ = n := by grind
+theorem MyNat.mul_one (n : MyNat) : n * 1 = n := by
+  induction n with grind
 
 /-- 左から`1`を掛けても変わらない -/
 @[grind =, simp]
-theorem MyNat.one_mul (n : MyNat) : 1 * n = n := calc
-  _ = (0 + 1) * n := by grind
-  _ = n := by grind
+theorem MyNat.one_mul (n : MyNat) : 1 * n = n := by
+  induction n with grind
 
 /-- 掛け算の交換法則 -/
 @[grind _=_]
