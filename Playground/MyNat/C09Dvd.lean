@@ -1,4 +1,4 @@
-import Playground.MyNat.C07LinearOrder
+import Playground.MyNat.C08Sub
 
 /- ## 整除関係の推移律まで -/
 
