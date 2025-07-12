@@ -124,7 +124,6 @@ end --#
 
 定理に `[grind =>]` 属性を付与すると、定理の前提が見つかったときに定理がインスタンス化されるようになります。この場合、定理の前提は命題である必要はありません。
 -/
-section --#
 
 /-- 群 -/
 class Group (G : Type) [One G] [Mul G] [Inv G] where
@@ -138,6 +137,8 @@ class Group (G : Type) [One G] [Mul G] [Inv G] where
   inv_mul : ∀ g : G, g⁻¹ * g = 1
   /-- 掛け算は結合的である -/
   mul_assoc : ∀ g₁ g₂ g₃ : G, g₁ * (g₂ * g₃) = (g₁ * g₂) * g₃
+
+namespace Group
 
 variable {G : Type} [One G] [Mul G] [Inv G] [Group G]
 
@@ -157,7 +158,36 @@ theorem mul_left_inv {g h : G} (hy : h * g = 1) : h = g⁻¹ := calc
 theorem inv_inv (g : G) : g⁻¹⁻¹ = g := by
   grind
 
-end --#
+end Group
+/- ### [grind intro]
+
+帰納的命題に `[grind intro]` 属性を付与すると、コンストラクタの適用を自動で行うようになります。
+-/
+
+/-- 偶数であることを表す帰納的述語 -/
+inductive Even : Nat → Prop where
+  | zero : Even 0
+  | step {n : Nat} : Even n → Even (n + 2)
+
+example : Even 0 := by
+  -- 最初は証明できない
+  fail_if_success grind
+
+  apply Even.zero
+
+example {m : Nat} (h : Even m) : Even (m + 2) := by
+  -- 最初は証明できない
+  fail_if_success grind
+  apply Even.step h
+
+attribute [grind intro] Even
+
+example : Even 0 := by
+  grind
+
+example {m : Nat} (h : Even m) : Even (m + 2) := by
+  grind
+
 /- ## ケース分割
 
 `grind` は `match` 式や `if` 式を場合分けして分解することができます。
@@ -189,10 +219,6 @@ example (n : Nat) : oneOrTwoMatch n > 0 := by
   grind
 
 /- `[grind cases]` 属性が付与されている帰納的命題に対しても、ケース分割を行います。 -/
-
-inductive Even : Nat → Prop where
-  | zero : Even 0
-  | succ : ∀ n, Even n → Even (n + 2)
 
 example : ¬ Even 1 := by
   -- まだ示せない
