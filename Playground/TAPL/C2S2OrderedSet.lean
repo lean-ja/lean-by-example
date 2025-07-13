@@ -98,7 +98,7 @@ variable {S : Type} (R : S → S → Prop)
 def Prime := fun x y => R x y ∨ x = y
 
 example : ReflClosure R = Prime R := by
-  grind [Prime,ReflClosure, ReflClosure] -- `grind`を使用すると練習にならない
+  grind [Prime, ReflClosure] -- `grind`を使用すると練習にならない
 
 -- `grind`や`simp_all`などの自動化ツールを使わずに証明した場合
 example : ReflClosure R = Prime R := by
@@ -122,6 +122,46 @@ example : ReflClosure R = Prime R := by
     | inr h =>
       rw [h]
       apply ReflClosure.refl
+
+end
+
+/- ## 演習 2.2.7 -/
+section
+
+variable {S : Type} (R : S → S → Prop)
+
+/-- 構成的推移的閉包 -/
+def CTC (n : Nat) : S → S → Prop :=
+  match n with
+  | 0 => R
+  | i + 1 =>
+    fun x y => CTC i x y ∨ (∃ t, CTC i x t ∧ CTC i t y)
+
+def Plus : S → S → Prop := fun x y => ∃ n, CTC R n x y
+
+theorem TransClosure_of_CTC (n : Nat) (x y : S) : (CTC R n) x y → TransClosure R x y := by
+  induction n generalizing x y
+  all_goals
+    dsimp [CTC]
+    grind [TransClosure]
+
+set_option warn.sorry false in --#
+
+example : Plus R = TransClosure R := by
+  ext x y
+  dsimp [Plus]
+  constructor <;> intro h
+  case mp => grind [TransClosure_of_CTC]
+  case mpr =>
+    dsimp [Plus]
+    induction h with
+    | incl s t hr =>
+      exists 0
+    | trans x' y' z' ixy iyz cxy cyz =>
+      obtain ⟨n, cxy⟩ := cxy
+      obtain ⟨m, cyz⟩ := cyz
+      exists n + m
+      sorry
 
 end
 
