@@ -98,5 +98,12 @@ instance : Std.Associative (α := MyNat) (· + ·) where
 instance : Std.Commutative (α := MyNat) (· + ·) where
   comm := MyNat.add_comm
 
+-- **TODO** なぜかインスタンスを追加しても効果がない。原因を調べたい。
+-- ただのバグならよいが、仕様だったら調べるべき。
+-- instance : Lean.Grind.AddCommMonoid MyNat where
+--   add_zero := MyNat.add_zero
+--   add_assoc := MyNat.add_assoc
+--   add_comm := MyNat.add_comm
+
 example (l m n : MyNat) : l + m + n + 3 = m + (l + n) + 3 := by
   grind

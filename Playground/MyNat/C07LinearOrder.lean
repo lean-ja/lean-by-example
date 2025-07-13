@@ -17,7 +17,7 @@ theorem MyNat.zero_le (n : MyNat) : 0 ≤ n := by
 theorem MyNat.zero_of_le_zero {n : MyNat} (h : n ≤ 0) : n = 0 := by
   induction n with grind
 
-/-- `0`以下の自然数は`0`しかない -/
+/-- `0`以下であることと、`0`であることは同値 -/
 @[simp, grind =]
 theorem MyNat.le_zero {n : MyNat} : n ≤ 0 ↔ n = 0 := by
   grind
@@ -77,7 +77,6 @@ theorem MyNat.add_one_le_of_lt {a b : MyNat} (h : a < b) : a + 1 ≤ b := by
   obtain ⟨hle, hne⟩ := h
   rw [MyNat.le_iff_add] at *
   obtain ⟨k, hk⟩ := hle
-
   induction k with
   | zero => grind
   | succ k _ =>
