@@ -91,6 +91,48 @@ error: invalid E-matching equality theorem, conclusion must be an equality
 #guard_msgs in --#
 attribute [grind =] bar
 
+/- ### [grind \_=\_]
+
+等式を主張する定理に `[grind _=_]` 属性を付与すると、結論の等式の左辺と両辺がともにパターンとして登録され、「左辺か右辺のパターンを見かけたら定理をホワイトボードに書き込む」という挙動をするようになります。
+-/
+
+/-- 自前で定義した可換モノイド -/
+class CommMonoid (M : Type) [One M] [Mul M] where
+  /-- 掛け算は結合的 -/
+  mul_assoc : ∀ a b c : M, (a * (b * c)) = ((a * b) * c)
+  /-- 単位元を左から掛けても変わらない -/
+  one_mul : ∀ a : M, (1 * a) = a
+  /-- 単位元を右から掛けても変わらない -/
+  mul_one : ∀ a : M, (a * 1) = a
+  /-- 掛け算は可換 -/
+  mul_comm : ∀ a b : M, (a * b) = (b * a)
+
+namespace CommMonoid
+
+variable {M : Type} [One M] [Mul M] [inst : CommMonoid M]
+
+@[grind _=_]
+theorem mul_assoc' (a b c : M) : a * (b * c) = (a * b) * c := by
+  apply mul_assoc
+
+@[grind =]
+theorem mul_comm' (a b : M) : a * b = b * a := by
+  apply mul_comm
+
+example (a b c : M) : a * b * (c * c * a) = a * a * b * c * c := by
+  grind
+
+end CommMonoid
+/- なお、結論が等式になっていないような定理に付与するとエラーになります。 -/
+/-⋆-//--
+error: invalid E-matching equality theorem, conclusion must be an equality
+  n ≤ 1
+-/
+#guard_msgs in --#
+@[grind _=_]
+theorem bar₂ (n m : Nat) (h : n ≤ m) (hm : m = 1) : n ≤ 1 := by
+  grind
+
 /- ### [grind →]
 
 定理に `[grind →]` 属性を付与すると、定理の前提の命題が満たされたときに定理がインスタンス化されるようになります。
