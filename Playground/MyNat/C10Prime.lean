@@ -15,7 +15,7 @@ theorem le_of_succ_le_succ {n m : MyNat} : n.succ ≤ m.succ → n ≤ m := by
   induction n with grind
 
 -- **TODO**: 証明を考え直す
-def lt_wfRel : WellFoundedRelation MyNat where
+instance lt_wfRel : WellFoundedRelation MyNat where
   rel := (· < ·)
   wf := by
     apply WellFounded.intro
