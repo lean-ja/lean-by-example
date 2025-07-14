@@ -1,4 +1,4 @@
-import Playground.MyNat.C08Sub
+import Playground.MyNat.C09Sub
 
 /- ## 整除関係の推移律まで -/
 

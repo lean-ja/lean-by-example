@@ -1,4 +1,4 @@
-import Playground.MyNat.C09Dvd
+import Playground.MyNat.C10Dvd
 
 namespace MyNat
 

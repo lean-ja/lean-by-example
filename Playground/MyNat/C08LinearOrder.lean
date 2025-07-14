@@ -1,4 +1,4 @@
-import Playground.MyNat.C06PartialOrder
+import Playground.MyNat.C07PartialOrder
 
 /- ## 0 に関する不等式 -/
 

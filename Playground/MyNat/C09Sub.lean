@@ -1,4 +1,4 @@
-import Playground.MyNat.C07LinearOrder
+import Playground.MyNat.C08LinearOrder
 
 /- ## 引き算の定義 -/
 
