@@ -139,14 +139,18 @@ def CTC (n : Nat) : S → S → Prop :=
 
 def Plus : S → S → Prop := fun x y => ∃ n, CTC R n x y
 
+/-- ある`n`について`CTC R n`が成り立つなら、推移的閉包も成り立つ -/
 theorem TransClosure_of_CTC (n : Nat) (x y : S) : (CTC R n) x y → TransClosure R x y := by
   induction n generalizing x y
   all_goals
     dsimp [CTC]
     grind [TransClosure]
 
-set_option warn.sorry false in --#
+/-- `CTC`は`n`が大きくなるほど成り立つ要素が多くなる -/
+theorem CTC_of_le {x y : S} {n m : Nat} (h : n ≤ m) : (CTC R n) x y → (CTC R m) x y := by
+  induction h with grind [CTC]
 
+/-- `Plus R`は`R`の推移的閉包である -/
 example : Plus R = TransClosure R := by
   ext x y
   dsimp [Plus]
@@ -160,8 +164,10 @@ example : Plus R = TransClosure R := by
     | trans x' y' z' ixy iyz cxy cyz =>
       obtain ⟨n, cxy⟩ := cxy
       obtain ⟨m, cyz⟩ := cyz
-      exists n + m
-      sorry
+      exists n + m + 1
+      replace cxy := CTC_of_le R (show n ≤ n + m from by omega) cxy
+      replace cyz := CTC_of_le R (show m ≤ n + m from by omega) cyz
+      grind only [CTC]
 
 end
 
