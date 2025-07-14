@@ -171,4 +171,27 @@ example : Plus R = TransClosure R := by
 
 end
 
+/- ## 演習2.2.8 -/
+section
+
+variable {S : Type} (R : S → S → Prop) (P : S → Prop)
+
+-- **TODO** 非自明(そうに見えて)かつおもしろい例なので、帰納的述語に慣れるのにいい例だと思う。
+example (hr : ∀ s s', R s s' → P s → P s') : ∀ s s', R⋆ s s' → P s → P s' := by
+  intro s s' h hps
+  induction h with grind [ReflTransClosure]
+
+-- `grind`を使わずに証明した場合
+example (hr : ∀ s s', R s s' → P s → P s') : ∀ s s', R⋆ s s' → P s → P s' := by
+  intro s s' h hps
+  induction h with
+  | incl x y h =>
+    exact hr x y h hps
+  | refl x => assumption
+  | trans x y z hxy hyz ihxy ihyz =>
+    apply ihyz
+    apply ihxy
+    assumption
+
+end
 end TAPL
