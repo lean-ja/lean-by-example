@@ -82,144 +82,134 @@ example {P Q : Prop} (hP : P) : Q := by
 
 [`constructor`](#{root}/Tactic/Constructor.md) タクティクの機能を制限し、`And` 型のゴールを分割する機能だけを持つタクティクを構成する例を示します。[^and_constructor]
 -/
+section
 
 /-- ゴールが`P ∧ Q`という形をしていたら、分解してそれぞれ別ゴールにする -/
 syntax (name := andConstructor) "and_constructor" : tactic
 
-section
-  open Lean Elab Tactic Qq Meta
+open Lean Elab Tactic Qq Meta
 
-  /-- ゴールが `P ∧ Q` の形をしているかチェックして、
-  `P ∧ Q` の形をしていたら `P` と `Q` をそれぞれ返す -/
-  def extracetAndGoals : TacticM (Q(Prop) × Q(Prop)) := do
-    have tgt : Q(Prop) := ← getMainTarget -- 右辺でQqを使用していないのでhaveを使う
-    match tgt with
-    | ~q($p ∧ $q) => return (p, q)
-    | _ => throwError "ゴールが `P ∧ Q` の形ではありません。"
+/-- ゴールが `P ∧ Q` の形をしているかチェックして、
+`P ∧ Q` の形をしていたら `P` と `Q` をそれぞれ返す -/
+def extracetAndGoals : TacticM (Q(Prop) × Q(Prop)) := do
+  have tgt : Q(Prop) := ← getMainTarget -- 右辺でQqを使用していないのでhaveを使う
+  match tgt with
+  | ~q($p ∧ $q) => return (p, q)
+  | _ => throwError "ゴールが `P ∧ Q` の形ではありません。"
 
-  -- テスト
-  example : True ∧ True := by
-    run_tac
-      let (p, q) ← extracetAndGoals
-      logInfo m!"ゴールは {p} ∧ {q} の形です。"
+@[tactic andConstructor]
+def evalAndConstructor : Tactic := fun _stx => withMainContext do
+  -- ゴールを取得する
+  let goal ← getMainGoal
+  have (p, q) := ← extracetAndGoals
 
-    constructor <;> trivial
+  -- 新しいメタ変数（ゴール）を作成する
+  have left : Q($p) := ← mkFreshExprSyntheticOpaqueMVar p (tag := `left)
+  have right : Q($q) := ← mkFreshExprSyntheticOpaqueMVar q (tag := `right)
 
-  @[tactic andConstructor]
-  def evalAndConstructor : Tactic := fun _stx => withMainContext do
-    -- ゴールを取得する
-    let goal ← getMainGoal
-    have (p, q) := ← extracetAndGoals
+  -- ゴールを`?_ ∧ ?_`の形にはめる
+  goal.assign q(And.intro $left $right)
 
-    -- 新しいメタ変数（ゴール）を作成する
-    have left : Q($p) := ← mkFreshExprSyntheticOpaqueMVar p (tag := `left)
-    have right : Q($q) := ← mkFreshExprSyntheticOpaqueMVar q (tag := `right)
-
-    -- ゴールを`?_ ∧ ?_`の形にはめる
-    goal.assign q(And.intro $left $right)
-
-    -- アクティブなゴールのリストは自動的には更新されないので、
-    -- ２つのゴールを作ったことを宣言する
-    replaceMainGoal [left.mvarId!, right.mvarId!]
-end
+  -- アクティブなゴールのリストは自動的には更新されないので、
+  -- ２つのゴールを作ったことを宣言する
+  replaceMainGoal [left.mvarId!, right.mvarId!]
 
 example : True ∧ True := by
   and_constructor
   · trivial
   · trivial
 
+end
 /- ### Iff 専用 constructor
 
 [`constructor`](#{root}/Tactic/Constructor.md) タクティクの機能を制限し、`P ↔ Q` という形のゴールを分解する機能だけを持つタクティクを構成する例を示します。[^iff_constructor]
 -/
+section
 
 /-- ゴールが`P ↔ Q`という形をしていたら`P → Q`と`Q → P`という二つのゴールに分解する -/
 syntax (name := iffConstructor) "iff_constructor" : tactic
 
-section
-  open Lean Elab Tactic Qq Meta
+open Lean Elab Tactic Qq Meta
 
-  /-- ゴールが `P ↔ Q` の形をしているかチェックして、
-  `P ↔ Q` の形をしていたら `P` と `Q` をそれぞれ返す -/
-  def extracetIffGoals : TacticM (Q(Prop) × Q(Prop)) := do
-    have tgt : Q(Prop) := ← getMainTarget -- 右辺でQqを使用していないのでhaveを使う
-    match tgt with
-    | ~q($p ↔ $q) => return (p, q)
-    | _ => throwError "ゴールが `P ↔ Q` の形ではありません。"
+/-- ゴールが `P ↔ Q` の形をしているかチェックして、
+`P ↔ Q` の形をしていたら `P` と `Q` をそれぞれ返す -/
+def extracetIffGoals : TacticM (Q(Prop) × Q(Prop)) := do
+  have tgt : Q(Prop) := ← getMainTarget -- 右辺でQqを使用していないのでhaveを使う
+  match tgt with
+  | ~q($p ↔ $q) => return (p, q)
+  | _ => throwError "ゴールが `P ↔ Q` の形ではありません。"
 
-  @[tactic iffConstructor]
-  def evalIffConstructor : Tactic := fun _stx => withMainContext do
-    -- ゴールを取得する
-    let goal ← getMainGoal
-    have (p, q) := ← extracetIffGoals
+@[tactic iffConstructor]
+def evalIffConstructor : Tactic := fun _stx => withMainContext do
+  -- ゴールを取得する
+  let goal ← getMainGoal
+  have (p, q) := ← extracetIffGoals
 
-    -- 新しいメタ変数（ゴール）を作成する
-    have mp : Q($p → $q) := ← mkFreshExprSyntheticOpaqueMVar q($p → $q) (tag := `mp)
-    have mpr : Q($q → $p) := ← mkFreshExprSyntheticOpaqueMVar q($q → $p) (tag := `mpr)
+  -- 新しいメタ変数（ゴール）を作成する
+  have mp : Q($p → $q) := ← mkFreshExprSyntheticOpaqueMVar q($p → $q) (tag := `mp)
+  have mpr : Q($q → $p) := ← mkFreshExprSyntheticOpaqueMVar q($q → $p) (tag := `mpr)
 
-    -- ゴールを`?_ ↔ ?_`の形にはめる
-    goal.assign q(Iff.intro $mp $mpr)
+  -- ゴールを`?_ ↔ ?_`の形にはめる
+  goal.assign q(Iff.intro $mp $mpr)
 
-    -- アクティブなゴールのリストは自動的には更新されないので、
-    -- ２つのゴールを作ったことを宣言する
-    replaceMainGoal [mp.mvarId!, mpr.mvarId!]
-end
+  -- アクティブなゴールのリストは自動的には更新されないので、
+  -- ２つのゴールを作ったことを宣言する
+  replaceMainGoal [mp.mvarId!, mpr.mvarId!]
 
 example : True ↔ True := by
   iff_constructor
   · simp
   · simp
 
+end
 /- ### `A₁ ∧ A₂ ∧ ... ∧ Aₙ` という形の前提から `⊢ Aᵢ` を示すタクティク
 `h : A₁ ∧ A₂ ∧ ... ∧ Aₙ` という形の前提から `⊢ Aᵢ` を示すタクティクを実装する例を示します。これは引数を持つタクティクの例であるとともに、再帰的な挙動をするタクティクの例でもあります。[^destruct_and]
 -/
+section
 
 /-- `A₁ ∧ A₂ ∧ ... ∧ Aₙ` という形の前提から `⊢ Aᵢ` を示すタクティク -/
 syntax (name := destructAnd) "destruct_and" ident : tactic
 
-section
-  open Lean Elab Tactic Qq Meta
+open Lean Elab Tactic Qq Meta
 
-  /-- 証明の前提 `hp : Expr` が `A₁ ∧ A₂ ∧ ... ∧ Aₙ` の形の命題の証明であるかチェックして、
-  再帰的に分解して現在のゴールと一致する証明が得られるかを確認し、
-  もし一致すればゴールを閉じて`true`を返す。一致しなければ`false`を返す。 -/
-  partial def destructAndExpr (hp : Expr) : TacticM Bool := withMainContext do
-    -- 今証明を構成しようとしている命題を取得
-    have target : Q(Prop) := ← getMainTarget
+/-- 証明の前提 `hp : Expr` が `A₁ ∧ A₂ ∧ ... ∧ Aₙ` の形の命題の証明であるかチェックして、
+再帰的に分解して現在のゴールと一致する証明が得られるかを確認し、
+もし一致すればゴールを閉じて`true`を返す。一致しなければ`false`を返す。 -/
+partial def destructAndExpr (hp : Expr) : TacticM Bool := withMainContext do
+  -- 今証明を構成しようとしている命題を取得
+  have target : Q(Prop) := ← getMainTarget
 
-    -- 前提として証明が得られている命題を取得
-    have P : Q(Prop) := ← inferType hp
-    have hp : Q($P) := hp -- 前提の型をQqで注釈
+  -- 前提として証明が得られている命題を取得
+  have P : Q(Prop) := ← inferType hp
+  have hp : Q($P) := hp -- 前提の型をQqで注釈
 
-    -- `P` が `target` と一致しているなら、示すべきゴールの証明が得られたことになる。
-    if (← isDefEq P target) then
-      let goal ← getMainGoal
-      goal.assignIfDefEq hp
+  -- `P` が `target` と一致しているなら、示すべきゴールの証明が得られたことになる。
+  if (← isDefEq P target) then
+    let goal ← getMainGoal
+    goal.assignIfDefEq hp
+    return true
+
+  match P with
+  | ~q($Q ∧ $R) =>
+    let hq : Q($Q) := q(And.left $hp)
+    let success ← destructAndExpr hq -- 再帰的にチェック
+    -- 成功していたら早期リターン
+    if success then
       return true
 
-    match P with
-    | ~q($Q ∧ $R) =>
-      let hq : Q($Q) := q(And.left $hp)
-      let success ← destructAndExpr hq -- 再帰的にチェック
-      -- 成功していたら早期リターン
-      if success then
-        return true
+    let hr : Q($R) := q(And.right $hp)
+    destructAndExpr hr -- 再帰的にチェック
+  | _ => return false
 
-      let hr : Q($R) := q(And.right $hp)
-      destructAndExpr hr -- 再帰的にチェック
-    | _ => return false
-
-  @[tactic destructAnd]
-  def evalDestructAnd : Tactic := fun stx => withMainContext do
-    match stx with
-    | `(tactic| destruct_and $h) =>
-      let h ← getFVarFromUserName h.getId
-      let success ← destructAndExpr h
-      if !success then
-        failure
-
-    | _ => throwUnsupportedSyntax
-end
+@[tactic destructAnd]
+def evalDestructAnd : Tactic := fun stx => withMainContext do
+  match stx with
+  | `(tactic| destruct_and $h) =>
+    let h ← getFVarFromUserName h.getId
+    let success ← destructAndExpr h
+    if !success then
+      failure
+  | _ => throwUnsupportedSyntax
 
 example (a b c d : Prop) (h : a ∧ b ∧ c ∧ d) : a := by
   destruct_and h
@@ -236,6 +226,7 @@ example (a b c d : Prop) (h : a ∧ b ∧ c ∧ d) : d := by
 example (a b c : Prop) (h : a ∧ b ∧ c) : a ∧ b := by
   constructor <;> destruct_and h
 
+end
 /- ### exact? タクティク
 
 ゴールを直接閉じることができる定理を探すタクティクとして [`exact?`](#{root}/Tactic/ExactQuestion.md) タクティクがあります。これに相当する（しかしかなり原始的で低性能な）ものを自前で実装する例を示します。[^exact?]
