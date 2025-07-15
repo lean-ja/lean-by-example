@@ -10,9 +10,34 @@ example : Lean.Elab.Tactic.Tactic = (Lean.Syntax → Lean.Elab.Tactic.TacticM Un
 
 /- ## Tactic 型からタクティクを作る
 
-`Tactic` 型の項からはタクティクを定義することができます。
+`Tactic` 型の項からはタクティクを定義することができます。-/
+/- ### tada で証明終了をお祝いするタクティク
 
-### trivial タクティクの制限版
+[`done`](#{root}/Tactic/Done.md) タクティクの派生として、ゴールがなくなったら 🎉 でお祝いするタクティクを作ることができます。
+-/
+syntax (name := tada) "tada" : tactic
+
+open Lean Elab Tactic Term in
+
+@[tactic tada]
+def evalTada : Tactic := fun _stx => do
+  -- 現在の未解決のゴールを取得する
+  let goals ← getUnsolvedGoals
+
+  -- 未解決のゴールがある場合
+  unless goals.isEmpty do
+    reportUnsolvedGoals goals
+    throwAbortCommand
+
+  logInfo "🎉 おめでとうございます！証明完了です！"
+
+/-⋆-//-- info: 🎉 おめでとうございます！証明完了です！ -/
+#guard_msgs in --#
+example : True := by
+  trivial
+  tada
+
+/- ### trivial タクティクの制限版
 
 [`trivial`](#{root}/Tactic/Trivial.md) タクティクの機能を制限し、`True` というゴールを閉じる機能だけを持つタクティクを構成することができます。[^trivial]
 -/
