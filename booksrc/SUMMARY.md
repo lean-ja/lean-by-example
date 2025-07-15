@@ -102,6 +102,7 @@
   - [command_elab: コマンドの構文と実装の紐づけ](./Attribute/CommandElab.md)
   - [csimp: 効率的な実装に置換](./Attribute/Csimp.md)
   - [default_instance: デフォルトの解決法](./Attribute/DefaultInstance.md)
+  - [elab_as_elim: 除去子として扱わせる](./Attribute/ElabAsElim.md)
   - [induction_eliminator: 独自帰納法](./Attribute/InductionEliminator.md)
   - [inherit_doc: ドキュメントの継承](./Attribute/InheritDoc.md)
   - [irreducible: 定義に展開できなくする](./Attribute/Irreducible.md)

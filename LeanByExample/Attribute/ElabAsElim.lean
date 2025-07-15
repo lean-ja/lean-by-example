@@ -1,3 +1,7 @@
+/- # elab_as_elim
+
+`[elab_as_elim]` 属性を付与すると、除去子(eliminator)としてエラボレートされるようになります。
+-/
 universe u
 
 /-- 標準の再帰子である`Nat.rec`を真似て作った再帰子もどき -/
@@ -5,6 +9,7 @@ def Nat.rec' {motive : Nat → Sort u}
     (zero : motive 0) (succ : ∀ n, motive n → motive (n + 1))
     (t : Nat) : motive t := Nat.rec zero succ t
 
+-- メタ変数を具体的に表示しない
 set_option pp.mvars false in
 
 -- 何も付けないとこういうエラーメッセージ
@@ -20,7 +25,7 @@ Note: Expected a function because this term is being applied to the argument
 #guard_msgs in --#
 def add (a b : Nat) := Nat.rec' _ (zero := b) (succ := fun _ b => b + 1) a
 
--- 属性を付与する
+-- `elab_as_elim` 属性を付与する
 attribute [elab_as_elim] Nat.rec'
 
 -- 「eliminatorがエラボレートできません」というエラーメッセージに変わる。
