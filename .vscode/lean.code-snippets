@@ -56,5 +56,15 @@
       "set_option warn.sorry false in --#",
     ],
     "description": "drop sorry warning"
+  },
+  "section": {
+    "scope": "lean,lean4",
+    "prefix": "sec",
+    "body": [
+      "section",
+      "$0",
+      "end",
+    ],
+    "description": "section"
   }
 }
