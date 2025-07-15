@@ -62,4 +62,24 @@ theorem inj_of_mono {f : A → B} (h : mono f) : Injective f := by
     _ = a₂ := rfl
   assumption
 
+/-- エピ射 -/
+def epi (f : A → B) := ∀ C : Type, ∀ g₁ g₂ : B → C, g₁ ∘ f = g₂ ∘ f → g₁ = g₂
+
+/-- 全射ならばエピ射 -/
+theorem epi_of_surj {f : A → B} (h : Surjective f) : epi f := by
+  intro C g₁ g₂ g_eq
+  dsimp [Surjective] at h
+  ext b
+  obtain ⟨a, ha⟩ := h b
+  rw [← ha]
+
+  -- ここで`grind`が成功しないのマジ？
+  fail_if_success grind
+
+  have : g₁ (f a) = g₂ (f a) := calc
+    _ = (g₁ ∘ f) a := rfl
+    _ = (g₂ ∘ f) a := by rw [g_eq]
+    _ = g₂ (f a) := rfl
+  assumption
+
 end Function
