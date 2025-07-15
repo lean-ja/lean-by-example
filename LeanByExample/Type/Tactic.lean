@@ -4,7 +4,7 @@
 -/
 import Lean
 import Qq --#
-import Batteries.Tactic.Exact --#
+import Batteries --#
 
 example : Lean.Elab.Tactic.Tactic = (Lean.Syntax → Lean.Elab.Tactic.TacticM Unit) := by rfl
 
@@ -252,6 +252,78 @@ example (a b c : Prop) (h : a ∧ b ∧ c) : a ∧ b := by
   constructor <;> destruct_and h
 
 end
+/- ### `A₁ ∧ ⋯ ∧ Aₙ` という形の前提を分解して新しい仮定として追加するタクティク
+
+再帰的な挙動をするタクティクの例として、さらに `A₁ ∧ A₂ ∧ ... ∧ Aₙ` という形の前提を分解して新しい仮定として追加するタクティクを実装する例を示します。[^cases_and]
+-/
+section
+
+/-- 仮定にある `A₁ ∧ A₂ ∧ ... ∧ Aₙ` を分解する -/
+syntax (name := casesAnd) "cases_and" : tactic
+
+open Lean Elab Tactic Meta Qq Parser Term
+
+/-- 命題`P`とその証明項`hp`を受け取り、`P = Q₁ ∧ Q₂ ∧ ... ∧ Qₙ` という形だった場合には
+各`Qᵢ`とその証明項`hqᵢ`のリストを返す。その形でなければ単に`[(P, hp)]`を返す。-/
+partial def casesAndAux (P : Q(Prop)) (hp : Q($P)) : TacticM (List (Q(Prop) × Expr)) := do
+  if (← inferType hp) != P then
+    throwError "型の不一致エラー: {hp} は {P} の証明ではありません"
+
+  if let ~q($Q₁ ∧ $Q₂) := P then
+    let hq₁ : Q($Q₁) := q(And.left $hp)
+    let hq₂ : Q($Q₂) := q(And.right $hp)
+    return (← casesAndAux Q₁ hq₁) ++ (← casesAndAux Q₂ hq₂)
+  else
+    return [(P, hp)]
+
+@[tactic casesAnd]
+def evalCasesAnd : Tactic := fun _stx => withMainContext do
+  -- 現在のローカルコンテキストを取得する
+  let ctx ← getLCtx
+
+  for (decl : LocalDecl) in ctx do
+    -- ローカル宣言の種類がデフォルトでない場合はスキップする
+    if decl.kind != .default then
+      continue
+
+    -- `hp : P` (ただし `P : Prop`)というタイプのローカル宣言に絞り込む
+    -- `A : Prop` のようなローカル宣言は除外する
+    let declType := decl.type
+    let declTypeType ← inferType declType
+    if ! declTypeType.isProp then
+      continue
+
+    -- 宣言し直す
+    have P : Q(Prop) := declType
+    have hp : Q($P) := decl.toExpr
+    trace[debug] m!"対象となるローカル宣言を見つけました: {hp} : {P}"
+
+    let proofList ← casesAndAux P hp
+    for ((Q, hq), idx) in proofList.zipIdx do
+      let hypName := decl.userName.appendAfter s!"_{idx}"
+      trace[debug] m!"新しい仮定を追加: {Q}"
+      evalTactic <| ← `(tactic| have $(mkIdent hypName) : $(← Q.toSyntax) := $(← hq.toSyntax))
+
+-- デバッグ出力をOFFにする
+set_option trace.debug false
+
+/-⋆-//--
+trace: a b c d : Prop
+h : a ∧ (b ∧ c) ∧ d
+h_0 : a
+h_1 : b
+h_2 : c
+h_3 : d
+⊢ b ∧ d
+-/
+#guard_msgs in --#
+example (a b c d : Prop) (h : a ∧ (b ∧ c) ∧ d) : b ∧ d := by
+  cases_and
+  trace_state -- 現在の infoview の状態を表示
+
+  constructor <;> assumption
+
+end
 /- ### exact? タクティク
 
 ゴールを直接閉じることができる定理を探すタクティクとして [`exact?`](#{root}/Tactic/ExactQuestion.md) タクティクがあります。これに相当する（しかしかなり原始的で低性能な）ものを自前で実装する例を示します。[^exact?]
@@ -310,7 +382,9 @@ example (x y : Nat) (h : x = y) : y = x := by
 
 [^iff_constructor]: このコード例を書くにあたり [Metaprogramming in Lean 4](https://leanprover-community.github.io/lean4-metaprogramming-book/) を参考にしました。
 
-[^destruct_and]: このコード例を書くにあたり The Hitchhiker's Guide to Logical Verification を参考にしました。
+[^destruct_and]: このコード例を書くにあたり [The Hitchhiker's Guide to Logical Verification](https://github.com/lean-forward/logical_verification_2025) を参考にしました。
 
-[^exact?]: このコード例を書くにあたり The Hitchhiker's Guide to Logical Verification を参考にしました。
+[^exact?]: このコード例を書くにあたり [The Hitchhiker's Guide to Logical Verification](https://github.com/lean-forward/logical_verification_2025) を参考にしました。
+
+[^cases_and]: このコード例を書くにあたり [The Hitchhiker's Guide to Logical Verification](https://github.com/lean-forward/logical_verification_2025) の演習問題を参考にしました。
 -/
