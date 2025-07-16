@@ -372,6 +372,8 @@ def evalMyExact? : Tactic := fun _stx => do
   -- どの定理も適用できなかった場合はタクティックとして失敗を返す
   failure
 
+set_option maxHeartbeats 500000 in
+
 -- 使用例
 example (x y : Nat) (h : x = y) : y = x := by
   my_exact?
