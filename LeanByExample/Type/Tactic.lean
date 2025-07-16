@@ -158,7 +158,7 @@ open Lean Elab Tactic Qq Meta
 
 /-- ゴールが `P ↔ Q` の形をしているかチェックして、
 `P ↔ Q` の形をしていたら `P` と `Q` をそれぞれ返す -/
-def extracetIffGoals : TacticM (Q(Prop) × Q(Prop)) := do
+def extractIffGoals : TacticM (Q(Prop) × Q(Prop)) := do
   have tgt : Q(Prop) := ← getMainTarget -- 右辺でQqを使用していないのでhaveを使う
   match tgt with
   | ~q($p ↔ $q) => return (p, q)
@@ -168,7 +168,7 @@ def extracetIffGoals : TacticM (Q(Prop) × Q(Prop)) := do
 def evalIffConstructor : Tactic := fun _stx => withMainContext do
   -- ゴールを取得する
   let goal ← getMainGoal
-  have (p, q) := ← extracetIffGoals
+  have (p, q) := ← extractIffGoals
 
   -- 新しいメタ変数（ゴール）を作成する
   have mp : Q($p → $q) := ← mkFreshExprSyntheticOpaqueMVar q($p → $q) (tag := `mp)
@@ -197,16 +197,12 @@ syntax (name := destructAnd) "destruct_and" ident : tactic
 
 open Lean Elab Tactic Qq Meta
 
-/-- 証明の前提 `hp : Expr` が `A₁ ∧ A₂ ∧ ... ∧ Aₙ` の形の命題の証明であるかチェックして、
+/-- 証明項 `hp : Q` が `A₁ ∧ A₂ ∧ ... ∧ Aₙ` の形の命題の証明であるかチェックして、
 再帰的に分解して現在のゴールと一致する証明が得られるかを確認し、
 もし一致すればゴールを閉じて`true`を返す。一致しなければ`false`を返す。 -/
-partial def destructAndExpr (hp : Expr) : TacticM Bool := withMainContext do
+partial def destructAndExpr (P : Q(Prop)) (hp : Q($P)) : TacticM Bool := withMainContext do
   -- 今証明を構成しようとしている命題を取得
   have target : Q(Prop) := ← getMainTarget
-
-  -- 前提として証明が得られている命題を取得
-  have P : Q(Prop) := ← inferType hp
-  have hp : Q($P) := hp -- 前提の型をQqで注釈
 
   -- `P` が `target` と一致しているなら、示すべきゴールの証明が得られたことになる。
   if (← isDefEq P target) then
@@ -217,13 +213,13 @@ partial def destructAndExpr (hp : Expr) : TacticM Bool := withMainContext do
   match P with
   | ~q($Q ∧ $R) =>
     let hq : Q($Q) := q(And.left $hp)
-    let success ← destructAndExpr hq -- 再帰的にチェック
+    let success ← destructAndExpr Q hq -- 再帰的にチェック
     -- 成功していたら早期リターン
     if success then
       return true
 
     let hr : Q($R) := q(And.right $hp)
-    destructAndExpr hr -- 再帰的にチェック
+    destructAndExpr R hr -- 再帰的にチェック
   | _ => return false
 
 @[tactic destructAnd]
@@ -231,7 +227,7 @@ def evalDestructAnd : Tactic := fun stx => withMainContext do
   match stx with
   | `(tactic| destruct_and $h) =>
     let h ← getFVarFromUserName h.getId
-    let success ← destructAndExpr h
+    let success ← destructAndExpr (← inferType h) h
     if !success then
       failure
   | _ => throwUnsupportedSyntax
