@@ -265,7 +265,7 @@ open Lean Elab Tactic Meta Qq Parser Term
 
 /-- 命題`P`とその証明項`hp`を受け取り、`P = Q₁ ∧ Q₂ ∧ ... ∧ Qₙ` という形だった場合には
 各`Qᵢ`とその証明項`hqᵢ`のリストを返す。その形でなければ単に`[(P, hp)]`を返す。-/
-partial def casesAndAux (P : Q(Prop)) (hp : Q($P)) : TacticM (List (Q(Prop) × Expr)) := do
+partial def casesAndAux (P : Q(Prop)) (hp : Q($P)) : TacticM (List ((P : Q(Prop)) × Q($P))) := do
   if (← inferType hp) != P then
     throwError "型の不一致エラー: {hp} は {P} の証明ではありません"
 
@@ -274,7 +274,7 @@ partial def casesAndAux (P : Q(Prop)) (hp : Q($P)) : TacticM (List (Q(Prop) × E
     let hq₂ : Q($Q₂) := q(And.right $hp)
     return (← casesAndAux Q₁ hq₁) ++ (← casesAndAux Q₂ hq₂)
   else
-    return [(P, hp)]
+    return [⟨P, hp⟩]
 
 @[tactic casesAnd]
 def evalCasesAnd : Tactic := fun _stx => withMainContext do
@@ -299,7 +299,7 @@ def evalCasesAnd : Tactic := fun _stx => withMainContext do
     trace[debug] m!"対象となるローカル宣言を見つけました: {hp} : {P}"
 
     let proofList ← casesAndAux P hp
-    for ((Q, hq), idx) in proofList.zipIdx do
+    for (⟨Q, hq⟩, idx) in proofList.zipIdx do
       let hypName := decl.userName.appendAfter s!"_{idx}"
       trace[debug] m!"新しい仮定を追加: {Q}"
       evalTactic <| ← `(tactic| have $(mkIdent hypName) : $(← Q.toSyntax) := $(← hq.toSyntax))
