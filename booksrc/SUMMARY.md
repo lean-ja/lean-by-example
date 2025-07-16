@@ -94,6 +94,7 @@
   - [match .. with: パターンマッチ](./Parser/Match.md)
   - [s!: 文字列補間](./Parser/InterpStr.md)
   - [show .. from: 項の型を明示](./Parser/Show.md)
+  - [Σ: 依存ペア型](./Parser/Sigma.md)
 
 - [属性](./Attribute/README.md)
   - [aesop: aesop カスタマイズ](./Attribute/Aesop.md)
