@@ -460,7 +460,7 @@ end IMP
 
 /- [^nestedlist]: ここで紹介しているコード例は、Lean 公式 Zulip の "macro parser for nested lists" というトピックで [Kyle Miller さんが挙げていたコード](https://leanprover.zulipchat.com/#narrow/channel/113488-general/topic/macro.20parser.20for.20nested.20lists/near/486691429)を参考にしています。
 
-[^listcompr]: ここで紹介しているコード例は、Lean 公式 Zulip の "List Functor" というトピックで [Kyle Miller さんが挙げていたコード](https://leanprover.zulipchat.com/#narrow/channel/270676-lean4/topic/List.20Functor/near/290456697)を参考にしています。
+[^listcompr]: ここで紹介しているコード例は、 [lean4-samplesリポジトリのListComprehension.leanというファイル](https://github.com/leanprover-community/lean4-samples/blob/c3690b7a51667cfe74a64a49b0057dbc42d8716a/ListComprehension/ListComprehension.lean)の内容を参考にしています。
 
 [^imp]: ここで紹介しているコード例は、Metaprogramming in Lean 4 の [Embedding DSLs By Elaboration](https://leanprover-community.github.io/lean4-metaprogramming-book/main/08_dsls.html) という章の記述を参考にしています。
 -/
