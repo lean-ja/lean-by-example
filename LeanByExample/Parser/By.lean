@@ -48,22 +48,8 @@ def parse (cat : Name) (s : String) : MetaM Syntax := do
 
 /- `by` のパーサのドキュメントコメントに次のように書かれている通り、`by` の後にタクティクを続けたものは項(term)になります。
 
-> `by tac` constructs a term of the expected type by running the tactic(s) `tac`.
+{{#include ./By/Doc.md}}
 -/
---#--
--- ## ドキュメントコメントの内容を検証するためのコード
-open Lean Elab Command in
-
-/-- ドキュメントコメントを取得して表示するコマンド -/
-elab "#doc " x:ident : command => do
-  let name := x.getId
-  if let some s ← findDocString? (← getEnv) name then
-    logInfo m!"{s}"
-
-/-⋆-//-- info: `by tac` constructs a term of the expected type by running the tactic(s) `tac`. -/
-#guard_msgs in --#
-#doc Lean.Parser.Term.byTactic
---#--
 
 -- `by` の後にタクティクを続けたものは構文的に項(term)になる
 #eval parse `term "by rfl"
