@@ -13,9 +13,9 @@ open Lean Elab Command in
 
 /-- ドキュメントコメントを取得して表示するコマンド -/
 elab "#doc " x:ident : command => do
-  let name ← liftCoreM do realizeGlobalConstNoOverload x
+  let name := x.getId
   if let some s ← findDocString? (← getEnv) name then
-  logInfo m!"{s}"
+    logInfo m!"{s}"
 
 /-⋆-//-- info: 最初に与えた doc コメント -/
 #guard_msgs in --#

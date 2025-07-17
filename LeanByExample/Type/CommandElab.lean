@@ -43,7 +43,7 @@ open Lean Elab Command in
 def evalDocCmd : CommandElab := fun stx =>
   match stx with
   | `(command| #doc $x:ident) => do
-    let name ← liftCoreM do realizeGlobalConstNoOverload x
+    let name := x.getId
     if let some s ← findDocString? (← getEnv) name then
       logInfo m!"{s}"
   | _ => throwUnsupportedSyntax
