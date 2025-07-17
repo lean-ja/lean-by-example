@@ -56,29 +56,10 @@ def List.map' {α β : Type} (f : α → β) : List α → List β
 
 /- ## 構文的な性質
 
-`Lean.Parser.Term.implicitBinder` というパーサが暗黙引数の構文に対応しています。-/
+`Lean.Parser.Term.implicitBinder` というパーサが暗黙引数の構文に対応しており、このパーサのドキュメントコメントに次のように書かれている通り、構文としては暗黙の引数に型を指定しないことも許されます。
 
-open Lean Elab Command in
-
-/-- ドキュメントコメントを取得して表示するコマンド -/
-elab "#doc " x:ident : command => do
-  let name := x.getId
-  if let some s ← findDocString? (← getEnv) name then
-    logInfo m!"{s}"
-
-/-⋆-//--
-info: Implicit binder, like `{x y : A}` or `{x y}`.
-In regular applications, whenever all parameters before it have been specified,
-then a `_` placeholder is automatically inserted for this parameter.
-Implicit parameters should be able to be determined from the other arguments and the return type
-by unification.
-
-In `@` explicit mode, implicit binders behave like explicit binders.
+{{#include ./ImplicitBinder/Doc.md}}
 -/
-#guard_msgs in --#
-#doc Lean.Parser.Term.implicitBinder
-
-/- 上記のドキュメントコメントにも書かれていますが、構文としては暗黙の引数に型を指定しないことも許されます。 -/
 
 -- `x : α` と書いたので、`α` が何かの型であることは分かる
 def myId {α} (x : α) := x
