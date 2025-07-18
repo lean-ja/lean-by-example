@@ -32,25 +32,11 @@ error: could not synthesize a 'ToExpr', 'Repr', or 'ToString' instance for type
 
 /- ## Repr が満たすべきルール
 
-`Repr` の出力は Lean のコードとしてパース可能なものに可能な限り近くなければならない、つまり Lean のコードとして実行可能であることが期待されます。このルールは `Repr` のドキュメントコメントに書かれています。
+`Repr` の出力は Lean のコードとしてパース可能なものに可能な限り近くなければならない、つまり Lean のコードとして実行可能であることが期待されます。このルールは 次のように `Repr` のドキュメントコメントに書かれています。
+
+{{#include ./Repr/Doc.md}}
 -/
 
-open Lean Elab Command in
-
-/-- ドキュメントコメントを取得して表示するコマンド -/
-elab "#doc " x:ident : command => do
-  let name := x.getId
-  if let some s ← findDocString? (← getEnv) name then
-    logInfo m!"{s}"
-
-/-⋆-//--
-info: The standard way of turning values of some type into `Format`.
-
-When rendered this `Format` should be as close as possible to something that can be parsed as the
-input value.
--/
-#guard_msgs in --#
-#doc Repr
 
 /- ## Repr インスタンスの実装方法
 
