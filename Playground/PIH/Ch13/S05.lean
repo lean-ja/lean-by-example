@@ -1,4 +1,4 @@
-import Playground.PIH.Chapter13.Section4
+import Playground.PIH.Ch13.S04
 
 /- Alternative は選択を表す -/
 

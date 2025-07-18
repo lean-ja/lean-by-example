@@ -1,4 +1,4 @@
-import Playground.PIH.Chapter09.Section5
+import Playground.PIH.Ch09.S05
 
 instance : Monad List where
   pure x := [x]

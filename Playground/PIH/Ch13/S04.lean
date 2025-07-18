@@ -1,4 +1,4 @@
-import Playground.PIH.Chapter13.Section2
+import Playground.PIH.Ch13.S02
 
 /-- `Parser`の`Functor.map`メソッドの実装
 

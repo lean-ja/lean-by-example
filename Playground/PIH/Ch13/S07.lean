@@ -1,4 +1,4 @@
-import Playground.PIH.Chapter13.Section6
+import Playground.PIH.Ch13.S06
 
 namespace Parser
 

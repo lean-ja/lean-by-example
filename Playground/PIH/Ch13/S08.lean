@@ -1,4 +1,4 @@
-import Playground.PIH.Chapter13.Section7
+import Playground.PIH.Ch13.S07
 
 open Parser
 

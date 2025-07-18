@@ -1,4 +1,4 @@
-import Playground.PIH.Chapter09.Section3
+import Playground.PIH.Ch09.S03
 
 /-- 与えられたリストの部分リストを全て返す -/
 def List.subs {α : Type} : List α → List (List α)

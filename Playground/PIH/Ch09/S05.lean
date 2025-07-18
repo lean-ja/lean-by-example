@@ -1,4 +1,4 @@
-import Playground.PIH.Chapter09.Section4
+import Playground.PIH.Ch09.S04
 
 /-- 与えられた式 `expr : Expr` が `inputs` と `target` の定義する
 カウントダウン問題の解になっているかどうか判定する -/

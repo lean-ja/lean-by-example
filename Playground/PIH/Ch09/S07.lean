@@ -1,4 +1,4 @@
-import Playground.PIH.Chapter09.Section6
+import Playground.PIH.Ch09.S06
 
 /-- インタプリンタでは重いのでコンパイラで実行 -/
 def main : IO Unit :=

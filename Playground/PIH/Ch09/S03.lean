@@ -1,4 +1,4 @@
-import Playground.PIH.Chapter09.Section2
+import Playground.PIH.Ch09.S02
 
 /-- 途中に現れる可能性のある数式 -/
 inductive Expr where

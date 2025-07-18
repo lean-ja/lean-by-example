@@ -1,4 +1,4 @@
-import Playground.PIH.Chapter09.Section6
+import Playground.PIH.Ch09.S06
 
 /-- 証明に対する sorryAx -/
 axiom sorryProofAx {P : Prop} : P

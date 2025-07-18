@@ -1,4 +1,4 @@
-import Playground.PIH.Chapter13.Section5
+import Playground.PIH.Ch13.S05
 
 /-- 述語 `p` を満たす１文字用のパーサ -/
 def Parser.sat (p : Char → Bool) : Parser Char := do
