@@ -36,6 +36,7 @@ theorem mono_of_inj {f : A → B} (h : Injective f) : mono f := by
   intro C g₁ g₂ g_eq
   dsimp [Injective] at h
   ext c
+  fail_if_success grind -- **TODO** grind を使って示すにはどうしたら良い？
   have eq : f (g₁ c) = f (g₂ c) := calc
     _ = (f ∘ g₁) c := rfl
     _ = (f ∘ g₂) c := by rw [g_eq]
@@ -53,6 +54,7 @@ theorem inj_of_mono {f : A → B} (h : mono f) : Injective f := by
   let g₂ : C → A := fun _ => a₂
   replace h := h C g₁ g₂
 
+  fail_if_success grind -- **TODO** grind を使って示すにはどうしたら良い？
   have : f ∘ g₁ = f ∘ g₂ := by grind
   replace h := h this
 
