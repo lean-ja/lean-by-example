@@ -47,27 +47,10 @@ end Hidden --#
 
 という手順になるかと思います。`n` 個の要素を持つ `xs : List α` に対して長さを求めようとすると、先頭から順に要素をたぐっていくので `n` に比例する時間がかかります。したがって `String.length` は長い文字列に対しては遅くなりそうなものですが、コンパイラによって実装がオーバーライドされているため、実際には `n` が大きくても高速に実行できます。
 
-このあたりの背景はドキュメントコメントに書かれています。
+このあたりの背景は、次に示すようにドキュメントコメントに書かれています。
+
+{{#include ./String/Doc.md}}
 -/
-
-open Lean Elab Command in
-
-/-- ドキュメントコメントを取得して表示するコマンド -/
-elab "#doc " x:ident : command => do
-  let name := x.getId
-  if let some s ← findDocString? (← getEnv) name then
-    logInfo m!"{s}"
-
-/-⋆-//--
-info: A string is a sequence of Unicode code points.
-
-At runtime, strings are represented by [dynamic arrays](https://en.wikipedia.org/wiki/Dynamic_array)
-of bytes using the UTF-8 encoding. Both the size in bytes (`String.utf8ByteSize`) and in characters
-(`String.length`) are cached and take constant time. Many operations on strings perform in-place
-modifications when the reference to the string is unique.
--/
-#guard_msgs in --#
-#doc String
 
 /- ## 文字列補間
 
