@@ -1,4 +1,4 @@
-import Playground.PIH.MyStd.IO
+import Playground.PIH.IO
 
 /-- キーボードから文字列を読み込んで、その長さを表示する -/
 def main : IO Unit := do

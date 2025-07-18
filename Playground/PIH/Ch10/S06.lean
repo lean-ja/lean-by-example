@@ -1,4 +1,4 @@
-import Playground.PIH.MyStd.IO
+import Playground.PIH.IO
 
 set_option linter.missingDocs false
 
