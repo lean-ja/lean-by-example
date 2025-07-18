@@ -4,7 +4,7 @@ open Std.Internal.IO.Async
 
 def expensiveOperation (n : Nat) : Async Nat := do
   IO.sleep 1000
-  return 2 * n
+  return n
 
 def manyInParallel (n : Nat) : Async Nat := do
   let tasks := (Array.range n).map expensiveOperation
@@ -12,4 +12,4 @@ def manyInParallel (n : Nat) : Async Nat := do
   return results.sum
 
 -- Only runs about a second
-#eval (manyInParallel 10).wait
+#time #eval (manyInParallel 11).wait
