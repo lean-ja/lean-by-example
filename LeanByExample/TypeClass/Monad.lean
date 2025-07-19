@@ -1,3 +1,4 @@
+import Lean --#
 /- # Monad
 
 `Monad` は、圏論におけるモナドという概念からその名がある型クラスで、大雑把に言えば逐次的な計算を表します。この型クラスを実装した型に対しては、do 構文と呼ばれる手続き型プログラミングを一般化したような構文が使用できるようになります。
@@ -91,7 +92,6 @@ def fstSndThird? (a : Array Nat) : Option (Nat × Nat × Nat) := do
 #guard fstSndThird? #[1, 2, 3] = some (1, 2, 3)
 
 end Do --#
-
 /- ### List
 
 [`List`](#{root}/Type/List.md) 関手もモナドにすることができます。`List` の場合、do 構文を使用することで、リスト内包表記のような操作を簡潔に記述できます。
@@ -183,6 +183,12 @@ def Parser.three : Parser String := do
   return String.mk [x, y, z]
 
 #guard Parser.three "abcdef" = some ("abc", "def")
+
+/- なお、Lean の標準ライブラリに用意されているパーサもモナドになっています。 -/
+
+open Std Internal in
+
+instance (ι : Type) : Monad (Parsec ι) := by infer_instance
 
 /-
 [^parser]: モナドを利用するパーサの詳細については「Monadic Parser Combinators」と「Monadic parsing in Haskell」という論文を参照してください。
