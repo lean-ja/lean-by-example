@@ -30,3 +30,28 @@ elab "#doc " x:ident : command => do
 /-⋆-//-- info: 階乗関数 -/
 #guard_msgs in --#
 #doc Nat.factorial
+
+/- ## 補足：コメントはパースされている
+
+なお、ドキュメントコメントに限らず、Lean のコメントはパーサに無視されません。ただ実行内容を持たず、コードの動作に影響を与えないだけです。
+-/
+section --#
+open Lean Elab Command Parser
+
+/-⋆-//--
+info: def foo :
+    -- ここにコメント
+    /- ここにもコメント -/
+    True :=
+  trivial
+-/
+#guard_msgs in --#
+run_cmd liftTermElabM do
+  let s := "def foo : \n\
+    -- ここにコメント\n\
+    /- ここにもコメント -/\n\
+    True := trivial"
+  let cmd : Command := ⟨← ofExcept <| runParserCategory (← getEnv) `command s⟩
+  logInfo (← PrettyPrinter.ppCommand cmd)
+
+end --#
