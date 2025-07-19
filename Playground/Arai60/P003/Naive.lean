@@ -2,7 +2,7 @@
 
 文字列 `s` が与えられたとき、重複する文字を含まない最長の（連続した）部分文字列の長さを求めなさい。
 -/
-import Playground.String
+import Playground.Arai60.Lib.String
 
 open Std HashSet
 
@@ -20,8 +20,7 @@ def runTest (tests : List TestCase) (f : String → Nat) : IO Unit := do
   for test in tests do
     let actual := f test.input
     if actual != test.expected then
-      IO.println s!"Test failed for input `{test.input}`: expected {test.expected}, got {actual}"
-      return
+      throw <| .userError s!"Test failed for input `{test.input}`: expected {test.expected}, got {actual}"
   IO.println s!"All tests passed!"
 
 /- # 素朴な解法
@@ -32,15 +31,12 @@ def runTest (tests : List TestCase) (f : String → Nat) : IO Unit := do
 2. 重複する文字を含まないものだけ選ぶ
 3. その中で最長のものを選ぶ
 -/
-section Naive
 
 def naive (s : String) : Nat :=
   s.allSubstrings
-    |>.filter (fun sub => !String.hasDup sub)
+    |>.filter (!String.hasDup ·)
     |>.toList
-    |>.map (fun sub => sub.length) -- **TODO** HashSet には map がないのか？？
+    |>.map String.length
     |>.foldl max 0
 
 #eval runTest tests naive
-
-end Naive

@@ -21,4 +21,15 @@ def allSubstrings (s : String) : HashSet String := Id.run do
       result := result.insert sub
   return result.insert ""
 
+def extractRange (s : String) (range : Range) : String :=
+  s.extract ⟨range.start⟩ ⟨range.stop⟩
+
+#guard "hello world".extractRange [0 : 5] == "hello"
+
+/-- **TODO** GetElem の Range アクセスバージョンを作ってもらうことはできないのだろうか？ -/
+instance : GetElem String Range String (fun _ _ => True) where
+  getElem s range _h := s.extractRange range
+
+#guard "hello"[[0 : 2]] = "he"
+
 end String
