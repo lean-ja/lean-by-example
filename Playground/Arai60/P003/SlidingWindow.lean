@@ -1,4 +1,4 @@
-import Playground.Arai60.Lib.String
+import Playground.Arai60.Lib
 import Lean
 
 open Std Lean
@@ -6,14 +6,6 @@ open Std Lean
 /-- **TODO** Inhabited インスタンスがなぜか標準ライブラリに欠けている -/
 instance : Inhabited Range where
   default := ⟨0, 0, 1, by decide⟩
-
-/-- rangeの左端を一つ右へ（大きくなる方向に）進める -/
-def Range.shiftLower (r : Range) : Range :=
-  ⟨r.start + 1, r.stop, r.step, r.step_pos⟩
-
-/-- rangeの右端を一つ右へ（大きくなる方向に）進める -/
-def Range.shiftUpper (r : Range) : Range :=
-  ⟨r.start, r.stop + 1, r.step, r.step_pos⟩
 
 /- # スライドウィンドウ
 
@@ -58,7 +50,10 @@ def lengthOfLongestSubstring (s : String) : Nat := Id.run do
 
   return maxLength
 
+private def tests : List <| @TestCase String Nat := [
+  ⟨"abcabcbb", 3⟩,
+  ⟨"bbbbb", 1⟩,
+  ⟨"pwwkew", 3⟩,
+]
 
-#guard lengthOfLongestSubstring "abcabcbb" = 3
-#guard lengthOfLongestSubstring "bbbbb" = 1
-#guard lengthOfLongestSubstring "pwwkew" = 3
+#eval runTest tests lengthOfLongestSubstring
