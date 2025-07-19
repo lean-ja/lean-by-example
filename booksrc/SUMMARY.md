@@ -107,6 +107,7 @@
   - [csimp: 効率的な実装に置換](./Attribute/Csimp.md)
   - [default_instance: デフォルトの解決法](./Attribute/DefaultInstance.md)
   - [elab_as_elim: 除去子として扱わせる](./Attribute/ElabAsElim.md)
+  - [implemented_by: 仕様と実装の分離](./Attribute/ImplementedBy.md)
   - [induction_eliminator: 独自帰納法](./Attribute/InductionEliminator.md)
   - [inherit_doc: ドキュメントの継承](./Attribute/InheritDoc.md)
   - [irreducible: 定義に展開できなくする](./Attribute/Irreducible.md)
