@@ -5,7 +5,7 @@ inductive Expression where
   /-- 識別子 -/
   | ident (name : String) : Expression
   /-- 整数リテラル -/
-  | integerLiteral (value : Int) : Expression
+  | num (value : Int) : Expression
   /-- 前置演算子 -/
   | prefix (operator : Token) (right : Expression) : Expression
   /-- 中置演算子 -/
@@ -18,8 +18,8 @@ deriving Repr, DecidableEq
 def Expression.toString (e : Expression) : String :=
   match e with
   | .ident name => s!"{name}"
-  | .integerLiteral value => s!"{value}"
-  | .prefix operator right => s!"({operator} {Expression.toString right})"
+  | .num value => s!"{value}"
+  | .prefix operator right => s!"({operator}{Expression.toString right})"
   | .infix left operator right => s!"({Expression.toString left} {operator} {Expression.toString right})"
   | .notImplemented => "notImplemented"
 

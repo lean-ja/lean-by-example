@@ -123,8 +123,8 @@ def testIntegerLiteralExpression : IO Unit := do
   let [Statement.exprStmt stmt] := program
     | throw <| .userError s!"Statement.exprStmt is expected. got={program}"
 
-  let Expression.integerLiteral value := stmt
-    | throw <| .userError s!"Expression.integerLiteral is expected. got={stmt}"
+  let Expression.num value := stmt
+    | throw <| .userError s!"Expression.num is expected. got={stmt}"
 
   if value != 5 then
     throw <| .userError s!"value is expected to be 5. got={value}"
@@ -165,8 +165,8 @@ def testParsingPrefixExpressions : IO Unit := do
     if operator != testCase.operator then
       throw <| .userError s!"operator is expected to be {testCase.operator}. got={operator}"
 
-    let Expression.integerLiteral value := right
-      | throw <| .userError s!"Expression.integerLiteral is expected. got={right}"
+    let Expression.num value := right
+      | throw <| .userError s!"Expression.num is expected. got={right}"
 
     if value != testCase.integer then
       throw <| .userError s!"value is expected to be {testCase.integer}. got={value}"
@@ -212,11 +212,11 @@ def testParsingInfixExpressions : IO Unit := do
     let Expression.infix left operator right := stmt
       | throw <| .userError s!"Expression.infix is expected. got={stmt}"
 
-    let Expression.integerLiteral leftValue := left
-      | throw <| .userError s!"Expression.integerLiteral is expected. got={left}"
+    let Expression.num leftValue := left
+      | throw <| .userError s!"Expression.num is expected. got={left}"
 
-    let Expression.integerLiteral rightValue := right
-      | throw <| .userError s!"Expression.integerLiteral is expected. got={right}"
+    let Expression.num rightValue := right
+      | throw <| .userError s!"Expression.num is expected. got={right}"
 
     if operator != testCase.operator then
       throw <| .userError s!"operator is expected to be {testCase.operator}. got={operator}"
@@ -238,15 +238,15 @@ private structure PrecedenceTestCase where
 /-- AST に演算子の優先度が正しく反映されていることの確認 -/
 def testOperatorPrecedenceParsing : IO Unit := do
   let tests : Array PrecedenceTestCase := #[
-    { input := "-a * b", expected := "((- a) * b)" },
-    { input := "!-a", expected := "(! (- a))" },
+    { input := "-a * b", expected := "((-a) * b)" },
+    { input := "!-a", expected := "(!(-a))" },
     { input := "a + b + c", expected := "((a + b) + c)" },
     { input := "a + b - c", expected := "((a + b) - c)" },
     { input := "a * b * c", expected := "((a * b) * c)" },
     { input := "a * b / c", expected := "((a * b) / c)" },
     { input := "a + b / c", expected := "(a + (b / c))" },
     { input := "a + b * c + d / e - f", expected := "(((a + (b * c)) + (d / e)) - f)" },
-    { input := "3 + 4; -5 * 5", expected := "(3 + 4)((- 5) * 5)" },
+    { input := "3 + 4; -5 * 5", expected := "(3 + 4)((-5) * 5)" },
     { input := "5 > 4 == 3 < 4", expected := "((5 > 4) == (3 < 4))" },
     { input := "5 < 4 != 3 > 4", expected := "((5 < 4) != (3 > 4))" },
     { input := "3 + 4 * 5 == 3 * 1 + 4 * 5", expected := "((3 + (4 * 5)) == ((3 * 1) + (4 * 5)))" }
@@ -285,11 +285,11 @@ def testIdentifier (exp : Expression) (value : String) : IO Bool := do
 
 /-- 整数リテラルのテスト -/
 def testIntegerLiteral (il : Expression) (value : Int) : IO Bool := do
-  let Expression.integerLiteral integ := il
-    | throw <| .userError s!"integerLiteral is expected, but got={il}"
+  let Expression.num integ := il
+    | throw <| .userError s!"num is expected, but got={il}"
 
   if integ != value then
-    throw <| .userError s!"integerLiteral is expected to be {value}, but got={integ}"
+    throw <| .userError s!"num is expected to be {value}, but got={integ}"
 
   return true
 
