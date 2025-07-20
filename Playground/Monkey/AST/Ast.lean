@@ -3,7 +3,7 @@ import Playground.Monkey.Token.Token
 /-- 式 -/
 inductive Expression where
   /-- 識別子 -/
-  | identifier (name : String) : Expression
+  | ident (name : String) : Expression
   /-- 整数リテラル -/
   | integerLiteral (value : Int) : Expression
   /-- 前置演算子 -/
@@ -17,7 +17,7 @@ deriving Repr, DecidableEq
 /-- Expression を文字列に変換する -/
 def Expression.toString (e : Expression) : String :=
   match e with
-  | .identifier name => s!"{name}"
+  | .ident name => s!"{name}"
   | .integerLiteral value => s!"{value}"
   | .prefix operator right => s!"({operator} {Expression.toString right})"
   | .infix left operator right => s!"({Expression.toString left} {operator} {Expression.toString right})"
@@ -62,7 +62,7 @@ instance : ToString Program where
   toString p := p.map Statement.toString |>.foldl (· ++ ·) ""
 
 private def «-a * b» : Program :=
-  [Statement.exprStmt (Expression.infix (Expression.prefix Token.MINUS (Expression.identifier "a")) Token.ASTERISK (Expression.identifier "b"))]
+  [Statement.exprStmt (Expression.infix (Expression.prefix Token.MINUS (Expression.ident "a")) Token.ASTERISK (Expression.ident "b"))]
 
 #eval toString «-a * b»
 

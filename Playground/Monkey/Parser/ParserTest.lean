@@ -96,7 +96,7 @@ def testIdentifierExpression : IO Unit := do
   let [Statement.exprStmt stmt] := program
     | throw <| .userError s!"Statement.exprStmt is expected. got={program}"
 
-  let Expression.identifier id := stmt
+  let Expression.ident id := stmt
     | throw <| .userError s!"Expression.identifier is expected. got={stmt}"
 
   if id != "foobar" then
@@ -275,7 +275,7 @@ def testOperatorPrecedenceParsing : IO Unit := do
 * `value` は期待される識別子の値
 -/
 def testIdentifier (exp : Expression) (value : String) : IO Bool := do
-  let Expression.identifier name := exp
+  let Expression.ident name := exp
     | throw <| .userError s!"identifier is expected, but got={exp}"
 
   if name != value then

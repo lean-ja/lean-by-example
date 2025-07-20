@@ -75,7 +75,7 @@ mutual
 
 /-- トークンタイプに応じて前置構文解析器を取得する -/
 partial def prefixParseFns : Token → PrefixParseFn
-  | .IDENT x => return Expression.identifier x
+  | .IDENT x => return Expression.ident x
   | .INT value => return Expression.integerLiteral value
   | tkn@.BANG | tkn@.MINUS => do
     Parser.nextToken
