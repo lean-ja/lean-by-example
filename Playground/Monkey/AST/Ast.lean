@@ -61,9 +61,53 @@ abbrev Program := List Statement
 instance : ToString Program where
   toString p := p.map Statement.toString |>.foldl (· ++ ·) ""
 
-private def «-a * b» : Program :=
-  [Statement.exprStmt (Expression.infix (Expression.prefix Token.MINUS (Expression.ident "a")) Token.ASTERISK (Expression.ident "b"))]
 
-#eval toString «-a * b»
+/-- 式 -/
+declare_syntax_cat monkey_expr
+
+section monkey_expr
+  /-- 識別子 -/
+  syntax ident : monkey_expr
+  /-- 数値リテラル -/
+  syntax num : monkey_expr
+  /-- 加算 -/
+  syntax:50 monkey_expr:50 "+" monkey_expr:51 : monkey_expr
+  /-- 減算 -/
+  syntax:50 monkey_expr:50 "-" monkey_expr:50 : monkey_expr
+  /-- 前置演算子 -/
+  syntax:100 "-" monkey_expr:100 : monkey_expr
+  /-- 乗算 -/
+  syntax:70 monkey_expr:70 "*" monkey_expr:71 : monkey_expr
+  /-- 丸括弧 -/
+  syntax "(" monkey_expr:15 ")" : monkey_expr
+end monkey_expr
+
+syntax "[monkey_expr|" monkey_expr "]" : term
+
+section Syntax2AST
+
+  open Lean Elab Term Syntax
+
+  def Lean.TSyntax.toStrLit (stx : TSyntax `ident) : StrLit :=
+    stx.getId.toString |> Syntax.mkStrLit
+
+  macro_rules
+    | `([monkey_expr| $n:num ]) => `(Expression.num $n)
+    | `([monkey_expr| $name:ident ]) =>
+      let nameStr : StrLit := name.toStrLit
+      `(Expression.ident $nameStr)
+    | `([monkey_expr| $l + $r ]) =>
+      `(Expression.infix [monkey_expr| $l ] Token.PLUS [monkey_expr| $r ])
+    | `([monkey_expr| $l - $r ]) =>
+      `(Expression.infix [monkey_expr| $l ] Token.MINUS [monkey_expr| $r ])
+    | `([monkey_expr| $l * $r ]) =>
+      `(Expression.infix [monkey_expr| $l ] Token.ASTERISK [monkey_expr| $r ])
+    | `([monkey_expr| - $e ]) =>
+      `(Expression.prefix Token.MINUS [monkey_expr| $e ])
+    | `([monkey_expr| ( $e:monkey_expr ) ]) => `([monkey_expr| $e ])
+
+end Syntax2AST
+
+#eval toString [Statement.exprStmt [monkey_expr| -a * b ]]
 
 #eval toString ([Statement.letStmt "myVar" Expression.notImplemented] : Program)
