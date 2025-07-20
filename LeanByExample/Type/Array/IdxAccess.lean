@@ -1,5 +1,3 @@
-import Lean
-
 open IO
 
 variable {α : Type} {valid : α → Nat → Prop}
