@@ -74,7 +74,6 @@ example {m n k : Nat} (h₁ : m ≤ₘ n) (h₂ : n ≤ₘ k) : m ≤ₘ k := by
 
 時として、帰納法の仮定が弱すぎることがあります。
 -/
-set_option warn.sorry false in --#
 
 /-- 階乗関数 -/
 def factorial (n : Nat) : Nat :=
@@ -127,6 +126,73 @@ example (n acc : Nat) : factorialTR.aux n acc = acc * factorialTR.aux n 1 := by
 example {n m : Nat} (h : Even (n + m)) (hm : Even m) : Even n := by
   induction hm generalizing m
 
+/-
+## 完全帰納法
+
+時には、より強い帰納法が必要なこともあります。 強い帰納法とは、 たとえば以下のような形式で表されるような帰納法のことです。
+
+* `∀ n, (∀ k < n, P (k)) → P (n)` を示す。
+* したがって `∀ n, P (n)` である。
+
+これは超限帰納法の特別な場合で、完全帰納法や累積帰納法とも呼ばれます。
+自然数の場合は、`Nat.strong_induction_on` を `using` キーワードに渡せば使うことができます。
+-/
+
+/-- 素数であるという命題 -/
+@[simp]
+def IsPrime (n : Nat) := 1 < n ∧ ∀ k, 1 < k → k < n → ¬ k ∣ n
+
+@[grind ->]
+theorem IsPrime_pos (n : Nat) (h : IsPrime n) : 1 < n := by
+  simp_all
+
+/-- 1より大きい任意の数は素因数を持つ -/
+theorem exists_prime_factor (n : Nat) (hgt : 1 < n) :
+  ∃ k, IsPrime k ∧ k ∣ n := by
+  induction n using Nat.strong_induction_on with
+  | h n ih =>
+    -- nが素数であるかどうかによって場合分けをする。
+    by_cases hprime : IsPrime n
+    case pos =>
+      -- nが素数であるときは明らか。
+      grind [Nat.dvd_refl]
+
+    -- 以下、nは素数でないとする。
+    -- nは素数ではないのでnより真に小さい約数を持つ。
+    have ⟨k, _, _, _⟩ : ∃ k, 1 < k ∧ k < n ∧ k ∣ n := by
+      simp_all
+
+    -- 帰納的に、k には素因数が存在するとしてよい。
+    have := ih k ‹k < n›
+
+    -- k ∣ n なので、k に素因数があるなら n にも存在する。
+    grind [Nat.dvd_trans]
+
+/- ## よくあるエラー
+`induction` タクティクを使ったときに、`index in target's type is not a variable` というエラーが出ることがあります。
+-/
+
+/-- 偶数であることを表す帰納的述語 -/
+inductive MyEven : Nat → Prop where
+  | zero : MyEven 0
+  | succ : {n : Nat} → MyEven n → MyEven (n + 2)
+
+/-⋆-//--
+error: Invalid target: Index in target's type is not a variable (consider using the `cases` tactic instead)
+  0
+-/
+#guard_msgs in --#
+example (h : MyEven 0) : True := by
+  induction h
+
+/- これは型族の添え字が変数ではないから起こることです。その証拠に、変数にするとエラーにならなくなります。-/
+
+example (n m : Nat) (h : MyEven (n + m)) : True := by
+  generalize n + m = x at h
+  induction h
+  · trivial
+  · trivial
+
 /- ## 再帰的定理
 Lean では、実は帰納法を使用するのに必ずしも `induction` は必要ありません。場合分けの中で示されたケースを帰納法の仮定として使うことができます。これは recursive theorem(再帰的定理) と呼ばれることがあります。[^recursive]
 -/
@@ -161,111 +227,6 @@ theorem sample : True := by
       fail_if_success have ih := h n
       sorry
   trivial
-
-/-
-## 完全帰納法
-
-時には、より強い帰納法が必要なこともあります。 強い帰納法とは、 たとえば以下のような形式で表されるような帰納法のことです。
-
-* `∀ n, (∀ k < n, P (k)) → P (n)` を示す。
-* したがって `∀ n, P (n)` である。
-
-これは超限帰納法の特別な場合で、完全帰納法や累積帰納法とも呼ばれます。
--/
-
-/-- フィボナッチ数列の通常の定義をそのまま Lean の関数として書いたもの -/
-def fibonacci : Nat → Nat
-  | 0 => 0
-  | 1 => 1
-  | n + 2 => fibonacci n + fibonacci (n + 1)
-
-/-- フィボナッチ数列の線形時間の実装 -/
-def fib (n : Nat) : Nat :=
-  (loop n).1
-where
-  loop : Nat → Nat × Nat
-    | 0 => (0, 1)
-    | n + 1 =>
-      let p := loop n
-      (p.2, p.1 + p.2)
-
-/-- `fib` が `fibonacci` と同じ漸化式を満たすことを証明する -/
-@[simp]
-theorem fib_add (n : Nat) : fib n + fib (n + 1) = fib (n + 2) := by rfl
-
-/-- `fibonacci` と `fib` は同じ結果を返す -/
-example (n : Nat) : fibonacci n = fib n := by
-  -- `n` についての強い帰納法で示す
-  induction n using Nat.strong_induction_on with
-  | h n ih =>
-    match n with
-    -- `n = 0` の場合
-    | 0 => rfl
-
-    -- `n = 1` の場合
-    | 1 => rfl
-
-    -- `0` から `n` までの自然数で成り立つとして、`n + 2` について示す
-    | n + 2 =>
-      -- フィボナッチ数列の定義に基づいて展開する
-      dsimp [fibonacci]
-
-      -- `fib` の漸化式を適用する
-      rw [← fib_add]
-
-      -- 帰納法の仮定から、`n` と `n + 1` については成り立つ
-      have ih_n := ih n
-      have ih_succ := ih (n + 1)
-
-      -- 帰納法の仮定を適用して示す
-      simp [ih_n, ih_succ]
-
-/- なお、完全帰納法も `induction` タクティクを使わずに行うことができます。-/
-
-/-- `fibonacci` と `fib` は同じ結果を返す -/
-theorem fib_eq (n : Nat) : fibonacci n = fib n := by
-  -- `n` についての強い帰納法で示す
-  match n with
-  | 0 => rfl
-  | 1 => rfl
-  | n + 2 =>
-    -- フィボナッチ数列の定義に基づいて展開する
-    dsimp [fibonacci]
-
-    -- `fib` の漸化式を適用する
-    rw [← fib_add]
-
-    -- 帰納法の仮定から、`n` と `n + 1` については成り立つ
-    have ih_n := fib_eq n
-    have ih_succ := fib_eq (n + 1)
-
-    -- 帰納法の仮定を適用して示す
-    simp [ih_n, ih_succ]
-
-/- ## よくあるエラー
-`induction` タクティクを使ったときに、`index in target's type is not a variable` というエラーが出ることがあります。
--/
-
-/-- 偶数であることを表す帰納的述語 -/
-inductive MyEven : Nat → Prop where
-  | zero : MyEven 0
-  | succ : {n : Nat} → MyEven n → MyEven (n + 2)
-
-/-⋆-//--
-error: Invalid target: Index in target's type is not a variable (consider using the `cases` tactic instead)
-  0
--/
-#guard_msgs in --#
-example (h : MyEven 0) : True := by
-  induction h
-
-/- これは型族の添え字が変数ではないから起こることです。その証拠に、変数にするとエラーにならなくなります。-/
-
-example (n m : Nat) (h : MyEven (n + m)) : True := by
-  generalize n + m = x at h
-  induction h
-  · trivial
-  · trivial
 
 /-
 [^recursive]: [lean公式ブログの Functional induction についての記事](https://lean-lang.org/blog/2024-5-17-functional-induction/) で recursive theorem という言葉が使われています。
