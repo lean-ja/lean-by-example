@@ -10,6 +10,7 @@ simproc は、ある式 `expr` にマッチする部分を見つけたときに�
 以下は、具体的な数値に対する関数呼び出しを計算して単純化するようなシンプルな simproc を定義する例です。
 -/
 import Lean
+import Qq --#
 
 def Nat.fib (n : Nat) : Nat :=
   match n with
@@ -43,9 +44,54 @@ dsimproc computeFib (Nat.fib _) := fun e => do
 
 -- 単純化をやってくれる
 example (P : Nat → Prop) (h : P (Nat.fib 5)) : P 5 := by
-  simp at h
+  dsimp at h
   assumption
 
 example (P : Nat → Prop) (h : P (Nat.fib 5)) : P 5 := by
   -- `simp_all`からも呼び出される
   simp_all
+
+/- ## 用途
+
+simp 補題による書き換えでは無数に多くの補題を必要としそうな場合であっても、simproc を使うことで綺麗に解決できることがあります。[^unfoldNat]
+-/
+
+open Lean Meta Qq in
+
+/-- 数値リテラル `n` を `1 + 1 + ⋯ + 1` という形に展開する
+
+**注意**: このsimprocが常に適用されると困るので、実際には`dsimproc_decl`を使った方が良い。
+-/
+dsimproc unfoldNat ((_)) := fun e => do
+  -- 自然数リテラルでなければ即終了する
+  let_expr OfNat.ofNat _ num inst := e
+    | return .continue
+  let some n := num.rawNatLit?
+    | return .continue
+
+  -- その自然数リテラルが自然数を表しているのでなければ即終了する
+  let num : Q(Nat) := num
+  unless ← isDefEq inst q(instOfNatNat $num) do
+    return .continue
+
+  -- `1 + 1 + ⋯ + 1` の形に展開する
+  let mut result : Q(Nat) := q(1)
+  let mut n := n
+  while n > 1 do
+    result := q($result + 1)
+    n := n - 1
+  return .done result
+
+example (a : Nat) : 3 * a = 1 * a + 2 * a := by
+  dsimp only [unfoldNat]
+  guard_target =ₛ (1 + 1 + 1) * a = 1 * a + (1 + 1) * a
+  grind
+
+example (a : Nat) : (2 : Int) * a = a + a := by
+  -- 自然数を表す自然数リテラルは存在しないので失敗する
+  fail_if_success dsimp only [unfoldNat]
+  grind
+
+/-
+[^unfoldNat]: このコード例は、Robin Arnez さんに教えていただいたものを参考にしています。
+-/
