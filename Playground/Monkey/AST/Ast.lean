@@ -61,7 +61,8 @@ abbrev Program := List Statement
 instance : ToString Program where
   toString p := p.map Statement.toString |>.foldl (· ++ ·) ""
 
-
+/-- 文 -/
+declare_syntax_cat monkey_stmt
 /-- 式 -/
 declare_syntax_cat monkey_expr
 
@@ -82,7 +83,17 @@ section monkey_expr
   syntax "(" monkey_expr:15 ")" : monkey_expr
 end monkey_expr
 
+section monkey_stmt
+  /-- let式 -/
+  syntax "let" ident "=" monkey_expr (";")? : monkey_stmt
+  /-- return文 -/
+  syntax "return" (monkey_expr)? (";")? : monkey_stmt
+  /-- 式文 -/
+  syntax monkey_expr : monkey_stmt
+end monkey_stmt
+
 syntax "[monkey_expr|" monkey_expr "]" : term
+syntax "[monkey_stmt|" monkey_stmt "]" : term
 
 section Syntax2AST
 
@@ -106,8 +117,17 @@ section Syntax2AST
       `(Expression.prefix Token.MINUS [monkey_expr| $e ])
     | `([monkey_expr| ( $e:monkey_expr ) ]) => `([monkey_expr| $e ])
 
+  macro_rules
+    | `([monkey_stmt| let $x = $v $[;]? ]) =>
+      let nameStr := x.toStrLit
+      `(Statement.letStmt $nameStr [monkey_expr| $v ])
+    | `([monkey_stmt| return $v:monkey_expr $[;]? ]) =>
+      `(Statement.returnStmt (some [monkey_expr| $v ]))
+    | `([monkey_stmt| $e:monkey_expr]) =>
+      `(Statement.exprStmt [monkey_expr| $e ])
+
 end Syntax2AST
 
-#eval toString [Statement.exprStmt [monkey_expr| -a * b ]]
+#eval toString [monkey_stmt| -a * b]
 
 #eval toString ([Statement.letStmt "myVar" Expression.notImplemented] : Program)
