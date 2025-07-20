@@ -207,6 +207,7 @@
   - [ext: 外延性を使う](./Tactic/Ext.md)
   - [field_simp: 分母を払う](./Tactic/FieldSimp.md)
   - [fin_cases: 場合分けを簡潔に行う](./Tactic/FinCases.md)
+  - [fun_induction: 関数に応じた帰納法](./Tactic/FunInduction.md)
   - [fun_prop: 関数の諸性質を示す](./Tactic/FunProp.md)
   - [funext: 関数等式を示す](./Tactic/Funext.md)
   - [gcongr: 合同性を用いる](./Tactic/Gcongr.md)
