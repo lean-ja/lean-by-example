@@ -89,7 +89,7 @@ section monkey_stmt
   /-- return文 -/
   syntax "return" (monkey_expr)? (";")? : monkey_stmt
   /-- 式文 -/
-  syntax monkey_expr : monkey_stmt
+  syntax monkey_expr (";")? : monkey_stmt
 end monkey_stmt
 
 syntax "[monkey_expr|" monkey_expr "]" : term
@@ -123,11 +123,12 @@ section Syntax2AST
       `(Statement.letStmt $nameStr [monkey_expr| $v ])
     | `([monkey_stmt| return $v:monkey_expr $[;]? ]) =>
       `(Statement.returnStmt (some [monkey_expr| $v ]))
-    | `([monkey_stmt| $e:monkey_expr]) =>
+    | `([monkey_stmt| $e:monkey_expr $[;]?]) =>
       `(Statement.exprStmt [monkey_expr| $e ])
 
 end Syntax2AST
 
+#eval toString [monkey_stmt| 5 + 5;]
 #eval toString [monkey_stmt| -a * b]
 
 #eval toString ([Statement.letStmt "myVar" Expression.notImplemented] : Program)
