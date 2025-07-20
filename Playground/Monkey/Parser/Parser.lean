@@ -1,4 +1,4 @@
-import Playground.Monkey.Ast.Ast
+import Playground.Monkey.AST.Ast
 import Playground.Monkey.Lexer.Lexer
 import Lean
 
