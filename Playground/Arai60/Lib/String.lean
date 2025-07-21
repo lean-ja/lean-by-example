@@ -21,6 +21,10 @@ def allSubstrings (s : String) : HashSet String := Id.run do
       result := result.insert sub
   return result.insert ""
 
+#guard (allSubstrings "ab").toList = ["", "a", "ab", "b"]
+#guard (allSubstrings "abc").size = 7
+#guard (allSubstrings "abcde").size = 16
+
 def extractRange (s : String) (range : Range) : String :=
   s.extract ⟨range.start⟩ ⟨range.stop⟩
 
