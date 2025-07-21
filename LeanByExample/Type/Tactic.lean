@@ -107,7 +107,7 @@ example {P Q : Prop} (hP : P) : Q := by
 
 [`constructor`](#{root}/Tactic/Constructor.md) タクティクの機能を制限し、`And` 型のゴールを分割する機能だけを持つタクティクを構成する例を示します。[^and_constructor]
 -/
-section
+section --#
 
 /-- ゴールが`P ∧ Q`という形をしていたら、分解してそれぞれ別ゴールにする -/
 syntax (name := andConstructor) "and_constructor" : tactic
@@ -144,12 +144,12 @@ example : True ∧ True := by
   · trivial
   · trivial
 
-end
+end --#
 /- ### Iff 専用 constructor
 
 [`constructor`](#{root}/Tactic/Constructor.md) タクティクの機能を制限し、`P ↔ Q` という形のゴールを分解する機能だけを持つタクティクを構成する例を示します。[^iff_constructor]
 -/
-section
+section --#
 
 /-- ゴールが`P ↔ Q`という形をしていたら`P → Q`と`Q → P`という二つのゴールに分解する -/
 syntax (name := iffConstructor) "iff_constructor" : tactic
@@ -186,11 +186,11 @@ example : True ↔ True := by
   · simp
   · simp
 
-end
+end --#
 /- ### `A₁ ∧ A₂ ∧ ... ∧ Aₙ` という形の前提から `⊢ Aᵢ` を示すタクティク
 `h : A₁ ∧ A₂ ∧ ... ∧ Aₙ` という形の前提から `⊢ Aᵢ` を示すタクティクを実装する例を示します。これは引数を持つタクティクの例であるとともに、再帰的な挙動をするタクティクの例でもあります。[^destruct_and]
 -/
-section
+section --#
 
 /-- `A₁ ∧ A₂ ∧ ... ∧ Aₙ` という形の前提から `⊢ Aᵢ` を示すタクティク -/
 syntax (name := destructAnd) "destruct_and" ident : tactic
@@ -247,12 +247,12 @@ example (a b c d : Prop) (h : a ∧ b ∧ c ∧ d) : d := by
 example (a b c : Prop) (h : a ∧ b ∧ c) : a ∧ b := by
   constructor <;> destruct_and h
 
-end
+end --#
 /- ### `A₁ ∧ ⋯ ∧ Aₙ` という形の前提を分解して新しい仮定として追加するタクティク
 
 再帰的な挙動をするタクティクの例として、さらに `A₁ ∧ A₂ ∧ ... ∧ Aₙ` という形の前提を分解して新しい仮定として追加するタクティクを実装する例を示します。[^cases_and]
 -/
-section
+section --#
 
 /-- 仮定にある `A₁ ∧ A₂ ∧ ... ∧ Aₙ` を分解する -/
 syntax (name := casesAnd) "cases_and" : tactic
@@ -319,7 +319,7 @@ example (a b c d : Prop) (h : a ∧ (b ∧ c) ∧ d) : b ∧ d := by
 
   constructor <;> assumption
 
-end
+end --#
 /- ### exact? タクティク
 
 ゴールを直接閉じることができる定理を探すタクティクとして [`exact?`](#{root}/Tactic/ExactQuestion.md) タクティクがあります。これに相当する（しかしかなり原始的で低性能な）ものを自前で実装する例を示します。[^exact?]
