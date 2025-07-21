@@ -38,10 +38,10 @@ def main : IO Unit := do
   let size := 10_000_000
   let accessPoint := size / 10
   let listTime ← evalIdxAccess (List.range size) accessPoint
-  println s!"List access time: {listTime}"
+  println s!"List access time: {listTime}ns"
 
   let arrayTime ← evalIdxAccess (Array.range size) accessPoint
-  println s!"Array access time: {arrayTime}"
+  println s!"Array access time: {arrayTime}ns"
 
   if listTime < arrayTime then
     throw <| userError "List is faster than Array"
