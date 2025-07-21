@@ -11,7 +11,6 @@
 import Mathlib.Tactic --#
 
 section --#
-set_option linter.flexible false --#
 
 opaque foo : Nat
 opaque bar : Nat
