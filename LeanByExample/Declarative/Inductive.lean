@@ -195,6 +195,65 @@ inductive BigStep : Stmt → State → State → Prop where
 
 /- 「プログラムを評価する」という操作は `while` 文の評価が終わらない可能性があるため、証明可能な再帰関数として定義することができません。そのため上記の BigStep 意味論の例は帰納的述語が真に有用なケースであるといえます。-/
 
+/- ## 帰納型の発展的な使用例
+
+`Nat` や `Bool` が帰納型として表現できることは納得がいきやすいですが、一見して帰納型で定義する方法が見えてこないような型や命題も、`inductive` コマンドで定義できることがあります。いくつか典型的な例を見ましょう。
+
+### 反射的閉包
+
+型 `α` 上の二項関係 `R : α → α → Prop` が与えられたとします。このとき、`R` が反射的であるとは、`∀ x, R x x` が成り立つことを意味します。典型的な例として、等号 `=` や不等号 `≤` は反射的です。
+
+一般の二項関係は反射的とは限りませんが、任意の二項関係 `R` に対して、`R` を含むような最小の反射的な二項関係が存在します。これを `R` の **反射的閉包** と呼びます。ここでは仮に、`R` の反射的閉包を `#R` と書くことにします。ただし、二項関係 `R` と `S` に対して、`S` が `R` を含むとは、`∀ x y, R x y → S x y` が成り立つことであると定義します。
+
+このとき `#R` を帰納型として表現することができます。一見しただけでは「～を含むような最小の…」という表現を帰納型として表現できることは見えてこないかもしれません。しかし、冷静に考えてみると `#R` については、以下の性質が成り立ちます。
+
+1. `#R` は `R` を含む。つまり `∀ x y, R x y → #R x y` が成り立つ。
+2. `#R` は反射的である。つまり `∀ x, #R x x` が成り立つ。
+
+そして、`#R` はこれを満たすような最小の二項関係であるわけです。それを考えると、反射的閉包は次のように定義することができます。
+-/
+section --#
+
+variable {α : Type} (R : α → α → Prop)
+
+/-- 反射的閉包 -/
+inductive ReflCl : α → α → Prop where
+  /-- `R` を含む -/
+  | base {x y : α} (h : R x y) : ReflCl x y
+
+  /-- 反射的 -/
+  | refl {x : α} : ReflCl x x
+
+end --#
+/- 実際ここで定義した `ReflCl` は、`R` を含むような最小の反射的二項関係であることを証明できます。 -/
+section --#
+
+variable {α : Type} (R : α → α → Prop)
+
+/-- `α`上の二項関係の全体 -/
+def BinRel (α : Type) := α → α → Prop
+
+/-- `R` が `S` に含まれるという関係を `R ≤ S` と書けるようにする -/
+instance : LE (BinRel α) where
+  le := fun R S => ∀ x y, R x y → S x y
+
+/-- `R`の反射的閉包は`R`を含む -/
+theorem le_reflCl (R : BinRel α) : R ≤ ReflCl R := by
+  dsimp [(· ≤ ·)]
+  grind [ReflCl]
+
+/-- `ReflCl R` は反射的二項関係 -/
+theorem reflCl_refl (R : BinRel α) : ∀ x : α, ReflCl R x x := by
+  grind [ReflCl]
+
+/-- `ReflCl R` は `R` を含むような反射的二項関係の中で最小 -/
+theorem reflCl_is_minimal (R S : BinRel α) (hle : R ≤ S) (hrefl : ∀ x, S x x) :
+    ReflCl R ≤ S := by
+  dsimp [(· ≤ ·)] at *
+  intro x y h
+  induction h with grind
+
+end --#
 /- ## 帰納型の仕様
 
 ### 再帰子
