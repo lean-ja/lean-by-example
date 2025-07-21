@@ -51,7 +51,7 @@ theorem not_surjective_Type {α : Type} (f : α → Type) : ¬ Surjective f := b
   -- f が全射だと仮定する
   intro h
 
-  -- f から依存和型を構成する
+  -- f から依存ペア型を構成する
   let T : Type := (a : α) × f a
 
   -- f は全射なので、Set T の逆像の要素が存在する
@@ -62,10 +62,8 @@ theorem not_surjective_Type {α : Type} (f : α → Type) : ¬ Surjective f := b
 
   -- このとき、g は単射になる
   have hg : Injective g := by
-    intros s t h
-    dsimp [g] at h
-    apply_fun Sigma.snd at h
-    simpa using h
+    intro s t h
+    grind
 
   -- これはカントールの定理に反する
   exact cantor_injective g hg
