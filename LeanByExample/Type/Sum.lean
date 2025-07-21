@@ -17,10 +17,7 @@ example {A B C : Type} : (A ⊕ B → C) ≃ (A → C) × (B → C) where
     match p with
     | Sum.inl a => f₁ a
     | Sum.inr b => f₂ b
-  left_inv := by
-    intro f
-    funext x
-    cases x <;> rfl
+  left_inv := by grind
   right_inv := by
     dsimp [Function.RightInverse, Function.LeftInverse]
     intros
