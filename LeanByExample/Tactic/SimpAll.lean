@@ -4,28 +4,27 @@
 
 `simp at *` と似ていますが、`simp_all` は簡約された仮定を再び簡約に使うなど再帰的な挙動をします。
 -/
-section
-  /- ## simp_all では示せるが simp at * では示せない例 -/
 
-  example (P : Nat → Bool)
-      (h1 : P (if 0 + 0 = 0 then 1 else 2))
-      (h2 : P (if P 1 then 0 else 1) ) : P 0 := by
-    simp at *
+example (P : Nat → Bool)
+    (h1 : P (if 0 + 0 = 0 then 1 else 2))
+    (h2 : P (if P 1 then 0 else 1) ) : P 0 := by
+  simp at *
 
-    -- まだゴールが残っている
-    show P 0
+  -- まだゴールが残っている
+  -- つまり`simp at *`では示すことができていない
+  show P 0
 
-    simp [h1] at h2
-    assumption
+  simp [h1] at h2
+  assumption
 
-  example (P : Nat → Bool)
-      (h1 : P (if 0 + 0 = 0 then 1 else 2))
-      (h2 : P (if P 1 then 0 else 1) ) : P 0 := by
-    -- 一発で終わる。
-    -- h1 を簡約した後で、h2 を「簡約後の h1」を使って簡約し、
-    -- ゴールと仮定が一致していることを確認するという挙動をする。
-    simp_all
-end
+example (P : Nat → Bool)
+    (h1 : P (if 0 + 0 = 0 then 1 else 2))
+    (h2 : P (if P 1 then 0 else 1) ) : P 0 := by
+  -- 一発で終わる。
+  -- h1 を簡約した後で、h2 を「簡約後の h1」を使って簡約し、
+  -- ゴールと仮定が一致していることを確認するという挙動をする。
+  simp_all
+
 /- なお `simp_all` はローカルコンテキストにある命題を使って単純化を行おうとするため、ローカルコンテキストにある命題によってはエラーになることがあります。[^bad_simp]-/
 
 /-⋆-//--
