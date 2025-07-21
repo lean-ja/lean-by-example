@@ -344,7 +344,7 @@ inductive Bar where
 
 /- どの `→` から見ても正の位置にあるときには狭義の正の位置(strictly positive position)と呼ばれるのですが、Lean は実際には狭義の正の位置でなければ定義を拒否します。帰納型 `T` のコンストラクタの引数の中に `T` 自身が現れる場合、狭義の正の位置つまり `A → T` の形で現れるのは許容されますが `T → A` の形で現れるのは許されません。これを strictly positive 要件と本書では呼びます。
 
-strictly positive 要件に違反するような帰納型を仮に定義できたとすると、矛盾が導かれてしまいます。[`unsafe`](#{root}/Modifier/Unsafe.md) 修飾子で実際に試してみましょう。[^stpos] -/
+仮に strictly positive 要件に違反するような帰納型をなんでも定義できたとすると、矛盾が導かれてしまいます。[`unsafe`](#{root}/Modifier/Unsafe.md) 修飾子で実際に試してみましょう。[^stpos] -/
 
 -- 任意に型 A が与えられたとして固定する
 opaque A : Type
