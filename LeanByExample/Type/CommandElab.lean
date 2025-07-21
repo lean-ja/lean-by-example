@@ -6,12 +6,11 @@
 -/
 import Lean
 
-open Lean in
+open Lean Elab Command in
 
-example : Lean.Elab.Command.CommandElab = (Syntax → Lean.Elab.Command.CommandElabM Unit) := rfl
+example : CommandElab = (Syntax → CommandElabM Unit) := rfl
 
-/- ## CommandElab 型の関数からコマンドへ
-
+/-
 [`[command_elab]`](#{root}/Attribute/CommandElab.md) 属性を利用することで、`CommandElab` 型の関数からコマンドを作ることができます。
 -/
 
@@ -28,3 +27,16 @@ def evalHello : CommandElab := fun _stx => do
 /-⋆-//-- info: Hello, Lean! -/
 #guard_msgs in --#
 #hello
+
+/- ## コマンド作例
+
+以下に、`CommandElab` 型の関数からコマンドを作る例を示します。
+-/
+/- ### 型を確かめるコマンド
+
+以下は、与えられた項と型が一致するかどうかを確かめるコマンドの例です。[^assert_type]
+
+{{#include ./CommandElab/AssertType.md}}
+-/
+
+/- [^assert_type]: このコード例は、[Metaprogramming in Lean 4](https://leanprover-community.github.io/lean4-metaprogramming-book/) を参考にしました。 -/
