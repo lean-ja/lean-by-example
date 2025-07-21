@@ -131,6 +131,34 @@ example : ∃ x : Nat, x < 5 := by
 
   exact ⟨n, h⟩
 
+/- ### 一般の同値関係の書き換えはできない
+
+`rw` で書き換えることができるのは等式と論理的な同値関係だけです。一般の同値関係による書き換えはできません。
+-/
+
+
+def add_equiv (c₁ c₂ : Nat) : Prop :=
+  ∀ n : Nat, c₁ + n = c₂ + n
+
+/-- `Nat`上の同値関係 -/
+@[instance]
+def add_setoid : Setoid Nat where
+  r := add_equiv
+  iseqv := by
+    constructor
+    · grind [add_equiv]
+    · grind [add_equiv]
+    · intro x y z h₁ h₂ n
+      have := h₁ n
+      have := h₂ n
+      rw [h₁, h₂]
+
+set_option warn.sorry false in --#
+theorem add_equiv_trans {c₁ c₂ c₃ : Nat} (h₁ : c₁ ≈ c₂) (h₂ : c₂ ≈ c₃) : (c₁ ≈ c₃) := by
+  -- `rw`が成功しない
+  fail_if_success rw [h₁]
+  sorry
+
 /- ## rewrite
 
 `rewrite` というタクティクもあります。`rw` とよく似ていて、違いは `rw` が書き換え後に自動的に `rfl` を実行するのに対して、`rewrite` は行わないということです。`rewrite` はユーザにとっては `rw` の下位互換なので、あまり使うことはないかもしれません。-/
