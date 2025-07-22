@@ -21,17 +21,15 @@ theorem getElem_append_distrib (i : Int) (pos : 0 ≤ i) (h : i < (xs ++ ys).len
   have ⟨n, hn⟩ : ∃ n : Nat, i.toNat = n := by
     exists i.toNat
   simp only [hn]
-  have hi : i < ↑xs.length ↔ n < xs.length := by
-    simp [← hn]
-    omega
+  have hi : i < ↑xs.length ↔ n < xs.length := by grind
   simp only [hi]
 
   -- `n` が `xs` の範囲内にあるかどうかで場合分けをする
   by_cases h : n < xs.length
   · simp [h]
-  · simp [h]
+  · simp only [h, ↓reduceDIte]
     rw [show ys[i - xs.length] = ys[(i - xs.length).toNat] by rfl]
-    simp [hn]
+    simp only [Int.toNat_sub', hn]
     rw [List.getElem_append_right (by omega)]
 
 /-- 変数名 -/
@@ -56,7 +54,7 @@ inductive Instr where
   | Jmpless (n : Int)
   /-- スタックの一番上とその下を比較し、二つ目の方が大きいか等しければ ジャンプする -/
   | Jmpge (n : Int)
-  deriving Inhabited, Repr, DecidableEq
+deriving Inhabited, Repr, DecidableEq
 
 /-- スタック -/
 abbrev Stack := List Val
@@ -72,7 +70,7 @@ structure Config where
   s : State
   /-- スタック -/
   stk : Stack
-  deriving Inhabited
+deriving Inhabited
 
 /-- 機械語の実行 -/
 def iexec : Instr → Config → Config
@@ -94,6 +92,7 @@ def exec1 (P : List Instr) (c c' : Config) : Prop :=
 notation P " ⊢ " c:100 " → " c':40 => exec1 P c c'
 
 /-- exec1 の反射的推移的閉包 -/
+@[grind intro]
 inductive execStar : List Instr → Config → Config → Prop
   /-- 反射的 -/
   | refl (P : List Instr) (c : Config) : execStar P c c
@@ -106,21 +105,13 @@ notation P " ⊢ " c:100 " →* " c':40 => execStar P c c'
 section Trans
 
   theorem exec1_exec1 {P a b c} (a_b : P ⊢ a → b) (b_c : P ⊢ b → c) : P ⊢ a →* c := by
-    apply execStar.step a_b
-    apply execStar.step b_c
-    apply execStar.refl
+    grind
 
   theorem execStar_execStar {P a b c} (a__b : P ⊢ a →* b) (b__c : P ⊢ b →* c) : P ⊢ a →* c := by
-    induction a__b
-    case refl => exact b__c
-    case step h₁ h₂ ih =>
-      apply execStar.step h₁
-      exact ih b__c
+    induction a__b with grind
 
   theorem execStar_exec1 {P a b c} (a__b : P ⊢ a →* b) (b_c : P ⊢ b → c) : P ⊢ a →* c := by
-    apply execStar_execStar a__b
-    apply execStar.step b_c
-    apply execStar.refl
+    grind [execStar_execStar]
 
 end Trans
 
