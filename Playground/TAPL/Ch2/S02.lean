@@ -81,12 +81,13 @@ inductive TransClosure (R : S → S → Prop) : S → S → Prop where
 @[inherit_doc TransClosure] postfix:max "⁺" => TransClosure
 
 /-- 反射的推移的閉包 -/
+@[grind]
 inductive ReflTransClosure (R : S → S → Prop) : S → S → Prop where
   | incl : ∀ x y, R x y → ReflTransClosure R x y
   | refl : ∀ x, ReflTransClosure R x x
   | trans : ∀ x y z, ReflTransClosure R x y → ReflTransClosure R y z → ReflTransClosure R x z
 
-@[inherit_doc ReflTransClosure]postfix:max "⋆" => ReflTransClosure
+@[inherit_doc ReflTransClosure] postfix:max "⋆" => ReflTransClosure
 
 end
 
@@ -186,7 +187,7 @@ def BinRel.preserve (R : S → S → Prop) (P : S → Prop) :=
 /-- 二項関係`R`が述語`P`を保つなら、その反射的推移的閉包も述語`P`を保つ。 -/
 example (hr : BinRel.preserve R P) : BinRel.preserve R⋆ P := by
   intro s s' h hps
-  induction h with grind [ReflTransClosure]
+  induction h with grind
 
 -- `grind`を使わずに証明した場合
 example (hr : BinRel.preserve R P) : BinRel.preserve R⋆ P := by
