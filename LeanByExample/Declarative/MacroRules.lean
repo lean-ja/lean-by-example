@@ -238,7 +238,7 @@ namespace Expr
   declare_syntax_cat expr
 
   /-- `Expr` を見やすく定義するための構文 -/
-  syntax "expr!{" expr "}" : term
+  syntax "[expr| " expr "]" : term
 
   -- 数値リテラルは数式
   syntax:max num : expr
@@ -252,32 +252,32 @@ namespace Expr
   syntax:max "(" expr ")" : expr
 
   -- `syntax` コマンドは記法の解釈方法を決めていないので、エラーになる
-  #check_failure expr!{1 + 2}
-  #check_failure expr!{1 * 2}
-  #check_failure expr!{(1 + 2) * 3}
+  #check_failure [expr| 1 + 2]
+  #check_failure [expr| 1 * 2]
+  #check_failure [expr| (1 + 2) * 3]
 
   macro_rules
-    | `(expr!{$n:num}) => `(Expr.val $n)
-    | `(expr!{$l:expr + $r:expr}) => `(Expr.app Op.add expr!{$l} expr!{$r})
-    | `(expr!{$l:expr * $r:expr}) => `(Expr.app Op.mul expr!{$l} expr!{$r})
-    | `(expr!{($e:expr)}) => `(expr!{$e})
+    | `([expr| $n:num]) => `(Expr.val $n)
+    | `([expr| $l:expr + $r:expr]) => `(Expr.app Op.add [expr| $l] [expr| $r])
+    | `([expr| $l:expr * $r:expr]) => `(Expr.app Op.mul [expr| $l] [expr| $r])
+    | `([expr| ($e:expr)]) => `([expr| $e])
 
   -- 足し算は左結合になる
   #guard
     let expected := app Op.add (app Op.add (val 1) (val 2)) (val 3)
-    let actual := expr!{1 + 2 + 3}
+    let actual := [expr| 1 + 2 + 3]
     actual = expected
 
   -- 掛け算は左結合になる
   #guard
     let expected := app Op.mul (app Op.mul (val 1) (val 2)) (val 3)
-    let actual := expr!{1 * 2 * 3}
+    let actual := [expr| 1 * 2 * 3]
     actual = expected
 
   -- 足し算と掛け算が混在する場合は、掛け算が優先される
   #guard
     let expected := app Op.add (app Op.mul (val 1) (val 2)) (val 3)
-    let actual := expr!{1 * 2 + 3}
+    let actual := [expr| 1 * 2 + 3]
     actual = expected
 
 end Expr
@@ -430,8 +430,8 @@ namespace IMP
   syntax "skip" : imp_program
   syntax ident ":=" imp_expr : imp_program
   syntax imp_program ";" imp_program : imp_program
-  syntax "if" imp_expr "then" imp_program "else" imp_program "endif" : imp_program
-  syntax "while" imp_expr "do" imp_program "endwhile" : imp_program
+  syntax "if" imp_expr "then" imp_program "else" imp_program : imp_program
+  syntax "while" imp_expr "do" imp_program : imp_program
 
   syntax "[IMP|" imp_program "]" : term
 
@@ -441,20 +441,18 @@ namespace IMP
     | `([IMP| skip]) => `(Program.skip)
     | `([IMP| $x:ident := $e]) => `(Program.assign $(quote x.getId.toString) [imp_expr| $e])
     | `([IMP| $p1; $p2]) => `(Program.seq [IMP| $p1] [IMP| $p2])
-    | `([IMP| if $e then $p1 else $p2 endif]) => `(Program.ite [imp_expr| $e] [IMP| $p1] [IMP| $p2])
-    | `([IMP| while $e do $p endwhile]) => `(Program.while [imp_expr| $e] [IMP| $p])
+    | `([IMP| if $e then $p1 else $p2]) => `(Program.ite [imp_expr| $e] [IMP| $p1] [IMP| $p2])
+    | `([IMP| while $e do $p]) => `(Program.while [imp_expr| $e] [IMP| $p])
 
   #check [IMP|
     a := 5;
     if ! a && 3 < 4 then
       c := 5
     else
-      a := a + 1
-    endif;
+      a := a + 1;
     b := 10;
     while 1 < 2 do
       b := b + 1
-    endwhile
   ]
 end IMP
 
