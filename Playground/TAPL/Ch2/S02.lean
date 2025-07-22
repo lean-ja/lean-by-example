@@ -78,14 +78,15 @@ inductive TransClosure (R : S → S → Prop) : S → S → Prop where
   | incl : ∀ x y, R x y → TransClosure R x y
   | trans : ∀ x y z, TransClosure R x y → TransClosure R y z → TransClosure R x z
 
-postfix:max "⁺" => TransClosure
+@[inherit_doc TransClosure] postfix:max "⁺" => TransClosure
 
+/-- 反射的推移的閉包 -/
 inductive ReflTransClosure (R : S → S → Prop) : S → S → Prop where
   | incl : ∀ x y, R x y → ReflTransClosure R x y
   | refl : ∀ x, ReflTransClosure R x x
   | trans : ∀ x y z, ReflTransClosure R x y → ReflTransClosure R y z → ReflTransClosure R x z
 
-postfix:max "⋆" => ReflTransClosure
+@[inherit_doc ReflTransClosure]postfix:max "⋆" => ReflTransClosure
 
 end
 
@@ -176,13 +177,19 @@ section
 
 variable {S : Type} (R : S → S → Prop) (P : S → Prop)
 
+/-- 二項関係`R`が述語`P`を保つ -/
+@[grind]
+def BinRel.preserve (R : S → S → Prop) (P : S → Prop) :=
+  ∀ x y, R x y → P x → P y
+
 -- **TODO** 非自明(そうに見えて)かつおもしろい例なので、帰納的述語に慣れるのにいい例だと思う。
-example (hr : ∀ s s', R s s' → P s → P s') : ∀ s s', R⋆ s s' → P s → P s' := by
+/-- 二項関係`R`が述語`P`を保つなら、その反射的推移的閉包も述語`P`を保つ。 -/
+example (hr : BinRel.preserve R P) : BinRel.preserve R⋆ P := by
   intro s s' h hps
   induction h with grind [ReflTransClosure]
 
 -- `grind`を使わずに証明した場合
-example (hr : ∀ s s', R s s' → P s → P s') : ∀ s s', R⋆ s s' → P s → P s' := by
+example (hr : BinRel.preserve R P) : BinRel.preserve R⋆ P := by
   intro s s' h hps
   induction h with
   | incl x y h =>
