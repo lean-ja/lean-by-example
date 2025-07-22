@@ -11,11 +11,7 @@ theorem imp_deterministic (S : Stmt) (s t u : State) (ht : (S, s) ==> t) (hu : (
   case skip => big_step
 
   case seq c c' s₁ t₁ _u₁ _hc _hc' ihc ihc' =>
-    apply ihc'
-    simp only [seq_iff] at hu
-    obtain ⟨t₂, hc₂, hc'₂⟩ := hu
-    have := ihc _ hc₂
-    big_step
+    grind
 
   case assign v a s =>
     cases hu
@@ -28,13 +24,7 @@ theorem imp_deterministic (S : Stmt) (s t u : State) (ht : (S, s) ==> t) (hu : (
     big_step
 
   case while_true B c s₁ t₁ _u₁ hcond _hbody _hrest ihc ihw =>
-    apply ihw
-    rw [while_true_iff (hcond := hcond)] at hu
-    obtain ⟨t₂, hbody₂, hrest₂⟩ := hu
-    have : t₁ = t₂ := by big_step
-    rw [this]
-    subst this
-    simp_all
+    grind
 
   case while_false B c s hcond =>
     big_step

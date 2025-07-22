@@ -4,22 +4,23 @@ import Playground.CS.Ch07.S02.SS03
 namespace BigStep
 
 /-- コマンドの BigStep 意味論における同値性 -/
-def equivCmd (S T : Stmt) : Prop := ∀s t : State, (S, s) ==> t ↔ (T, s) ==> t
+@[grind]
+def equivCmd (S T : Stmt) : Prop := ∀ s t : State, (S, s) ==> t ↔ (T, s) ==> t
 
 /-- `equivCmd` は反射的である -/
+@[grind =>]
 theorem equivCmd_refl (S : Stmt) : equivCmd S S := by
-  intro s t
-  rfl
+  grind
 
 /-- `equivCmd` は対称的である -/
+@[grind →]
 theorem equivCmd_symm {S T : Stmt} (h : equivCmd S T) : equivCmd T S := by
-  intro s t
-  rw [h]
+  grind
 
 /-- `equivCmd` は推移的である -/
+@[grind →]
 theorem equivCmd_trans {S T U : Stmt} (hST : equivCmd S T) (hTU : equivCmd T U) : equivCmd S U := by
-  intro s t
-  rw [hST, hTU]
+  grind
 
 /-- `equivCmd` は同値関係である -/
 def equivCmd_equiv : Equivalence equivCmd := ⟨equivCmd_refl, equivCmd_symm, equivCmd_trans⟩
@@ -53,12 +54,9 @@ theorem while_eq_if_then_skip (B : State → Prop) (S : Stmt) :
   big_step
 
 /-- 排中律に関する補題 -/
+@[big_step safe apply]
 theorem cond_em (B : State → Prop) (s : State) : B s ∨ ¬ B s := by
-  by_cases h : B s
-  · exact Or.inl h
-  · exact Or.inr h
-
-add_big_step_rules safe [apply cond_em]
+  grind
 
 /-- ### Lemma 7.4
 IF 文の両方の分岐が同じコマンド `c` なら、それは `c` と同じ -/
@@ -67,10 +65,11 @@ theorem if_both_eq (B : State → Prop) (c : Stmt) : ifThenElse B c c ≈ c := b
 
 /-- ### Lemma 7.6
 `(while b do c, s) ==> t` かつ `c ≈ c` ならば `(while b do c', s) ==> t` -/
+@[grind →]
 theorem while_congr {B : State → Prop} {c c' : Stmt} {s t : State} (h : c ≈ c') (h_while : (whileDo B c, s) ==> t) :
     (whileDo B c', s) ==> t := by
   -- `whileDo B C` を `x` とおく
-  -- TODO: この generalize がないと次の induction がエラーになるのはなぜか？
+  -- **TODO**: この generalize がないと次の induction がエラーになるのはなぜか？
   generalize hx : whileDo B c = x at h_while
 
   -- `h_while` に関する帰納法を使う
@@ -86,15 +85,15 @@ theorem while_congr {B : State → Prop} {c c' : Stmt} {s t : State} (h : c ≈ 
     apply BigStep.while_true (t := t') (hcond := by assumption)
 
     case hbody =>
-      -- `c ≈ c'` を使って rw することができる！（知らなかった）
-      rw [← h]
-      assumption
+      -- `c ≈ c'` を使って rw することができる！（たまたま）
+      rwa [← h]
 
     -- 帰納法の仮定を使う
     case hrest => simpa using ih
 
 /-- ### Lemma 7.5
 コマンド `c` と `c'` が同値ならば、`While` を付けても同値 -/
+@[grind =>]
 theorem while_eq_of_eq (B : State → Prop) (c c' : Stmt) (h : c ≈ c') : whileDo B c ≈ whileDo B c' := by
   -- ≈ の定義を展開する
   unfold ≈
@@ -107,8 +106,7 @@ theorem while_eq_of_eq (B : State → Prop) (c c' : Stmt) (h : c ≈ c') : while
 
   case mp =>
     -- while_congr を使えば難しいところはすぐに終わる
-    apply while_congr (h := h)
-    assumption
+    grind
 
   case mpr =>
     -- while_congr を使えば難しいところはすぐに終わる

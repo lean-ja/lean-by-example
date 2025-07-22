@@ -12,6 +12,7 @@ import Playground.CS.Tactic.BigStep
 
 `BigStep (c, s) t` を、`(c, s) ==> t` と書く。
 -/
+@[grind]
 inductive BigStep : Stmt → State → State → Prop where
   /-- skip コマンドの意味論。
   skip コマンドの実行前に状態が `s` であったなら、実行後も `s` のまま変わらない。-/
@@ -72,6 +73,7 @@ add_big_step_rules safe tactic [
 ]
 add_big_step_rules safe apply [BigStep.while_false]
 add_big_step_rules unsafe 50% apply [BigStep.while_true]
+add_big_step_rules unsafe 90% tactic (by grind)
 
 end
 

@@ -15,6 +15,7 @@ abbrev Variable := String
 def State := Variable → Nat
 
 /-- 考察対象の言語 のコマンド -/
+@[grind]
 inductive Stmt : Type where
   /-- 何もしないコマンド。else 部分がない if 文などを実現するために必要。 -/
   | skip : Stmt
