@@ -1,6 +1,6 @@
-/- # Problem 40
-
-(Intermediate 🌟🌟) Goldbach's conjecture says that every positive even number greater than `2` is the sum of two prime numbers. Example: `28 = 5 + 23`. It is one of the most famous facts in number theory that has not been proved to be correct in the general case. It has been numerically confirmed up to very large numbers (much larger than we can go with our Prolog system). Write a predicate to find the two prime numbers that sum up to a given even integer.
+/-
+# 問題 40
+(中級 🌟🌟) ゴールドバッハの予想：「2より大きいすべての偶数は2つの素数の和で表せる」。例: 28 = 5 + 23。これは数論で最も有名な未解決問題の一つであり、一般の場合の証明はないが非常に大きな数まで数値的に確認されている。与えられた偶数を2つの素数の和として表すペアを求めよ。
 -/
 
 def Nat.isPrime (n : Nat) : Bool := Id.run do
@@ -13,7 +13,7 @@ def Nat.isPrime (n : Nat) : Bool := Id.run do
       break
   return true
 
--- You can use this!
+-- これを使ってよい
 #check Nat.isPrime
 
 def goldbach (n : Nat) : Nat × Nat := Id.run do
@@ -40,9 +40,6 @@ def goldbachTest (n : Nat) : IO Unit :=
     IO.println s!"ok! {n} = {fst} + {snd}"
 
 #eval goldbachTest 14
-
 #eval goldbachTest 308
-
 #eval goldbachTest 308000
-
 #eval goldbachTest 19278020

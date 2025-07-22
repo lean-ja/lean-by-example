@@ -1,6 +1,7 @@
-/- # Problem 56
+/-
+# 問題 56
 
-Let us call a binary tree symmetric if you can draw a vertical line through the root node and then the right subtree is the mirror image of the left subtree. Write a predicate symmetric/1 to check whether a given binary tree is symmetric. Hint: Write a predicate mirror/2 first to check whether one tree is the mirror image of another. We are only interested in the structure, not in the contents of the nodes.
+二分木が「根を通る垂直線で左右の部分木が鏡像関係にある」とき、その木を対称（symmetric）と呼ぶことにする。与えられた二分木が対称かどうか判定する述語 symmetric/1 を実装せよ。ヒント: まず2つの木が鏡像関係かどうか判定する mirror/2 を実装せよ。ノードの内容ではなく構造だけに注目する。
 -/
 
 inductive BinTree (α : Type) where
@@ -10,13 +11,13 @@ deriving Repr
 
 def leaf {α : Type} (a : α) : BinTree α := .node a .empty .empty
 
-/-- This is used to display `#check` results -/
+/-- #check の結果表示用 -/
 @[app_unexpander BinTree.node]
 def leaf.unexpander : Lean.PrettyPrinter.Unexpander
   | `($_ $a BinTree.empty BinTree.empty) => `(leaf $a)
   | _ => throw ()
 
-/-- Use `leaf` to display `#eval` results -/
+/-- #eval の結果表示用 -/
 def BinTree.toString {α : Type} [ToString α] (t : BinTree α) : String :=
   match t with
   | .node v .empty .empty => s!"leaf {v}"

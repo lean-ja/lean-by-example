@@ -1,5 +1,6 @@
-/- # Problem 47
-(Easy 🌟) Truth tables for logical expressions (part 2).
+/-
+# 問題 47
+(初級 🌟) 論理式の真理値表（その2）を作成せよ。
 -/
 
 def table (p : Bool → Bool → Bool) : List (List Bool) :=

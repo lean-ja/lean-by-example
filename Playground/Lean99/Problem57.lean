@@ -1,6 +1,7 @@
-/- # Problem 57
+/-
+# 問題 57
 
-Use the predicate add/3, developed in chapter 4 of the course, to write a predicate to construct a binary search tree from a list of integer numbers.
+講義第4章で開発した add/3 を使って、整数リストから二分探索木を構成する述語を実装せよ。
 -/
 
 inductive BinTree (α : Type) where
@@ -9,13 +10,13 @@ inductive BinTree (α : Type) where
 
 def leaf {α : Type} (a : α) : BinTree α := .node a .empty .empty
 
-/-- This is used to display `#check` results -/
+/-- #check の結果表示用 -/
 @[app_unexpander BinTree.node]
 def leaf.unexpander : Lean.PrettyPrinter.Unexpander
   | `($_ $a BinTree.empty BinTree.empty) => `(leaf $a)
   | _ => throw ()
 
-/-- Use `leaf` to display `#eval` results -/
+/-- #eval の結果表示用 -/
 def BinTree.toString {α : Type} [ToString α] (t : BinTree α) : String :=
   match t with
   | .node v .empty .empty => s!"leaf {v}"

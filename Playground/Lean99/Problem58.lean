@@ -1,9 +1,10 @@
-/- # Problem 58
+/-
+# 問題 58
 
-Apply the generate-and-test paradigm to construct all symmetric, completely balanced binary trees with a given number of nodes.
+生成＆テストパラダイムを適用して、指定したノード数の対称かつ完全平衡な二分木をすべて構成せよ。
 -/
 
-/-- binary tree -/
+/-- 二分木 -/
 inductive BinTree (α : Type) where
   | empty : BinTree α
   | node : α → BinTree α → BinTree α → BinTree α
@@ -13,7 +14,7 @@ def leaf {α : Type} (a : α) : BinTree α := .node a .empty .empty
 variable {α : Type}
 
 section
-  /- pretty print of binary tree -/
+  /- 二分木の整形表示 -/
   variable [ToString α]
 
   def String.addIndent (s : String) (depth : Nat) : String :=
@@ -44,7 +45,7 @@ end
 
 namespace ListMonad
 
-/-- monad instance of `List` -/
+/-- List型のモナドインスタンス -/
 instance : Monad List where
   pure x := [x]
   bind l f := l.flatMap f
@@ -54,7 +55,7 @@ end ListMonad
 
 open scoped ListMonad
 
-/-- construct all balanced binary trees which contains `x` elements -/
+/-- ノード数が `x` の完全平衡二分木をすべて構成する -/
 partial def cbalTree (x : Nat) : List (BinTree Unit) :=
   match x with
   | 0 => [.empty]
@@ -78,7 +79,7 @@ def BinTree.isSymmetric (t : BinTree α) : Bool :=
   | .empty => true
   | .node _ l r => mirror l r
 
-/-- construct all balanced, symmetric binary trees with given number of elements -/
+/-- ノード数が指定された対称かつ完全平衡な二分木をすべて構成する -/
 def symCbalTrees (n : Nat) : List (BinTree Unit) :=
   cbalTree n |>.filter BinTree.isSymmetric
 

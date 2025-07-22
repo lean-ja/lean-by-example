@@ -1,5 +1,6 @@
-/- # Problem 46
-(Intermediate 🌟🌟) Truth tables for logical expressions.
+/-
+# 問題 46
+(中級 🌟🌟) 論理式の真理値表を作成せよ。
 -/
 
 

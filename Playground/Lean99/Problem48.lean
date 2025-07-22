@@ -1,13 +1,14 @@
-/- # Problem 48
-(Easy 🌟) Truth tables for logical expressions (part 3).
+/-
+# 問題 48
+(初級 🌟) 論理式の真理値表（その3）。
 
-Generalize Problem 47 in such a way that the logical expression may contain any number of logical variables. Define table/2 in a way that table(List,Expr) prints the truth table for the expression Expr, which contains the logical variables enumerated in List.
+問題47を一般化し、論理式が任意個の論理変数を含む場合にも対応せよ。table(List,Expr) で、Listで列挙された論理変数を含む式Exprの真理値表を出力するようにせよ。
 -/
 universe u
 
 namespace ListMonad
 
-/-- monad instance of `List` -/
+/-- List型のモナドインスタンス -/
 instance : Monad List where
   pure x := [x]
   bind l f := l.flatMap f

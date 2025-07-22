@@ -1,6 +1,6 @@
-/- # Problem 41
-
-(Intermediate 🌟🌟) A list of even numbers and their Goldbach compositions in a given range.
+/-
+# 問題 41
+(中級 🌟🌟) 指定した範囲内の偶数と、そのゴールドバッハ分解のリストを求めよ。
 -/
 
 def Nat.isPrime (n : Nat) : Bool := Id.run do
@@ -32,7 +32,5 @@ def goldbachList (lower upper : Nat) (primeLower : Nat := 2) : List (Nat × Nat)
     |>.filter (fun t => t.fst > primeLower)
 
 #guard goldbachList 9 20 == [(3, 7), (5, 7), (3, 11), (3, 13), (5, 13), (3, 17)]
-
 #guard goldbachList 9 20 3 == [(5, 7), (5, 13)]
-
 #guard goldbachList 4 2000 50 == [(73,919),(61,1321),(67,1789),(61,1867)]

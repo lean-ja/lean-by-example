@@ -1,13 +1,14 @@
-/- # Problem 55
-(Intermediate 🌟🌟) Construct completely balanced binary trees.
+/-
+# 問題 55
+(中級 🌟🌟) 完全平衡二分木を構成せよ。
 
-In a completely balanced binary tree, the following property holds for every node: The number of nodes in its left subtree and the number of nodes in its right subtree are almost equal, which means their difference is not greater than one.
+完全平衡二分木では、すべてのノードについて「左部分木と右部分木のノード数の差が1以下」という性質が成り立つ。
 
-Write a function `cbalTree` to construct completely balanced binary trees for a given number of nodes. The predicate should generate all solutions via backtracking.
+与えられたノード数に対して、すべての完全平衡二分木を構成する関数 `cbalTree` を実装せよ。すべての解をバックトラックで生成すること。
 
-> **warning**
+> **注意**
 >
-> A completely balanced binary tree is not the same as a (hight) balanced binary tree.
+> 完全平衡二分木は（高さ）平衡二分木とは異なる。
 -/
 
 inductive BinTree (α : Type) where
@@ -28,7 +29,7 @@ def BinTree.isCBalanced {α : Type} : BinTree α → Bool
 
 namespace ListMonad
 
-/-- monad instance of `List` -/
+/-- List型のモナドインスタンス -/
 instance : Monad List where
   pure x := [x]
   bind l f := l.flatMap f
@@ -38,7 +39,7 @@ end ListMonad
 
 open scoped ListMonad
 
-/-- construct all completely balanced binary trees which contains `x` elements -/
+/-- ノード数が `x` の完全平衡二分木をすべて構成する -/
 partial def cbalTree (x : Nat) : List (BinTree Unit) :=
   match x with
   | 0 => [.empty]

@@ -1,9 +1,10 @@
-/- # Problem 59
+/-
+# 問題 59
 
-Construct height-balanced binary trees.
+高さ平衡二分木を構成せよ。
 -/
 
-/-- binary tree -/
+/-- 二分木 -/
 inductive BinTree (α : Type) where
   | empty : BinTree α
   | node : α → BinTree α → BinTree α → BinTree α
@@ -21,7 +22,7 @@ def BinTree.height (t : BinTree α) : Nat :=
 
 namespace ListMonad
 
-/-- monad instance of `List` -/
+/-- List型のモナドインスタンス -/
 instance : Monad List where
   pure x := [x]
   bind l f := l.flatMap f
@@ -31,7 +32,7 @@ end ListMonad
 
 open scoped ListMonad
 
-/-- construct all balanced binary trees which contains `x` elements -/
+/-- ノード数が `x` の完全平衡二分木をすべて構成する -/
 partial def cbalTree (x : Nat) : List (BinTree Unit) :=
   match x with
   | 0 => [.empty]
@@ -51,7 +52,7 @@ def List.product (as : List α) (bs : List β) : List (α × β) := do
   let b ← bs
   return (a, b)
 
-/-- construct all balanced binary trees whose hight is `height`. -/
+/-- 高さが `height` の高さ平衡二分木をすべて構成する -/
 def hbalTrees (height : Nat) : List (BinTree Unit) :=
   match height with
   | 0 => [.empty]

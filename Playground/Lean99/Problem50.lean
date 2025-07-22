@@ -17,12 +17,12 @@ def orderedInsert {α : Type} [Ord α] (a : α) : List α → List α
     | .lt => a :: b :: l
     | _ => b :: orderedInsert a l
 
-/-- insertion sort -/
+/-- 挿入ソート -/
 def insertionSort {α : Type} [Ord α] : List α → List α
   | [] => []
   | b :: l => orderedInsert b (insertionSort l)
 
--- You can use this!
+-- これを使ってよい
 #check insertionSort
 
 

@@ -1,7 +1,8 @@
-/- # Problem 49
-(Intermediate 🌟🌟) Gray codes.
+/-
+# 問題 49
+(中級 🌟🌟) グレイコード。
 
-An n-bit Gray code is a sequence of n-bit strings constructed according to certain rules. For example,
+nビットのグレイコードは、特定の規則に従って構成されるnビット列の列である。例えば、
 
 ```
 n = 1: C(1) = ['0','1'].
@@ -9,22 +10,25 @@ n = 2: C(2) = ['00','01','11','10'].
 n = 3: C(3) = ['000','001','011','010','110','111','101','100'].
 ```
 
-Find out the construction rules and write a predicate with the following specification:
+この構成規則を見つけ、次の仕様の述語を実装せよ:
 
 ```
 % gray(N,C) :- C is the N-bit Gray code
 ```
 
-Can you apply the method of "result caching" in order to make the predicate more efficient, when it is to be used repeatedly?
+「結果のキャッシュ」手法を使って、繰り返し使う場合により効率的にできるか？
 -/
 
+/-- 1ビットを表す型 -/
 inductive Digit : Type where
   | zero
   | one
 deriving DecidableEq
 
+/-- グレイコードはDigitのリスト -/
 abbrev GrayCode := List Digit
 
+/-- Digitを文字列に変換 -/
 def Digit.toString : Digit → String
   | .zero => "0"
   | .one => "1"
