@@ -37,9 +37,16 @@ def expandZeroLit : Macro := fun stx =>
 {{#include ./Macro/WhatsNew.md}}
 -/
 
+/- ## 使用例
+
+`Macro` 型の関数および `MacroM` モナドに包まれた関数を使用して、オセロのゲーム盤を表現する構文を定義することができます。
+
+{{#include ./Macro/OthelloBoard.md}}
+-/
+
 /- ## マクロ展開を確認する方法
 
-マクロがどのように展開されているか確かめるには、次で示すように `Macro.expandMacro?` 関数が利用できます。
+マクロがどのように展開されているか確かめるには、次で示すように `Macro.expandMacro?` 関数が利用できます。また、[`pp.macroStack`](#{root}/Option/MacroStack.md) オプションを使うという方法もあります。
 -/
 
 section

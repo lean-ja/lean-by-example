@@ -10,7 +10,15 @@ inductive Cell where
   | white
 deriving Inhabited, Repr, BEq
 
-syntax cell := "-" <|> "●" <|> "○"
+/-- 盤面の１セルを表す構文カテゴリ -/
+declare_syntax_cat cell
+
+/-- 盤面の何も置かれていない箇所 -/
+syntax "-" : cell
+/-- 盤面の黒のセル -/
+syntax "●" : cell
+/-- 盤面の白のセル -/
+syntax "○" : cell
 
 open Lean Macro
 
@@ -22,10 +30,10 @@ def expandCell (stx : TSyntax `cell) : MacroM (TSyntax `term) := do
   | `(cell| ●) => `(Cell.black)
   | _ => throwUnsupported
 
-open Lean Parser
+open Parser TSyntax
 
 syntax row := withPosition((lineEq cell)*)
-syntax "board" withoutPosition(sepByIndentSemicolon(row)) : term
+syntax (name := boardStx) "board" withoutPosition(sepByIndentSemicolon(row)) : term
 
 /-- rowの構文展開 -/
 def expandRow (stx : TSyntax `row) : MacroM (TSyntax `term) := do
@@ -35,10 +43,13 @@ def expandRow (stx : TSyntax `row) : MacroM (TSyntax `term) := do
     `(term| #[ $[$cells],* ])
   | _ => throwUnsupported
 
-macro_rules
-  | `(term| board $rows:row*) => do
+@[macro boardStx]
+def expandBoard : Macro := fun stx => do
+  match stx with
+  | `(term| board $rows:row*) =>
     let rows ← (rows : TSyntaxArray `row).mapM expandRow
     `(term| #[ $[$rows],* ])
+  | _ => throwUnsupported
 
 #check board
   - - - -
