@@ -15,6 +15,9 @@ require mdgen from git
 require mathlib from git
   "https://github.com/leanprover-community/mathlib4.git" @ "master"
 
+require llmlean from git
+  "https://github.com/cmu-l3/llmlean.git" @ "main"
+
 @[default_target]
 lean_lib LeanByExample where
   -- `lake build` の実行時にビルドされるファイルの設定
