@@ -1,7 +1,7 @@
 /- # Macro
 
 `Lean.Macro` 型の項は、マクロの内部実装を表現しています。一般のプログラミング言語においてマクロとは構文を構文に変換することを指す言葉で、必ずしも特定の型や項に対応する概念ではありませんが、Lean の `m : Macro` は、`Syntax → MacroM Syntax` という関数型そのものです。-/
-import Mathlib.Util.WhatsNew --#
+import Lean --#
 
 open Lean in
 
@@ -32,54 +32,10 @@ def expandZeroLit : Macro := fun stx =>
 
 /- ### マクロから Macro 型
 
-実際にマクロを定義する際は、[`notation`](#{root}/Declarative/Notation.md) コマンドや [`macro`](#{root}/Declarative/Macro.md) コマンド、[`macro_rules`](#{root}/Declarative/MacroRules.md) コマンドなどを使用するでしょう。こういったコマンドでマクロを定義したとき、それが裏で `Macro` 型の項を生成していることを確かめることができます。特定のコマンドの実行後に新たに生成された識別子の名前をリストアップすることができる、`whatsnew` コマンドを使えば可能です。-/
+実際にマクロを定義する際は、[`notation`](#{root}/Declarative/Notation.md) コマンドや [`macro`](#{root}/Declarative/Macro.md) コマンド、[`macro_rules`](#{root}/Declarative/MacroRules.md) コマンドなどを使用するでしょう。こういったコマンドでマクロを定義したとき、それが裏で `Macro` 型の項を生成していることを確かめることができます。特定のコマンドの実行後に新たに生成された識別子の名前をリストアップすることができる、`whatsnew` コマンドを使えば可能です。
 
-section
-  open Lean Elab Command
-
-  /-- コマンドの実行結果のメッセージに特定の文字列が含まれるかどうか検証するコマンド -/
-  syntax (docComment)? "#contain_msg" "in" command : command
-
-  /-- s に t が部分文字列として含まれる -/
-  def String.substr (s t : String) : Bool := Id.run do
-    if t.isEmpty then
-      return true
-    if t.length > s.length then
-      return false
-    return (s.replace t "").length < s.length
-
-  elab_rules : command
-    | `(command| #contain_msg in $_cmd:command) => do
-      logInfo "success: nothing is expected"
-
-    | `(command| $doc:docComment #contain_msg in $cmd:command) => do
-      -- ドキュメントコメントに書かれた文字列を取得する
-      let expected := String.trim (← getDocStringText doc)
-      if expected.isEmpty then
-        logInfo "success: nothing is expected"
-        return
-
-      -- 与えられたコマンドを実行する
-      withReader ({ · with snap? := none }) do
-        elabCommandTopLevel cmd
-
-      -- コマンドの実行結果のメッセージを取得する
-      let msgs := (← get).messages.toList
-      let msgStrs := (← msgs.mapM (·.data.toString))
-        |>.map (·.replace "\"" "")
-
-      -- コマンドの実行結果のメッセージに expected が含まれるか検証する
-      for msgStr in msgStrs do
-        unless String.substr msgStr expected do
-          logError "error: output string does not contain the expected string"
-end
-
--- `macro_rules` コマンドの `whatsnew` コマンドによる出力の中に、`Macro` 型の項が含まれている
-/-- def _aux_LeanByExample_Type_Macro___macroRules_zeroLitStx_1 : Macro := -/
-#contain_msg in
-  whatsnew in
-    macro_rules
-    | `(zeroLit) => `(1)
+{{#include ./Macro/WhatsNew.md}}
+-/
 
 /- ## マクロ展開を確認する方法
 
