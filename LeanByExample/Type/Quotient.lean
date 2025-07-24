@@ -18,13 +18,13 @@
 
 Leanで項 `x : α` に対して、同値関係 `sr : Setoid α` による同値類を取る操作は `Quotient.mk` で表されます。
 -/
-section
+section --#
 
-  variable {α : Type} (sr : Setoid α)
+variable {α : Type} (sr : Setoid α)
 
-  #check (Quotient.mk sr : α → Quotient sr)
+#check (Quotient.mk sr : α → Quotient sr)
 
-end
+end --#
 /- 元の型 `α` は、すべての項がどれかの項の同値類に属していて、複数の同値類に属する項はないので、同値類たちの直和として表されます。そこで同値類の全体のことを `α` 上の同値関係 `sr : Setoid α` による **商(quotient)** と呼びます。`Quotient` が表すのは、まさにこの商です。同値類を取る操作 `Quotient.mk` は、商への関数になります。これは恣意的なところがない、構造的に導かれる操作なので、よく **自然な(canonical)** 関数であると形容されます。
 
 商の例を挙げると、たとえば時刻がそうです。時刻は `12` で割った余りで同一視する同値関係が入っていて、`13` 時と `1` 時は同じものだと認識されます。また日付は、時刻を時間・分・秒を無視する同値関係で割ることで得られる商です。
@@ -40,72 +40,75 @@ end
 
 この操作は Lean では `Quotient.lift` で実現できます。もし `α : Type` 上の同値関係 `sr : Setoid α` と関数 `f : α → β` が与えられていて `h : ∀ x, x ≈ y → f x = f y` が成り立つならば、商への持ち上げ `Quotient.lift f h : Quotient sr → β` が得られます。
 -/
-section
-  /- ## Quotient.lift は商からの関数を作る -/
+section --#
 
-  variable {α β : Type} (sr : Setoid α)
-  variable (f : α → β) (h : ∀ x y, x ≈ y → f x = f y)
+variable {α β : Type} (sr : Setoid α)
+variable (f : α → β) (h : ∀ x y, x ≈ y → f x = f y)
 
-  #check (Quotient.lift f h : Quotient sr → β)
-end
+#check (Quotient.lift f h : Quotient sr → β)
+
+end --#
 /- `Quotient.lift` が持ち上げであると言われるのは、元の `f` と値が同じになるからです。つまり、`f' := Quotient.lift f h` としたとき `f' (Quotient.mk x) = f x` が成り立ちます。 -/
-section
-  /- ## Quotient.lift は元の関数の値を変えない -/
+section --#
 
-  variable {α β : Type} (sr : Setoid α)
-  variable (f : α → β) (h : ∀ x y, x ≈ y → f x = f y)
+variable {α β : Type} (sr : Setoid α)
+variable (f : α → β) (h : ∀ x y, x ≈ y → f x = f y)
 
-  example : ∀ x, (Quotient.lift f h) (Quotient.mk sr x) = f x := by
-    intro x
-    rfl
-end
+example : ∀ x, (Quotient.lift f h) (Quotient.mk sr x) = f x := by
+  intro x
+  rfl
+
+end --#
 /- ### Quotient.inductionOn: 同値類の代表元を取る
 
 同値類 `a : α/r` は、`r` に関して同値な要素の集まりでした。同値類 `a` に対して、その中から一つ要素を選び出すことを **代表元** を取ると言います。「どれを選んでも `r` の意味で同じなので、どれかを取ってその同値類の代表とする」というニュアンスです。
 
 これは Lean では `Quotient.inductionOn` で実現できます。これを使うと、証明の中で「同値類から代表元を取って～」というよくある議論ができます。
 -/
-section
+section --#
 
-  variable {α : Type} (sr : Setoid α)
+variable {α : Type} (sr : Setoid α)
 
-  example (a : Quotient sr) : True := by
-    induction a using Quotient.inductionOn with
-    | h x =>
-      -- `x : α` が得られる
-      guard_hyp x : α
+example (a : Quotient sr) : True := by
+  induction a using Quotient.inductionOn with
+  | h x =>
+    -- `x : α` が得られる
+    guard_hyp x : α
 
-      trivial
-end
+    trivial
+
+end --#
 /- ### Quotient.sound: 同値なら商へ送って等しい
 
 型 `α` の同値関係 `sr : Setoid α` による商 `α/r` において、`x y : α` が同値つまり `x ≈ y` であるとき、これは商へ送った時には同一視されます。つまり、言い換えれば自然な関数 `Quotient.mk sr : α → α/r` による像が等しくなっているはずです。
 
 この事実には、Lean では `Quotient.sound` という名前が付いています。
 -/
-section
-  /- ## 同値なら商へ送って等しい -/
+section --#
 
-  variable {α : Type} (sr : Setoid α)
-  variable (x y : α) (h : x ≈ y)
+variable {α : Type} (sr : Setoid α)
+variable (x y : α) (h : x ≈ y)
 
-  example : Quotient.mk sr x = Quotient.mk sr y := by
-    apply Quotient.sound
-    exact h
-end
+/-- 同値なら商へ送って等しい -/
+example : Quotient.mk sr x = Quotient.mk sr y := by
+  apply Quotient.sound
+  exact h
+
+end --#
 /- ### Quotient.exact: 商に送って等しいなら同値
 
 `Quotient.sound` とは逆に、商に送って等しいことから同値であることを導く定理には `Quotient.exact` という名前がついています。
 -/
-section
-  /- ## 商に送って等しいなら同値 -/
+section --#
 
-  variable {α : Type} (sr : Setoid α)
-  variable (x y : α)
+variable {α : Type} (sr : Setoid α)
+variable (x y : α)
 
-  example (h : Quotient.mk sr x = Quotient.mk sr y) : x ≈ y := by
-    exact Quotient.exact h
-end
+/-- 商に送って等しいなら同値 -/
+example (h : Quotient.mk sr x = Quotient.mk sr y) : x ≈ y := by
+  exact Quotient.exact h
+
+end --#
 /- ## 使用例
 ### 人間の性別による商
 
