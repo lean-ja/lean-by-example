@@ -52,5 +52,6 @@ macro_rules
     let stx ← expToSyntax exp (litPrefix := 1)
     `($lhs ^ (Int.neg $stx))
 
-#guard 2¹⁰ = 1024
+#guard (2 : Int)⁰ = 1
+#guard 2³ = 8
 #guard (2 : Rat)⁻¹⁰ = (1 : Rat) / 1024
