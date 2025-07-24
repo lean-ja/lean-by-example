@@ -109,96 +109,32 @@ example (h : Quotient.mk sr x = Quotient.mk sr y) : x ≈ y := by
   exact Quotient.exact h
 
 end --#
-/- ## 使用例
-### 人間の性別による商
+/- ## 使用例 -/
+/- ### 順序なしペア
 
-たとえば人間全体の集まり `Human : Type` において `gender : Human → Gender` を性別を返す関数とし、`gender` は正しく定義されているものとします。
+直積型 `A × A` 上の二項関係 `r : A × A → A × A → Prop` を、`r (a₁, a₂) (b₁, b₂) := a₁ = b₁ ∧ a₂ = b₂ ∨ a₁ = b₂ ∧ a₂ = b₁` と定義します。これは、順序を無視してペアを同じと見なす同値関係です。
 -/
 
-/-- 人間たちの集まり -/
-opaque Human : Type
+/-- 順序を無視してペアとして同じかどうか判定する同値関係 -/
+@[instance]
+def pairRel (A : Type) : Setoid (A × A) where
+  r := fun p₁ p₂ => p₁.1 = p₂.1 ∧ p₁.2 = p₂.2 ∨ p₁.1 = p₂.2 ∧ p₁.2 = p₂.1
+  iseqv := by constructor <;> grind
 
-/-- 性別 -/
-inductive Gender where
-  /-- 男性 -/
-  | male
-  /-- 女性 -/
-  | female
-deriving Inhabited, DecidableEq
+/- この同値関係による商を考えることで、順序なしのペア型を得ることができます。-/
 
-/-- ある人の性別を取得する関数 -/
-opaque gender : Human → Gender
+/-- 順序なしペア -/
+def UnorderedPair (A : Type) := Quotient (pairRel A)
 
-/- このとき二項関係 `r : Human → Human → Prop` を `r a b := gender a = gender b` と定義すると、`r` は同値関係になり、`sr : Setoid Human` が得られます。-/
+/- 実際、`(1, 2)` と `(2, 1)` の `UnorderedPair` への像は同じペアとして扱われます。-/
 
-/-- 性別が同じという二項関係 -/
-def Human.r (a b : Human) : Prop := gender a = gender b
+def sample₁ : UnorderedPair Nat := Quotient.mk _ (1, 2)
+def sample₂ : UnorderedPair Nat := Quotient.mk _ (2, 1)
 
-/-- 性別が同じという同値関係 -/
-@[instance] def Human.sr : Setoid Human := ⟨Human.r, by
-  constructor
-  case refl =>
-    intros
-    rfl
-  case symm =>
-    intro x y rxy
-    exact rxy.symm
-  case trans =>
-    intro x y z rxy ryz
-    dsimp [Human.r] at *
-    have : gender x = gender z := calc
-      _ = gender y := rxy
-      _ = gender z := ryz
-    assumption
-  ⟩
-
-/- `sr : Setoid Human` による `Human` の商 `Quotient sr` を考えます。すると、`sr` の定義の言い換えとして、`gender : Human → Gender` は同値関係 `sr` (`Setoid` なので `(· ≈ ·)` と表すことができる)を保ちます。つまり `x ≈ y → gender x = gender y` です。したがって、関数 `Quotient sr → Gender` が誘導されます。 -/
-
-/-- Human の Human.sr による商 -/
-def «Human/≈» := Quotient Human.sr
-
-@[simp]
-theorem Human.sr_def (a b : Human) : a ≈ b ↔ gender a = gender b := by
-  rfl
-
-/-- 商から性別への関数 -/
-def «↑gender» : «Human/≈» → Gender := Quotient.lift gender <| by
-  intro a b rab
-  simp_all
-
-/- ここで、仮定として「男性も女性も少なくとも1人構成的に存在する」ことを追加します。これは、関数 `Gender → Human` が存在することとして表現できます。このとき、自然な関数 `Human → «Human/≈»` と合成することによって `Gender → «Human/≈»` という関数が得られます。-/
-
-/-- 男性も女性も少なくとも1人存在し、具体的に指摘することができる -/
-axiom pick : Gender → Human
-
-/-- `pick` 関数の仕様 -/
-axiom Human.pick_spec (g : Gender) : gender (pick g) = g
-
-noncomputable def «pick↑» : Gender → «Human/≈» := fun g =>
-  Quotient.mk Human.sr <| pick g
-
-/- このとき、`↑gender` と `pick↑` は互いに逆の関係にあります。つまり、`↑gender ∘ pick↑ = id` であり `pick↑ ∘ ↑gender = id` が成り立ちます。つまり、`Human/≈` と `Gender` は型として同値です。 -/
-
-theorem Human.gender_pick_eq_id (g : Gender) : «↑gender» («pick↑» g) = g := calc
-  _ = gender (pick g) := rfl -- 定義から従う
-  _ = g := by apply Human.pick_spec
-
-theorem Human.pick_gender_eq_id (a : «Human/≈») : «pick↑» («↑gender» a) = a := by
-  -- `a : Human/≈` が与えられているが、
-  -- `a = Quotient.mk Human.sr ax` を満たす `ax : Human` が存在する
-  induction a using Quotient.inductionOn with
-  | h ax =>
-    -- 商の公理により、「商に送って等しい」ことは「元の型上で同値であること」から従う
-    dsimp [«pick↑»]
-    apply Quotient.sound
-
-    -- 同値関係を定義にばらす
-    dsimp [(· ≈ ·), Setoid.r, Human.r]
-
-    have : gender (pick («↑gender» (Quotient.mk sr ax))) = gender ax := calc
-      _ = gender (pick (gender ax)) := rfl -- 定義から従う
-      _ = gender ax := by rw [Human.pick_spec]
-    assumption
+example : sample₁ = sample₂ := by
+  apply Quotient.sound
+  dsimp [(· ≈ ·), pairRel]
+  grind
 
 /- ### 自然数の積の商として整数を得る
 
