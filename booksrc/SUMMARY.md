@@ -157,6 +157,7 @@
   - [CommandElab: コマンドの実装](./Type/CommandElab.md)
   - [Expr: 抽象構文木](./Type/Expr.md)
   - [Float: 浮動小数点数](./Type/Float.md)
+  - [HashSet: 重複を許さない集まり](./Type/HashSet.md)
   - [IO: 入出力](./Type/IO.md)
   - [Linter: リンター](./Type/Linter.md)
   - [List: 連結リスト](./Type/List.md)
