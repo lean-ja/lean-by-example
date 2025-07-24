@@ -70,3 +70,7 @@ def allSubstrings (s : String) : HashSet String := Id.run do
       let sub := s.extract ⟨i⟩ ⟨j⟩
       result := result.insert sub
   return result.insert ""
+
+#guard (allSubstrings "aaa").toList = ["", "aaa", "a", "aa"]
+
+#guard (allSubstrings "abc").toList = ["", "abc", "bc", "c", "a", "ab", "b"]
