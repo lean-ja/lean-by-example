@@ -30,7 +30,7 @@ end Hidden --#
 open Lean Elab Command in
 
 /-- 2つのコマンドのうち最初のコマンドのほうが `n` 倍早く終わることを確かめるコマンド -/
-elab "#speed_rank " "|" stx1:command "|" stx2:command "ratio" n:num : command => do
+elab "#speed_rank " "ratio" n:num "|" stx1:command "|" stx2:command  : command => do
   let start_time ← IO.monoMsNow
   elabCommand stx1
   let end_time ← IO.monoMsNow
@@ -99,6 +99,6 @@ namespace Subtype
 end Subtype
 
 -- 5倍以上も遅くなってしまう
-#speed_rank
+#speed_rank ratio 5
   | #reduce (500 : Subtype.Pos) + (500 : Subtype.Pos)
-  | #reduce (500 : Inductive.Pos) + (500 : Inductive.Pos) ratio 5
+  | #reduce (500 : Inductive.Pos) + (500 : Inductive.Pos)
