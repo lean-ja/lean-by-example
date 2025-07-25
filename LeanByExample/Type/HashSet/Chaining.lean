@@ -84,7 +84,7 @@ def HashSet.toList (s : HashSet α) : List α := Id.run do
   -- ここで、結合するのは `s.size` までの部分だけで良いことに注意
   -- それ以降の部分は全部空リストだとあらかじめわかっている
   for i in [0:s.size] do
-    result := result ++ s.data[i]!
+    result := s.data[i]! ++ result
   return result
 
 -- contains 関数のテスト
