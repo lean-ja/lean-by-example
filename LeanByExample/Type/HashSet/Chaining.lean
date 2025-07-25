@@ -76,15 +76,12 @@ def HashSet.erase (s : HashSet α) (x : α) : HashSet α :=
     let newData := data.set! idx (list.erase x)
     { size := data.size, data := newData }
 
-/-- HashSet をリストに変換する -/
+/-- HashSet をリストに変換する。この操作には、`Ω(|s.size|)` の時間がかかる。 -/
 def HashSet.toList (s : HashSet α) : List α := Id.run do
   let mut result : List α := []
-
   -- 内部の配列をすべて結合してリストにする
-  -- ここで、結合するのは `s.size` までの部分だけで良いことに注意
-  -- それ以降の部分は全部空リストだとあらかじめわかっている
-  for i in [0:s.size] do
-    result := s.data[i]! ++ result
+  for x in s.data do
+    result := x ++ result
   return result
 
 -- contains 関数のテスト
