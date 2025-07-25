@@ -6,8 +6,7 @@ namespace Playground
 
 variable {α : Type} [Hashable α] [BEq α]
 
-/-- チェイン法（chaining）による HashSet の実装。
-実際には Lean の標準ライブラリにある HashSet は HashMap を用いて実装されていることに注意 -/
+/-- チェイン法（chaining）による HashSet の実装 -/
 structure HashSet (α : Type) where
   /-- 内部データとしての配列 -/
   data : Array (List α)
