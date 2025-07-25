@@ -44,12 +44,6 @@ syntax "unfold" "≈" : tactic
 macro_rules
   | `(tactic|unfold ≈) => `(tactic| dsimp only [(· ≈ ·), Setoid.r, equivCmd])
 
-set_option linter.unreachableTactic false in
-
--- big_step が `unfold ≈` を利用できるようにする
--- これでゴールに `≈` が含まれている場合に対応できる
-add_big_step_rules norm [tactic (by unfold ≈)]
-
 /-- ### Lemma 7.3
 `while` 文の意味は、
 * 条件式が真なら `S` を実行して再び `while` ループを実行
@@ -57,6 +51,7 @@ add_big_step_rules norm [tactic (by unfold ≈)]
 というコマンドに等しい。 -/
 theorem while_eq_if_then_skip (B : State → Prop) (S : Stmt) :
     whileDo B S ≈ ifThenElse B (S;; whileDo B S) skip := by
+  unfold ≈
   big_step
 
 /-- 排中律に関する補題 -/
@@ -68,6 +63,7 @@ theorem cond_em (B : State → Prop) (s : State) : B s ∨ ¬ B s := by
 IF 文の両方の分岐が同じコマンド `c` なら、それは `c` と同じ -/
 @[grind <=]
 theorem if_both_eq (B : State → Prop) (c : Stmt) : ifThenElse B c c ≈ c := by
+  unfold ≈
   big_step
 
 /-- ### Lemma 7.6
