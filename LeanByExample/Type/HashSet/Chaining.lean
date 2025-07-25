@@ -77,6 +77,17 @@ def HashSet.erase (s : HashSet α) (x : α) : HashSet α :=
     let newData := data.set! idx (list.erase x)
     { size := data.size, data := newData }
 
+/-- HashSet をリストに変換する -/
+def HashSet.toList (s : HashSet α) : List α := Id.run do
+  let mut result : List α := []
+
+  -- 内部の配列をすべて結合してリストにする
+  -- ここで、結合するのは `s.size` までの部分だけで良いことに注意
+  -- それ以降の部分は全部空リストだとあらかじめわかっている
+  for i in [0:s.size] do
+    result := result ++ s.data[i]!
+  return result
+
 -- contains 関数のテスト
 #guard show Bool from Id.run do
   let mut set : HashSet Nat := HashSet.empty
@@ -84,7 +95,7 @@ def HashSet.erase (s : HashSet α) (x : α) : HashSet α :=
   set := set.insert 2
   set.contains 1
 
--- 同じ要素を何回も挿入しても変わらない
+-- 削除のテスト
 #guard show Bool from Id.run do
   let mut set : HashSet Nat := HashSet.empty
   -- 1 を２回挿入
@@ -93,5 +104,16 @@ def HashSet.erase (s : HashSet α) (x : α) : HashSet α :=
   -- 1 を削除する
   set := set.erase 1
   ! set.contains 1
+
+/-⋆-//-- info: [1, 2] -/
+#guard_msgs in --#
+#eval show (List Nat) from Id.run do
+  let mut set : HashSet Nat := HashSet.empty
+  -- 1 を２回挿入
+  set := set.insert 1
+  set := set.insert 1
+  set := set.insert 2
+  -- HashSet をリストに変換して返す
+  set.toList
 
 end Playground
