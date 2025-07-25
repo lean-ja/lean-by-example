@@ -58,22 +58,54 @@ inductive BigStep : Stmt → State → State → Prop where
 @[inherit_doc] notation:55 "(" S:55 "," s:55 ")" " ==> " t:55 => BigStep S s t
 
 section
+-- ## BigStep がゴールにある場合にそれを big_step が扱えるようにする
 
 set_option linter.unreachableTactic false
 
--- BigStep がゴールにある場合にそれを big_step が扱えるようにする
-add_big_step_rules safe [apply BigStep.skip]
-add_big_step_rules safe [apply BigStep.assign]
-add_big_step_rules safe [apply BigStep.seq]
-add_big_step_rules safe tactic [
-  (by apply BigStep.if_true (hcond := by assumption) (hbody := by assumption))
-]
-add_big_step_rules safe tactic [
-  (by apply BigStep.if_false (hcond := by assumption) (hbody := by assumption))
-]
-add_big_step_rules safe apply [BigStep.while_false]
-add_big_step_rules unsafe 50% apply [BigStep.while_true]
-add_big_step_rules unsafe 90% tactic (by grind)
+/-- skipに関するBigStepの導入則 -/
+@[big_step safe apply]
+theorem BigStep.skip_intro {s : State} : (skip, s) ==> s := by
+  apply BigStep.skip
+
+/-- assignに関するBigStepの導入則 -/
+@[big_step safe apply]
+theorem BigStep.assign_intro {x : Variable} {a : State → Nat} {s : State} :
+    (assign x a, s) ==> (s[x ↦ a s]) := by
+  apply BigStep.assign
+
+/-- seqに関するBigStepの導入則 -/
+@[big_step safe apply]
+theorem BigStep.seq_intro {S T : Stmt} {s t u : State}
+    (hS : (S, s) ==> t) (hT : (T, t) ==> u) :
+    (S;; T, s) ==> u := by
+  apply BigStep.seq hS hT
+
+/-- ifThenElseに関するBigStepの導入則 -/
+@[big_step unsafe 50% apply]
+theorem BigStep.if_true_intro {B : State → Prop} {S T : Stmt} {s t : State}
+    (hcond : B s) (hbody : (S, s) ==> t) :
+    (ifThenElse B S T, s) ==> t := by
+  apply BigStep.if_true hcond S T hbody
+
+/-- whileDoに関するBigStepの導入則 -/
+@[big_step unsafe 50% apply]
+theorem BigStep.if_false_intro {B : State → Prop} {S T : Stmt} {s t : State}
+    (hcond : ¬ B s) (hbody : (T, s) ==> t) :
+    (ifThenElse B S T, s) ==> t := by
+  apply BigStep.if_false hcond S T hbody
+
+@[big_step safe apply]
+theorem BigStep.while_false_intro {B S s} (hcond : ¬ B s) :
+    (whileDo B S, s) ==> s := by
+  apply BigStep.while_false hcond
+
+@[big_step unsafe 50% apply]
+theorem BigStep.while_true_intro {B S s t u}
+    (hcond : B s) (hbody : (S, s) ==> t) (hrest : (whileDo B S, t) ==> u) :
+    (whileDo B S, s) ==> u := by
+  apply BigStep.while_true hcond hbody hrest
+
+add_big_step_rules unsafe 95% tactic (by grind)
 
 end
 
