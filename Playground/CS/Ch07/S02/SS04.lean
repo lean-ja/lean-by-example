@@ -33,6 +33,12 @@ instance : Setoid Stmt where
 -- このように、`Stmt` の要素が同値であることを示すために `≈` を使うことができる
 #check skip ≈ skip
 
+@[grind →]
+theorem equivCmd_spec {S T : Stmt} (h : S ≈ T) {s t : State} :
+    (S, s) ==> t → (T, s) ==> t := by
+  dsimp [(· ≈ ·), Setoid.r, equivCmd] at h
+  grind
+
 /-- `≈` 記号の中身を展開するルールを追加する -/
 syntax "unfold" "≈" : tactic
 macro_rules
@@ -60,6 +66,7 @@ theorem cond_em (B : State → Prop) (s : State) : B s ∨ ¬ B s := by
 
 /-- ### Lemma 7.4
 IF 文の両方の分岐が同じコマンド `c` なら、それは `c` と同じ -/
+@[grind <=]
 theorem if_both_eq (B : State → Prop) (c : Stmt) : ifThenElse B c c ≈ c := by
   big_step
 
@@ -82,14 +89,7 @@ theorem while_congr {B : State → Prop} {c c' : Stmt} {s t : State} (h : c ≈ 
 
   -- 条件式が真の場合
   case while_true s' t' u' hcond' hbody' _ _hrest ih =>
-    apply BigStep.while_true (t := t') (hcond := by assumption)
-
-    case hbody =>
-      -- `c ≈ c'` を使って rw することができる！（たまたま）
-      rwa [← h]
-
-    -- 帰納法の仮定を使う
-    case hrest => simpa using ih
+    big_step
 
 /-- ### Lemma 7.5
 コマンド `c` と `c'` が同値ならば、`While` を付けても同値 -/
@@ -114,6 +114,7 @@ theorem while_eq_of_eq (B : State → Prop) (c c' : Stmt) (h : c ≈ c') : while
     assumption
 
 /-- セミコロン(seq)の congruence Rule -/
+@[grind →]
 theorem seq_congr {S1 S2 T1 T2 : Stmt} (hS : S1 ≈ S2) (hT : T1 ≈ T2) : S1 ;; T1 ≈ S2 ;; T2 := by
   -- ≈ の定義を展開する
   unfold ≈
@@ -129,9 +130,7 @@ theorem seq_congr {S1 S2 T1 T2 : Stmt} (hS : S1 ≈ S2) (hT : T1 ≈ T2) : S1 ;;
     cases h
     case seq t hS' hT' =>
       -- 仮定を使って証明する
-      apply BigStep.seq
-      · rwa [← hS]
-      · rwa [← hT]
+      big_step
 
   case mpr =>
     -- seq_iff の定義から仮定を分解する
@@ -155,14 +154,7 @@ theorem if_congr {B : State → Prop} {S1 S2 T1 T2 : Stmt} (hS : S1 ≈ S2) (hT 
   constructor <;> intro h
 
   case mp =>
-    cases h
-    case if_true hcond hbody =>
-      apply BigStep.if_true hcond
-      rwa [← hS]
-
-    case if_false hcond hbody =>
-      apply BigStep.if_false hcond
-      rwa [← hT]
+    cases h <;> big_step
 
   case mpr =>
     cases h
