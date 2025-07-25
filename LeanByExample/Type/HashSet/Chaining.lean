@@ -104,7 +104,7 @@ def HashSet.toList (s : HashSet α) : List α := Id.run do
   set := set.erase 1
   ! set.contains 1
 
-/-⋆-//-- info: [1, 2] -/
+/-⋆-//-- info: [2, 1] -/
 #guard_msgs in --#
 #eval show (List Nat) from Id.run do
   let mut set : HashSet Nat := HashSet.empty
