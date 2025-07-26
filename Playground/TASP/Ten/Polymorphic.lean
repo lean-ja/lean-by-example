@@ -11,7 +11,7 @@
 ここで `4, 1, 1, 2` のような重複のある数列が与えられた場合、１つめの１と２つめの１は区別したくない。
 したがって返り値の型は `HashSet (List α)` とする。
 -/
-import Lean
+import Batteries
 
 variable {α : Type} [DecidableEq α] [Hashable α]
 open Std
@@ -43,7 +43,8 @@ def List.permutations (xs : List α) : List (List α) :=
 def List.permutationSet (xs : List α) : HashSet (List α) :=
   HashSet.ofList (List.permutations xs)
 
-#eval List.permutationSet [1, 1, 1] -- 重複を許容しなくなった
+-- 重複を許容しなくなった
+#guard (List.permutationSet [1, 1, 1]).toList = [[1, 1, 1]]
 
 /- ## 式を生成する
 
@@ -75,30 +76,42 @@ protected def Op.toString (op : Op) : String :=
 instance : ToString Op := ⟨Op.toString⟩
 
 /-- 数式 -/
-inductive Arith where
+inductive Arith (γ : Type) where
   /-- 数字 -/
-  | num (n : Int)
+  | num (n : γ)
   /-- 二項演算の適用 -/
-  | app (op : Op) (l r : Arith)
+  | app (op : Op) (l r : Arith γ)
 deriving Inhabited
 
-protected def Arith.toString (expr : Arith) : String :=
+class SafeDiv (γ : Type) where
+  safeDiv : γ → γ → Option γ
+
+instance : SafeDiv Int where
+  safeDiv x y := if y = 0 || x % y ≠ 0 then none else some (x / y)
+
+instance : SafeDiv Rat where
+  safeDiv x y := if y = 0 then none else some (x / y)
+
+variable {γ : Type} [ToString γ] [SafeDiv γ] [Add γ] [Sub γ] [Mul γ]
+variable [DecidableEq γ] [Hashable γ]
+
+protected def Arith.toString (expr : Arith γ) : String :=
   match expr with
   | num n => s!"{n}"
   | app op l r =>
     brak l ++ " " ++ ToString.toString op ++ " " ++ brak r
 where
-  brak : Arith → String
+  brak : Arith γ → String
   | .num n => toString n
   | e => "(" ++ Arith.toString e ++ ")"
 
-instance : ToString Arith := ⟨Arith.toString⟩
+instance : ToString (Arith γ) := ⟨Arith.toString⟩
 
 /-- 与えられた2つの部分式 `l` と `r` に対して、
 すべての二項演算子を適用した式のリストを返す関数。
 
 例: `combine 2 3 = [2+3, 2−3, 2×3, 2÷3]` のような式に対応する -/
-def Arith.combine (l r : Arith) : List Arith :=
+def Arith.combine (l r : Arith γ) : List (Arith γ) :=
   Op.asList.map (fun op => Arith.app op l r)
 
 /-- あるリストを（要素の順番を保ちながら）２つの空でないリストに分割するすべての方法を返す -/
@@ -122,7 +135,7 @@ instance : Monad List where
 
 /-- リスト `xs` を元に構文木 `Arith` のすべての組み合わせを生成する関数。
 ただし、元のリストの要素の順番は保持する。 -/
-partial def Arith.ofList (xs : List Int) : List Arith :=
+partial def Arith.ofList (xs : List γ) : List (Arith γ) :=
   match xs with
   | [] => []
   | [n] => [Arith.num n]
@@ -136,7 +149,7 @@ partial def Arith.ofList (xs : List Int) : List Arith :=
 
 /-- リスト `xs` を元に構文木 `Arith` のすべての組み合わせを生成する関数。
 ただし、元のリストの要素の順番は無視し、すべての順列に対して生成する。 -/
-def Arith.ofMultiSet (xs : List Int) : List Arith := Id.run do
+def Arith.ofMultiSet (xs : List γ) : List (Arith γ) := Id.run do
   let permSet := xs.permutationSet
   let mut result := []
   for perm in permSet do
@@ -177,7 +190,7 @@ def Arith.ofMultiSet (xs : List Int) : List Arith := Id.run do
 
 /-- `Arith` 型で表された数式を評価して、その整数値を `Option Int` として返す関数。
 計算不能（ゼロ除算など）の場合は `none` を返す。 -/
-def Arith.eval (e : Arith) : Option Int :=
+def Arith.eval (e : Arith γ) : Option γ :=
   match e with
   | .num n => some n  -- 数字ノードはそのまま返す
   | .app op l r => do
@@ -198,19 +211,29 @@ def Arith.eval (e : Arith) : Option Int :=
     | Op.div =>
       let x ← l.eval
       let y ← r.eval
-      -- 割り算の場合、ゼロ除算を防ぎ、かつ割り切れるときのみ評価成功とする
-      if y ≠ 0 && x % y == 0 then
-        return x / y
-      else
-        none  -- ゼロ除算または割り切れない場合は評価失敗
+      SafeDiv.safeDiv x y
 
 
-def Arith.solutions (nums : List Int) (target : Int) : List Arith :=
+def Arith.solutions (nums : List γ) (target : γ) : List (Arith γ) :=
   let expr := Arith.ofMultiSet nums
   expr.filter (fun e => e.eval == some target)
 
-#eval Arith.solutions [5, 5, 5, 7] 10
+/-- `Rat` 型（有理数）の `Hashable` インスタンス。
+    既約形であることが保証されているため、分子・分母の組に基づいてハッシュを構成する。 -/
+instance : Hashable Rat where
+  -- `r.num` は分子、`r.den` は分母
+  hash r := mixHash (hash r.num) (hash r.den)
 
-#eval Arith.solutions [9, 9, 9, 9] 10
+#eval Arith.solutions [5, 5, 5, 7] (10 : Int)
 
-#eval Arith.solutions [1, 3, 3, 7] 10
+#eval Arith.solutions [9, 9, 9, 9] (10 : Int)
+
+#eval Arith.solutions [1, 3, 3, 7] (10 : Int)
+
+#eval Arith.solutions [1, 3, 3, 7] (10 : Rat)
+
+#eval Arith.solutions [1, 1, 9, 9] (10 : Rat)
+
+#eval Arith.solutions [1, 1, 5, 8] (10 : Rat)
+
+#eval Arith.solutions [3, 4, 7, 8] (10 : Rat)
