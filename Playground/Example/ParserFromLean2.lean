@@ -50,8 +50,8 @@ open Lean Parser in
 instance : Singleton Token TokenTable := ⟨fun a => insert a ∅⟩
 
 open Lean Parser in
-def arithFromString (input : String) : Except String Arith := unsafe
-  let env : Environment := unsafeCast () -- we won't use it, right?
+def arithFromString (input : String) : Except String Arith :=
+  unsafe let env : Environment := unsafeCast () -- we won't use it, right?
   let tokens : TokenTable := {"$", "(", ")", "+", "*"}
   let state := parseArith.fn.run
     (mkInputContext input "<input>")

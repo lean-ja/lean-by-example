@@ -47,7 +47,7 @@ end Arith
 open Lean Elab Term Syntax Qq
 
 /-- Leanのパーサを利用して、文字列をパースして`Arith`を得る -/
-unsafe def parseArith (input : String) : TermElabM Arith := do
+def parseArith (input : String) : TermElabM Arith := unsafe do
   let env ← getEnv
   let stx ← Lean.ofExcept <| Parser.runParserCategory env `term s!"[arith| {input}]"
   let expr : Q(Arith) ← elabTerm stx q(Arith)
