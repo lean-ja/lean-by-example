@@ -1,4 +1,4 @@
-# ProgrammingHaskell
+# Programming in Haskell
 
 方針は以下の通り。
 
