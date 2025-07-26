@@ -111,3 +111,6 @@ def main (args : List String) : IO UInt32 :=
   | [] => process 0 ["-"]
   -- 引数がある場合はそのまま順に処理
   | _ =>  process 0 args
+
+-- コマンドラインで実行する代わりにこうしても良い
+-- #eval main [".\\Playground\\FPiL\\test_feline.txt"]
