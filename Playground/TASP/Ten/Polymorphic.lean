@@ -219,7 +219,9 @@ def Arith.solutions (nums : List γ) (target : γ) : List (Arith γ) :=
   expr.filter (fun e => e.eval == some target)
 
 /-- `Rat` 型（有理数）の `Hashable` インスタンス。
-    既約形であることが保証されているため、分子・分母の組に基づいてハッシュを構成する。 -/
+    既約形であることが保証されているため、分子・分母の組に基づいてハッシュを構成する。
+**TODO** なぜこれが Batteries にないのか？
+-/
 instance : Hashable Rat where
   -- `r.num` は分子、`r.den` は分母
   hash r := mixHash (hash r.num) (hash r.den)
