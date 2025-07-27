@@ -94,6 +94,7 @@
   - [by: タクティクモードに入る](./Parser/By.md)
   - [e.f: フィールド記法](./Parser/FieldNotation.md)
   - [match .. with: パターンマッチ](./Parser/Match.md)
+  - [panic!: エラーメッセージを出す](./Parser/Panic.md)
   - [s!: 文字列補間](./Parser/InterpStr.md)
   - [show .. from: 項の型を明示](./Parser/Show.md)
   - [Σ: 依存ペア型](./Parser/Sigma.md)
