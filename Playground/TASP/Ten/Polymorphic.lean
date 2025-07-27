@@ -156,6 +156,9 @@ def Arith.ofMultiSet (xs : List γ) : List (Arith γ) := Id.run do
     result := Arith.ofList perm ++ result
   result
 
+-- `7680`通りの解が最大で生成される（コンピュータにとっては小さい）
+#guard (Arith.ofMultiSet [1, 2, 3, 4]).length = 7680
+
 #guard
   let actual := (Arith.ofMultiSet [1, 2]).map toString
   let expected := [
@@ -218,13 +221,8 @@ def Arith.solutions (nums : List γ) (target : γ) : List (Arith γ) :=
   let expr := Arith.ofMultiSet nums
   expr.filter (fun e => e.eval == some target)
 
-/-- `Rat` 型（有理数）の `Hashable` インスタンス。
-    既約形であることが保証されているため、分子・分母の組に基づいてハッシュを構成する。
-**TODO** なぜこれが Batteries にないのか？
--/
-instance : Hashable Rat where
-  -- `r.num` は分子、`r.den` は分母
-  hash r := mixHash (hash r.num) (hash r.den)
+-- **TODO** なぜこれが Batteries にないのか？
+deriving instance Hashable for Rat
 
 #eval Arith.solutions [5, 5, 5, 7] (10 : Int)
 
