@@ -92,4 +92,33 @@ theorem exec_append (c d : Code) (s : Stack) :
 theorem comp_eval (e : Expr) (s : Stack) : exec (comp e) s = eval e :: s := by
   induction e generalizing s with grind
 
+-- ## comp' の定義を算出するパート
+-- def comp' (e : Expr) (c : Code) := comp e ++ c
+
+-- @[simp, grind]
+-- theorem comp'_val (n : Nat) (c : Code) :
+--     comp' (Expr.val n) c = .push n :: c := by
+--   dsimp [comp', comp]
+
+-- @[simp, grind]
+-- theorem comp'_add (l r : Expr) (c : Code) :
+--     comp' (Expr.add l r) c = comp' l (comp' r (.add :: c)) := by
+--   dsimp [comp', comp]
+--   ac_rfl
+
+/-- 算出された comp'
+
+利点
+* `++` を使わないので効率が良くなった
+* 証明が簡単になった！分配法則のような補題が必要なくなった。
+-/
+def comp' (e : Expr) (c : Code) : Code :=
+  match e with
+  | .val n => .push n :: c
+  | .add l r => comp' l (comp' r (.add :: c))
+
+theorem comp'_correct (e : Expr) (s : Stack) (c : Code) :
+    exec (comp' e c) s = exec c (eval e :: s) := by
+  fun_induction comp' e c generalizing s with grind
+
 end PIH
