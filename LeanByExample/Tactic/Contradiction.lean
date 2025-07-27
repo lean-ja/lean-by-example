@@ -23,7 +23,7 @@ example (hP : P) (hnP : ¬ P) : Q := by contradiction
 /- 爆発律を利用するタクティクには他に [`exfalso`](./Exfalso.md) もありますが、あちらはゴールを `False` に書き換えるだけで、ゴールを閉じるところまでは行いません。-/
 
 /- ## 補足
-以下の例では、`contradiction` がいかにも通りそうに見えるのですが、通りません。順序の扱いは `contradiction` の仕事ではないからです。`contradiction` は論理的な矛盾しか扱わないので、注意が必要です。
+以下の例では、`contradiction` がいかにも通りそうに見えるのですが、通りません。順序の扱いは `contradiction` の仕事ではないからです。`contradiction` にはあまり強力な前処理は備わっていないので、注意が必要です。
 -/
 
 variable (n m : ℕ)
