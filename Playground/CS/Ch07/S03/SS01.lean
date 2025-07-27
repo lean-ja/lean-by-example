@@ -58,7 +58,7 @@ theorem small_step_star_to_big_step.seq_step {c s c' s' t}
   : (c, s) ==> t := by
   induction h1 generalizing t
   case seq_step =>
-    -- TODO: rcases のバグではないか。確かめる。
+    -- ****TODO****: rcases のバグではないか。確かめる。
     -- rcases h2 with ⟨t', hS', hT', s2, s3, s4⟩
     big_step
   all_goals big_step

@@ -8,11 +8,7 @@ namespace String
 def hasDup (s : String) : Bool :=
   (HashSet.ofList s.toList).size < s.length
 
-/-- 重複を除いて、すべての部分文字列を列挙する
-
-**TODO**: HashSet を活用する良い例になっている。
-List にしてしまうと、重複が除かれるという意味合いが型からわからない。
--/
+/-- 重複を除いて、すべての部分文字列を列挙する -/
 def allSubstrings (s : String) : HashSet String := Id.run do
   let mut result : HashSet String := {}
   for j in [1 : s.length + 1] do

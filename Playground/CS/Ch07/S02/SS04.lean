@@ -72,7 +72,6 @@ theorem if_both_eq (B : State → Prop) (c : Stmt) : ifThenElse B c c ≈ c := b
 theorem while_congr {B : State → Prop} {c c' : Stmt} {s t : State} (h : c ≈ c') (h_while : (whileDo B c, s) ==> t) :
     (whileDo B c', s) ==> t := by
   -- `whileDo B C` を `x` とおく
-  -- **TODO**: この generalize がないと次の induction がエラーになるのはなぜか？
   generalize hx : whileDo B c = x at h_while
 
   -- `h_while` に関する帰納法を使う

@@ -4,8 +4,8 @@ import Lean
 open Std Lean
 
 /-- **TODO** Inhabited インスタンスがなぜか標準ライブラリに欠けている -/
-instance : Inhabited Range where
-  default := ⟨0, 0, 1, by decide⟩
+-- instance : Inhabited Range where
+--   default := ⟨0, 0, 1, by decide⟩
 
 /- # スライドウィンドウ
 

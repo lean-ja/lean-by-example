@@ -41,7 +41,7 @@ theorem not_final_of_ne_skip {S : Stmt} (h : S ≠ skip) (s : State) : ∃ S' s'
 
 /-- `skip` 以外のコマンドは `final` ではない
 
-TODO: なぜかこれを `simp` 補題にしても、次の 7.17 の証明で自動で使われない。原因は何か？
+**TODO**: なぜかこれを `simp` 補題にしても、次の 7.17 の証明で自動で使われない。原因は何か？
 -/
 theorem skip_of_final {S : Stmt} {s : State} (h : final S s) : S = skip := by
   by_cases if_skip : S = skip
