@@ -1,12 +1,18 @@
 /- # HashSet
 
 `Std.HashSet` は、「重複のない集まり」を表すデータ構造です。
-
-`insert` 関数で要素を挿入することができますが、同じ要素を複数回挿入しても１つしか保持されません。
--/
+`{ .. }` という記法で具体的に `HashSet` の項を定義することができます。-/
 import Lean
 
 open Std
+
+/-⋆-//-- info: Std.HashSet.ofList [1] -/
+#guard_msgs in --#
+#eval ({1, 1, 1} : HashSet Nat)
+
+/-
+`insert` 関数で要素を挿入することができますが、同じ要素を複数回挿入しても１つしか保持されません。
+-/
 
 /-⋆-//-- info: Std.HashSet.ofList [1] -/
 #guard_msgs in --#
