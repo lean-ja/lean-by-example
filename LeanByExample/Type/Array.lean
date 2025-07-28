@@ -65,3 +65,52 @@ end Hidden --#
 
 {{#include ./Array/IdxAccess.md}}
 -/
+
+/- ## 使用例
+
+`arr : Array α` に対しては「末尾に要素を追加する操作」と「末尾から要素を取り出す操作」が高速に行えるので、スタックの実装に利用することができます。
+-/
+
+/-- 括弧が対応しているか判定する -/
+def matchParen (c1 c2 : Char) : Bool :=
+  match c1, c2 with
+  | '(', ')' => true
+  | '{', '}' => true
+  | '[', ']' => true
+  | _, _ => false
+
+/--
+文字列 `s` に含まれる括弧が正しく対応しているかどうかを判定する関数。
+開き括弧と閉じ括弧が対応しており、正しい順序で閉じられている場合に `true` を返す。
+-/
+def validParen (s : String) : Bool := Id.run do
+  -- 括弧のスタックを空で初期化
+  let mut stack : Array Char := #[]
+
+  -- 文字列の各文字に対してループ
+  for c in s.toList do
+    -- スタックの末尾の要素（最後に追加された開き括弧）を取得
+    let last := stack.back?
+    match last with
+    | none =>
+      -- スタックが空なら、文字をスタックに追加（開き括弧のはず）
+      stack := stack.push c
+    | some last =>
+      -- スタックの末尾と現在の文字が対応する括弧なら、スタックから取り除く（ペアが閉じられた）
+      if matchParen last c then
+        stack := stack.pop
+      else
+        -- 対応していない場合は、新たにスタックに追加（新しい開き括弧）
+        stack := stack.push c
+
+  -- すべての括弧が正しく閉じられていればスタックは空になっている
+  return stack.isEmpty
+
+#guard validParen "()"
+#guard validParen "()[]{}"
+#guard !validParen "(]"
+#guard !validParen "([)]"
+#guard validParen "{[]}"
+#guard !validParen "{"
+#guard !validParen "}"
+#guard validParen "([{}])({}){}"
