@@ -68,6 +68,41 @@ end Hidden --#
 
 /- ## 使用例
 
+配列の特徴を生かしてプログラムを組んでいる例をいくつか紹介します。
+-/
+
+/- ### 特定の要素だけ末尾に移動させる
+
+`arr : Array α` に対しては、インデックスアクセスと「指定されたインデックスにある要素の更新」が高速に行えるので、それを生かして「特定の要素だけ末尾に移動させる」操作を効率的に実装することができます。
+-/
+section --#
+
+variable {α : Type} [BEq α]
+
+/-- 配列`arr`の要素`a`が与えられたときに、
+他の要素の位置関係を維持したまま、すべての`a`を配列の末尾に移動させる
+-/
+def Array.move (arr : Array α) (a : α) : Array α := Id.run do
+  let mut arr := arr
+  let mut write := 0
+  -- まず `a` 以外の要素を前詰めで配置
+  for x in arr do
+    if x != a then
+      arr := arr.set! write x
+      write := write + 1
+  -- 残りの部分を `a` で埋める
+  for i in [write:arr.size] do
+    arr := arr.set! i a
+  return arr
+
+#guard Array.move #[1, 0, 2, 0, 3] 0 == #[1, 2, 3, 0, 0] -- `0` を末尾に移動
+#guard Array.move #[1, 2, 3] 0 == #[1, 2, 3] -- `0` がないので変化なし
+#guard Array.move #[] 0 == #[] -- 空配列はそのまま
+#guard Array.move #[0, 0, 0] 0 == #[0, 0, 0] -- `0` しかないので変化なし
+
+end --#
+/- ### スタックの実装
+
 `arr : Array α` に対しては「末尾に要素を追加する操作」と「末尾から要素を取り出す操作」が高速に行えるので、スタックの実装に利用することができます。
 -/
 
@@ -106,6 +141,7 @@ def validParen (s : String) : Bool := Id.run do
   -- すべての括弧が正しく閉じられていればスタックは空になっている
   return stack.isEmpty
 
+-- テストケース
 #guard validParen "()"
 #guard validParen "()[]{}"
 #guard !validParen "(]"
