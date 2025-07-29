@@ -276,4 +276,53 @@ def tablen (n : Nat) (p : Arity Bool n) : List (List Bool) :=
   -- 結果が false になるものだけ集める
   result.filter (fun xs => ! xs.getLast!) = [[false, false, false, false]]
 
+/- ## 使用例
+
+`l : List α` に対しては「先頭への要素の追加」と「先頭からの要素の取り出し」が高速に行えるので、スタックの実装に利用することができます。
+-/
+
+/-- 括弧が対応しているか判定する -/
+def matchParen (c1 c2 : Char) : Bool :=
+  match c1, c2 with
+  | '(', ')' => true
+  | '{', '}' => true
+  | '[', ']' => true
+  | _, _ => false
+
+/--
+文字列 `s` に含まれる括弧が正しく対応しているかどうかを判定する関数。
+開き括弧と閉じ括弧が対応しており、正しい順序で閉じられている場合に `true` を返す。
+-/
+def validParen (s : String) : Bool := Id.run do
+  -- 括弧のスタックを空で初期化
+  let mut stack : List Char := []
+
+  -- 文字列の各文字に対してループ
+  for c in s.toList do
+    -- スタックの先頭の要素（最後に追加された開き括弧）を取得
+    let last := stack.head?
+    match last with
+    | none =>
+      -- スタックが空なら、文字をスタックに追加（開き括弧のはず）
+      stack := c :: stack
+    | some last =>
+      -- スタックの先頭と現在の文字が対応する括弧なら、スタックから取り除く（ペアが閉じられた）
+      if matchParen last c then
+        stack := stack.tail
+      else
+        -- 対応していない場合は、新たにスタックに追加（新しい開き括弧）
+        stack := c :: stack
+
+  -- すべての括弧が正しく閉じられていればスタックは空になっている
+  return stack.isEmpty
+
+#guard validParen "()"
+#guard validParen "()[]{}"
+#guard !validParen "(]"
+#guard !validParen "([)]"
+#guard validParen "{[]}"
+#guard !validParen "{"
+#guard !validParen "}"
+#guard validParen "([{}])({}){}"
+
 /- [^prohaskell] ここで使用した例は、Graham Hutton著, 山本和彦訳「Programming Haskell 第2版」（ラムダノート）の7.3章を参考にさせていただきました。 -/
