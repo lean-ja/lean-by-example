@@ -116,7 +116,7 @@ end
 
 `attrKind` のドキュメントコメントに次のように書かれている通り、[`local`](./Local.md) と [`scoped`](./Scoped.md) はともに構文的には `attrKind` に相当します。
 
-{{#include ./Local/Doc.md}}
+{{#include ./AttrKind/Doc.md}}
 -/
 
 /-- 例示のための意味のないコマンド。直前に `attrKind` のみを受け付ける。-/
