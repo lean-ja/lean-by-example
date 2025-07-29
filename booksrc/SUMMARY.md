@@ -158,6 +158,7 @@
   - [CommandElab: コマンドの実装](./Type/CommandElab.md)
   - [Expr: 抽象構文木](./Type/Expr.md)
   - [Float: 浮動小数点数](./Type/Float.md)
+  - [HashMap: キーと値のペア](./Type/HashMap.md)
   - [HashSet: 重複を許さない集まり](./Type/HashSet.md)
   - [IO: 入出力](./Type/IO.md)
   - [Linter: リンター](./Type/Linter.md)
@@ -174,7 +175,6 @@
   - [Syntax: 具象構文木](./Type/Syntax.md)
   - [Tactic: タクティクの実装](./Type/Tactic.md)
   - [Type: 型の型](./Type/Type.md)
-  - [Unit: 要素が一つしかない型](./Type/Unit.md)
 
 - [タクティク](./Tactic/README.md)
   - [<;>: 生成された全ゴールに適用](./Tactic/SeqFocus.md)
