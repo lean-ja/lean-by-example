@@ -27,7 +27,7 @@ lean_lib LeanByExample where
 lean_lib Playground where
   globs := #[.submodules `Playground]
 
-section Script
+section BuildScript
 
 /-- 与えられた文字列をシェルで実行する -/
 def runCmd (input : String) : IO Unit := do
@@ -63,4 +63,33 @@ script build do
     runCmd "mdbook build"
   return 0
 
-end Script
+end BuildScript
+
+
+section TestScript
+
+def runCmdWithOutput (input : String) : IO String := do
+  let cmdList := input.splitOn " "
+  let cmd := cmdList.head!
+  let args := cmdList.tail |>.toArray
+  let out ← IO.Process.output {
+    cmd := cmd
+    args := args
+  }
+  unless out.exitCode == 0 do
+    IO.eprintln out.stderr
+    throw <| IO.userError s!"Failed to execute: {input}"
+
+  return out.stdout
+
+
+@[test_driver]
+script test do
+  let result ← runCmdWithOutput "lean --run LeanByExample/Type/IO/Cat.lean LeanByExample/Type/IO/Test.txt"
+  let expected := "Lean is nice!"
+  if result.trim != expected then
+    IO.println s!"Test failed! expected: {expected}, got: {result.trim}"
+    return 1
+  return 0
+
+end TestScript
