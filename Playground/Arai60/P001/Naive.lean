@@ -37,7 +37,7 @@ def twoSum (nums : List Int) (target : Int) : Option (Nat × Nat) := Id.run do
 
   for (n, idx) in nums.zipIdx do
     let diff := target - n
-    match seen.get? diff with
+    match seen[diff]? with
     | some seenIdx =>
       return (seenIdx, idx)
     | none =>
@@ -46,6 +46,6 @@ def twoSum (nums : List Int) (target : Int) : Option (Nat × Nat) := Id.run do
       continue
   return none
 
-#guard twoSum [2,7,11,15] 9 = some (0, 1)
-#guard twoSum [3,2,4] 6 = some (1, 2)
-#guard twoSum [3,3] 6 = some (0, 1)
+#guard twoSum [2, 7, 11, 15] 9 = some (0, 1)
+#guard twoSum [3, 2, 4] 6 = some (1, 2)
+#guard twoSum [3, 3] 6 = some (0, 1)
