@@ -36,7 +36,7 @@ def main : IO Unit := do
 
 /- ## ランダム性
 
-ランダムな操作は IO アクションです。
+乱数を扱うような操作は IO アクション(返り値が `IO` に包まれているような項)です。
 -/
 
 /-- 長さ `n` で、中身の値が 0 以上 `bound` 以下であるようなリストをランダム生成する -/
@@ -51,5 +51,26 @@ def randList (n : Nat) (bound : Nat) : IO (List Nat) := do
   return out
 
 #eval randList 5 10
+
+/- ## 時刻
+
+時刻を扱うような操作も IO アクションです。
+-/
+
+/-- フィボナッチ数列 -/
+def fibonacci (n : Nat) : Nat :=
+  match n with
+  | 0 => 0
+  | 1 => 1
+  | n + 2 => fibonacci n + fibonacci (n + 1)
+
+/-- `fibonacci` の計算にかかった時間を計測する -/
+def computeTime : IO Unit := do
+  let start_time ← IO.monoMsNow
+  let result := fibonacci 30
+  let end_time ← IO.monoMsNow
+  IO.println s!"Result: {result}, Time taken: {end_time - start_time} ms"
+
+#eval computeTime
 
 /- [^quine] このコード例は [leanprover-community/lean4-samples に対するPR](https://github.com/leanprover-community/lean4-samples/pull/22) からの引用です。 -/
