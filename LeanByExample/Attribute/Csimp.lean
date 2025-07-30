@@ -19,7 +19,7 @@ elab "#in_second " stx:command : command => do
   elabCommand stx
   let end_time ← IO.monoMsNow
   let time := end_time - start_time
-  if time <= 1000 then
+  if time ≤ 1000 then
     logInfo m!"time: {time}ms"
   else
     throwError m!"It took more than one second for the command to run."
