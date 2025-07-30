@@ -3,11 +3,13 @@
 `Std.HashMap` は、キー（鍵）と値のペアを格納するデータ構造です。-/
 import Lean
 
-open Std
+open Std in
 
 #eval ({(1, "hello"), (2, "world")} : HashMap Nat String)
 
 /- `HashMap` を使うと、たとえば「文字列中に登場する文字の出現回数を数える」といった処理が効率的にできます。 -/
+
+open Std
 
 /--
 文字列中の各文字の出現回数を数えて `HashMap` にまとめる関数。
