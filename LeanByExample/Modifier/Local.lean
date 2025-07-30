@@ -106,11 +106,15 @@ section
   attribute [local simp] MyNat.zero_add
 
   -- その section の中では使用できる
-  #check (by simp : MyNat.add .zero .zero = .zero)
+  example : MyNat.add .zero .zero = .zero := by
+    simp
 end
 
 -- section を抜けると simp 補題が利用できなくなる
-#check_failure (by simp : MyNat.add .zero .zero = .zero)
+example : MyNat.add .zero .zero = .zero := by
+  -- 使えないのでエラーになる
+  fail_if_success simp
+  rw [MyNat.zero_add]
 
 /- ## 構文的な性質
 
