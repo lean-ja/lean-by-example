@@ -1,12 +1,13 @@
 /- # HashMap
 
-`Std.HashMap` は、キー（鍵）と値のペアを格納するデータ構造です。
-
-`HashMap` を使うと、たとえば「文字列中に登場する文字の出現回数を数える」といった処理が効率的にできます。
--/
+`Std.HashMap` は、キー（鍵）と値のペアを格納するデータ構造です。-/
 import Lean
 
 open Std
+
+#eval ({(1, "hello"), (2, "world")} : HashMap Nat String)
+
+/- `HashMap` を使うと、たとえば「文字列中に登場する文字の出現回数を数える」といった処理が効率的にできます。 -/
 
 /--
 文字列中の各文字の出現回数を数えて `HashMap` にまとめる関数。
@@ -24,4 +25,3 @@ def countingChars (s : String) : HashMap Char Nat := Id.run do
 #guard (countingChars "").toList == []  -- 空文字列のカウントは空のハッシュマップ
 #guard (countingChars "hello")['h']! == 1
 #guard (countingChars "hello")['l']! == 2
-
