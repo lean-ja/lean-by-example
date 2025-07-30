@@ -82,14 +82,24 @@ def runCmdWithOutput (input : String) : IO String := do
 
   return out.stdout
 
-
-@[test_driver]
-script test do
+/-- `Type/IO/Cat.lean`のためのテスト -/
+def testForCat : IO Unit := do
   let result ← runCmdWithOutput "lean --run LeanByExample/Type/IO/Cat.lean LeanByExample/Type/IO/Test.txt"
   let expected := "Lean is nice!"
   if result.trim != expected then
     IO.println s!"Test failed! expected: {expected}, got: {result.trim}"
-    return 1
+
+/-- `Type/IO/Greet.lean`のためのテスト -/
+def testForGreet : IO Unit := do
+  let result ← runCmdWithOutput "lean --run LeanByExample/Type/IO/Greet.lean"
+  let expected := "誰に挨拶しますか？\nHello, !"
+  if result.trim != expected then
+    IO.println s!"Test failed! expected prefix: {expected}, got: {result}"
+
+@[test_driver]
+script test do
+  testForCat
+  testForGreet
   return 0
 
 end TestScript
