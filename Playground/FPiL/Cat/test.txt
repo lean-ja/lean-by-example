@@ -1,2 +1,0 @@
-this is text for test.
-Lean is a nice language!
