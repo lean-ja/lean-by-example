@@ -6,11 +6,16 @@ import Lean
 
 open Std
 
-/-⋆-//-- info: Std.HashSet.ofList [1] -/
+/-⋆-//-- info: Std.HashSet.ofList [1, 2, 3] -/
 #guard_msgs in --#
-#eval ({1, 1, 1} : HashSet Nat)
+#eval ({1, 2, 3, 1, 1} : HashSet Nat)
 
 /-
+```admonish info title="HashSetの記法"
+
+`HashSet` は `{ a₁, a₂, ... }` という構文で定義することができるのですが、この記法は `HashSet` 専用のものではなくて型クラスで定義されているものなので、期待されている型が `HashSet` だとわかっていなければ人間にとっても Lean にとっても解釈に紛れが発生します。そのため、`HashSet` を `#eval` したときは `HashSet.ofList` を使った表記が選ばれます。
+```
+
 `insert` 関数で要素を挿入することができますが、同じ要素を複数回挿入しても１つしか保持されません。
 -/
 

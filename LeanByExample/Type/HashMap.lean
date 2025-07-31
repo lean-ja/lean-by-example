@@ -5,9 +5,17 @@ import Lean
 
 open Std in
 
+/-⋆-//-- info: Std.HashMap.ofList [(1, "hello"), (2, "world")] -/
+#guard_msgs in --#
 #eval ({(1, "hello"), (2, "world")} : HashMap Nat String)
 
-/- `HashMap` を使うと、たとえば「文字列中に登場する文字の出現回数を数える」といった処理が効率的にできます。 -/
+/-
+```admonish info title="HashMapの記法"
+
+`HashMap` は `{ (key, value), ... }` という構文で定義することができるのですが、この記法は `HashMap` 専用のものではなくて型クラスで定義されているものなので、期待されている型が `HashMap` だとわかっていなければ人間にとっても Lean にとっても解釈に紛れが発生します。そのため、`HashMap` を `#eval` したときは `HashMap.ofList` を使った表記が選ばれます。
+```
+
+`HashMap` を使うと、たとえば「文字列中に登場する文字の出現回数を数える」といった処理が効率的にできます。 -/
 
 open Std
 
