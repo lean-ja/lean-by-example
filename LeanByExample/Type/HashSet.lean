@@ -29,6 +29,19 @@ open Std
   s := s.insert 1
   s
 
+/- ## HashSet 同士の比較
+
+2 つの `s t : HashSet` があるとき、「`s` と `t` のすべての構成要素が等しい」というのは、`s = t` ではなくて `s ~m t` または `HashSet.Equiv s t` で表現されます。
+
+`s = t` は「内部実装まで含めて完全に等しい」という意味になってしまうことに注意してください。
+-/
+
+open HashSet
+
+example : (HashSet.ofList [1, 2]) ~m (HashSet.ofList [2, 1]) := by
+  refine Equiv.of_forall_mem_iff ?_
+  grind
+
 /- ## 特長
 
 基本的なコレクション型である [`List`](#{root}/Type/List.md) と比較すると、`HashSet` には「要素が存在するか判定するのが高速」という特徴があります。
