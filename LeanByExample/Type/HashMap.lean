@@ -16,6 +16,19 @@ open Std in
 ```
 -/
 
+/- ## HashMap 同士の比較
+
+2 つの `s t : HashMap` があるとき、「`s` と `t` のすべての構成要素が等しい」というのは、`s = t` ではなくて `s ~m t` または `HashMap.Equiv s t` で表現されます。
+
+`s = t` は「内部実装まで含めて完全に等しい」という意味になってしまうことに注意してください。
+-/
+
+open Std HashMap
+
+example : (HashMap.ofList [(1, "a"), (2, "b")]) ~m (HashMap.ofList [(2, "b"), (1, "a")]) := by
+  refine Equiv.of_forall_getElem?_eq ?_
+  grind
+
 /-
 ## 使用例
 
