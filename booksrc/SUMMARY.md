@@ -164,6 +164,7 @@
   - [Linter: リンター](./Type/Linter.md)
   - [List: 連結リスト](./Type/List.md)
   - [Macro: マクロの実装](./Type/Macro.md)
+  - [MLList: モナド多相遅延リスト](./Type/MLList.md)
   - [Nat: 自然数](./Type/Nat.md)
   - [Option: 失敗するかもしれない計算](./Type/Option.md)
   - [Prod: 型の積](./Type/Prod.md)
