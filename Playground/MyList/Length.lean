@@ -1,4 +1,4 @@
-import Playground.MyList.C01Basic
+import Playground.MyList.Basic
 
 variable {α : Type}
 
@@ -13,3 +13,7 @@ attribute [grind] MyList.length
 example (head : α) (tail : MyList α) : (head ::: tail).length > 0 := by
   -- `grind`一発で示すことができる
   grind
+
+@[simp]
+theorem MyList.length_nil : (⟦⟧ : MyList α).length = 0 := by
+  rfl

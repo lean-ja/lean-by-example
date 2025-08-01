@@ -1,4 +1,4 @@
-import Playground.MyList.C02Syntax
+import Playground.MyList.Syntax
 
 variable {α : Type}
 

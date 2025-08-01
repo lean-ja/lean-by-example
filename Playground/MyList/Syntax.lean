@@ -1,4 +1,4 @@
-import Playground.MyList.C01Basic
+import Playground.MyList.Basic
 
 /- ## MyList のための構文 -/
 

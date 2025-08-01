@@ -1,4 +1,4 @@
-import Playground.MyList.C03Append
+import Playground.MyList.Append
 
 namespace MyList
 

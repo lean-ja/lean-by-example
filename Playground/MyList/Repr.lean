@@ -1,4 +1,4 @@
-import Playground.MyList.C02Syntax
+import Playground.MyList.Syntax
 
 /- # MyList の ToString と Repr インスタンスを作る -/
 

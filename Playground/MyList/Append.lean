@@ -1,4 +1,4 @@
-import Playground.MyList.C02Syntax
+import Playground.MyList.Syntax
 
 /- # MyList に Append を定義して基本的性質を示す -/
 

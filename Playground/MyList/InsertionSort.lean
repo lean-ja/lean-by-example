@@ -1,4 +1,4 @@
-import Playground.MyList.C03Append
+import Playground.MyList.Append
 
 variable {α : Type} {β : Type} (r : α → α → Prop) (s : β → β → Prop)
 variable [DecidableRel r] [DecidableRel s]
