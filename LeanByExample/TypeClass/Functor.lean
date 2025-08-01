@@ -4,7 +4,6 @@
 
 より詳細には、`F : Type u → Type v` に対して `Functor` はおおむね次のように定義されています。
 -/
-namespace Hidden --#
 --#--
 /--
 info: class Functor.{u, v} (f : Type u → Type v) : Type (max (u + 1) v)
@@ -19,6 +18,7 @@ constructor:
 -/
 #guard_msgs in #print Functor
 --#--
+namespace Hidden --#
 
 universe u v
 
@@ -48,6 +48,7 @@ variable {α β : Type} (g : α → β)
 example (x : F α) : g <$> x = Functor.map g x := rfl
 
 end --#
+/- 型が合っているだけでは「包まれている値に対して関数を適用する」という意味論にそぐわない挙動をすることがあるので、関手が満たすべきルールが存在し、それは [`LawfulFunctor`](#{root}/TypeClass/LawfulFunctor.md) というクラスにまとめられています。 -/
 /- ## 典型的なインスタンス -/
 
 /- ### Id
