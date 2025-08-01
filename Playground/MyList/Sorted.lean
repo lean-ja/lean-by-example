@@ -1,11 +1,11 @@
-import Playground.MyList.Syntax
+import Playground.MyList.Basic
 
 variable {α : Type}
 
 variable (r : α → α → Prop)
 local infixl:50 " ≼ " => r
 
-@[grind cases, grind intro]
+@[grind cases, grind]
 inductive Sorted : MyList α → Prop where
   | nil : Sorted ⟦⟧
   | single (a : α) : Sorted ⟦a⟧
