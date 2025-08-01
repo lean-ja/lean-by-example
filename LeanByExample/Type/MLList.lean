@@ -9,7 +9,7 @@ import Batteries
 open Lean Elab Command in
 
 /-- 2つのコマンドのうち最初のコマンドのほうが `n` 倍早く終わることを確かめるコマンド -/
-elab "#speed_rank " "ratio" n:num "|" stx1:command "|" stx2:command  : command => do
+elab "#speed_rank " "(" "ratio" ":=" n:num ")" "|" stx1:command "|" stx2:command : command => do
   let start_time ← IO.monoMsNow
   elabCommand stx1
   let end_time ← IO.monoMsNow
@@ -20,13 +20,12 @@ elab "#speed_rank " "ratio" n:num "|" stx1:command "|" stx2:command  : command =
   let end_time ← IO.monoMsNow
   let time2 := end_time - start_time
 
-  logInfo m!"runnning time of fst command: {time1}ms"
-  logInfo m!"runnning time of snd command: {time2}ms"
+  logInfo m!"1つめのコマンドの実行時間: {time1}ms"
+  logInfo m!"2つめのコマンドの実行時間: {time2}ms"
 
-  let n := n.getNat
-  -- 最初のコマンドが２つめのコマンドより早く終わっているか検証する
-  unless time1 * n < time2 do
-    throwError m!"fst command is slower than snd command."
+  let threshold := n.getNat
+  unless time1 * threshold < time2 do
+    throwError m!"エラー: 1つめのコマンドが期待されるより速くありません。"
 
 /-- 遅延評価のリスト -/
 abbrev LazyList := MLList Id
@@ -77,6 +76,6 @@ def goldbachLazy (n : Nat) (_ : n % 2 = 0 := by decide) : Nat × Nat :=
   candidates.head? |>.get!
 
 -- 遅延評価版の方が10倍以上速いことが確認できる
-#speed_rank ratio 10
+#speed_rank (ratio := 10)
   | #eval goldbachLazy 123456
   | #eval goldbachEager 123456
