@@ -1,4 +1,4 @@
-import Playground.MyList.Basic
+import Playground.MyList.Append
 
 variable {α : Type}
 
@@ -10,10 +10,17 @@ def MyList.length (l : MyList α) : Nat :=
 
 attribute [grind] MyList.length
 
-example (head : α) (tail : MyList α) : (head ::: tail).length > 0 := by
-  -- `grind`一発で示すことができる
-  grind
+@[simp, grind]
+theorem MyList.length_nil (l : MyList α) : l.length = 0 ↔ l = ⟦⟧ := by
+  constructor <;> intro h
+  · cases l <;> grind
+  · grind
 
-@[simp]
-theorem MyList.length_nil : (⟦⟧ : MyList α).length = 0 := by
-  rfl
+namespace MyList
+
+@[grind]
+theorem append_length (l₁ l₂ : MyList α) :
+    (l₁ ++ l₂).length = l₁.length + l₂.length := by
+  induction l₁ with grind
+
+end MyList
