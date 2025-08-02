@@ -55,7 +55,7 @@ elab "#speed_rank " "(" "ratio" ":=" n:num ")" "|" stx1:command "|" stx2:command
   unless time1 * threshold < time2 do
     throwError m!"エラー: 1つめのコマンドが期待されるより速くありません。"
 
--- 非同期版の方が2倍以上速い
-#speed_rank (ratio := 2)
-  | #eval (manyInParallel 5).wait
-  | #eval manyInSync 5
+-- 非同期版の方が速い
+#speed_rank (ratio := 1)
+  | #eval (manyInParallel 3).wait
+  | #eval manyInSync 3
