@@ -153,6 +153,7 @@
 
 - [データ型](./Type/README.md)
   - [Array: 配列](./Type/Array.md)
+  - [Async: 非同期計算](./Type/Async.md)
   - [Bool: 真偽値](./Type/Bool.md)
   - [Char: Unicode 文字](./Type/Char.md)
   - [CommandElab: コマンドの実装](./Type/CommandElab.md)
