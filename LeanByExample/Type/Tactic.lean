@@ -3,12 +3,10 @@
 `Lean.Elab.Tactic.Tactic` 型の項は、タクティクの内部実装を表現しています。タクティクとは証明の状態を操作する関数であり、`Tactic` 型は `Syntax → TacticM Unit` という関数型そのものです。
 -/
 import Lean
-import Qq --#
-import Batteries --#
 
 open Lean Elab Tactic in
 
-example : Tactic = (Lean.Syntax → TacticM Unit) := by rfl
+example : Tactic = (Syntax → TacticM Unit) := by rfl
 
 /- ## Tactic 型からタクティクを作る
 
