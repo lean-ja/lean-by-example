@@ -25,6 +25,9 @@ def findHelper (arr : Array α) (p : α → Bool) (i : Nat) :
 def Array.find (arr : Array α) (p : α → Bool) : Option (Fin arr.size × α) :=
   findHelper arr p 0
 
+-- 昔は Fin n を引数に取っていたけど、アップデートで取らなくなった
+#check Array.get
+
 /- ## Exercise -/
 
 def Fin.next? {n : Nat} (x : Fin n) : Option (Fin n) :=
