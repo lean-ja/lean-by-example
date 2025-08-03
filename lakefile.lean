@@ -15,17 +15,11 @@ require mdgen from git
 require mathlib from git
   "https://github.com/leanprover-community/mathlib4.git" @ "master"
 
-require llmlean from git
-  "https://github.com/cmu-l3/llmlean.git" @ "main"
-
 @[default_target]
 lean_lib LeanByExample where
   -- `lake build` の実行時にビルドされるファイルの設定
   -- `.submodules` と指定すると、そのディレクトリ以下の全ての Lean ファイルがビルドされる
-  globs := #[.submodules `LeanByExample, .submodules `Playground]
-
-lean_lib Playground where
-  globs := #[.submodules `Playground]
+  globs := #[.submodules `LeanByExample]
 
 section BuildScript
 
