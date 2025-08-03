@@ -43,7 +43,7 @@ namespace MyList
     match as, idx with
     | .cons head _, ⟨0, _⟩ => head
     | .cons _ as, ⟨i + 1, h⟩ =>
-      -- インデックスアクセスが範囲内であることを証明する
+      -- インデックスアクセスが妥当であることを証明する
       have bound : i < as.length := by
         simp [MyList.length] at h
         omega

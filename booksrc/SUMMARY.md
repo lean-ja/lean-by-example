@@ -177,6 +177,7 @@
   - [Syntax: 具象構文木](./Type/Syntax.md)
   - [Tactic: タクティクの実装](./Type/Tactic.md)
   - [Type: 型の型](./Type/Type.md)
+  - [Vector: 長さ固定の配列](./Type/Vector.md)
 
 - [タクティク](./Tactic/README.md)
   - [<;>: 生成された全ゴールに適用](./Tactic/SeqFocus.md)
