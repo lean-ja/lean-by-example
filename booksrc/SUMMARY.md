@@ -131,6 +131,7 @@
 - [型クラス](./TypeClass/README.md)
   - [Add: 閉じた + 演算用の記法クラス](./TypeClass/Add.md)
   - [Alternative: 回復可能な失敗](./TypeClass/Alternative.md)
+  - [Applicative: アプリカティブ関手](./TypeClass/Applicative.md)
   - [Coe: 型強制](./TypeClass/Coe.md)
   - [CoeDep: 依存型強制](./TypeClass/CoeDep.md)
   - [CoeFun: 関数型への強制](./TypeClass/CoeFun.md)
