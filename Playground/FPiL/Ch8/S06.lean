@@ -55,18 +55,6 @@ Write a function that reverses arrays. Test that if the input array has a refere
 #check Array.swap
 #check Array.set!
 
-/-- **TODO** なぜ標準ライブラリに Array.swap! 関数がないのか？
-→ ある。
-
-<https://github.com/leanprover/lean4/blob/6caaee842e9495688c1567e78c0e68dbb96942aa/src/Init/Data/Array/Basic.lean#L268>
--/
-def Array.swap! {α : Type} [Inhabited α] (xs : Array α) (i j : Nat) : Array α := Id.run do
-  let mut xs := xs
-  let ai := xs[i]!
-  let aj := xs[j]!
-  xs := xs.set! i aj
-  xs := xs.set! j ai
-  return xs
 
 variable {α : Type} [Inhabited α]
 
@@ -80,31 +68,3 @@ def Array.myReverse! (arr : Array α) : Array α := Id.run do
 
 #guard Array.myReverse! #[1, 2, 3, 4, 5] = #[5, 4, 3, 2, 1]
 #guard Array.myReverse! (α := Nat) #[] = #[]
-
-def Array.myReverse (arr : Array α) : Array α := Id.run do
-  let mut array := arr
-  let size := array.size -- 可変な配列なので、`size = array.size` が常に成り立つとは限らない
-  for h : i in [0 : size / 2] do
-    have : i < array.size := by
-      dsimp [(· ∈ ·)] at h
-      fail_if_success grind
-      sorry
-    have : size - 1 - i < array.size := by
-      dsimp [(· ∈ ·)] at h
-      fail_if_success grind
-      sorry
-    array := array.swap i (size - 1 - i)
-  return array
-
-def Array.myReverseVec (arr : Array α) : Array α := Id.run do
-  let mut vec := arr.toVector
-  let size := vec.size
-  for h : i in [0 : size / 2] do
-    have : i < vec.size := by
-      dsimp [(· ∈ ·)] at h
-      grind
-    have : size - 1 - i < vec.size := by
-      dsimp [(· ∈ ·)] at h
-      grind
-    vec := vec.swap i (size - 1 - i)
-  return vec.toArray
