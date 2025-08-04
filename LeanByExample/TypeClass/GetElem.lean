@@ -104,3 +104,10 @@ end MyList
   let xs := my[1, 2, 3]
   let h := show 2 < xs.length from by decide
   xs[2]'h = 3
+
+/- ## インデックスアクセスの妥当性の証明をする利点
+
+インデックスアクセスが妥当であることを定義時に証明しておくと、実行時の境界チェックが行われなくなるのでその分だけ高速になります。以下は、それを検証するコードです。
+
+{{#include ./GetElem/ProveValid.md}}
+-/
