@@ -1,7 +1,7 @@
 /- # set_option
 `set_option` は、オプションを変更・設定するために使われるコマンドです。
 
-`set_option option_name value` という構文で使用すれば `option_name` という名前のオプションの値を `value` に設定することができます。使用できる `option_name` は [`#help`](#{root}/Diagnostic/Help.md) コマンドまたは [Mathlib4 help](https://seasawher.github.io/mathlib4-help/options.html) で確認できます。
+`set_option option_name value` という構文で使用すれば `option_name` という名前のオプションの値を `value` に設定することができます。使用できる `option_name` は [`#help`](#{root}/Diagnostic/Help.md) コマンドまたは [Mathlib4 Help](https://seasawher.github.io/mathlib4-help/) で確認できます。
 
 有効範囲はその[セクション](#{root}/Declarative/Section.md)の内部またはそのファイルの最後までです。
 -/
