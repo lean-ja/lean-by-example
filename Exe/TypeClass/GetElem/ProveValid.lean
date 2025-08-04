@@ -17,7 +17,7 @@ def sum (xs : Array α) : IO α := do
 
 @[noinline]
 def main : IO Unit := do
-  let size := 30_000_000
+  let size := 10_000_000
   let array := Array.range size
 
   let start_time1 ← IO.monoMsNow
@@ -34,5 +34,3 @@ def main : IO Unit := do
 
   if time1 < time2 then
     throw <| .userError s!"sum! is faster: {time1} ms < {time2} ms"
-
-#eval main

@@ -38,29 +38,21 @@ def runCmd (input : String) : IO Unit := do
   else if !out.stdout.isEmpty then
     IO.println out.stdout
 
-syntax (name := with_time) "with_time" "running" str doElem : doElem
-
-macro_rules
-  | `(doElem| with_time running $s $x) => `(doElem| do
-    let start_time ← IO.monoMsNow;
-    $x;
-    let end_time ← IO.monoMsNow;
-    IO.println s!"Running {$s}: {end_time - start_time}ms")
-
 /-- mdgen と mdbook を順に実行し、
 Lean ファイルから Markdown ファイルと HTML ファイルを生成する。-/
 script build do
-  with_time running "mdgen"
-    runCmd "lake exe mdgen LeanByExample booksrc --count"
-
-  with_time running "mdbook"
-    runCmd "mdbook build"
+  runCmd "lake exe mdgen LeanByExample booksrc --count"
+  runCmd "lake exe mdgen Exe booksrc --count"
+  runCmd "mdbook build"
   return 0
 
 end BuildScript
 
 
 section TestScript
+
+lean_exe get_elem where
+  root := `Exe.TypeClass.GetElem.ProveValid
 
 def runCmdWithOutput (input : String) : IO String := do
   let cmdList := input.splitOn " "
@@ -92,6 +84,7 @@ def testForGreet : IO Unit := do
 
 @[test_driver]
 script test do
+  runCmd "lake exe get_elem"
   testForCat
   testForGreet
   return 0
