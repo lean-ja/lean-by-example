@@ -42,7 +42,7 @@ def runCmd (input : String) : IO Unit := do
 Lean ファイルから Markdown ファイルと HTML ファイルを生成する。-/
 script build do
   runCmd "lake exe mdgen LeanByExample booksrc --count"
-  runCmd "lake exe mdgen Exe booksrc --count"
+  runCmd "lake exe mdgen Exe booksrc"
   runCmd "mdbook build"
   return 0
 
