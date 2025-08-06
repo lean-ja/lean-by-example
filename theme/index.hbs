@@ -119,6 +119,19 @@
         <script async src="{{ path_to_root }}toc.js"></script>
         {{!-- toc.js がサイドバーの内容とスクロール位置を復元する --}}
 
+        <script>
+            // toc.js が非同期にサイドバーを構築するため、
+            // 目次の折りたたみボタンに手動でイベントを付与する
+            window.addEventListener('load', function () {
+                document.querySelectorAll('#sidebar a.toggle').forEach(function (el) {
+                    // クリックされた章の展開状態を切り替える
+                    el.addEventListener('click', function (ev) {
+                        ev.currentTarget.parentElement.classList.toggle('expanded');
+                    });
+                });
+            });
+        </script>
+
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
