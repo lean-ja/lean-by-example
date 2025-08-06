@@ -130,10 +130,12 @@
                     });
                 });
 
-                // 現在表示しているページの親章をすべて展開し、
+                // 現在表示しているページを含む章をすべて展開し、
                 // 子ページが初期状態から見えるようにする
-                var current = document.querySelector('#sidebar li.active');
-                while (current && current.tagName === 'LI') {
+                var current = document.querySelector('#sidebar a.active');
+                // active クラスはリンク要素に付与されるため、最初に親 <li> を取得する
+                current = current && current.closest('li');
+                while (current) {
                     current.classList.add('expanded');
                     // 親の <li> 要素へ登っていく
                     current = current.parentElement && current.parentElement.closest('li');
