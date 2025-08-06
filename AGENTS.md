@@ -5,6 +5,9 @@
 このリポジトリのための開発環境のセットアップの際は、`.devcontainer/Dockerfile` の内容を参照してください。
 Dockerfile の内容を bash スクリプトに変換して実行することで、開発環境の構築ができます。
 
+`Dockerfile` の内容を実行したら、`lake run build` コマンドと `lake exe cache get` コマンドを実行してください。
+これにより、それぞれ markdown ファイルの生成と Mathlib のキャッシュ取得が行われます。
+
 ## コメントについて
 
 * 変更箇所には日本語で変更の意図を丁寧にコメントしてください。
