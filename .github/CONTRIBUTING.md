@@ -8,7 +8,7 @@
   * [mdbook-admonish](https://github.com/tommilligan/mdbook-admonish) を使用してカードを表示させています。
 
 > [!IMPORTANT]
-> 開発に使用する mdbook のバージョンは `0.4.36` に固定してください。`0.4.36` 以外のバージョンではレイアウトが崩れます。
+> 開発に使用する mdbook のバージョンは `0.4.37` に固定してください。
 
 * [mdgen](https://github.com/Seasawher/mdgen) を Lean ファイルから markdown ファイルを生成するために使用しています。
 
