@@ -55,3 +55,9 @@ If you use this book for your work, please cite it as follows:
 ![logo of Proxima Technology](./booksrc/image/proxima.inkscape.svg)
 
 Proxima Technology（プロキシマテクノロジー）は数学の社会実装を目指し、その⼀環としてモデル予測制御の民主化を掲げているAIスタートアップ企業です。数理科学の力で社会を変えることを企業の使命としています。
+
+<br/>
+
+また、以下の方々にご支援を頂いています。ありがとうございます。
+
+<!-- sponsors --><!-- sponsors -->
