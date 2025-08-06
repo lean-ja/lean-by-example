@@ -117,31 +117,7 @@
         </nav>
 
         <script async src="{{ path_to_root }}toc.js"></script>
-
-        {{!-- v0.4.41 からサイドバーが非同期読み込みになったため、
-            ロード完了後にスクロール位置を復元する --}}
-        <script>
-            window.addEventListener('load', function () {
-                var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
-                sidebarScrollbox.addEventListener('click', function (e) {
-                    if (e.target.tagName === 'A') {
-                        sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
-                    }
-                }, { passive: true });
-                var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
-                sessionStorage.removeItem('sidebar-scroll');
-                if (sidebarScrollTop) {
-                    // サイドバー内のリンク移動時にスクロール位置を復元
-                    sidebarScrollbox.scrollTop = sidebarScrollTop;
-                } else {
-                    // 次/前への遷移時は現在位置を中央に表示
-                    var activeSection = document.querySelector('#sidebar .active');
-                    if (activeSection) {
-                        activeSection.scrollIntoView({ block: 'center' });
-                    }
-                }
-            });
-        </script>
+        {{!-- toc.js がサイドバーの内容とスクロール位置を復元する --}}
 
         <div id="page-wrapper" class="page-wrapper">
 
