@@ -2,10 +2,47 @@
 
 ## 環境構築について
 
-このリポジトリのための開発環境のセットアップの際は、`.devcontainer/Dockerfile` の内容を参照してください。
-Dockerfile の内容を bash スクリプトに変換して実行することで、開発環境の構築ができます。
+このリポジトリのための開発環境のセットアップの際は、以下を実行してください。
 
-`Dockerfile` の内容を実行したら、`lake run build` コマンドと `lake exe cache get` コマンドを実行してください。
+```bash
+#!/bin/bash
+
+# スクリプトをエラー時に中断
+set -e
+
+# 必要なディレクトリ・変数の設定
+USER_NAME=${USER:-vscode}
+HOME_DIR="/home/$USER_NAME"
+export HOME="$HOME_DIR"
+export PATH="$HOME_DIR/.elan/bin:$HOME_DIR/.cargo/bin:$PATH"
+
+# 必要な依存のインストール（curl など）
+echo "[1/6] Installing dependencies..."
+sudo apt get update
+sudo apt get install -y curl build-essential
+
+# elan のインストール
+echo "[2/6] Installing elan..."
+curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y --default-toolchain none
+
+# Rust のインストール
+echo "[3/6] Installing Rust..."
+RUST_VERSION=stable
+curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain ${RUST_VERSION}
+
+# PATH の確認
+echo "[4/6] Ensuring PATH is updated..."
+echo 'export PATH="$HOME/.elan/bin:$HOME/.cargo/bin:$PATH"' >> "$HOME/.bashrc"
+
+# mdBook とプラグインのインストール
+echo "[5/6] Installing mdBook and plugins..."
+cargo install --version 0.4.35 mdbook
+cargo install --version 1.18.0 mdbook-admonish
+
+echo "[6/6] Setup completed successfully!"
+```
+
+上記の内容を実行したら、`lake run build` コマンドと `lake exe cache get` コマンドを実行してください。
 これにより、それぞれ markdown ファイルの生成と Mathlib のキャッシュ取得が行われます。
 
 ## コメントについて
