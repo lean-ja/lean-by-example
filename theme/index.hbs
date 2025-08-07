@@ -52,14 +52,17 @@
         <!-- MathJax -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
         {{/if}}
-    </head>
-    <body>
-    <div id="body-container">
-        <!-- Provide site root to javascript -->
+
+        <!-- サイトルートを JavaScript に渡す -->
         <script>
             var path_to_root = "{{ path_to_root }}";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "{{ preferred_dark_theme }}" : "{{ default_theme }}";
         </script>
+        <!-- サイドバーの生成に必要な toc.js を早期に読み込む -->
+        <script src="{{ path_to_root }}toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
@@ -116,11 +119,8 @@
             </div>
         </nav>
 
-        <script async src="{{ path_to_root }}toc.js"></script>
-        {{!-- toc.js がサイドバーの内容とスクロール位置を復元する --}}
-
         <script>
-            // toc.js が非同期にサイドバーを構築するため、
+            // toc.js がサイドバーを構築した後に、
             // 目次の折りたたみボタンに手動でイベントを付与する
             window.addEventListener('load', function () {
                 document.querySelectorAll('#sidebar a.toggle').forEach(function (el) {
