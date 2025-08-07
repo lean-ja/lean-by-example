@@ -119,30 +119,7 @@
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
-
-        <script>
-            // toc.js がサイドバーを構築した後に、
-            // 目次の折りたたみボタンに手動でイベントを付与する
-            window.addEventListener('load', function () {
-                document.querySelectorAll('#sidebar a.toggle').forEach(function (el) {
-                    // クリックされた章の展開状態を切り替える
-                    el.addEventListener('click', function (ev) {
-                        ev.currentTarget.parentElement.classList.toggle('expanded');
-                    });
-                });
-
-                // 現在表示しているページを含む章をすべて展開し、
-                // 子ページが初期状態から見えるようにする
-                var current = document.querySelector('#sidebar a.active');
-                // active クラスはリンク要素に付与されるため、最初に親 <li> を取得する
-                current = current && current.closest('li');
-                while (current) {
-                    current.classList.add('expanded');
-                    // 親の <li> 要素へ登っていく
-                    current = current.parentElement && current.parentElement.closest('li');
-                }
-            });
-        </script>
+        {{!-- toc.js 内で折りたたみのイベント登録まで行うため、追加のスクリプトは不要 --}}
 
         <div id="page-wrapper" class="page-wrapper">
 
