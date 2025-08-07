@@ -52,14 +52,17 @@
         <!-- MathJax -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
         {{/if}}
-    </head>
-    <body>
-    <div id="body-container">
-        <!-- Provide site root to javascript -->
+
+        <!-- サイトルートを JavaScript に渡す -->
         <script>
             var path_to_root = "{{ path_to_root }}";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "{{ preferred_dark_theme }}" : "{{ default_theme }}";
         </script>
+        <!-- サイドバーの生成に必要な toc.js を早期に読み込む -->
+        <script src="{{ path_to_root }}toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
@@ -107,7 +110,8 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <!-- populated by js -->
-            <div class="sidebar-scrollbox"></div>
+            {{!-- mdBook 0.4.42 ではサイドバー生成用のカスタム要素が導入された --}}
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
             <noscript>
                 <iframe class="sidebar-iframe-outer" src="{{ path_to_root }}toc.html"></iframe>
             </noscript>
@@ -115,33 +119,7 @@
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
-
-        <script async src="{{ path_to_root }}toc.js"></script>
-        {{!-- toc.js がサイドバーの内容とスクロール位置を復元する --}}
-
-        <script>
-            // toc.js が非同期にサイドバーを構築するため、
-            // 目次の折りたたみボタンに手動でイベントを付与する
-            window.addEventListener('load', function () {
-                document.querySelectorAll('#sidebar a.toggle').forEach(function (el) {
-                    // クリックされた章の展開状態を切り替える
-                    el.addEventListener('click', function (ev) {
-                        ev.currentTarget.parentElement.classList.toggle('expanded');
-                    });
-                });
-
-                // 現在表示しているページを含む章をすべて展開し、
-                // 子ページが初期状態から見えるようにする
-                var current = document.querySelector('#sidebar a.active');
-                // active クラスはリンク要素に付与されるため、最初に親 <li> を取得する
-                current = current && current.closest('li');
-                while (current) {
-                    current.classList.add('expanded');
-                    // 親の <li> 要素へ登っていく
-                    current = current.parentElement && current.parentElement.closest('li');
-                }
-            });
-        </script>
+        {{!-- toc.js 内で折りたたみのイベント登録まで行うため、追加のスクリプトは不要 --}}
 
         <div id="page-wrapper" class="page-wrapper">
 
