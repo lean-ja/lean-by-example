@@ -39,7 +39,7 @@
   - [def: 関数などを定義する](./Declarative/Def.md)
   - [deriving: インスタンス自動生成](./Declarative/Deriving.md)
   - [dsimproc: simproc を宣言](./Declarative/Dsimproc.md)
-  - [elab: 構文に意味を与える](./Declarative/Elab.md)
+  - [elab: 構文とエラボレータを定義](./Declarative/Elab.md)
   - [example: 名前をつけずに証明](./Declarative/Example.md)
   - [export: 現在の名前空間に追加](./Declarative/Export.md)
   - [inductive: 帰納型を定義する](./Declarative/Inductive.md)
