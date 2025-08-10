@@ -29,7 +29,7 @@ field notation resolution order:
 --#--
 namespace Hidden --#
 
-class Applicative.{u, v} (f : Type u → Type v) extends Functor f where
+class Applicative.{u, v} (f : Type u → Type v) where
   /-- `a : α` が与えられたとき、`pure a : f α` は「何もせずに `a` を返すアクション」を表す。 -/
   pure {α : Type u} : α → f α
 
@@ -40,7 +40,5 @@ class Applicative.{u, v} (f : Type u → Type v) extends Functor f where
   予期しない順序で評価されることを避けるために、`mx` は `Unit → f α` という関数を使って遅延的に取得される。
   -/
   seq : {α β : Type u} → f (α → β) → (Unit → f α) → f β
-
-  map := fun x y => seq (pure x) (fun _ => y) -- デフォルト実装
 
 end Hidden --#
