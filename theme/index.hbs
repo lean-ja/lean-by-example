@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="{{ language }}" class="{{ default_theme }} sidebar-visible" dir="{{ text_direction }}">
+<html lang="{{ language }}" class="{{ default_theme }}" dir="{{ text_direction }}">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -61,7 +61,7 @@
         <!-- サイドバーの生成に必要な toc.js を早期に読み込む -->
         <script src="{{ path_to_root }}toc.js"></script>
     </head>
-    <body>
+    <body class="sidebar-visible no-js">
     <div id="body-container">
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
@@ -85,16 +85,21 @@
             var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
+            // 初期テーマを設定しつつ JavaScript 有効化用のクラスを body に付与する
             const html = document.documentElement;
-            html.classList.remove('{{ default_theme }}')
+            const body = document.body;
+            html.classList.remove('{{ default_theme }}');
             html.classList.add(theme);
-            html.classList.add("js");
+            body.classList.remove('no-js');
+            body.classList.add('js');
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
+            // サイドバー表示状態を body のクラスとして設定する
+            const body = document.body;
             var sidebar = null;
             var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
@@ -104,8 +109,8 @@
                 sidebar = 'hidden';
             }
             sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
