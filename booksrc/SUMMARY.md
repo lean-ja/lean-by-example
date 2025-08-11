@@ -142,6 +142,7 @@
   - [HAdd: 一般の + 演算用の記法クラス](./TypeClass/HAdd.md)
   - [HMul: 一般の * 演算用の記法クラス](./TypeClass/HMul.md)
   - [Inhabited: 有項にする](./TypeClass/Inhabited.md)
+  - [LawfulApplicative: アプリカティブ則](./TypeClass/LawfulApplicative.md)
   - [LawfulFunctor: 関手則](./TypeClass/LawfulFunctor.md)
   - [Monad: モナド](./TypeClass/Monad.md)
   - [Mul: 閉じた * 演算用の記法クラス](./TypeClass/Mul.md)
