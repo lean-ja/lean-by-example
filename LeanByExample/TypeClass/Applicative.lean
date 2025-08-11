@@ -10,17 +10,20 @@
 
 すなわち、関数 `F : Type → Type` を `Applicative` 型クラスのインスタンスにするということは、`pure : α → F α` と `(· <*> ·) : F (α → β) → F α → F β` を定義するということです。
 -/
-section --#
 
-variable {F : Type → Type} [Applicative F]
-variable {α β : Type}
+/-- 標準にある`Option`を真似て構成した関手 -/
+inductive MyOption (α : Type) where
+  | none
+  | some (a : α)
 
-example : α → F α := fun x => pure x
+/-- `MyOption`を`Applicative`のインスタンスにする -/
+instance : Applicative MyOption where
+  pure a := MyOption.some a
+  seq f a :=
+    match f, a () with
+    | .some f, .some a => .some (f a)
+    | _, _ => .none
 
-example : F (α → β) → F α → F β := fun f x =>
-  f <*> x
-
-end --#
 /- ## Functor との違い
 
 `Functor.map` メソッドは `(α → β) → F α → F β` という型を持ちます。これは、`F = Id` の場合を考えてみると分かるように、１引数の関数適用を一般化したものだと考えることができます。では２引数、３引数の時はどうなるでしょうか？
