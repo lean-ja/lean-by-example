@@ -38,10 +38,10 @@
         <link rel="stylesheet" href="{{ path_to_root }}fonts/fonts.css">
         {{/if}}
 
-        <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="{{ path_to_root }}highlight.css">
-        <link rel="stylesheet" href="{{ path_to_root }}tomorrow-night.css">
-        <link rel="stylesheet" href="{{ path_to_root }}ayu-highlight.css">
+        <!-- Highlight.js のスタイルを切り替えられるように ID を付与 -->
+        <link rel="stylesheet" id="highlight-css" href="{{ path_to_root }}highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="{{ path_to_root }}tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="{{ path_to_root }}ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         {{#each additional_css}}
@@ -53,10 +53,15 @@
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
         {{/if}}
 
-        <!-- サイトルートを JavaScript に渡す -->
+        <!-- サイトルートとテーマ情報を JavaScript に渡す -->
         <script>
-            var path_to_root = "{{ path_to_root }}";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "{{ preferred_dark_theme }}" : "{{ default_theme }}";
+            // ページ内リンクの基点を公開
+            const path_to_root = "{{ path_to_root }}";
+            // mdBook 0.4.48 以降で追加された自動テーマ切替に対応
+            const default_light_theme = "{{ default_theme }}";
+            const default_dark_theme = "{{ preferred_dark_theme }}";
+            // システム設定に合わせた初期テーマを決定
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
         </script>
         <!-- サイドバーの生成に必要な toc.js を早期に読み込む -->
         <script src="{{ path_to_root }}toc.js"></script>
@@ -135,6 +140,8 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            {{!-- システムの設定に追随する自動テーマを追加 --}}
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
