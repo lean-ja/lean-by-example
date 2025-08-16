@@ -61,9 +61,9 @@
     "scope": "lean,lean4",
     "prefix": "sec",
     "body": [
-      "section",
+      "section --#",
       "$0",
-      "end",
+      "end --#",
     ],
     "description": "section"
   }
