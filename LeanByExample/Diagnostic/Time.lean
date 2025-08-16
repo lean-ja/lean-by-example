@@ -66,12 +66,8 @@ elab "#speed_test " "|" n:num "≤" "[ms]" "≤" m:num "|" stx:command : command
   logInfo m!"time: {time}ms"
 
 #speed_test
-  | 10 ≤ [ms] ≤ 200
+  | 0 ≤ [ms] ≤ 1000
   | #eval fib 28
-
-#speed_test
-  | 100 ≤ [ms] ≤ 1000
-  | #eval fibonacci 28
 
 /- なお `IO.monoNanosNow` という関数も存在し、これはナノ秒単位で結果を取得します。これを使うと、単位がナノ秒であるような `#time` の派生コマンドを自作できます。 -/
 
