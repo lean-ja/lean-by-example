@@ -143,8 +143,9 @@ def Ok.extract (h : ∃ x : Int, x ^ 2 = 1) : True := by
 /- しかし、命題の証明という文脈ではなく関数の定義という文脈（つまり返り値の型が命題ではない状況）にすると一転、分解することができなくなります。これは証明無関係の制約によるものです。直観的に言えば、証明には「その命題が成立する」という情報しかないので、そこからデータを生成することはできないということです。-/
 
 /-⋆-//--
-error: tactic 'cases' failed, nested error:
-tactic 'induction' failed, recursor 'Exists.casesOn' can only eliminate into Prop
+error: Tactic `cases` failed with a nested error:
+Tactic `induction` failed: recursor `Exists.casesOn` can only eliminate into `Prop`
+
 h : ∃ x, x ^ 2 = 1
 ⊢ Int
 -/

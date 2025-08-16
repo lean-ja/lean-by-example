@@ -8,3 +8,13 @@
 
 {{#include ./LawfulApplicative/Def.md}}
 -/
+
+/- ## Applicative 則の帰結 -/
+
+variable {F : Type → Type} [Applicative F] [LawfulApplicative F]
+variable {A B C D : Type}
+
+/-- `pure`を介して関数適用と`<*>`が整合している -/
+example {x : A} {f : A → B} : pure f <*> (pure x : F A) = pure (f x) := calc
+  _ = f <$> pure x := by rw [pure_seq]
+  _ = pure (f x) := by rw [map_pure]

@@ -10,7 +10,7 @@ set_option relaxedAutoImplicit false --#
 set_option autoImplicit false in
 
 -- `nonempty` の定義には `α` という未定義の識別子が含まれるため、エラーになる
-/-⋆-//-- error: unknown identifier 'α' -/
+/-⋆-//-- error: Unknown identifier `α` -/
 #guard_msgs in --#
 def nonempty : List α → Bool
   | [] => false
@@ -42,7 +42,7 @@ set_option autoImplicit true
     | _ :: _ => true
 
   -- ２文字の識別子は暗黙引数として追加されない
-  /-⋆-//-- error: unknown identifier 'AB' -/
+  /-⋆-//-- error: Unknown identifier `AB` -/
   #guard_msgs in --#
     def nonempty₄ : List AB → Bool
       | [] => false

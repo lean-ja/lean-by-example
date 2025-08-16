@@ -32,7 +32,7 @@ example : True := by
 #guard_msgs in --#
 #print axioms flt
 
-/- しかし、[`[csimp]`](#{root}/Attribute/Csimp.md) 属性を経由することで `sorryAx` を隠し、[`Lean.ofReduceBool`](#{root}/Declarative/Axiom.md#ofReduceBool) の背後に隠してしまうことができます。 -/
+/- しかし、[`[csimp]`](#{root}/Attribute/Csimp.md) 属性を経由することで `sorryAx` を隠し、[`Lean.ofReduceBool`](#{root}/Declarative/Axiom.md#ofReduceBool) などの背後に隠してしまうことができます。 -/
 
 def one := 1
 def two := 2
@@ -46,6 +46,6 @@ theorem false_theorem : 1 = 2 := by
   rw [show 1 = one from rfl]
   native_decide
 
-/-⋆-//-- info: 'false_theorem' depends on axioms: [Lean.ofReduceBool] -/
+/-⋆-//-- info: 'false_theorem' depends on axioms: [Lean.ofReduceBool, Lean.trustCompiler] -/
 #guard_msgs in --#
 #print axioms false_theorem

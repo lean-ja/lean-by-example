@@ -11,7 +11,7 @@ section
   set_option relaxedAutoImplicit false
 
   -- 二文字の識別子は自動束縛の対象にならないのでエラーになる
-  /-⋆-//-- error: unknown identifier 'AB' -/
+  /-⋆-//-- error: Unknown identifier `AB` -/
   #guard_msgs in --#
   def nonempty₁ : List AB → Bool
     | [] => false

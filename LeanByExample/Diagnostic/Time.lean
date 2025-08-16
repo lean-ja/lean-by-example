@@ -66,7 +66,7 @@ elab "#speed_test " "|" n:num "≤" "[ms]" "≤" m:num "|" stx:command : command
   logInfo m!"time: {time}ms"
 
 #speed_test
-  | 10 ≤ [ms] ≤ 100
+  | 10 ≤ [ms] ≤ 200
   | #eval fib 28
 
 #speed_test

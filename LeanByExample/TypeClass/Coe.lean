@@ -24,14 +24,14 @@ def factorial (n : Nat) : Nat :=
 
 -- `factorial` の引数は `Nat` なのに、`Pos` を渡したのでエラーになる
 /-⋆-//--
-error: Application type mismatch: In the application
-  factorial one
-the argument
+error: Application type mismatch: The argument
   one
 has type
-  Pos : Type
+  Pos
 but is expected to have type
-  Nat : Type
+  Nat
+in the application
+  factorial one
 -/
 #guard_msgs (error) in --#
 #check factorial one

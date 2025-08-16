@@ -29,12 +29,12 @@ def evalAssertType : CommandElab := fun stx => do
 #assert_type 42 : ?_
 
 /-⋆-//--
-error: type mismatch
+error: Type mismatch
   [1, 2, 3]
 has type
-  List ?_ : Type _
+  List ?_
 but is expected to have type
-  Nat : Type
+  Nat
 -/
 #guard_msgs (error) in --#
 #assert_type [1, 2, 3] : Nat

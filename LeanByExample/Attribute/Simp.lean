@@ -24,7 +24,7 @@ theorem MyNat.add_zero (n : MyNat) : n + 0 = n := by
   rfl
 
 -- 最初は`simp`で示すことができない
-/-⋆-//-- error: simp made no progress -/
+/-⋆-//-- error: `simp` made no progress -/
 #guard_msgs in --#
 example (n : MyNat) : (n + 0) + 0 = n := by
   simp

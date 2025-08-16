@@ -51,8 +51,7 @@ deriving Inhabited, Repr
 class Callable (α : Type) where
   call : α → String
 
-/-⋆-//-- error: default handlers have not been implemented yet,
-class: 'Callable' types: [People] -/
+/-⋆-//-- error: No deriving handlers have been implemented for class `Callable` -/
 #guard_msgs in --#
 deriving instance Callable for People
 

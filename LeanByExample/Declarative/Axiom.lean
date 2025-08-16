@@ -366,7 +366,7 @@ theorem em (P : Prop) : P ∨ ¬ P := by
 theorem nd_sample : 1 + 1 = 2 := by
   decide +native
 
-/-⋆-//-- info: 'nd_sample' depends on axioms: [Lean.ofReduceBool] -/
+/-⋆-//-- info: 'nd_sample' depends on axioms: [Lean.ofReduceBool, Lean.trustCompiler] -/
 #guard_msgs in --#
 #print axioms nd_sample
 

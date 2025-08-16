@@ -28,7 +28,7 @@ example (P : Nat → Bool)
 /- なお `simp_all` はローカルコンテキストにある命題を使って単純化を行おうとするため、ローカルコンテキストにある命題によってはエラーになることがあります。[^bad_simp]-/
 
 /-⋆-//--
-error: tactic 'simp' failed, nested error:
+error: Tactic `simp` failed with a nested error:
 maximum recursion depth has been reached
 use `set_option maxRecDepth <num>` to increase limit
 use `set_option diagnostics true` to get diagnostic information

@@ -27,8 +27,9 @@ inductive Sample where
 
 -- 「コンストラクタが一つしかない帰納型でなければ使用できない」というエラーになる
 /-⋆-//--
-info: invalid constructor ⟨...⟩, expected type must be an inductive type with only one constructor ⏎
-  Sample
+info: Invalid `⟨...⟩` notation: The expected type `Sample` has more than one constructor
+
+Note: This notation can only be used when the expected type is an inductive type with a single constructor
 -/
 #guard_msgs in --#
 #check_failure (⟨"foo", "bar"⟩ : Sample)

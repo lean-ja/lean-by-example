@@ -20,12 +20,12 @@ example (α : Type) (l : List α) : [] ⊆ l := by simp
 #check ((α : Type) → ∀ (l : List α), [] ⊆ l : Prop)
 
 /-⋆-//--
-error: type mismatch
+error: Type mismatch
   ∀ (α : Type) (l : List α), [] ⊆ l
 has type
-  Prop : Type
+  Prop
 but is expected to have type
-  Bool : Type
+  Bool
 ---
 error: cannot evaluate code because 'sorryAx' uses 'sorry' and/or contains errors
 -/

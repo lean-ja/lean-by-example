@@ -33,10 +33,11 @@ example : MyNat.one + MyNat.one = MyNat.two := by
 
 -- 定義的等価(definitionally equal)でないと証明できない
 /-⋆-//--
-error: tactic 'rfl' failed, the left-hand side
+error: Tactic `rfl` failed: The left-hand side
   MyNat.one
 is not definitionally equal to the right-hand side
   MyNat.two
+
 ⊢ MyNat.one = MyNat.two
 -/
 #guard_msgs in --#

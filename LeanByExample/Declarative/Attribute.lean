@@ -48,7 +48,7 @@ example {P Q : Prop} : (P → Q) ∧ P ↔ Q ∧ P := by simp
 
 @[irreducible] def greet := "Hello"
 
-/-⋆-//-- error: attribute cannot be erased -/
+/-⋆-//-- error: Attribute `[irreducible]` cannot be erased -/
 #guard_msgs in --#
 attribute [-irreducible] greet
 

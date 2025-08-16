@@ -78,8 +78,10 @@ theorem myInt_eq {x y : ℕ} : (x : myInt) = (y : myInt) ↔ x = y := by
 -- 登録する補題の中には型強制が含まれていなくてはいけない
 -- たとえば `↑` など
 /-⋆-//--
-error: norm_cast: badly shaped lemma, lhs must contain at least one coe
+error: Invalid `norm_cast` lemma: At least one coe function must appear in the left-hand side
   myInt.ofNat x = myInt.ofNat y
+
+Note: coe functions are registered using the `[coe]` attribute
 -/
 #guard_msgs in --#
 attribute [norm_cast] myInt_eq

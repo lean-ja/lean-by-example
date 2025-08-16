@@ -23,7 +23,7 @@ def trivialImpl : Tactic := fun _stx => do
     throwError "my_trivialタクティクが失敗しました。ゴールの型は`{goalType}`であって`True`ではありません。"
 
 -- 未実装というエラーになってしまう
-/-⋆-//-- error: tactic 'trivialStx' has not been implemented -/
+/-⋆-//-- error: Tactic `trivialStx` has not been implemented -/
 #guard_msgs in --#
 example : True := by
   my_trivial

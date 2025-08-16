@@ -61,7 +61,7 @@ theorem fib_eq_fibonacci : fibonacci = fib := by
 
 /- ## 注意: `[csimp]` 属性による公理の隠蔽
 
-`[csimp]` 属性が付与された定理の証明にどんな公理を使用していようと、それを [`#print axioms`](#{root}/Diagnostic/Print.md#PrintAxioms) で追跡することはできず、[`Lean.ofReduceBool`](#{root}/Declarative/Axiom.md#ofReduceBool) の陰に隠れてしまいます。
+`[csimp]` 属性が付与された定理の証明にどんな公理を使用していようと、それを [`#print axioms`](#{root}/Diagnostic/Print.md#PrintAxioms) で追跡することはできず、[`Lean.ofReduceBool`](#{root}/Declarative/Axiom.md#ofReduceBool) などの陰に隠れてしまいます。
 -/
 
 def one := 1
@@ -78,6 +78,6 @@ theorem false_theorem : 1 = 2 := by
   native_decide
 
 -- `my_axiom` に依存しているはずだが、`ofReduceBool` の陰に隠れて見えなくなっている
-/-⋆-//-- info: 'false_theorem' depends on axioms: [Lean.ofReduceBool] -/
+/-⋆-//-- info: 'false_theorem' depends on axioms: [Lean.ofReduceBool, Lean.trustCompiler] -/
 #guard_msgs in --#
 #print axioms false_theorem

@@ -18,7 +18,7 @@ example : 1 + 1 ≠ 3 := by
 
 -- 示そうとした式が間違っていると教えてくれた
 /-⋆-//--
-error: tactic 'decide' proved that the proposition
+error: Tactic `decide` proved that the proposition
   1 + 1 = 3
 is false
 -/

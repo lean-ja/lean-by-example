@@ -32,7 +32,7 @@ def gcd (m n : Nat) : Nat :=
 
 theorem native : Nat.gcd 42998431 120019 = 1 := by native_decide
 
-/-⋆-//-- info: 'native' depends on axioms: [propext, Lean.ofReduceBool] -/
+/-⋆-//-- info: 'native' depends on axioms: [propext, Lean.ofReduceBool, Lean.trustCompiler] -/
 #guard_msgs in --#
 #print axioms native
 
@@ -53,6 +53,6 @@ theorem zero_ne_eq_one : False := by
 
   contradiction
 
-/-⋆-//-- info: 'zero_ne_eq_one' depends on axioms: [Lean.ofReduceBool] -/
+/-⋆-//-- info: 'zero_ne_eq_one' depends on axioms: [Lean.ofReduceBool, Lean.trustCompiler] -/
 #guard_msgs in --#
 #print axioms zero_ne_eq_one

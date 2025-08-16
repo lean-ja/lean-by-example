@@ -49,7 +49,7 @@ section
 end
 
 -- `end` 以降は無効になり、α が未定義だというエラーになる
-/-⋆-//-- error: unknown identifier 'α' -/
+/-⋆-//-- error: Unknown identifier `α` -/
 #guard_msgs in --#
 def nilList' : List α := []
 

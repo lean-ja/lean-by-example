@@ -1,6 +1,6 @@
 /- # Applicative
 
-`Applicative` 型クラスは、[`Functor`](#{root}/TypeClass/Functor.md) 型クラスの拡張であり、[`Monad`](#{root}/TypeClass/Monad.md) 型クラスよりは制限された中間的な構造で、関数適用を一般化したものであると見なすことができます。
+`Applicative` 型クラスは、[`Functor`](#{root}/TypeClass/Functor.md) 型クラスの拡張であり、[`Monad`](#{root}/TypeClass/Monad.md) 型クラスよりは制限された中間的な構造です。関数適用を一般化であり、計算効果をエンコードするものと見なすことができます。
 
 ## 定義
 
@@ -24,7 +24,15 @@ instance : Applicative MyOption where
     | .some f, .some a => .some (f a)
     | _, _ => .none
 
-/- ## Functor との違い
+/- ## Functor との関係
+
+`Applicative` のインスタンスであるならば、自動的に `Functor` のインスタンスにもなります。これは、`Functor.map` を次のように実装することができるからです。
+-/
+
+instance {F : Type → Type} [Applicative F]: Functor F where
+  map f x := pure f <*> x
+
+/- ## なぜ「関数適用の一般化」なのか
 
 `Functor.map` メソッドは `(α → β) → F α → F β` という型を持ちます。これは、`F = Id` の場合を考えてみると分かるように、１引数の関数適用を一般化したものだと考えることができます。では２引数、３引数の時はどうなるでしょうか？
 

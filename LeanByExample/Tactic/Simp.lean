@@ -54,7 +54,7 @@ theorem MyNat.one_neq_zero : (1 : MyNat) ≠ 0 := by
   intro h
   injection h
 
--- `simp`属性を追加したことによって、
+-- `[simp]`属性を追加したことによって、`(1 = 0) = False`という命題が追加されている
 /-⋆-//--
 info: theorem MyNat.one_neq_zero._simp_1 : (1 = 0) = False :=
 eq_false MyNat.one_neq_zero
@@ -126,7 +126,7 @@ section
 
   -- 今まで通った証明が通らなくなる
   /-⋆-//--
-  error: tactic 'simp' failed, nested error:
+  error: Tactic `simp` failed with a nested error:
   maximum recursion depth has been reached
   use `set_option maxRecDepth <num>` to increase limit
   use `set_option diagnostics true` to get diagnostic information

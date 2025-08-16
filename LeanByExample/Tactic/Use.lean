@@ -57,7 +57,7 @@ structure Foo where
 example : Foo := ⟨3, by simp, by simp⟩
 
 /-⋆-//--
-error: invalid constructor ⟨...⟩, insufficient number of arguments, constructs 'Foo.mk' has #3 explicit fields, but only #2 provided
+error: Insufficient number of fields for `⟨...⟩` constructor: Constructor `Foo.mk` has 3 explicit field, but only 2 were provided
 -/
 #guard_msgs in --#
 example : Foo := by

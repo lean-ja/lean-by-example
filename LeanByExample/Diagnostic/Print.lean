@@ -58,14 +58,14 @@ error: <input>:1:7: expected 'axioms', 'eqns', 'equations', 'sig', 'tactic', ide
 open Lean in
 
 /-⋆-//--
-error: Application type mismatch: In the application
-  a.raw
-the argument
+error: Application type mismatch: The argument
   a
 has type
-  TSyntax `term : Type
+  TSyntax `term
 but is expected to have type
-  TSyntax [`ident, `str] : Type
+  TSyntax [`ident, `str]
+in the application
+  a.raw
 -/
 #guard_msgs in --#
 run_meta
