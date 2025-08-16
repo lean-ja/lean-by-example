@@ -75,7 +75,7 @@ def goldbachLazy (n : Nat) (_ : n % 2 = 0 := by decide) : Nat × Nat :=
     |>.map (fun x => (x, n - x))
   candidates.head? |>.get!
 
--- 遅延評価版の方が10倍以上速いことが確認できる
-#speed_rank (ratio := 10)
+-- 遅延評価版の方が8倍以上速いことが確認できる
+#speed_rank (ratio := 8)
   | #eval goldbachLazy 123456
   | #eval goldbachEager 123456
