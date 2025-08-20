@@ -27,11 +27,11 @@ example (P Q R : Prop) (x : P ∧ Q ∧ R ∧ R) : Q ∧ P ∧ R := by
 
 `hint` に登録されているタクティクのリストは、`Mathlib.Tactic.Hint.getHints` 関数を介して確認することができます。
 -/
-open Lean in
+open Lean Mathlib.Tactic in
 
 /-- `hint` タクティクに登録されているタクティクの完全なリストを出力する -/
 def getRegisteredTactics : CoreM Unit := do
-  let hintTactics := (← Mathlib.Tactic.Hint.getHints).map (·.raw)
+  let hintTactics := (← Hint.getHints).map (fun (_n, tac) => tac.raw)
   for tactic in hintTactics do
     let .node _ _ arr := tactic
       | panic! "error: unexpected syntax term"
