@@ -2,6 +2,7 @@
 # class
 `class` は **型クラス(type class)** を定義するためのコマンドです。型クラスを用いると、複数の型に対して定義され、型ごとに異なる実装を持つような関数を定義することができます。例えば「和を取る操作」のような、[`Nat`](#{root}/Type/Nat.md) や `Int` や `Rat` など複数の型に対して同じ名前で定義したい関数を作りたいとき、型クラスが適しています。
 -/
+
 /-- 証明なしのバージョンのモノイド。
 ただしモノイドとは、要素同士を「くっつける」操作ができて、
 くっつけても変わらない要素があるようなもののこと。-/
@@ -75,6 +76,9 @@ def instMonoid'Nat : Monoid' Nat where
 /- これは **インスタンス暗黙引数(instance implicit)** と呼ばれるもので、この場合 Lean に対して `Monoid' α` 型の項を自動的に合成するよう指示することを意味します。また、型クラスのインスタンス暗黙引数を自動的に合成する手続きのことを、 **型クラス解決(type class resolution)** と呼びます。-/
 
 /- ## outParam
+
+### 概要
+
 足し算を表現する型クラスを自分で定義してみましょう。名前は `Plus` としてみます。足し算は自然数の和 `Nat → Nat → Nat` のように、同じ型の中で完結する操作として定義されることが多いものですが、より一般的に `α → β → γ` で定義されるものとしてみます。
 -/
 namespace Bad --#
@@ -128,6 +132,43 @@ instance : Plus Nat (List Nat) (List Nat) where
 #eval 1 +ₚ [1, 2]
 
 end Good --#
+
+/- ### 使用例: カリー化の計算
+
+`OutParam` の使用例として、多引数関数のカリー化を計算する型クラスを定義する例を紹介します。
+
+なおこの例ではインスタンス優先度(`priority := low` という指定の部分)も使用していますが、それについては [`instance`](#{root}/Declarative/Instance.md) のページを参照してください。
+-/
+
+/-- 多引数関数の「カリー化」を表現する型クラス -/
+class Curry (Xs Y : Type) (F : outParam Type) where
+  /-- `Xs → Y` 型の関数を、「カリー化」された形 `F` に変換する。 -/
+  curry : (Xs → Y) → F
+
+-- `curry` という関数名を名前空間の指定なしで直接使えるようにする
+export Curry (curry)
+
+variable {X Y Xs F : Type}
+
+/-- ベースケース: `Xs` が単一引数 `X` のとき、`F = X → Y` としてそのまま返す。
+
+より具体的なインスタンスが優先されるように、`priority := low` を指定している。
+-/
+instance (priority := low) : Curry X Y (X → Y) where
+  curry := id
+
+/-- 再帰ケース: `f : (X × Xs) → Y` をカリー化して `curry f : X → Xs → Y` という関数を得る。
+`x : X` が与えられたとき、部分適用 `f (x, ·) : Xs → Y` を帰納的にカリー化して返す。-/
+instance [Curry Xs Y F] : Curry (X × Xs) Y (X → F) where
+  curry := fun f x => curry (fun xs => f (x, xs))
+
+-- 動作テスト
+example : curry (fun ((a, b) : Nat × Nat) => a + b) = (fun a b => a + b) := rfl
+
+-- 動作テストとして引数を与えてみる
+#guard (curry fun ((a, b) : Nat × Nat) => a + b) 1 9 = 10
+#guard (curry fun ((a, b, c, d) : Nat × Nat × Nat × Nat) => a + b + c + d) 1 2 3 4 = 10
+
 /- ## class inductive { #ClassInductive }
 基本的に型クラスの下部構造は構造体ですが、一般の[帰納型](#{root}/Declarative/Inductive.md)を型クラスにすることも可能です。それには `class inductive` というコマンドを使います。
 -/
