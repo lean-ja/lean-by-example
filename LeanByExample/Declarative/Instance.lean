@@ -68,6 +68,8 @@ instance {n : Nat} [OfNat Even n] : OfNat Even (n + 2) where
 
 /- ## インスタンス優先度
 
+### 概要
+
 Lean では、同じ型と型クラスの組に対して複数のインスタンスを定義することができます。たとえば、次のようにモノイドという型クラスを定義したとします。
 -/
 
@@ -133,6 +135,45 @@ section
   -- 後から宣言した方が優先されなくなる！
   #guard (Monoid.unit : Nat) = 0
 end
+
+/- ### 使用例: アリティの計算
+
+インスタンス優先度を活用する例として、関数型のアリティ（引数の数）を計算する型クラスを定義する例をご紹介します。
+-/
+
+/-- `Arity α` は「型 `α` のアリティ（引数の数）」を与える型クラス。 -/
+class Arity (α : Type) where
+  /-- `α` のアリティ -/
+  arity : Nat
+
+/--
+汎用の（デフォルト）インスタンス:
+あらゆる型を「関数でない」とみなし、アリティを `0` とする。
+関数型に対しては、このインスタンスより **優先度の高い** 関数用インスタンスが使われる。
+-/
+instance (priority := low) (α : Type) : Arity α where
+  arity := 0
+
+/--
+関数型 `α → β` のインスタンス:
+帰結型 `β` のアリティに 1 を足す。
+（`β` に対して再帰的に `Arity` を使うことで、多引数カリー化を数え上げる）
+-/
+instance (α β : Type) [Arity β] : Arity (α → β) where
+  arity := 1 + (Arity.arity β)
+
+-- 関数でない型のアリティは 0
+#guard Arity.arity Nat = 0
+
+-- 1引数関数型のアリティは 1
+#guard Arity.arity (Nat → Bool) = 1
+
+-- 2引数関数型のアリティは 2
+#guard Arity.arity (Nat → Bool → String) = 2
+
+-- タプルを受け取る関数型は「引数が１つ」なので１
+#guard Arity.arity (Nat × Bool → String) = 1
+
 /-
 ## 舞台裏
 `instance` は `[instance]` 属性を付与された [`def`](./Def.md) と同じようにはたらきます。ただし `instance` はインスタンス名を省略することができるという違いがあります。
