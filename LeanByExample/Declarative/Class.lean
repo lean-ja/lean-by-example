@@ -163,11 +163,12 @@ instance [Curry Xs Y F] : Curry (X × Xs) Y (X → F) where
   curry := fun f x => curry (fun xs => f (x, xs))
 
 -- 動作テスト
+example : curry (fun a : Nat => a) = (fun a => a) := rfl
 example : curry (fun ((a, b) : Nat × Nat) => a + b) = (fun a b => a + b) := rfl
-
--- 動作テストとして引数を与えてみる
-#guard (curry fun ((a, b) : Nat × Nat) => a + b) 1 9 = 10
-#guard (curry fun ((a, b, c, d) : Nat × Nat × Nat × Nat) => a + b + c + d) 1 2 3 4 = 10
+example :
+  let actual := curry fun ((a, b, c) : Nat × Nat × Nat) => a + b + c
+  let expected := fun a b c => a + b + c
+  actual = expected := rfl
 
 /- ## class inductive { #ClassInductive }
 基本的に型クラスの下部構造は構造体ですが、一般の[帰納型](#{root}/Declarative/Inductive.md)を型クラスにすることも可能です。それには `class inductive` というコマンドを使います。
