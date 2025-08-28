@@ -135,10 +135,11 @@ end Good --#
 
 /- ### 使用例: カリー化の計算
 
-`OutParam` の使用例として、多引数関数のカリー化を計算する型クラスを定義する例を紹介します。
+`outParam` の使用例として、多引数関数のカリー化を計算する型クラスを定義する例を紹介します。
 
 なおこの例ではインスタンス優先度(`priority := low` という指定の部分)も使用していますが、それについては [`instance`](#{root}/Declarative/Instance.md) のページを参照してください。
 -/
+section --#
 
 /-- 多引数関数の「カリー化」を表現する型クラス -/
 class Curry (Xs Y : Type) (F : outParam Type) where
@@ -170,6 +171,45 @@ example :
   let expected := fun a b c => a + b + c
   actual = expected := rfl
 
+end --#
+/- ### 使用例: アンカリー化の計算
+
+アンカリー化（カリー化の逆の操作）も同様に計算することができます。
+-/
+section --#
+
+/-- アンカリー化を計算する型クラス。
+`f : F` を `uncurry f : Xs → Y` に変換する。-/
+class Uncurry (F : Type) (Xs Y : outParam Type) where
+  uncurry : F → Xs → Y
+
+-- `Uncurry.uncurry` の代わりに `uncurry` と直接書けるようにエクスポートしておく
+export Uncurry (uncurry)
+
+variable {X Y Xs F : Type}
+
+/-- ベースケース:
+`f : X → Y` をアンカリー化しても何も変わらない。
+ただし、より具体的なインスタンスが利用できる場面で
+このインスタンスが使用されないように `priority` を低く設定している -/
+instance (priority := low) : Uncurry (X → Y) X Y where
+  uncurry := id
+
+/-- 帰納ケース:
+`f : F` をアンカリー化して `uncurry f : Xs → Y` を得ることができるとする。
+このとき `g : X → F` をアンカリー化して `uncurry g : X × Xs → Y` を得ることができる。-/
+instance [Uncurry F Xs Y] : Uncurry (X → F) (X × Xs) Y where
+  uncurry := fun f (x, xs) => uncurry (f x) xs
+
+-- 動作テスト
+example : uncurry (fun a : Nat => a) = (fun a => a) := rfl
+example : uncurry (fun a b : Nat => a + b) = (fun (a, b) => a + b) := by rfl
+example :
+  let actual := uncurry (fun a b c : Nat => a + b + c)
+  let expected := (fun (a, b, c) => a + b + c)
+  actual = expected := by rfl
+
+end --#
 /- ## class inductive { #ClassInductive }
 基本的に型クラスの下部構造は構造体ですが、一般の[帰納型](#{root}/Declarative/Inductive.md)を型クラスにすることも可能です。それには `class inductive` というコマンドを使います。
 -/
