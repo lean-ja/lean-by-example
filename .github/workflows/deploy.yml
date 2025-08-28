@@ -50,7 +50,7 @@ jobs:
       - name: Run Link Checker
         # 敢えて古いバージョンを使用している。
         # 最新の v2 を使用すると、lychee がまともに動作しなくなった。
-        uses: lycheeverse/lychee-action@v1.10.0
+        uses: lycheeverse/lychee-action@v2.0.2
         with:
           fail: true
           args: booksrc --base booksrc
