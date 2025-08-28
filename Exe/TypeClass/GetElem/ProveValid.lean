@@ -1,6 +1,7 @@
 variable {α : Type} [Add α] [Zero α] [Inhabited α]
 
--- `IO` で包むことにより最適化されて計測時間がおかしくなることを防いでいる
+-- `IO` で包むことにより最適化されて計測時間がおかしくなることを防いでいる。
+-- Lean は非 `IO` 計算の順序を実行時に変える最適化を行う。
 @[noinline]
 def sum! (xs : Array α) : IO α := do
   let mut acc : α := 0
