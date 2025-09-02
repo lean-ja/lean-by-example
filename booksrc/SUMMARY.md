@@ -252,7 +252,6 @@
   - [right: 論理和∨を示す](./Tactic/Right.md)
   - [ring_nf: 可換(半)環の標準形に](./Tactic/RingNf.md)
   - [ring: 可換(半)環の等式を示す](./Tactic/Ring.md)
-  - [rw_search: rw で示せるか検索](./Tactic/RwSearch.md)
   - [rw: 同値変形](./Tactic/Rw.md)
   - [says: タクティク提案の痕跡を残す](./Tactic/Says.md)
   - [set: 定義の導入](./Tactic/Set.md)
