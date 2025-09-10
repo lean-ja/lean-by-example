@@ -1,6 +1,11 @@
 document.addEventListener('DOMContentLoaded', function() {
-  // サイトのベースURL（ローカル環境では動作させないため、固定URLを使用）
-  const siteBaseUrl = "https://lean-ja.github.io/lean-by-example/";
+  // サイトのベースURL
+  let siteBaseUrl = ""
+  if (window.location.hostname === "localhost") {
+    siteBaseUrl = "http://localhost:3000/"; // mdbook は通常 3000 番を使用する
+  } else {
+    siteBaseUrl = "https://lean-ja.github.io/lean-by-example/";
+  }
   const summaryMdUrl = "https://raw.githubusercontent.com/lean-ja/lean-by-example/main/booksrc/SUMMARY.md";
 
   // キャッシュ用の変数
