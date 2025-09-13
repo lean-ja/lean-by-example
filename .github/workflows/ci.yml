@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: lean action
         uses: leanprover/lean-action@v1
@@ -35,7 +35,7 @@ jobs:
     if: github.ref == 'refs/heads/main'
     steps:
       - name: checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: lean action
         uses: leanprover/lean-action@v1
