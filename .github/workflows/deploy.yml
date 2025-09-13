@@ -47,10 +47,14 @@ jobs:
       - name: build markdown
         run: lake run build
 
-      - name: Run Link Checker
-        uses: lycheeverse/lychee-action@v2
+      - name: install lychee
+        uses: baptiste0928/cargo-install@v3
         with:
-          args: "./booksrc/**/*.md"
+          crate: lychee
+          version: '0.20.1'
+
+      - name: Run Link Checker
+        run: lychee ./booksrc/**/*.md
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
