@@ -50,7 +50,7 @@ jobs:
       - name: Run Link Checker
         uses: lycheeverse/lychee-action@v2
         with:
-          args: booksrc
+          args: "./booksrc/**/*.md"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
