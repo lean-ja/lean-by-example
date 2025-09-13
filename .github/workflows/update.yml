@@ -11,7 +11,7 @@ jobs:
     if: github.repository_owner == 'lean-ja'
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Update Lean project
         uses: leanprover-community/lean-update@main
         with:
