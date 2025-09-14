@@ -9,7 +9,10 @@
 {{#include ./LawfulApplicative/Def.md}}
 -/
 
-/- ## Applicative 則の帰結 -/
+/- ## Applicative 則の帰結
+
+`Applicative` のインスタンス `F` は関数適用と整合するという意味論がありますが、`LawfulApplicative` のインスタンスになっているとそれが正しいことが保証されます。
+-/
 
 variable {F : Type → Type} [Applicative F] [LawfulApplicative F]
 variable {A B C D : Type}
@@ -18,3 +21,7 @@ variable {A B C D : Type}
 example {x : A} {f : A → B} : pure f <*> (pure x : F A) = pure (f x) := calc
   _ = f <$> pure x := by rw [pure_seq]
   _ = pure (f x) := by rw [map_pure]
+
+example {x : A} {y : B} {f : A → B → C}
+    : pure f <*> (pure x : F A) <*> (pure y : F B) = pure (f x y) := by
+  simp only [seq_pure, map_pure]

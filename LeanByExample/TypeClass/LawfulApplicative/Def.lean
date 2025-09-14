@@ -38,7 +38,9 @@ variable {α β γ : Type}
 
 /-- アプリカティブ則 -/
 class LawfulApplicative (f : Type → Type) [Applicative f] : Prop extends LawfulFunctor f where
-  /-- `pure` が `seq` の直前にくる場合、その部分はただの `Functor.map` と同じになる -/
+  /-- `pure` が `seq` の直前にくる場合、その部分はただの `Functor.map` と同じになる。
+  つまり、`Applicative` のインスタンスから誘導される `Functor.map` の実装と、
+  もともとの `Functor.map` の実装は一致する。-/
   pure_seq (g : α → β) (x : f α) : pure g <*> x = g <$> x
 
   /-- `pure` の結果に関数を `map` することは、その関数を `pure` の内部で適用することと同じ。 -/
