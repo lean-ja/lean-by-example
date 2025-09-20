@@ -23,7 +23,7 @@ namespace variable1 --#
 variable {α : Type} (l : List α)
 
 /-- 連結リストの最後の要素を取り出す -/
-def last? (l : List α) : Option α :=
+def last? : Option α :=
   match l with
   | [] => none
   | [a] => some a
