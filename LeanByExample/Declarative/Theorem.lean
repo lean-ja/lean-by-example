@@ -15,7 +15,7 @@ theorem add_zero {n : Nat} : n + 0 = n := by simp
 def add_zero' {n : Nat} : n + 0 = n := by simp
 
 /-⋆-//--
-error: type of theorem 'frac' is not a proposition
+error: type of theorem `frac` is not a proposition
   Nat → Nat
 -/
 #guard_msgs (whitespace := lax) in --#

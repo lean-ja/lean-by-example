@@ -21,7 +21,7 @@ syntax "#greet" : command
 
 -- まだエラーになるが、少なくとも `#greet` というコマンドが Lean に認識されるようにはなった。
 -- エラーメッセージは、`#greet` コマンドの解釈方法がないと言っている。
-/-⋆-//-- error: elaboration function for '«command#greet»' has not been implemented -/
+/-⋆-//-- error: elaboration function for `«command#greet»` has not been implemented -/
 #guard_msgs in --#
 #greet
 

@@ -121,7 +121,7 @@ example (n acc : Nat) : factorialTR.aux n acc = acc * factorialTR.aux n 1 := by
 
 /- ただし注意点として、`induction .. generalizing` 構文を実行するとき、帰納法を行う変数が一般化される変数に依存していてはいけないというルールがあります。-/
 
-/-⋆-//-- error: Variable 'm' cannot be generalized because the induction target depends on it -/
+/-⋆-//-- error: Variable `m` cannot be generalized because the induction target depends on it -/
 #guard_msgs in --#
 example {n m : Nat} (h : Even (n + m)) (hm : Even m) : Even n := by
   induction hm generalizing m

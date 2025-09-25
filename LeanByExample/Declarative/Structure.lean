@@ -115,7 +115,7 @@ def Point'.x {α : Type} (p : Point' α) : α :=
 
 -- `w` はデータなので、アクセサ関数が生成できなくてエラーになる
 /-⋆-//--
-error: failed to generate projection 'MyExists.w' for the 'Prop'-valued type 'MyExists', field must be a proof, but it has type
+error: failed to generate projection `MyExists.w` for the 'Prop'-valued type `MyExists`, field must be a proof, but it has type
   α
 -/
 #guard_msgs in --#

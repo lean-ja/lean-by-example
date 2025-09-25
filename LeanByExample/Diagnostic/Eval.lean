@@ -46,7 +46,7 @@ def main : IO Unit :=
 -/
 
 /-⋆-//--
-error: could not synthesize a 'ToExpr', 'Repr', or 'ToString' instance for type
+error: could not synthesize a `ToExpr`, `Repr`, or `ToString` instance for type
   Nat → Nat
 -/
 #guard_msgs in --#
@@ -56,7 +56,7 @@ error: could not synthesize a 'ToExpr', 'Repr', or 'ToString' instance for type
 
 -- 最初はエラーになってしまう
 /-⋆-//--
-error: could not synthesize a 'ToExpr', 'Repr', or 'ToString' instance for type
+error: could not synthesize a `ToExpr`, `Repr`, or `ToString` instance for type
   Unit → Nat
 -/
 #guard_msgs in --#

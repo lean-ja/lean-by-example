@@ -24,7 +24,7 @@ set_option eval.derive.repr false
 
 -- 表示できずにエラーになった！
 /-⋆-//--
-error: could not synthesize a 'ToExpr', 'Repr', or 'ToString' instance for type
+error: could not synthesize a `ToExpr`, `Repr`, or `ToString` instance for type
   Point Nat
 -/
 #guard_msgs in --#

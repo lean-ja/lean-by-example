@@ -34,7 +34,7 @@ macro_rules
 set_option pp.macroStack true
 
 /-⋆-//--
-info: elaboration function for '«term⟦_⟧»' has not been implemented
+info: elaboration function for `«term⟦_⟧»` has not been implemented
   ⟦ ⟧
 with resulting expansion
   ⟦ ⟧

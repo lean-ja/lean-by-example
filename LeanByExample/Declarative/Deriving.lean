@@ -15,7 +15,7 @@ set_option eval.derive.repr false
 
 -- `Repr` が定義されていないので `eval` できない
 /-⋆-//--
-error: could not synthesize a 'Repr' or 'ToString' instance for type
+error: could not synthesize a `Repr` or `ToString` instance for type
   Color
 -/
 #guard_msgs in --#

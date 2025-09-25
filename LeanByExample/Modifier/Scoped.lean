@@ -16,14 +16,14 @@ namespace Scoped
 end Scoped
 
 -- 名前空間を抜けると使えなくなる
-/-⋆-//-- error: elaboration function for '«command#greet»' has not been implemented -/
+/-⋆-//-- error: elaboration function for `«command#greet»` has not been implemented -/
 #guard_msgs in --#
 #greet
 
 -- 再び同じ名前で名前空間を開く
 namespace Scoped
-    -- その名前空間の中では greet コマンドが利用できる
-    #greet
+  -- その名前空間の中では greet コマンドが利用できる
+  #greet
 
 end Scoped
 

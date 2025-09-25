@@ -62,7 +62,7 @@ The provided argument
 is not definitionally equal to the expected parameter
   n
 
-Note: The value of parameter 'n' must be fixed throughout the inductive declaration. Consider making this parameter an index if it must vary.
+Note: The value of parameter `n` must be fixed throughout the inductive declaration. Consider making this parameter an index if it must vary.
 -/
 #guard_msgs in --#
 inductive BadVec (α : Type) (n : Nat) : Type where
@@ -327,13 +327,21 @@ example (n m : MyNat) : MyNat.succ n = MyNat.succ m → n = m := by
 
 /- [`show_term`](#{root}/Tactic/ShowTerm.md) を使用して証明項を出してみると、`injection` タクティクにより `MyNat.noConfusion` という定理が呼ばれていることがわかります。 -/
 
-/-⋆-//-- info: Try this: fun h => MyNat.noConfusion h -/
+/-⋆-//--
+info: Try this:
+  fun h =>
+    False.elim (noConfusion_of_Nat MyNat.ctorIdx h)
+-/
 #guard_msgs in --#
 example (n : MyNat) : .succ n ≠ MyNat.zero := show_term by
   intro h
   injection h
 
-/-⋆-//-- info: Try this: MyNat.noConfusion h fun x => x -/
+/-⋆-//--
+info: Try this:
+  MyNat.succ.noConfusion (n = m) n
+    m h fun n_eq => n_eq
+-/
 #guard_msgs in --#
 example (n m : MyNat) (h : MyNat.succ n = MyNat.succ m) : n = m := show_term by
   injection h

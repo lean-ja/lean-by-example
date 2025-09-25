@@ -5,9 +5,10 @@ import Mathlib.Tactic -- `hint` は検索を伴うので、おおざっぱに im
 
 /-⋆-//--
 info: Try these:
-• bound
-• group
-• norm_num
+  • 🎉 bound
+  • group
+    Remaining subgoals:
+    ⊢ Q
 -/
 #guard_msgs in --#
 example (P Q : Prop) (p : P) (h : P → Q) : Q := by
@@ -15,9 +16,10 @@ example (P Q : Prop) (p : P) (h : P → Q) : Q := by
 
 /-⋆-//--
 info: Try these:
-• bound
-• group
-• norm_num
+  • 🎉 bound
+  • group
+    Remaining subgoals:
+    ⊢ Q ∧ P ∧ R
 -/
 #guard_msgs in --#
 example (P Q R : Prop) (x : P ∧ Q ∧ R ∧ R) : Q ∧ P ∧ R := by
@@ -45,10 +47,10 @@ info: "group"
 "compute_degree"
 "ring"
 "linarith"
-"norm_num"
 "positivity"
 "bound"
 "abel"
+"norm_num"
 "omega"
 "decide"
 "exact?"
@@ -74,7 +76,7 @@ register_hint nlinarith
 
 /-⋆-//--
 info: Try these:
-• nlinarith
+  • 🎉 nlinarith
 -/
 #guard_msgs in --#
 example (a b : Nat) (h : a ≤ b) : (a + b) ^ 2 ≤ 4 * b ^ 2 := by

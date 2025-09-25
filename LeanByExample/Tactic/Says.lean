@@ -7,14 +7,12 @@
 より詳しく書くと、検索タクティク `X` があり、その提案内容が `Try this: Y` だったとき、`X says` とすると `says` は `Try this: Y` の代わりに `Try this: X says Y` という提案を infoview 上で出します。
 それをクリックすると、`X says` の内容が `X says Y` で置換されます。
 そして、`X says Y` が実行されるときには `X` は飛ばされます。-/
-import Aesop -- `aesop` のために必要 --#
-import Mathlib.Logic.Function.Defs -- `Injection` のために必要 --#
-import Mathlib.Tactic.Says -- `says` を使うために必要
+import Mathlib.Tactic
 
 -- `says` のチェックを有効にする
 set_option says.verify true
 
-variable (P Q R S: Prop)
+variable (P Q R S : Prop)
 
 -- `exact?` に対して使用する例
 example (hPQ : P → Q) (hQR : Q → R) (hRS : R → S) (hP : P) : S := by

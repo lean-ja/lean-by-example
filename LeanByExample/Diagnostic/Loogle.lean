@@ -16,12 +16,17 @@ import LeanSearchClient.LoogleSyntax
 
 /-⋆-//--
 info: Loogle Search Results
-• #check Nat.add_zero
-• #check instNeZeroNatHAdd
-• #check instNeZeroNatHAdd_1
-• #check Nat.zero_add
-• #check Nat.add_one_ne_zero
-• #check Nat.zero_ne_add_one
+  • #check Nat.add_zero --  (n : ℕ) : n + 0 = n
+    ⏎
+  • #check instNeZeroNatHAdd --  {n m : ℕ} [h : NeZero n] : NeZero (n + m)
+    ⏎
+  • #check instNeZeroNatHAdd_1 --  {n m : ℕ} [h : NeZero m] : NeZero (n + m)
+    ⏎
+  • #check Nat.zero_add --  (n : ℕ) : 0 + n = n
+    ⏎
+  • #check Nat.add_one_ne_zero --  (n : ℕ) : n + 1 ≠ 0
+    ⏎
+  • #check Nat.zero_ne_add_one --  (n : ℕ) : 0 ≠ n + 1
 -/
 #guard_msgs in --#
 #loogle "Nat", "zero", "add"
@@ -33,12 +38,25 @@ info: Loogle Search Results
 
 /-⋆-//--
 info: Loogle Search Results
-• #check List.foldl
-• #check List.foldl_nil
-• #check List.foldl_cons
-• #check List.id_run_foldlM
-• #check List.foldl_eq_foldr_reverse
-• #check List.foldl_reverse
+  • #check List.foldl --  {α : Type u} {β : Type v} (f : α → β → α) (init : α) : List β → α
+    Folds a function over a list from the left, accumulating a value starting with `init`. The
+    accumulated value is combined with the each element of the list in order, using `f`.
+    ⏎
+    Examples:
+     * `[a, b, c].foldl f z  = f (f (f z a) b) c`
+     * `[1, 2, 3].foldl (· ++ toString ·) "" = "123"`
+     * `[1, 2, 3].foldl (s!"({·} {·})") "" = "((( 1) 2) 3)"`
+    ⏎
+    ⏎
+  • #check List.foldl_nil --  {α✝ : Type u_1} {β✝ : Type u_2} {f : α✝ → β✝ → α✝} {b : α✝} : List.foldl f b [] = b
+    ⏎
+  • #check List.foldl_cons --  {α : Type u} {β : Type v} {a : α} {l : List α} {f : β → α → β} {b : β} : List.foldl f b (a :: l) = List.foldl f (f b a) l
+    ⏎
+  • #check List.id_run_foldlM --  {β : Type u_1} {α : Type u_2} {f : β → α → Id β} {b : β} {l : List α} : (List.foldlM f b l).run = List.foldl f b l
+    ⏎
+  • #check List.foldl_eq_foldr_reverse --  {α : Type u_1} {β : Type u_2} {l : List α} {f : β → α → β} {b : β} : List.foldl f b l = List.foldr (fun x y => f y x) b l.reverse
+    ⏎
+  • #check List.foldl_reverse --  {α : Type u_1} {β : Type u_2} {l : List α} {f : β → α → β} {b : β} : List.foldl f b l.reverse = List.foldr (fun x y => f y x) b l
 -/
 #guard_msgs in --#
 #loogle List.foldl
@@ -50,12 +68,52 @@ info: Loogle Search Results
 
 /-⋆-//--
 info: Loogle Search Results
-• #check List.modifyHead
-• #check List.map
-• #check List.mapTR
-• #check List.modify
-• #check List.mapTR.loop
-• #check List.map_eq_mapTR
+  • #check List.modifyHead --  {α : Type u} (f : α → α) : List α → List α
+    Replace the head of the list with the result of applying `f` to it. Returns the empty list if the
+    list is empty.
+    ⏎
+    Examples:
+     * `[1, 2, 3].modifyHead (· * 10) = [10, 2, 3]`
+     * `[].modifyHead (· * 10) = []`
+    ⏎
+    ⏎
+  • #check List.map --  {α : Type u} {β : Type v} (f : α → β) (l : List α) : List β
+    Applies a function to each element of the list, returning the resulting list of values.
+    ⏎
+    `O(|l|)`.
+    ⏎
+    Examples:
+    * `[a, b, c].map f = [f a, f b, f c]`
+    * `[].map Nat.succ = []`
+    * `["one", "two", "three"].map (·.length) = [3, 3, 5]`
+    * `["one", "two", "three"].map (·.reverse) = ["eno", "owt", "eerht"]`
+    ⏎
+    ⏎
+  • #check List.mapTR --  {α : Type u} {β : Type v} (f : α → β) (as : List α) : List β
+    Applies a function to each element of the list, returning the resulting list of values.
+    ⏎
+    `O(|l|)`. This is the tail-recursive variant of `List.map`, used in runtime code.
+    ⏎
+    Examples:
+    * `[a, b, c].mapTR f = [f a, f b, f c]`
+    * `[].mapTR Nat.succ = []`
+    * `["one", "two", "three"].mapTR (·.length) = [3, 3, 5]`
+    * `["one", "two", "three"].mapTR (·.reverse) = ["eno", "owt", "eerht"]`
+    ⏎
+    ⏎
+  • #check List.modify --  {α : Type u} (l : List α) (i : ℕ) (f : α → α) : List α
+    Replaces the element at the given index, if it exists, with the result of applying `f` to it. If the
+    index is invalid, the list is returned unmodified.
+    ⏎
+    Examples:
+     * `[1, 2, 3].modify 0 (· * 10) = [10, 2, 3]`
+     * `[1, 2, 3].modify 2 (· * 10) = [1, 2, 30]`
+     * `[1, 2, 3].modify 3 (· * 10) = [1, 2, 3]`
+    ⏎
+    ⏎
+  • #check List.mapTR.loop --  {α : Type u} {β : Type v} (f : α → β) : List α → List β → List β
+    ⏎
+  • #check List.map_eq_mapTR --  : @List.map = @List.mapTR
 -/
 #guard_msgs in --#
 #loogle (?a → ?b) → List ?a → List ?b
@@ -67,7 +125,7 @@ info: Loogle Search Results
 
 /-⋆-//--
 info: Loogle Search Results
-• #check Nat.mul_eq_zero
+  • #check Nat.mul_eq_zero --  {m n : ℕ} : n * m = 0 ↔ n = 0 ∨ m = 0
 -/
 #guard_msgs in --#
 #loogle "Nat", "mul", (_ * _ = 0), (_ = 0 ∨ _ = 0)

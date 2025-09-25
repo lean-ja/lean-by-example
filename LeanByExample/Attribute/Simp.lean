@@ -94,7 +94,10 @@ theorem MyNat.zero_add (n : MyNat) : n = 0 + n := by
     rw [←ih]
 
 -- 該当するsimp補題に `←` が付いている
-/-⋆-//-- info: Try this: simp only [← MyNat.zero_add, MyNat.add_zero] -/
+/-⋆-//--
+info: Try this:
+  simp only [← MyNat.zero_add, MyNat.add_zero]
+-/
 #guard_msgs in --#
 example (n : MyNat) : 0 + n + 0 = n := by
   simp?
@@ -109,8 +112,11 @@ section
 
   -- `foo`を示そうとしているのに、単純化に`foo`が使用されていない！
   -- これは、部分式が先に単純化されるため。
-  /-⋆-//-- info: Try this: simp only [Nat.fib_zero, Nat.add_zero, Nat.mul_zero] -/
-  #guard_msgs in --#
+  /-⋆-//--
+  info: Try this:
+    simp only [Nat.fib_zero, Nat.add_zero, Nat.mul_zero]
+  -/
+  #guard_msgs (whitespace := lax) in --#
   example : 37 * (Nat.fib 0 + 0) = 0 := by
     simp?
 
@@ -120,7 +126,10 @@ end
 attribute [simp↓] foo
 
 -- `foo`が使われて終了するようになった！
-/-⋆-//-- info: Try this: simp only [↓foo] -/
+/-⋆-//--
+info: Try this:
+  simp only [↓foo]
+-/
 #guard_msgs in --#
 example : 37 * (Nat.fib 0 + 0) = 0 := by
   simp?

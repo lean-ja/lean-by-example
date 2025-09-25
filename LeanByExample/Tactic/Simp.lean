@@ -174,7 +174,10 @@ example {n m : Nat} (h : n + 0 + 0 = m) : n = m := by
 
 `simp` は自動的に証明を行ってくれますが、何が使われたのか知りたいときもあります。`simp?` は単純化に何が使われたのかを示してくれるので、`simp only` などを用いて明示的に書き直すことができます。-/
 
-/-⋆-//-- info: Try this: simp only [forall_const, imp_self, or_true] -/
+/-⋆-//--
+info: Try this:
+  simp only [forall_const, imp_self, or_true]
+-/
 #guard_msgs in --#
 example (P : Prop) : (True → P) ∨ (P → P) := by
   simp?

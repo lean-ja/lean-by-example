@@ -43,7 +43,7 @@ namespace MacroRules
   scoped syntax "#hello " : command
 
   -- 構文は認識されるが、解釈方法が定義されていないのでエラーになる
-  /-⋆-//-- error: elaboration function for 'MacroRules.«command#hello»' has not been implemented -/
+  /-⋆-//-- error: elaboration function for `MacroRules.«command#hello»` has not been implemented -/
   #guard_msgs in --#
   #hello
 

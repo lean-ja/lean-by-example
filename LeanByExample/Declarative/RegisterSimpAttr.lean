@@ -58,7 +58,10 @@ section
   `(tactic| simp? only [notation_simp, $args,*] $[at $location]?)
 end
 
-/-⋆-//-- info: Try this: simp only [Nat.lt_def] at h -/
+/-⋆-//--
+info: Try this:
+  simp only [Nat.lt_def] at h
+-/
 #guard_msgs in --#
 example {n m: Nat} (h : n < m) : n + 1 ≤ m := by
   notation_simp? at h

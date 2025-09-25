@@ -46,7 +46,7 @@ unsafe inductive Bad where
 def foo := "hello"
 
 -- 再定義しようとするとエラーになる
-/-⋆-//-- error: 'foo' has already been declared -/
+/-⋆-//-- error: `foo` has already been declared -/
 #guard_msgs in --#
 def foo := "hello world"
 
@@ -81,3 +81,4 @@ def fibonacci (n : Nat) : Array Nat := Id.run do
 
 /- なぜこのようなことができるのかというと、Lean が値の不要なコピーを行わないからです。具体的には、Lean は **参照カウント** がちょうど１であるような値を更新する際に、コピーして新しい値を生成する代わりに破壊的変更を行います。これを指して、Lean 言語のパラダイムのことを **Functional but in-place** と呼ぶことがあります。
 -/
+

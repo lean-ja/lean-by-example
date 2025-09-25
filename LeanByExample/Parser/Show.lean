@@ -38,7 +38,7 @@ example (h : a * x < b) (ha : a > 0) : x < b / a := by
 
   -- ここで `b = a * r` というまだ示していない補題に基づいて `h` を書き換える
   rw [show b = a * r from ?lem] at h
-  exact (mul_lt_mul_left ha).mp h
+  exact (Rat.mul_lt_mul_left ha).mp h
 
   -- 本来証明項が入るべきところに `?lem` をおいたので、
   -- `case lem` でフォーカスできる

@@ -24,7 +24,10 @@ example (hPQ : P → Q) (hQR : Q → R) : P → R := by
 `by` の代わりに `by?` を使うとタクティクモードで構成した証明を直接構成した証明に変換してくれます。詳細は [`show_term`](#{root}/Tactic/ShowTerm.md) のページを参照してください。
 -/
 
-/-⋆-//-- info: Try this: fun hP => hQR (hPQ hP) -/
+/-⋆-//--
+info: Try this:
+  fun hP => hQR (hPQ hP)
+-/
 #guard_msgs in --#
 example (hPQ : P → Q) (hQR : Q → R) : P → R := by?
   intro hP
