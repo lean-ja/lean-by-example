@@ -7,6 +7,7 @@
 import Mathlib.Tactic.Ring -- `ring` のために必要
 import Mathlib.Tactic.Says --#
 set_option warn.sorry false --#
+set_option says.verify true --#
 
 example (x y : ℤ) : (x - y) ^ 2 = x ^ 2 - 2 * x * y + y ^ 2 := by
   ring
@@ -41,11 +42,18 @@ example (x y z : ℤ) (hz : z = x - y) : x * z = x ^ 2 - x * y := by
 `ring` が扱える対象には制約があり、たとえば自然数 `ℕ` は可換環にならないので、自然数の引き算に関する等式を証明しようとしても上手くいきません。[`ring_nf`](./RingNf.md) タクティクを提案されますが、`ring_nf` に変更すれば成功するとは限りません。
 -/
 
+/-⋆-//--
+info: Try this:
+  ring_nf
+  ⏎
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    ⏎
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+-/
+#guard_msgs (info, drop error) in --#
 example {n : Nat} : n - n + n = n := by
   -- `ring_nf` を提案される
-  ring says ring_nf
-
-  simp
+  ring
 
 example {n : Nat} : n - n + n = n := by
   -- 提案通りに `ring_nf` を使っても証明できない
