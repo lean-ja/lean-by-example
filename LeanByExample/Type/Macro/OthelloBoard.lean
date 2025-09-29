@@ -43,13 +43,10 @@ def expandRow (stx : TSyntax `row) : MacroM (TSyntax `term) := do
     `(term| #[ $[$cells],* ])
   | _ => throwUnsupported
 
-@[macro boardStx]
-def expandBoard : Macro := fun stx => do
-  match stx with
-  | `(term| board $rows:row*) =>
+macro_rules
+  | `(term| board $rows:row*) => do
     let rows ← (rows : TSyntaxArray `row).mapM expandRow
     `(term| #[ $[$rows],* ])
-  | _ => throwUnsupported
 
 #check board
   - - - -
