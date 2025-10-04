@@ -5,10 +5,14 @@ on:
     - cron: "0 3 * * *"
   workflow_dispatch:
 
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
 jobs:
   update_lean:
     runs-on: ubuntu-latest
-    if: github.repository_owner == 'lean-ja'
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
