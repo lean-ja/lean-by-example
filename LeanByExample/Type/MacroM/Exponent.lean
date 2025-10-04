@@ -1,5 +1,3 @@
-import Mathlib.Tactic
-
 open Lean Macro Parser
 
 /-- 指数表記 -/

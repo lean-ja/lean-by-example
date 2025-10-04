@@ -37,19 +37,9 @@ def expandZeroLit : Macro := fun stx =>
 {{#include ./Macro/WhatsNew.md}}
 -/
 
-/- ## 使用例
+/-
 
-### オセロのゲーム盤
 
-`Macro` 型の関数および `MacroM` モナドに包まれた関数を使用して、オセロのゲーム盤を表現する構文を定義することができます。
-
-{{#include ./Macro/OthelloBoard.md}}
-
-### 指数表記マクロ
-
-`a¹`、`a²`、`a³` のような指数表記をマクロで定義することもできます。以下の例では、`aⁿ` のような構文を定義しています。
-
-{{#include ./Macro/Exponent.md}}
 -/
 
 /- ## マクロ展開を確認する方法

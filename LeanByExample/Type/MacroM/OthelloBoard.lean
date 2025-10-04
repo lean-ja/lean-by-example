@@ -48,8 +48,16 @@ macro_rules
     let rows ← (rows : TSyntaxArray `row).mapM expandRow
     `(term| #[ $[$rows],* ])
 
-#check board
-  - - - -
-  - ● ○ -
-  - ○ ● -
-  - - - -
+#guard
+  let actual := board
+    - - - -
+    - ● ○ -
+    - ○ ● -
+    - - - -
+  let expected : Array (Array Cell) := #[
+    #[Cell.empty, Cell.empty, Cell.empty, Cell.empty],
+    #[Cell.empty, Cell.black, Cell.white, Cell.empty],
+    #[Cell.empty, Cell.white, Cell.black, Cell.empty],
+    #[Cell.empty, Cell.empty, Cell.empty, Cell.empty]
+  ]
+  actual == expected
