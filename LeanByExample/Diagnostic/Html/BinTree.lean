@@ -127,6 +127,7 @@ def BinTree.toHtmlFromLayout (tree : BinTreeLayout α) : Html :=
   svg.toHtml
 
 -- 二分木の描画テスト
+-- レイアウト情報を手動で与えて描画している
 #html
   let treeLayout := BinTree.node ("A", (150, 30))
     (.node ("B", (100, 80)) .empty .empty)
@@ -134,3 +135,53 @@ def BinTree.toHtmlFromLayout (tree : BinTreeLayout α) : Html :=
       (.node ("D", (170, 130)) .empty .empty)
       (.node ("E", (230, 130)) .empty .empty))
   BinTree.toHtmlFromLayout treeLayout
+
+/-- グリッドの１刻み -/
+def step := 30
+
+/-- ２分木のレイアウト情報が渡されたときに、各ノードのレイアウト位置を一様にずらす -/
+def BinTree.shift (tree : BinTreeLayout α) (shiftFn : Nat × Nat → Nat × Nat) : BinTreeLayout α :=
+  match tree with
+  | .empty => .empty
+  | .node (a, (x, y)) left right =>
+    let (x', y') := shiftFn (x, y)
+    .node (a, (x', y')) (shift left shiftFn) (shift right shiftFn)
+
+/-- ２分木の描画幅。二分木を描画したときに何グリッド占めるか。 -/
+def BinTree.width (tree : BinTree α) : Nat :=
+  tree.toNodes.size - 1
+
+/-- 二分木のレイアウトを計算する関数 -/
+def BinTree.layout (tree : BinTree α) : BinTreeLayout α :=
+  match tree with
+  | .empty => .empty
+  | .node a .empty .empty =>
+    .node (a, (step, step)) .empty .empty
+  | .node a .empty right =>
+    let rightLayout := layout right
+    let rightShifted := rightLayout.shift (fun (x, y) => (x + step, y + step))
+    .node (a, (step, step)) .empty rightShifted
+  | .node a left .empty =>
+    let leftLayout := layout left
+    let leftShifted := leftLayout.shift (fun (x, y) => (x, y + step))
+    .node (a, (left.width + 2) * step, step) leftShifted .empty
+  | .node a left right =>
+    let leftLayout := layout left
+    let rightLayout := layout right
+    let leftShifted := leftLayout.shift (fun (x, y) => (x, y + step))
+    let rightShifted := rightLayout.shift (fun (x, y) => (x + (left.width + 2) * step, y + step))
+    .node (a, ((left.width + 2) * step, step)) leftShifted rightShifted
+
+/-- 二分木の葉 -/
+def BinTree.leaf (val : α) : BinTree α :=
+  .node val .empty .empty
+
+-- 二分木の描画テスト
+-- 二分木からレイアウト情報を計算し、それを元に描画している
+#html
+  let tree := BinTree.node "A"
+    (BinTree.leaf "B")
+    (BinTree.node "C"
+      (BinTree.leaf "D")
+      (BinTree.leaf "E"))
+  BinTree.toHtmlFromLayout (BinTree.layout tree)
