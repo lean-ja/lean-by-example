@@ -51,3 +51,10 @@ ProofWidgets4 には [Recharts ライブラリ](https://recharts.org/en-US) に�
 
 {{#include ./Html/LineChart.md}}
 -/
+
+/- ## 使用例
+
+`#html` コマンドを使うと SVG 画像を infoview 内で直接表示させることができるという点、さらに ProofWidgets が SVG 画像の作成をある程度サポートしているという点を利用すると、「二分木を画像として infoview に表示させる」ということが可能です。
+
+{{#include ./Html/BinTree.md}}
+-/
