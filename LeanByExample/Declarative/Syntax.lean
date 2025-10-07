@@ -74,7 +74,7 @@ section
   #guard (3 - 5 + 4 = 4 as Nat)
 end
 /- ## name 構文
-`(name := ...)` という構文により、名前を付けることができます。名前を付けると、その名前で `Lean.ParserDescr` の項が生成されます。
+`(name := ...)` という構文により、名前を付けることができます。名前を付けると、その名前で `Lean.ParserDescr` の項が生成されます。実際、`syntax` コマンドは Lean のパーサーを拡張するコマンドであるといえます。
 -/
 
 -- 最初は存在しない
@@ -86,3 +86,20 @@ syntax (name := hogeCmd) "#hoge" : command
 
 -- 構文に対して付けた名前で、ParserDescr 型の項が生成されている
 #check (hogeCmd : ParserDescr)
+
+/- ## パーサー定義
+
+`syntax` コマンドや [`declare_syntax_cat`](#{root}/Declarative/DeclareSyntaxCat.md) コマンドで生成された Lean のパーサーを利用して、`String` を引数に取るようなパーサーを定義することができます。
+
+具体例を挙げましょう。まず `LeanByExample/Declarative/Syntax/Syntax.lean` というファイルを作成して次のように書きます。
+
+{{#include ./Syntax/Syntax.md}}
+
+次に、`LeanByExample/Declarative/Syntax/Environment.lean` というファイルを作成して次のように書きます。
+
+{{#include ./Syntax/Environment.md}}
+
+そうすると、以下のように Lean のパーサーとマクロ展開ルールを利用して `String` 上のパーサーを定義することができます。
+
+{{#include ./Syntax/Parser.md}}
+-/
