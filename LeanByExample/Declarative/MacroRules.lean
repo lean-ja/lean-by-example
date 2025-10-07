@@ -224,63 +224,68 @@ inductive Op where
 deriving DecidableEq
 
 /-- 数式 -/
-inductive Expr where
+inductive Arith where
   /-- 数値リテラル -/
-  | val : Nat → Expr
+  | val (n : Nat) : Arith
   /-- 演算子の適用 -/
-  | app : Op → Expr → Expr → Expr
+  | app (op : Op) (lhs rhs : Arith) : Arith
 deriving DecidableEq
 
-namespace Expr
-  /- ## Expr の項を定義するための簡単な構文を用意する -/
+section arith_syntax
 
-  /-- `Expr` のための構文カテゴリ -/
-  declare_syntax_cat expr
+  /-- `Arith` のための構文カテゴリ -/
+  declare_syntax_cat arith
 
-  /-- `Expr` を見やすく定義するための構文 -/
-  syntax "[expr| " expr "]" : term
+  /-- `Arith` を見やすく定義するための構文 -/
+  syntax "[arith| " arith "]" : term
 
   -- 数値リテラルは数式
-  syntax:max num : expr
+  syntax:max num : arith
 
   -- 数式を `+` または `*` で結合したものは数式
   -- `+` と `*` のパース優先順位を指定しておく
-  syntax:30 expr:30 " + " expr:31 : expr
-  syntax:35 expr:35 " * " expr:36 : expr
+  syntax:30 arith:30 " + " arith:31 : arith
+  syntax:35 arith:35 " * " arith:36 : arith
 
   -- 数式を括弧でくくったものは数式
-  syntax:max "(" expr ")" : expr
+  syntax:max "(" arith ")" : arith
 
-  -- `syntax` コマンドは記法の解釈方法を決めていないので、エラーになる
-  #check_failure [expr| 1 + 2]
-  #check_failure [expr| 1 * 2]
-  #check_failure [expr| (1 + 2) * 3]
+  -- `syntax` コマンドは記法の解釈方法を決めていないのでエラーになるが、
+  -- パースはできるようになった
+  #check_failure [arith| 1 + 2]
+  #check_failure [arith| 1 * 2]
+  #check_failure [arith| (1 + 2) * 3]
+
+end arith_syntax
+
+section arith_macro
 
   macro_rules
-    | `([expr| $n:num]) => `(Expr.val $n)
-    | `([expr| $l:expr + $r:expr]) => `(Expr.app Op.add [expr| $l] [expr| $r])
-    | `([expr| $l:expr * $r:expr]) => `(Expr.app Op.mul [expr| $l] [expr| $r])
-    | `([expr| ($e:expr)]) => `([expr| $e])
+    | `([arith| $n:num]) => `(Arith.val $n)
+    | `([arith| $l:arith + $r:arith]) => `(Arith.app Op.add [arith| $l] [arith| $r])
+    | `([arith| $l:arith * $r:arith]) => `(Arith.app Op.mul [arith| $l] [arith| $r])
+    | `([arith| ($e:arith)]) => `([arith| $e])
+
+  open Arith
 
   -- 足し算は左結合になる
   #guard
     let expected := app Op.add (app Op.add (val 1) (val 2)) (val 3)
-    let actual := [expr| 1 + 2 + 3]
+    let actual := [arith| 1 + 2 + 3]
     actual = expected
 
   -- 掛け算は左結合になる
   #guard
     let expected := app Op.mul (app Op.mul (val 1) (val 2)) (val 3)
-    let actual := [expr| 1 * 2 * 3]
+    let actual := [arith| 1 * 2 * 3]
     actual = expected
 
   -- 足し算と掛け算が混在する場合は、掛け算が優先される
   #guard
     let expected := app Op.add (app Op.mul (val 1) (val 2)) (val 3)
-    let actual := [expr| 1 * 2 + 3]
+    let actual := [arith| 1 * 2 + 3]
     actual = expected
-
-end Expr
+end arith_macro
 
 /- ### IMP 言語の構文
 
