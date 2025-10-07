@@ -2,23 +2,22 @@ import LeanByExample.Declarative.Syntax.Environment
 
 open Lean Elab Term Command
 
-/-- evalTerm で Syntax から Arith を取り出す -/
-def parseArithCoreM (input : String) : CoreM Arith := liftCommandElabM <| liftTermElabM do
-  let env ← getEnv
-  let stx ← ofExcept <| Parser.runParserCategory env `term s!"[arith| {input}]"
-  let result ← unsafe evalTerm Arith (.const ``Arith []) stx
-  return result
-
-/-- runCoreM で CoreM を IO にする -/
-def parseArithIO (input : String) : IO Arith := do
-  let ctx : ContextInfo := { env := env_of_arith_stx, fileMap := ⟨"", #[]⟩, ngen := { } }
-  ContextInfo.runCoreM ctx <| parseArithCoreM input
+/-- `Syntax`から`Arith`を復元する -/
+partial def mkArith (stx : Syntax) : Except String Arith :=
+  match stx with
+  | `(arith| $n:num) =>
+    return Arith.val n.getNat
+  | `(arith| $l:arith + $r:arith) => do
+    return Arith.app Op.add (← mkArith l) (← mkArith r)
+  | `(arith| $l:arith * $r:arith) => do
+    return Arith.app Op.mul (← mkArith l) (← mkArith r)
+  | `(arith| ($e:arith)) => mkArith e
+  | _ => throw s!"unexpected syntax: {stx}"
 
 /-- 文字列をパースして`Arith`の項を生成する -/
-def parseArith (input : String) : Except String Arith := unsafe do
-  parseArithIO input
-  |> unsafeIO
-  |>.mapError toString
+def parseArith (s : String) : Except String Arith := do
+  let stx ← Parser.runParserCategory env_of_arith_stx `arith s
+  mkArith stx
 
 open Arith
 
