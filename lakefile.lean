@@ -54,6 +54,10 @@ section TestScript
 lean_exe get_elem where
   root := `Exe.TypeClass.GetElem.ProveValid
 
+lean_exe parse where
+  root := `Exe.Declarative.Syntax.Parse
+  supportInterpreter := true
+
 def runCmdWithOutput (input : String) : IO String := do
   let cmdList := input.splitOn " "
   let cmd := cmdList.head!
