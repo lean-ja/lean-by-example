@@ -56,7 +56,7 @@ lean_exe get_elem where
 
 lean_exe parse where
   root := `Exe.Declarative.Syntax.Parse
-  supportInterpreter := true
+  supportInterpreter := true -- これがないとエラーになる
 
 def runCmdWithOutput (input : String) : IO String := do
   let cmdList := input.splitOn " "
@@ -89,6 +89,7 @@ def testForGreet : IO Unit := do
 @[test_driver]
 script test do
   runCmd "lake exe get_elem"
+  runCmd "lake exe parse"
   testForCat
   testForGreet
   return 0
