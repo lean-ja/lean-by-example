@@ -99,7 +99,7 @@ syntax (name := hogeCmd) "#hoge" : command
 
 {{#include ./Syntax/Environment.md}}
 
-そうすると、以下のように Lean のパーサーとマクロ展開ルールを利用して `String` 上のパーサーを定義することができます。
+そうすると、以下のように Lean のパーサーを利用して `String` 上のパーサーを定義することができます。
 
 {{#include ./Syntax/Parser.md}}
 -/

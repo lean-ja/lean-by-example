@@ -34,10 +34,3 @@ section arith_syntax
   syntax:max "(" arith ")" : arith
 
 end arith_syntax
-
-/-- `Arith`の項を作るための構文展開ルールを定義する -/
-macro_rules
-  | `([arith| $n:num ]) => `(Arith.val $n)
-  | `([arith| $l:arith + $r:arith]) => `(Arith.app Op.add [arith| $l] [arith| $r])
-  | `([arith| $l:arith * $r:arith]) => `(Arith.app Op.mul [arith| $l] [arith| $r])
-  | `([arith| ($e:arith) ]) => `([arith| $e])
