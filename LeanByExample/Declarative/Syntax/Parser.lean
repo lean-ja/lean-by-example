@@ -2,22 +2,27 @@ import LeanByExample.Declarative.Syntax.Environment
 
 open Lean Elab Term Command
 
-/-- `Syntax`から`Arith`を復元する -/
-partial def mkArith (stx : Syntax) : Except String Arith :=
+/-- Leanのマクロ展開ルールを使って、`input : String` から `Arith` の項を生成する -/
+def TermElabM.parseArith (input : String) : TermElabM (Except String Arith) := do
+  let stx := Parser.runParserCategory env_of_arith_stx `term s!"[arith| {input}]"
   match stx with
-  | `(arith| $n:num) =>
-    return Arith.val n.getNat
-  | `(arith| $l:arith + $r:arith) => do
-    return Arith.app Op.add (← mkArith l) (← mkArith r)
-  | `(arith| $l:arith * $r:arith) => do
-    return Arith.app Op.mul (← mkArith l) (← mkArith r)
-  | `(arith| ($e:arith)) => mkArith e
-  | _ => throw s!"unexpected syntax: {stx}"
+  | .error err => return Except.error err
+  | .ok stx =>
+    let result ← unsafe evalTerm Arith (.const ``Arith []) stx
+    return Except.ok result
+
+/-- `TermElabM` に包まれた値をむりやり取り出す -/
+unsafe def TermElabM.unsafeRun {α : Type} [Inhabited α] (env : Environment) (m : TermElabM α) : α :=
+  let core := liftCommandElabM <| liftTermElabM m
+  let ctx : ContextInfo := { env := env, fileMap := ⟨"", #[]⟩, ngen := { } }
+  let io := ContextInfo.runCoreM ctx core
+  match unsafeIO io with
+  | .error e => panic! s!"{e}"
+  | .ok a => a
 
 /-- 文字列をパースして`Arith`の項を生成する -/
-def parseArith (s : String) : Except String Arith := do
-  let stx ← Parser.runParserCategory env_of_arith_stx `arith s
-  mkArith stx
+def parseArith (s : String) : Except String Arith := unsafe
+  TermElabM.unsafeRun env_of_arith_stx (TermElabM.parseArith s)
 
 open Arith
 
