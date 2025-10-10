@@ -1,4 +1,4 @@
--- Linter/Lib.lean の内容
+-- Linter/DetectClassical.lean の内容
 
 import Lean
 
@@ -53,6 +53,6 @@ def detectClassicalLinter : Linter where
       -- 選択原理に依存していれば警告を出す
       if axioms.contains `Classical.choice then
         Linter.logLint linter.detectClassical constStx
-          m!"'{constName}' depends on 'Classical.choice'.\n\nAll axioms: {axioms.toList}\n"
+          m!"`{constName}` depends on `Classical.choice`.\nAll axioms: {axioms.toList}"
 
 initialize addLinter detectClassicalLinter
