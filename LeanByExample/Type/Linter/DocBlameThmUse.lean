@@ -13,4 +13,5 @@ theorem ex : True := by trivial
 example : True := by trivial
 
 -- `def`に対しては warning が出ない
+#guard_msgs in --#
 def hoge := 42
