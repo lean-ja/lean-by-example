@@ -12,11 +12,11 @@
 たとえば、選択原理を証明の中で使用すると警告してくれるリンターを自作することができます。[^dc]
 以下のように記述したファイルを読み込みます。
 
-{{#include ./LinterLib.md}}
+{{#include ./Linter/Lib.md}}
 
 すると、次のように使用できます。
 -/
-import LeanByExample.Type.LinterLib
+import LeanByExample.Type.Linter.Lib
 
 -- 選択原理を使用しているため警告が出る
 /-⋆-//--

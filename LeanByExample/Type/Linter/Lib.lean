@@ -1,4 +1,4 @@
--- LinterLib.lean の内容
+-- Linter/Lib.lean の内容
 
 import Lean
 
