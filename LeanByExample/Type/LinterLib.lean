@@ -1,10 +1,9 @@
 -- LinterLib.lean の内容
 
-import Lean.Util.CollectAxioms
-import Mathlib.Tactic.DeclarationNames
+import Lean
 
 /--
-「detectClassical」リンターは、`Classical.choice` 公理に依存する宣言に対して警告を発する。
+`detectClassical` リンターは、`Classical.choice` 公理に依存する宣言に対して警告を発する。
 デフォルト値は `true`
 -/
 register_option linter.detectClassical : Bool := {
@@ -12,9 +11,21 @@ register_option linter.detectClassical : Bool := {
   descr := "detectClassicalリンターを有効にする"
 }
 
-namespace DetectClassical
+open Lean Elab Command
 
-open Lean Elab Command Mathlib.Linter
+/--
+ある位置 `pos` 以降にソースコード内で登場するすべての宣言名を収集する
+-/
+private def getNamesFrom (pos : String.Pos) : CommandElabM (Array Syntax) := do
+  let drs := declRangeExt.toPersistentEnvExtension.getState (asyncMode := .local) (← getEnv)
+  let fm ← getFileMap
+  let mut nms := #[]
+  for (nm, rgs) in drs do
+    if pos ≤ fm.ofPosition rgs.range.pos then
+      let ofPos1 := fm.ofPosition rgs.selectionRange.pos
+      let ofPos2 := fm.ofPosition rgs.selectionRange.endPos
+      nms := nms.push (mkIdentFrom (.ofRange ⟨ofPos1, ofPos2⟩) nm)
+  return nms
 
 @[inherit_doc linter.detectClassical]
 def detectClassicalLinter : Linter where
@@ -45,5 +56,3 @@ def detectClassicalLinter : Linter where
           m!"'{constName}' depends on 'Classical.choice'.\n\nAll axioms: {axioms.toList}\n"
 
 initialize addLinter detectClassicalLinter
-
-end DetectClassical
