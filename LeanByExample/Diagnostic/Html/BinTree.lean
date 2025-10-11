@@ -96,51 +96,49 @@ def BinTree.toEdges {β : Type} (tree : BinTree β) : Array (β × β) :=
     let leftEdges :=
       match left with
       | .empty => #[]
-      | .node b _ _ => #[(a, b)] ++ toEdges left
+      | .node b _ _ => (toEdges left).push (a, b)
     let rightEdges :=
       match right with
       | .empty => #[]
-      | .node c _ _ => #[(a, c)] ++ toEdges right
+      | .node c _ _ => (toEdges right).push (a, c)
     leftEdges ++ rightEdges
 
-/-- 二分木のレイアウト情報。ラベルの情報に加えて、各ノードが描画されるべき位置の情報を持つ。 -/
-abbrev BinTreeLayout (α : Type) := BinTree (α × Nat × Nat)
-
 /-- ３つ組データを構造体の項に変換する -/
-def NodePos.ofPair (p : α × Nat × Nat) : NodePos :=
+def NodePos.ofPair (p : α × Nat × Nat) (step : Float) : NodePos :=
   let (label, x, y) := p
-  { x := x.toFloat, y := y.toFloat, label := toString label }
+  { x := x.toFloat * step, y := y.toFloat * step, label := toString label }
 
-def BinTree.toElementsFromLayout (tree : BinTreeLayout α) : Array (Svg.Element defaultFrame) :=
+def BinTree.toElementsFromLayout (tree : BinTree (α × (Nat × Nat))) (step : Float) : Array (Svg.Element defaultFrame) :=
   let nodes := tree.toNodes
-    |>.map NodePos.ofPair
+    |>.map (NodePos.ofPair (step := step))
     |>.map createNodeElement
     |>.flatten
   let edges := tree.toEdges
-    |>.map (fun ((v1, x1, y1), (v2, x2, y2)) => (NodePos.ofPair (v1, x1, y1), NodePos.ofPair (v2, x2, y2)))
+    |>.map (fun ((v1, x1, y1), (v2, x2, y2)) => (NodePos.ofPair (v1, x1, y1) step, NodePos.ofPair (v2, x2, y2) step))
     |>.map (fun (parent, child) => createEdgeElement parent child)
   edges ++ nodes
 
 /-- ２分木の描画情報が与えられたときに、それを SVG 画像として描画する -/
-def BinTree.toHtmlFromLayout (tree : BinTreeLayout α) : Html :=
-  let svg : Svg defaultFrame := { elements := tree.toElementsFromLayout }
+def BinTree.toHtmlFromLayout (tree : BinTree (α × (Nat × Nat))) (step := 30.0) : Html :=
+  let svg : Svg defaultFrame := { elements := tree.toElementsFromLayout step }
   svg.toHtml
+
+/-- 二分木の葉 -/
+def BinTree.leaf (val : α) : BinTree α :=
+  .node val .empty .empty
 
 -- 二分木の描画テスト
 -- レイアウト情報を手動で与えて描画している
 #html
-  let treeLayout := BinTree.node ("A", (150, 30))
-    (.node ("B", (100, 80)) .empty .empty)
-    (.node ("C", (200, 80))
-      (.node ("D", (170, 130)) .empty .empty)
-      (.node ("E", (230, 130)) .empty .empty))
+  let treeLayout := BinTree.node ("A", (2, 1))
+    (.leaf ("B", (1, 2)))
+    (.node ("C", (4, 2))
+      (.leaf ("D", (3, 3)))
+      (.leaf ("E", (5, 3))))
   BinTree.toHtmlFromLayout treeLayout
 
-/-- グリッドの１刻み -/
-def step := 30
-
 /-- ２分木のレイアウト情報が渡されたときに、各ノードのレイアウト位置を一様にずらす -/
-def BinTree.shift (tree : BinTreeLayout α) (shiftFn : Nat × Nat → Nat × Nat) : BinTreeLayout α :=
+def BinTree.shift {β γ : Type} (tree : BinTree (α × (β × β))) (shiftFn : β × β → γ × γ) : BinTree (α × (γ × γ)) :=
   match tree with
   | .empty => .empty
   | .node (a, (x, y)) left right =>
@@ -152,29 +150,25 @@ def BinTree.width (tree : BinTree α) : Nat :=
   tree.toNodes.size - 1
 
 /-- 二分木のレイアウトを計算する関数 -/
-def BinTree.layout (tree : BinTree α) : BinTreeLayout α :=
+def BinTree.layout (tree : BinTree α) : BinTree (α × (Nat × Nat)) :=
   match tree with
   | .empty => .empty
   | .node a .empty .empty =>
-    .node (a, (step, step)) .empty .empty
+    .node (a, (1, 1)) .empty .empty
   | .node a .empty right =>
     let rightLayout := layout right
-    let rightShifted := rightLayout.shift (fun (x, y) => (x + step, y + step))
-    .node (a, (step, step)) .empty rightShifted
+    let rightShifted := rightLayout.shift (fun (x, y) => (x + 1, y + 1))
+    .node (a, (1, 1)) .empty rightShifted
   | .node a left .empty =>
     let leftLayout := layout left
-    let leftShifted := leftLayout.shift (fun (x, y) => (x, y + step))
-    .node (a, (left.width + 2) * step, step) leftShifted .empty
+    let leftShifted := leftLayout.shift (fun (x, y) => (x, y + 1))
+    .node (a, (left.width + 2) * 1, 1) leftShifted .empty
   | .node a left right =>
     let leftLayout := layout left
     let rightLayout := layout right
-    let leftShifted := leftLayout.shift (fun (x, y) => (x, y + step))
-    let rightShifted := rightLayout.shift (fun (x, y) => (x + (left.width + 2) * step, y + step))
-    .node (a, ((left.width + 2) * step, step)) leftShifted rightShifted
-
-/-- 二分木の葉 -/
-def BinTree.leaf (val : α) : BinTree α :=
-  .node val .empty .empty
+    let leftShifted := leftLayout.shift (fun (x, y) => (x, y + 1))
+    let rightShifted := rightLayout.shift (fun (x, y) => (x + (left.width + 2) * 1, y + 1))
+    .node (a, ((left.width + 2) * 1, 1)) leftShifted rightShifted
 
 -- 二分木の描画テスト
 -- 二分木からレイアウト情報を計算し、それを元に描画している
