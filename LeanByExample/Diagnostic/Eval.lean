@@ -1,8 +1,7 @@
-import Lean.Elab.Command --#
-import Mathlib.Tactic.Eval --#
 /- # \#eval
 `#eval` コマンドは、式の値をその場で評価します。
 -/
+import Lean.Elab.Command -- `#eval` コマンドのフルパワーを引き出す
 
 /-⋆-//-- info: 2 -/
 #guard_msgs in --#
@@ -23,6 +22,26 @@ def main : IO Unit :=
 /-⋆-//-- info: Hello, world! -/
 #guard_msgs in --#
 #eval main
+
+/- `#eval` による出力結果は編集することができます。代表的な方法は、[`Repr`](#{root}/TypeClass/Repr.md) クラスのインスタンスを実装することです。 -/
+
+/-- ユーザが持つ権限 -/
+inductive Role where
+  | admin
+  | write
+  | read
+
+/-⋆-//-- info: Role.admin -/
+#guard_msgs in --#
+#eval Role.admin
+
+-- `#eval` の結果を強制的に上書きする
+instance : Repr Role where
+  reprPrec := fun _role _ => "ほげほげ！"
+
+/-⋆-//-- info: ほげほげ！ -/
+#guard_msgs in --#
+#eval Role.admin
 
 /- ## よくあるエラー
 
@@ -77,24 +96,6 @@ instance {α : Type} [Repr α] : Repr (Unit → α) where
 /- ## 補足: 式の評価結果を代入する
 
 `#eval` コマンドは式を評価してその結果をユーザに表示しますが、「式の評価結果を別のコードに代入する」には `eval%` を使います。
+
+{{#include ./Eval/EvalTermElab.md}}
 -/
-
-def bar := 1 + 1
-
-def foo₁ := eval% bar
-
-def foo₂ := bar
-
-/-⋆-//--
-info: def foo₁ : Nat :=
-2
--/
-#guard_msgs in --#
-#print foo₁
-
-/-⋆-//--
-info: def foo₂ : Nat :=
-bar
--/
-#guard_msgs in --#
-#print foo₂
