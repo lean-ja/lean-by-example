@@ -13,9 +13,6 @@
 
 誤りのご指摘を歓迎いたします。この GitHubリポジトリに issue や Pull Request を開いてください。
 
-> [!WARNING]
-> 誤りの指摘以外の Pull Request は受け付けておりません。新しいコンテンツの追加や既存のコンテンツの修正を行いたい場合は、issue を投稿してください。
-
 ## Do you want to translate this book?
 
 Thank you for your interest in translating this book! 😄 But please note that we are currently **not accepting translations** of this book because this book is still under development! No content is stable yet.
