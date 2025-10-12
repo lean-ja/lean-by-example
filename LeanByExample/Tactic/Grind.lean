@@ -2,6 +2,34 @@
 
 `grind` は、現代の SMT ソルバにインスパイアされた証明自動化タクティクです。[^reference]
 
+非常に強力であり、時に驚くほどギャップのある証明を自動で完了させることができます。[^impressive]
+-/
+
+/-- 階乗関数 -/
+@[grind] def factorial (n : Nat) : Nat :=
+  match n with
+  | 0 => 1
+  | n + 1 => (n + 1) * factorial n
+
+@[inherit_doc factorial]
+notation:max n "!" => factorial n
+
+/-- 階乗関数の値は１以上 -/
+@[grind] theorem one_le_factorial (n : Nat) : 1 ≤ n ! := by
+  fun_induction factorial <;> grind
+
+/-- Pascal の三角形 -/
+def pascal (a b : Nat) : Nat :=
+  match a, b with
+  | _, 0 => 1
+  | 0, _ + 1 => 1
+  | a + 1, b + 1 => pascal (a + 1) b + pascal a (b + 1)
+
+/-- Pascal の三角形の性質 -/
+theorem pascal_le_factorial (a b : Nat) : pascal a b ≤ (a + b)! := by
+  fun_induction pascal <;> grind
+
+/-
 ## 合同閉包(congruence closure)
 
 `grind` の中核には、合同閉包(congruence closure)アルゴリズムが使用されています。これは、黒板に「今まで分かったこと」を蓄積していくところをイメージすると分かりやすいかもしれません。
@@ -299,4 +327,6 @@ example (a : Bool) : (a && !a) = false := by
 
 /-
 [^reference]: このページの記述は全体的に The Lean Language Reference の [The grind tactic という章](https://lean-lang.org/doc/reference/latest/The--grind--tactic/#grind) と Lean4 リポジトリの [grind_guide ファイル](https://github.com/leanprover/lean4/blob/4322a0c7d33fd6722caf84b2c780d72cf824993e/tests/lean/run/grind_guide.lean)を参考にしています。
+
+[^impressive]: この例は Zulip の [Grind is impressive](https://leanprover.zulipchat.com/#narrow/channel/270676-lean4/topic/Grind.20is.20impressive/with/542704821) というトピックにおける Sorrachai Yingchareonthawornchai さんの投稿を元にしたものです。
 -/
