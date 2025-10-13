@@ -10,13 +10,13 @@
 
 ラベル属性を作るシンプルな例を示しましょう。
 
-まず、以下のような内容のファイルを作成します。仮に `RegisterLabelAttrLib.lean` というファイル名だとします。
+まず、以下のような内容のファイルを作成します。仮に `RegisterLabelAttr/Lib.lean` というファイル名だとします。
 
-{{#include ./RegisterLabelAttrLib.md}}
+{{#include ./RegisterLabelAttr/Lib.md}}
 
 これで、このファイルを `import` しているファイルの中で `@[my_tag]` タグを使用することができます。
 -/
-import LeanByExample.Declarative.RegisterLabelAttrLib
+import LeanByExample.Declarative.RegisterLabelAttr.Lib
 
 @[my_tag]
 def greet := "Hello, world!"
@@ -27,7 +27,7 @@ def foo := 42
 
 attribute [my_tag] foo
 
-/- タグに対する基本的な操作である、「タグが付与されている宣言をすべて集める」という操作は`Lean.labelled`関数で実行することができます。 -/
+/- タグに対する基本的な操作である、「タグが付与されている宣言をすべて集める」という操作は `Lean.labelled` 関数で実行することができます。 -/
 
 /-⋆-//-- info: #[`greet, `foo] -/
 #guard_msgs in --#

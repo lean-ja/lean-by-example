@@ -8,13 +8,13 @@
 
 ## 使用例
 
-たとえば、`RegisterOptionLib.lean` というファイルを作成して、以下のように記述したとします。
+たとえば、`RegisterOption/Lib.lean` というファイルを作成して、以下のように記述したとします。
 
-{{#include ./RegisterOptionLib.md}}
+{{#include ./RegisterOption/Lib.md}}
 
 このファイルを読み込めば、`greeting` というオプションを使用することができます。たとえば、以下のように使用することができます。
 -/
-import LeanByExample.Declarative.RegisterOptionLib
+import LeanByExample.Declarative.RegisterOption.Lib
 
 open Lean in
 

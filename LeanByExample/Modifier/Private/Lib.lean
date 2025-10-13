@@ -1,4 +1,3 @@
--- PrivateLib.lean の内容
 
 structure Point where
   x : Nat

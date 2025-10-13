@@ -1,4 +1,3 @@
--- RegisrerOptionLib.lean の内容
 import Lean
 
 open Lean

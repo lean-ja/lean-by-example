@@ -10,11 +10,11 @@
 
 `declare_aesop_rule_sets` で宣言されたルールセットは、宣言したそのファイルの中では有効になりません。`import` する必要があります。前提として以下の内容のファイルを `import` しているとしましょう。
 
-{{#include ./DeclareAesopRuleSetsLib.md}}
+{{#include ./DeclareAesopRuleSets/Lib.md}}
 
 このとき、以下のように `aesop` の `rule_sets` に `HogeRules` を渡すことで、`HogeRules` に登録されたルールセットを使用することができます。
 -/
-import LeanByExample.Declarative.DeclareAesopRuleSetsLib -- インポートで有効になる
+import LeanByExample.Declarative.DeclareAesopRuleSets.Lib -- インポートで有効になる
 import Mathlib.Tactic.Says --#
 
 example : True := by
