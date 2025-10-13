@@ -1,7 +1,6 @@
 /- # \#guard
 `#guard` は与えられた Bool 値が true であることを確かめます。
 -/
-import Batteries.Data.List.Lemmas -- リストに対して `⊆` が使えるようにする
 
 -- 階乗関数
 def fac : Nat → Nat
@@ -10,7 +9,7 @@ def fac : Nat → Nat
 
 #guard fac 5 == 120
 
-/- ## 舞台裏
+/- ## 決定可能性
 `#guard` に `Bool` ではなく `Prop` 型の項を与えた場合、エラーになることがあります。次の命題は証明があるので真ですが、 `#guard` は通りません。
 -/
 
@@ -55,3 +54,25 @@ error: cannot evaluate code because 'sorryAx' uses 'sorry' and/or contains error
 /-⋆-//-- info: decide (1 + 1 = 2) : Bool -/
 #guard_msgs in --#
 #check decide (1 + 1 = 2)
+
+/- ## DIY: 差分の表示
+
+`#guard` コマンドを使って `A = B` という式を評価して `false` だったとき、デフォルトでは `A` と `B` がそれぞれどんな値であるかは表示されません。単に「等しくない」というメッセージが出るだけです。
+-/
+
+/-⋆-//--
+error: Expression
+  decide (1 + 1 = 3)
+did not evaluate to `true`
+-/
+#guard_msgs in --#
+#guard 1 + 1 = 3
+
+/- この挙動は少し不便です。`#guard` に渡された等式が `false` だったときに左辺と右辺の値を表示するようなコマンドが欲しいですね。これは、以下のように自作することができます。[^guardDiff]
+
+{{#include ./Guard/GuardDiff.md}}
+-/
+
+/-
+[^guardDiff]: こちらのコードは Zulip の [#guard with diff](https://leanprover.zulipchat.com/#narrow/channel/113488-general/topic/.23guard.20with.20diff/with/541898112) というトピックで Marcus Rossel さんによって提案されたコードを参考にしています。
+-/
