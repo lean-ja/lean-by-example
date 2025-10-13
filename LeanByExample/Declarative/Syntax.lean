@@ -89,17 +89,21 @@ syntax (name := hogeCmd) "#hoge" : command
 
 /- ## パーサー定義
 
-`syntax` コマンドや [`declare_syntax_cat`](#{root}/Declarative/DeclareSyntaxCat.md) コマンドで生成された Lean のパーサーを利用して、`String` を引数に取るようなパーサーを定義することができます。
+`syntax` コマンドや [`declare_syntax_cat`](#{root}/Declarative/DeclareSyntaxCat.md) コマンドで生成された Lean のパーサーを利用して、`String` を引数に取るようなパーサーを定義することができます。[^parser]
 
-具体例を挙げましょう。まず `LeanByExample/Declarative/Syntax/Syntax.lean` というファイルを作成して次のように書きます。
+具体例を挙げましょう。まず `Syntax.lean` というファイルを作成して次のように書きます。
 
 {{#include ./Syntax/Syntax.md}}
 
-次に、`LeanByExample/Declarative/Syntax/Environment.lean` というファイルを作成して次のように書きます。
+次に、`Environment.lean` というファイルを作成して次のように書きます。
 
 {{#include ./Syntax/Environment.md}}
 
 そうすると、以下のように Lean のパーサーとマクロ展開ルールを利用して `String` 上のパーサーを定義することができます。
 
 {{#include ./Syntax/Parser.md}}
+-/
+
+/-
+[^parser]: このコード例を用意するにあたって、伊勢村哲司さんおよび Adam Topaz さんにご助力をいただきました。ありがとうございました。
 -/
