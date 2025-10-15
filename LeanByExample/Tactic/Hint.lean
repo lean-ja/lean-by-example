@@ -43,6 +43,7 @@ def getRegisteredTactics : CoreM Unit := do
 info: "group"
 "noncomm_ring"
 "finiteness"
+"field"
 "field_simp"
 "compute_degree"
 "ring"
