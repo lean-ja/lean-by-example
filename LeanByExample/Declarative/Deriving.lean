@@ -45,7 +45,7 @@ deriving Inhabited, Repr
 #eval (default : People)
 
 /- ## よくあるエラー
-なお、`deriving` で実装を生成できるのは、決まりきったやり方で実装できて、実装方法が指定されている型クラスのみです。実装方法が指定されていなければ使うことはできません。-/
+なお、`deriving` で実装を生成できるのは、[`DerivingHandler`](#{root}/Type/DerivingHandler.md) が登録されていて実装方法が用意されている型クラスのみです。実装方法が指定されていなければ使うことはできません。-/
 
 /-- 自前で定義した型クラス -/
 class Callable (α : Type) where

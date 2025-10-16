@@ -160,6 +160,7 @@
   - [Bool: 真偽値](./Type/Bool.md)
   - [Char: Unicode 文字](./Type/Char.md)
   - [CommandElab: コマンドの実装](./Type/CommandElab.md)
+  - [DerivingHandler: derivingハンドラの実装](./Type/DerivingHandler.md)
   - [Expr: 抽象構文木](./Type/Expr.md)
   - [Float: 浮動小数点数](./Type/Float.md)
   - [HashMap: キーと値のペア](./Type/HashMap.md)
