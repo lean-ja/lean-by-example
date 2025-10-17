@@ -232,6 +232,7 @@
   - [itauto: 直観主義論理の枠内で示す](./Tactic/Itauto.md)
   - [left: 論理和∨を示す](./Tactic/Left.md)
   - [linarith: 線形(不)等式を示す](./Tactic/Linarith.md)
+  - [mvcgen: 手続き型プログラムに対する検証条件生成](./Tactic/Mvcgen.md)
   - [native_decide: 実行による証明](./Tactic/NativeDecide.md)
   - [nlinarith: 非線形な(不)等式を示す](./Tactic/Nlinarith.md)
   - [norm_cast: 型キャストの簡略化](./Tactic/NormCast.md)
