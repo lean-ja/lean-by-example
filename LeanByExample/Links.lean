@@ -26,7 +26,7 @@
 * [Lean Search](https://leansearch.net/) 自然言語で Mathlib から定理や定義が検索できるサイト。これに関連して[「A Semantic Search Engine for Mathlib4」](https://www.semanticscholar.org/paper/A-Semantic-Search-Engine-for-Mathlib4-Gao-Ju/da6bf364987a605843d56b19f9d0b1546b192c5f?utm_source=direct_link)という論文があります。日本語対応しています。
 * [Lean Explorer](https://www.leanexplore.com/) 自然言語で Mathlib などから定理や定義が検索できるサイト。日本語対応していないことに注意。
 
-## 📖 書籍
+## 📖 書籍(英語)
 
 * [Lean Language Reference](https://lean-lang.org/doc/reference/latest/) Lean 言語の公式リファレンス。Verso という Lean 製のツールで執筆されています。
 * [Lean Manual](https://lean-lang.org/lean4/doc/) Lean 言語の公式ドキュメント。執筆中であり欠けている個所がいくつもあります。
@@ -39,16 +39,19 @@
 * [Logic and Mechanized Reasoning](https://avigad.github.io/lamr/) Lean を使った論理学および自動証明の教科書。ソースコードも[GitHubリポジトリ](https://github.com/avigad/lamr)で公開されています。
 * [Scientific Computing in Lean](https://lecopivo.github.io/scientific-computing-lean/) Lean で科学計算を行うライブラリ [SciLean](https://github.com/lecopivo/SciLean) の著者による、科学計算についての解説書。
 
-## 📝 書籍以外の参考資料
+## 📚 書籍(日本語)
+
+* [ゼロから始めるLean言語入門](https://www.lambdanote.com/collections/lean/products/leanbook) Leanで自然数に関する理論を構築することを通して、Leanの基本的な使い方を学ぶ入門書。示した結果を再利用可能にする必要性を強調しているのが特徴。
+
+## 📝 書籍以外の参考資料（英語）
 
 * [Lean phrasebook](https://docs.google.com/spreadsheets/d/1Gsn5al4hlpNc_xKoXdU6XGmMyLiX4q-LFesFVsMlANo/edit#gid=0) 数学でのよくある推論ステップが、Lean にどのように翻訳されるかがよくまとめられたリストです。
 * [Natural Number Game 4](https://adam.math.hhu.de/#/g/leanprover-community/NNG4) Lean を使い、ペアノの公理から始めて自然数の基本的な性質を証明する初心者向けブラウザゲーム。
 * [Courses using Lean](https://leanprover-community.github.io/teaching/courses.html) Lean を題材とした講義のリスト。
 
-## 🗾 日本語の資料
+## 🗾 書籍以外の参考資料（日本語）
 
 * [Theorem Proving in Lean 4 日本語訳](https://aconite-ac.github.io/theorem_proving_in_lean4_ja/) Lean で数学の証明を行う方法を解説した公式チュートリアルの、有志による日本語訳です。
 * [数学系のためのLean勉強会](https://github.com/yuma-mizuno/lean-math-workshop) Lean で数学をどのように実装するのか、実際に実装する過程を追うことで学べる教材です。
 * [Leanのインストール方法・elanとLakeの使い方](https://aconite-ac.github.io/how_to_install_lean/) Leanのインストール方法・elanとLakeの使い方をまとめた有志による資料。
-* [自然数を作って学ぶLean言語](https://www.lambdanote.com/products/n-vol-5-no-1) n月刊ラムダノートに掲載されたLeanの入門記事。
 -/
