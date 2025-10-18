@@ -18,7 +18,8 @@ private def fail (e : Expr) : TermElabM Unit := do
     "Expression{indentExpr e}\n\
     did not evaluate to `true`\n\
     ---\n\
-    {lhs} = {lhs_fmt} but {rhs} = {rhs_fmt}"
+    {lhs} = {lhs_fmt}\n\
+    {rhs} = {rhs_fmt}"
 
 /-- 等式を評価して不成立だったときに、左辺と右辺の値を表示するような
 `#guard` コマンドの派生コマンド -/
@@ -38,7 +39,8 @@ error: Expression
   decide (3 * 4 = 2 + 2)
 did not evaluate to `true`
 ---
-3 * 4 = 12 but 2 + 2 = 4
+3 * 4 = 12
+2 + 2 = 4
 -/
 #guard_msgs in --#
 #guard_diff 3 * 4 = 2 + 2
