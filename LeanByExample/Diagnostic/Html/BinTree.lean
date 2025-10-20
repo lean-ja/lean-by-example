@@ -150,13 +150,20 @@ def BinTree.leaf (val : α) : BinTree α :=
       (.leaf ("E", (5, 3))))
   BinTree.render treeLayout
 
-/-- ２分木のレイアウト情報が渡されたときに、各ノードのレイアウト位置を一様にずらす -/
-def BinTree.shift {β γ : Type} (tree : BinTree (α × β)) (shiftFn : β → γ) : BinTree (α × γ) :=
+/-- 2分木の各要素に一様に関数を適用する -/
+def BinTree.map {α β : Type} (f : α → β) (tree : BinTree α) : BinTree β :=
   match tree with
   | .empty => .empty
-  | .node (a, x) left right =>
-    let x' := shiftFn x
-    .node (a, x') (shift left shiftFn) (shift right shiftFn)
+  | .node val left right =>
+    .node (f val) (map f left) (map f right)
+
+/-- `BinTree`は関手 -/
+instance : Functor BinTree where
+  map := BinTree.map
+
+/-- ２分木のレイアウト情報が渡されたときに、各ノードのレイアウト位置を一様にずらす -/
+def BinTree.shift {β γ : Type} (tree : BinTree (α × β)) (shiftFn : β → γ) : BinTree (α × γ) :=
+  (fun (a, pos) => (a, shiftFn pos)) <$> tree
 
 /-- ２分木の描画幅。二分木を描画したときに何グリッド占めるか。 -/
 def BinTree.width (tree : BinTree α) : Nat :=
