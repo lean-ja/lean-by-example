@@ -125,14 +125,14 @@ def NodePos.ofPair (p : α × Nat × Nat) (step : Float) : NodePos :=
 def BinTree.render (tree : BinTree (α × (Nat × Nat))) (f : Frame := defaultFrame) (cfg : RenderConfig := {}) : Html :=
   let html : RenderM Html := do
     let step := (← read).step
-    let nodesArray ← tree.toNodes
+    let nodesArray := (← tree.toNodes
       |>.map (NodePos.ofPair (step := step))
-      |>.mapM (fun node => createNodeElements node f)
-    let nodes := nodesArray.flatten
+      |>.mapM (fun node => createNodeElements node f))
+      |>.flatten
     let edgesArray ← tree.toEdges
       |>.map (fun (x1, x2) => (NodePos.ofPair x1 step, NodePos.ofPair x2 step))
       |>.mapM (fun (parent, child) => createEdgeElement parent child f)
-    let svg : Svg f := { elements := edgesArray ++ nodes }
+    let svg : Svg f := { elements := edgesArray ++ nodesArray }
     return svg.toHtml
   ReaderT.run html cfg
 
