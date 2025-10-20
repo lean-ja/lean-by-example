@@ -3,7 +3,7 @@ import ProofWidgets
 open ProofWidgets Svg
 
 /-- デフォルトの表示領域(Frame) -/
-private def frame : Frame := {
+private def defaultFrame : Frame := {
   xmin := 0 -- 左下隅の x 座標
   ymin := 0 -- 左下隅の y 座標
   width := 1000 -- 横方向のピクセル数
@@ -41,49 +41,50 @@ structure NodePos where
   label : String
 
 /-- 上面と下面を反転して計測したy座標 -/
-private def NodePos.y_inv (self : NodePos) : Float :=
-  frame.height.toFloat - self.y
+private def NodePos.y_inv (self : NodePos) (f : Frame) : Float :=
+  f.height.toFloat - self.y
 
 /-- ノード（円とラベル）を作成する -/
-private def createNodeElements (node : NodePos) : RenderM (Array (Element frame)) := do
+private def createNodeElements (node : NodePos) (f : Frame) : RenderM (Array (Element f)) := do
   let radius := (← read).radius
   let fillColor := (← read).fillColor
   let fontsize := (← read).fontsize
   let textColor := (← read).textColor
 
-  let circle := circle (node.x, node.y_inv) (.px radius)
+  let circle := circle (node.x, node.y_inv f) (.px radius)
     |>.setFill fillColor
   let adjust := fontsize.toFloat * 0.35 -- ラベルの位置調整用
-  let text := text (node.x - adjust, node.y_inv - adjust) node.label (.px fontsize)
+  let text := text (node.x - adjust, node.y_inv f - adjust) node.label (.px fontsize)
     |>.setFill textColor
   return #[circle, text]
 
 /-- ノードの描画テスト用の関数 -/
-private def createNodeHtml (node : NodePos) : RenderM Html := do
-  let elements ← createNodeElements node
-  let svg : Svg frame := { elements := elements }
+private def createNodeHtml (node : NodePos) (f : Frame) : RenderM Html := do
+  let elements ← createNodeElements node f
+  let svg : Svg f := { elements := elements }
   return svg.toHtml
 
 #html ReaderT.run (r := {}) <|
-  createNodeHtml (node := { x := 150, y := 30, label := "A" })
+  createNodeHtml (f := defaultFrame) (node := { x := 150, y := 30, label := "A" })
 
 /-- エッジ（ノードの親子関係）を作成する -/
-private def createEdgeElement (parent child : NodePos) : RenderM (Element frame) := do
+private def createEdgeElement (parent child : NodePos) (f : Frame) : RenderM (Element f) := do
   let edgeColor := (← read).edgeColor
   let edgeWidth := (← read).edgeWidth
-  let element := line (parent.x, parent.y_inv) (child.x, child.y_inv)
+  let element := line (parent.x, parent.y_inv f) (child.x, child.y_inv f)
     |>.setStroke edgeColor (.px edgeWidth)
   return element
 
 /-- エッジの描画テスト用の関数 -/
-private def createEdgeHtml (parent child : NodePos) : RenderM Html := do
-  let element ← createEdgeElement parent child
-  let svg : Svg frame := { elements := #[element] }
+private def createEdgeHtml (parent child : NodePos) (f : Frame) : RenderM Html := do
+  let element ← createEdgeElement parent child f
+  let svg : Svg f := { elements := #[element] }
   return svg.toHtml
 
 #html ReaderT.run (r := {}) <| createEdgeHtml
   (parent := { x := 150, y := 30, label := "A" })
   (child := { x := 100, y := 80, label := "B" })
+  (f := defaultFrame)
 
 /-- (ラベル付きの)二分木 -/
 inductive BinTree (α : Type) where
@@ -121,17 +122,17 @@ def NodePos.ofPair (p : α × Nat × Nat) (step : Float) : NodePos :=
   { x := x.toFloat * step, y := y.toFloat * step, label := toString label }
 
 /-- ２分木の描画情報が与えられたときに、それを SVG 画像として描画する -/
-def BinTree.render (tree : BinTree (α × (Nat × Nat))) (cfg : RenderConfig := {}) : Html :=
+def BinTree.render (tree : BinTree (α × (Nat × Nat))) (f : Frame := defaultFrame) (cfg : RenderConfig := {}) : Html :=
   let html : RenderM Html := do
     let step := (← read).step
     let nodesArray ← tree.toNodes
       |>.map (NodePos.ofPair (step := step))
-      |>.mapM createNodeElements
+      |>.mapM (fun node => createNodeElements node f)
     let nodes := nodesArray.flatten
     let edgesArray ← tree.toEdges
       |>.map (fun (x1, x2) => (NodePos.ofPair x1 step, NodePos.ofPair x2 step))
-      |>.mapM (fun (parent, child) => createEdgeElement parent child)
-    let svg : Svg frame := { elements := edgesArray ++ nodes }
+      |>.mapM (fun (parent, child) => createEdgeElement parent child f)
+    let svg : Svg f := { elements := edgesArray ++ nodes }
     return svg.toHtml
   ReaderT.run html cfg
 
