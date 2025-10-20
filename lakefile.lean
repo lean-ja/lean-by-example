@@ -23,20 +23,22 @@ lean_lib LeanByExample where
 
 section BuildScript
 
-/-- 与えられた文字列をシェルで実行する -/
-def runCmd (input : String) : IO Unit := do
+def runCmdWithOutput (input : String) (stdIn : Option String := none) : IO String := do
   let cmdList := input.splitOn " "
   let cmd := cmdList.head!
   let args := cmdList.tail |>.toArray
-  let out ← IO.Process.output {
-    cmd := cmd
-    args := args
-  }
-  if out.exitCode != 0 then
+  let out ← IO.Process.output
+    (args := {cmd := cmd, args := args})
+    (input? := stdIn)
+  unless out.exitCode == 0 do
     IO.eprintln out.stderr
     throw <| IO.userError s!"Failed to execute: {input}"
-  else if !out.stdout.isEmpty then
-    IO.println out.stdout
+
+  return out.stdout
+
+def runCmd (input : String) : IO Unit := do
+  let out ← runCmdWithOutput input
+  IO.println out
 
 /-- mdgen と mdbook を順に実行し、
 Lean ファイルから Markdown ファイルと HTML ファイルを生成する。-/
@@ -48,7 +50,6 @@ script build do
 
 end BuildScript
 
-
 section TestScript
 
 lean_exe get_elem where
@@ -57,20 +58,6 @@ lean_exe get_elem where
 lean_exe parse where
   root := `Exe.Declarative.Syntax.Parse
   supportInterpreter := true -- これがないとエラーになる
-
-def runCmdWithOutput (input : String) : IO String := do
-  let cmdList := input.splitOn " "
-  let cmd := cmdList.head!
-  let args := cmdList.tail |>.toArray
-  let out ← IO.Process.output {
-    cmd := cmd
-    args := args
-  }
-  unless out.exitCode == 0 do
-    IO.eprintln out.stderr
-    throw <| IO.userError s!"Failed to execute: {input}"
-
-  return out.stdout
 
 /-- `Type/IO/Cat.lean`のためのテスト -/
 def testForCat : IO Unit := do
@@ -81,8 +68,8 @@ def testForCat : IO Unit := do
 
 /-- `Type/IO/Greet.lean`のためのテスト -/
 def testForGreet : IO Unit := do
-  let result ← runCmdWithOutput "lean --run LeanByExample/Type/IO/Greet.lean"
-  let expected := "誰に挨拶しますか？\nHello, !"
+  let result ← runCmdWithOutput "lean --run LeanByExample/Type/IO/Greet.lean" (stdIn := some "Lean")
+  let expected := "誰に挨拶しますか？\nHello, Lean!"
   if result.trim != expected then
     throw <| IO.userError s!"Test failed! expected prefix: {expected}, got: {result}"
 
