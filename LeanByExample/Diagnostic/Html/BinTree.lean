@@ -3,25 +3,33 @@ import ProofWidgets
 open ProofWidgets Svg
 
 /-- デフォルトの表示領域(Frame) -/
-def defaultFrame : Frame := {
+private def frame : Frame := {
   xmin := 0 -- 左下隅の x 座標
   ymin := 0 -- 左下隅の y 座標
-  width := 450 -- 横方向のピクセル数
-  height := 450 -- 縦方向のピクセル数
-  xSize := 450 -- width と同じ値なので、ピクセル数と座標の値は一致
+  width := 1000 -- 横方向のピクセル数
+  height := 1000 -- 縦方向のピクセル数
+  xSize := 1000 -- width と同じ値なので、ピクセル数と座標の値は一致
 }
 
-/-- ノードを描画するときの円の半径 -/
-def radius := 16
+/-- 描画に関する設定 -/
+structure RenderConfig where
+  /-- ノードを描画するときの円の半径 -/
+  radius : Nat := 16
+  /-- ノードを描画するときの円の塗りつぶし色(RGB) -/
+  fillColor : (Float × Float × Float) := (0.74, 0.87, 1.0)
+  /-- ノードのラベルのフォントサイズ -/
+  fontsize : Nat := 14
+  /-- ノードのラベルの色(RGB) -/
+  textColor : (Float × Float × Float) := (0.0, 0.0, 0.0)
+  /-- エッジの色(RGB) -/
+  edgeColor : (Float × Float × Float) := (50.0, 50.0, 50.0)
+  /-- エッジの太さ(ピクセル) -/
+  edgeWidth : Nat := 2
+  /-- ノード間の水平・垂直間隔の基準値 -/
+  step := 30.0
 
-/-- ノードを描画するときの円の塗りつぶし色(RGB) -/
-def fillColor := (0.74, 0.87, 1.0)
-
-/-- ノードのラベルのフォントサイズ -/
-def fontsize := 14
-
-/-- ノードのラベルの色(RGB) -/
-def textColor := (0.0, 0.0, 0.0)
+/-- `RenderConfig`を読み取りできる計算文脈を表すモナド -/
+abbrev RenderM := ReaderM RenderConfig
 
 /-- 位置情報を付加したノードのデータ -/
 structure NodePos where
@@ -33,43 +41,47 @@ structure NodePos where
   label : String
 
 /-- 上面と下面を反転して計測したy座標 -/
-def NodePos.y_inv (self : NodePos) : Float :=
-  defaultFrame.height.toFloat - self.y
+private def NodePos.y_inv (self : NodePos) : Float :=
+  frame.height.toFloat - self.y
 
 /-- ノード（円とラベル）を作成する -/
-def createNodeElement (node : NodePos) : Array (Element defaultFrame) :=
+private def createNodeElements (node : NodePos) : RenderM (Array (Element frame)) := do
+  let radius := (← read).radius
+  let fillColor := (← read).fillColor
+  let fontsize := (← read).fontsize
+  let textColor := (← read).textColor
+
   let circle := circle (node.x, node.y_inv) (.px radius)
     |>.setFill fillColor
   let adjust := fontsize.toFloat * 0.35 -- ラベルの位置調整用
   let text := text (node.x - adjust, node.y_inv - adjust) node.label (.px fontsize)
     |>.setFill textColor
-  #[circle, text]
+  return #[circle, text]
 
-/-- `createNodeElement` の表示結果をテストするための関数 -/
-def createNodeHtml (node : NodePos) : Html :=
-  let svg : Svg defaultFrame := { elements := createNodeElement node }
-  svg.toHtml
+/-- ノードの描画テスト用の関数 -/
+private def createNodeHtml (node : NodePos) : RenderM Html := do
+  let elements ← createNodeElements node
+  let svg : Svg frame := { elements := elements }
+  return svg.toHtml
 
--- ノードの描画テスト
-#html createNodeHtml (node := { x := 150, y := 30, label := "A" })
-
-/-- エッジの色(RGB) -/
-def edgeColor := (50.0, 50.0, 50.0)
-
-/-- エッジの太さ(ピクセル) -/
-def edgeWidth := 2
+#html ReaderT.run (r := {}) <|
+  createNodeHtml (node := { x := 150, y := 30, label := "A" })
 
 /-- エッジ（ノードの親子関係）を作成する -/
-def createEdgeElement (parent child : NodePos) : Element defaultFrame :=
-  line (parent.x, parent.y_inv) (child.x, child.y_inv)
-  |>.setStroke edgeColor (.px edgeWidth)
+private def createEdgeElement (parent child : NodePos) : RenderM (Element frame) := do
+  let edgeColor := (← read).edgeColor
+  let edgeWidth := (← read).edgeWidth
+  let element := line (parent.x, parent.y_inv) (child.x, child.y_inv)
+    |>.setStroke edgeColor (.px edgeWidth)
+  return element
 
-/-- `createEdgeElement` の表示結果をテストするための関数 -/
-def createEdgeHtml (parent child : NodePos) : Html :=
-  let svg : Svg defaultFrame := { elements := #[createEdgeElement parent child] }
-  svg.toHtml
+/-- エッジの描画テスト用の関数 -/
+private def createEdgeHtml (parent child : NodePos) : RenderM Html := do
+  let element ← createEdgeElement parent child
+  let svg : Svg frame := { elements := #[element] }
+  return svg.toHtml
 
-#html createEdgeHtml
+#html ReaderT.run (r := {}) <| createEdgeHtml
   (parent := { x := 150, y := 30, label := "A" })
   (child := { x := 100, y := 80, label := "B" })
 
@@ -108,20 +120,20 @@ def NodePos.ofPair (p : α × Nat × Nat) (step : Float) : NodePos :=
   let (label, x, y) := p
   { x := x.toFloat * step, y := y.toFloat * step, label := toString label }
 
-def BinTree.toElementsFromLayout (tree : BinTree (α × (Nat × Nat))) (step : Float) : Array (Svg.Element defaultFrame) :=
-  let nodes := tree.toNodes
-    |>.map (NodePos.ofPair (step := step))
-    |>.map createNodeElement
-    |>.flatten
-  let edges := tree.toEdges
-    |>.map (fun ((v1, x1, y1), (v2, x2, y2)) => (NodePos.ofPair (v1, x1, y1) step, NodePos.ofPair (v2, x2, y2) step))
-    |>.map (fun (parent, child) => createEdgeElement parent child)
-  edges ++ nodes
-
 /-- ２分木の描画情報が与えられたときに、それを SVG 画像として描画する -/
-def BinTree.toHtmlFromLayout (tree : BinTree (α × (Nat × Nat))) (step := 30.0) : Html :=
-  let svg : Svg defaultFrame := { elements := tree.toElementsFromLayout step }
-  svg.toHtml
+def BinTree.render (tree : BinTree (α × (Nat × Nat))) (cfg : RenderConfig := {}) : Html :=
+  let html : RenderM Html := do
+    let step := (← read).step
+    let nodesArray ← tree.toNodes
+      |>.map (NodePos.ofPair (step := step))
+      |>.mapM createNodeElements
+    let nodes := nodesArray.flatten
+    let edgesArray ← tree.toEdges
+      |>.map (fun (x1, x2) => (NodePos.ofPair x1 step, NodePos.ofPair x2 step))
+      |>.mapM (fun (parent, child) => createEdgeElement parent child)
+    let svg : Svg frame := { elements := edgesArray ++ nodes }
+    return svg.toHtml
+  ReaderT.run html cfg
 
 /-- 二分木の葉 -/
 def BinTree.leaf (val : α) : BinTree α :=
@@ -135,15 +147,15 @@ def BinTree.leaf (val : α) : BinTree α :=
     (.node ("C", (4, 2))
       (.leaf ("D", (3, 3)))
       (.leaf ("E", (5, 3))))
-  BinTree.toHtmlFromLayout treeLayout
+  BinTree.render treeLayout
 
 /-- ２分木のレイアウト情報が渡されたときに、各ノードのレイアウト位置を一様にずらす -/
-def BinTree.shift {β γ : Type} (tree : BinTree (α × (β × β))) (shiftFn : β × β → γ × γ) : BinTree (α × (γ × γ)) :=
+def BinTree.shift {β γ : Type} (tree : BinTree (α × β)) (shiftFn : β → γ) : BinTree (α × γ) :=
   match tree with
   | .empty => .empty
-  | .node (a, (x, y)) left right =>
-    let (x', y') := shiftFn (x, y)
-    .node (a, (x', y')) (shift left shiftFn) (shift right shiftFn)
+  | .node (a, x) left right =>
+    let x' := shiftFn x
+    .node (a, x') (shift left shiftFn) (shift right shiftFn)
 
 /-- ２分木の描画幅。二分木を描画したときに何グリッド占めるか。 -/
 def BinTree.width (tree : BinTree α) : Nat :=
@@ -178,4 +190,4 @@ def BinTree.layout (tree : BinTree α) : BinTree (α × (Nat × Nat)) :=
     (BinTree.node "C"
       (BinTree.leaf "D")
       (BinTree.leaf "E"))
-  BinTree.toHtmlFromLayout (BinTree.layout tree)
+  BinTree.render tree.layout
