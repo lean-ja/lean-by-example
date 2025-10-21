@@ -60,7 +60,7 @@ end
 
 /-⋆-//--
 info: Try this:
-  simp only [Nat.lt_def] at h
+  [apply] simp only [Nat.lt_def] at h
 -/
 #guard_msgs in --#
 example {n m : Nat} (h : n < m) : n + 1 ≤ m := by

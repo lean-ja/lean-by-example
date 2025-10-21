@@ -15,8 +15,11 @@
 notation:max n "!" => factorial n
 
 /-- 階乗関数の値は１以上 -/
-@[grind] theorem one_le_factorial (n : Nat) : 1 ≤ n ! := by
+theorem one_le_factorial (n : Nat) : 1 ≤ n ! := by
   fun_induction factorial <;> grind
+
+-- `n !` を見かけたら `one_le_factorial` をインスタンス化して利用するよう指示
+grind_pattern one_le_factorial => n !
 
 /-- Pascal の三角形 -/
 def pascal (a b : Nat) : Nat :=

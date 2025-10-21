@@ -40,18 +40,6 @@ def Pos.factorial (n : Pos) : Nat :=
 
 #guard Pos.factorial ⟨4, by omega⟩ = 1 * 2 * 3 * 4
 
-/- ### パターンマッチのネスト
-
-パターンマッチはネストさせることができます。以下の例では [`String`](#{root}/Type/String.md) を `List Char` に分解した後、[`List`](#{root}/Type/List.md) を更に `[]` と `::` に分解しています。
--/
-
-def String.myLength (s : String) : Nat :=
-  match s with
-  | ⟨[]⟩ => 0
-  | ⟨c :: cs⟩ => 1 + myLength ⟨cs⟩
-
-#guard "Hello, Lean!".myLength = 12
-
 /- ## マッチ結果の証明を取得する
 
 `x : T` についてパターンマッチしてコンストラクタ `cons` の枝に入った時、`x` が `cons` に由来するという証明を取得したいことがあります。このとき、`match h : x with` という構文を使用すると、`h` にその証明が格納されます。

@@ -6,7 +6,6 @@
 -/
 import Mathlib.Tactic.Ring -- `ring` のために必要
 import Mathlib.Tactic.Says --#
-set_option warn.sorry false --#
 set_option says.verify true --#
 
 example (x y : ℤ) : (x - y) ^ 2 = x ^ 2 - 2 * x * y + y ^ 2 := by
@@ -44,7 +43,7 @@ example (x y z : ℤ) (hz : z = x - y) : x * z = x ^ 2 - x * y := by
 
 /-⋆-//--
 info: Try this:
-  ring_nf
+  [apply] ring_nf
   ⏎
   The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
     ⏎
@@ -114,6 +113,7 @@ namespace MyNat
     add x y := ⟨x.val + y.val⟩
 
 end MyNat
+set_option warn.sorry false in --#
 
 example (m n : MyNat) : n * (n + m) = n * n + n * m := by
   -- `ring` は `MyNat` に対しては使えない

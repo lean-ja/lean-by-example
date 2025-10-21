@@ -12,7 +12,7 @@ example (n : Nat) : n + 0 = n := by
 -- `show_term` で `rfl` が生成している具体的な項を表示
 /-⋆-//--
 info: Try this:
-  Eq.refl (n + 0)
+  [apply] Eq.refl (n + 0)
 -/
 #guard_msgs in --#
 example (n : Nat) : n + 0 = n := show_term by
@@ -23,7 +23,7 @@ example (n : Nat) : n + 0 = n := show_term by
 
 /-⋆-//--
 info: Try this:
-  Eq.refl (n + 0)
+  [apply] Eq.refl (n + 0)
 -/
 #guard_msgs in --#
 example (n : Nat) : n + 0 = n := by?

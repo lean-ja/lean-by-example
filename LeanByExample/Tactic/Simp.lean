@@ -176,7 +176,7 @@ example {n m : Nat} (h : n + 0 + 0 = m) : n = m := by
 
 /-⋆-//--
 info: Try this:
-  simp only [forall_const, imp_self, or_true]
+  [apply] simp only [forall_const, imp_self, or_true]
 -/
 #guard_msgs in --#
 example (P : Prop) : (True → P) ∨ (P → P) := by
