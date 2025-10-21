@@ -1,14 +1,23 @@
 import LeanByExample.Declarative.Syntax.Parser
 
+instance : ToString Op where
+  toString := fun op =>
+    match op with
+    | Op.add => "+"
+    | Op.mul => "*"
+
+/-- `Arith`を文字列化する。ただし、全体を括弧で囲う。-/
+protected def Arith.toStringAux (arith : Arith) : String :=
+  match arith with
+  | Arith.val n => toString n
+  | Arith.app op lhs rhs =>
+    "(" ++ Arith.toStringAux lhs ++ s!" {op} " ++ Arith.toStringAux rhs ++ ")"
+
 protected def Arith.toString (arith : Arith) : String :=
   match arith with
   | Arith.val n => toString n
   | Arith.app op lhs rhs =>
-    let opStr :=
-      match op with
-      | Op.add => " + "
-      | Op.mul => " * "
-    "(" ++ Arith.toString lhs ++ opStr ++ Arith.toString rhs ++ ")"
+    Arith.toStringAux lhs ++ s!" {op} " ++ Arith.toStringAux rhs
 
 instance : ToString Arith where
   toString := Arith.toString
