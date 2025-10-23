@@ -68,16 +68,7 @@ info: Loogle Search Results
 
 /-⋆-//--
 info: Loogle Search Results
-  [apply] #check List.modifyHead --  {α : Type u} (f : α → α) : List α → List α
-  Replace the head of the list with the result of applying `f` to it. Returns the empty list if the
-  list is empty.
-  ⏎
-  Examples:
-   * `[1, 2, 3].modifyHead (· * 10) = [10, 2, 3]`
-   * `[].modifyHead (· * 10) = []`
-  ⏎
-  ⏎
-  [apply] #check List.map --  {α : Type u} {β : Type v} (f : α → β) (l : List α) : List β
+  [apply] #check List.map --  {α : Type u_1} {β : Type u_2} (f : α → β) (l : List α) : List β
   Applies a function to each element of the list, returning the resulting list of values.
   ⏎
   `O(|l|)`.
@@ -87,6 +78,15 @@ info: Loogle Search Results
   * `[].map Nat.succ = []`
   * `["one", "two", "three"].map (·.length) = [3, 3, 5]`
   * `["one", "two", "three"].map (·.reverse) = ["eno", "owt", "eerht"]`
+  ⏎
+  ⏎
+  [apply] #check List.modifyHead --  {α : Type u} (f : α → α) : List α → List α
+  Replace the head of the list with the result of applying `f` to it. Returns the empty list if the
+  list is empty.
+  ⏎
+  Examples:
+   * `[1, 2, 3].modifyHead (· * 10) = [10, 2, 3]`
+   * `[].modifyHead (· * 10) = []`
   ⏎
   ⏎
   [apply] #check List.mapTR --  {α : Type u} {β : Type v} (f : α → β) (as : List α) : List β

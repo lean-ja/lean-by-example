@@ -96,12 +96,14 @@ def findSumZeroPair (l : List Int) : Bool := Id.run do
 前者の解釈を採用したとするなら、その関数の型は `String → HashSet String` であるべきです。そうすれば型からより多くの情報が得られるほか、重複を除くための処理が簡潔になるからです。
 -/
 
+open String Pos in
+
 /-- ある文字列の部分文字列を重複を除いて全列挙する -/
 def allSubstrings (s : String) : HashSet String := Id.run do
   let mut result : HashSet String := {}
   for j in [1 : s.length + 1] do
     for i in [0 : j] do
-      let sub := s.extract ⟨i⟩ ⟨j⟩
+      let sub := Raw.extract s ⟨i⟩ ⟨j⟩
       result := result.insert sub
   return result.insert ""
 

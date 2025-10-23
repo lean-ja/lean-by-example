@@ -14,7 +14,7 @@ register_option linter.docBlameThm : Bool := {
 /--
 ある位置 `pos` 以降にソースコード内で登場するすべての宣言名を収集する
 -/
-private def getNamesFrom (pos : String.Pos) : CommandElabM (Array Syntax) := do
+private def getNamesFrom (pos : String.Pos.Raw) : CommandElabM (Array Syntax) := do
   let drs := declRangeExt.toPersistentEnvExtension.getState (asyncMode := .local) (← getEnv)
   let fm ← getFileMap
   let mut nms := #[]
@@ -59,7 +59,7 @@ def docBlameThmLinter : Linter where
       if ! (← constName.isTheorem) then
         continue
       -- ドキュメントコメントがなければ警告を出す
-      let hasDocStr ← liftCoreM <| constName.hasDocString  env
+      let hasDocStr ← liftCoreM <| constName.hasDocString env
       if ! hasDocStr then
         Linter.logLint linter.docBlameThm constStx
           m!"`{constName}`にドキュメントコメントを与えてください。"
