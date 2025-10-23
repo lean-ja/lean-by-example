@@ -1,5 +1,5 @@
 /-
-> A string is a sequence of Unicode code points.
+> A string is a sequence of Unicode scalar values.
 >
 > At runtime, strings are represented by [dynamic arrays](https://en.wikipedia.org/wiki/Dynamic_array)
 > of bytes using the UTF-8 encoding. Both the size in bytes (`String.utf8ByteSize`) and in characters
@@ -10,7 +10,7 @@
 import LeanByExample.DocCmd
 
 /--
-info: A string is a sequence of Unicode code points.
+info: A string is a sequence of Unicode scalar values.
 
 At runtime, strings are represented by [dynamic arrays](https://en.wikipedia.org/wiki/Dynamic_array)
 of bytes using the UTF-8 encoding. Both the size in bytes (`String.utf8ByteSize`) and in characters

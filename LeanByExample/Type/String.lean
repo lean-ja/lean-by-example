@@ -1,29 +1,13 @@
 /- # String
 
-`String` は文字列を表す型です。次のように、文字を表す型 [`Char`](#{root}/Type/Char.md) のリストとして定義されています。
+`String` は文字列を表す型です。次のように、文字を表す型 [`Char`](#{root}/Type/Char.md) のリストに変換したり、その逆を行ったりすることができます。
 -/
-import Lean --#
---#--
--- String の定義が変わっていないことを確認するためのコード
 
-/--
-info: structure String : Type
-number of parameters: 0
-fields:
-  String.data : List Char
-constructor:
-  String.mk (data : List Char) : String
--/
-#guard_msgs in #print String
---#--
-namespace Hidden --#
+-- `Char` のリストから `String` を構築する
+#guard String.mk ['H', 'e', 'l', 'l', 'o'] = "Hello"
 
-/-- 文字列 -/
-structure String where
-  /-- 文字列をほどいて `List Char` にする -/
-  data : List Char
-
-end Hidden --#
+-- `String` を `Char` のリストに変換する
+#guard "Hello".toList = ['H', 'e', 'l', 'l', 'o']
 
 /- ## 文字列結合
 `String.append` を使って文字列を結合することができます。この関数は `++` という記号が割り当てられています。
