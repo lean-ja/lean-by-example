@@ -26,7 +26,7 @@ example (hPQ : P → Q) (hQR : Q → R) : P → R := by
 
 /-⋆-//--
 info: Try this:
-  fun hP => hQR (hPQ hP)
+  [apply] fun hP => hQR (hPQ hP)
 -/
 #guard_msgs in --#
 example (hPQ : P → Q) (hQR : Q → R) : P → R := by?

@@ -171,9 +171,10 @@ instance : Monad Parser where
 入力文字が空の時は失敗し、それ以外の時は最初の文字を消費して返す
 -/
 def Parser.item : Parser Char := fun input =>
-  match input with
-  | ⟨[]⟩ => none
-  | ⟨x :: xs⟩ => some (x, ⟨xs⟩)
+  let chars := input.toList
+  match chars with
+  | [] => none
+  | x :: xs => some (x, String.mk xs)
 
 /-- 3文字の文字列にマッチするパーサー -/
 def Parser.three : Parser String := do

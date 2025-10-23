@@ -64,7 +64,7 @@ namespace MyNat
   example (n : MyNat) : 0 + n = n := by
     -- 自前で示した定理をちゃんと見つけてくれる
     exact? says
-      exact add_zero n
+      exact MyNat.add_zero n
 end MyNat
 /-
 ## exact? を使用する際のコツ

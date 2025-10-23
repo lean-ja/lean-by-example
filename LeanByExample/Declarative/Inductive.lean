@@ -284,10 +284,10 @@ end Hidden --#
 -/
 
 /-⋆-//--
-info: recursor Bool.rec.{u} : {motive : Bool → Sort u} → motive false → motive true → (t : Bool) → motive t
+info: Bool.rec.{u} {motive : Bool → Sort u} (false : motive false) (true : motive true) (t : Bool) : motive t
 -/
 #guard_msgs in --#
-#print Bool.rec
+#check Bool.rec
 
 /- この再帰子の型をよく見ると、`Bool` から型 `motive _` への依存関数 `(t : Bool) → motive t` を構成する手段を提供していることがわかります。
 
@@ -295,11 +295,11 @@ info: recursor Bool.rec.{u} : {motive : Bool → Sort u} → motive false → mo
 -/
 
 /-⋆-//--
-info: recursor Nat.rec.{u} : {motive : ℕ → Sort u} →
-  motive Nat.zero → ((n : ℕ) → motive n → motive n.succ) → (t : ℕ) → motive t
+info: Nat.rec.{u} {motive : ℕ → Sort u} (zero : motive Nat.zero) (succ : (n : ℕ) → motive n → motive n.succ) (t : ℕ) :
+  motive t
 -/
 #guard_msgs in --#
-#print Nat.rec
+#check Nat.rec
 
 /- `Nat` から型 `motive _` への依存関数 `(t : Nat) → motive t` を構成する手段を提供しているのは同じなのですが、よく見ると帰納法の原理そのものの形をしています。
 
@@ -325,12 +325,11 @@ example (n m : MyNat) : MyNat.succ n = MyNat.succ m → n = m := by
   intro h
   injection h
 
-/- [`show_term`](#{root}/Tactic/ShowTerm.md) を使用して証明項を出してみると、`injection` タクティクにより `MyNat.noConfusion` という定理が呼ばれていることがわかります。 -/
+/- [`show_term`](#{root}/Tactic/ShowTerm.md) を使用して証明項を出してみると、`injection` タクティクにより `noConfusion` という名前の定理が呼ばれていることがわかります。 -/
 
 /-⋆-//--
 info: Try this:
-  fun h =>
-    False.elim (noConfusion_of_Nat MyNat.ctorIdx h)
+  [apply] fun h => False.elim (noConfusion_of_Nat MyNat.ctorIdx h)
 -/
 #guard_msgs in --#
 example (n : MyNat) : .succ n ≠ MyNat.zero := show_term by
@@ -339,8 +338,7 @@ example (n : MyNat) : .succ n ≠ MyNat.zero := show_term by
 
 /-⋆-//--
 info: Try this:
-  MyNat.succ.noConfusion (n = m) n
-    m h fun n_eq => n_eq
+  [apply] MyNat.succ.noConfusion (n = m) n m h fun n_eq => n_eq
 -/
 #guard_msgs in --#
 example (n m : MyNat) (h : MyNat.succ n = MyNat.succ m) : n = m := show_term by

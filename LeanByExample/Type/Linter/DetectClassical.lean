@@ -16,7 +16,7 @@ open Lean Elab Command
 /--
 ある位置 `pos` 以降にソースコード内で登場するすべての宣言名を収集する
 -/
-private def getNamesFrom (pos : String.Pos) : CommandElabM (Array Syntax) := do
+private def getNamesFrom (pos : String.Pos.Raw) : CommandElabM (Array Syntax) := do
   let drs := declRangeExt.toPersistentEnvExtension.getState (asyncMode := .local) (← getEnv)
   let fm ← getFileMap
   let mut nms := #[]

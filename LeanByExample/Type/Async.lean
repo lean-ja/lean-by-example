@@ -5,7 +5,7 @@
 import Std.Internal.Async.Basic
 import Lean
 
-open Std.Internal.IO.Async
+open Std.Internal.IO.Async Async
 
 /-- 疑似的に重い処理を非同期で行う関数 -/
 def expensiveOperationAsync (n : Nat) : Async Nat := do

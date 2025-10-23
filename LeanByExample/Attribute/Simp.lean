@@ -96,7 +96,7 @@ theorem MyNat.zero_add (n : MyNat) : n = 0 + n := by
 -- 該当するsimp補題に `←` が付いている
 /-⋆-//--
 info: Try this:
-  simp only [← MyNat.zero_add, MyNat.add_zero]
+  [apply] simp only [← MyNat.zero_add, MyNat.add_zero]
 -/
 #guard_msgs in --#
 example (n : MyNat) : 0 + n + 0 = n := by
@@ -107,18 +107,19 @@ example (n : MyNat) : 0 + n + 0 = n := by
 `simp` はデフォルトでは部分式をすべて単純化した後に全体の式に単純化を適用しています。
 -/
 section
-  -- `foo`定理をsimp補題として登録する
-  attribute [local simp] foo
 
-  -- `foo`を示そうとしているのに、単純化に`foo`が使用されていない！
-  -- これは、部分式が先に単純化されるため。
-  /-⋆-//--
-  info: Try this:
-    simp only [Nat.fib_zero, Nat.add_zero, Nat.mul_zero]
-  -/
-  #guard_msgs (whitespace := lax) in --#
-  example : 37 * (Nat.fib 0 + 0) = 0 := by
-    simp?
+-- `foo`定理をsimp補題として登録する
+attribute [local simp] foo
+
+-- `foo`を示そうとしているのに、単純化に`foo`が使用されていない！
+-- これは、部分式が先に単純化されるため。
+/-⋆-//--
+info: Try this:
+  [apply] simp only [Nat.fib_zero, Nat.add_zero, Nat.mul_zero]
+-/
+#guard_msgs (whitespace := lax) in --#
+example : 37 * (Nat.fib 0 + 0) = 0 := by
+  simp?
 
 end
 /- `simp` タクティクに、部分式が単純化されるよりも先に前処理として単純化したいルールがある場合は、`[simp↓]` を使用します。-/
@@ -128,7 +129,7 @@ attribute [simp↓] foo
 -- `foo`が使われて終了するようになった！
 /-⋆-//--
 info: Try this:
-  simp only [↓foo]
+  [apply] simp only [↓foo]
 -/
 #guard_msgs in --#
 example : 37 * (Nat.fib 0 + 0) = 0 := by
@@ -144,47 +145,47 @@ example : 37 * (Nat.fib 0 + 0) = 0 := by
 -/
 section
 
-  set_option trace.Meta.Tactic.simp true
+set_option trace.Meta.Tactic.simp true
 
-  theorem MyNat.zero_zero : (0 : MyNat) + 0 = 0 := by
-    rfl
+theorem MyNat.zero_zero : (0 : MyNat) + 0 = 0 := by
+  rfl
 
-  -- 普通にsimp補題に登録する
-  attribute [simp] MyNat.zero_zero
+-- 普通にsimp補題に登録する
+attribute [simp] MyNat.zero_zero
 
-  -- `MyNat.zero_zero` が使用されていない。
-  -- これは部分式の単純化が優先されるため。
-  /-⋆-//--
-  trace: [Meta.Tactic.simp.rewrite] MyNat.add_zero:1000:
-        0 + 0
-      ==>
-        0
-  [Meta.Tactic.simp.rewrite] eq_self:1000:
-        0 = 0
-      ==>
-        True
-  -/
-  #guard_msgs (whitespace := lax) in --#
-  example : (0 : MyNat) + 0 = 0 := by
-    simp
+-- `MyNat.zero_zero` が使用されていない。
+-- これは部分式の単純化が優先されるため。
+/-⋆-//--
+trace: [Meta.Tactic.simp.rewrite] MyNat.add_zero:1000:
+      0 + 0
+    ==>
+      0
+[Meta.Tactic.simp.rewrite] eq_self:1000:
+      0 = 0
+    ==>
+      True
+-/
+#guard_msgs (whitespace := lax) in --#
+example : (0 : MyNat) + 0 = 0 := by
+  simp
 
-  attribute [-simp] MyNat.add_zero -- 先ほどのsimp属性を削除する
-  attribute [simp high] MyNat.zero_zero -- `simp high` を指定し直す
+attribute [-simp] MyNat.add_zero -- 先ほどのsimp属性を削除する
+attribute [simp high] MyNat.zero_zero -- `simp high` を指定し直す
 
-  -- デフォルトでは優先度は1000になるが、
-  -- highに指定すると優先度が10000になり、先に適用される
-  /-⋆-//--
-  trace: [Meta.Tactic.simp.rewrite] MyNat.zero_zero:10000:
-        0 + 0
-      ==>
-        0
-  [Meta.Tactic.simp.rewrite] eq_self:1000:
-        0 = 0
-      ==>
-        True
-  -/
-  #guard_msgs (whitespace := lax) in --#
-  example : (0 : MyNat) + 0 = 0 := by
-    simp
+-- デフォルトでは優先度は1000になるが、
+-- highに指定すると優先度が10000になり、先に適用される
+/-⋆-//--
+trace: [Meta.Tactic.simp.rewrite] MyNat.zero_zero:10000:
+      0 + 0
+    ==>
+      0
+[Meta.Tactic.simp.rewrite] eq_self:1000:
+      0 = 0
+    ==>
+      True
+-/
+#guard_msgs (whitespace := lax) in --#
+example : (0 : MyNat) + 0 = 0 := by
+  simp
 
 end
