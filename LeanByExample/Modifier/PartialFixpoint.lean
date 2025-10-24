@@ -42,7 +42,7 @@ section
     induction n with
     | zero =>
       unfold searchF
-      split <;> simp_all
+      grind
     | succ n ih => grind
 
 end
