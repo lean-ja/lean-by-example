@@ -31,7 +31,7 @@ def M (n : Nat) : Nat :=
   else
     M (M (n + 11))
 
-/- 以下のように、`termination_by` で「再帰適用で減少していくもの」を指定することができ、うまくいけばエラーがなくなります。-/
+/- 以下のように、`termination_by` で「再帰適用で減少していくもの」を指定することができ、うまくいけばエラーがなくなります。[^timo]-/
 
 /-- McCarthy の 91 関数 -/
 def Mc91 (n : Nat) : Nat :=
@@ -49,3 +49,7 @@ where
 
       ⟨M (M (n + 11)), lem⟩
   termination_by 101 - n
+
+/-
+[^timo]: このコード例は、Lean 公式 Zulip の [how to show termination of McCarthy `M`](https://leanprover.zulipchat.com/#narrow/channel/113489-new-members/topic/how.20to.20show.20termination.20of.20McCarthy.20.60M.60/with/442289266) というトピックにおける Timo Carlin-Burns さんの投稿を参考にしています。
+-/
