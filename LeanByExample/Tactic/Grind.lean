@@ -18,7 +18,7 @@ notation:max n "!" => factorial n
 theorem one_le_factorial (n : Nat) : 1 ≤ n ! := by
   fun_induction factorial <;> grind
 
--- `n !` を見かけたら `one_le_factorial` をインスタンス化して利用するよう指示
+-- `n !` を見かけたら `one_le_factorial` を利用するよう `grind` に指示
 grind_pattern one_le_factorial => n !
 
 /-- Pascal の三角形 -/
@@ -32,14 +32,63 @@ def pascal (a b : Nat) : Nat :=
 theorem pascal_le_factorial (a b : Nat) : pascal a b ≤ (a + b)! := by
   fun_induction pascal <;> grind
 
+/- ## 動作原理の概要
+
+`grind` タクティクの動作原理を理解するには、仮想的な黒板を思い浮かべると良いでしょう。
+新しい等式や不等式を見つけるたびに、`grind` はその事実を黒板に書き込んでいきます。
+`grind` は「最初に結論の否定を仮定して矛盾を示す」ことでゴールを示すように設計されているため、最初に黒板に書き込むのは示したいゴールの仮定と結論の否定です。
+-/
+
+set_option trace.grind.assert true in
+
+/-⋆-//--
+trace: [grind.assert] P
+[grind.assert] ¬P
+-/
+#guard_msgs in --#
+theorem foo (P : Prop) (h : P) : P := by
+  grind
+
+/-
+特に、`grind` は必要がない場合であっても[選択原理](#{root}/Declarative/Axiom.md#ClassicalChoice)を使用します。
+-/
+
+/-⋆-//-- info: 'foo' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in --#
+#print axioms foo
+
+/- そうやって黒板に事実を書き込みながら、`grind` は同値類（equivalence class、互いに等しいもの同士のグループのこと）を管理していて、等しいと分かった同値類をマージしていきます。そして最終的に `True` のグループと `False` のグループをマージする（つまり、矛盾を示す）ことでゴールを閉じます。 -/
+
+set_option trace.grind.eqc true in
+
+/-⋆-//--
+trace: [grind.eqc] P = True
+[grind.eqc] P = False
+-/
+#guard_msgs in --#
+example (P : Prop) (h : P) : P := by
+  grind
+
+/-
+以上の「仮想的な黒板による同値類の管理」が中核的な動作原理で、さらに `grind` は以下のようなエンジンが組み込まれています。
+
+* 合同閉包(congruence closure)
+* E-マッチング(E-matching)
+* 制約伝播(Constraint Propagation)
+* サテライトソルバー(特定の代数系に対するソルバー群)
+-/
+
 /-
 ## 合同閉包(congruence closure)
 
-`grind` の中核には、合同閉包(congruence closure)アルゴリズムが使用されています。これは、黒板に「今まで分かったこと」を蓄積していくところをイメージすると分かりやすいかもしれません。
+`grind` には、合同閉包(congruence closure)アルゴリズムが使用されています。[^lamr]
 
-`grind` は新しい等式や不等式を発見するたびに、その事実を黒板に書き込んでいきます。そして、「互いに等しいと分かっているグループ」を同値類(equivalence class)としてまとめて管理します。この同値類を「バケツ」と呼ぶことがあります。
+合同閉包は、等式と不等式のグループが充足可能かどうかを決定するアルゴリズムです。既知の等式から以下のルールによって新たな等式が出てこなくなるまで等式を導出し、矛盾があれば充足不能と判断します。(ただし、無限ループを避けるために合同性ルールの適用は制限します)
 
-`grind` は合同性(congruence)つまり `a₁ = a₂` ならば `f a₁ = f a₂` が成り立つことを認識しているので、そういったパターンを見つけると黒板に書き込んでいきます。
+* 等式の反射律: `a = a`
+* 等式の対称律: `a = b` ならば `b = a`
+* 等式の推移律: `a = b` かつ `b = c` ならば `a = c`
+* 合同性: `a = b` ならば `f a = f b`
 -/
 section --#
 variable {α : Type} (a₁ a₂ : α)
@@ -55,28 +104,9 @@ example (f : α → α) (h : a₁ = a₂) : f (f a₁) = f (f a₂) := by
   grind
 
 end --#
-/- なお、`grind` は初手で結論の否定を黒板に書き込み、矛盾を示す（つまり `True` の同値類と `False` の同値類をマージする）ことでゴールを閉じるという設計になっていることに注意してください。特に、`grind` はそれが不要な場合であっても選択原理を使用することがあります。 -/
-
-set_option trace.grind.assert true in
-set_option trace.grind.eqc true in
-
-/-⋆-//--
-trace: [grind.assert] P
-[grind.eqc] P = True
-[grind.assert] ¬P
-[grind.eqc] P = False
--/
-#guard_msgs in --#
-theorem foo (P : Prop) (h : P) : P := by
-  grind
-
-/-⋆-//-- info: 'foo' depends on axioms: [propext, Classical.choice, Quot.sound] -/
-#guard_msgs in --#
-#print axioms foo
-
 /- ## E-マッチング
 
-新たに分かったことを `grind` が黒板に書き込むことを「定理をインスタンス化する」と呼びます。`grind` は、定理を効率的にインスタンス化するために E-マッチング(E‑matching)と呼ばれる手法を使用します。なおE-マッチングとは、SMT ソルバなどで使われる、等式を考慮したパターンマッチの手法のことです。
+ある定理を適用して新たに分かったことを `grind` が黒板に書き込むことを「定理をインスタンス化する」と呼びます。`grind` は、定理を効率的にインスタンス化するために E-マッチング(E‑matching)と呼ばれる手法を使用します。なおE-マッチングとは、SMT ソルバなどで使われる、等式を考慮したパターンマッチの手法のことです。
 
 ### [grind =]
 
@@ -261,7 +291,7 @@ example : Even 0 := by
 example {m : Nat} (h : Even m) : Even (m + 2) := by
   grind
 
-/- ## ケース分割
+/- ## ガイド付き場合分け(guided case analysis)
 
 `grind` は `match` 式や `if` 式を場合分けして分解することができます。
 -/
@@ -278,7 +308,7 @@ def oneOrTwoMatch (n : Nat) : Nat :=
   | 0 => 1
   | _ => 2
 
--- どういうケース分割を行ったかトレースを出す
+-- どういう場合分けを行ったかトレースを出す
 set_option trace.grind.split true in
 
 /-⋆-//--
@@ -291,7 +321,7 @@ example (n : Nat) : oneOrTwoMatch n > 0 := by
   dsimp [oneOrTwoMatch]
   grind
 
-/- `[grind cases]` 属性が付与されている帰納的命題に対しても、ケース分割を行います。 -/
+/- `[grind cases]` 属性が付与されている帰納的命題に対しても、場合分けを行います。 -/
 
 example : ¬ Even 1 := by
   -- まだ示せない
@@ -332,4 +362,6 @@ example (a : Bool) : (a && !a) = false := by
 [^reference]: このページの記述は全体的に The Lean Language Reference の [The grind tactic という章](https://lean-lang.org/doc/reference/latest/The--grind--tactic/#grind) と Lean4 リポジトリの [grind_guide ファイル](https://github.com/leanprover/lean4/blob/master/tests/lean/run/grind_guide.lean)を参考にしています。
 
 [^impressive]: この例は Zulip の [Grind is impressive](https://leanprover.zulipchat.com/#narrow/channel/270676-lean4/topic/Grind.20is.20impressive/with/542704821) というトピックにおける Sorrachai Yingchareonthawornchai さんの投稿を元にしたものです。
+
+[^lamr]: [Marijn J. H. Heule "Logic and Mechanized Reasoning"](https://www.cs.cmu.edu/~mheule/15311-s24/slides/congruence-closure.pdf) を参考にしました。
 -/
