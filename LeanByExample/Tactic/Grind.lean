@@ -154,7 +154,7 @@ attribute [grind =] bar
 
 /- ### [grind \_=\_]
 
-等式を主張する定理に `[grind _=_]` 属性を付与すると、結論の等式の左辺と両辺がともにパターンとして登録され、「左辺か右辺のパターンを見かけたら定理をホワイトボードに書き込む」という挙動をするようになります。
+等式を主張する定理に `[grind _=_]` 属性を付与すると、結論の等式の左辺と両辺がともにパターンとして登録され、「左辺か右辺のパターンを見かけたら定理を黒板に書き込む」という挙動をするようになります。
 -/
 
 /-- 自前で定義した可換モノイド -/
@@ -231,23 +231,23 @@ end --#
 /-- 群 -/
 class Group (G : Type) [One G] [Mul G] [Inv G] where
   /-- 単位元を右から掛けても変わらない -/
-  mul_one : ∀ g : G, g * 1 = g
+  mul_one (g : G) : g * 1 = g
   /-- 単位元を左から掛けても変わらない -/
-  one_mul : ∀ g : G, 1 * g = g
+  one_mul (g : G) : 1 * g = g
   /-- 元とその逆元を掛けると単位元になる -/
-  mul_inv : ∀ g : G, g * g⁻¹ = 1
+  mul_inv (g : G) : g * g⁻¹ = 1
   /-- 逆元と元を掛けると単位元になる -/
-  inv_mul : ∀ g : G, g⁻¹ * g = 1
+  inv_mul (g : G) : g⁻¹ * g = 1
   /-- 掛け算は結合的である -/
-  mul_assoc : ∀ g₁ g₂ g₃ : G, g₁ * (g₂ * g₃) = (g₁ * g₂) * g₃
-
-namespace Group
-
-variable {G : Type} [One G] [Mul G] [Inv G] [Group G]
+  mul_assoc (g₁ g₂ g₃ : G) : g₁ * (g₂ * g₃) = (g₁ * g₂) * g₃
 
 attribute [grind =>]
   Group.mul_one Group.one_mul
   Group.mul_inv Group.inv_mul Group.mul_assoc
+
+namespace Group
+
+variable {G : Type} [One G] [Mul G] [Inv G] [Group G]
 
 theorem mul_right_inv {g h : G} (hy : g * h = 1) : h = g⁻¹ := calc
   _ = 1 * h := by grind
@@ -340,7 +340,7 @@ example : ¬ Even 1 := by
 
 /- ## 制約伝播(Constraint Propagation)
 
-`grind` タクティクがホワイトボードに新たな事実を書き込み、`True` または `False` の同値類が更新されたとき、`grind` は多数の前方推論を行い、新たな事実を導出していきます。これを制約伝播(Constraint Propagation)と呼びます。
+`grind` タクティクが黒板に新たな事実を書き込み、`True` または `False` の同値類が更新されたとき、`grind` は多数の前方推論を行い、新たな事実を導出していきます。これを制約伝播(Constraint Propagation)と呼びます。
 
 制約伝播で使用される導出ルールには様々な種類のものがあります。
 
