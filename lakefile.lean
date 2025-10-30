@@ -34,11 +34,12 @@ def runCmdWithOutput (input : String) (stdIn : Option String := none) : IO Strin
     IO.eprintln out.stderr
     throw <| IO.userError s!"Failed to execute: {input}"
 
-  return out.stdout
+  return out.stdout.trim
 
 def runCmd (input : String) : IO Unit := do
   let out ← runCmdWithOutput input
-  IO.println out
+  if out != "" then
+    IO.println out
 
 /-- mdgen と mdbook を順に実行し、
 Lean ファイルから Markdown ファイルと HTML ファイルを生成する。-/
