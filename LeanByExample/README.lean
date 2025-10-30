@@ -2,13 +2,19 @@
 
 プログラミング言語であるとともに定理証明支援系でもある Lean 言語と、その主要なライブラリの使い方を豊富なコード例とともに解説した資料です。
 
-```admonish info title=""
-本書は lean-ja の管理者である[北窓](https://github.com/Seasawher)が執筆・開発しています。誤りのご指摘、ご提案などは [GitHub リポジトリ](https://github.com/lean-ja/lean-by-example)からお願いします。
+```admonish info title="お問い合わせ"
+誤りのご指摘、ご提案などは [GitHub リポジトリ](https://github.com/lean-ja/lean-by-example)からお願いします。
 
 lean-ja の Discord サーバが[こちら](https://discord.gg/p32ZfnVawh)にあります。質問や相談などはこちらにどうぞ。
 ```
 
-本書が気に入ったら、ぜひ GitHub からスター🌟をつけてください。
+## 支援について ❤️
+
+本書は lean-ja の管理者である[北窓](https://github.com/Seasawher)が執筆・開発しています。
+もしも本書を気に入っていただけたのであれば、ご支援をいただけると励みになります。
+
+* 金銭的な支援は [Pixiv Fanbox](https://seasawher.fanbox.cc/) から受け付けております。
+* GitHub からスター🌟をつけていただくだけでも支援になります。
 
 ## 本書の特色 😎
 
