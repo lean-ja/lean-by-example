@@ -29,7 +29,7 @@ example : ∀ x y ε : ℝ, 0 < ε → ε ≤ 1 → |x| < ε → |y| < ε → |x
   assumption
 
 /- ## カスタマイズ
-自前で定義した二項関係も、`Trans` 型クラスのインスタンスにすれば `calc` で使用することができます。-/
+自前で定義した二項関係も、`Trans` 型クラスのインスタンスにすれば `calc` で推移律を連鎖させることができます。（ただし、細かいですが、推移律を連鎖させることが必要なければ `Trans` 型クラスのインスタンスでなくても `calc` は使えます）-/
 
 /-- 絶対値が同じであることを表す二項関係 -/
 def same_abs (x y : Int) : Prop := x = y ∨ x = - y
@@ -44,7 +44,11 @@ infix:50 " ≡ " => same_abs
 -- メタ変数の番号を表示しないようにする
 set_option pp.mvars false
 
--- `calc` を使おうとすると
+-- `calc` が推移律と関係なければ使えるが...
+example (x : Int) : x ≡ x := calc
+  _ ≡ x := by rfl
+
+-- `calc` で推移律を連鎖させようとすると
 -- `Trans` 型クラスのインスタンスではないというエラーになってしまう
 /-⋆-//--
 error: invalid 'calc' step, failed to synthesize `Trans` instance
@@ -53,12 +57,12 @@ error: invalid 'calc' step, failed to synthesize `Trans` instance
 Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
 -/
 #guard_msgs in --#
-example {x y z : Int}(hxy : x ≡ y)(h : y = z) : x ≡ z := calc
+example {x y z : Int} (hxy : x ≡ y) (h : y = z) : x ≡ z := calc
   x ≡ y := hxy
   _ ≡ z := by rw [h]
 
 /-- same_abs の推移律 -/
-def same_abs_trans {x y z : Int}(hxy : x ≡ y)(hyz : y ≡ z) : x ≡ z := by
+def same_abs_trans {x y z : Int} (hxy : x ≡ y) (hyz : y ≡ z) : x ≡ z := by
   dsimp [same_abs]
 
   -- hxy と hyz について場合分けをする
