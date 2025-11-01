@@ -36,7 +36,7 @@ def Nat.toListNat (n : Nat) : List Nat :=
     Nat.toListNat (n / 10) ++ [(n % 10)]
 
 end Hidden --#
-/- `decreasing_by` に続けて停止することの証明を与えれば Lean に受け入れられるようになります。 -/
+/- `decreasing_by` に続けて停止することの証明を与えれば Lean に受け入れられるようになります。再帰のたびに引数が真に減少し、無限に減少し続けないことを示せば十分です。 -/
 
 def Nat.toListNat (n : Nat) : List Nat :=
   if n == 0 then
@@ -45,6 +45,8 @@ def Nat.toListNat (n : Nat) : List Nat :=
     Nat.toListNat (n / 10) ++ [(n % 10)]
 decreasing_by
   -- `n ≠ 0 → n / 10 < n` を示す
+  guard_target =ₛ n / 10 < n
+
   grind
 
 -- 動作テスト
