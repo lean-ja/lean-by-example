@@ -1,4 +1,6 @@
 import Lake
+import Std
+
 open Lake DSL
 
 package «Lean by Example» where
@@ -74,12 +76,31 @@ def testForGreet : IO Unit := do
   if result.trim != expected then
     throw <| IO.userError s!"Test failed! expected prefix: {expected}, got: {result}"
 
+/-- abort が動作しているか調べる -/
+def checkAbort : IO Bool := do
+  Std.Internal.IO.Async.System.setEnvVar "LEAN_ABORT_ON_PANIC" "1"
+  try
+    let result ← runCmdWithOutput "lean --run LeanByExample/Syntax/Panic/Abort.lean"
+    if result.trim.endsWith "hello world!" then
+      return false
+    else
+      return true
+  catch _ =>
+    -- 失敗した場合はabortが成功していると見なす
+    return true
+
+def testForAbort : IO Unit := do
+  let aborted ← checkAbort
+  if !aborted then
+    throw <| IO.userError s!"Test failed! abort did not work."
+
 @[test_driver]
 script test do
   runCmd "lake exe get_elem"
   runCmd "lake exe parse"
   testForCat
   testForGreet
+  testForAbort
   return 0
 
 end TestScript

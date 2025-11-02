@@ -36,6 +36,11 @@ def divIO (x y : Nat) : IO Nat :=
 #guard_msgs in --#
 #eval divIO 10 0
 
+/- なお環境変数 `LEAN_ABORT_ON_PANIC` に何か値を設定すると、(たとえば `1`) `panic!` の実行時に処理が実際に中断されるようになります。
+
+{{#include ./Panic/Abort.md}}
+-/
+
 /- ## panic! は例外を投げない
 
 `panic!` は例外を投げているわけではなく、`try .. catch` ブロックで補足することはできません。例外ハンドリングが必要な場合は `panic!` を使用しない方が良いでしょう。
