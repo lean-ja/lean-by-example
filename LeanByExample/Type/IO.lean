@@ -9,13 +9,6 @@
 {{#include ./IO/Greet.md}}
 -/
 
-/- ## ファイル操作
-
-以下は、ファイルを読んでその内容を表示するような簡単なコマンドラインツールを実装する例です。(`lean --run` を使って実行することができます)
-
-{{#include ./IO/Cat.md}}
--/
-
 /- なお、出力が自分自身と等しくなるコードを **クワイン（Quine）** と呼ぶのですが、Lean 4 ではクワインはたとえば次のようにして作ることができます。[^quine] -/
 
 def s := "\ndef main : IO Unit := do\n  IO.println (\"def s := \" ++ s.quote)\n  IO.println (s)"
@@ -33,6 +26,13 @@ def main : IO Unit := do
 -/
 #guard_msgs in --#
 #eval main
+
+/- ## ファイル操作
+
+以下は、ファイルを読んでその内容を表示するような簡単なコマンドラインツールを実装する例です。(`lean --run` を使って実行することができます)
+
+{{#include ./IO/Cat.md}}
+-/
 
 /- ## ランダム性
 
