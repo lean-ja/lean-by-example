@@ -4,11 +4,13 @@
 
 `Inhabited` のインスタンスである型は、`default` という項を持ちます。
 -/
-section
-  variable {α : Type} [Inhabited α]
+section --#
 
-  #check (default : α)
-end
+variable {α : Type} [Inhabited α]
+
+#check (default : α)
+
+end --#
 /- `Inhabited` の注意すべき使われ方として、`panic` する関数の返り値として呼ばれるというものがあります。
 
 たとえば `a : Array` に対して `i` 番目の要素を取り出す処理を考えます。`i` 番目の要素が存在するとは限らないので、例外の処理が必要です。一つの方法は、「`i` 番目の要素がなければエラーにする」というものです。
@@ -20,7 +22,7 @@ def get {α : Type} [Inhabited α] (a : Array α) (i : Nat) : α :=
   else
     panic! "index out of bounds"
 
-/- 何気ない定義のように見えますが、この定義には `Inhabited α` が必要です。`panic!` でプログラムを終了させているのですが、このときに `α` が空でないことが要求されています。-/
+/- 何気ない定義のように見えますが、この定義には `Inhabited α` が必要です。[`panic!`](#{root}/Parser/Panic.md) でプログラムを終了させているのですが、このときに `α` が空でないことが要求されています。-/
 
 /-⋆-//--
 error: failed to synthesize
