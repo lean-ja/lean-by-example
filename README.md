@@ -57,4 +57,4 @@ Proxima Technology（プロキシマテクノロジー）は数学の社会実�
 
 また、以下の方々にご支援を頂いています。ありがとうございます。
 
-<!-- sponsors --><a href="https://github.com/pogin503"><img src="https:&#x2F;&#x2F;github.com&#x2F;pogin503.png" width="60px" alt="User avatar: pogin" /></a><a href="https://github.com/hosht"><img src="https:&#x2F;&#x2F;github.com&#x2F;hosht.png" width="60px" alt="User avatar: Takanobu Hoshino" /></a><!-- sponsors -->
+<!-- sponsors --><!-- sponsors -->
