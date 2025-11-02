@@ -23,7 +23,7 @@ section
     -- by exact を使わない証明
     And.intro hP hQ
 end
-/- なお `And` は[構造体](#{root}/Declarative/Structure.md)なので[無名コンストラクタ](#{root}/Parser/AnonymousConstructor.md)記法を用いて次のように書くこともできます。-/
+/- なお `And` は[構造体](#{root}/Declarative/Structure.md)なので[無名コンストラクタ](#{root}/Syntax/AnonymousConstructor.md)記法を用いて次のように書くこともできます。-/
 
 example {P Q : Prop} (hP : P) (hQ : Q) : P ∧ Q := ⟨hP, hQ⟩
 

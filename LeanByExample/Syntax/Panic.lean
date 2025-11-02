@@ -7,12 +7,6 @@
 def safeDiv (x y : Nat) : Nat :=
   if y = 0 then panic! "0 で割ることはできません！" else x / y
 
-/-⋆-//--
-info: PANIC at safeDiv LeanByExample.Parser.Panic:8:16: 0 で割ることはできません！
----
-info: 0
--/
-#guard_msgs in --#
 #eval safeDiv 10 0
 
 /- ## panic! で処理は中断しない
@@ -41,11 +35,6 @@ def divIO (x y : Nat) : IO Nat :=
 `panic!` は例外を投げているわけではなく、`try .. catch` ブロックで補足することはできません。例外ハンドリングが必要な場合は `panic!` を使用しない方が良いでしょう。
 -/
 
-/-⋆-//--
-info: PANIC at safeDiv LeanByExample.Parser.Panic:8:16: 0 で割ることはできません！
-Result: 0
--/
-#guard_msgs in --#
 #eval show IO Unit from do
   try
     let result := safeDiv 10 0

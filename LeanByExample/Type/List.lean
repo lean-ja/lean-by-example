@@ -28,7 +28,7 @@ inductive List.{u} (α : Type u) where
 end Hidden --#
 /- ## 構文と記法
 
-`List α` の項はカンマ区切りの値を `[]` で囲むことによって作ることができます。これは[リストリテラル](#{root}/Parser/ListLiteral.md)と呼ばれる構文です。 -/
+`List α` の項はカンマ区切りの値を `[]` で囲むことによって作ることができます。これは[リストリテラル](#{root}/Syntax/ListLiteral.md)と呼ばれる構文です。 -/
 
 #check ([1, 2, 3] : List Nat)
 

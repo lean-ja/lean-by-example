@@ -97,7 +97,7 @@ def setOf.unexpander : Unexpander := fun stx =>
 
 /- ### リストリテラル
 
-`List` 型の項を作る構文である、[リストリテラル](#{root}/Parser/ListLiteral.md)を自作して、リストリテラルの表示を調整する例を挙げます。
+`List` 型の項を作る構文である、[リストリテラル](#{root}/Syntax/ListLiteral.md)を自作して、リストリテラルの表示を調整する例を挙げます。
 -/
 
 /-- 自前で定義した`List` -/

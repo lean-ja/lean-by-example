@@ -26,7 +26,7 @@ def add (n m : Nat) : Nat := n + m
 
 def threeAdd (n m l : Nat) : Nat := n + m + l
 
-/- また丸括弧 `()` ではなくて波括弧で引数を指定すると、その引数は[暗黙の引数](#{root}/Parser/ImplicitBinder.md)になり、Lean が推論して埋めてくれるようになります。 -/
+/- また丸括弧 `()` ではなくて波括弧で引数を指定すると、その引数は[暗黙の引数](#{root}/Syntax/ImplicitBinder.md)になり、Lean が推論して埋めてくれるようになります。 -/
 
 /-- リストの長さを返す -/
 def List.myLength {α : Type} (xs : List α) : Nat :=

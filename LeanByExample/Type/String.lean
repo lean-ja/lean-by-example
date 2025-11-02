@@ -38,7 +38,7 @@
 
 /- ## 文字列補間
 
-`String` 型の変数の「評価した後の値」を文字列に埋め込むことができます。これを **文字列補間(string interpolation)** と呼びます。Lean では、これは [`s!` という構文](#{root}/Parser/InterpStr.md)で行うことができます。
+`String` 型の変数の「評価した後の値」を文字列に埋め込むことができます。これを **文字列補間(string interpolation)** と呼びます。Lean では、これは [`s!` という構文](#{root}/Syntax/InterpStr.md)で行うことができます。
 -/
 
 def greet := "Hello"
