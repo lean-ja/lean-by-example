@@ -35,3 +35,20 @@ def divIO (x y : Nat) : IO Nat :=
 /-⋆-//-- error: 0 で割ることはできません！ -/
 #guard_msgs in --#
 #eval divIO 10 0
+
+/- ## panic! は例外を投げない
+
+`panic!` は例外を投げているわけではなく、`try .. catch` ブロックで補足することはできません。例外ハンドリングが必要な場合は `panic!` を使用しない方が良いでしょう。
+-/
+
+/-⋆-//--
+info: PANIC at safeDiv LeanByExample.Syntax.Panic:8:16: 0 で割ることはできません！
+Result: 0
+-/
+#guard_msgs in --#
+#eval show IO Unit from do
+  try
+    let result := safeDiv 10 0
+    IO.println s!"Result: {result}"
+  catch e =>
+    IO.println s!"Caught an error: {e}"
