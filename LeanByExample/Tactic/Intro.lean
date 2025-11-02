@@ -27,7 +27,7 @@ example (hPQ: P → Q) (hQR: Q → R) : P → R := by
 /- ## 特定の形の命題に対しての使用法
 
 ### A ∧ B → C
-前提が論理積の形をしていた場合、[無名コンストラクタ](#{root}/Parser/AnonymousConstructor.md)で仮定を分解することができます。
+前提が論理積の形をしていた場合、[無名コンストラクタ](#{root}/Syntax/AnonymousConstructor.md)で仮定を分解することができます。
 -/
 
 example {S : Prop} (hPR : P → R) (hQR : Q → S) : P ∧ Q → R ∧ S := by

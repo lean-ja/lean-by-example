@@ -28,4 +28,4 @@ example : factorial 3 = 6 := by
 
   rfl
 
-/- `show` タクティクとよく似た構文を持つものに、[`show .. from`](#{root}/Parser/Show.md) 構文があります。 -/
+/- `show` タクティクとよく似た構文を持つものに、[`show .. from`](#{root}/Syntax/Show.md) 構文があります。 -/

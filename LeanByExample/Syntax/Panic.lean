@@ -8,7 +8,7 @@ def safeDiv (x y : Nat) : Nat :=
   if y = 0 then panic! "0 で割ることはできません！" else x / y
 
 /-⋆-//--
-info: PANIC at safeDiv LeanByExample.Parser.Panic:8:16: 0 で割ることはできません！
+info: PANIC at safeDiv LeanByExample.Syntax.Panic:8:16: 0 で割ることはできません！
 ---
 info: 0
 -/
@@ -42,7 +42,7 @@ def divIO (x y : Nat) : IO Nat :=
 -/
 
 /-⋆-//--
-info: PANIC at safeDiv LeanByExample.Parser.Panic:8:16: 0 で割ることはできません！
+info: PANIC at safeDiv LeanByExample.Syntax.Panic:8:16: 0 で割ることはできません！
 Result: 0
 -/
 #guard_msgs in --#

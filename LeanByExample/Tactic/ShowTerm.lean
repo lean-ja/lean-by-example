@@ -19,7 +19,7 @@ example (n : Nat) : n + 0 = n := show_term by
   rfl
 
 /- ## by? 構文
-[`by`](#{root}/Parser/By.md) を `by?` に変えることでも、`show_term` を呼び出すことができます。-/
+[`by`](#{root}/Syntax/By.md) を `by?` に変えることでも、`show_term` を呼び出すことができます。-/
 
 /-⋆-//--
 info: Try this:

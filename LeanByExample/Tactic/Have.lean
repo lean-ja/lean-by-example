@@ -19,7 +19,7 @@ example (P : Prop) : ¬¬¬ P → ¬ P := by
   -- これで`¬¬¬ P`と`¬¬ P`が得られたが、これは矛盾である
   contradiction
 
-/- `have` で示した補題には必ず名前がつきます。名前を省略して `have : P := ...` とすると、自動的に `this` という名前になります。無名の補題が欲しい場合、代わりに [`show .. from`](#{root}/Parser/Show.md) 構文を検討してみてください。-/
+/- `have` で示した補題には必ず名前がつきます。名前を省略して `have : P := ...` とすると、自動的に `this` という名前になります。無名の補題が欲しい場合、代わりに [`show .. from`](#{root}/Syntax/Show.md) 構文を検討してみてください。-/
 
 example (P : Prop) : ¬¬¬ P → ¬ P := by
   intro hn3p hp
@@ -40,7 +40,7 @@ example (P : Prop) : ¬¬¬ P → ¬ P := by
 
 `P` の証明 `hp : P` と `Q` の証明 `hq : Q` があるとき、`P ∧ Q` の証明は `And.intro hp hq` で構成できます。ここで `And.intro` は構造体 `And` 型のコンストラクタです。
 
-これを、コンストラクタ名を明示せずにシンプルに `⟨hp, hq⟩` と書くことができます。これは[無名コンストラクタ](#{root}/Parser/AnonymousConstructor.md)と呼ばれるものです。-/
+これを、コンストラクタ名を明示せずにシンプルに `⟨hp, hq⟩` と書くことができます。これは[無名コンストラクタ](#{root}/Syntax/AnonymousConstructor.md)と呼ばれるものです。-/
 section
   variable (P Q : Prop) (hp : P) (hq : Q)
 

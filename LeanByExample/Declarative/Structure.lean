@@ -39,7 +39,7 @@ structure MyProd (α : Type) (β : Type) where
 #check MyProd.gen
 
 /- ## 項を定義する様々な構文
-構造体の項を定義したい場合、複数の方法があります。波括弧記法が好まれますが、フィールド名が明らかな状況であれば[無名コンストラクタ](#{root}/Parser/AnonymousConstructor.md)を使用することもあります。-/
+構造体の項を定義したい場合、複数の方法があります。波括弧記法が好まれますが、フィールド名が明らかな状況であれば[無名コンストラクタ](#{root}/Syntax/AnonymousConstructor.md)を使用することもあります。-/
 
 -- コンストラクタを使う
 def sample0 : Point Int := Point.mk 1 2

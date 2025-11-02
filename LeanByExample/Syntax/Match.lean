@@ -27,7 +27,7 @@ def Nat.fatorial (n : Nat) : Nat :=
 /- パターンマッチの `|` に続くのはコンストラクタの像または、コンストラクタの像に展開される式である必要があります。この挙動を変更して任意の関数を使いたい場合、[`[match_pattern]`](#{root}/Attribute/MatchPattern.md)属性の使用を検討してください。 -/
 
 /- ### 無名コンストラクタによるパターンマッチ
-`match .. with` 構文はある程度賢く、[無名コンストラクタ](#{root}/Parser/AnonymousConstructor.md)を展開したりすることができます。 -/
+`match .. with` 構文はある程度賢く、[無名コンストラクタ](#{root}/Syntax/AnonymousConstructor.md)を展開したりすることができます。 -/
 
 /-- 正の自然数 -/
 abbrev Pos := { x : Nat // x > 0 }

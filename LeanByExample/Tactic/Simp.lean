@@ -101,7 +101,7 @@ example {P Q : Prop} (h : Q) : (P → P) ∧ Q := by
 
 ### at 構文
 
-`simp` は [at 構文](#{root}/Parser/AtLocation.md) を受け入れます。`simp` は何も指定しなければゴールを単純化しますが、ローカルコンテキストにある `h : P` を単純化させたければ `simp at h` と指定することで可能です。ゴールと `h` の両方を単純化したいときは `simp at h ⊢` とします。-/
+`simp` は [at 構文](#{root}/Syntax/AtLocation.md) を受け入れます。`simp` は何も指定しなければゴールを単純化しますが、ローカルコンテキストにある `h : P` を単純化させたければ `simp at h` と指定することで可能です。ゴールと `h` の両方を単純化したいときは `simp at h ⊢` とします。-/
 
 example {n m : Nat} (h : n + 0 + 0 = m) : n = m + (0 * n) := by
   simp only [add_zero, zero_mul] at h ⊢
