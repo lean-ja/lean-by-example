@@ -251,37 +251,3 @@ example {n : Nat} (h0 : ¬ Even n) (h1 : ¬ Even (n + 1)) : False := by
   aesop
 
 end destruct --#
-/- ### tactic
-`tactic` ビルダーは、タクティクを追加のルールとして直接利用できるようにします。
--/
-section --#
-
-example (a b : Nat) (h : 3 ∣ (10 * a + b)) : 3 ∣ (a + b) := by
-  -- aesop で証明できない
-  fail_if_success aesop
-
-  -- omega を使えば証明できる
-  omega
-
-open Lean Elab Tactic in
-
--- aesop にルールを登録する
-attribute [aesop safe tactic] Omega.omegaDefault
-
-example (a b : Nat) (h : 3 ∣ (10 * a + b)) : 3 ∣ (a + b) := by
-  -- aesop で証明できるようになった!
-  aesop
-end --#
-/- ただし `tactic` ビルダーは受け入れる型が少し特殊で、`TacticM Unit` などの少数の型の項しか受け入れません。正確にどの型の項を受け入れるかは、エラーメッセージで確認できます。-/
-
-/-⋆-//--
-error: aesop: tactic builder: expected foo to be a tactic, i.e. to have one of these types:
-  TacticM Unit
-  SimpleRuleTac
-  RuleTac
-  TacGen
-However, it has type
-  String
--/
-#guard_msgs in --#
-@[aesop safe tactic] def foo := "hello"
