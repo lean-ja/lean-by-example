@@ -83,6 +83,13 @@ theorem sumImp_eq_sumFunc (l : List α) : sumImp l = sumFunc l := by
     -- したがって目標も成り立つ
     grind
 
+/- ## 構文
+
+`mvcgen` タクティクを使用するとき、まず不変条件を指定し、そのあとに `all_goals mleave` を実行するというパターンがよく見られます。そこで、定型文を減らすために以下のように `mvcgen invariants` という構文が用意されています。
+
+{{#include ./Mvcgen/NaiveExpo.md}}
+-/
+
 /-
 [^mvcgen-doc]: このページの内容およびコード例は、公式のドキュメントである [Verifying imperative programs using mvcgen](https://hackmd.io/@sg-fro/BJRlurP_xg) を参考にしています。
 -/
