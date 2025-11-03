@@ -90,6 +90,16 @@ theorem sumImp_eq_sumFunc (l : List α) : sumImp l = sumFunc l := by
 {{#include ./Mvcgen/NaiveExpo.md}}
 -/
 
+/- ## 使用例
+
+### 早期リターン
+
+`for` 文の途中で `return` 文があるような場合でも、`mvcgen` は対応できます。その場合は不変条件の書き方が変わって、「早期終了した場合」と「早期終了せず継続する場合」の２つを考慮する必要が生じます。[^below-zero]
+
+{{#include ./Mvcgen/BelowZero.md}}
+-/
+
 /-
 [^mvcgen-doc]: このページの内容およびコード例は、公式のドキュメントである [Verifying imperative programs using mvcgen](https://hackmd.io/@sg-fro/BJRlurP_xg) を参考にしています。
+[^below-zero]: このコード例は [human-eval-lean](https://github.com/leanprover/human-eval-lean) のコードを参考にしています。
 -/
