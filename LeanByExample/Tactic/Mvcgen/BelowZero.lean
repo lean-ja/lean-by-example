@@ -59,12 +59,11 @@ theorem hasPrefix_append {P : List α → Prop} {l l' : List α} :
     (l ++ l').HasPrefix P ↔ l.HasPrefix P ∨ l'.HasPrefix (fun l'' => P (l ++ l'')) := by
   induction l generalizing P with grind
 
-open Lean Lean.Grind
-
 @[grind =]
-theorem sum_append_singleton {α : Type} {l : List α} {x : α} [AddCommMonoid α] :
+theorem sum_append_singleton {α : Type} {l : List α} {x : α}
+    [Add α] [Zero α] [@Std.Associative α (· + ·)] [@Std.LawfulIdentity α (· + ·) 0] :
     (l ++ [x]).sum = l.sum + x := by
-  induction l with grind [AddCommMonoid.add_assoc, AddCommMonoid.add_zero, AddCommMonoid.zero_add]
+  induction l with simp_all <;> grind
 
 end List
 
