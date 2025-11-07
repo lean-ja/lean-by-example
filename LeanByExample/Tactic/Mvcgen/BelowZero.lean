@@ -59,9 +59,12 @@ theorem hasPrefix_append {P : List α → Prop} {l l' : List α} :
     (l ++ l').HasPrefix P ↔ l.HasPrefix P ∨ l'.HasPrefix (fun l'' => P (l ++ l'')) := by
   induction l generalizing P with grind
 
+open Lean Lean.Grind
+
 @[grind =]
-theorem sum_append_singleton_int {l₁ : List Int} {x : Int} : (l₁ ++ [x]).sum = l₁.sum + x := by
-  simp [List.sum, ← List.foldr_assoc]
+theorem sum_append_singleton {α : Type} {l : List α} {x : α} [AddCommMonoid α] :
+    (l ++ [x]).sum = l.sum + x := by
+  induction l with grind [AddCommMonoid.add_assoc, AddCommMonoid.add_zero, AddCommMonoid.zero_add]
 
 end List
 
@@ -75,10 +78,10 @@ theorem belowZero_iff {l : List Int} : belowZero l ↔ l.HasPrefix (fun l => l.s
   mvcgen invariants
   -- 早期終了がある場合の不変条件
   · Invariant.withEarlyReturn
-      -- 早期終了しなかった場合、現在の接頭辞の和が `balance` に等しく、
-      -- かつ「今までループで見てきた部分」は「和が0未満になる接頭辞」を持たない
-      (fun xs bal => ⌜bal = xs.prefix.sum ∧ ¬ xs.prefix.HasPrefix (fun l => l.sum < 0)⌝)
+    -- 早期終了しなかった場合、現在の接頭辞の和が `balance` に等しく、
+    -- かつ「今までループで見てきた部分」は「和が0未満になる接頭辞」を持たない
+    (fun xs bal => ⌜bal = xs.prefix.sum ∧ ¬ xs.prefix.HasPrefix (fun l => l.sum < 0)⌝)
 
-      -- 早期終了した場合、返り値の`r`は`true`であり、かつ和が0未満になる接頭辞がある
-      (fun r bal => ⌜r = true ∧ l.HasPrefix (fun l => l.sum < 0)⌝)
+    -- 早期終了した場合、返り値の`r`は`true`であり、かつ和が0未満になる接頭辞がある
+    (fun r bal => ⌜r = true ∧ l.HasPrefix (fun l => l.sum < 0)⌝)
   with grind
