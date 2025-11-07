@@ -16,6 +16,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
+      # panic! を Ubuntu 上で評価するとバックトレースが表示されてしまう問題の修正
+      - name: set environment variable
+        run: echo "LEAN_BACKTRACE=0" >> $GITHUB_ENV
       - name: Update Lean project
         uses: leanprover-community/lean-update@main
         with:
