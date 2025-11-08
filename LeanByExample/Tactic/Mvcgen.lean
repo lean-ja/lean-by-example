@@ -4,7 +4,7 @@
 
 `do` 構文を使って手続き的に定義された関数に対して証明を行うことを支援するフレームワークが Lean には組み込まれているのですが、`mvcgen` はその一部です。
 
-シンプルな使用例として、リストの和を `for` ループを使って計算する関数が、関数型スタイルで計算する関数と等しいことを `mvcgen` を使って証明する例を紹介します。このとき、ループを回しても変わらずに成り立ち続ける **不変条件(invariant)** を指定することに注意してください。
+シンプルな使用例として、リストの和を `for` ループを使って計算する関数が、標準ライブラリに用意されている関数と等しいことを `mvcgen` を使って証明する例を紹介します。このとき、ループを回しても変わらずに成り立ち続ける **不変条件(invariant)** を指定することに注意してください。
 -/
 import Lean
 
@@ -12,15 +12,11 @@ import Lean
 set_option mvcgen.warning false
 
 variable {α : Type} [Zero α] [Add α]
-
-/-- 「関数型スタイル」で定義された、和を計算する関数 -/
-@[grind]
-def sumFunc (l : List α) : α :=
-  l.foldl (· + ·) 0
+variable [@Std.Associative α (· + ·)] [@Std.LawfulIdentity α (· + ·) 0]
 
 /-- for文を使って命令的に実装された、和を計算する関数 -/
 @[grind]
-def sumImp (l : List α) : α := Id.run do
+def sumDo (l : List α) : α := Id.run do
   let mut out := 0
   for i in l do
     out := out + i
@@ -28,10 +24,16 @@ def sumImp (l : List α) : α := Id.run do
 
 open Std.Do
 
-/-- 手続き的に実装した和の計算と、関数型っぽく定義した和の計算が等しい -/
-theorem sumImp_eq_sumFunc (l : List α) : sumImp l = sumFunc l := by
+-- 証明の中で必要になる補題
+@[grind =, simp]
+theorem List.sum_append_singleton {l : List α} {x : α} :
+    (l ++ [x]).sum = l.sum + x := by
+  induction l with simp_all <;> grind
+
+/-- 手続き的に実装した和の計算と、標準ライブラリに用意されている`List.sum`関数が等しい -/
+theorem sumImp_eq_sumFunc (l : List α) : sumDo l = List.sum l := by
   -- モナディックに実装されている（`Id.run do ...`）部分にフォーカスする
-  generalize h : sumImp l = s
+  generalize h : sumDo l = s
   apply Id.of_wp_run_eq h
 
   -- 検証条件に分解する
@@ -44,7 +46,7 @@ theorem sumImp_eq_sumFunc (l : List α) : sumImp l = sumFunc l := by
   --   つまり進捗（ループの到達位置）を記録する。
   -- 不変条件は「`out` が接頭辞の総和を保持している」こと。
   -- 記法 `⌜p⌝` は，純粋な命題 `p : Prop` をアサーション言語に埋め込む。
-  case inv1 => exact ⇓⟨xs, out⟩ => ⌜sumFunc xs.prefix = out⌝
+  case inv1 => exact ⇓⟨xs, out⟩ => ⌜xs.prefix.sum = out⌝
 
   -- `mleave` はある決まった `simp` 補題に対する `simp only [...] at *` の糖衣構文。
   all_goals mleave
@@ -59,10 +61,10 @@ theorem sumImp_eq_sumFunc (l : List α) : sumImp l = sumFunc l := by
     guard_hyp hyp :ₛ l = pref ++ cur :: suff
 
     -- そして今まで処理された部分に関しては不変条件が成り立っているという帰納法の仮定がある
-    guard_hyp ih :ₛ sumFunc pref = b
+    guard_hyp ih :ₛ pref.sum = b
 
     -- このとき、現在の要素 `cur` を処理した後でも不変条件が成り立つことを示せばよい
-    guard_target =ₛ sumFunc (pref ++ [cur]) = b + cur
+    guard_target =ₛ (pref ++ [cur]).sum = b + cur
 
     -- 証明そのものは `grind` で終わる
     grind
@@ -70,7 +72,7 @@ theorem sumImp_eq_sumFunc (l : List α) : sumImp l = sumFunc l := by
   -- ループ開始時に不変条件が成り立つことを示す
   case vc2.a.pre =>
     -- 空リストの和が 0 であることを示せばよい
-    guard_target =ₛ sumFunc ([] : List α) = 0
+    guard_target =ₛ ([] : List α).sum = 0
 
     grind
 
@@ -78,7 +80,7 @@ theorem sumImp_eq_sumFunc (l : List α) : sumImp l = sumFunc l := by
   case vc3.a.post.success result hr =>
     -- ループ終了時には「処理された部分」は全体なので、
     -- 不変条件から次が成りたつ
-    guard_hyp hr :ₛ sumFunc l = result
+    guard_hyp hr :ₛ l.sum = result
 
     -- したがって目標も成り立つ
     grind
