@@ -110,9 +110,16 @@ theorem sumImp_eq_sumFunc (l : List α) : sumDo l = List.sum l := by
 {{#include ./Mvcgen/Fibonacci.md}}
 -/
 
-/- ## 使用例
+/- ## 使用例 -/
 
-### 和が0未満になる瞬間があるかチェックする
+/- ### 農民の掛け算
+
+農民の掛け算は、２で割る操作と２倍する操作と足し算だけで掛け算を行うアルゴリズムです。`mvcgen` を使って、このアルゴリズムが正しいことを証明する例を紹介します。[^peasant]
+
+{{#include ./Mvcgen/PeasantMul.md}}
+-/
+
+/- ### 先頭から足して和が0未満になる時点があるか判定する
 
 整数のリストに対して、前から順に足していったときに和が0未満になる瞬間があるかチェックする関数について仕様を証明する例を紹介します。[^below-zero]
 
@@ -123,4 +130,5 @@ theorem sumImp_eq_sumFunc (l : List α) : sumDo l = List.sum l := by
 [^mvcgen-doc]: このページの内容およびコード例は、公式のドキュメントである [Verifying imperative programs using mvcgen](https://hackmd.io/@sg-fro/BJRlurP_xg) を参考にしています。
 [^below-zero]: このコード例は [human-eval-lean](https://github.com/leanprover/human-eval-lean) のコードを参考にしています。
 [^fibonacci]: このコード例は、Lean のリポジトリの [doLogicTests.lean](https://github.com/leanprover/lean4/blob/80409a9ceb803bdfa695687de3aca2008c5aaf6d/tests/lean/run/doLogicTests.lean) の内容を参考にしました。
+[^peasant]: このコード例は Lean の公式 Zulip の [new monadic program verification framework](https://leanprover.zulipchat.com/#narrow/channel/113488-general/topic/new.20monadic.20program.20verification.20framework/with/545897085) というトピックにおける pandaman さんの投稿を参考にしました。
 -/
