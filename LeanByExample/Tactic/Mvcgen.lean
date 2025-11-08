@@ -105,7 +105,7 @@ theorem sumImp_eq_sumFunc (l : List α) : sumDo l = List.sum l := by
 /-
 ### 複数の可変変数
 
-`for` ループの中で複数の可変変数が `let mut` で導入されている場合には、以下のように不変条件の書き方が変えることで対応できます。[^fibonacci]
+`for` ループの中で複数の可変変数が `let mut` で導入されている場合には、以下のように不変条件の書き方を変えることで対応できます。[^fibonacci]
 
 {{#include ./Mvcgen/Fibonacci.md}}
 -/
