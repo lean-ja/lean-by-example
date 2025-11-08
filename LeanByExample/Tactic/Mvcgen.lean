@@ -22,13 +22,14 @@ def sumDo (l : List α) : α := Id.run do
     out := out + i
   return out
 
-open Std.Do
-
 -- 証明の中で必要になる補題
 @[grind =, simp]
 theorem List.sum_append_singleton {l : List α} {x : α} :
     (l ++ [x]).sum = l.sum + x := by
   induction l with simp_all <;> grind
+
+-- `scoped` で用意された表記法を有効にする
+open Std.Do
 
 /-- 手続き的に実装した和の計算と、標準ライブラリに用意されている`List.sum`関数が等しい -/
 theorem sumImp_eq_sumFunc (l : List α) : sumDo l = List.sum l := by
