@@ -21,10 +21,4 @@ theorem naiveExpo_correct (x n : Nat) : naiveExpo x n = x ^ n := by
   -- `xs.prefix.length`はこれまでにループが回った回数を表す
   -- `result`はループ内で更新される変数の値を表す
   · ⇓⟨xs, result⟩ => ⌜result = x ^ xs.prefix.length⌝
-  with grind -- すべてのゴールに対して `mleave` に加えて `grind` を適用してみる
-
-  case step =>
-    expose_names
-    suffices b * x = x ^ (pref.length + 1) from by
-      simpa
-    grind
+  with simp_all <;> grind -- すべてのゴールに対して `mleave` に加えて `simp_all <;> grind` を適用してみる
