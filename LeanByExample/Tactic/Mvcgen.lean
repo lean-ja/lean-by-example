@@ -93,7 +93,7 @@ theorem sumImp_eq_sumFunc (l : List α) : sumDo l = List.sum l := by
 {{#include ./Mvcgen/NaiveExpo.md}}
 -/
 
-/- ## 使用例
+/- ## 機能
 
 ### 早期リターン
 
@@ -102,9 +102,19 @@ theorem sumImp_eq_sumFunc (l : List α) : sumDo l = List.sum l := by
 {{#include ./Mvcgen/NoDup.md}}
 -/
 
-/- ### 早期リターン 2
+/-
+### 複数の可変変数
 
-早期リターンを利用するような例をもう一つ挙げましょう。整数のリストに対して、前から順に足していったときに和が0未満になる瞬間があるかチェックする関数について仕様を証明する例です。[^below-zero]
+`for` ループの中で複数の可変変数が `let mut` で導入されている場合には、以下のように不変条件の書き方が変えることで対応できます。[^fibonacci]
+
+{{#include ./Mvcgen/Fibonacci.md}}
+-/
+
+/- ## 使用例
+
+### 和が0未満になる瞬間があるかチェックする
+
+整数のリストに対して、前から順に足していったときに和が0未満になる瞬間があるかチェックする関数について仕様を証明する例を紹介します。[^below-zero]
 
 {{#include ./Mvcgen/BelowZero.md}}
 -/
@@ -112,4 +122,5 @@ theorem sumImp_eq_sumFunc (l : List α) : sumDo l = List.sum l := by
 /-
 [^mvcgen-doc]: このページの内容およびコード例は、公式のドキュメントである [Verifying imperative programs using mvcgen](https://hackmd.io/@sg-fro/BJRlurP_xg) を参考にしています。
 [^below-zero]: このコード例は [human-eval-lean](https://github.com/leanprover/human-eval-lean) のコードを参考にしています。
+[^fibonacci]: このコード例は、Lean のリポジトリの [doLogicTests.lean](https://github.com/leanprover/lean4/blob/80409a9ceb803bdfa695687de3aca2008c5aaf6d/tests/lean/run/doLogicTests.lean) の内容を参考にしました。
 -/
