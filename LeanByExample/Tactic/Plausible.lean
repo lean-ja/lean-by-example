@@ -77,23 +77,14 @@ def MyNat.shrink : MyNat → List MyNat
 instance : Shrinkable MyNat where
   shrink := MyNat.shrink
 
-/- ### 2. SampleableExt クラスのインスタンスにする
+/- ### 2. Arbitrary クラスのインスタンスにする
 
-`plausible` はテストするための要素をランダムに生成します。その方法を指定するのが `SampleableExt` 型クラスです。
+`plausible` はテストするための要素をランダムに生成します。その方法を指定するのが `Arbitrary` 型クラスです。`Arbitrary` 型クラスは `deriving` ハンドラを持っているので、自動的にインスタンスを生成することができます。
 -/
 
-/-- 組み込みの自然数を `MyNat` に変換する -/
-def MyNat.ofNat : Nat → MyNat
-  | 0 => zero
-  | n + 1 => succ (ofNat n)
+deriving instance Arbitrary for MyNat
 
-open SampleableExt in
-
-instance : SampleableExt MyNat := mkSelfContained do
-  let x ← SampleableExt.interpSample Nat
-  return MyNat.ofNat x
-
-/- `SampleableExt` 型クラスのインスタンスであることは、`#sample` コマンドで確認できます。-/
+/- `Arbitrary` 型クラスのインスタンスであることは、`#sample` コマンドで確認できます。-/
 
 #sample MyNat
 
