@@ -110,6 +110,13 @@ theorem sumImp_eq_sumFunc (l : List α) : sumDo l = List.sum l := by
 {{#include ./Mvcgen/Fibonacci.md}}
 -/
 
+/- ### 二重のforループ
+
+`for` ループがネストしていても `mvcgen` は対応できます。その場合は、外側のループと内側のループそれぞれについて不変条件を指定する必要があります。また、内側のループの不変条件において、外側のループの進捗状況に言及することもできます。
+
+{{#include ./Mvcgen/DoubleSum.md}}
+-/
+
 /- ## 使用例 -/
 
 /- ### 農民の掛け算
