@@ -40,6 +40,6 @@ example (x y : Nat) : peasantMul x y = x * y := by
   mvcgen invariants
   · Invariant.withEarlyReturn
     (onContinue := fun cursor ⟨curX, curY, prod⟩ =>
-      ⌜curX = x / 2 ^ cursor.prefix.length ∧ curX * curY + prod = x * y⌝)
+      ⌜curX = x / 2 ^ cursor.pos ∧ curX * curY + prod = x * y⌝)
     (onReturn := fun ret ⟨curX, curY, prod⟩ => ⌜ret = prod ∧ prod = x * y⌝)
   with (simp_all <;> grind)
