@@ -102,6 +102,15 @@ theorem sumImp_eq_sumFunc (l : List α) : sumDo l = List.sum l := by
 {{#include ./Mvcgen/NoDup.md}}
 -/
 
+/- ### break 文
+
+`for` ループを途中で抜ける構文としては `return` 文のほかに `break` 文もあります。`break` 文に対しては `retrun` 文のように不変条件を指定する方法がそれ専用に用意されていはいないため、不変条件に工夫が必要になります。具体的には、通常通りループが終了した場合でも `break` で抜けた場合でも成り立つような不変条件を考える必要があります。
+
+以下は、`takeWhile` 関数を早期リターンと `break` のそれぞれを使って実装し、それぞれの不変条件を比較する例です。[^break]
+
+{{#include ./Mvcgen/TakeWhile.md}}
+-/
+
 /-
 ### 複数の可変変数
 
@@ -138,4 +147,5 @@ theorem sumImp_eq_sumFunc (l : List α) : sumDo l = List.sum l := by
 [^below-zero]: このコード例は [human-eval-lean](https://github.com/leanprover/human-eval-lean) のコードを参考にしています。
 [^fibonacci]: このコード例は、Lean のリポジトリの [doLogicTests.lean](https://github.com/leanprover/lean4/blob/80409a9ceb803bdfa695687de3aca2008c5aaf6d/tests/lean/run/doLogicTests.lean) の内容を参考にしました。
 [^peasant]: このコード例は Lean の公式 Zulip の [new monadic program verification framework](https://leanprover.zulipchat.com/#narrow/channel/113488-general/topic/new.20monadic.20program.20verification.20framework/with/545897085) というトピックにおける pandaman さんの投稿を参考にしました。
+[^break]: このコード例は Lean の公式 Zulip の [new monadic program verification framework](https://leanprover.zulipchat.com/#narrow/channel/113488-general/topic/new.20monadic.20program.20verification.20framework/with/545897085) というトピックにおける Sebastian Graf さんの投稿を参考にしました。
 -/
