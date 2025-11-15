@@ -111,6 +111,13 @@ theorem sumImp_eq_sumFunc (l : List α) : sumDo l = List.sum l := by
 {{#include ./Mvcgen/TakeWhile.md}}
 -/
 
+/- ### continue 文
+
+`continue` 文がある場合も `break` 文の場合と同様で、`continue` で抜けた場合でも通常終了した場合でも常に成り立つような不変条件を考えて指定します。
+
+{{#include ./Mvcgen/Filter.md}}
+-/
+
 /-
 ### 複数の可変変数
 
