@@ -34,7 +34,6 @@ theorem Nat.pow_mul_self_halve_of_even (x e : Nat) (he : e % 2 = 0) :
 @[grind! ·]
 theorem Nat.mul_pow_sub_one_of_odd (x e : Nat) (he : e % 2 = 1) :
     x * x ^ (e - 1) = x ^ e := calc
-  _ = x * x ^ (e - 1) := by grind
   _ = x ^ (1 + (e - 1)) := by grind
   _ = x ^ e := by congr; grind
 
