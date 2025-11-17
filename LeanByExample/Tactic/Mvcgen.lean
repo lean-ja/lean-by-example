@@ -149,6 +149,13 @@ theorem sumImp_eq_sumFunc (l : List α) : sumDo l = List.sum l := by
 {{#include ./Mvcgen/PeasantMul.md}}
 -/
 
+/- ### 繰り返し自乗法による指数計算
+
+繰り返し自乗法(binary exponentiation)は、`x ^ n` を計算する際に指数部を２冪の和に分解することで計算を高速化するアルゴリズムのことです。`mvcgen` を使って、このアルゴリズムが正しいことを証明する例を紹介します。[^binary-expo]
+
+{{#include ./Mvcgen/BinaryExpo.md}}
+-/
+
 /- ### 先頭から足して和が0未満になる時点があるか判定する
 
 整数のリストに対して、前から順に足していったときに和が0未満になる瞬間があるかチェックする関数について仕様を証明する例を紹介します。[^below-zero]
@@ -162,4 +169,5 @@ theorem sumImp_eq_sumFunc (l : List α) : sumDo l = List.sum l := by
 [^fibonacci]: このコード例は、Lean のリポジトリの [doLogicTests.lean](https://github.com/leanprover/lean4/blob/80409a9ceb803bdfa695687de3aca2008c5aaf6d/tests/lean/run/doLogicTests.lean) の内容を参考にしました。
 [^peasant]: このコード例は Lean の公式 Zulip の [new monadic program verification framework](https://leanprover.zulipchat.com/#narrow/channel/113488-general/topic/new.20monadic.20program.20verification.20framework/with/545897085) というトピックにおける pandaman さんの投稿を参考にしました。
 [^break]: このコード例は Lean の公式 Zulip の [new monadic program verification framework](https://leanprover.zulipchat.com/#narrow/channel/113488-general/topic/new.20monadic.20program.20verification.20framework/with/545897085) というトピックにおける Sebastian Graf さんの投稿を参考にしました。
+[^binary-expo]: このコード例は Lean の公式 Zulip の  [new monadic program verification framework](https://leanprover.zulipchat.com/#narrow/channel/113488-general/topic/new.20monadic.20program.20verification.20framework/with/545897085) というトピックにおける Aaron Liu さんの投稿を参考にしました。
 -/
