@@ -21,10 +21,11 @@
 
 /-- `Bool.and` を真似て自作した関数
 (わざと冗長な定義を採用している) -/
-def Bool.myAnd : Bool → Bool → Bool
+def Bool.myAnd (a b : Bool) : Bool :=
+  match a, b with
   | false, _ => false
-  | true, true => true
   | _, false => false
+  | _, _ => true
 
 -- 第二引数が評価されており、短絡評価になっていない
 /-⋆-//--

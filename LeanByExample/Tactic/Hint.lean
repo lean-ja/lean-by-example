@@ -5,7 +5,10 @@ import Mathlib.Tactic -- `hint` は検索を伴うので、おおざっぱに im
 
 /-⋆-//--
 info: Try these:
-  [apply] 🎉 bound
+  [apply] 🎉 simp_all only [forall_const]
+  [apply] norm_num
+  Remaining subgoals:
+  ⊢ Q
   [apply] group
   Remaining subgoals:
   ⊢ Q
@@ -16,7 +19,10 @@ example (P Q : Prop) (p : P) (h : P → Q) : Q := by
 
 /-⋆-//--
 info: Try these:
-  [apply] 🎉 bound
+  [apply] 🎉 simp_all only [and_self]
+  [apply] norm_num
+  Remaining subgoals:
+  ⊢ Q ∧ P ∧ R
   [apply] group
   Remaining subgoals:
   ⊢ Q ∧ P ∧ R
@@ -74,7 +80,7 @@ info: "group"
 登録されているタクティクに `tac` を追加するには、`register_hint tac` を実行します。
 -/
 
-register_hint nlinarith
+register_hint 1000 nlinarith
 
 /-⋆-//--
 info: Try these:

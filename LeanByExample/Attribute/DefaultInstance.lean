@@ -13,21 +13,16 @@
 set_option pp.mvars false
 
 -- エラー。`x, y` の型がわからないので `x * y` をどう解釈すればいいか Lean はわからない。
-/-⋆-//--
-error: typeclass instance problem is stuck, it is often due to metavariables
-  HMul (?_ y) ?_ (?_ y x)
--/
-#guard_msgs in --#
-#reduce fun y => (fun x => x * y)
+#check_failure fun y => (fun x => x * y)
 
 -- `y` の型を明示的に与えればエラーは消える
-#reduce fun (y : Nat) => (fun x => x * y)
+#check fun (y : Nat) => (fun x => x * y)
 
 -- `Mul` のインスタンスを探して見つからなかった際に `Int.instMul` を使うように指定する
 attribute [default_instance] Int.instMul
 
 -- エラーが消えた！
-#reduce fun y => (fun x => x * y)
+#check fun y => (fun x => x * y)
 
 /- ## 用途
 典型的な使用方法は、[`OfNat`](#{root}/TypeClass/OfNat.md) 型クラスの（型を指定しない場合の）解釈のされ方を変更することでしょう。

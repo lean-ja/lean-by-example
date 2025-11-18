@@ -32,7 +32,7 @@ inductive Syntax where
   * `Nat.add` などの関数名
   * 式 `1 + x` における変数名 `x`
   -/
-  | ident (info : SourceInfo) (rawVal : Substring)
+  | ident (info : SourceInfo) (rawVal : Substring.Raw)
     (val : Name) (preresolved : List Syntax.Preresolved) : Syntax
 
 --#--
@@ -44,7 +44,7 @@ constructors:
 Lean.Syntax.missing : Lean.Syntax
 Lean.Syntax.node : SourceInfo → SyntaxNodeKind → Array Lean.Syntax → Lean.Syntax
 Lean.Syntax.atom : SourceInfo → String → Lean.Syntax
-Lean.Syntax.ident : SourceInfo → Substring → Name → List Syntax.Preresolved → Lean.Syntax
+Lean.Syntax.ident : SourceInfo → Substring.Raw → Name → List Syntax.Preresolved → Lean.Syntax
 -/
 #guard_msgs in #print _root_.Lean.Syntax
 --#--
@@ -62,8 +62,8 @@ def parse (cat : Name) (s : String) : MetaM Syntax := do
 -- `true` は識別子としてパースされている。
 /-⋆-//--
 info: Lean.Syntax.ident
-  (Lean.SourceInfo.original "".toSubstring { byteIdx := 0 } "".toSubstring { byteIdx := 4 })
-  "true".toSubstring
+  (Lean.SourceInfo.original "".toRawSubstring { byteIdx := 0 } "".toRawSubstring { byteIdx := 4 })
+  "true".toRawSubstring
   `true
   []
 -/
@@ -76,7 +76,9 @@ info: Lean.Syntax.ident
 info: Lean.Syntax.node
   (Lean.SourceInfo.none)
   `num
-  #[Lean.Syntax.atom (Lean.SourceInfo.original "".toSubstring { byteIdx := 0 } "".toSubstring { byteIdx := 1 }) "0"]
+  #[Lean.Syntax.atom
+      (Lean.SourceInfo.original "".toRawSubstring { byteIdx := 0 } "".toRawSubstring { byteIdx := 1 })
+      "0"]
 -/
 #guard_msgs in --#
 #eval parse `term "0"

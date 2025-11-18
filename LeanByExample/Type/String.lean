@@ -4,7 +4,7 @@
 -/
 
 -- `Char` のリストから `String` を構築する
-#guard String.mk ['H', 'e', 'l', 'l', 'o'] = "Hello"
+#guard String.ofList ['H', 'e', 'l', 'l', 'o'] = "Hello"
 
 -- `String` を `Char` のリストに変換する
 #guard "Hello".toList = ['H', 'e', 'l', 'l', 'o']

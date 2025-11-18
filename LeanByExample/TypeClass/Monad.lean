@@ -174,14 +174,14 @@ def Parser.item : Parser Char := fun input =>
   let chars := input.toList
   match chars with
   | [] => none
-  | x :: xs => some (x, String.mk xs)
+  | x :: xs => some (x, String.ofList xs)
 
 /-- 3文字の文字列にマッチするパーサー -/
 def Parser.three : Parser String := do
   let x ← item
   let y ← item
   let z ← item
-  return String.mk [x, y, z]
+  return String.ofList [x, y, z]
 
 #guard Parser.three "abcdef" = some ("abc", "def")
 
