@@ -10,12 +10,12 @@ def peasantMul (x y : Nat) : Nat := Id.run do
   let mut curY := y
   let mut prod := 0
   for _ in [0:x] do
-    if curX = 0 then
-      return prod
     if curX % 2 = 1 then
       prod := prod + curY
     curX := curX / 2
     curY := curY * 2
+    if curX = 0 then
+      break
   return prod
 
 attribute [grind =] Nat.div_div_eq_div_mul
@@ -38,8 +38,6 @@ example (x y : Nat) : peasantMul x y = x * y := by
   apply Id.of_wp_run_eq h
 
   mvcgen invariants
-  · Invariant.withEarlyReturn
-    (onContinue := fun cursor ⟨curX, curY, prod⟩ =>
-      ⌜curX = x / 2 ^ cursor.pos ∧ curX * curY + prod = x * y⌝)
-    (onReturn := fun ret ⟨curX, curY, prod⟩ => ⌜ret = prod ∧ prod = x * y⌝)
-  with (simp_all <;> grind)
+  · ⇓⟨cursor, curX, curY, prod⟩ =>
+    ⌜curX = x / 2 ^ cursor.pos ∧ curX * curY + prod = x * y⌝
+  with (simp at * <;> grind)
