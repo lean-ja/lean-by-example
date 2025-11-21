@@ -1,4 +1,4 @@
-import Mathlib.Util.Whatsnew
+import Mathlib.Util.WhatsNew
 
 /-- 偶数を表す帰納的述語 -/
 inductive MyEven : Nat → Prop where

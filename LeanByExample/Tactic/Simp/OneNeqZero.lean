@@ -1,4 +1,4 @@
-import Mathlib.Util.Whatsnew
+import Mathlib.Util.WhatsNew
 
 /-- 0と1は等しくない -/
 theorem Nat.one_neq_zero : 1 ≠ 0 := by
