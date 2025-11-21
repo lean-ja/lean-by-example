@@ -84,6 +84,13 @@ example : (zero + zero) + 1 = one := by
   -- 複数の補題を指定することもできる
   simp [add_zero_zero_eq_zero, add_zero_one_eq_one]
 
+/- ### simp only
+
+`simp only [h₁, h₂, …]` と書くと、登録された補題は無視して、引数として与えた補題だけを使って単純化を行います。
+
+{{#include ./Simp/SimpOnly.md}}
+-/
+
 /- ### at 構文
 
 `simp` は [at 構文](#{root}/Syntax/AtLocation.md) を受け入れます。`simp` は何も指定しなければゴールを単純化しますが、ローカルコンテキストにある `h : P` を単純化させたければ `simp at h` と指定することで可能です。ゴールと `h` の両方を単純化したいときは `simp at h ⊢` とします。-/
