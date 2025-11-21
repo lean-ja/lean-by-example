@@ -1,4 +1,3 @@
-import Mathlib.Tactic --#
 /- # simp
 
 `simp` は、ターゲットを決められた規則に基づいて自動で単純化（simplify）するタクティクです。
@@ -37,7 +36,7 @@ theorem MyNat.zero_add (n : MyNat) : 0 + n = n := by
     rw [ih]
 
 example (n : MyNat) : (0 + n + 0) + 0 = n := by
-  -- 単に`simp`と書くだけで自動的に登録した補題が使用される
+  -- 単に`simp`と書くだけで自動的に登録した補題によって書き換えが行われる
   simp
 
 /- ## 等式・同値性以外のルールを登録した場合
@@ -45,48 +44,14 @@ example (n : MyNat) : (0 + n + 0) + 0 = n := by
 等式や同値性以外のルールを登録した場合、等式・同値性への変換が自動的に行われたうえで登録されます。
 
 たとえば下記の例のように、`1 ≠ 0` というルールを `simp` 補題として登録した場合、`(1 = 0) = False` という定理が自動生成されそれに基づいて単純化が行われるようになります。
+
+{{#include ./Simp/OneNeqZero.md}}
 -/
 
-instance : One MyNat where
-  one := MyNat.succ MyNat.zero
+/- 一般に等式の形をしているとは限らない命題 `P : Prop` に対して `P` という命題を `simp` 補題として登録すると `P = True` という定理が、`¬ P` という命題を登録すると `P = False` という定理がそれぞれ自動生成されて単純化に使用されます。
 
-theorem MyNat.one_neq_zero : (1 : MyNat) ≠ 0 := by
-  intro h
-  injection h
-
--- `[simp]`属性を追加したことによって、`(1 = 0) = False`という命題が追加されている
-/-⋆-//--
-info: theorem MyNat.one_neq_zero._simp_1 : (1 = 0) = False :=
-eq_false MyNat.one_neq_zero
-
--- Lean.Meta.simpExtension extension: 1 new entries
+{{#include ./Simp/MyEven.md}}
 -/
-#guard_msgs in --#
-whatsnew in attribute [simp] MyNat.one_neq_zero
-
-example (h : (1 : MyNat) = 0) (P : Prop) : P := by
-  simp at h
-
-/- 一般に `P` という命題を登録すると `P = True` という定理が、`¬ P` という命題を登録すると `P = False` という定理が自動生成されて単純化に使用されます。-/
-
-/-- 偶数を表す帰納的述語 -/
-inductive MyEven : Nat → Prop where
-  | zero : MyEven 0
-  | step (n : Nat) : MyEven n → MyEven (n + 2)
-
-theorem MyEven_two : MyEven 2 := by
-  apply MyEven.step
-  apply MyEven.zero
-
--- `MyEven 2 = True` という書き換えルールが自動生成されている
-/-⋆-//--
-info: theorem MyEven_two._simp_1 : MyEven 2 = True :=
-eq_true MyEven_two
-
--- Lean.Meta.simpExtension extension: 1 new entries
--/
-#guard_msgs in --#
-whatsnew in attribute [simp] MyEven_two
 
 /- ## simp で使用できる構文
 
@@ -104,7 +69,7 @@ example {P Q : Prop} (h : Q) : (P → P) ∧ Q := by
 `simp` は [at 構文](#{root}/Syntax/AtLocation.md) を受け入れます。`simp` は何も指定しなければゴールを単純化しますが、ローカルコンテキストにある `h : P` を単純化させたければ `simp at h` と指定することで可能です。ゴールと `h` の両方を単純化したいときは `simp at h ⊢` とします。-/
 
 example {n m : Nat} (h : n + 0 + 0 = m) : n = m + (0 * n) := by
-  simp only [add_zero, zero_mul] at h ⊢
+  simp only [Nat.add_zero, Nat.zero_mul] at h ⊢
   assumption
 
 /- ローカルコンテキストとゴールをまとめて全部単純化したい場合は `simp at *` とします。 -/
@@ -139,7 +104,6 @@ end
 /- ## arith オプション
 `simp` の設定で `arith` を有効にすると、算術的な単純化もできるようになります。
 -/
-set_option linter.flexible false in --#
 
 example (x y : Nat) : 0 < 1 + x ∧ x + y + 2 ≥ y + 1 := by
   -- `simp` だけでは証明が終わらない
@@ -147,14 +111,7 @@ example (x y : Nat) : 0 < 1 + x ∧ x + y + 2 ≥ y + 1 := by
   | simp
 
   -- 適当に証明する
-  suffices y ≤ x + y + 1 from by
-    simp_all
-
-  have : y ≤ x + y + 1 := calc
-    _ = 0 + y := by simp
-    _ ≤ x + 1 + y := by gcongr; simp
-    _ = x + y + 1 := by ac_rfl
-  assumption
+  grind
 
 example {x y : Nat} : 0 < 1 + x ∧ x + y + 2 ≥ y + 1 := by
   -- config を与えれば一発で終わる
