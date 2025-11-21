@@ -101,7 +101,7 @@ example {n m : Nat} (h : n + 0 + 0 = m) : n = m + (0 * n) := by
 
 /- ローカルコンテキストとゴールをまとめて全部単純化したい場合は `simp at *` とします。 -/
 
-/- ## 等式・同値性以外のルールを登録した場合
+/- ## 等式・同値性以外のルールを扱う
 
 等式や同値性以外のルールを登録した場合、等式・同値性への変換が自動的に行われたうえで登録されます。
 
@@ -141,8 +141,24 @@ section
   example (n m : Nat) : (n + 0) * m = n * m := by simp
 
 end
+/-
+なお `linter.loopingSimpArgs` オプションを有効にすると、`simp` 引数のループを検出して警告を出すようになります。
+-/
+
+-- ループを引き起こす `simp` の引数に対して警告を出す
+set_option linter.loopingSimpArgs true in
+
+/-⋆-//--
+warning: Possibly looping simp theorem: `bad_add_zero`
+
+Hint: You can disable a simp theorem from the default simp set by passing `- theoremName` to `simp`.
+-/
+#guard_msgs (warning, drop error) in --#
+example (n m : Nat) : (n + 0) * m = n * m := by
+  simp [bad_add_zero]
 
 /- ## arith オプション
+
 `simp` の設定で `arith` を有効にすると、算術的な単純化もできるようになります。
 -/
 
@@ -170,7 +186,7 @@ example {n m : Nat} (h : n + 0 + 0 = m) : n = m := by
 
 /- ### simp?
 
-`simp` は自動的に証明を行ってくれますが、何が使われたのか知りたいときもあります。`simp?` は単純化に何が使われたのかを示してくれるので、`simp only` などを用いて明示的に書き直すことができます。-/
+`simp` は自動的に証明を行ってくれますが、何が行われたのか知りたいときもあります。`simp?` は単純化に何が使われたのかを明示し、`simp only` を用いて書き直すことができるようにしてくれます。-/
 
 /-⋆-//--
 info: Try this:
