@@ -39,6 +39,46 @@ example (n : MyNat) : (0 + n + 0) + 0 = n := by
   -- 単に`simp`と書くだけで自動的に登録した補題によって書き換えが行われる
   simp
 
+/- ## simp で使用できる構文
+
+### `[h₁, h₂, …]` で引数を渡す
+
+既知の `h : P` という命題を使って単純化させたいときは、明示的に `simp [h]` と指定することで可能です。複数個指定することもできて、その場合はカンマ区切りで `simp [h₁, h₂, …]` とします。-/
+
+/-- 0 っぽい何か -/
+opaque zero : Nat
+
+/-- １っぽい何か -/
+opaque one : Nat
+
+/-- `zero` に右から１を足すと `one` に等しい -/
+axiom add_zero_one_eq_one : zero + 1 = one
+
+example : zero + 1 = one := by
+  -- 単に`simp`としても何も起こらない
+  -- これは`simp`補題として登録していないから
+  fail_if_success simp
+
+  -- 明示的に引数として書き換えルールを与えれば証明が通る
+  simp [add_zero_one_eq_one]
+
+/-- `zero` 同士を足すと `zero` に等しい -/
+axiom add_zero_zero_eq_zero : zero + zero = zero
+
+example : (zero + zero) + 1 = one := by
+  -- 複数の補題を指定することもできる
+  simp [add_zero_zero_eq_zero, add_zero_one_eq_one]
+
+/- ### at 構文
+
+`simp` は [at 構文](#{root}/Syntax/AtLocation.md) を受け入れます。`simp` は何も指定しなければゴールを単純化しますが、ローカルコンテキストにある `h : P` を単純化させたければ `simp at h` と指定することで可能です。ゴールと `h` の両方を単純化したいときは `simp at h ⊢` とします。-/
+
+example {n m : Nat} (h : n + 0 + 0 = m) : n = m + (0 * n) := by
+  simp only [Nat.add_zero, Nat.zero_mul] at h ⊢
+  assumption
+
+/- ローカルコンテキストとゴールをまとめて全部単純化したい場合は `simp at *` とします。 -/
+
 /- ## 等式・同値性以外のルールを登録した場合
 
 等式や同値性以外のルールを登録した場合、等式・同値性への変換が自動的に行われたうえで登録されます。
@@ -52,27 +92,6 @@ example (n : MyNat) : (0 + n + 0) + 0 = n := by
 
 {{#include ./Simp/MyEven.md}}
 -/
-
-/- ## simp で使用できる構文
-
-### 補題の指定
-既知の `h : P` という命題を使って単純化させたいときは、明示的に `simp [h]` と指定することで可能です。複数個指定することもできます。また `simp only [h₁, ... , hₖ]` とすると `h₁, ... , hₖ` だけを使用して単純化を行います。-/
-
-example {P Q : Prop} (h : Q) : (P → P) ∧ Q := by
-  simp only [imp_self, true_and]
-  assumption
-
-/- 単に名前を定義に展開したい場合は [`dsimp`](./Dsimp.md) を使用します。
-
-### at 構文
-
-`simp` は [at 構文](#{root}/Syntax/AtLocation.md) を受け入れます。`simp` は何も指定しなければゴールを単純化しますが、ローカルコンテキストにある `h : P` を単純化させたければ `simp at h` と指定することで可能です。ゴールと `h` の両方を単純化したいときは `simp at h ⊢` とします。-/
-
-example {n m : Nat} (h : n + 0 + 0 = m) : n = m + (0 * n) := by
-  simp only [Nat.add_zero, Nat.zero_mul] at h ⊢
-  assumption
-
-/- ローカルコンテキストとゴールをまとめて全部単純化したい場合は `simp at *` とします。 -/
 
 /- ## 注意点: simp 補題のループ
 
