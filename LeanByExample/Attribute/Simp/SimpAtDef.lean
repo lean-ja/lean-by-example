@@ -1,5 +1,3 @@
-import Mathlib.Util.WhatsNew
-
 /-- フィボナッチ数列 -/
 def Nat.fib (n : Nat) : Nat :=
   match n with
