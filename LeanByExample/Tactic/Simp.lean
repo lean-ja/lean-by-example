@@ -157,9 +157,44 @@ Hint: You can disable a simp theorem from the default simp set by passing `- the
 example (n m : Nat) : (n + 0) * m = n * m := by
   simp [bad_add_zero]
 
+/- ## discharger について
+
+`simp` 補題を適用するときに、補題が要求する前提条件を埋める仕組みのことを discharger と呼びます。`simp` のデフォルトの discharger はあまり強力ではありません。
+
+以下の例では、`0 ≤ 1` という前提条件を自動では示すことができずに `simp` が失敗します。[^disch]
+-/
+
+theorem Nat.max_eq_left' {a b : Nat} (h : b ≤ a) : max a b = a := by
+  grind
+
+-- dischargeの過程を表示する
+set_option trace.Meta.Tactic.simp.discharge true in
+
+/-⋆-//--
+trace: [Meta.Tactic.simp.discharge] Nat.max_eq_left' discharge ❌️
+      0 ≤ 1
+-/
+#guard_msgs in --#
+example : max 1 0 = 1 := by
+  fail_if_success
+    simp only [Nat.max_eq_left']
+
+  grind
+
+/- これは `decide` タクティクで示すことができるため、`(disch := ...)` という構文で `decide` タクティクを discharger に指定すれば証明が通るようになります。 -/
+
+example : 0 ≤ 1 := by
+  -- decide で証明できる
+  decide
+
+example : max 1 0 = 1 := by
+  simp (disch := decide) only [Nat.max_eq_left']
+
 /- ## 条件付き書き換えはできない
 
 `simp` は「`A = B` という補題に基づいて `A` を `B` に書き換える」ということはできるのですが、「`C → A = B` という補題に基づいて `C` が成り立つときに `A` を `B` に書き換える」ということはできません。
+
+discharger として `assumption` タクティクを指定すれば多少は証明が通るようになります。
 
 {{#include ./Simp/CondRw.md}}
 -/
@@ -211,3 +246,7 @@ example {P Q : Prop} (hP : P) (hQ : Q) : P ∧ (Q ∧ (P → Q)) := by
   fail_if_success simp at *
 
   simp_all
+
+/-
+[^disch]: このコード例は <https://leanprover-community.github.io/extras/simp.html> における記述を参考にしています。
+-/

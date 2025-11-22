@@ -12,5 +12,12 @@ example {x : MyInt} (le : x ≤ 0) (ge : 0 ≤ x) : x = 0 := by
   fail_if_success simp at ge
 
   -- 手動で引数を `by assumption` で与えればできる
-  simp [MyInt.le_zero_implies (by assumption)] at ge
+  rw [MyInt.le_zero_implies (by assumption)] at ge
+  assumption
+
+
+example {x : MyInt} (le : x ≤ 0) (ge : 0 ≤ x) : x = 0 := by
+  -- discharger として `assumption` を与えれば、
+  -- ローカルコンテキストにある前提条件は拾ってくれるようになる
+  simp (disch := assumption) at ge
   assumption
