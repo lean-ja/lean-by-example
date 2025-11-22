@@ -48,4 +48,9 @@ example (_h : 1 + 1 = 2) : True := by
   -- `simp_all` で示せるようになる
   simp_all
 
+/- また、`simp_all` は `simp at *` と異なり、`simp` 補題の引数をローカルコンテキストから自動的に補うことがあります。
+
+{{#include ./SimpAll/Disch.md}}
+-/
+
 /- [^bad_simp]: ここで挙げているコード例は、Lean の公式 Zulip の aesop with a "bad simp hypothesis" in the context というスレッドで [Frédéric Dupuis さんが挙げたコード例](https://leanprover.zulipchat.com/#narrow/channel/270676-lean4/topic/aesop.20with.20a.20.22bad.20simp.20hypothesis.22.20in.20the.20context/near/493137167)を参考にしています。-/
