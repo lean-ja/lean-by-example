@@ -100,55 +100,14 @@ example : 37 * (Nat.fib 0 + 0) = 0 := by
 
 ### simp high
 
-`[simp high]` とすると優先度が高まり、他のsimp補題よりも先に適用されるようになります。
+`[simp high]` とすると優先度が高まり、他の `simp` 補題よりも先に適用されるようになります。
+
+{{#include ./Simp/SimpHigh.md}}
 -/
-section
 
-theorem MyNat.zero_zero : (0 : MyNat) + 0 = 0 := by
-  rfl
+/- ### simp low
 
--- 普通にsimp補題に登録する
-attribute [simp] MyNat.zero_zero
+`[simp low]` とすると優先度が低くなり、他の `simp` 補題よりも後に適用されるようになります。
 
--- `simp`の行った書き換えを追跡する
-set_option trace.Meta.Tactic.simp.rewrite true
-
--- `MyNat.zero_zero` が使用されていない。
--- これは部分式の単純化が優先されるため。
-/-⋆-//--
-trace: [Meta.Tactic.simp.rewrite] MyNat.add_zero:1000:
-      0 + 0
-    ==>
-      0
-[Meta.Tactic.simp.rewrite] eq_self:1000:
-      0 = 0
-    ==>
-      True
+{{#include ./Simp/SimpLow.md}}
 -/
-#guard_msgs (whitespace := lax) in --#
-example : (0 : MyNat) + 0 = 0 := by
-  simp
-
--- 先ほどのsimp属性を削除する
-attribute [-simp] MyNat.add_zero
-
--- `simp high` を指定し直す
-attribute [simp high] MyNat.zero_zero
-
--- デフォルトでは優先度は1000になるが、
--- highに指定すると優先度が10000になり、先に適用される
-/-⋆-//--
-trace: [Meta.Tactic.simp.rewrite] MyNat.zero_zero:10000:
-      0 + 0
-    ==>
-      0
-[Meta.Tactic.simp.rewrite] eq_self:1000:
-      0 = 0
-    ==>
-      True
--/
-#guard_msgs (whitespace := lax) in --#
-example : (0 : MyNat) + 0 = 0 := by
-  simp
-
-end
