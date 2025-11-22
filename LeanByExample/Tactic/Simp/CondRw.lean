@@ -14,11 +14,3 @@ example {x : MyInt} (le : x ≤ 0) (ge : 0 ≤ x) : x = 0 := by
   -- 手動で引数を `by assumption` で与えればできる
   simp [MyInt.le_zero_implies (by assumption)] at ge
   assumption
-
-
--- `grind` 補題として登録する
-grind_pattern MyInt.le_zero_implies => x ≤ 0, 0 ≤ x
-
-example {x : MyInt} (le : x ≤ 0) (ge : 0 ≤ x) : x = 0 := by
-  -- `grind` ならできる
-  grind
