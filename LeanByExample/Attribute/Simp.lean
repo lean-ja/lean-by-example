@@ -79,9 +79,7 @@ trace: [Meta.Tactic.simp.rewrite] Nat.fib_zero:1000:
 theorem foo : 37 * (Nat.fib 0 + 0) = 0 := by
   simp
 
-/- ## [simp] 属性で利用できる構文
-
-### [simp←]
+/- ## [simp←]
 
 `simp` 補題は「左辺を右辺に」単純化するために使用されますが、逆方向に使用したい場合は `[simp←]` とします。
 -/
@@ -103,7 +101,7 @@ info: Try this:
 example (n : MyNat) : 0 + n + 0 = n := by
   simp?
 
-/- ### [simp↓]
+/- ## [simp↓]
 
 `simp` はデフォルトでは部分式をすべて単純化した後に全体の式に単純化を適用しています。
 -/
@@ -136,11 +134,11 @@ info: Try this:
 example : 37 * (Nat.fib 0 + 0) = 0 := by
   simp?
 
-/- ### 優先度指定
+/- ## 優先度指定
 
 `simp` 補題の中でも早い段階で適用してほしい補題や、遅い段階で適用してほしい補題があるとき、優先度を指定することができます。
 
-#### simp high
+### simp high
 
 `[simp high]` とすると優先度が高まり、他のsimp補題よりも先に適用されるようになります。
 -/
