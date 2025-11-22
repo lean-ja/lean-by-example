@@ -53,7 +53,8 @@ def Nat.fib (n : Nat) : Nat :=
 theorem Nat.fib_zero : Nat.fib 0 = 0 := by
   rfl
 
-set_option trace.Meta.Tactic.simp true in
+-- `simp`の行った書き換えを追跡する
+set_option trace.Meta.Tactic.simp.rewrite true in
 
 -- 内側から外側へという順序で単純化を行っていることがわかる。
 /-⋆-//--
@@ -145,13 +146,14 @@ example : 37 * (Nat.fib 0 + 0) = 0 := by
 -/
 section
 
-set_option trace.Meta.Tactic.simp true
-
 theorem MyNat.zero_zero : (0 : MyNat) + 0 = 0 := by
   rfl
 
 -- 普通にsimp補題に登録する
 attribute [simp] MyNat.zero_zero
+
+-- `simp`の行った書き換えを追跡する
+set_option trace.Meta.Tactic.simp.rewrite true
 
 -- `MyNat.zero_zero` が使用されていない。
 -- これは部分式の単純化が優先されるため。
