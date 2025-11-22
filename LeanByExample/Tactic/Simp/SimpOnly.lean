@@ -12,6 +12,7 @@ opaque one : Nat
 
 example : (zero + zero) + 1 = one := by
   -- 1つだけ使用して単純化を行ってみる
+  -- このとき `add_zero_one_eq_one` は登録済みだが無視される
   simp only [add_zero_zero_eq_zero]
 
   -- まだゴールが残っている
