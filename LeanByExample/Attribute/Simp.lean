@@ -24,10 +24,11 @@ theorem MyNat.add_zero (n : MyNat) : n + 0 = n := by
   rfl
 
 -- 最初は`simp`で示すことができない
-/-⋆-//-- error: `simp` made no progress -/
-#guard_msgs in --#
 example (n : MyNat) : (n + 0) + 0 = n := by
-  simp
+  fail_if_success simp
+
+  rw [MyNat.add_zero n]
+  rw [MyNat.add_zero n]
 
 -- `[simp]`属性を付与する
 attribute [simp] MyNat.add_zero
@@ -76,63 +77,22 @@ trace: [Meta.Tactic.simp.rewrite] Nat.fib_zero:1000:
       True
 -/
 #guard_msgs in --#
-theorem foo : 37 * (Nat.fib 0 + 0) = 0 := by
+example : 37 * (Nat.fib 0 + 0) = 0 := by
   simp
 
 /- ## [simp←]
 
-`simp` 補題は「左辺を右辺に」単純化するために使用されますが、逆方向に使用したい場合は `[simp←]` とします。
--/
+`simp` 補題は通常「左辺を右辺に」単純化するために使用されますが、逆方向に使用したい場合は `[simp←]` とします。
 
-@[simp←]
-theorem MyNat.zero_add (n : MyNat) : n = 0 + n := by
-  induction n with
-  | zero => rfl
-  | succ n ih =>
-    rw [show 0 + n.succ = (0 + n).succ from by rfl]
-    rw [←ih]
-
--- 該当するsimp補題に `←` が付いている
-/-⋆-//--
-info: Try this:
-  [apply] simp only [← MyNat.zero_add, MyNat.add_zero]
+{{#include ./Simp/SimpLeft.md}}
 -/
-#guard_msgs in --#
-example (n : MyNat) : 0 + n + 0 = n := by
-  simp?
 
 /- ## [simp↓]
 
-`simp` はデフォルトでは部分式をすべて単純化した後に全体の式に単純化を適用しています。
+`simp` はデフォルトでは部分式をすべて単純化した後に全体の式に単純化を適用しています。`simp` タクティクに、部分式が単純化されるよりも先に前処理として単純化したいルールがある場合は、`[simp↓]` を使用します。
+
+{{#include ./Simp/SimpDown.md}}
 -/
-section
-
--- `foo`定理をsimp補題として登録する
-attribute [local simp] foo
-
--- `foo`を示そうとしているのに、単純化に`foo`が使用されていない！
--- これは、部分式が先に単純化されるため。
-/-⋆-//--
-info: Try this:
-  [apply] simp only [Nat.fib_zero, Nat.add_zero, Nat.mul_zero]
--/
-#guard_msgs (whitespace := lax) in --#
-example : 37 * (Nat.fib 0 + 0) = 0 := by
-  simp?
-
-end
-/- `simp` タクティクに、部分式が単純化されるよりも先に前処理として単純化したいルールがある場合は、`[simp↓]` を使用します。-/
-
-attribute [simp↓] foo
-
--- `foo`が使われて終了するようになった！
-/-⋆-//--
-info: Try this:
-  [apply] simp only [↓foo]
--/
-#guard_msgs in --#
-example : 37 * (Nat.fib 0 + 0) = 0 := by
-  simp?
 
 /- ## 優先度指定
 
@@ -169,8 +129,11 @@ trace: [Meta.Tactic.simp.rewrite] MyNat.add_zero:1000:
 example : (0 : MyNat) + 0 = 0 := by
   simp
 
-attribute [-simp] MyNat.add_zero -- 先ほどのsimp属性を削除する
-attribute [simp high] MyNat.zero_zero -- `simp high` を指定し直す
+-- 先ほどのsimp属性を削除する
+attribute [-simp] MyNat.add_zero
+
+-- `simp high` を指定し直す
+attribute [simp high] MyNat.zero_zero
 
 -- デフォルトでは優先度は1000になるが、
 -- highに指定すると優先度が10000になり、先に適用される
