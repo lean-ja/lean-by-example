@@ -42,12 +42,12 @@ theorem sumImp_eq_sumFunc (l : List α) : sumDo l = List.sum l := by
 
   -- ループ全体を通して成り立たせたい不変条件を指定する
   -- * `out` は `let mut` で導入した変数の現在値を表す
-  -- * `xs` は `List.Cursor` で，リストを接頭辞 `xs.prefix` と接尾辞 `xs.suffix` に
+  -- * `cursor` は `List.Cursor` で，リストを接頭辞 `cursor.prefix` と接尾辞 `cursor.suffix` に
   --   分割して表すデータ構造。どこまでループが進んだかを追跡する。
   --   つまり進捗（ループの到達位置）を記録する。
   -- 不変条件は「`out` が接頭辞の総和を保持している」こと。
-  -- 記法 `⌜p⌝` は，純粋な命題 `p : Prop` をアサーション言語に埋め込む。
-  case inv1 => exact ⇓⟨xs, out⟩ => ⌜xs.prefix.sum = out⌝
+  -- 記法 `⌜p⌝` は，命題 `p : Prop` をアサーション言語に埋め込む。
+  case inv1 => exact ⇓⟨cursor, out⟩ => ⌜cursor.prefix.sum = out⌝
 
   -- `mleave` はある決まった `simp` 補題に対する `simp only [...] at *` の糖衣構文。
   all_goals mleave
