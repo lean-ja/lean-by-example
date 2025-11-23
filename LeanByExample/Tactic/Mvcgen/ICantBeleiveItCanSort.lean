@@ -33,31 +33,29 @@ theorem Vector.toArray_extract_size {α : Type} {n : Nat} (v : Vector α n) :
   grind
 
 @[grind! =>]
-theorem cursor_pos_le_length (n : Nat) (xs : [0:n].toList.Cursor) : xs.pos ≤ n := by
+theorem List.Cursor.pos_le_length (n : Nat) (xs : [0:n].toList.Cursor) : xs.pos ≤ n := by
   have : xs.prefix.length + xs.suffix.length = n := by
     simp [← List.length_append, xs.property]
   grind only
 
+@[grind <=]
 theorem Array.pairwise_take_swap {α : Type} [LE α] [IsPartialOrder α] {arr : Array α}
   (s t : Nat) (hs : s < arr.size) (ht : t < arr.size)
   (h : Array.Pairwise (· ≤ ·) (arr.take s))
   (le1 : arr[s] ≤ arr[t])
   (le2 : ∀ (i : Nat) (_ : i < t), arr[i] ≤ arr[s])
     : Array.Pairwise (· ≤ ·) ((arr.swap s t).take s) := by
-  simp [Array.pairwise_iff_getElem] at *
+  simp [Array.pairwise_iff_getElem] at h ⊢
   grind
 
-grind_pattern Array.pairwise_take_swap => Array.Pairwise (· ≤ ·) ((arr.swap s t).take s)
-
+@[grind <=]
 theorem Array.pairwise_take_succ {α : Type} [LE α] [IsPartialOrder α] {arr : Array α}
   (k : Nat) (hk : k < arr.size)
   (h : Array.Pairwise (· ≤ ·) (arr.take k))
   (le : ∀ (i : Nat) (_ : i < arr.size), arr[i] ≤ arr[k])
     : Array.Pairwise (· ≤ ·) (arr.take (k + 1)) := by
-  simp [Array.pairwise_iff_getElem] at *
+  simp [Array.pairwise_iff_getElem] at h ⊢
   grind
-
-grind_pattern Array.pairwise_take_succ => Array.Pairwise (· ≤ ·) (arr.take (k + 1))
 
 variable [LE α] [IsLinearOrder α] [LawfulOrderLT α]
 
