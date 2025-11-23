@@ -49,11 +49,11 @@ theorem Array.pairwise_take_swap {α : Type} [LE α] [IsPartialOrder α] {arr : 
   grind
 
 @[grind <=]
-theorem Array.pairwise_take_succ {α : Type} [LE α] [IsPartialOrder α] {arr : Array α}
+theorem Array.pairwise_take_succ {α : Type} {R : α → α → Prop} {arr : Array α}
   (k : Nat) (hk : k < arr.size)
-  (h : Array.Pairwise (· ≤ ·) (arr.take k))
-  (le : ∀ (i : Nat) (_ : i < arr.size), arr[i] ≤ arr[k])
-    : Array.Pairwise (· ≤ ·) (arr.take (k + 1)) := by
+  (h : Array.Pairwise R (arr.take k))
+  (le : ∀ (i : Nat) (_ : i < arr.size), R arr[i] arr[k])
+    : Array.Pairwise R (arr.take (k + 1)) := by
   simp [Array.pairwise_iff_getElem] at h ⊢
   grind
 
