@@ -163,6 +163,13 @@ theorem sumImp_eq_sumFunc (l : List α) : sumDo l = List.sum l := by
 {{#include ./Mvcgen/BelowZero.md}}
 -/
 
+/- ### ICan'tBelieveItCanSort
+
+P.Y.Fung さんによる「Is this the simplest (and most surprising) sorting algorithm ever?」という論文で、非常に単純かつ動作が理解しにくいソートアルゴリズムが提案されました。ここでは、その論文での呼称にならってそのアルゴリズムを `ICan’tBelieveItCanSort` と呼ぶことにします。`mvcgen` を使って、このアルゴリズムが配列を正しくソートすることを証明することができます。[^ICant]
+
+{{#include ./Mvcgen/ICantBeleiveItCanSort.md}}
+-/
+
 /-
 [^mvcgen-doc]: このページの内容およびコード例は、公式のドキュメントである [Verifying imperative programs using mvcgen](https://hackmd.io/@sg-fro/BJRlurP_xg) を参考にしています。
 [^below-zero]: このコード例は [human-eval-lean](https://github.com/leanprover/human-eval-lean) のコードを参考にしています。
@@ -170,4 +177,5 @@ theorem sumImp_eq_sumFunc (l : List α) : sumDo l = List.sum l := by
 [^peasant]: このコード例は Lean の公式 Zulip の [new monadic program verification framework](https://leanprover.zulipchat.com/#narrow/channel/113488-general/topic/new.20monadic.20program.20verification.20framework/with/545897085) というトピックにおける pandaman さんの投稿を参考にしました。
 [^break]: このコード例は Lean の公式 Zulip の [new monadic program verification framework](https://leanprover.zulipchat.com/#narrow/channel/113488-general/topic/new.20monadic.20program.20verification.20framework/with/545897085) というトピックにおける Sebastian Graf さんの投稿を参考にしました。
 [^binary-expo]: このコード例は Lean の公式 Zulip の  [new monadic program verification framework](https://leanprover.zulipchat.com/#narrow/channel/113488-general/topic/new.20monadic.20program.20verification.20framework/with/545897085) というトピックにおける Aaron Liu さんの投稿を参考にしました。
+[^ICant]: このコード例は Lean の公式 Zulip の [new members > mvcgen doesn't produce any invariant goals](https://leanprover.zulipchat.com/#narrow/channel/113489-new-members/topic/mvcgen.20doesn't.20produce.20any.20invariant.20goals/with/558893073) というトピックにおける Anthony Wang さんの投稿を参考にしています。
 -/
