@@ -1,12 +1,11 @@
 import Std.Tactic.Do
-import Batteries
+import Batteries.Data.Array
 
 open Std
 
 variable {α : Type}
 variable [LT α] [DecidableLT α]
 
-@[grind =]
 def ICan'tBelieveItCanSort (arr : Array α) := Id.run do
   let n := arr.size
   let mut vec := arr.toVector
@@ -28,12 +27,10 @@ theorem ICan'tBelieveItCanSort_perm (arr : Array α) : Array.Perm (ICan'tBelieve
   · ⇓⟨_cursor, vec⟩ => ⌜Array.Perm arr vec.toArray⌝
   with grind [Array.Perm.trans, Array.Perm.symm, Array.swap_perm]
 
-@[simp, grind =]
+@[grind =]
 theorem Vector.toArray_extract_size {α : Type} {n : Nat} (v : Vector α n) :
     v.toArray.extract 0 n = v.toArray := by
   grind
-
-variable [LE α] [IsLinearOrder α] [LawfulOrderLT α]
 
 @[grind! =>]
 theorem cursor_pos_le_length (n : Nat) (xs : [0:n].toList.Cursor) : xs.pos ≤ n := by
@@ -41,22 +38,28 @@ theorem cursor_pos_le_length (n : Nat) (xs : [0:n].toList.Cursor) : xs.pos ≤ n
     simp [← List.length_append, xs.property]
   grind only
 
-@[simp]
-theorem lem1 {n cur : Nat} (pref suff : List Nat) (h : [:n].toList = pref ++ cur :: suff) :
-    pref.length = cur := by
-  grind
-
-theorem lem3 {α : Type} [LE α] [IsPartialOrder α] {b : Array α}
-  (k j : Nat) (hk : k < b.size) (hj : j < b.size)
-  (h : Array.Pairwise (· ≤ ·) (b.take k))
-  (h2 : b[k] ≤ b[j])
-  (h3 : ∀ (i : Nat) (x : i < j), b[i] ≤ b[k])
-    : Array.Pairwise (· ≤ ·) ((b.swap k j).take k) := by
+theorem Array.pairwise_take_swap {α : Type} [LE α] [IsPartialOrder α] {arr : Array α}
+  (s t : Nat) (hs : s < arr.size) (ht : t < arr.size)
+  (h : Array.Pairwise (· ≤ ·) (arr.take s))
+  (le1 : arr[s] ≤ arr[t])
+  (le2 : ∀ (i : Nat) (_ : i < t), arr[i] ≤ arr[s])
+    : Array.Pairwise (· ≤ ·) ((arr.swap s t).take s) := by
   simp [Array.pairwise_iff_getElem] at *
   grind
 
-grind_pattern lem3 => Array.Pairwise (· ≤ ·) ((b.swap k j).take k)
+grind_pattern Array.pairwise_take_swap => Array.Pairwise (· ≤ ·) ((arr.swap s t).take s)
 
+theorem Array.pairwise_take_succ {α : Type} [LE α] [IsPartialOrder α] {arr : Array α}
+  (k : Nat) (hk : k < arr.size)
+  (h : Array.Pairwise (· ≤ ·) (arr.take k))
+  (le : ∀ (i : Nat) (_ : i < arr.size), arr[i] ≤ arr[k])
+    : Array.Pairwise (· ≤ ·) (arr.take (k + 1)) := by
+  simp [Array.pairwise_iff_getElem] at *
+  grind
+
+grind_pattern Array.pairwise_take_succ => Array.Pairwise (· ≤ ·) (arr.take (k + 1))
+
+variable [LE α] [IsLinearOrder α] [LawfulOrderLT α]
 
 theorem ICan'tBelieveItCanSort_sorted (arr : Array α) : ICan'tBelieveItCanSort arr |>.Pairwise (· ≤ ·) := by
   generalize h : ICan'tBelieveItCanSort arr = x
@@ -67,10 +70,4 @@ theorem ICan'tBelieveItCanSort_sorted (arr : Array α) : ICan'tBelieveItCanSort 
     expose_names
     exact ⌜(vec.take cur |>.toArray.Pairwise (· ≤ ·)) ∧
       ∀ i (_ : i < cursor.pos), vec[i]'(by grind) ≤ vec[cur]'(by grind)⌝
-  with grind
-
-  case vc4 =>
-    expose_names
-    simp (disch := assumption) at *
-    simp [Array.pairwise_iff_getElem] at *
-    grind
+  with (simp at *; grind)
