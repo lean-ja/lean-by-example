@@ -39,7 +39,7 @@ theorem List.Cursor.pos_le_length (n : Nat) (xs : [0:n].toList.Cursor) : xs.pos 
   grind only
 
 @[grind <=]
-theorem Array.pairwise_take_swap {α : Type} [LE α] [IsPartialOrder α] {arr : Array α}
+theorem Array.pairwise_take_swap {α : Type} [LE α] [IsPreorder α] {arr : Array α}
   (s t : Nat) (hs : s < arr.size) (ht : t < arr.size)
   (h : Array.Pairwise (· ≤ ·) (arr.take s))
   (le1 : arr[s] ≤ arr[t])
