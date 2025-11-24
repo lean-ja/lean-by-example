@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       # panic! を Ubuntu 上で評価するとバックトレースが表示されてしまう問題の修正
       - name: set environment variable
@@ -39,7 +39,7 @@ jobs:
     if: github.ref == 'refs/heads/main'
     steps:
       - name: checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: lean action
         uses: leanprover/lean-action@v1
