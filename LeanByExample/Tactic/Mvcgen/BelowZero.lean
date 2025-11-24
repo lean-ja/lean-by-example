@@ -22,17 +22,14 @@ theorem hasPrefix_iff {P : List α → Prop} {l : List α} :
     l.HasPrefix P ↔ ∃ n, P (l.take n) := by
   simp [HasPrefix]
 
-/-- 空リストの接頭辞は自分しかない -/
 @[simp, grind =]
 theorem hasPrefix_nil {P : List α → Prop} : [].HasPrefix P ↔ P [] := by
   simp [hasPrefix_iff]
 
-/-- 空リストに対して成り立つなら、接頭辞に対しても成り立つ -/
 @[simp, grind =>]
 theorem hasPrefix_of_nil {P : List α → Prop} {l : List α} (h : P []) : l.HasPrefix P := by
   exists 0
 
-/-- 全体に対して成り立つなら、接頭辞に対しても成り立つ -/
 @[simp, grind =>]
 theorem hasPrefix_of_all {P : List α → Prop} {l : List α} (h : P l) : l.HasPrefix P := by
   exists l.length
