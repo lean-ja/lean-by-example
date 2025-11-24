@@ -38,6 +38,7 @@ theorem List.Cursor.pos_le_length (n : Nat) (xs : [0:n].toList.Cursor) : xs.pos 
     simp [← List.length_append, xs.property]
   grind only
 
+@[grind <=]
 theorem Array.sorted_take_swap {α : Type} [LE α] [IsPreorder α] {arr : Array α}
   (s t : Nat) (hs : s < arr.size) (ht : t < arr.size)
   (h : Array.Pairwise (· ≤ ·) (arr.take s))
@@ -46,23 +47,6 @@ theorem Array.sorted_take_swap {α : Type} [LE α] [IsPreorder α] {arr : Array 
     : Array.Pairwise (· ≤ ·) ((arr.swap s t).take s) := by
   simp [Array.pairwise_iff_getElem] at h ⊢
   grind
-
-@[grind <=]
-theorem Array.pairwise_take_swap {α : Type} {R : α → α → Prop} [Refl R] [Trans R R R] {arr : Array α}
-  (s t : Nat) (hs : s < arr.size) (ht : t < arr.size)
-  (h : Array.Pairwise R (arr.take s))
-  (le1 : R arr[s] arr[t])
-  (le2 : ∀ (i : Nat) (_ : i < t), R arr[i] arr[s])
-    : Array.Pairwise R ((arr.swap s t).take s) := by
-  -- `grind`は`Refl`と`Trans`は扱えないが`IsPreorder`なら扱えるので、
-  -- `IsPreorder`に帰着させるという工夫をしている。
-  -- Zulip において Aaron Liu さんにいただいた助言に基づく。
-  let : LE α := { le := R }
-  have : IsPreorder α := {
-    le_refl := Refl.refl
-    le_trans _ _ _ := Trans.trans
-  }
-  apply Array.sorted_take_swap <;> assumption
 
 @[grind <=]
 theorem Array.pairwise_take_succ {α : Type} {R : α → α → Prop} {arr : Array α}
