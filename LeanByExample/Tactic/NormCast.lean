@@ -64,9 +64,9 @@ abbrev MyInt := Quotient IntBase.sequiv
 /-- 自然数を `myInt` と解釈する関数 -/
 def MyInt.ofNat (n : Nat) : MyInt := ⟦(n, 0)⟧
 
-@[grind →]
-theorem MyInt.ofNat_inj (n m : Nat) : MyInt.ofNat n = MyInt.ofNat m → n = m := by
-  intro h
+@[grind inj]
+theorem MyInt.ofNat_inj : Function.Injective MyInt.ofNat := by
+  intro n m h
   dsimp [MyInt.ofNat] at h
   have h' : IntBase.equiv (n, 0) (m, 0) := by
     apply Quotient.exact h
@@ -80,9 +80,7 @@ instance : Coe Nat MyInt where
 
 /-- 型キャストの簡約を行う補題。`ℕ` の項が `myInt` として等しいなら、元から等しい。 -/
 theorem MyInt_eq {x y : ℕ} : (x : MyInt) = (y : MyInt) ↔ x = y := by
-  constructor <;> intro h
-  · grind
-  · rw [h]
+  grind
 
 -- `[norm_cast]` 属性の制約として、
 -- 登録する補題の中には型強制が含まれていなくてはいけない
