@@ -34,7 +34,7 @@ example (left : (x : ℝ) < ↑m + ↑n) (right : ↑m + ↑n < (x : ℝ) + 1) :
 -/
 
 /-- 自然数のペア -/
-def IntBase := ℕ × ℕ
+def IntBase := Nat × Nat
 
 /-- 自然数のペアが「整数として等しい」という同値関係 -/
 def IntBase.equiv : IntBase → IntBase → Prop :=
@@ -59,19 +59,29 @@ def IntBase.equiv : IntBase → IntBase → Prop :=
       omega
 
 /-- 自前で定義した整数 -/
-abbrev myInt := Quotient IntBase.sequiv
+abbrev MyInt := Quotient IntBase.sequiv
 
 /-- 自然数を `myInt` と解釈する関数 -/
-def myInt.ofNat (n : ℕ) : myInt := ⟦(n, 0)⟧
+def MyInt.ofNat (n : Nat) : MyInt := ⟦(n, 0)⟧
+
+@[grind →]
+theorem MyInt.ofNat_inj (n m : Nat) : MyInt.ofNat n = MyInt.ofNat m → n = m := by
+  intro h
+  dsimp [MyInt.ofNat] at h
+  have h' : IntBase.equiv (n, 0) (m, 0) := by
+    apply Quotient.exact h
+  suffices IntBase.equiv (n, 0) (m, 0) from by
+    grind [= IntBase.equiv]
+  assumption
 
 /-- 型強制を定義 -/
-instance : Coe Nat myInt where
-  coe := myInt.ofNat
+instance : Coe Nat MyInt where
+  coe := MyInt.ofNat
 
 /-- 型キャストの簡約を行う補題。`ℕ` の項が `myInt` として等しいなら、元から等しい。 -/
-theorem myInt_eq {x y : ℕ} : (x : myInt) = (y : myInt) ↔ x = y := by
+theorem MyInt_eq {x y : ℕ} : (x : MyInt) = (y : MyInt) ↔ x = y := by
   constructor <;> intro h
-  · simpa [myInt.ofNat, (· ≈ ·), Setoid.r, IntBase.equiv] using h
+  · grind
   · rw [h]
 
 -- `[norm_cast]` 属性の制約として、
@@ -79,30 +89,29 @@ theorem myInt_eq {x y : ℕ} : (x : myInt) = (y : myInt) ↔ x = y := by
 -- たとえば `↑` など
 /-⋆-//--
 error: Invalid `norm_cast` lemma: At least one coe function must appear in the left-hand side
-  myInt.ofNat x = myInt.ofNat y
+  MyInt.ofNat x = MyInt.ofNat y
 
 Note: coe functions are registered using the `[coe]` attribute
 -/
 #guard_msgs in --#
-attribute [norm_cast] myInt_eq
+attribute [norm_cast] MyInt_eq
 
--- `[coe]` 属性を付与し、`myInt.ofNat` を型キャストを行う関数として認識させる
-attribute [coe] myInt.ofNat
+-- `[coe]` 属性を付与し、`MyInt.ofNat` を型キャストを行う関数として認識させる
+attribute [coe] MyInt.ofNat
 
 set_option linter.unusedTactic false in --#
-example {x y z : ℕ} (h : (x : myInt) = (y : myInt)) : x + z = y + z := by
+example {x y z : ℕ} (h : (x : MyInt) = (y : MyInt)) : x + z = y + z := by
   norm_cast at h
 
   -- `norm_cast` の効果が出ていない
-  guard_hyp h : (x : myInt) = (y : myInt)
-
-  simp [myInt_eq] at h
+  guard_hyp h : (x : MyInt) = (y : MyInt)
+  simp [MyInt_eq] at h
   omega
 
 -- `norm_cast` に使ってもらえるように登録する
-attribute [norm_cast] myInt_eq
+attribute [norm_cast] MyInt_eq
 
-example {x y z : Nat} (h : (x : myInt) = (y : myInt)) : x + z = y + z := by
+example {x y z : Nat} (h : (x : MyInt) = (y : MyInt)) : x + z = y + z := by
   norm_cast at h
 
   -- `norm_cast` で簡約できるようになった！
