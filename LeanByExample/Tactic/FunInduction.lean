@@ -17,11 +17,12 @@ def fibonacci (n : Nat) : Nat :=
 def fib (n : Nat) : Nat :=
   (loop n).1
 where
-  loop : Nat → Nat × Nat
-  | 0 => (0, 1)
-  | n + 1 =>
-    let p := loop n
-    (p.2, p.1 + p.2)
+  loop (x : Nat) : Nat × Nat :=
+    match x with
+    | 0 => (0, 1)
+    | n + 1 =>
+      let p := loop n
+      (p.2, p.1 + p.2)
 
 @[simp]
 theorem fib_zero : fib 0 = 0 := by rfl
