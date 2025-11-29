@@ -14,20 +14,26 @@ def reverse (as : List α) :=
 /-- `reverse`と`(· ++ ·)`は可換 -/
 theorem reverse_append (l₁ l₂ : List α)
   : reverse (l₁ ++ l₂) = reverse l₂ ++ reverse l₁ := by
-  fun_induction reverse l₁
-  case case1 => simp
-  case case2 a as ih =>
+  fun_induction reverse l₁ with
+  | case1 => simp
+  | case2 a as ih =>
     dsimp [reverse]
     rw [ih]
     ac_rfl
 
+/- `induction` タクティクと同様に、`with` の後にタクティクを続けると、すべての枝に対してそのタクティクを適用します。-/
+
+example (l₁ l₂ : List α) : reverse (l₁ ++ l₂) = reverse l₂ ++ reverse l₁ := by
+  fun_induction reverse l₁ with grind [reverse]
+
 end --#
 /- ## 用途
 
-たとえば、自然数について帰納法を行うと `n = 0` の場合と `n = n' + 1` の場合に場合分けをすることになります。しかし、関数 `f` について何かを示そうとしているとき、`f` が自然数の再帰的構造に沿って定義されているとは限りません。そのような場合に `fun_induction` を使うと、場合分けの枝が一致しない問題に遭遇しないで済みます。
+たとえば、自然数について帰納法を行うと `n = 0` の場合と `n = n' + 1` の場合に場合分けをすることになります。しかし、関数 `f` について何かを示そうとしているとき、`f` が自然数の再帰的構造に沿って定義されているとは限りません。そのような場合に `fun_induction` を使うと、場合分けの枝が一致しない問題と格闘しないで済みます。
 -/
 
 /-- フィボナッチ数列の通常の定義をそのまま Lean の関数として書いたもの -/
+@[simp]
 def fibonacci : Nat → Nat
   | 0 => 0
   | 1 => 1
@@ -38,26 +44,32 @@ def fib (n : Nat) : Nat :=
   (loop n).1
 where
   loop : Nat → Nat × Nat
-    | 0 => (0, 1)
-    | n + 1 =>
-      let p := loop n
-      (p.2, p.1 + p.2)
+  | 0 => (0, 1)
+  | n + 1 =>
+    let p := loop n
+    (p.2, p.1 + p.2)
 
-/-- `fib` が `fibonacci` と同じ漸化式を満たすことを証明する -/
+@[simp]
+theorem fib_zero : fib 0 = 0 := by rfl
+
+@[simp]
+theorem fib_one : fib 1 = 1 := by rfl
+
+/-- `fib` が `fibonacci` と同じ漸化式を満たす -/
 @[simp]
 theorem fib_add (n : Nat) : fib n + fib (n + 1) = fib (n + 2) := by rfl
 
 /-- `fibonacci` と `fib` は同じ結果を返す -/
 example (n : Nat) : fibonacci n = fib n := by
-  fun_induction fibonacci n
-  case case1 => rfl
-  case case2 => dsimp [fib, fib.loop]
-  case case3 n ih1 ih2 =>
-    grind [fib_add]
+  fun_induction fibonacci n with
+  | case1 => rfl
+  | case2 => simp
+  | case3 n ih1 ih2 =>
+    simp [ih1, ih2]
 
 /- ## 舞台裏
 
-再帰関数 `foo` を定義すると、裏で Lean が帰納原理(induction principle)`foo.induct`と`foo.induct_unfolding`を生成します。
+再帰関数 `foo` を定義すると、裏で Lean が帰納原理(induction principle) `foo.induct` と `foo.induct_unfolding` を生成します。
 -/
 namespace Hidden --#
 
