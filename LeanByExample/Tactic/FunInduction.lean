@@ -1,33 +1,6 @@
 /- # fun_induction
 
 `fun_induction` は、特定の再帰関数用の帰納法ができるようにします。
--/
-section --#
-variable {α : Type}
-
-/-- リストの順番を逆にする -/
-def reverse (as : List α) :=
-  match as with
-  | [] => []
-  | a :: as => reverse as ++ [a]
-
-/-- `reverse`と`(· ++ ·)`は可換 -/
-theorem reverse_append (l₁ l₂ : List α)
-  : reverse (l₁ ++ l₂) = reverse l₂ ++ reverse l₁ := by
-  fun_induction reverse l₁ with
-  | case1 => simp
-  | case2 a as ih =>
-    dsimp [reverse]
-    rw [ih]
-    ac_rfl
-
-/- `induction` タクティクと同様に、`with` の後にタクティクを続けると、すべての枝に対してそのタクティクを適用します。-/
-
-example (l₁ l₂ : List α) : reverse (l₁ ++ l₂) = reverse l₂ ++ reverse l₁ := by
-  fun_induction reverse l₁ with grind [reverse]
-
-end --#
-/- ## 用途
 
 たとえば、自然数について帰納法を行うと `n = 0` の場合と `n = n' + 1` の場合に場合分けをすることになります。しかし、関数 `f` について何かを示そうとしているとき、`f` が自然数の再帰的構造に沿って定義されているとは限りません。そのような場合に `fun_induction` を使うと、場合分けの枝が一致しない問題と格闘しないで済みます。
 -/
@@ -66,6 +39,11 @@ example (n : Nat) : fibonacci n = fib n := by
   | case2 => simp
   | case3 n ih1 ih2 =>
     simp [ih1, ih2]
+
+/- `induction` タクティクと同様に、`with` の後にタクティクを続けると、すべての枝に対してそのタクティクを適用します。-/
+
+example (n : Nat) : fibonacci n = fib n := by
+  fun_induction fibonacci n with simp_all
 
 /- ## 舞台裏
 
