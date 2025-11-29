@@ -40,7 +40,7 @@ example (n : Nat) : fibonacci n = fib n := by
   | case3 n ih1 ih2 =>
     simp [ih1, ih2]
 
-/- `induction` タクティクと同様に、`with` の後にタクティクを続けると、すべての枝に対してそのタクティクを適用します。-/
+/- [`induction`](#{root}/Tactic/Induction.md) タクティクと同様に、`with` の後にタクティクを続けると、すべての枝に対してそのタクティクを適用します。-/
 
 example (n : Nat) : fibonacci n = fib n := by
   fun_induction fibonacci n with simp_all
