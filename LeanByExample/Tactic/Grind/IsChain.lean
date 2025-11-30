@@ -24,4 +24,15 @@ example (a b : α) (h : R a b) : [a, b].IsChain R := by
   -- 一撃で片づけることができるようになった
   grind
 
+-- どの定理がインスタンス化されたかのログを出す
+set_option trace.grind.ematch.instance true in
+
+/-⋆-//--
+trace: [grind.ematch.instance] IsChain.cons_cons: R a b → IsChain R [b] → IsChain R [a, b]
+[grind.ematch.instance] IsChain.single: IsChain R [b]
+-/
+#guard_msgs in --#
+example (a b : α) (h : R a b) : [a, b].IsChain R := by
+  grind
+
 end List
