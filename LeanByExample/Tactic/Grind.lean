@@ -46,16 +46,8 @@ trace: [grind.assert] P
 [grind.assert] ¬P
 -/
 #guard_msgs in --#
-theorem foo (P : Prop) (h : P) : P := by
+example (P : Prop) (h : P) : P := by
   grind
-
-/-
-特に、`grind` は必要がない場合であっても[選択原理](#{root}/Declarative/Axiom.md#ClassicalChoice)を使用します。
--/
-
-/-⋆-//-- info: 'foo' depends on axioms: [propext, Classical.choice, Quot.sound] -/
-#guard_msgs in --#
-#print axioms foo
 
 /- そうやって黒板に事実を書き込みながら、`grind` は同値類（equivalence class、互いに等しいもの同士のグループのこと）を管理していて、等しいと分かった同値類をマージしていきます。そして最終的に `True` のグループと `False` のグループをマージする（つまり、矛盾を示す）ことでゴールを閉じます。 -/
 
@@ -70,13 +62,25 @@ example (P : Prop) (h : P) : P := by
   grind
 
 /-
-以上の「仮想的な黒板による同値類の管理」が中核的な動作原理で、さらに `grind` は以下のようなエンジンが組み込まれています。
+以上の「仮想的な黒板による同値類の管理」が中核的な動作原理で、さらに `grind` には以下のようなエンジンが組み込まれています。
 
 * 合同閉包(congruence closure)
 * E-マッチング(E-matching)
 * 制約伝播(Constraint Propagation)
 * サテライトソルバー(特定の代数系に対するソルバー群)
 -/
+
+/- ## 注意: 選択原理の使用
+
+`grind` は「最初に結論を否定して矛盾を示すことでゴールを閉じる」という原理で動くため、必要がない場合であっても[選択原理](#{root}/Declarative/Axiom.md#ClassicalChoice)を使用します。
+-/
+
+theorem easy_theorem (P : Prop) (h : P) : P := by
+  grind
+
+/-⋆-//-- info: 'easy_theorem' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in --#
+#print axioms easy_theorem
 
 /-
 ## 合同閉包(congruence closure)
