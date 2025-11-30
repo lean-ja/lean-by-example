@@ -6,7 +6,8 @@
 -/
 
 /-- 階乗関数 -/
-@[grind] def factorial (n : Nat) : Nat :=
+@[grind]
+def factorial (n : Nat) : Nat :=
   match n with
   | 0 => 1
   | n + 1 => (n + 1) * factorial n
@@ -97,7 +98,7 @@ theorem easy_theorem (P : Prop) (h : P) : P := by
 section --#
 variable {α : Type} (a₁ a₂ : α)
 
-set_option trace.grind.debug.congr true
+set_option trace.grind.debug.congr true in
 
 /-⋆-//--
 trace: [grind.debug.congr] f a₂ = f a₁
@@ -107,12 +108,28 @@ trace: [grind.debug.congr] f a₂ = f a₁
 example (f : α → α) (h : a₁ = a₂) : f (f a₁) = f (f a₂) := by
   grind
 
+-- 複雑な例も扱うことができる
+example (f : α → α) (x : α)
+  (h1 : f (f (f x)) = x) (h2 : f (f (f (f (f x)))) = x) :
+    f x = x := by
+  grind
+
 end --#
 /- ## E-マッチング
 
 ある定理を適用して新たに分かったことを `grind` が黒板に書き込むことを「定理をインスタンス化する」と呼びます。`grind` は、定理を効率的にインスタンス化するために E-マッチング(E‑matching)と呼ばれる手法を使用します。なおE-マッチングとは、SMT ソルバなどで使われる、等式を考慮したパターンマッチの手法のことです。
+-/
 
-### [grind =]
+/- ### grind_pattern
+
+`grind_pattern` コマンドを使うと、特定の定理をいつインスタンス化するかを `grind` タクティクに指示することができます。
+
+基本的に `grind_pattern (定理名) => (パターン)` という構文で使用し、「ローカルコンテキストに宣言されたパターンが見つかった時に定理をインスタンス化してください」という指示をしたことになります。
+
+{{#include ./Grind/IsChain.md}}
+-/
+
+/- ### [grind =]
 
 等式を主張する定理に `[grind =]` 属性を付与すると、結論の等式の左辺がパターンとして登録され、「左辺を見かけたらその定理をインスタンス化して、黒板に新たな事実を書き留める」という挙動をするようになります。
 -/
@@ -211,7 +228,7 @@ protected inductive Nat.myle (n : Nat) : Nat → Prop
   /-- `n ≤ m`ならば`n ≤ m + 1` -/
   | step {m : Nat} : Nat.myle n m → Nat.myle n (m + 1)
 
-/-- 標準の`≤`を`myle`で置き換える -/
+/-- `Nat.myle`のための記号。標準の`≤`と被らないようにする -/
 infix:50 " ≤? " => Nat.myle
 
 attribute [grind →] Nat.myle.step
