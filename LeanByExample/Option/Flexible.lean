@@ -57,7 +57,7 @@ section --#
 set_option linter.flexible true
 
 /-⋆-//--
-warning: 'simp' is a flexible tactic modifying '⊢'…
+warning: 'simp' is a flexible tactic modifying '⊢'. Try 'simp?' and use the suggested 'simp only [...]'. Alternatively, use `suffices` to explicitly state the simplified form.
 
 Note: This linter can be disabled with `set_option linter.flexible false`
 -/
