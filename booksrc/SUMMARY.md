@@ -67,6 +67,7 @@
   - [syntax: 構文を定義](./Declarative/Syntax.md)
   - [theorem: 命題を証明する](./Declarative/Theorem.md)
   - [variable: 引数を共通化する](./Declarative/Variable.md)
+  - [whatsnew: 新たに何が導入されたか見る](./Declarative/Whatsnew.md)
 
 - [修飾子](./Modifier/README.md)
   - [/-- -/: ドキュメントコメント](./Modifier/DocComment.md)
