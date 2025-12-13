@@ -67,11 +67,80 @@ def fibonacci (n : Nat) : Nat :=
 end Hidden --#
 /- 帰納原理が生成されるのは再帰的な関数のみです。再帰的でない関数には生成されません。-/
 
-def bar : Nat → Nat
-  | 0 => 0
-  | _ => 1
+def swapHead (l : List Nat) : List Nat :=
+  match l with
+  | [] => []
+  | [x] => [x]
+  | x :: y :: xs => y :: x :: xs
 
 -- 帰納原理が生成されていない
-#check_failure bar.induct
+#check_failure swapHead.induct
 
 /- `fun_induction` タクティクは、この自動生成された `foo.induct_unfolding` を利用して帰納法を行っています。 -/
+
+/- ## 帰納的述語への応用
+
+帰納原理が自動生成されるのは再帰関数に対してだけで、[帰納的述語](#{root}/Declarative/Inductive.md#InductivePredicate)に対しては生成されません。しかし、帰納的述語を再帰関数として書き直すことができるのであれば、その再帰関数に対して生成された `*.induct` 定理を使って帰納法を行うことができます。
+
+これにより、（再帰関数として書き直せるような）帰納的述語に対しても、帰納法の枝が上手くハマらない問題を解決することができます。
+-/
+
+/-- 回文を表す帰納的述語 -/
+@[grind]
+inductive Palindrome {α : Type} : List α → Prop
+  /-- 空リストは回文 -/
+  | nil : Palindrome []
+  /-- 要素が一つだけのリストは回文 -/
+  | single (a : α) : Palindrome [a]
+  /-- 回文の両端に同じ要素を追加しても回文 -/
+  | sandwich {a : α} {as : List α} (ih : Palindrome as) : Palindrome ([a] ++ as ++ [a])
+
+variable {α : Type}
+
+set_option warn.sorry false in --#
+
+-- 普通に帰納法を使おうとすると、場合分けの枝がうまくはまらない
+example (as : List α) (h : as.reverse = as) : Palindrome as := by
+  induction as with
+  | nil => grind
+  | cons a as ih =>
+    /-
+    ih : as.reverse = as → Palindrome as
+    h : (a :: as).reverse = a :: as
+    ⊢ Palindrome (a :: as)
+    -/
+    guard_hyp ih :ₛ as.reverse = as → Palindrome as --#
+    guard_hyp h :ₛ (a :: as).reverse = a :: as --#
+    guard_target =ₛ Palindrome (a :: as) --#
+
+    -- 簡単には証明できない
+    fail_if_success grind
+    sorry
+
+-- `α`に対して`(· = ·)`が決定可能という仮定がないため、
+-- 古典論理を使用する
+open scoped Classical in
+
+/-- 回文判定を行う再帰関数。
+`Palindrome` の定義になるべく忠実に書き直したもの -/
+def PalindromeRec (as : List α) : Prop :=
+  match as with
+  | [] => True
+  | [a] => True
+  | a₁ :: a₂ :: as =>
+    let xs := (a₂ :: as).dropLast
+    let x := (a₂ :: as).getLast (by simp)
+
+    -- 後に証明に使うときの利便性のために補題を示しておく
+    have : [a₁] ++ xs ++ [x] = a₁ :: a₂ :: as := by
+      grind [List.dropLast_concat_getLast]
+
+    if a₁ = x then
+      PalindromeRec xs
+    else
+      false
+termination_by as.length
+
+-- あっさり証明できる！
+example (as : List α) (h : as.reverse = as) : Palindrome as := by
+  induction as using PalindromeRec.induct with grind

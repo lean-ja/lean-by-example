@@ -82,7 +82,7 @@ inductive BadVec' (α : Type) (n : Nat) : Type where
 
 /- しかし、元々の `Vec` とは似て非なるものになってしまいます。上記の `BadVec'` では、`nil : BadVec α 0` だけでなく `nil : BadVec α 1` や `nil : BadVec α 2` なども存在すると宣言したことになってしまいます。-/
 
-/- ### 帰納的述語
+/- ### 帰納的述語 { #InductivePredicate }
 
 #### 概要
 帰納型を使って命題や述語を定義することもできます。Lean の標準ライブラリにある簡単な例として、自然数における順序関係の定義が挙げられます。([`infix`](#{root}/Declarative/Infix.md) コマンドは見やすくするために使用しています。)
