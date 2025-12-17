@@ -16,24 +16,20 @@ example (x : Nat) : x < x + 1 := by
 -- ローカルコンテキストにある仮定を自動で使ってゴールを導いてくれる
 example {P Q R : Prop} (hPQ : P → Q) (hQR : Q → R) (hQ : P) : R := by
   exact? says
-    exact hQR (hPQ hQ)
+    exact (hQR ∘ hPQ) hQ
 
 /- `exact? using h` とするとローカルコンテキストにある仮定 `h` を使用してほしいと明示的に指定することができます。-/
-section
-  /- ## using 構文の例 -/
 
-  variable {P : Prop}
+example (n m : Nat) (h1 : n ≠ 0) (_h2 : n > 0) : n * m / n = m := by
+  -- `h1` を指定すると `h2` は使わない
+  exact? using h1 says
+    exact Eq.symm (Nat.eq_div_of_mul_eq_right h1 rfl)
 
-  example (h1 : P) (_h2 : P) : P := by
-    -- `h1` を指定すると `h2` は使わない
-    exact? using h1 says
-      exact h1
+example (n m : Nat) (_h1 : n ≠ 0) (h2 : n > 0) : n * m / n = m := by
+  -- `h2` を指定すると `h1` は使わない
+  exact? using h2 says
+    exact Nat.mul_div_right m h2
 
-  example (_h1 : P) (h2 : P) : P := by
-    -- `h2` を指定すると `h1` は使わない
-    exact? using h2 says
-      exact h2
-end
 /- ## ローカルにある定理の検索
 
 `exact?` は現在の環境にある定理・定数などを読み取るので、ローカルにある定理も検索してくれます。

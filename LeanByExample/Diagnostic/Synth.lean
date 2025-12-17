@@ -18,10 +18,10 @@ import Mathlib.Data.Real.Basic -- 実数 --#
 variable (α : Type)
 
 /-⋆-//--
-error: failed to synthesize
+error: failed to synthesize instance of type class
   Inv α
 
-Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
 -/
 #guard_msgs in --#
 #check (_ : α)⁻¹

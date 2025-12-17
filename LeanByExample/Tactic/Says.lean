@@ -18,7 +18,7 @@ variable (P Q R S : Prop)
 example (hPQ : P → Q) (hQR : Q → R) (hRS : R → S) (hP : P) : S := by
   -- `exact?` は実行されない
   exact? says
-    exact hRS (hQR (hPQ hP))
+    exact (hRS ∘ hQR) (hPQ hP)
 
 /- [`simp`](./Simp.md) や [`aesop`](./Aesop.md) のような証明自動化系のタクティクに対して、動作を軽量化しながらも証明の読みやすさを保つという目的でも使用できます。たとえば `aesop? says ...` と書かれていたら、その後のブロックでどんな複雑なことが書かれていようと、単に `aesop` の発見した証明内容を丁寧に書いているだけだとわかるわけです。-/
 
@@ -58,15 +58,14 @@ set_option says.verify true
 
 -- チェックを有効にするとエラーになる
 /-⋆-//--
-error: Tactic `exact?` produced `exact h p`,
-but was expecting it to produce `
-  try contradiction
-  exact h p`!
+error: Tactic `exact?` produced `exact Nat.add_eq_left.mpr rfl`,
+but was expecting it to produce `  try contradiction
+  exact Nat.add_eq_left.mpr rfl`!
 
 You can reproduce this error locally using `set_option says.verify true`.
 -/
 #guard_msgs (whitespace := lax) in --#
-example (h : P → Q) (p : P) : Q := by
+example (n : Nat) : n + 0 = n := by
   exact? says
     try contradiction
-    exact h p
+    exact Nat.add_eq_left.mpr rfl

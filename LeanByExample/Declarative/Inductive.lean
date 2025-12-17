@@ -338,7 +338,7 @@ example (n : MyNat) : .succ n ≠ MyNat.zero := show_term by
 
 /-⋆-//--
 info: Try this:
-  [apply] MyNat.succ.noConfusion (n = m) n m h fun n_eq => n_eq
+  [apply] MyNat.succ.noConfusion h fun n_eq => n_eq
 -/
 #guard_msgs in --#
 example (n m : MyNat) (h : MyNat.succ n = MyNat.succ m) : n = m := show_term by

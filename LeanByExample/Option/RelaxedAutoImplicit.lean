@@ -11,8 +11,12 @@ section
   set_option relaxedAutoImplicit false
 
   -- 二文字の識別子は自動束縛の対象にならないのでエラーになる
-  /-⋆-//-- error: Unknown identifier `AB` -/
-  #guard_msgs in --#
+  /-⋆-//--
+  error: Unknown identifier `AB`
+
+  Note: It is not possible to treat `AB` as an implicitly bound variable here because it has multiple characters while the `relaxedAutoImplicit` option is set to `false`.
+  -/
+  #guard_msgs (whitespace := lax) in --#
   def nonempty₁ : List AB → Bool
     | [] => false
     | _ :: _ => true

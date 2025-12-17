@@ -52,11 +52,11 @@ info: Loogle Search Results
   ⏎
   [apply] #check List.foldl_cons --  {α : Type u} {β : Type v} {a : α} {l : List α} {f : β → α → β} {b : β} : List.foldl f b (a :: l) = List.foldl f (f b a) l
   ⏎
-  [apply] #check List.id_run_foldlM --  {β : Type u_1} {α : Type u_2} {f : β → α → Id β} {b : β} {l : List α} : (List.foldlM f b l).run = List.foldl f b l
-  ⏎
   [apply] #check List.foldl_eq_foldr_reverse --  {α : Type u_1} {β : Type u_2} {l : List α} {f : β → α → β} {b : β} : List.foldl f b l = List.foldr (fun x y => f y x) b l.reverse
   ⏎
   [apply] #check List.foldl_reverse --  {α : Type u_1} {β : Type u_2} {l : List α} {f : β → α → β} {b : β} : List.foldl f b l.reverse = List.foldr (fun x y => f y x) b l
+  ⏎
+  [apply] #check List.foldr_eq_foldl_reverse --  {α : Type u_1} {β : Type u_2} {l : List α} {f : α → β → β} {b : β} : List.foldr f b l = List.foldl (fun x y => f y x) b l.reverse
 -/
 #guard_msgs in --#
 #loogle List.foldl

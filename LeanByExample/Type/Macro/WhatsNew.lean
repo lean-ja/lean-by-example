@@ -12,7 +12,7 @@ elab_rules : command
 
   | `(command| $doc:docComment #contain_msg in $cmd:command) => do
     -- ドキュメントコメントに書かれた文字列を取得する
-    let expected := String.trim (← getDocStringText doc)
+    let expected := String.trimAscii (← getDocStringText doc) |>.copy
     if expected.isEmpty then
       logInfo "success: nothing is expected"
       return

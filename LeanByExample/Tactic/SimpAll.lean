@@ -31,19 +31,20 @@ example (P : Nat → Bool)
 
 なお、これは `simp [*] at *` と同じですが `simp_all` はローカルコンテキストにある命題を使って単純化を行おうとするため、ローカルコンテキストにある命題によってはエラーになることがあります。[^bad_simp] -/
 
+#guard_msgs (drop error) in --#
 example (_h : 1 + 1 = 2) : True := by
   have : 1 = 1 + 1 - 1 := by simp
 
   -- `simp_all` では示せない
   -- 仮定にある `1` を `1 + 1 - 1` に置き換えて無限ループになっているようだ
-  fail_if_success solve
-  | simp_all
+  fail_if_success simp_all
+
+#guard_msgs (drop error) in --#
+example (_h : 1 + 1 = 2) : True := by
+  have : 1 = 1 + 1 - 1 := by simp
 
   -- `simp [*] at *` でも示せない
-  fail_if_success solve
-  | simp [*] at *
-
-  trivial
+  fail_if_success simp [*] at *
 
 example (_h : 1 + 1 = 2) : True := by
   -- 左辺と右辺を逆にしてみると

@@ -9,10 +9,10 @@ import Mathlib.Algebra.Group.Defs -- 逆数を使うために必要 --#
 #guard_msgs in #eval 2
 
 /--
-error: failed to synthesize
+error: failed to synthesize instance of type class
   HAdd ℕ String String
 
-Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
 -/
 #guard_msgs in #eval (2 + "hello" : String)
 
@@ -24,19 +24,19 @@ variable (α : Type)
 
 -- 通常の場合
 /--
-error: failed to synthesize
+error: failed to synthesize instance of type class
   Inv α
 
-Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
 -/
 #guard_msgs in #check (_ : α)⁻¹
 
 -- スペースを入れてもエラーにならない
 /--
-  error: failed to synthesize
+  error: failed to synthesize instance of type class
     Inv α
 
-  Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+  Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
 -/
 #guard_msgs (whitespace := lax) in #check (_ : α)⁻¹
 

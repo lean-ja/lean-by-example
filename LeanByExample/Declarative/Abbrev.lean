@@ -11,13 +11,13 @@ def NaturalNumber : Type := Nat
 /- しかし、ここで定義した `Nat` の別名を項に対して使用するとエラーになります。エラーメッセージには以下の通り「`NaturalNumber` の [`OfNat`](#{root}/TypeClass/OfNat.md) インスタンスが見つかりません」という旨のことが書かれています。これは、Lean が `NaturalNumber` を定義に展開してそれが実は `Nat` に等しいことを知るよりも先に、`42 : NaturalNumber` という表記が定義されているか [`OfNat`](#{root}/TypeClass/OfNat.md) のインスタンスを探そうとしてエラーになったことを示唆します。-/
 
 /-⋆-//--
-error: failed to synthesize
+error: failed to synthesize instance of type class
   OfNat NaturalNumber 42
 numerals are polymorphic in Lean, but the numeral `42` cannot be used in a context where the expected type is
   NaturalNumber
 due to the absence of the instance above
 
-Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
 -/
 #guard_msgs in --#
 #check (42 : NaturalNumber)

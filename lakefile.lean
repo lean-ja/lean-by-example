@@ -36,7 +36,7 @@ def runCmdWithOutput (input : String) (stdIn : Option String := none) : IO Strin
     IO.eprintln out.stderr
     throw <| IO.userError s!"Failed to execute: {input}"
 
-  return out.stdout.trim
+  return out.stdout.trimAscii.copy
 
 def runCmd (input : String) : IO Unit := do
   let out ← runCmdWithOutput input
@@ -46,7 +46,7 @@ def runCmd (input : String) : IO Unit := do
 /-- mdgen と mdbook を順に実行し、
 Lean ファイルから Markdown ファイルと HTML ファイルを生成する。-/
 script build do
-  runCmd "lake exe mdgen LeanByExample booksrc --count"
+  runCmd "lake exe mdgen LeanByExample booksrc --count --exercise"
   runCmd "lake exe mdgen Exe booksrc"
   runCmd "mdbook build"
   return 0
@@ -66,14 +66,14 @@ lean_exe parse where
 def testForCat : IO Unit := do
   let result ← runCmdWithOutput "lean --run LeanByExample/Type/IO/Cat.lean LeanByExample/Type/IO/Test.txt"
   let expected := "Lean is nice!"
-  if result.trim != expected then
-    throw <| IO.userError s!"Test failed! expected: {expected}, got: {result.trim}"
+  if result.trimAscii != expected then
+    throw <| IO.userError s!"Test failed! expected: {expected}, got: {result.trimAscii}"
 
 /-- `Type/IO/Greet.lean`のためのテスト -/
 def testForGreet : IO Unit := do
   let result ← runCmdWithOutput "lean --run LeanByExample/Type/IO/Greet.lean" (stdIn := some "Lean")
   let expected := "誰に挨拶しますか？\nHello, Lean!"
-  if result.trim != expected then
+  if result.trimAscii != expected then
     throw <| IO.userError s!"Test failed! expected prefix: {expected}, got: {result}"
 
 /-- abort が動作しているか調べる -/
@@ -81,7 +81,7 @@ def checkAbort : IO Bool := do
   Std.Internal.IO.Async.System.setEnvVar "LEAN_ABORT_ON_PANIC" "1"
   try
     let result ← runCmdWithOutput "lean --run LeanByExample/Syntax/Panic/Abort.lean"
-    if result.trim.endsWith "hello world!" then
+    if result.trimAscii.endsWith "hello world!" then
       return false
     else
       return true

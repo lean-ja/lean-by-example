@@ -5,6 +5,6 @@ def main : IO Unit := do
 
   stdout.putStrLn "誰に挨拶しますか？"
   let input ← stdin.getLine
-  let name := input.trim -- これをしないと余計な改行が入る
+  let name := input.trimAscii -- これをしないと余計な改行が入る
 
   stdout.putStrLn s!"Hello, {name}!"

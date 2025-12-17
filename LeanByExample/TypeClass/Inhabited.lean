@@ -25,10 +25,10 @@ def get {α : Type} [Inhabited α] (a : Array α) (i : Nat) : α :=
 /- 何気ない定義のように見えますが、この定義には `Inhabited α` が必要です。[`panic!`](#{root}/Syntax/Panic.md) でプログラムを終了させているのですが、このときに `α` が空でないことが要求されています。-/
 
 /-⋆-//--
-error: failed to synthesize
+error: failed to synthesize instance of type class
   Inhabited α
 
-Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
 -/
 #guard_msgs in --#
 def get' {α : Type} (a : Array α) (i : Nat) : α :=

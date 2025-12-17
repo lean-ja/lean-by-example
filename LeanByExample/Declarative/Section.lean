@@ -49,7 +49,11 @@ section
 end
 
 -- `end` 以降は無効になり、α が未定義だというエラーになる
-/-⋆-//-- error: Unknown identifier `α` -/
+/-⋆-//--
+error: Unknown identifier `α`
+
+Note: It is not possible to treat `α` as an implicitly bound variable here because the `autoImplicit` option is set to `false`.
+-/
 #guard_msgs in --#
 def nilList' : List α := []
 
