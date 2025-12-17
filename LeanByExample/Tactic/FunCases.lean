@@ -33,3 +33,10 @@ Lean で関数 `f` を定義すると `f.fun_cases` という名前の補助的�
 
 example (l : List α) : swapHead (swapHead l) = l := by
   cases l using swapHead.fun_cases <;> simp
+
+/- ## 関数内で宣言した補題の再利用
+
+以上のように「関数定義に使用した場合分けを再利用できる」のが `fun_cases` タクティクの主な利点ですが、他にも「関数定義の中で宣言した補題を再利用できる」という利点があります。
+
+{{#include ./FunCases/MinFirst.md}}
+-/
