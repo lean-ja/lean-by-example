@@ -32,6 +32,7 @@ def pascal (a b : Nat) : Nat :=
 
 /-- Pascal の三角形の性質 -/
 theorem pascal_le_factorial (a b : Nat) : pascal a b ≤ (a + b)! := by
+  -- １行で証明できてしまう！
   fun_induction pascal with grind
 
 -- `grind` を使用しない証明の例
@@ -405,6 +406,15 @@ example {P Q R : Prop} (h : P ∧ Q ∧ R) : P ∧ Q := by
 
 example (a : Bool) : (a && !a) = false := by
   grind
+
+/- ## サテライトソルバー
+
+### ac ソルバー
+
+結合的(associative)もしくは結合的かつ可換(commutative)な二項演算を持つ代数系に対して、`grind` は推論を行うことができます。この機能は `ac` と呼ばれるソルバーによって提供されています。
+
+{{#include ./Grind/Ac.md}}
+-/
 
 /-
 [^reference]: このページの記述は全体的に The Lean Language Reference の [The grind tactic という章](https://lean-lang.org/doc/reference/latest/The--grind--tactic/#grind) と Lean4 リポジトリの [grind_guide ファイル](https://github.com/leanprover/lean4/blob/master/tests/lean/run/grind_guide.lean)を参考にしています。
