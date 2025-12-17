@@ -16,6 +16,7 @@ def factorial (n : Nat) : Nat :=
 notation:max n "!" => factorial n
 
 /-- 階乗関数の値は１以上 -/
+@[simp]
 theorem one_le_factorial (n : Nat) : 1 ≤ n ! := by
   fun_induction factorial <;> grind
 
@@ -31,7 +32,29 @@ def pascal (a b : Nat) : Nat :=
 
 /-- Pascal の三角形の性質 -/
 theorem pascal_le_factorial (a b : Nat) : pascal a b ≤ (a + b)! := by
-  fun_induction pascal <;> grind
+  fun_induction pascal with grind
+
+-- `grind` を使用しない証明の例
+example (a b : Nat) : pascal a b ≤ (a + b)! := by
+  fun_induction pascal with
+  | case1 => simp
+  | case2 => simp
+  | case3 a b iha ihb =>
+    dsimp
+    calc
+      _ = pascal (a + 1) b + pascal a (b + 1) := by rfl
+      _ ≤ (a + 1 + b)! + (a + (b + 1))! := by omega
+      _ = (a + b + 1)! + (a + b + 1)! := by congr 1; ac_rfl
+      _ = 2 * (a + b + 1)! := by omega
+      _ ≤ (a + b + 2) * (a + b + 1)! := ?step
+      _ = (a + b + 2)! := by rfl
+      _ = (a + 1 + (b + 1))! := by congr 1; ac_rfl
+
+    case step =>
+      generalize h : (a + b + 1)! = k
+      suffices 2 ≤ (a + b + 2) from by
+        exact Nat.mul_le_mul_right k this
+      omega
 
 /- ## 動作原理の概要
 
