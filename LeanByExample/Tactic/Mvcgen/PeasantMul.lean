@@ -18,18 +18,26 @@ def peasantMul (x y : Nat) : Nat := Id.run do
       break
   return prod
 
-attribute [grind =] Nat.div_div_eq_div_mul
+theorem Nat.div_pow_add (x a b c : Nat) : x / c ^ (a + b) = (x / c ^ a) / c ^ b := by
+  grind [Nat.div_div_eq_div_mul, Nat.pow_add]
 
-@[grind ->]
-theorem div2_mul2_odd (x : Nat) (odd : x % 2 = 1) : x = (x / 2) * 2 + 1 := by
-  grind
+-- 左辺をみかけたらインスタンス化する
+-- ただし a, b, c が 0 や 1 になっているときは(無駄なので)インスタンス化しない
+grind_pattern Nat.div_pow_add => x / c ^ (a + b) where
+  a =/= 0
+  b =/= 0
+  c =/= 0
+  c =/= 1
 
-@[grind ->]
-theorem div2_mul2_even (x : Nat) (even : x % 2 = 0) : x = (x / 2) * 2 := by
-  grind
+-- a / b を見かけたらインスタンス化する
+grind_pattern Nat.div_add_mod' => a / b where
+  not_value a
+  is_value b
+  b =/= 0
+  b =/= 1
 
-@[grind =, simp]
-theorem div_pow_self_two_eq_zero (n : Nat) : n / 2 ^ n = 0 := by
+@[grind =]
+theorem Nat.div_pow_self_two_eq_zero (n : Nat) : n / 2 ^ n = 0 := by
   have : n < 2 ^ n := Nat.lt_two_pow_self
   simp_all
 
