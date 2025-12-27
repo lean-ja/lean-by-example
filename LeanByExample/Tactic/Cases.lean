@@ -52,6 +52,8 @@ example (P Q R : Prop) : P ∨ Q → (P → R) → (Q → R) → R := by
 
 /- ## 舞台裏
 
+### 帰納型の分解
+
 `cases` は、実際には論理和に限らず[帰納型](#{root}/Declarative/Inductive.md)をコンストラクタに分解することができるタクティクです。
 -/
 
@@ -86,7 +88,30 @@ Or.inr : ∀ {a b : Prop}, b → a ∨ b
 --#--
 
 inductive Or (a b : Prop) : Prop where
-  | inl (h : a) : Or a b
-  | inr (h : b) : Or a b
+  | inl (h : a)
+  | inr (h : b)
 
 end Hidden --#
+/-
+### 帰納的述語の分解
+
+特に、帰納的述語も `cases` タクティクで分解することができます。
+仮定がどのコンストラクタから来たものなのかに応じて場合分けをすることができます。
+
+たとえば、以下のように偶数であることを表す帰納的述語を定義したとします。
+このとき `Even (n + 2)` という仮定があれば `Even n` を結論出来ますが、これは `cases` タクティクで行うことができます。
+-/
+
+/-- 偶数であることを表す帰納的述語 -/
+inductive Even : Nat → Prop where
+  | zero : Even 0
+  | cons {n : Nat} (ih : Even n) : Even (n + 2)
+
+example (n : Nat) (h : Even (n + 2)) : Even n := by
+  -- h に対して場合分けを行う。
+  -- `Even (n + 2)` という仮定はどのコンストラクタから来たか？で場合分けできる。
+  -- `cases` タクティクはある程度賢いので、
+  -- `zero` のケースはありえないと判断してスキップできる。
+  cases h with
+  | cons ih =>
+    exact ih
