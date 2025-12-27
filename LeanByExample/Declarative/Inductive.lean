@@ -140,6 +140,45 @@ example {m n k : Nat} (h₁ : m ≤ₘ n) (h₂ : n ≤ₘ k) : m ≤ₘ k := by
   | @step l h₂ ih =>
     apply Nat.myle.step (by assumption)
 
+/- #### 使用例: 回文判定
+
+`Prop` 値の再帰関数として定義することと比較した、帰納的述語として定義することのメリットとして「定義における場合分けが簡潔になる」ことが挙げられます。以下は、リストが回文であることを主張する帰納的述語の例です。
+-/
+
+variable {α : Type}
+
+/-- 回文を表す帰納的述語 -/
+@[grind]
+inductive Palindrome : List α → Prop
+  /-- 空リストは回文 -/
+  | nil : Palindrome []
+  /-- 要素が一つだけのリストは回文 -/
+  | single (a : α) : Palindrome [a]
+  /-- 回文の両端に同じ要素を追加しても回文 -/
+  | sandwich {a : α} {as : List α} (ih : Palindrome as) : Palindrome ([a] ++ as ++ [a])
+
+/-
+これと同様の定義を再帰関数によって行うことは可能ですが、`sandwich` のケースが少し複雑になってしまいます。これは、`match` 式が受け入れるパターンマッチの形式が限定されているためです。（`as.revers = as` で判定することもできますが、それが `Palindrome` と同値であることは自明ではないことです）
+-/
+
+-- `DecidableEq` を仮定したくないので古典論理を利用する
+open scoped Classical in
+
+/-- 回文判定を行う再帰関数 -/
+def isPalindrome (as : List α) : Prop :=
+  match as with
+  | [] => true
+  | [a] => true
+  | a₁ :: a₂ :: as =>
+    let xs := (a₂ :: as).dropLast
+    let x := (a₂ :: as).getLast (by simp)
+
+    if a₁ = x then
+      isPalindrome xs
+    else
+      false
+termination_by as.length
+
 /- #### 使用例: プログラムの BigStep 意味論
 
 帰納的述語として定義することの更なるメリットとしては、再帰が停止することを保証しなくて良いことが挙げられます。実際、帰納的述語は本質的に停止する保証がない再帰的な操作でも扱うことができます。以下は、少し複雑ですがプログラムの BigStep 意味論を表現する例です。[^hitchhiker]
