@@ -169,6 +169,9 @@
   - [Type: 型の型](./Type/Type.md)
   - [Vector: 長さ固定の配列](./Type/Vector.md)
 
+- [do 構文](./DoSyntax/README.md)
+  - [while: 停止するとは限らない繰り返し](./DoSyntax/While.md)
+
 - [タクティク](./Tactic/README.md)
   - [<;>: 生成された全ゴールに適用](./Tactic/SeqFocus.md)
   - [ac_rfl: 可換性と結合性を使う](./Tactic/AcRfl.md)
