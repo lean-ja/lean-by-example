@@ -9,7 +9,7 @@
 
 帰納型の最も基本的な例は、次のような列挙型です。列挙型とは、固定された値のどれかを取るような型です。
 -/
-import Mathlib.SetTheory.Cardinal.Basic --#
+
 /-- 真か偽のどちらかの値をとる型 -/
 inductive MyBool where
   | true
@@ -236,7 +236,7 @@ section --#
 variable {α : Type} (R : α → α → Prop)
 
 /-- `α`上の二項関係の全体 -/
-def BinRel (α : Type) := α → α → Prop
+abbrev BinRel (α : Type) := α → α → Prop
 
 /-- `R` が `S` に含まれるという関係を `R ≤ S` と書けるようにする -/
 instance : LE (BinRel α) where
@@ -301,7 +301,7 @@ info: Bool.rec.{u} {motive : Bool → Sort u} (false : motive false) (true : mot
 -/
 
 /-⋆-//--
-info: Nat.rec.{u} {motive : ℕ → Sort u} (zero : motive Nat.zero) (succ : (n : ℕ) → motive n → motive n.succ) (t : ℕ) :
+info: Nat.rec.{u} {motive : Nat → Sort u} (zero : motive Nat.zero) (succ : (n : Nat) → motive n → motive n.succ) (t : Nat) :
   motive t
 -/
 #guard_msgs in --#
@@ -376,80 +376,10 @@ inductive Bar where
 
 /- どの `→` から見ても正の位置にあるときには狭義の正の位置(strictly positive position)と呼ばれるのですが、Lean は実際には狭義の正の位置でなければ定義を拒否します。帰納型 `T` のコンストラクタの引数の中に `T` 自身が現れる場合、狭義の正の位置つまり `A → T` の形で現れるのは許容されますが `T → A` の形で現れるのは許されません。これを strictly positive 要件と本書では呼びます。
 
-仮に strictly positive 要件に違反するような帰納型をなんでも定義できたとすると、矛盾が導かれてしまいます。[`unsafe`](#{root}/Modifier/Unsafe.md) 修飾子で実際に試してみましょう。[^stpos] -/
+仮に strictly positive 要件に違反するような帰納型をなんでも定義できたとすると、矛盾が導かれてしまいます。[`unsafe`](#{root}/Modifier/Unsafe.md) 修飾子で実際に試してみましょう。[^stpos]
 
--- 任意に型 A が与えられたとして固定する
-opaque A : Type
-
-/-- strictly positive 要件を破っている帰納型 -/
-unsafe inductive Bad where
-  | mk (f : Bad → A)
-
-section
-  /- ## A が空の場合
-
-  `A` が空なら、`A` は `False` と同じなので矛盾が導かれる。
-  -/
-
-  unsafe def selfApply (b : Bad) : A :=
-    match b with
-    | Bad.mk f => f b
-
-  -- A の項が A の情報を使わずに構成できてしまった
-  unsafe def ω : A := selfApply (Bad.mk selfApply)
-
-  /-- `A` が空なら矛盾が導かれる -/
-  unsafe example [IsEmpty A] : False :=
-    IsEmpty.false ω
-end
-
-section
-  /- ## A に２つ以上の要素があるとき -/
-
-  /-- `Bad` と `Bad → A` の間に全単射がある -/
-  unsafe def equiv : Bad ≃ (Bad → A) where
-    toFun := fun ⟨f⟩ => f
-    invFun := Bad.mk
-    left_inv := by
-      intro ⟨f⟩
-      rfl
-    right_inv := by
-      intro f
-      rfl
-
-  open scoped Cardinal
-
-  unsafe example [Nontrivial A] : False := by
-    -- `Bad` と `Bad → A` は全単射があるので濃度(`#`)が同じ
-    have h : # Bad = # (Bad → A) :=
-      Cardinal.mk_congr equiv
-
-    -- 特に、`# Bad = # A ^ # Bad` が成り立つ
-    replace h : # Bad = #A ^ # Bad := by
-      simpa [Cardinal.mk_pi, Cardinal.prod_const, Cardinal.lift_id] using h
-
-    -- しかしカントール(Cantor)の定理により、`# A ≥ 2` ならば
-    -- `# Bad < # A ^ # Bad` が成り立つ
-    have : # Bad < #A ^ # Bad := by
-      apply Cardinal.cantor' (a := # Bad) (b := # A)
-      rw [Cardinal.one_lt_iff_nontrivial]
-      infer_instance
-
-    -- これは矛盾
-    apply ne_of_lt this h
-end
-
-/- ここで、`ω` の定義が無限ループに陥っていることは指摘する価値があります。 -/
-
--- ω を簡約すると ω 自身が出てくる
--- つまり無限ループしている
-/-⋆-//--
-error: maximum recursion depth has been reached
-use `set_option maxRecDepth <num>` to increase limit
-use `set_option diagnostics true` to get diagnostic information
+{{#include ./Inductive/StrictlyPositive.md}}
 -/
-#guard_msgs in --#
-#reduce ω
 
 /- [^hitchhiker]: [The Hitchhiker’s Guide to Logical Verification](https://github.com/blanchette/interactive_theorem_proving_2024) を参考にいたしました。
 [^stpos]: 以下の証明は、Lean 公式 Zulip の strictly positive requirement というトピックで [Markus Himmel さんが示した証明](https://leanprover.zulipchat.com/#narrow/channel/217875-Is-there-code-for-X.3F/topic/strictly.20positive.20requirement/near/497174984)を参考にしています。
