@@ -63,9 +63,19 @@ theorem ICan'tBelieveItCanSort_sorted (arr : Array α) : ICan'tBelieveItCanSort 
   generalize h : ICan'tBelieveItCanSort arr = x
   apply Id.of_wp_run_eq h
   mvcgen invariants
-  · ⇓⟨cursor, vec⟩ => ⌜vec.take cursor.pos |>.toArray.Pairwise (· ≤ ·)⌝
-  · ⇓⟨cursor, vec⟩ => by
-    expose_names
-    exact ⌜(vec.take cur |>.toArray.Pairwise (· ≤ ·)) ∧
-      ∀ i (_ : i < cursor.pos), vec[i]'(by grind) ≤ vec[cur]'(by grind)⌝
+  | inv1 => ⇓⟨cursor, vec⟩ =>
+    -- 外側のforループの不変条件。
+    -- 外側ループが要素`i ∈ [0:n]`を処理する反復の開始時に、
+    -- `vec[0...i]`はソート済みである。
+    let i := cursor.pos
+    ⌜vec.take i |>.toArray.Pairwise (· ≤ ·)⌝
+  | inv2 i _ _ _ _ => ⇓⟨cursor, vec⟩ =>
+    -- 内側のforループの不変条件。
+    -- 外側ループが要素`i ∈ [0:n]`を処理する反復の途中で、
+    -- 内側ループが要素`j ∈ [0:n]`を処理する反復の開始時に、以下が成立。
+    -- * `vec[0...i]`はソート済み
+    -- * `vec[0...j]`のすべての要素は`vec[i]`以下
+    let j := cursor.pos
+    ⌜(vec.take i |>.toArray.Pairwise (· ≤ ·)) ∧
+      ∀ k (_ : k < j), vec[k]'(by grind) ≤ vec[i]'(by grind)⌝
   with (simp at *; grind)
