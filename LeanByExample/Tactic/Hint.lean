@@ -46,8 +46,8 @@ def getRegisteredTactics : CoreM Unit := do
     IO.println arr[0]!
 
 /-⋆-//--
-info: "group"
-"noncomm_ring"
+info: "noncomm_ring"
+"group"
 "finiteness"
 "field"
 "field_simp"
