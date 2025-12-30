@@ -1,6 +1,6 @@
 /- # grind
 
-`grind` は、現代の SMT ソルバにインスパイアされた証明自動化タクティクです。[^reference]
+`grind` は、汎用的かつ強力な証明自動化タクティクです。[^reference]
 
 非常に強力であり、時に驚くほどギャップのある証明を自動で完了させることができます。[^impressive]
 -/
@@ -414,6 +414,15 @@ example (a : Bool) : (a && !a) = false := by
 結合的(associative)もしくは結合的かつ可換(commutative)な二項演算を持つ代数系に対して、`grind` は推論を行うことができます。この機能は `ac` と呼ばれるソルバーによって提供されています。
 
 {{#include ./Grind/Ac.md}}
+-/
+
+/- ## 前提選択(premise selection)
+
+`grind` には **premise selection** の仕組みが組み込まれており、`grind +suggestions` とすることで利用することができます。
+
+{{#include ./Grind/Suggestions.md}}
+
+ただし premise selection とは、一般に自動定理証明において「証明したいゴールに関係のある定理・補題を探し出す」ことを指す言葉です。`grind +suggestions` は premise selection を行い、選び出した定理・補題を `grind` の引数に与えて実行します。
 -/
 
 /-
