@@ -259,6 +259,7 @@
   - [trans: 推移律を利用する](./Tactic/Trans.md)
   - [trivial: 基本的なタクティクを試す](./Tactic/Trivial.md)
   - [try: 失敗をエラーにしない](./Tactic/Try.md)
+  - [try?: 証明の探索](./Tactic/TryQuestion.md)
   - [unfold: 定義に展開](./Tactic/Unfold.md)
   - [use: 存在∃を示す](./Tactic/Use.md)
   - [with_reducible: 透過度指定](./Tactic/WithReducible.md)
