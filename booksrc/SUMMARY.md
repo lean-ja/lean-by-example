@@ -79,7 +79,7 @@
   - [private: 定義を不可視にする](./Modifier/Private.md)
   - [protected: フルネームを強制する](./Modifier/Protected.md)
   - [scoped: 有効範囲を名前空間で限定](./Modifier/Scoped.md)
-  - [termination_by: 再帰の進捗指標を指定](./Modifier/TerminationBy.md)
+  - [termination_by: 整礎再帰](./Modifier/TerminationBy.md)
   - [unsafe: Leanのルールを破る](./Modifier/Unsafe.md)
   - [where: 補助定義を追加](./Modifier/Where.md)
 
