@@ -34,6 +34,7 @@
 * [The Hitchhiker's Guide to Logical Verification](https://github.com/blanchette/interactive_theorem_proving_2024) 「	Formal Proof and Verification」という授業の参考書。テーマは形式検証であり、形式数学の形式化だけでなくプログラミング意味論にも触れています。
 * [Logic and Mechanized Reasoning](https://avigad.github.io/lamr/) Lean を使った論理学および自動証明の教科書。ソースコードも[GitHubリポジトリ](https://github.com/avigad/lamr)で公開されています。
 * [Scientific Computing in Lean](https://lecopivo.github.io/scientific-computing-lean/) Lean で科学計算を行うライブラリ [SciLean](https://github.com/lecopivo/SciLean) の著者による、科学計算についての解説書。
+* [From Zero to QED](https://sdiehl.github.io/zero-to-qed/) 型理論と関数型プログラミングを背景に、Lean を用いた定理証明について基礎から段階的に学ぶ入門書。
 
 ## 📚 書籍(日本語)
 
