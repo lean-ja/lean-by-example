@@ -19,7 +19,8 @@
 
 * [Loogle](https://loogle.lean-lang.org/) Mathlib などからの検索ツール。型の情報や定数名から検索ができます。vscode-lean4 から実行することもできます。
 * [Lean Search](https://leansearch.net/) 自然言語で Mathlib から定理や定義が検索できるサイト。これに関連して[「A Semantic Search Engine for Mathlib4」](https://www.semanticscholar.org/paper/A-Semantic-Search-Engine-for-Mathlib4-Gao-Ju/da6bf364987a605843d56b19f9d0b1546b192c5f?utm_source=direct_link)という論文があります。日本語対応しています。
-* [Lean Explorer](https://www.leanexplore.com/) 自然言語で Mathlib などから定理や定義が検索できるサイト。日本語対応していないことに注意。
+* [Lean Explore](https://www.leanexplore.com/) 自然言語で Mathlib などから定理や定義が検索できるサイト。日本語対応していないことに注意。これに関連して [「LeanExplore: A search engine for Lean 4 declarations」](https://arxiv.org/abs/2506.11085) という論文があります。
+* [Moogle](https://www.moogle.ai/) 自然言語でクエリできるライブラリ検索エンジン。
 
 ## 📖 書籍(英語)
 
