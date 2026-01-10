@@ -7,8 +7,7 @@
 /-
 `h : x ∈ [a₁, ..., aₙ]` といった形の仮定に対して `fin_cases h` とすると、代入 `x = a₁, ..., x = aₙ` を施した n 個のゴールが生成されます。
 -/
-
-import Mathlib.Tactic.FinCases
+import Mathlib.Tactic
 
 example {n : ℕ} (h : n ∈ [2, 4, 42]) : 2 ∣ n := by
   -- n に 2, 4, 42 を順に代入した 3 つのゴールが生成される
