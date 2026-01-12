@@ -6,12 +6,11 @@
 -/
 namespace variable0 --#
 
-/-- 連結リストの最後の要素を取り出す -/
-def last? {α : Type} (l : List α) : Option α :=
+/-- リストが空であるか判定する -/
+def isNil {α : Type} (l : List α) : Bool :=
   match l with
-  | [] => none
-  | [a] => some a
-  | _ :: xs => last? xs
+  | [] => true
+  | _ => false
 
 theorem nng_list_length {α : Type} (l : List α) : l.length ≥ 0 := by simp
 
@@ -22,15 +21,11 @@ namespace variable1 --#
 
 variable {α : Type} (l : List α)
 
-/-- 連結リストの最後の要素を取り出す -/
-def last? (l : List α) : Option α :=
+def isNil : Bool :=
   match l with
-  | [] => none
-  | [a] => some a
-  | _ :: xs =>last? xs
+  | [] => true
+  | _ => false
 
 theorem nng_list_length : l.length ≥ 0 := by simp
-
-/- 上記の２つの例で引数の `l : List α` を省略できるかどうかに違いがありますが、これは返り値の型に現れているかどうかに依ります。 -/
 
 end variable1 --#
