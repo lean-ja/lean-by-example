@@ -17,10 +17,6 @@ example (as : List α) : (reverse as).head? = as.last? := by
   -- grind 単体では証明ができない
   fail_if_success grind
 
-  -- 帰納法を適当に使ってみてもダメ
-  fail_if_success induction as with grind
-  fail_if_success fun_induction last? <;> grind
-
   -- try? なら証明を見つけることができる
   try?
 

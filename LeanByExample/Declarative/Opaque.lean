@@ -67,10 +67,10 @@ structure Something where
 
 -- Inhabited インスタンスがないのでエラーになる
 /-⋆-//--
-error: failed to synthesize
-  Inhabited Something
+error: failed to synthesize 'Inhabited' or 'Nonempty' instance for
+  Something
 
-Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+If this type is defined using the 'structure' or 'inductive' command, you can try adding a 'deriving Nonempty' clause to it.
 -/
 #guard_msgs in --#
 opaque something : Something
