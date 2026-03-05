@@ -63,7 +63,7 @@ namespace PreInt
 end PreInt
 
 /-- `PreInt`上の同値関係 -/
-@[instance] def PreInt.sr : Setoid PreInt := ⟨r, r.equiv⟩
+instance PreInt.sr : Setoid PreInt := ⟨r, r.equiv⟩
 
 /-- 整数。`Nat × Nat`を同値関係で割ることで構成している。 -/
 @[reducible] def MyInt := Quotient PreInt.sr
@@ -91,7 +91,7 @@ def MyInt.add : MyInt → MyInt → MyInt := Quotient.lift₂ PreInt.add <| by
   intro (m₁, m₂) (n₁, n₂) (m'₁, m'₂) (n'₁, n'₂) rm rn
   dsimp [PreInt.add]
   apply Quotient.sound
-  dsimp [(· ≈ ·), Setoid.r, PreInt.r] at *
+  dsimp [(· ≈ ·), Setoid.r, PreInt.r, instHasEquivOfSetoid] at *
   omega
 
 instance : Add MyInt where

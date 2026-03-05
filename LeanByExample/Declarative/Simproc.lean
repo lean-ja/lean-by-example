@@ -53,7 +53,7 @@ end
 open Lean Meta Simp Qq
 
 /-- `mif`式を単純化するsimproc。 -/
-simproc ↓reduceMyIte (myIte _ _ _) := .ofQ fun u _α expr => do
+simproc ↓reduceMyIte (myIte _ _ _) := .ofQ fun u α expr => do
   -- パターンマッチ。`myIte _ _ _`の形であることを確認する。
   -- そうでなければ即終了する。
   match u, α, expr with

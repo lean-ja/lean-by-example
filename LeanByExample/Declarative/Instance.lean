@@ -183,8 +183,7 @@ instance (α β : Type) [Arity β] : Arity (α → β) where
 #check_failure [1] + [2]
 
 -- インスタンスを宣言する
-@[instance]
-def instListAdd {α : Type} : Add (List α) where
+instance instListAdd {α : Type} : Add (List α) where
   add := List.append
 
 -- リスト同士を足すことができるようになった

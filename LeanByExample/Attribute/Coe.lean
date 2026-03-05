@@ -31,7 +31,7 @@ def IntBase.equiv : IntBase → IntBase → Prop :=
   fun (a₁, b₁) (a₂, b₂) => a₁ + b₂ = b₁ + a₂
 
 /-- `IntBase` 上の同値関係として `IntBase.equiv` を登録する -/
-@[instance] def IntBase.sequiv : Setoid IntBase where
+instance IntBase.sequiv : Setoid IntBase where
   r := IntBase.equiv
   iseqv := by
     constructor

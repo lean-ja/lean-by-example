@@ -116,8 +116,7 @@ end --#
 -/
 
 /-- 順序を無視してペアとして同じかどうか判定する同値関係 -/
-@[instance]
-def pairRel (A : Type) : Setoid (A × A) where
+instance pairRel (A : Type) : Setoid (A × A) where
   r := fun p₁ p₂ => p₁.1 = p₂.1 ∧ p₁.2 = p₂.2 ∨ p₁.1 = p₂.2 ∧ p₁.2 = p₂.1
   iseqv := by constructor <;> grind
 
@@ -133,7 +132,7 @@ def sample₂ : UnorderedPair Nat := Quotient.mk _ (2, 1)
 
 example : sample₁ = sample₂ := by
   apply Quotient.sound
-  dsimp [(· ≈ ·), pairRel]
+  dsimp [(· ≈ ·), pairRel, instHasEquivOfSetoid, Setoid.r]
   grind
 
 /- ### 自然数の積の商として整数を得る
@@ -179,7 +178,7 @@ namespace PreInt
     { refl := rel.refl, symm := rel.symm, trans := rel.trans }
 
   /-- `PreInt` 上の同値関係 -/
-  @[instance] def srel : Setoid PreInt := ⟨rel, rel.equiv⟩
+  instance srel : Setoid PreInt := ⟨rel, rel.equiv⟩
 
 end PreInt
 
@@ -195,7 +194,7 @@ def PreInt.neg (m : PreInt) : MyInt := match m with
 def MyInt.neg : MyInt → MyInt := Quotient.lift PreInt.neg <| by
   intro (m₁, m₂) (n₁, n₂) h
   dsimp [PreInt.neg]; apply Quotient.sound
-  dsimp [(· ≈ ·), PreInt.srel, PreInt.rel] at *
+  dsimp [(· ≈ ·), PreInt.srel, PreInt.rel, instHasEquivOfSetoid, Setoid.r] at *
   omega
 
 instance : Neg MyInt := ⟨MyInt.neg⟩
@@ -210,7 +209,7 @@ def PreInt.add (m n : PreInt) : MyInt :=
 def MyInt.add : MyInt → MyInt → MyInt := Quotient.lift₂ PreInt.add <| by
   intro (m₁, m₂) (n₁, n₂) (m₁', m₂') (n₁', n₂') h₁ h₂
   dsimp [PreInt.add]; apply Quotient.sound
-  dsimp [(· ≈ ·), PreInt.srel, PreInt.rel] at *
+  dsimp [(· ≈ ·), PreInt.srel, PreInt.rel, instHasEquivOfSetoid, Setoid.r] at *
   omega
 
 instance : Add MyInt := ⟨MyInt.add⟩

@@ -46,9 +46,9 @@ def getRegisteredTactics : CoreM Unit := do
     IO.println arr[0]!
 
 /-⋆-//--
-info: "group"
-"compute_degree"
+info: "compute_degree"
 "noncomm_ring"
+"group"
 "finiteness"
 "linarith"
 "field"

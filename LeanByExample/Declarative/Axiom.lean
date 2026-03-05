@@ -358,18 +358,6 @@ theorem em (P : Prop) : P ∨ ¬ P := by
     -- 残りの１つでは `u ≠ v` が成り立つ。
     simp [hu, hv]
 
-/- ### Lean.ofReduceBool { #ofReduceBool }
-
-`Lean.ofReduceBool` は、[`native_decide`](#{root}/Tactic/NativeDecide.md) タクティクまたは `decide +native` タクティクを使用したときに使用される公理です。ある定理が `Lean.ofReduceBool` に依存しているということは、証明の中でコンパイラの出す結果を信頼していることを意味します。
--/
-
-theorem nd_sample : 1 + 1 = 2 := by
-  decide +native
-
-/-⋆-//-- info: 'nd_sample' depends on axioms: [Lean.ofReduceBool, Lean.trustCompiler] -/
-#guard_msgs in --#
-#print axioms nd_sample
-
 /- ### 万能公理 SorryAx
 
 `sorryAx` は、[`sorry`](#{root}/Tactic/Sorry.md) タクティクを使用したときに使用される公理です。どんな命題でも証明することができ、どんなデータでも構成することができる万能な公理ですが、これを使用して証明を埋めるのはもちろんズルです。

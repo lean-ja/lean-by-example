@@ -28,13 +28,13 @@ def gcd (m n : Nat) : Nat :=
 -- `native_decide` ならば証明できる
 #check (by native_decide : gcd 42998431 120019 = 1)
 
-/- 補足すると、`native_decide` を使用するときにはコンパイラを信頼することになります。具体的には `Lean.ofReduceBool` という追加の公理が使用されます。-/
+/- 補足すると、`native_decide` を使用するときにはコンパイラを信頼することになります。具体的には（定理ごとに個別の）追加の公理が使用されます。-/
 
-theorem native : Nat.gcd 42998431 120019 = 1 := by native_decide
+theorem native_thm : Nat.gcd 42998431 120019 = 1 := by native_decide
 
-/-⋆-//-- info: 'native' depends on axioms: [Lean.ofReduceBool, Lean.trustCompiler] -/
+/-⋆-//-- info: 'native_thm' depends on axioms: [native_thm._native.native_decide.ax_1_1] -/
 #guard_msgs in --#
-#print axioms native
+#print axioms native_thm
 
 /- ## 注意
 `native_decide` を使うことは安全ではなく、`native_decide` を使うと簡単に `False` を示す（つまり矛盾を導く）ことができてしまいます。つまり、`native_decide` を使った証明は正式な証明ではありません。しかし、`native_decide` を使用した不正な証明は [`#print axioms`](#{root}/Diagnostic/Print.md#PrintAxioms) コマンドを確認することで見破ることができます。 -/
@@ -53,6 +53,6 @@ theorem zero_ne_eq_one : False := by
 
   contradiction
 
-/-⋆-//-- info: 'zero_ne_eq_one' depends on axioms: [Lean.ofReduceBool, Lean.trustCompiler] -/
+/-⋆-//-- info: 'zero_ne_eq_one' depends on axioms: [zero_ne_eq_one._native.native_decide.ax_1_1] -/
 #guard_msgs in --#
 #print axioms zero_ne_eq_one

@@ -141,8 +141,7 @@ def add_equiv (c₁ c₂ : Nat) : Prop :=
   ∀ n : Nat, c₁ + n = c₂ + n
 
 /-- `Nat`上の同値関係 -/
-@[instance]
-def add_setoid : Setoid Nat where
+instance add_setoid : Setoid Nat where
   r := add_equiv
   iseqv := by
     constructor
