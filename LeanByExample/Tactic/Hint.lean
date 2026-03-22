@@ -5,7 +5,7 @@ import Mathlib.Tactic -- `hint` は検索を伴うので、おおざっぱに im
 
 /-⋆-//--
 info: Try these:
-  [apply] 🎉 simp_all only [forall_const]
+  [apply] 🎉️ simp_all only [forall_const]
   [apply] norm_num
   Remaining subgoals:
   ⊢ Q
@@ -19,7 +19,7 @@ example (P Q : Prop) (p : P) (h : P → Q) : Q := by
 
 /-⋆-//--
 info: Try these:
-  [apply] 🎉 simp_all only [and_self]
+  [apply] 🎉️ simp_all only [and_self]
   [apply] norm_num
   Remaining subgoals:
   ⊢ Q ∧ P ∧ R
@@ -84,7 +84,7 @@ register_hint 1000 nlinarith
 
 /-⋆-//--
 info: Try these:
-  [apply] 🎉 nlinarith
+  [apply] 🎉️ nlinarith
 -/
 #guard_msgs in --#
 example (a b : Nat) (h : a ≤ b) : (a + b) ^ 2 ≤ 4 * b ^ 2 := by
