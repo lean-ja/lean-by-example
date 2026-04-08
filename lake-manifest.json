@@ -15,7 +15,7 @@
    "type": "git",
    "subDir": null,
    "scope": "",
-   "rev": "0c38f916d3b2b7116cc57757f94ab9e440de3c39",
+   "rev": "449df4454c4a2d9decabf35e6dd9e1a0b6591267",
    "name": "mdgen",
    "manifestFile": "lake-manifest.json",
    "inputRev": "main",
