@@ -33,7 +33,7 @@ theorem Vector.toArray_extract_size {α : Type} {n : Nat} (v : Vector α n) :
   grind
 
 @[grind! =>]
-theorem List.Cursor.pos_le_length (n : Nat) (xs : [0:n].toList.Cursor) : xs.pos ≤ n := by
+theorem List.Cursor.pos_le_length' (n : Nat) (xs : [0:n].toList.Cursor) : xs.pos ≤ n := by
   have : xs.prefix.length + xs.suffix.length = n := by
     simp [← List.length_append, xs.property]
   grind only

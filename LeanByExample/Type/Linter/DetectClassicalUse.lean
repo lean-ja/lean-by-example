@@ -3,7 +3,7 @@ import LeanByExample.Type.Linter.DetectClassical
 -- 選択原理を使用しているため警告が出る
 /-⋆-//--
 warning: `prop_iff_neg_self₀` depends on `Classical.choice`.
-All axioms: [Classical.choice, propext, Quot.sound]
+All axioms: [propext, Classical.choice, Quot.sound]
 
 Note: This linter can be disabled with `set_option linter.detectClassical false`
 -/

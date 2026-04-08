@@ -49,11 +49,11 @@ instance : Repr Role where
 
 `not computationally relevant` というエラーになることがあります。-/
 
-/-⋆-//-- error: cannot evaluate, types are not computationally relevant -/
+/-⋆-//-- error: Cannot evaluate, types are not computationally relevant -/
 #guard_msgs in --#
 #eval Nat
 
-/-⋆-//-- error: cannot evaluate, proofs are not computationally relevant -/
+/-⋆-//-- error: Cannot evaluate, proofs are not computationally relevant -/
 #guard_msgs in --#
 #eval (rfl : 1 + 1 = 2)
 
@@ -65,7 +65,7 @@ instance : Repr Role where
 -/
 
 /-⋆-//--
-error: could not synthesize a `ToExpr`, `Repr`, or `ToString` instance for type
+error: Could not synthesize a `ToExpr`, `Repr`, or `ToString` instance for type
   Nat → Nat
 -/
 #guard_msgs in --#
@@ -75,7 +75,7 @@ error: could not synthesize a `ToExpr`, `Repr`, or `ToString` instance for type
 
 -- 最初はエラーになってしまう
 /-⋆-//--
-error: could not synthesize a `ToExpr`, `Repr`, or `ToString` instance for type
+error: Could not synthesize a `ToExpr`, `Repr`, or `ToString` instance for type
   Unit → Nat
 -/
 #guard_msgs in --#

@@ -28,7 +28,8 @@ def minFirst (xs : List α) : List α :=
 theorem minFirst_length (xs : List α) :
     (minFirst xs).length = xs.length := by
   -- 普通にinductionすると失敗する
-  fail_if_success induction xs with grind
+  fail_if_success
+    induction xs with grind only [minFirst]
 
   -- `fun_cases` を使うと成功する
-  fun_cases minFirst xs with grind
+  fun_cases minFirst xs with grind only [minFirst]

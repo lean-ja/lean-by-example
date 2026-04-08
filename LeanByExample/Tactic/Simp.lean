@@ -171,7 +171,7 @@ theorem Nat.max_eq_left' {a b : Nat} (h : b ≤ a) : max a b = a := by
 set_option trace.Meta.Tactic.simp.discharge true in
 
 /-⋆-//--
-trace: [Meta.Tactic.simp.discharge] Nat.max_eq_left' discharge ❌️
+trace: [Meta.Tactic.simp.discharge] ✅️ Nat.max_eq_left' discharge ❌️
       0 ≤ 1
 -/
 #guard_msgs in --#

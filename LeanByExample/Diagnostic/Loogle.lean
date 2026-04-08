@@ -56,7 +56,7 @@ info: Loogle Search Results
   ⏎
   [apply] #check List.foldl_reverse --  {α : Type u_1} {β : Type u_2} {l : List α} {f : β → α → β} {b : β} : List.foldl f b l.reverse = List.foldr (fun x y => f y x) b l
   ⏎
-  [apply] #check List.foldr_eq_foldl_reverse --  {α : Type u_1} {β : Type u_2} {l : List α} {f : α → β → β} {b : β} : List.foldr f b l = List.foldl (fun x y => f y x) b l.reverse
+  [apply] #check List.foldr_eq_foldl --  {α : Type u_1} {init : α} {xs : List α} {f : α → α → α} [Std.Associative f] [Std.LawfulIdentity f init] : List.foldr f init xs = List.foldl f init xs
 -/
 #guard_msgs in --#
 #loogle List.foldl

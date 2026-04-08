@@ -15,26 +15,26 @@ example (P : Prop) (h : False) : P := by trivial
 `trivial` は、複数の基本的なタクティクを順に試すマクロとして実装されています。`trace.Elab.step` というオプションを `true` にすると、展開の様子を順を追って見ることができます。-/
 
 /-⋆-//--
-trace: [Elab.step] trivial
-  [Elab.step] trivial
-    [Elab.step] trivial
-      [Elab.step] (apply And.intro✝) <;> trivial
-        [Elab.step] focus
+trace: [Elab.step] ✅️ trivial
+  [Elab.step] ✅️ trivial
+    [Elab.step] ✅️ trivial
+      [Elab.step] 💥️ (apply And.intro✝) <;> trivial
+        [Elab.step] 💥️ focus
               apply And.intro✝
               with_annotate_state"<;>" skip
               all_goals trivial
-          [Elab.step] ⏎
+          [Elab.step] 💥️ ⏎
                 apply And.intro✝
                 with_annotate_state"<;>" skip
                 all_goals trivial
-            [Elab.step] ⏎
+            [Elab.step] 💥️ ⏎
                   apply And.intro✝
                   with_annotate_state"<;>" skip
                   all_goals trivial
-              [Elab.step] apply And.intro✝
-      [Elab.step] apply True.intro✝
-      [Elab.step] decide
-      [Elab.step] contradiction
+              [Elab.step] 💥️ apply And.intro✝
+      [Elab.step] 💥️ apply True.intro✝
+      [Elab.step] 💥️ decide
+      [Elab.step] ✅️ contradiction
 -/
 #guard_msgs in --#
 example (P : Prop) (h : False) : P := by

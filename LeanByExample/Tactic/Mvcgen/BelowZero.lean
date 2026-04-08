@@ -54,7 +54,7 @@ theorem hasPrefix_cons {P : List α → Prop} {a : α} {l : List α} :
 @[grind =]
 theorem hasPrefix_append {P : List α → Prop} {l l' : List α} :
     (l ++ l').HasPrefix P ↔ l.HasPrefix P ∨ l'.HasPrefix (fun l'' => P (l ++ l'')) := by
-  induction l generalizing P with grind
+  induction l generalizing P with grind [= HasPrefix]
 
 @[grind =]
 theorem sum_append_singleton {α : Type} {l : List α} {x : α}
