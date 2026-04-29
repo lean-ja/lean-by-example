@@ -232,7 +232,7 @@
   - [plausible: 反例を見つける](./Tactic/Plausible.md)
   - [positivity: 正値性を示す](./Tactic/Positivity.md)
   - [push_cast: 型キャストを内側へ](./Tactic/PushCast.md)
-  - [push_neg: ドモルガン](./Tactic/PushNeg.md)
+  - [push: 式の内側に押し込む](./Tactic/Push.md)
   - [qify: 有理数にキャストする](./Tactic/Qify.md)
   - [rcases: パターン分解](./Tactic/Rcases.md)
   - [refine: 穴埋め推論](./Tactic/Refine.md)
