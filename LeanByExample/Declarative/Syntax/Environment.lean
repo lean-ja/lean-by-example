@@ -9,4 +9,5 @@ private def fileName : Name := `LeanByExample.Declarative.Syntax.Syntax
 /-- `Arith`のための構文とマクロの定義が終わった直後の状態の`Environment` -/
 initialize env_of_arith_stx : Environment ← do
   initSearchPath (← findSysroot) -- コンパイル時にLeanにoleanファイルを見つけさせるために必要
+  unsafe Lean.enableInitializersExecution -- importModulesの前で初期化を許可する必要がある
   importModules #[{module := fileName}] {} (loadExts := true)
