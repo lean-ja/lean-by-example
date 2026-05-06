@@ -9,9 +9,6 @@ info: Try these:
   [apply] norm_num
   Remaining subgoals:
   ⊢ Q
-  [apply] group
-  Remaining subgoals:
-  ⊢ Q
 -/
 #guard_msgs in --#
 example (P Q : Prop) (p : P) (h : P → Q) : Q := by
@@ -21,9 +18,6 @@ example (P Q : Prop) (p : P) (h : P → Q) : Q := by
 info: Try these:
   [apply] 🎉️ simp_all only [and_self]
   [apply] norm_num
-  Remaining subgoals:
-  ⊢ Q ∧ P ∧ R
-  [apply] group
   Remaining subgoals:
   ⊢ Q ∧ P ∧ R
 -/
@@ -53,22 +47,22 @@ info: "compute_degree"
 "linarith"
 "field"
 "field_simp"
-"ring"
 "positivity"
 "bound"
+"ring"
 "abel"
 "norm_num"
+"aesop"
 "fun_prop"
 "omega"
-"decide"
+"grind"
+"tauto"
 "exact?"
 "simp_all?"
-"aesop"
+"decide"
 "intro"
 "split"
-"tauto"
 "trivial"
-"grind"
 "gcongr"
 -/
 #guard_msgs in --#
