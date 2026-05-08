@@ -146,6 +146,7 @@
   - [CommandElab: コマンドの実装](./Type/CommandElab.md)
   - [DerivingHandler: derivingハンドラの実装](./Type/DerivingHandler.md)
   - [Expr: 抽象構文木](./Type/Expr.md)
+  - [Fin: 有限集合](./Type/Fin.md)
   - [Float: 浮動小数点数](./Type/Float.md)
   - [HashMap: キーと値のペア](./Type/HashMap.md)
   - [HashSet: 重複を許さない集まり](./Type/HashSet.md)
