@@ -148,7 +148,7 @@ def Int.Prime (p : Int) : Prop :=
 
 local grind_pattern Int.le_of_dvd => a ∣ b
 
-/-- ２以上の整数には素因数が存在する -/
+/-- 1 より大きい整数には素因数が存在する -/
 theorem Int.exists_prime_factor (n : Int) (hn : 1 < n) :
     ∃ p : Int, p.Prime ∧ p ∣ n := by
   -- `n : Int` の絶対値に関する帰納法で示す。
