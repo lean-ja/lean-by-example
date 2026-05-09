@@ -134,6 +134,54 @@ def div (x y : Nat) : Nat :=
 
 #guard div 10 3 = 3
 
+/- ## 帰納法と整礎再帰
+
+Lean では関数と証明項の間に大きな違いはないため、`termination_by` を再帰関数ではなくて `theorem` に対して使うこともできます。この場合、「再帰のたびに小さくなる指標」は「帰納法のステップごとに大きくなっていく指標」に相当します。これを利用することにより、証明の中で複雑な帰納法を書くことができます。
+
+以下は、整数に対して「絶対値に関する帰納法」をこの手法で実装している例です。
+-/
+
+/-- 素数 -/
+@[grind =]
+def Int.Prime (p : Int) : Prop :=
+  p > 1 ∧ ∀ a : Int, a > 0 → a ∣ p → a = 1 ∨ a = p
+
+local grind_pattern Int.le_of_dvd => a ∣ b
+
+/-- ２以上の整数には素因数が存在する -/
+theorem Int.exists_prime_factor (n : Int) (hn : 1 < n) :
+    ∃ p : Int, p.Prime ∧ p ∣ n := by
+  -- `n : Int` の絶対値に関する帰納法で示す。
+  -- 絶対値として `Nat` 値の `natAbs` を使用していることに注意
+
+  -- n 自身が素数であれば明らかなので、n は素数でないとして良い。
+  by_cases hprime : n.Prime
+  case pos =>
+    exists n
+    simp_all
+
+  -- n は素数ではないので、非自明な約数 k が存在する
+  have ⟨k, hk⟩ : ∃ k : Int, 1 < k ∧ k < n ∧ k ∣ n := by
+    have : ∃ x, 0 < x ∧ x ∣ n ∧ ¬x = 1 ∧ ¬x = n := by
+      simp [Int.Prime] at hprime
+      exact hprime hn
+    replace ⟨x, hx⟩ := this
+    exists x
+    grind
+
+  -- `|k| < |n|` なので、帰納法の仮定を `k` に適用できる。
+  -- （証明中の定理自身を呼びだしていることに注意。これは再帰呼び出しの構文と同じ）
+  -- したがって `k` の素因数 `p` が存在する。
+  have hlt : k.natAbs < n.natAbs := by grind
+  obtain ⟨p, hp, hpdvd⟩ := Int.exists_prime_factor k (by grind)
+
+  -- p は k の約数なので、p は n の約数でもある
+  grind only [Int.dvd_trans]
+
+-- ここで `natAbs` を再帰の進捗指標に指定している。
+-- この部分が「絶対値に関する帰納法」に対応している。
+termination_by Int.natAbs n
+
 /-
 [^timo]: このコード例は、Lean 公式 Zulip の [how to show termination of McCarthy `M`](https://leanprover.zulipchat.com/#narrow/channel/113489-new-members/topic/how.20to.20show.20termination.20of.20McCarthy.20.60M.60/with/442289266) というトピックにおける Timo Carlin-Burns さんの投稿を参考にしています。
 -/
