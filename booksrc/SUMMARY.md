@@ -42,6 +42,7 @@
   - [elab: 構文とエラボレータを定義](./Declarative/Elab.md)
   - [example: 名前をつけずに証明](./Declarative/Example.md)
   - [export: 現在の名前空間に追加](./Declarative/Export.md)
+  - [grind_pattern: grindをカスタマイズ](./Declarative/GrindPattern.md)
   - [inductive: 帰納型を定義する](./Declarative/Inductive.md)
   - [infix: 中置記法](./Declarative/Infix.md)
   - [infixl: 左結合の中置記法](./Declarative/Infixl.md)
