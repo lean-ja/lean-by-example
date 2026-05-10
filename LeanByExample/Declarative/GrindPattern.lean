@@ -39,4 +39,8 @@ example (x y z : Nat) (h₁ : R x y) (h₂ : R y z) : R x z := by
 したがって `A = B` が成り立つときにインスタンス化してほしい定理がある場合は、`guard` 制約を追加するのが良いでしょう。
 
 {{#include ./GrindPattern/Guard.md}}
+
+また、不等式 `A ≤ B` 等はパターンとしては登録できるのですが、動作が不安定になるためお勧めできません。なるべく `guard` 制約などとして扱うことが望ましいでしょう。
+
+{{#include ./GrindPattern/GuardLe.md}}
 -/
