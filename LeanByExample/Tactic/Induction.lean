@@ -1,6 +1,6 @@
 /- # induction
 
-`induction` は、帰納法のためのタクティクです。自然数 [`Nat`](#{root}/Type/Nat.md) や連結リスト [`List`](#{root}/Type/List.md) など、帰納的に定義されたものに対して何か証明しようとしているとき、帰納法を使うことが自然な選択になります。
+`induction` は、帰納法のためのタクティクです。自然数 [`Nat`](#{root}/Type/Nat.md) や連結リスト [`List`](#{root}/Type/List.md) など、帰納的に定義されたものに対して何か証明しようとしているとき、帰納法を使うことが自然な選択です。
 
 典型的な例は、自然数に対する数学的帰納法です。前提として、ある述語 `P : Nat → Prop` に対して `∀ n, P n` を示そうとしているとします。このとき、以下を示せば十分であるというのが、数学的帰納法の主張です。
 
@@ -45,7 +45,7 @@ example (n : Nat) : sum n = n * (n + 1) / 2 := by
 example (n : Nat) : sum n = n * (n + 1) / 2 := by
   induction n with grind [= sum]
 
-/- ## 帰納法の対象
+/- ## inductive コマンドとの関係
 
 実際には帰納法は自然数の専売特許ではありません。[`inductive`](#{root}/Declarative/Inductive.md) コマンドで定義されたものであれば、帰納法を使うことができます。-/
 
@@ -139,7 +139,7 @@ example {n m : Nat} (h : Even (n + m)) (hm : Even m) : Even n := by
 自然数の場合は、`Nat.strongRecOn` を `using` キーワードに渡せば使うことができます。
 -/
 
-/-- 素数であるという命題 -/
+/-- 素数であるという述語 -/
 @[simp]
 def IsPrime (n : Nat) := 1 < n ∧ ∀ k, 1 < k → k < n → ¬ k ∣ n
 
@@ -147,9 +147,9 @@ def IsPrime (n : Nat) := 1 < n ∧ ∀ k, 1 < k → k < n → ¬ k ∣ n
 theorem IsPrime_pos (n : Nat) (h : IsPrime n) : 1 < n := by
   simp_all
 
-/-- 1より大きい任意の数は素因数を持つ -/
+/-- 1より大きい任意の自然数は素因数を持つ -/
 theorem exists_prime_factor (n : Nat) (hgt : 1 < n) :
-  ∃ k, IsPrime k ∧ k ∣ n := by
+    ∃ k, IsPrime k ∧ k ∣ n := by
   induction n using Nat.strongRecOn with
   | ind n ih =>
     -- nが素数であるかどうかによって場合分けをする。
@@ -168,31 +168,6 @@ theorem exists_prime_factor (n : Nat) (hgt : 1 < n) :
 
     -- k ∣ n なので、k に素因数があるなら n にも存在する。
     grind [Nat.dvd_trans]
-
-/- ## よくあるエラー
-`induction` タクティクを使ったときに、`index in target's type is not a variable` というエラーが出ることがあります。
--/
-
-/-- 偶数であることを表す帰納的述語 -/
-inductive MyEven : Nat → Prop where
-  | zero : MyEven 0
-  | succ : {n : Nat} → MyEven n → MyEven (n + 2)
-
-/-⋆-//--
-error: Invalid target: Index in target's type is not a variable (consider using the `cases` tactic instead)
-  0
--/
-#guard_msgs in --#
-example (h : MyEven 0) : True := by
-  induction h
-
-/- これは型族の添え字が変数ではないから起こることです。その証拠に、変数にするとエラーにならなくなります。-/
-
-example (n m : Nat) (h : MyEven (n + m)) : True := by
-  generalize n + m = x at h
-  induction h
-  · trivial
-  · trivial
 
 /- ## 再帰的定理
 Lean では、実は帰納法を使用するのに必ずしも `induction` は必要ありません。場合分けの中で示されたケースを帰納法の仮定として使うことができます。これは recursive theorem(再帰的定理) と呼ばれることがあります。[^recursive]
@@ -228,6 +203,57 @@ theorem sample : True := by
       fail_if_success have ih := h n
       sorry
   trivial
+
+/-
+再帰的定理のテクニックと [`termination_by`](#{root}/Modifier/TerminationBy.md) を組み合わせるとかなり複雑な帰納法も実行できますが、引数の中に帰納法で使用する変数が入っていなければいけません。`induction` タクティクを使うと、引数の中に入っていない変数に対しても帰納法を回すことができるので、それは `induction` タクティクの強みであると言えるでしょう。
+-/
+
+/-- 空でない自然数の部分集合は最小元を持つ。 -/
+theorem Nat.exists_min_of_exists (P : Nat → Prop) (h : ∃ n, P n) :
+    ∃ m, P m ∧ ∀ n, P n → m ≤ n := by
+  -- 存在が主張されている `n ∈ P` の大きさに対する帰納法によって証明する。
+  obtain ⟨n, hn⟩ := h
+  induction n using Nat.strongRecOn with
+  | ind n ih =>
+    -- n が最小元のときは明らか。
+    -- n は最小元ではないとして良い。
+    by_cases hsmall : ∃ k, k < n ∧ P k
+    case neg => grind
+
+    case pos =>
+      -- n は最小元ではないので、n より小さい P の要素 k が存在する。
+      obtain ⟨k, hk⟩ := hsmall
+
+      -- k に対して帰納法の仮定から、最小元 m が存在する。
+      obtain ⟨m, hm⟩ := ih k (show k < n from by grind) (show P k from by grind)
+
+      -- この m が求めるものであった。
+      exists m
+
+/- ## よくあるエラー
+`induction` タクティクを使ったときに、`index in target's type is not a variable` というエラーが出ることがあります。
+-/
+
+/-- 偶数であることを表す帰納的述語 -/
+inductive MyEven : Nat → Prop where
+  | zero : MyEven 0
+  | succ : {n : Nat} → MyEven n → MyEven (n + 2)
+
+/-⋆-//--
+error: Invalid target: Index in target's type is not a variable (consider using the `cases` tactic instead)
+  0
+-/
+#guard_msgs in --#
+example (h : MyEven 0) : True := by
+  induction h
+
+/- これは型族の添え字が変数ではないから起こることです。その証拠に、変数にするとエラーにならなくなります。-/
+
+example (n m : Nat) (h : MyEven (n + m)) : True := by
+  generalize n + m = x at h
+  induction h
+  · trivial
+  · trivial
 
 /-
 [^recursive]: [lean公式ブログの Functional induction についての記事](https://lean-lang.org/blog/2024-5-17-functional-induction/) で recursive theorem という言葉が使われています。
