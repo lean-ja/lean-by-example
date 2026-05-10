@@ -3,7 +3,6 @@
 `have` は、証明の途中でわかったことを補題としてローカルコンテキストに追加するタクティクです。
 
 `have h : P := ...` で `P` という命題の証明を構成し、その証明に `h` という名前を付けることができます。 -/
-import Mathlib.Tactic.Ring -- `ring` のため --#
 
 /-- 3重否定の簡略化 -/
 example (P : Prop) : ¬¬¬ P → ¬ P := by
@@ -65,10 +64,10 @@ example (P Q : Prop) (hPQ : P ∧ Q) : P := by
 次のように、`∃ x : X, P x` という命題から、条件を満たす `x` を取り出すことができます。`x : X` と `hx : P x` がローカルコンテキストに追加されます。 -/
 
 -- `x` が偶数のとき `3 * x` も偶数
-example (x : ℕ) (hx : ∃ y, x = 2 * y) : ∃ z, 3 * x = 2 * z := by
+example (x : Nat) (hx : ∃ y, x = 2 * y) : ∃ z, 3 * x = 2 * z := by
   -- `hx` で存在が主張されている `y` と、
   -- `x = 2 * y` という命題を得る
   have ⟨y, hy⟩ := hx
   exists 3 * y
   rw [hy]
-  ring
+  omega
