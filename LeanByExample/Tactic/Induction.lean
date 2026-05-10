@@ -7,7 +7,6 @@
 * `P 0` が成り立つ。
 * `∀ n, P n → P (n + 1)` が成り立つ。
 -/
-import Mathlib.Tactic.Ring -- `ring` を使うため --#
 
 /-- `0` から `n` までの和を計算する関数 -/
 def sum (n : Nat) : Rat :=
@@ -20,7 +19,7 @@ example (n : Nat) : sum n = n * (n + 1) / 2 := by
   induction n with
 
   -- `n = 0` の場合
-  | zero => simp [sum]
+  | zero => grind [= sum]
 
   -- `0` から `n` までの自然数で成り立つと仮定する
   | succ n ih =>
@@ -31,23 +30,20 @@ example (n : Nat) : sum n = n * (n + 1) / 2 := by
     simp [sum, ih]
 
     -- 後は可換環の性質から示せる
-    ring
+    grind
 
 /- なお、`=>` は省略することができます。 -/
 
 example (n : Nat) : sum n = n * (n + 1) / 2 := by
   induction n with | zero | succ n ih
-  · simp [sum]
+  · grind [= sum]
   · simp [sum, ih]
-    ring
+    grind
 
 /- また `induction .. with` の直後にタクティクを書くと、そのタクティクをすべてのゴールに対して適用します。 -/
 
 example (n : Nat) : sum n = n * (n + 1) / 2 := by
-  induction n with simp [sum]
-  | succ n ih =>
-    simp [ih]
-    ring
+  induction n with grind [= sum]
 
 /- ## 帰納法の対象
 
@@ -115,13 +111,18 @@ example (n acc : Nat) : factorialTR.aux n acc = acc * factorialTR.aux n 1 := by
     dsimp [factorialTR.aux]
 
     -- 帰納法の仮定が強くなっている！！
-    guard_hyp ih : ∀ (acc : ℕ), factorialTR.aux n acc = acc * factorialTR.aux n 1
+    guard_hyp ih : ∀ (acc : Nat), factorialTR.aux n acc = acc * factorialTR.aux n 1
 
     grind
 
 /- ただし注意点として、`induction .. generalizing` 構文を実行するとき、帰納法を行う変数が一般化される変数に依存していてはいけないというルールがあります。-/
 
-/-⋆-//-- error: Variable `m` cannot be generalized because the induction target depends on it -/
+/-- 偶数を表す帰納的述語 -/
+inductive Even : Nat → Prop where
+  | zero : Even 0
+  | succ : {n : Nat} → Even n → Even (n + 2)
+
+/-- error: Variable `m` cannot be generalized because the induction target depends on it -/
 #guard_msgs in --#
 example {n m : Nat} (h : Even (n + m)) (hm : Even m) : Even n := by
   induction hm generalizing m
@@ -135,7 +136,7 @@ example {n m : Nat} (h : Even (n + m)) (hm : Even m) : Even n := by
 * したがって `∀ n, P (n)` である。
 
 これは超限帰納法の特別な場合で、完全帰納法や累積帰納法とも呼ばれます。
-自然数の場合は、`Nat.strong_induction_on` を `using` キーワードに渡せば使うことができます。
+自然数の場合は、`Nat.strongRecOn` を `using` キーワードに渡せば使うことができます。
 -/
 
 /-- 素数であるという命題 -/
@@ -149,8 +150,8 @@ theorem IsPrime_pos (n : Nat) (h : IsPrime n) : 1 < n := by
 /-- 1より大きい任意の数は素因数を持つ -/
 theorem exists_prime_factor (n : Nat) (hgt : 1 < n) :
   ∃ k, IsPrime k ∧ k ∣ n := by
-  induction n using Nat.strong_induction_on with
-  | h n ih =>
+  induction n using Nat.strongRecOn with
+  | ind n ih =>
     -- nが素数であるかどうかによって場合分けをする。
     by_cases hprime : IsPrime n
     case pos =>
@@ -201,7 +202,7 @@ theorem sum_exp (n : Nat) : sum n = n * (n + 1) / 2 := by
   match n with
 
   -- `n = 0` の場合
-  | 0 => simp [sum]
+  | 0 => grind [= sum]
 
   -- `0` から `n` までの自然数で成り立つと仮定する
   | n + 1 =>
@@ -212,7 +213,7 @@ theorem sum_exp (n : Nat) : sum n = n * (n + 1) / 2 := by
     simp [sum, ih]
 
     -- 後は可換環の性質から示せる
-    ring
+    grind
 
 /- `have` で宣言された命題の証明の中では、この方法は使用できません。-/
 set_option warn.sorry false in --#
@@ -221,7 +222,7 @@ theorem sample : True := by
   have h : ∀ n, sum n = n * (n + 1) / 2 := by
     intro n
     match n with
-    | 0 => simp [sum]
+    | 0 => grind [= sum]
     | n + 1 =>
       -- h 自身を参照することができない
       fail_if_success have ih := h n
