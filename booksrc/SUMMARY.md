@@ -13,6 +13,7 @@
   - [#check: 型を調べる](./Diagnostic/Check.md)
   - [#eval: 式を評価する](./Diagnostic/Eval.md)
   - [#find: ライブラリ検索](./Diagnostic/Find.md)
+  - [#grind_lint: grind 用リンタ](./Diagnostic/GrindLint.md)
   - [#guard_msgs: メッセージのテスト](./Diagnostic/GuardMsgs.md)
   - [#guard: Bool 値のテスト](./Diagnostic/Guard.md)
   - [#help: ドキュメントを見る](./Diagnostic/Help.md)
