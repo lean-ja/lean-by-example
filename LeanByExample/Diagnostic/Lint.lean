@@ -1,6 +1,15 @@
 /- # \#lint
 
-`#lint` コマンドは、リンタ（よくない書き方をされたコードを指摘してくれるツール）を実行します。
+`#lint` コマンドは、環境リンター(environment linter)を実行します。
+
+環境リンターとは何かというと、Lean のリンター（よくない書き方のコードを検出するツール）の分類名です。
+Lean のリンターには次の２種類があります。
+
+* 環境リンター(environment linter): 環境に登録された定義・定理・インスタンスなどを検査するリンター。
+  [`#lint`](#{root}/Diagnostic/Lint.md) コマンドや `lake lint` コマンドで実行することができる。
+* 構文リンター(syntax linter): ソースコードの構文を見て、良くない書き方をその場で警告するリンター。
+  `set_option` コマンドなどで有効化して使う。
+  [`Lean.Elab.Command.Linter`](#{root}/Type/Linter.md) を構成することによって自作できる。
 
 -/
 import Batteries.Tactic.Lint
