@@ -387,6 +387,13 @@ example : ¬ Even 1 := by
   -- grind で示せるようになった
   grind
 
+/- ## 外延性(Extensionality)
+
+`[grind ext]` 属性を付与すると、外延性定理を `grind` に登録することができます。`grind` は `a ≠ b` のような「等しくない」という仮定を内部で扱うとき、`a` と `b` の型に合う外延性定理を使って、等式問題をフィールド・引数ごとの等式問題に分解します。
+
+{{#include ./Grind/Ext.md}}
+-/
+
 /- ## 制約伝播(Constraint Propagation)
 
 `grind` タクティクが黒板に新たな事実を書き込み、`True` または `False` の同値類が更新されたとき、`grind` は多数の前方推論を行い、新たな事実を導出していきます。これを制約伝播(Constraint Propagation)と呼びます。
