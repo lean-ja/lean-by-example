@@ -1,6 +1,11 @@
 /- # Linter
 
-`Lean.Elab.Command.Linter` は、よくない書き方をされたコードを検出して警告を発してくれるツールです。
+`Lean.Elab.Command.Linter` は syntax linter を実装するための仕組みです。
+syntax linter は、個々の command の `Syntax` や、その command の elaboration 中に得られる情報を見て警告を出します。
+そのため「そのコードをどう書いたか」を検査するのに向いています。
+
+[`#lint`](#{root}/Diagnostic/Lint.md) が実行する environment linter とは別物です。
+environment linter は elaboration 後の environment に登録された宣言を検査し、「その宣言をライブラリに追加して大丈夫か」を確認します。
 
 -/
 
