@@ -12,6 +12,32 @@
   rel="stylesheet"
 />
 
+{{! SEO 用メタ情報 }}
+{{#unless is_print}}
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+{{/unless}}
+<meta name="author" content="lean-ja" />
+<meta name="keywords" content="Lean,Lean4,定理証明,形式手法,関数型プログラミング,数学,チュートリアル" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Lean by Example" />
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:title" content="{{ title }}" />
+<meta property="og:description" content="{{ description }}" />
+<meta property="og:url" content="https://lean-ja.github.io/lean-by-example/" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="{{ title }}" />
+<meta name="twitter:description" content="{{ description }}" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Lean by Example",
+  "description": "プログラミング言語であるとともに定理証明支援系でもある Lean 言語と、その主要なライブラリの使い方を豊富なコード例とともに解説した資料です。",
+  "url": "https://lean-ja.github.io/lean-by-example/",
+  "inLanguage": "ja"
+}
+</script>
+
 {{! Google Analytics }}
 <script
   async
