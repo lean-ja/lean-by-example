@@ -23,10 +23,11 @@
 <meta property="og:locale" content="ja_JP" />
 <meta property="og:title" content="{{ title }}" />
 <meta property="og:description" content="{{ description }}" />
-<meta property="og:url" content="https://lean-ja.github.io/lean-by-example/" />
+<meta property="og:url" content="https://lean-ja.github.io/lean-by-example/{{#if path}}{{ path }}{{else}}index.html{{/if}}" />
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:title" content="{{ title }}" />
 <meta name="twitter:description" content="{{ description }}" />
+<link rel="canonical" href="https://lean-ja.github.io/lean-by-example/{{#if path}}{{ path }}{{else}}index.html{{/if}}" />
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
