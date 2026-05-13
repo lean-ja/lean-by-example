@@ -274,8 +274,44 @@ example (h1 : a ≤? b) (h2 : b ≤? k) (h3 : k ≤? m) : a ≤? m := by
 end --#
 /- ### [grind =>]
 
-定理に `[grind =>]` 属性を付与すると、定理の前提が見つかったときに定理がインスタンス化されるようになります。この場合、定理の前提は命題である必要はありません。
+`[grind =>]` は、`[grind →]` の拡張版とみなすと理解しやすいです。
+
+* `[grind →]` は前提だけを見てインスタンス化する
+* `[grind =>]` は前提を優先し、必要なら結論も見てインスタンス化する
+
+特に、`A x → B x y` のように「前提だけでは変数 `y` が決まらない」定理で差が出ます。
+
+また、`[grind =>]` は内部で multi-pattern を自動生成しているので、多くの場合は `grind_pattern` で同様の指定を手で書けます。
+例えば次の `fromPremiseAuto` に対しては、`grind_pattern fromPremiseManual => P x, R x y` が対応します。
 -/
+
+section --#
+
+opaque P : Nat → Prop
+opaque R : Nat → Nat → Prop
+
+axiom fromPremiseForward (x y : Nat) : P x → R x y
+attribute [grind →] fromPremiseForward
+
+example (a b : Nat) (hP : P a) : R a b := by
+  -- `[grind →]` は前提 `P x` だけを使うので、この形では `grind` 単独では使いづらい
+  exact fromPremiseForward a b hP
+
+axiom fromPremiseAuto (x y : Nat) : P x → R x y
+attribute [grind =>] fromPremiseAuto
+
+example (a b : Nat) (hP : P a) : R a b := by
+  -- ゴール `R a b` も手掛かりにしてインスタンス化できる
+  grind
+
+axiom fromPremiseManual (x y : Nat) : P x → R x y
+grind_pattern fromPremiseManual => P x, R x y
+
+example (a b : Nat) (hP : P a) : R a b := by
+  -- `grind_pattern` で同様の発火条件を手で書いた場合
+  grind
+
+end --#
 
 /-- 群 -/
 class Group (G : Type) extends One G, Mul G, Inv G where
