@@ -1,11 +1,15 @@
 /- # Linter
 
-`Lean.Elab.Command.Linter` は syntax linter を実装するための仕組みです。
-syntax linter は、個々の command の `Syntax` や、その command の elaboration 中に得られる情報を見て警告を出します。
-そのため「そのコードをどう書いたか」を検査するのに向いています。
+`Lean.Elab.Command.Linter` は構文リンター(syntax linter)の本体です。
 
-[`#lint`](#{root}/Diagnostic/Lint.md) が実行する environment linter とは別物です。
-environment linter は elaboration 後の environment に登録された宣言を検査し、「その宣言をライブラリに追加して大丈夫か」を確認します。
+構文リンターとは何かというと、Lean のリンター（よくない書き方のコードを検出するツール）の分類名です。
+Lean のリンターには次の２種類があります。
+
+* 環境リンター(environment linter): 環境に登録された定義・定理・インスタンスなどを検査するリンター。
+  [`#lint`](#{root}/Diagnostic/Lint.md) コマンドや `lake lint` コマンドで実行することができる。
+* 構文リンター(syntax linter): ソースコードの構文を見て、良くない書き方をその場で警告するリンター。
+  `set_option` コマンドなどで有効化して使う。
+  [`Lean.Elab.Command.Linter`](#{root}/Type/Linter.md) を構成することによって自作できる。
 
 -/
 

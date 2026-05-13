@@ -1,12 +1,15 @@
 /- # \#lint
 
-`#lint` コマンドは、environment linter を実行します。
-environment linter は、elaboration 後に environment に登録された定義・定理・インスタンスなどを検査するリンタです。
-たとえば「ドキュメントコメントが足りない」「`[simp]` 補題として危険」といった、宣言をライブラリに追加した結果に関する問題を検出するのに使われます。
+`#lint` コマンドは、環境リンター(environment linter)を実行します。
 
-これに対して、[`linter.style.multiGoal`](#{root}/Option/MultiGoal.md) や [`linter.flexible`](#{root}/Option/Flexible.md) のようにソースコードの書き方をその場で警告するものは syntax linter です。
-syntax linter は `#lint` ではなく、`set_option` などで有効化して使います。
-[`Lean.Elab.Command.Linter`](#{root}/Type/Linter.md) は、この syntax linter を自作するための仕組みです。
+環境リンターとは何かというと、Lean のリンター（よくない書き方のコードを検出するツール）の分類名です。
+Lean のリンターには次の２種類があります。
+
+* 環境リンター(environment linter): 環境に登録された定義・定理・インスタンスなどを検査するリンター。
+  [`#lint`](#{root}/Diagnostic/Lint.md) コマンドや `lake lint` コマンドで実行することができる。
+* 構文リンター(syntax linter): ソースコードの構文を見て、良くない書き方をその場で警告するリンター。
+  `set_option` コマンドなどで有効化して使う。
+  [`Lean.Elab.Command.Linter`](#{root}/Type/Linter.md) を構成することによって自作できる。
 
 -/
 import Batteries.Tactic.Lint
