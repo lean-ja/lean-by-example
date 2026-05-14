@@ -1,0 +1,39 @@
+name: "Copilot Setup Steps"
+
+# セットアップ手順が変更されたときに自動で実行し、動作確認を容易にする。
+# また、リポジトリの "Actions" タブから手動でも実行できる。
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/copilot-setup-steps.yml
+  pull_request:
+    paths:
+      - .github/workflows/copilot-setup-steps.yml
+
+jobs:
+  # このジョブ名は `copilot-setup-steps` でなければ Copilot に認識されない。
+  copilot-setup-steps:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      # elan (Lean バージョンマネージャー) をインストールする
+      - name: Install elan
+        run: |
+          curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> $GITHUB_PATH
+
+      # Mathlib のビルド済みキャッシュを取得する
+      # lean-toolchain で指定されたツールチェーンは elan が自動的にインストールする
+      - name: Get Mathlib cache
+        run: lake exe cache get!
+
+      # プロジェクト全体をビルドする
+      - name: Build
+        run: lake build
