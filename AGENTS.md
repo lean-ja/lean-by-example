@@ -32,9 +32,12 @@ lake exe cache get!
 lake build
 ```
 
-## Git の設定
+## Git の設定（OpenAI Codex 専用）
 
-コミットを行う際は、以下の名前とメールアドレスを使用してください：
+> [!NOTE]
+> この設定は **OpenAI Codex** にのみ適用されます。GitHub Copilot などその他のエージェントは、この設定に従う必要はありません。
+
+OpenAI Codex がコミットを行う際は、以下の名前とメールアドレスを使用してください：
 
 ```bash
 git config user.name "codex"
