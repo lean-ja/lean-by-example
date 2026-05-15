@@ -28,7 +28,7 @@ elab_rules : command
 
     -- コマンドの実行結果のメッセージに expected が含まれるか検証する
     for msgStr in msgStrs do
-      unless String.containsSubstr msgStr expected do
+      unless String.contains msgStr expected do
         logError "error: output string does not contain the expected string"
 
 -- ドキュメントコメントがない場合は何もしない
