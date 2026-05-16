@@ -55,21 +55,21 @@ example (n : Nat) : fibonacci n = fib n := by
 example (n : Nat) : fibonacci n = fib n := by
   fun_induction fibonacci with simp_all
 
-/- 一方、ゴール中に `f` が **複数の異なる引数で** 呼ばれているとき、どの引数について帰納法を回すかを特定できなくなるため、引数を省略するとエラーになります。次の例では、ゴール中に `myLast?` が `l ++ r`、`l`、`r` という 3 箇所に現れており、引数を省略するとエラーになります。 -/
-
+/- 一方、ゴール中に `f` が **複数の異なる引数で** 呼ばれているとき、どの引数について帰納法を回すかを特定できなくなるため、引数を省略するとエラーになります。次の例では、ゴール中に `myLast?` が `l ++ r`、`l`、`r` という 3 つの引数を与えられてそれぞれ現れており、引数を省略するとエラーになります。 -/
 section OmitArg --#
 
 variable {α : Type}
 
+/-- リストの最後の要素を返す関数 -/
 @[grind]
-private def myLast? (l : List α) : Option α :=
+def myLast? (l : List α) : Option α :=
   match l with
   | [] => none
   | [a] => some a
   | _ :: rest => myLast? rest
 
-@[grind, simp]
-private theorem myLast?_append_singleton (l : List α) (a : α) :
+@[grind =, simp]
+theorem myLast?_append_singleton (l : List α) (a : α) :
     myLast? (l ++ [a]) = some a := by
   induction l with grind
 
@@ -78,14 +78,16 @@ example (l r : List α) :
     myLast? (l ++ r) = if r = [] then myLast? l else myLast? r := by
   -- 引数を省略するとエラー
   fail_if_success fun_induction myLast?
+
   -- 帰納法に使う引数 r を明示することで成功する
-  fun_induction myLast? r generalizing l with try grind
+  fun_induction myLast? r generalizing l with
+  | case1 => simp
+  | case2 => simp
   | case3 b rest h ih =>
-    have ih := ih (l ++ [b])
+    replace ih := ih (l ++ [b])
     grind
 
 end OmitArg --#
-
 /- ## 舞台裏
 
 再帰関数 `foo` を定義すると、裏で Lean が帰納原理(induction principle) `foo.induct` と `foo.induct_unfolding` を生成します。
