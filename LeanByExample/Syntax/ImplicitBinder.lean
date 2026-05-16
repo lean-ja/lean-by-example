@@ -54,11 +54,34 @@ def List.map' {α β : Type} (f : α → β) : List α → List β
 -- `@` 記号を付けると全ての引数が明示的引数に変化
 #check @List.map' Nat Bool (fun x => x == 1) [1, 2, 3]
 
+/- ## 狭義の暗黙の引数
+
+`⦃x⦄` のように二重の中括弧で書くと、狭義の暗黙の引数 (strict implicit argument) になります。
+通常の暗黙引数 `{x}` とは違って、後続の明示引数が与えられるまで `_` を自動挿入しません。
+
+TPiL の次のような単調性の定義は、この狭義の暗黙の引数を使った例です。
+-/
+
+/-- 単調性（狭義の暗黙引数を使った定義） -/
+def Monotone (f : Int → Int) : Prop :=
+  ∀ ⦃a b⦄, a ≤ b → f a ≤ f b
+
+variable {α : Type} {s : Set α} {p : α → Prop} {y : α}
+
+-- fully applied な形では、`{}` と `⦃⦄` は同じように使える
+def strictImplicitExample (h : ∀ ⦃x : α⦄, x ∈ s → p x) (hs : y ∈ s) : p y :=
+  h hs
+
+def implicitExample (h : ∀ {x : α}, x ∈ s → p x) (hs : y ∈ s) : p y :=
+  h hs
+
 /- ## 構文的な性質
 
-`Lean.Parser.Term.implicitBinder` というパーサが暗黙引数の構文に対応しており、このパーサのドキュメントコメントに次のように書かれている通り、構文としては暗黙の引数に型を指定しないことも許されます。
+`Lean.Parser.Term.implicitBinder` は `{x}` 形式の暗黙引数を、`Lean.Parser.Term.strictImplicitBinder` は `⦃x⦄` 形式の狭義の暗黙引数を扱うパーサです。
+それぞれのドキュメントコメントは次の通りです。
 
 {{#include ./ImplicitBinder/Doc.md}}
+{{#include ./ImplicitBinder/StrictDoc.md}}
 -/
 
 -- `x : α` と書いたので、`α` が何かの型であることは分かる
