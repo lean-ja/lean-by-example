@@ -45,6 +45,26 @@ example (n : Nat) : sum n = n * (n + 1) / 2 := by
 example (n : Nat) : sum n = n * (n + 1) / 2 := by
   induction n with grind [= sum]
 
+/- ## `cases` との違い
+
+`cases` はローカルコンテキストにない項にも使えますが、`induction` はローカルコンテキストの項にしか使えません。-/
+
+example (n : Nat) : True := by
+  -- `Nat.pred n` はローカルコンテキストにない項だが、`cases` は実行できる
+  cases (Nat.pred n) with
+  | zero => trivial
+  | succ _ => trivial
+
+example (n : Nat) : True := by
+  -- 同じ項に対して `induction` は失敗する
+  fail_if_success induction (Nat.pred n)
+
+  -- ローカルコンテキストに導入すれば `induction` できる
+  set m := Nat.pred n
+  induction m with
+  | zero => trivial
+  | succ _ _ => trivial
+
 /- ## inductive コマンドとの関係
 
 実際には帰納法は自然数の専売特許ではありません。[`inductive`](#{root}/Declarative/Inductive.md) コマンドで定義されたものであれば、帰納法を使うことができます。-/
