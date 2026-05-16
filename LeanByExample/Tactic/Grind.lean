@@ -61,7 +61,7 @@ example (a b : Nat) : pascal a b ≤ (a + b)! := by
 
 `grind` タクティクの動作原理を理解するには、仮想的な黒板を思い浮かべると良いでしょう。
 新しい等式や不等式を見つけるたびに、`grind` はその事実を黒板に書き込んでいきます。
-`grind` は「最初に結論の否定を仮定して矛盾を示す」ことでゴールを示すように設計されているため、最初に黒板に書き込むのは示したいゴールの仮定と結論の否定です。
+`grind` は「最初に結論の否定を仮定して矛盾を示す」ことでゴールを示すように設計されているため、最初に黒板に書き込むのは仮定と示したい結論の否定です。
 -/
 
 set_option trace.grind.assert true in
@@ -95,9 +95,7 @@ example (P : Prop) (h : P) : P := by
 * サテライトソルバー(特定の代数系に対するソルバー群)
 -/
 
-/- ## 注意: 選択原理の使用
-
-`grind` は「最初に結論を否定して矛盾を示すことでゴールを閉じる」という原理で動くため、必要がない場合であっても[選択原理](#{root}/Declarative/Axiom.md#ClassicalChoice)を使用します。
+/- なお上記で説明したように、`grind` は「最初に結論を否定して矛盾を示すことでゴールを閉じる」という原理で動くため、必要がない場合であっても[選択原理](#{root}/Declarative/Axiom.md#ClassicalChoice)を使用します。
 -/
 
 theorem easy_theorem (P : Prop) (h : P) : P := by
@@ -112,7 +110,7 @@ theorem easy_theorem (P : Prop) (h : P) : P := by
 
 `grind` には、合同閉包(congruence closure)アルゴリズムが使用されています。[^lamr]
 
-合同閉包は、等式と不等式のグループが充足可能かどうかを決定するアルゴリズムです。既知の等式から以下のルールによって新たな等式が出てこなくなるまで等式を導出し、矛盾があれば充足不能と判断します。(ただし、無限ループを避けるために合同性ルールの適用は制限します)
+合同閉包は、等式とその否定のグループが充足可能かどうかを決定するアルゴリズムです。既知の等式から以下のルールによって新たな等式が出てこなくなるまで等式を導出し、矛盾があれば充足不能と判断します。(ただし、無限ループを避けるために合同性ルールの適用は制限します)
 
 * 等式の反射律: `a = a`
 * 等式の対称律: `a = b` ならば `b = a`
@@ -272,10 +270,50 @@ example (h1 : a ≤? b) (h2 : b ≤? k) (h3 : k ≤? m) : a ≤? m := by
   grind
 
 end --#
+/- なお `[grind →]` は定理の前提となる命題からパターンを作るので、`Prop` 値の前提を持たない定理は登録できません。 -/
+
+theorem Nat.add_le (n m : Nat) : n ≤ n + m := by
+  omega
+
+/-⋆-//--
+error: invalid `grind` forward theorem,
+theorem `Nat.add_le` does not have propositional hypotheses
+-/
+#guard_msgs in --#
+attribute [grind ->] Nat.add_le
+
 /- ### [grind =>]
 
-定理に `[grind =>]` 属性を付与すると、定理の前提が見つかったときに定理がインスタンス化されるようになります。この場合、定理の前提は命題である必要はありません。
+`[grind =>]` は、`[grind →]` と同様に定理の前提が見つかった時にインスタンス化するように指示をするのですが、`[grind ->]` とは異なり、前提だけでなく必要なら結論も見てパターンを作ります。
 -/
+
+/-- 何らかの述語 -/
+opaque P : Nat → Prop
+
+/-- 何らかの二項関係 -/
+opaque R : Nat → Nat → Prop
+
+axiom R_of_P (x y : Nat) (h : P x) : R x y
+
+-- `[grind ->]` 属性は登録できない。
+-- これは、前提の `P x` だけからは引数の `y` が特定できないため
+/-⋆-//--
+error:
+`@[grind →] theorem R_of_P` failed to find patterns in the antecedents of the theorem,
+consider using different options or the `grind_pattern` command
+-/
+#guard_msgs in --#
+attribute [grind →] R_of_P
+
+-- `[grind =>]` 属性は付与できる
+-- これは、結論の `R a b` も手掛かりにしてインスタンス化できるため
+attribute [grind =>] R_of_P
+
+example (a b : Nat) (hP : P a) : R a b := by
+  -- 成功する
+  grind
+
+/- また、`[grind =>]` 属性は、`[grind ->]` とは異なり定理の前提が命題であることを要求しません。 -/
 
 /-- 群 -/
 class Group (G : Type) extends One G, Mul G, Inv G where
@@ -298,12 +336,12 @@ namespace Group
 
 variable {G : Type} [Group G]
 
-@[grind =>]
+@[grind ->]
 theorem mul_right_inv {g h : G} (hy : g * h = 1) : h = g⁻¹ := calc
   _ = 1 * h := by grind
   _ = g⁻¹ := by grind
 
-@[grind =>]
+@[grind ->]
 theorem mul_left_inv {g h : G} (hy : h * g = 1) : h = g⁻¹ := by
   grind
 
@@ -313,7 +351,7 @@ theorem inv_inv (g : G) : g⁻¹⁻¹ = g := by
 end Group
 /- ### [grind intro]
 
-帰納的命題に `[grind intro]` 属性を付与すると、コンストラクタの適用を自動で行うようになります。
+帰納的述語に `[grind intro]` 属性を付与すると、コンストラクタの適用を自動で行うようになります。
 -/
 
 /-- 偶数であることを表す帰納的述語 -/
@@ -334,10 +372,63 @@ example {m : Nat} (h : Even m) : Even (m + 2) := by
 
 attribute [grind intro] Even
 
-example : Even 0 := by
+example {m : Nat} (h : Even m) : Even (m + 2) := by
+  -- 証明できるようになった
   grind
 
-example {m : Nat} (h : Even m) : Even (m + 2) := by
+/- ### [grind ext]
+
+`[grind ext]` 属性を付与すると、外延性定理を `grind` に使わせることができます。
+以下は、構造体に対して `[grind ext]` 属性を付与する例です。
+-/
+
+/-- 2次元の点を表す構造体 -/
+@[ext]
+structure Point where
+  x : Int
+  y : Int
+
+-- `@[ext]` タグを付けているので外延性定理が自動生成される
+#check Point.ext
+
+example (p : Point) (a : Int) : a = p.x → p = ⟨a, p.y⟩ := by
+  -- 最初は grind だけでは証明できない
+  fail_if_success grind
+
+  rcases p with ⟨p_x, p_y⟩
+  simp_all
+
+-- 属性を付与すると...
+attribute [grind ext] Point
+
+example (p : Point) (a : Int) : a = p.x → p = ⟨a, p.y⟩ := by
+  -- grind で証明できるようになった！
+  grind
+
+/- 構造体ではなく、外延性定理そのものに `[grind ext]` 属性を与えることもできます。 -/
+
+/-- 値を一つ持つラッパー型 -/
+structure Box where
+  val : Nat
+
+@[ext, grind ext]
+theorem Box.ext {a b : Box} (h : a.val = b.val) : a = b := by
+  rcases a with ⟨a_val⟩
+  rcases b with ⟨b_val⟩
+  simp at *
+  assumption
+
+example (a b : Box) (h : a.val = b.val) : a = b := by
+  grind
+
+/- 関数外延性には最初から標準ライブラリにおいて `[grind ext]` が付与されているため、`grind` は関数等式の形のゴールを扱うことができます。 -/
+
+-- 外延性を使用したときにログを出させる
+set_option trace.grind.ext true in
+
+/-⋆-//-- trace: [grind.ext] funext: ∀ {h : ∀ (x : Nat), f x = g x}, False -/
+#guard_msgs in --#
+example (f g : Nat → Nat) (h : ∀ x, f x = g x) : f = g := by
   grind
 
 /- ## ガイド付き場合分け(guided case analysis)
