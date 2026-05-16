@@ -270,10 +270,50 @@ example (h1 : a ≤? b) (h2 : b ≤? k) (h3 : k ≤? m) : a ≤? m := by
   grind
 
 end --#
+/- なお `[grind →]` は定理の前提となる命題からパターンを作るので、`Prop` 値の前提を持たない定理は登録できません。 -/
+
+theorem Nat.add_le (n m : Nat) : n ≤ n + m := by
+  omega
+
+/-⋆-//--
+error: invalid `grind` forward theorem,
+theorem `Nat.add_le` does not have propositional hypotheses
+-/
+#guard_msgs in --#
+attribute [grind ->] Nat.add_le
+
 /- ### [grind =>]
 
-定理に `[grind =>]` 属性を付与すると、定理の前提が見つかったときに定理がインスタンス化されるようになります。この場合、定理の前提は命題である必要はありません。
+`[grind =>]` は、`[grind →]` と同様に定理の前提が見つかった時にインスタンス化するように指示をするのですが、`[grind ->]` とは異なり、前提だけでなく必要なら結論も見てパターンを作ります。
 -/
+
+/-- 何らかの述語 -/
+opaque P : Nat → Prop
+
+/-- 何らかの二項関係 -/
+opaque R : Nat → Nat → Prop
+
+axiom R_of_P (x y : Nat) (h : P x) : R x y
+
+-- `[grind ->]` 属性は登録できない。
+-- これは、前提の `P x` だけからは引数の `y` が特定できないため
+/-⋆-//--
+error:
+`@[grind →] theorem R_of_P` failed to find patterns in the antecedents of the theorem,
+consider using different options or the `grind_pattern` command
+-/
+#guard_msgs in --#
+attribute [grind →] R_of_P
+
+-- `[grind =>]` 属性は付与できる
+-- これは、結論の `R a b` も手掛かりにしてインスタンス化できるため
+attribute [grind =>] R_of_P
+
+example (a b : Nat) (hP : P a) : R a b := by
+  -- 成功する
+  grind
+
+/- また、`[grind =>]` 属性は、`[grind ->]` とは異なり定理の前提が命題であることを要求しません。 -/
 
 /-- 群 -/
 class Group (G : Type) extends One G, Mul G, Inv G where
@@ -296,12 +336,12 @@ namespace Group
 
 variable {G : Type} [Group G]
 
-@[grind =>]
+@[grind ->]
 theorem mul_right_inv {g h : G} (hy : g * h = 1) : h = g⁻¹ := calc
   _ = 1 * h := by grind
   _ = g⁻¹ := by grind
 
-@[grind =>]
+@[grind ->]
 theorem mul_left_inv {g h : G} (hy : h * g = 1) : h = g⁻¹ := by
   grind
 
