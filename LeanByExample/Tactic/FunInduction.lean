@@ -47,6 +47,47 @@ example (n : Nat) : fibonacci n = fib n := by
 example (n : Nat) : fibonacci n = fib n := by
   fun_induction fibonacci n with simp_all
 
+/- ## 引数の省略
+
+`fun_induction f x₁ ... xₙ` と書く代わりに、引数 `x₁ ... xₙ` を省略して `fun_induction f` と書くこともできます。引数が省略されると、Lean はゴールの中から `f` の適用箇所を探して引数を自動的に特定しようとします。ゴール中で `f` が一意に決まる引数に適用されていれば（すなわち、どの引数について帰納法を回すかが一意に決まれば）、引数を省略することができます。たとえば、先ほどの例では `n` を省略しても動作します。 -/
+
+-- n を省略しても動作する
+example (n : Nat) : fibonacci n = fib n := by
+  fun_induction fibonacci with simp_all
+
+/- 一方、ゴール中に `f` が **複数の異なる引数で** 呼ばれているとき、どの引数について帰納法を回すかを特定できなくなるため、引数を省略するとエラーになります。次の例では、ゴール中に `myLast?` が `l ++ r`、`l`、`r` という 3 つの引数を与えられてそれぞれ現れており、引数を省略するとエラーになります。 -/
+section OmitArg --#
+
+variable {α : Type}
+
+/-- リストの最後の要素を返す関数 -/
+@[grind]
+def myLast? (l : List α) : Option α :=
+  match l with
+  | [] => none
+  | [a] => some a
+  | _ :: rest => myLast? rest
+
+@[grind =, simp]
+theorem myLast?_append_singleton (l : List α) (a : α) :
+    myLast? (l ++ [a]) = some a := by
+  induction l with grind
+
+-- ゴール中に myLast? が複数の異なる引数で現れるため、引数を省略するとエラーになる
+example (l r : List α) :
+    myLast? (l ++ r) = if r = [] then myLast? l else myLast? r := by
+  -- 引数を省略するとエラー
+  fail_if_success fun_induction myLast?
+
+  -- 帰納法に使う引数 r を明示することで成功する
+  fun_induction myLast? r generalizing l with
+  | case1 => simp
+  | case2 => simp
+  | case3 b rest h ih =>
+    replace ih := ih (l ++ [b])
+    grind
+
+end OmitArg --#
 /- ## 舞台裏
 
 再帰関数 `foo` を定義すると、裏で Lean が帰納原理(induction principle) `foo.induct` と `foo.induct_unfolding` を生成します。
