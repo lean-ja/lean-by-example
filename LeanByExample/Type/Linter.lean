@@ -3,14 +3,10 @@
 `Lean.Elab.Command.Linter` は構文リンター(syntax linter)の本体です。
 
 構文リンターとは何かというと、Lean のリンター（よくない書き方のコードを検出するツール）の分類名です。
-Lean のリンターには次の２種類があります。
+構文リンターは基本的には各コマンドのエラボレーション時に自動で実行されます。
+構文リンターの種類によっては、`set_option` コマンドなどで有効化する必要があります。
 
-* 環境リンター(environment linter): 環境に登録された定義・定理・インスタンスなどを検査するリンター。
-  [`#lint`](#{root}/Diagnostic/Lint.md) コマンドや `lake lint` コマンドで実行することができる。
-* 構文リンター(syntax linter): ソースコードの構文を見て、良くない書き方をその場で警告するリンター。
-  `set_option` コマンドなどで有効化して使う。
-  [`Lean.Elab.Command.Linter`](#{root}/Type/Linter.md) を構成することによって自作できる。
-
+Lean のリンターには他に、[環境リンター(environment linter)](#{root}/Diagnostic/Lint.md)があります。
 -/
 
 /- ## 使用例

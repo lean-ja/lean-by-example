@@ -2,15 +2,10 @@
 
 `#lint` コマンドは、環境リンター(environment linter)を実行します。
 
-環境リンターとは何かというと、Lean のリンター（よくない書き方のコードを検出するツール）の分類名です。
-Lean のリンターには次の２種類があります。
+環境リンターとは何かというと、Lean のリンター（よくない書き方のコードを検出するツール）の一種です。
+環境リンターは、`#lint` コマンドや `lake lint` コマンドで実行することができます。
 
-* 環境リンター(environment linter): 環境に登録された定義・定理・インスタンスなどを検査するリンター。
-  [`#lint`](#{root}/Diagnostic/Lint.md) コマンドや `lake lint` コマンドで実行することができる。
-* 構文リンター(syntax linter): ソースコードの構文を見て、良くない書き方をその場で警告するリンター。
-  `set_option` コマンドなどで有効化して使う。
-  [`Lean.Elab.Command.Linter`](#{root}/Type/Linter.md) を構成することによって自作できる。
-
+Lean のリンターには他に、[構文リンター(syntax linter)](#{root}/Type/Linter.md)があります。
 -/
 import Batteries.Tactic.Lint
 
@@ -42,3 +37,41 @@ DEFINITIONS ARE MISSING DOCUMENTATION STRINGS: -/
 -/
 #guard_msgs (whitespace := lax) in --#
 #lint only docBlame
+
+/-
+環境リンターをユーザが自作したい場合は、`Batteries.Tactic.Lint.Linter` 型の項を作って `[env_linter]` 属性を付与します。
+-/
+
+open Lean Batteries Tactic Lint
+
+/-- `bad` という文字が入っている宣言を検出する、意味のないリンター -/
+@[env_linter]
+meta def findBad : Batteries.Tactic.Lint.Linter where
+  noErrorsFound := "no bad declarations found."
+  errorsFound := "BAD DECLARATIONS FOUND:"
+  test declName := do
+    -- 自動生成された宣言などを無視したければここで除外
+    if ← isAutoDecl declName then
+      return none
+
+    -- declName を調べる
+    let info ← getConstInfo declName
+
+    -- 問題なしなら none
+    -- 問題ありなら some メッセージ
+    if info.name.toString.contains "bad" then
+      return some m!"declaration name contains `bad`"
+    else
+      return none
+
+def bad := "わるいよ！"
+
+/-⋆-//--
+error: -- Found 1 error in 4 declarations (plus 0 automatically generated ones) in the current file with 1 linters
+
+/- The `findBad` linter reports:
+BAD DECLARATIONS FOUND: -/
+#check bad /- declaration name contains `bad` -/
+-/
+#guard_msgs in --#
+#lint only findBad
