@@ -270,46 +270,50 @@ example (h1 : a ≤? b) (h2 : b ≤? k) (h3 : k ≤? m) : a ≤? m := by
   grind
 
 end --#
+/- なお `[grind →]` は定理の前提となる命題からパターンを作るので、`Prop` 値の前提を持たない定理は登録できません。 -/
+
+theorem Nat.add_le (n m : Nat) : n ≤ n + m := by
+  omega
+
+/-⋆-//--
+error: invalid `grind` forward theorem,
+theorem `Nat.add_le` does not have propositional hypotheses
+-/
+#guard_msgs in --#
+attribute [grind ->] Nat.add_le
+
 /- ### [grind =>]
 
-`[grind =>]` は、`[grind →]` の拡張版とみなすと理解しやすいです。
-
-* `[grind →]` は前提だけを見てインスタンス化する
-* `[grind =>]` は前提を優先し、必要なら結論も見てインスタンス化する
-
-特に、`A x → B x y` のように「前提だけでは変数 `y` が決まらない」定理で差が出ます。
-
-また、`[grind =>]` は内部で multi-pattern を自動生成しているので、多くの場合は `grind_pattern` で同様の指定を手で書けます。
-例えば次の `fromPremiseAuto` に対しては、`grind_pattern fromPremiseManual => P x, R x y` が対応します。
+`[grind =>]` は、`[grind →]` と同様に定理の前提が見つかった時にインスタンス化するように指示をするのですが、`[grind ->]` とは異なり、前提だけでなく必要なら結論も見てパターンを作ります。
 -/
 
-section --#
-
+/-- 何らかの述語 -/
 opaque P : Nat → Prop
+
+/-- 何らかの二項関係 -/
 opaque R : Nat → Nat → Prop
 
-axiom fromPremiseForward (x y : Nat) : P x → R x y
-attribute [grind →] fromPremiseForward
+axiom R_of_P (x y : Nat) (h : P x) : R x y
+
+-- `[grind ->]` 属性は登録できない。
+-- これは、前提の `P x` だけからは引数の `y` が特定できないため
+/-⋆-//--
+error:
+`@[grind →] theorem R_of_P` failed to find patterns in the antecedents of the theorem,
+consider using different options or the `grind_pattern` command
+-/
+#guard_msgs in --#
+attribute [grind →] R_of_P
+
+-- `[grind =>]` 属性は付与できる
+-- これは、結論の `R a b` も手掛かりにしてインスタンス化できるため
+attribute [grind =>] R_of_P
 
 example (a b : Nat) (hP : P a) : R a b := by
-  -- `[grind →]` は前提 `P x` だけを使うので、この形では `grind` 単独では使いづらい
-  exact fromPremiseForward a b hP
-
-axiom fromPremiseAuto (x y : Nat) : P x → R x y
-attribute [grind =>] fromPremiseAuto
-
-example (a b : Nat) (hP : P a) : R a b := by
-  -- ゴール `R a b` も手掛かりにしてインスタンス化できる
+  -- 成功する
   grind
 
-axiom fromPremiseManual (x y : Nat) : P x → R x y
-grind_pattern fromPremiseManual => P x, R x y
-
-example (a b : Nat) (hP : P a) : R a b := by
-  -- `grind_pattern` で同様の発火条件を手で書いた場合
-  grind
-
-end --#
+/- また、`[grind =>]` 属性は、`[grind ->]` とは異なり定理の前提が命題であることを要求しません。 -/
 
 /-- 群 -/
 class Group (G : Type) extends One G, Mul G, Inv G where
@@ -332,12 +336,12 @@ namespace Group
 
 variable {G : Type} [Group G]
 
-@[grind =>]
+@[grind ->]
 theorem mul_right_inv {g h : G} (hy : g * h = 1) : h = g⁻¹ := calc
   _ = 1 * h := by grind
   _ = g⁻¹ := by grind
 
-@[grind =>]
+@[grind ->]
 theorem mul_left_inv {g h : G} (hy : h * g = 1) : h = g⁻¹ := by
   grind
 
