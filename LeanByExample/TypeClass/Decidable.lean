@@ -17,6 +17,15 @@
 
 /- `Decidable` 型クラスのインスタンスに対しては、[`decide`](#{root}/Tactic/Decide.md) タクティクにより証明が可能です。 -/
 
+/- ## 注意: 古典論理を使う場合
+古典論理（排中律）を認めると、任意の命題 `P : Prop` に対して `Decidable P` を得られます。
+このインスタンスは選択原理に基づく非計算的なものであり、判定アルゴリズムを与えるわけではありません。
+そのため、`Decidable` を「計算可能性」の意味で使いたいときは、古典論理に依存しないインスタンスを区別して考える必要があります。-/
+
+example (P : Prop) : Decidable P := by
+  classical
+  infer_instance
+
 /-- 自前で定義した偶数を表す述語 -/
 def Even (n : Nat) : Prop := ∃ m : Nat, n = 2 * m
 
