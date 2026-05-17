@@ -74,7 +74,7 @@ def Nat.factorial (n : Nat) : Nat :=
 example : Nat.factorial 5 = 120 := by rfl
 
 /-
-構造的再帰の場合は何も指定しなくても Lean が自動的に停止性を証明してくれることが大半ですが、構造的再帰であると明示することもできて、その場合は `termination_by structural` と書きます。
+構造的再帰の場合 Lean は何も指定しなくても構造的再帰であることを理解してくれるのですが、構造的再帰であると明示することもできて、その場合は `termination_by structural` と書きます。
 -/
 
 /-- 構造的再帰の例。 -/
@@ -146,7 +146,8 @@ Lean では関数と証明項の間に大きな違いはないため、`terminat
 def Int.Prime (p : Int) : Prop :=
   p > 1 ∧ ∀ a : Int, a > 0 → a ∣ p → a = 1 ∨ a = p
 
-local grind_pattern Int.le_of_dvd => a ∣ b
+grind_pattern Int.le_of_dvd => a ∣ b where
+  guard 0 < b
 
 /-- 1 より大きい整数には素因数が存在する -/
 theorem Int.exists_prime_factor (n : Int) (hn : 1 < n) :
