@@ -18,6 +18,15 @@ example (x y z : Nat) (h₁ : R x y) (h₂ : R y z) : R x z := by
   grind
 
 /-
+## `[grind]` 属性では登録できない例
+
+`[grind]` 属性を使うとパターンを自動で推測してくれますが、自動推測に失敗することがあります。
+このような場合は `grind_pattern` コマンドでパターンを明示する必要があります。
+
+{{#include ./GrindPattern/AttributeFailure.md}}
+-/
+
+/-
 ## where による制御
 
 `grind_pattern` コマンドは、`grind` タクティクに定理を再利用させることができるという点では `[grind]` 属性とできることが同じですが、`grind_pattern` コマンドの方がより細かい制御を行えます。
