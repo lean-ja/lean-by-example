@@ -10,6 +10,32 @@
   `searchF = F(searchF)` （`F` は「再帰呼び出し先の関数を受け取って本体を作る変換」）
   を満たす関数になっています。
 
+具体例で書くと次のイメージです。
+
+```lean
+def fact : Nat → Nat
+  | 0 => 1
+  | n + 1 => (n + 1) * fact n
+```
+
+これは「`fact` という関数」を直接再帰で書いた形ですが、同じ内容を
+「関数を受け取って関数を返す変換」で書くと:
+
+```lean
+def FactBody (f : Nat → Nat) : Nat → Nat
+  | 0 => 1
+  | n + 1 => (n + 1) * f n
+```
+
+となり、`fact = FactBody fact` を満たすことが `fixpoint` の意味です。
+
+停止しない再帰でも同様です:
+
+```lean
+def loop (n : Nat) : Nat := loop (n + 1)
+-- これは loop = Shift loop （Shift f n := f (n + 1)）の形
+```
+
 `partial_fixpoint` では、この方程式の解のうち「勝手な値を返さず、必要になるまで未定義のままにする」側
 （least fixpoint）を選ぶので、停止しない可能性を認めつつ再帰方程式として扱えます。
 -/
