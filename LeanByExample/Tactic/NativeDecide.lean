@@ -28,6 +28,23 @@ def gcd (m n : Nat) : Nat :=
 -- `native_decide` ならば証明できる
 #check (by native_decide : gcd 42998431 120019 = 1)
 
+/- 停止性を証明していても、整礎再帰 (`termination_by`) で定義された関数は `decide` で示せないことがあります。-/
+
+def padWithO (n : Nat) (s : String) : String :=
+  if s.length ≥ n then
+    s
+  else
+    padWithO n ("o" ++ s)
+termination_by n - s.length
+decreasing_by
+  have : "o".length = 1 := by rfl
+  grind [String.length_append]
+
+#eval padWithO 5 "abc"
+
+#check_failure (by decide : padWithO 5 "abc" = "ooabc")
+#check (by native_decide : padWithO 5 "abc" = "ooabc")
+
 /- 補足すると、`native_decide` を使用するときにはコンパイラを信頼することになります。具体的には（定理ごとに個別の）追加の公理が使用されます。-/
 
 theorem native_thm : Nat.gcd 42998431 120019 = 1 := by native_decide
