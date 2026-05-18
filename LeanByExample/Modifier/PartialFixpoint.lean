@@ -1,6 +1,17 @@
 /- # partial_fixpoint
 
-`partial_fixpoint` は、[`partial`](#{root}/Modifier/Partial.md) と同様に「すべての入力に対して必ずしも停止しないような関数」を定義することを可能にしますが、`partial` とは異なり定義した関数を証明に使うことが可能です。
+`partial_fixpoint` は、[`partial`](#{root}/Modifier/Partial.md) と同様に「すべての入力に対して必ずしも停止しないような関数」を定義できます。
+さらに、`partial` とは異なり定義した関数を証明に使うことが可能です。
+
+名前の意味は次の2つです。
+
+* `partial`: 停止しない入力がありうる「部分関数」として扱う。
+* `fixpoint`: 再帰を「関数方程式の自己一致」として扱う。たとえば `searchF` は
+  `searchF = F(searchF)` （`F` は「再帰呼び出し先の関数を受け取って本体を作る変換」）
+  を満たす関数になっています。
+
+`partial_fixpoint` では、この方程式の解のうち「勝手な値を返さず、必要になるまで未定義のままにする」側
+（least fixpoint）を選ぶので、停止しない可能性を認めつつ再帰方程式として扱えます。
 -/
 section
 
