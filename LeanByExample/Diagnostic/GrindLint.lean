@@ -19,6 +19,14 @@ grind_pattern wrap_branch => wrap x
 
 -- wrap_branch を展開すると wrap が指数関数的に増えていくので、
 -- 膨大なインスタンスが生成される。
+/-⋆-//--
+info: instantiating `wrap_branch` triggers 100 additional `grind` theorem instantiations
+---
+info: Try this to display the actual theorem instances:
+  [apply] set_option trace.grind.ematch.instance true in
+  #grind_lint inspect wrap_branch
+-/
+#guard_msgs in --#
 #grind_lint inspect wrap_branch
 
 /-
