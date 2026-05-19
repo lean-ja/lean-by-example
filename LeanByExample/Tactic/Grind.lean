@@ -376,7 +376,7 @@ example {m : Nat} (h : Even m) : Even (m + 2) := by
   -- 証明できるようになった
   grind
 
-/- ### [grind ext]
+/- ## [grind ext]
 
 `[grind ext]` 属性を付与すると、外延性定理を `grind` に使わせることができます。
 以下は、構造体に対して `[grind ext]` 属性を付与する例です。
