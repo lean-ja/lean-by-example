@@ -29,6 +29,36 @@ def isNil : Bool :=
 theorem nng_list_length : l.length ≥ 0 := by simp
 
 end variable1 --#
+
+/- ## theorem と def での取り込み基準の違い
+
+`theorem` は statement（型）に現れる変数だけを自動で引数にします。
+そのため、証明中でのみ使う外側の変数は `include` で明示的に取り込みます。
+-/
+namespace variable2 --#
+
+variable (n : Nat)
+
+/-⋆-//--
+error: unknown identifier 'n'
+-/
+#guard_msgs in --#
+theorem foo (m : Nat) : m = m := by
+  have : n = n := by rfl
+  rfl
+
+def foo' (m : Nat) : m = m := by
+  have : n = n := by rfl
+  rfl
+
+include n
+
+theorem foo_included (m : Nat) : m = m := by
+  have : n = n := by rfl
+  rfl
+
+end variable2 --#
+
 /- ## 再帰と variable
 
 `variable` コマンドで宣言された引数は、再帰呼び出しの中でも同じ値が使用されます。
