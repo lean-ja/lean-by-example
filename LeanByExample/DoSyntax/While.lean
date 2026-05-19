@@ -26,11 +26,9 @@ def searchMinExample (P : Nat → Bool) : Nat := Id.run do
     n := n + 1
   return n
 
-#guard searchMinExample (fun n => n % 7 = 1) = 1
+#guard searchMinExample (fun n => n > 5) = 6
 
 /-
-なぜ停止性の証明が必要ないのかというと、`while` ループが内部で `Lean.Loop.forIn` という関数に展開されるのですが、これが [`partial`](#{root}/Modifier/Partial.md) で修飾された関数だからです。
-
 したがって特に、`while` で定義された関数について何かを証明することはできません。たとえ明らかに停止する関数であっても、`while` で書かれた部分については証明不能になります。
 -/
 
