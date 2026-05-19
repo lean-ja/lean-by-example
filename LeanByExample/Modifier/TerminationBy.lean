@@ -134,6 +134,38 @@ def div (x y : Nat) : Nat :=
 
 #guard div 10 3 = 3
 
+/- `termination_by` を使った定義は整礎再帰として扱われるため、同じ計算をする関数であっても
+`rfl` や `decide` で示せなくなることがあります。 -/
+
+/-- 文字列の左側を指定文字で埋めて、指定長にそろえる（整礎再帰バージョン）-/
+def String.padLeftWF (input : String) (padChar : Char) (length : Nat) : String :=
+  if input.length ≥ length then
+    input
+  else
+    String.padLeftWF (padChar.toString ++ input) padChar length
+termination_by length - input.length
+
+example : String.padLeftWF "42" '0' 5 = "00042" := by
+  -- 整礎再帰として定義された関数は定義展開されないので `rfl` では示せない
+  fail_if_success rfl
+
+  -- `decide` でも示せない
+  fail_if_success decide
+
+  native_decide
+
+/-- 文字列の左側を指定文字で埋めて、指定長にそろえる（非再帰バージョン）-/
+def String.padLeftSimple (input : String) (padChar : Char) (length : Nat) : String :=
+  if input.length ≥ length then
+    input
+  else
+    let padding : String := String.pushn "" padChar (length - input.length)
+    padding ++ input
+
+example : String.padLeftSimple "42" '0' 5 = "00042" := by
+  -- こちらは単なる式展開だけで `rfl` が通る
+  rfl
+
 /- ## 帰納法と整礎再帰
 
 Lean では関数と証明項の間に大きな違いはないため、`termination_by` を再帰関数ではなくて `theorem` に対して使うこともできます。この場合、「再帰のたびに小さくなる指標」は「帰納法のステップごとに大きくなっていく指標」に相当します。これを利用することにより、証明の中で複雑な帰納法を書くことができます。
