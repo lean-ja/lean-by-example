@@ -20,8 +20,7 @@ example (x y z : Nat) (h₁ : R x y) (h₂ : R y z) : R x z := by
 /-
 ## `[grind]` 属性では登録できない例
 
-`[grind]` 属性を使うとパターンを自動で推測してくれますが、自動推測に失敗することがあります。
-このような場合は `grind_pattern` コマンドでパターンを明示する必要があります。
+多くの場合、わざわざ `grind_pattern` コマンドでパターンを手動指定しなくても `[grind]` 属性にパターンを自動で推測させることができますが、自動推測に失敗することがあります。このような場合は `grind_pattern` コマンドでパターンを明示する必要があります。
 
 {{#include ./GrindPattern/AttributeFailure.md}}
 -/

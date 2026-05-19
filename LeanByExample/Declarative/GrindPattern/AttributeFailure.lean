@@ -1,5 +1,3 @@
-namespace GrindPatternAttributeFailure
-
 variable {α : Type}
 
 /-- 二項関係 `R` がリストの隣接要素に対して成立するという述語。 -/
@@ -46,5 +44,3 @@ theorem IsChain.append {xs ys : List α} :
       | _, [] => IsChain R xs
       | some x, b :: _ => IsChain R xs ∧ R x b ∧ IsChain R ys := by
   fun_induction last? xs with grind
-
-end GrindPatternAttributeFailure
