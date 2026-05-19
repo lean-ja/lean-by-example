@@ -138,3 +138,97 @@ end
 /-⋆-//-- error: 'Classical.em' depends on classical axioms: [Classical.choice] -/
 #guard_msgs in --#
 #detect_classical Classical.em
+
+/-
+## \#print opaque: opaque 定数と partial 関数の確認 { #PrintOpaque }
+
+`#print axioms` に類似したカスタムコマンド `#print opaque` を実装することができます。
+このコマンドは、与えられた定義が推移的に依存している [`opaque`](#{root}/Declarative/Opaque.md) 定数と [`partial`](#{root}/Modifier/Partial.md) 関数を列挙します。
+
+これは **partial 遺伝**（ある定義が `partial` 関数に依存することで、その定義についても証明上の制約を引き継ぐこと）を発見するのに有用です。[`while`](#{root}/DoSyntax/While.md) 構文にも適用することができます。
+-/
+section
+  open Lean Elab Command
+
+  /-- ある定数が依存している `opaque` 定数と `partial` 関数を収集する -/
+  private def collectOpaqueConsts (constName : Name) : CommandElabM (Array Name) := do
+    let env ← getEnv
+    let mut visited : NameSet := {}
+    let mut result  : NameSet := {}
+    let mut queue   : Array Name := #[constName]
+    while !queue.isEmpty do
+      let name := queue.back!
+      queue := queue.pop
+      if !visited.contains name then
+        visited := visited.insert name
+        match env.find? name with
+        | some (.opaqueInfo v) =>
+          result := result.insert name
+          for dep in v.type.getUsedConstants do
+            if !visited.contains dep then
+              queue := queue.push dep
+          for dep in v.value.getUsedConstants do
+            if !visited.contains dep then
+              queue := queue.push dep
+        | some (.defnInfo v) =>
+          if let .partial := v.safety then
+            result := result.insert name
+          for dep in v.value.getUsedConstants do
+            if !visited.contains dep then
+              queue := queue.push dep
+          for dep in v.type.getUsedConstants do
+            if !visited.contains dep then
+              queue := queue.push dep
+        | some (.axiomInfo v) =>
+          for dep in v.type.getUsedConstants do
+            if !visited.contains dep then
+              queue := queue.push dep
+        | _ => pure ()
+    return result.toArray.qsort Name.lt
+
+  /-- `#print opaque` コマンド: 依存している `opaque` 定数と `partial` 関数を表示する -/
+  elab "#print" "opaque" id:ident : command => do
+    let constName ← liftCoreM <| realizeGlobalConstNoOverload id
+    let opaques ← collectOpaqueConsts constName
+    if opaques.isEmpty then
+      logInfo m!"'{constName}' does not depend on any opaque or partial constants"
+    else
+      logInfo m!"'{constName}' depends on opaque/partial: {opaques.map MessageData.ofConstName |>.toList}"
+
+end
+
+-- `opaque` で宣言した定数が検出される
+opaque exPrintOpaque : Nat
+
+/-⋆-//-- info: 'exPrintOpaque' depends on opaque/partial: [exPrintOpaque] -/
+#guard_msgs in --#
+#print opaque exPrintOpaque
+
+-- `partial def` が検出される
+partial def exPrintOpaqueLoop (n : Nat) : Nat :=
+  if n == 0 then 0 else exPrintOpaqueLoop (n - 1)
+
+/-⋆-//-- info: 'exPrintOpaqueLoop' depends on opaque/partial: [exPrintOpaqueLoop] -/
+#guard_msgs in --#
+#print opaque exPrintOpaqueLoop
+
+/- `partial` 関数を使って定義した関数に `partial` をつけなくても、依存関係から `partial` な定数が検出できる。これが **partial 遺伝** の発見に役立つ。 -/
+
+-- partial 関数を使って定義した通常の def
+def exPrintOpaqueUsing := @exPrintOpaqueLoop
+
+/-⋆-//-- info: 'exPrintOpaqueUsing' depends on opaque/partial: [exPrintOpaqueLoop] -/
+#guard_msgs in --#
+#print opaque exPrintOpaqueUsing
+
+/- `while` 構文を使った関数は、内部で `partial` 関数を使っているため、その依存関係も検出される。 -/
+
+-- while を使った関数
+def exPrintOpaqueWhile : Nat := Id.run do
+  let mut n := 0
+  while n < 10 do
+    n := n + 1
+  return n
+
+-- while を使った関数は Lean.Loop.forIn という partial 関数に依存している
+#print opaque exPrintOpaqueWhile

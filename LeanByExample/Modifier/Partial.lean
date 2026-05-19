@@ -66,7 +66,9 @@ partial def forever (x : Int) : Int :=
 -- more 関数も停止しないが、partial は不要である
 def more := @forever
 
-/- これは意外に思えます。`partial` とマークされた関数は停止性が保証されていないので、それを使用した関数も停止性を保証できなくなるはずだからです。なぜこうなるのかというと、`partial` はそもそも「停止性が保証されていない」ことを表すものではなく、[`opaque`](#{root}/Declarative/Opaque.md) と同様に「名前が定義に展開できない」ことを表すものだからです。-/
+/- これは意外に思えます。`partial` とマークされた関数は停止性が保証されていないので、それを使用した関数も停止性を保証できなくなるはずだからです。なぜこうなるのかというと、`partial` はそもそも「停止性が保証されていない」ことを表すものではなく、[`opaque`](#{root}/Declarative/Opaque.md) と同様に「名前が定義に展開できない」ことを表すものだからです。
+
+なお、ある関数が推移的に `partial` 関数に依存しているかどうか（**partial 遺伝**）を確認するには、[`#print opaque`](#{root}/Diagnostic/Print.md#PrintOpaque) コマンドを使用することができます。-/
 
 -- 実際に #reduce を実行してみると、
 -- forever の部分が簡約されていないことがわかる
