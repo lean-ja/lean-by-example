@@ -35,9 +35,27 @@ theorem even_impl (n : Nat) : n % 2 = 0 ↔ Even n := by
     obtain ⟨m, rfl⟩ := h
     omega
 
+/- `Decidable` を構築する典型的な方法として、`Bool` に帰着する方法があります。-/
+theorem decidable_of_bool_iff (P : Prop) (comp : Bool) (h : comp = true ↔ P) : Decidable P := by
+  cases hc : comp with
+  | false =>
+    apply Decidable.isFalse
+    intro hp
+    have : false = true := by simpa [hc] using h.mpr hp
+    contradiction
+  | true =>
+    apply Decidable.isTrue
+    exact h.mp (by simpa [hc])
+
+/-- Even を判定する計算 -/
+def evenComp (n : Nat) : Bool := decide (n % 2 = 0)
+
+theorem evenComp_spec (n : Nat) : evenComp n = true ↔ Even n := by
+  exact Iff.trans (by simpa [evenComp] using (decide_eq_true_eq (p := n % 2 = 0))) (even_impl n)
+
 /-- Even が決定可能であることを示す -/
 instance (n : Nat) : Decidable (Even n) :=
-  decidable_of_iff (n % 2 = 0) (even_impl n)
+  decidable_of_bool_iff (Even n) (evenComp n) (evenComp_spec n)
 
 -- decide で証明ができるようになった！
 example : Even 4 := by decide
