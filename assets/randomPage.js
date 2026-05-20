@@ -59,12 +59,6 @@ document.addEventListener('DOMContentLoaded', function() {
         return response.text();
       })
       .then(markdown => {
-        // 「# 付録」セクション以降はサイドバー非表示ページなので除外する
-        const hiddenSectionMatch = markdown.match(/^# 付録$/m);
-        if (hiddenSectionMatch) {
-          markdown = markdown.substring(0, hiddenSectionMatch.index);
-        }
-
         // Markdownからリンクを抽出する正規表現
         const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
         let match;
