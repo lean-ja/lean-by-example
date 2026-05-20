@@ -1,85 +1,99 @@
 /- # partial_fixpoint
 
-`partial_fixpoint` は、[`partial`](#{root}/Modifier/Partial.md) と同様に「すべての入力に対して必ずしも停止しないような関数」を定義できます。
-さらに、`partial` とは異なり定義した関数を証明に使うことが可能です。
-
-名前の意味は次の2つです。
-
-* `partial`: 停止しない入力がありうる「部分関数」として扱う。
-* `fixpoint`: 再帰を「関数方程式の自己一致」として扱う。たとえば `searchF` は
-  `searchF = F(searchF)` （`F` は「再帰呼び出し先の関数を受け取って本体を作る変換」）
-  を満たす関数になっています。
-
-具体例で書くと次のイメージです。
-
-```lean
-def fact : Nat → Nat
-  | 0 => 1
-  | n + 1 => (n + 1) * fact n
-```
-
-これは「`fact` という関数」を直接再帰で書いた形ですが、同じ内容を
-「関数を受け取って関数を返す変換」で書くと:
-
-```lean
-def FactBody (f : Nat → Nat) : Nat → Nat
-  | 0 => 1
-  | n + 1 => (n + 1) * f n
-```
-
-となり、`fact = FactBody fact` を満たすことが `fixpoint` の意味です。
-
-停止しない再帰でも同様です:
-
-```lean
-def loop (n : Nat) : Nat := loop (n + 1)
--- これは loop = Shift loop （Shift f n := f (n + 1)）の形
-```
-
-`partial_fixpoint` では、この方程式の解のうち「勝手な値を返さず、必要になるまで未定義のままにする」側
-（least fixpoint）を選ぶので、停止しない可能性を認めつつ再帰方程式として扱えます。
+`partial_fixpoint` は、[`partial`](#{root}/Modifier/Partial.md) と同様に「すべての入力に対して必ずしも停止しないような関数」を定義することを可能にしますが、`partial` とは異なり定義した関数を証明に使うことが可能です。
 -/
-section
 
-  variable {α : Type}
+variable {α : Type}
 
-  /-- `partial`で定義された検索関数 -/
-  partial def searchP (f : Nat → Option α) (start : Nat) : Option Nat :=
-    match f start with
-    | some _ => some start
-    | none => searchP f (start + 1)
+/-- `partial` で定義された検索関数 -/
+partial def searchP (f : Nat → Option α) (start : Nat) : Option Nat :=
+  match f start with
+  | some _ => some start
+  | none => searchP f (start + 1)
 
-  /-- `partial_fixpoint`で定義された検索関数 -/
-  @[grind]
-  def searchF (f : Nat → Option α) (start : Nat) : Option Nat :=
-    match f start with
-    | some _ => some start
-    | none => searchF f (start + 1)
-  partial_fixpoint
+/-- `partial_fixpoint` で定義された検索関数 -/
+@[grind]
+def searchF (f : Nat → Option α) (start : Nat) : Option Nat :=
+  match f start with
+  | some _ => some start
+  | none => searchF f (start + 1)
+partial_fixpoint
 
-  set_option warn.sorry false --#
+set_option warn.sorry false --#
 
-  -- `partial`で定義した関数は証明に使うことができない
-  example (f : Nat → Option α) (n : Nat) (h : (f n).isSome) : (searchP f n).isSome := by
-    induction n with
-    | zero =>
-      -- 全く展開することができず、上手くいかない
-      fail_if_success unfold searchP
-      sorry
-    | succ n ih =>
-      sorry
+-- `partial` で定義した関数は証明に使うことができない
+example (f : Nat → Option α) (n : Nat) (h : (f n).isSome) : (searchP f n).isSome := by
+  induction n with
+  | zero =>
+    -- 全く展開することができず、上手くいかない
+    fail_if_success unfold searchP
+    sorry
+  | succ n ih =>
+    sorry
 
-  -- `partial`で定義したほうは簡約も一切することができない
-  /-⋆-//-- info: searchP -/
-  #guard_msgs in --#
-  #reduce searchP
+-- `searchF` に関しては証明ができる
+example (f : Nat → Option α) (n : Nat) (h : (f n).isSome) : (searchF f n).isSome := by
+  induction n with
+  | zero =>
+    unfold searchF
+    grind
+  | succ n ih => grind
 
-  -- `searchF`に関しては証明ができる
-  example (f : Nat → Option α) (n : Nat) (h : (f n).isSome) : (searchF f n).isSome := by
-    induction n with
-    | zero =>
-      unfold searchF
-      grind
-    | succ n ih => grind
+/-
+## 名前の由来
 
-end
+`partial_fixpoint` という名前を見て、`partial` の部分は納得がいくと思います。部分関数(partial function)を定義するための修飾子だからです。では `fixpoint` の部分は何でしょうか？
+
+これを説明するためには、再帰関数について考える必要があります。たとえば、階乗関数を考えてみましょう。
+-/
+
+/-- 階乗関数 -/
+def Nat.factorial (n : Nat) : Nat :=
+  match n with
+  | 0 => 1
+  | n + 1 => (n + 1) * factorial n
+
+/-
+「引数として `n + 1` を渡すと、自分自身を再帰的に呼びだす」という構造を持っています。`#print equations` コマンドを使うと、ここで定義された関数がどのような関数等式を満たしているかを確認することができます。
+-/
+
+/-⋆-//--
+info: equations:
+@[defeq] theorem Nat.factorial.eq_1 : Nat.factorial 0 = 1
+@[defeq] theorem Nat.factorial.eq_2 : ∀ (n_2 : Nat), n_2.succ.factorial = (n_2 + 1) * n_2.factorial
+-/
+#guard_msgs in --#
+#print equations Nat.factorial
+
+/-
+「重要なのはこの関数等式であって、定義の仕方自体は表面的なものである」という視点に立つことができます。`Nat.factorial` とは、上記の関数等式を満たす何者かであればよいということです。そう考えると、関数等式さえ表現できるのであれば別の定義の仕方がありえることになります。
+
+そこで、たとえば次のような高階関数を考えてみます。
+-/
+
+def factBody (f : Nat → Nat) : Nat → Nat :=
+  fun n =>
+    match n with
+    | 0 => 1
+    | n + 1 => (n + 1) * f n
+
+/-
+このようにすると、`Nat.factorial` が満たしていた関数等式 `f 0 = 1 ∧ f (n + 1) = (n + 1) * f n` は、`f = factBody f` という等式に置き換えることができます。
+-/
+
+example (f : Nat → Nat) (h : f = factBody f) : f 0 = 1 := calc
+  _ = factBody f 0 := by rw [h]; grind
+  _ = 1 := rfl
+
+example (f : Nat → Nat) (h : f = factBody f)
+    : ∀ n : Nat, f (n + 1) = (n + 1) * f n := by
+  intro n
+  calc
+    _ = factBody f (n + 1) := by rw [h]; grind
+    _ = (n + 1) * f n := rfl
+
+/-
+つまり、階乗関数を「`f = factBody f` を満たす `f`」として定義することができるというわけです。
+
+ここで `f = factBody f` という等式をよく見ると、`f` が `factBody` という高階関数の不動点(fixpoint)であると主張していることがわかります。ここでは階乗関数を具体例にしましたが、一般に再帰関数は関数の不動点として捉えられることが知られています。`partial_fixpoint` の名前は、まさにこの「再帰関数は不動点である」という考え方に由来します。
+-/
