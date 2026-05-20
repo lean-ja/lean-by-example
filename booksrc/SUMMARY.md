@@ -285,3 +285,9 @@
   - [s!: 文字列補間](./Syntax/InterpStr.md)
   - [show .. from: 項の型を明示](./Syntax/Show.md)
   - [Σ: 依存ペア型](./Syntax/Sigma.md)
+
+---
+
+# 付録
+
+- [付録のデモページ](./Extra/Demo.md)

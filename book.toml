@@ -24,7 +24,9 @@ additional-js = [
   # 見出しをMathlhib4Helpへの外部リンクに変換する
   "assets/replaceToLink.js",
   # ランダムページボタンを表示する
-  "assets/randomPage.js"
+  "assets/randomPage.js",
+  # サイドバーに表示しないページを隠す
+  "assets/hiddenPages.js"
 ]
 additional-css = [
   # mdbook-admonish のスタイル
