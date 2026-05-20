@@ -1,7 +1,7 @@
 /- # Decidable
 `Decidable` は、命題が決定可能であることを示す型クラスです。
 
-ここで命題 `P : Prop` が決定可能であるとは、その真偽を決定するアルゴリズムが存在することを意味します。具体的には `P : Prop` が `Decidable` のインスタンスであるとき、`decide` 関数を適用することにより `decide P : Bool` が得られます。
+ここで命題 `P : Prop` が決定可能であるとは、（後述する例外を除き）その真偽を決定するアルゴリズムが存在することを意味します。具体的には `P : Prop` が `Decidable` のインスタンスであるとき、`decide` 関数を適用することにより `decide P : Bool` が得られます。
 -/
 
 -- 決定可能な命題を決定する関数 decide が存在する
@@ -64,3 +64,50 @@ class inductive Decidable (p : Prop) where
   /-- `p` であることが分かっているなら、`p` は決定可能 -/
   | isTrue (h : p) : Decidable p
 end Hidden --#
+
+/- ## 排中律と決定可能性
+
+命題 `P : Prop` が決定可能というのは、実際のところ「`P` の証明または `¬ P` の証明を持っている」ということを意味します。したがって、`P` の証明または `¬ P` の証明のいずれかが手に入っているのであれば、そこから `Decidable P` のインスタンスを構築することができ、`P` は決定可能であるといえます。
+-/
+
+instance {P : Prop} (h : P ⊕' (¬ P)) : Decidable P := by
+  cases h with
+  | inl h =>
+    apply Decidable.isTrue
+    exact h
+  | inr h =>
+    apply Decidable.isFalse
+    exact h
+
+/-
+もっと言えば、排中律を利用してよければ任意の命題 `P : Prop` に対して `P` の証明または `¬ P` の証明を得ることができるので、すべての命題は決定可能になります。
+
+これはもちろん、「どんな命題に対しても、それを決定できるアルゴリズムが作れる」という意味ではありません。逆です。`Decidable` 型クラスが意味を失ってしまうということです。
+-/
+
+/-- 排中律を利用すれば任意の命題について、肯定または否定の証明が手に入る -/
+noncomputable example (P : Prop) : P ⊕' (¬ P) := by
+  by_cases h : P
+  case pos => exact PSum.inl h
+  case neg => exact PSum.inr h
+
+/-- 排中律を仮定すれば、任意の命題は決定可能 -/
+noncomputable instance (P : Prop) : Decidable P := by
+  exact Classical.propDecidable P
+
+/- 実際、排中律を使って得られた `Decidable` インスタンスは計算的な解釈を持たないため、そうやって `Decidable` インスタンスを得ても `decide` タクティクで証明をすることはできません。
+-/
+
+/-- 奇数を表す述語 -/
+def Odd (n : Nat) : Prop := ∃ m : Nat, n = 2 * m + 1
+
+-- 排中律を利用して決定可能にしている
+noncomputable instance (n : Nat) : Decidable (Odd n) := by
+  classical
+  infer_instance
+
+example : Odd 3 := by
+  -- decide で証明ができない
+  fail_if_success decide
+
+  exists 1

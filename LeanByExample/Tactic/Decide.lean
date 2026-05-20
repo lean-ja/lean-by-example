@@ -1,49 +1,39 @@
 /- # decide
 `decide` は、決定可能な命題を示すタクティクです。
 
-命題 `P : Prop` が決定可能であるとは、型クラス [`Decidable`](#{root}/TypeClass/Decidable.md) のインスタンスであることを意味します。`P` が `Decidable` のインスタンスであるとき、`decide` 関数を適用することにより `decide P : Bool` が得られるので、これを呼び出すことによって証明したり反証したりすることができます。つまり一言でいえば、決定可能であるとは決定するためのアルゴリズムが存在するということです。
+命題 `P : Prop` が決定可能であるとは、型クラス [`Decidable`](#{root}/TypeClass/Decidable.md) のインスタンスであることを意味します。`P` が `Decidable` のインスタンスであるとき、`decide` 関数を適用することにより `decide P : Bool` が得られるので、これを使って証明したり反証したりできます。
 -/
+
 -- 決定可能な命題を決定する関数 decide が存在する
 #check (decide : (P : Prop) → [Decidable P] → Bool)
 
-/- [`rfl`](./Rfl.md) タクティクのように、定義からすぐにわかることを示すのに有用なタクティクですが、`rfl` とは異なり反射的でない関係にも使えるほか、間違っている式に使うと「間違っている」と教えてくれることがあります。-/
+/-
+つまり一言で言えば、`decide` とは「計算すればわかる」ことを証明または反証するためのタクティクです。
+-/
 
-example : 1 + 2 = 3 := by decide
+-- 計算すればわかるので示せる
+example : 1 + 1 = 2 := by decide
 
--- 1 + 1 ≠ 3 は不等式なので rfl では示せないが、decide は示すことができる
-example : 1 + 1 ≠ 3 := by
-  fail_if_success rfl
+-- 等式以外でも、決定可能なら示せる
+example : 5 * 7 ≤ 21 + 19 := by decide
 
-  decide
+-- 整除関係も決定可能なので示せる
+example : 11 ∣ 121 := by decide
 
--- 示そうとした式が間違っていると教えてくれた
+-- 証明しようとしたことが間違っていたら教えてくれる
 /-⋆-//--
 error: Tactic `decide` proved that the proposition
-  1 + 1 = 3
+  15 ∣ 21
 is false
 -/
 #guard_msgs in --#
-example : 1 + 1 = 3 := by decide
-
-/- `decide` は `rfl` の上位互換ではなく、ゴールにローカル変数やメタ変数があると使えません。-/
-
-def double_fact (n : Nat) : Nat :=
-  match n with
-  | 0 => 1
-  | 1 => 1
-  | n + 2 => (n + 2) * double_fact n
-
-example (n : Nat) : double_fact (n + 2) = (n + 2) * double_fact n := by
-  -- decide は使えない
-  fail_if_success decide
-
-  -- rfl は使える
-  rfl
+example : 15 ∣ 21 := by decide
 
 /- ## カスタマイズ
+
 `Decidable` 型クラスのインスタンスに登録すれば、自前で用意した述語を `decide` に示させることができます。-/
 
-/-- 奇数であること。Mathlib にある定義とは別に自前で用意 -/
+/-- 奇数であること -/
 def Odd (n : Int) : Prop := ∃ t : Int, n = 2 * t + 1
 
 example : Odd (7 : Int) := by
