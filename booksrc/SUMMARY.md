@@ -286,8 +286,6 @@
   - [show .. from: 項の型を明示](./Syntax/Show.md)
   - [Σ: 依存ペア型](./Syntax/Sigma.md)
 
----
+<!-- 以下は付録であり、サイドバーに表示されないことが期待される -->
 
-# 付録
-
-- [付録のデモページ](./Extra/Demo.md)
+- [付録](./Extra/README.md)

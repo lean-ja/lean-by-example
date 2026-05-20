@@ -1,37 +1,22 @@
 /**
  * サイドバー非表示ページの制御スクリプト
  *
- * SUMMARY.md の `# 付録` セクションに列挙されたページは、
- * HTMLとしては生成されるが、サイドバーには表示しない。
- * このスクリプトは、その `# 付録` セクションとその配下の項目を
- * サイドバーから取り除く。また、セクション直前の区切り線も合わせて非表示にする。
+ * `Extra/` 配下のページは、HTML としては生成されるが、
+ * サイドバーには表示しない。
+ * このスクリプトは、サイドバーにある `Extra/` 配下へのリンク項目を取り除く。
  */
 document.addEventListener('DOMContentLoaded', function () {
-  const chapterList = document.querySelector('ol.chapter');
-  if (!chapterList) return;
+  const sidebar = document.getElementById('sidebar');
+  if (!sidebar) return;
 
-  const items = Array.from(chapterList.children);
-  let inHiddenSection = false;
+  const links = sidebar.querySelectorAll(
+    'ol.chapter li.chapter-item > a[href^="Extra/"], ol.chapter li.chapter-item > a[href*="/Extra/"]',
+  );
 
-  for (let i = 0; i < items.length; i++) {
-    const item = items[i];
-
-    if (item.classList.contains('part-title')) {
-      // 「付録」というパートタイトルに到達したら非表示モードに入る
-      if (item.textContent.trim() === '付録') {
-        inHiddenSection = true;
-        // 直前のスペーサー（区切り線）も合わせて非表示にする
-        if (i > 0 && items[i - 1].classList.contains('spacer')) {
-          items[i - 1].style.display = 'none';
-        }
-      } else {
-        // 別のパートタイトルが来たら非表示モードを終了する
-        inHiddenSection = false;
-      }
+  links.forEach(function (link) {
+    const item = link.closest('li.chapter-item');
+    if (item) {
+      item.remove();
     }
-
-    if (inHiddenSection) {
-      item.style.display = 'none';
-    }
-  }
+  });
 });
