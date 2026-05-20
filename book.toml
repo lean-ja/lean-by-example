@@ -33,6 +33,8 @@ additional-css = [
   "./assets/mdbook-admonish.css",
   # ページごとの目次をサイドバーとして表示する
   "./assets/pagetoc.css",
+  # サイドバーに表示しないページを初期描画から隠す
+  "./assets/hidden-pages.css",
 ]
 
 # セクション番号を振らない
