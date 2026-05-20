@@ -40,6 +40,41 @@ example (f : Nat → Option α) (n : Nat) (h : (f n).isSome) : (searchF f n).isS
   | succ n ih => grind
 
 /-
+## なぜ `partial_fixpoint` では健全性が壊れないのか？
+
+`partial_fixpoint` の要点は「停止しない可能性」を **定義上の簡約** ではなく **命題としての展開定理** で扱うところにあります。[^partial-fixpoint-ref]
+
+実際、`searchF` の本体は `rfl` では展開できず、`searchF.eq_def` という補題を使ってはじめて展開できます。
+-/
+
+example (f : Nat → Option α) (n : Nat) :
+    searchF f n = (match f n with
+      | some _ => some n
+      | none => searchF f (n + 1)) := by
+  fail_if_success exact rfl
+  rw [searchF.eq_def]
+
+/-
+そのため「`P` は `P` だから真」のような循環を定義上の簡約で作ることはできません。`partial_fixpoint` で得られるのは `Option` などのモナド上での部分正当性に限られます。たとえば次の関数は `n ≠ 0` のとき停止しない可能性がありますが、`False` を直接取り出すことはできません。
+-/
+
+@[grind] def divergeOrNone (n : Nat) : Option False :=
+  if n = 0 then
+    none
+  else
+    divergeOrNone (n + 1)
+partial_fixpoint
+
+example : divergeOrNone 0 = none := by
+  rw [divergeOrNone.eq_def]
+  simp
+
+example (n : Nat) : (∃ p : False, divergeOrNone n = some p) → False := by
+  intro h
+  rcases h with ⟨p, _⟩
+  exact False.elim p
+
+/-
 ## 名前の由来
 
 `partial_fixpoint` という名前を見て、`partial` の部分は納得がいくと思います。部分関数(partial function)を定義するための修飾子だからです。では `fixpoint` の部分は何でしょうか？
@@ -96,4 +131,6 @@ example (f : Nat → Nat) (h : f = factBody f)
 つまり、階乗関数を「`f = factBody f` を満たす `f`」として定義することができるというわけです。
 
 ここで `f = factBody f` という等式をよく見ると、`f` が `factBody` という高階関数の不動点(fixpoint)であると主張していることがわかります。ここでは階乗関数を具体例にしましたが、一般に再帰関数は関数の不動点として捉えられることが知られています。`partial_fixpoint` の名前は、まさにこの「再帰関数は不動点である」という考え方に由来します。
+
+[^partial-fixpoint-ref]: Lean 公式リファレンス「Recursive functions as partial fixpoints」「Partial functions with nonempty codomains」を参照：<https://lean-lang.org/doc/reference/latest/Definitions/Recursive-Definitions/#partial-fixpoint>
 -/
