@@ -89,6 +89,14 @@ unsafe example : False := by
   have _ : Empty := anything
   contradiction
 
+/- なお、[カリー・ハワード同型対応](#{root}/Type/Prop.md#CH)の観点からも、部分関数が禁止される理由を説明できます。カリー・ハワード同型対応によれば「帰納法は再帰に対応する」ので、停止しない再帰関数を許すということは、終わらない帰納法を許すことになり、直接的に不健全な証明に繋がります。`unsafe` キーワードを使うと停止性のチェックが迂回されるため、証明においても無限再帰が使えるようになります。 -/
+
+-- unsafe を使うと、証明の中で無限再帰（= 終わらない帰納法）が使える
+unsafe def proofLoop (P : Prop) : P := proofLoop P
+
+-- その結果、False のような矛盾した命題でも「証明」できてしまう
+unsafe example : False := proofLoop False
+
 /-
 [^recursive]: ここで紹介している例は Joachim Breitner さんによる [Recursive definitions in Lean](https://lean-lang.org/blog/2024-1-11-recursive-definitions-in-lean/) というブログ記事から引用しています。
 -/
