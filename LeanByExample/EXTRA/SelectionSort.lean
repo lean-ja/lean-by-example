@@ -10,8 +10,6 @@
 
 これを Lean で実装すると、次のようになります。
 -/
-namespace List
-
 -- ソートなので大小比較が必要
 variable {α : Type} [LE α] [DecidableLE α]
 
@@ -28,6 +26,8 @@ variable [Std.IsLinearPreorder α]
 instance : Min α := minOfLe
 
 grind_pattern List.le_min_iff => x ≤ _, l.min
+
+namespace List
 
 /-- リストの最小値を先頭に持ってくる -/
 @[grind]
@@ -64,5 +64,55 @@ termination_by xs.length
 
 -- 簡単な動作確認
 #guard selectionSort [3, 1, 4, 15, 9] = [1, 3, 4, 9, 15]
+
+end List
+/- ## 証明
+
+ソートであることを証明するには、２つのことを証明する必要があります。並び替えになっていることと、昇順に並んでいることです。
+
+### 並び替えであること
+
+2 つのリストが互いの順列であることは `List.Perm` を使って表現でき、`~` という記号で表されます。
+-/
+
+open scoped List in
+
+example : [1, 2, 3] ~ [3, 2, 1] := by grind
+
+/-
+証明は、`grind` ですぐに終わります。
+-/
+namespace List
+
+/-- `minFirst` は元のリストの要素を並び替えるだけ -/
+@[grind! ·]
+theorem minFirst_perm (xs : List α) :
+    minFirst xs ~ xs := by
+  cases xs with grind
+
+/-- `selectionSort` は元のリストの要素を並び替えるだけ -/
+@[grind! ·]
+theorem selectionSort_perm (xs : List α) :
+    selectionSort xs ~ xs := by
+  fun_induction selectionSort xs with grind
+
+end List
+/-
+### 昇順に並んでいること
+
+昇順に並んでいることは、`List.Pairwise` を使って表現できます。これも、証明は `grind` ですぐに終わります。
+-/
+namespace List
+
+attribute [grind] List.Pairwise
+
+@[grind ->]
+theorem minFirst_spec (x : α) (xs ys : List α) (h : x :: xs = minFirst ys) :
+    ∀ y ∈ xs, x ≤ y := by
+  fun_cases minFirst ys with grind
+
+theorem selectionSort_sorted (xs : List α) :
+    (selectionSort xs).Pairwise (· ≤ ·) := by
+  fun_induction selectionSort xs with grind
 
 end List
