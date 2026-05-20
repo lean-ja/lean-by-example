@@ -57,6 +57,10 @@ example (a b : Nat) : pascal a b ≤ (a + b)! := by
         exact Nat.mul_le_mul_right k this
       omega
 
+/-
+`grind` が複雑な証明を自動で完了させる様子をもっと見たい方は、[付録: 選択ソートの実装とソートであることの証明](#{root}/EXTRA/SelectionSort.md) なども参考にしてください。
+-/
+
 /- ## 動作原理の概要
 
 `grind` タクティクの動作原理を理解するには、仮想的な黒板を思い浮かべると良いでしょう。
