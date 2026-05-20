@@ -31,8 +31,8 @@ additional-js = [
 additional-css = [
   # mdbook-admonish のスタイル
   "./assets/mdbook-admonish.css",
-  # サイドバーに目次を表示する
-  "./assets/pagetoc.css"
+  # ページごとの目次をサイドバーとして表示する
+  "./assets/pagetoc.css",
 ]
 
 # セクション番号を振らない
