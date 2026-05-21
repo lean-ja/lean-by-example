@@ -33,6 +33,26 @@ unsafe def checkSubtype : IO Unit := do
 * オーバーヘッドなしに部分集合を表現する。
   `Subtype` は実行時には元の型と同じように扱われるため、条件付きの値を安全に扱いつつ、実装上の追加コストを抑えられます。
 
+たとえば、空でないリストの「中央の添字」を返すときに `Subtype` で添字の範囲証明をまとめて返しておくと、呼び出し側で毎回 `i < xs.length` を証明し直さずに `List.get` を使えます。
+
+section
+
+  variable {α : Type}
+
+  def middleIndex (xs : List α) (h : 0 < xs.length) : { i : Nat // i < xs.length } :=
+    ⟨xs.length / 2, by
+      have h2 : 1 < 2 := by decide
+      simpa using Nat.div_lt_self h h2
+    ⟩
+
+  def middle (xs : List α) (h : 0 < xs.length) : α :=
+    let i := middleIndex xs h
+    xs.get ⟨i.1, i.2⟩
+
+end
+
+#eval middle ["Lean", "Coq", "Agda"] (by decide)
+
 `Subtype` を使うと、ある型 `A` が `U` という型の一部を切り取ったものだということをコードで表現することができます。たとえば、自然数の型 `Nat` に対して、正の数だけを抜き出して正の整数の型 `Pos` を定義することを考えてみます。
 
 このとき、`Subtype` を使わずに `Pos` を帰納型として以下のように定義することもできるのですが、こうすると `Pos` と `Nat` は実装上まったく無関係ということになってしまいます。
