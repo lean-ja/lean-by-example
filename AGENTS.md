@@ -1,22 +1,31 @@
-# codex と copilot 向けの指示
+# AGENTS
 
 ## 環境構築
 
-以下のコマンドで elan をインストールし、その後PATHを通してください。
+`elan` がい
+以下のコマンドで elan をインストールします。OS に応じて適切なコマンドを使用してください。
 
 ```bash
+# Unix 系 OS の場合
 curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y --default-toolchain none
 ```
 
-## 記事の編集方針
+```bash
+# Windows の場合
+curl -O --location https://elan.lean-lang.org/elan-init.ps1
+powershell -ExecutionPolicy Bypass -f elan-init.ps1
+del elan-init.ps1
+```
 
-1. 記述はすべて、具体的なコードによって例示され、裏付けられるべきです。
-  1. 「～ができるようになる」ことを本文に書くのであれば、「最初は~ができない」ことと、「しかるべき手順の後～ができるようになる」ことの両方をコードで示すべきです。
-  2. 「～をするとエラーになる」ことを本文に書くのであれば、エラーになることをエラーなしに検証するコードを示すべきです。
-2. 以下を主に情報源としてください。他の情報源を使用しても構いません。
-   1. 公式リファレンス https://lean-lang.org/doc/reference/latest/
-   2. https://lean-lang.org/functional_programming_in_lean/
-   3. https://leanprover-community.github.io/mathematics_in_lean/
-   4. https://lean-lang.org/theorem_proving_in_lean4/
-   5. 公式Zulip https://leanprover.zulipchat.com/
-3. 非自明なコード例を使用する際は、どこが出典であるかを明示し、正しく引用してください。
+以下のコマンドで `elan` が使えるか確認します。
+
+```bash
+elan --version
+```
+
+このプロジェクトでは Mathlib を使用しているので、以下のコマンドで Mathlib のビルド済みキャッシュを取得します。
+
+```bash
+# プロジェクトのルートディレクトリで実行
+lake exe cache get
+```
