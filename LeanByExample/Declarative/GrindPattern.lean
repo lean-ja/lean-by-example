@@ -19,16 +19,25 @@ example (x y z : Nat) (h₁ : R x y) (h₂ : R y z) : R x z := by
 
 section
 
-  /-- `R` でつながっている値を右に 1 つ進められる -/
-  local axiom Rsucc {x y : Nat} : R x y → R x (y + 1)
+  /-- `f 0` で始まる辺を右に 1 つ進められる -/
+  local opaque f : Nat → Nat
+  local axiom RfSucc {y : Nat} : R (f 0) y → R (f 0) (y + 1)
 
-  example (a b : Nat) (h : R a b) : R a (b + 1) := by
+  example (b : Nat) (h : R (f 0) b) : R (f 0) (b + 1) := by
     fail_if_success grind
 
-  -- `grind_pattern` のパターンでは `_` ワイルドカードを使える
-  local grind_pattern Rsucc => R _ y
+  /- `f` の引数位置に対応する変数は `RfSucc` の引数に存在しないため、
+  新しい変数名を置くことはできない。 -/
+  /-⋆-//--
+  error: unknown identifier 'z'
+  -/
+  #guard_msgs in --#
+  local grind_pattern RfSucc => R (f z) y
 
-  example (a b : Nat) (h : R a b) : R a (b + 1) := by
+  -- この位置は `_` ワイルドカードでしか書けない
+  local grind_pattern RfSucc => R (f _) y
+
+  example (b : Nat) (h : R (f 0) b) : R (f 0) (b + 1) := by
     grind
 
 end
