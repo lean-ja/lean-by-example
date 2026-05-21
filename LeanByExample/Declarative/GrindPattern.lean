@@ -34,7 +34,8 @@ section
   #guard_msgs in --#
   local grind_pattern RfSucc => R (f z) y
 
-  -- この位置は `_` ワイルドカードでしか書けない
+  -- ここは定理の引数に現れない位置なので `_` が必要
+  -- （存在量化された位置を埋めたいときも同様）
   local grind_pattern RfSucc => R (f _) y
 
   example (b : Nat) (h : R (f 0) b) : R (f 0) (b + 1) := by
