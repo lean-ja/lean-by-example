@@ -17,6 +17,22 @@ example (x y z : Nat) (h₁ : R x y) (h₂ : R y z) : R x z := by
   -- grind で証明できる
   grind
 
+section
+
+  /-- `R` でつながっている値を右に 1 つ進められる -/
+  local axiom Rsucc {x y : Nat} : R x y → R x (y + 1)
+
+  example (a b : Nat) (h : R a b) : R a (b + 1) := by
+    fail_if_success grind
+
+  -- `grind_pattern` のパターンでは `_` ワイルドカードを使える
+  local grind_pattern Rsucc => R _ y
+
+  example (a b : Nat) (h : R a b) : R a (b + 1) := by
+    grind
+
+end
+
 /-
 ## `[grind]` 属性では登録できない例
 
