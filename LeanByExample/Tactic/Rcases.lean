@@ -44,3 +44,17 @@ example (s : Sample) : True := by
     guard_hyp z : String
 
     trivial
+
+/- ## 等式を rfl で分解する
+
+`rcases` のパターンには `rfl` も使えます。等式の仮定 `h : a = b` に対して `rcases h with rfl` と書くと、`a` と `b` が同じ値である場合に分解されます。-/
+
+example {a b c : Nat} (h : a = b) : a + c = b + c := by
+  rcases h with rfl
+  rfl
+
+/- `rfl` は、ほかの `rcases` パターンの中にも書くことができます。たとえば、論理積を分解しながら、片方の等式を同時に消去できます。-/
+
+example {a b : Nat} (h : a = b ∧ b = 3) : a = 3 := by
+  rcases h with ⟨rfl, hb⟩
+  exact hb
