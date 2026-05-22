@@ -249,6 +249,7 @@
   - [ring_nf: 可換(半)環の標準形に](./Tactic/RingNf.md)
   - [ring: 可換(半)環の等式を示す](./Tactic/Ring.md)
   - [rw: 同値変形](./Tactic/Rw.md)
+  - [subst: 等式で変数を置き換える](./Tactic/Subst.md)
   - [says: タクティク提案の痕跡を残す](./Tactic/Says.md)
   - [set: 定義の導入](./Tactic/Set.md)
   - [show_term: タクティクの中身を出す](./Tactic/ShowTerm.md)
