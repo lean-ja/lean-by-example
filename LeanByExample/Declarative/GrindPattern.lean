@@ -17,6 +17,25 @@ example (x y z : Nat) (h₁ : R x y) (h₂ : R y z) : R x z := by
   -- grind で証明できる
   grind
 
+/- パターンの中では、通常の項と同じように `_` でワイルドカードを指定できます。
+ただし、定理をインスタンス化するために必要なパラメータは、どこかのパターンでカバーされていなければなりません。
+次の例では、`S x y` が `x` と `y` をカバーし、`S _ z` が `z` をカバーしています。-/
+
+namespace WildcardPattern --#
+
+/-- 何らかの二項関係 -/
+opaque S : Nat → Nat → Prop
+
+/-- S は推移的 -/
+axiom Strans {x y z : Nat} : S x y → S y z → S x z
+
+grind_pattern Strans => S x y, S _ z
+
+example (x y z : Nat) (h₁ : S x y) (h₂ : S y z) : S x z := by
+  grind
+
+end WildcardPattern --#
+
 /-
 ## `[grind]` 属性では登録できない例
 
