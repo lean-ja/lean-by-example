@@ -59,7 +59,7 @@ lean_exe get_elem where
   root := `Exe.TypeClass.GetElem.ProveValid
 
 lean_exe parse where
-  root := `Exe.Declarative.Syntax.Parse
+  root := `LeanByExample.Declarative.Syntax.ParseExe
   supportInterpreter := true -- これがないとエラーになる
 
 /-- `Type/IO/Cat.lean`のためのテスト -/
