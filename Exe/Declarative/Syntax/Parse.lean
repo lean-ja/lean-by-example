@@ -27,8 +27,12 @@ instance : ToString Arith where
 コンパイル時にも動作することを保証するためのテスト -/
 def main : IO Unit := do
   let strings := ["1 + 2", "3 + (4 * 5)", "(1 + 2) * (3 + 4)"]
+  let mut hasError := false
   for input in strings do
     let parsed := parseArith input
-    match parsed with
-    | .error e => throw <| IO.userError s!"Failed to parse '{input}': {e}"
-    | .ok expr => IO.println s!"Parsed '{input}', got {expr}"
+    if let .error _e := parsed then
+      hasError := true
+
+  if hasError then
+    throw <| .userError "Failed to parse some arithmetic expressions."
+  IO.println "✅ [Parse.lean] テスト成功"
