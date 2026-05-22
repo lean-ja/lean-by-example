@@ -258,6 +258,7 @@
   - [sorry: 証明したことにする](./Tactic/Sorry.md)
   - [split: if/match 式を分解](./Tactic/Split.md)
   - [suffices: 十分条件に帰着](./Tactic/Suffices.md)
+  - [symm: 対称な関係の向きを反転する](./Tactic/Symm.md)
   - [tauto: トートロジーを示す](./Tactic/Tauto.md)
   - [trans: 推移律を利用する](./Tactic/Trans.md)
   - [trivial: 基本的なタクティクを試す](./Tactic/Trivial.md)
