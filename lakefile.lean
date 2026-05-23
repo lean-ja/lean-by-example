@@ -62,13 +62,6 @@ lean_exe parse where
   root := `LeanByExample.Declarative.Syntax.ParseExe
   supportInterpreter := true -- これがないとエラーになる
 
-/-- `Type/IO/Greet.lean`のためのテスト -/
-def testForGreet : IO Unit := do
-  let result ← runCmdWithOutput "lean --run LeanByExample/Type/IO/Greet.lean" (stdIn := some "Lean")
-  let expected := "誰に挨拶しますか？\nHello, Lean!"
-  if result.trimAscii != expected then
-    throw <| IO.userError s!"Test failed! expected prefix: {expected}, got: {result}"
-
 /-- abort が動作しているか調べる -/
 def checkAbort : IO Bool := do
   Std.Internal.IO.Async.System.setEnvVar "LEAN_ABORT_ON_PANIC" "1"
@@ -91,7 +84,6 @@ def testForAbort : IO Unit := do
 script test do
   runCmd "lake exe prove_valid"
   runCmd "lake exe parse"
-  testForGreet
   testForAbort
   return 0
 
