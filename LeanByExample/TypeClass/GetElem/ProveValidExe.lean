@@ -1,3 +1,5 @@
+import LeanByExample.Lib.ThisFile
+
 variable {α : Type} [Add α] [Zero α] [Inhabited α]
 
 -- `IO` で包むことにより最適化されて計測時間がおかしくなることを防いでいる。
@@ -39,6 +41,6 @@ def main : IO Unit := do
   if result1 ≠ result2 then
     throw <| .userError s!"Results do not match. sum!: {result1}, sum: {result2}"
 
-  IO.println "✅ [ProveValid.lean] テスト成功"
+  IO.println s!"✅ [{thisFile%}] テスト成功"
   IO.println s!"   sum! にかかった時間: {time1} ms"
   IO.println s!"   sum にかかった時間: {time2} ms"

@@ -1,7 +1,7 @@
 /-
 このファイルは `lake test` 時に実行されるだけで、読者からは見えない場所にあります
 -/
-
+import LeanByExample.Lib.ThisFile
 import LeanByExample.Declarative.Syntax.Parser
 
 /- `parseArith` 関数の構成のために使われた、
@@ -17,4 +17,4 @@ def main : IO Unit := do
 
   if hasError then
     throw <| .userError "Failed to parse some arithmetic expressions."
-  IO.println "✅ [Parse.lean] テスト成功"
+  IO.println s!"✅ [{thisFile%}] テスト成功"
