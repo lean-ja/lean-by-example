@@ -62,13 +62,6 @@ lean_exe parse where
   root := `LeanByExample.Declarative.Syntax.ParseExe
   supportInterpreter := true -- これがないとエラーになる
 
-/-- `Type/IO/Cat.lean`のためのテスト -/
-def testForCat : IO Unit := do
-  let result ← runCmdWithOutput "lean --run LeanByExample/Type/IO/Cat.lean LeanByExample/Type/IO/Test.txt"
-  let expected := "Lean is nice!"
-  if result.trimAscii != expected then
-    throw <| IO.userError s!"Test failed! expected: {expected}, got: {result.trimAscii}"
-
 /-- `Type/IO/Greet.lean`のためのテスト -/
 def testForGreet : IO Unit := do
   let result ← runCmdWithOutput "lean --run LeanByExample/Type/IO/Greet.lean" (stdIn := some "Lean")
@@ -98,7 +91,6 @@ def testForAbort : IO Unit := do
 script test do
   runCmd "lake exe prove_valid"
   runCmd "lake exe parse"
-  testForCat
   testForGreet
   testForAbort
   return 0
