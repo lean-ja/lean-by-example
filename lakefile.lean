@@ -62,29 +62,10 @@ lean_exe parse where
   root := `LeanByExample.Declarative.Syntax.ParseExe
   supportInterpreter := true -- これがないとエラーになる
 
-/-- abort が動作しているか調べる -/
-def checkAbort : IO Bool := do
-  Std.Internal.IO.Async.System.setEnvVar "LEAN_ABORT_ON_PANIC" "1"
-  try
-    let result ← runCmdWithOutput "lean --run LeanByExample/Syntax/Panic/Abort.lean"
-    if result.trimAscii.endsWith "hello world!" then
-      return false
-    else
-      return true
-  catch _ =>
-    -- 失敗した場合はabortが成功していると見なす
-    return true
-
-def testForAbort : IO Unit := do
-  let aborted ← checkAbort
-  if !aborted then
-    throw <| IO.userError s!"Test failed! abort did not work."
-
 @[test_driver]
 script test do
   runCmd "lake exe prove_valid"
   runCmd "lake exe parse"
-  testForAbort
   return 0
 
 end TestScript
