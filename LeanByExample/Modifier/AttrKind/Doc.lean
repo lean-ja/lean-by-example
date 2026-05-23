@@ -2,7 +2,7 @@
 > `attrKind` matches `("scoped" <|> "local")?`, used before an attribute like `@[local simp]`.
 -/
 --#--
-import LeanByExample.DocCmd
+import LeanByExample.Lib.DocCmd
 /--
 info: `attrKind` matches `("scoped" <|> "local")?`, used before an attribute like `@[local simp]`.
 -/

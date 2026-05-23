@@ -15,7 +15,7 @@
 > From the point of view of proofs, `Array α` is just a wrapper around `List α`.
 -/
 --#--
-import LeanByExample.DocCmd
+import LeanByExample.Lib.DocCmd
 /--
 info: `Array α` is the type of [dynamic arrays](https://en.wikipedia.org/wiki/Dynamic_array) with elements
 from `α`. This type has special support in the runtime.
