@@ -55,8 +55,8 @@ end BuildScript
 
 section TestScript
 
-lean_exe get_elem where
-  root := `Exe.TypeClass.GetElem.ProveValid
+lean_exe prove_valid where
+  root := `LeanByExample.TypeClass.GetElem.ProveValidExe
 
 lean_exe parse where
   root := `LeanByExample.Declarative.Syntax.ParseExe
@@ -96,7 +96,7 @@ def testForAbort : IO Unit := do
 
 @[test_driver]
 script test do
-  runCmd "lake exe get_elem"
+  runCmd "lake exe prove_valid"
   runCmd "lake exe parse"
   testForCat
   testForGreet
