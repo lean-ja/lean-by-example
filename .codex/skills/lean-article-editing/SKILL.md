@@ -22,19 +22,17 @@ description: Lean 解説記事を編集・執筆するときに使う。
 
 記事の編集に取り掛かる前に、調査を行う。
 
-1. Lean の仕様については以下の公式の資料を確認する。
+1. まず以下の資料を確認する。
    1. [Lean 公式リファレンス](https://lean-lang.org/doc/reference/latest/)
    2. [Functional Programming in Lean](https://lean-lang.org/functional_programming_in_lean/)
    3. [Mathematics in Lean](https://leanprover-community.github.io/mathematics_in_lean/)
    4. [Theorem Proving in Lean 4](https://lean-lang.org/theorem_proving_in_lean4/)
+   5. [Lean community blog](https://leanprover-community.github.io/blog/)
+   6. [The Hitchhiker's Guide to Logical Verification](https://github.com/lean-forward/logical_verification_2025)
+   7. [Lean Metaprogramming Book](https://leanprover-community.github.io/lean4-metaprogramming-book/)
+   8. [Tactic Programming Guide](https://github.com/mirefek/lean-tactic-programming-guide)
 
-2. 具体例を探す際には、[Lean 公式 ZUlip](https://leanprover.zulipchat.com/) を必ず確認すること。
-
-3. 必要に応じて下記の資料も確認するとよい。
-   1. [Lean community blog](https://leanprover-community.github.io/blog/)
-   2. [The Hitchhiker's Guide to Logical Verification](https://github.com/lean-forward/logical_verification_2025)
-   3. [Lean Metaprogramming Book](https://leanprover-community.github.io/lean4-metaprogramming-book/)
-   4. [Tactic Programming Guide](https://github.com/mirefek/lean-tactic-programming-guide)
+2. 次に [Lean 公式 ZUlip](https://leanprover.zulipchat.com/) を確認し、示唆的なコード例を探す。
 
 ### 2. 編集・執筆
 
