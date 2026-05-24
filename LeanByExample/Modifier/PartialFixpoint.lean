@@ -55,10 +55,10 @@ example (f : Nat → Option α) (n : Nat) :
   rw [searchF.eq_def]
 
 /-
-そのため「`P` は `P` だから真」のような循環を定義上の簡約で作ることはできません。`partial_fixpoint` で得られるのは `Option` などのモナド上での部分正当性に限られます。たとえば次の関数は `n ≠ 0` のとき停止しない可能性がありますが、`False` を直接取り出すことはできません。
+そのため「`P` は `P` だから真」のような循環を定義上の簡約で作ることはできません。`partial_fixpoint` で得られるのは `Option` などのモナド上での部分正当性に限られます。たとえば次の関数は `n ≠ 0` のとき停止しない可能性がありますが、矛盾を表す `Empty` の値を直接取り出すことはできません。
 -/
 
-@[grind] def divergeOrNone (n : Nat) : Option False :=
+@[grind] def divergeOrNone (n : Nat) : Option Empty :=
   if n = 0 then
     none
   else
@@ -69,10 +69,10 @@ example : divergeOrNone 0 = none := by
   rw [divergeOrNone.eq_def]
   simp
 
-example (n : Nat) : (∃ p : False, divergeOrNone n = some p) → False := by
+example (n : Nat) : (∃ p : Empty, divergeOrNone n = some p) → False := by
   intro h
   rcases h with ⟨p, _⟩
-  exact False.elim p
+  exact Empty.elim p
 
 /-
 ## 名前の由来
