@@ -20,16 +20,17 @@ example (x y z : Nat) (h₁ : R x y) (h₂ : R y z) : R x z := by
 section
 
   /-- `f 0` で始まる辺を右に 1 つ進められる -/
-  local opaque f : Nat → Nat
-  local axiom RfSucc {y : Nat} : R (f 0) y → R (f 0) (y + 1)
+  private opaque f : Nat → Nat
+  private axiom RfSucc {y : Nat} : R (f 0) y → R (f 0) (y + 1)
 
   example (b : Nat) (h : R (f 0) b) : R (f 0) (b + 1) := by
     fail_if_success grind
+    exact RfSucc h
 
   /- `f` の引数位置に対応する変数は `RfSucc` の引数に存在しないため、
   新しい変数名を置くことはできない。 -/
   /-⋆-//--
-  error: unknown identifier 'z'
+  error: Unknown identifier `z`
   -/
   #guard_msgs in --#
   local grind_pattern RfSucc => R (f z) y
