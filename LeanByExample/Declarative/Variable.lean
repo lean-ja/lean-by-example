@@ -32,30 +32,45 @@ end variable1 --#
 
 /- ## theorem と def での取り込み基準の違い
 
-`theorem` は statement（型）に現れる変数だけを自動で引数にします。
+`theorem` は定理の型に現れる変数だけを自動で引数にします。
 そのため、証明中でのみ使う外側の変数は `include` で明示的に取り込みます。
+一方で、`def` は本体に現れる変数も自動で引数にします。
 -/
 namespace variable2 --#
 
 variable (n : Nat)
 
 /-⋆-//--
-error: unknown identifier 'n'
+error: Unknown identifier `n`
+---
+error: Unknown identifier `n`
 -/
 #guard_msgs in --#
-theorem foo (m : Nat) : m = m := by
+theorem foo (m : Nat) : m = m :=
   have : n = n := by rfl
   rfl
 
-def foo' (m : Nat) : m = m := by
+def foo' (m : Nat) : m = m :=
   have : n = n := by rfl
   rfl
+
+/-⋆-//--
+info: variable2.foo' (n m : Nat) : m = m
+-/
+#guard_msgs in --#
+#check foo'
 
 include n
 
-theorem foo_included (m : Nat) : m = m := by
+theorem foo_included (m : Nat) : m = m :=
   have : n = n := by rfl
   rfl
+
+/-⋆-//--
+info: variable2.foo_included (n m : Nat) : m = m
+-/
+#guard_msgs in --#
+#check foo_included
 
 end variable2 --#
 
