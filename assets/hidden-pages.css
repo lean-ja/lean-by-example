@@ -1,0 +1,8 @@
+/*
+ * `EXTRA/` 配下のページは HTML としては生成するが、サイドバーには表示しない。
+ * JavaScript の削除処理が走る前の初期描画でも隠す。
+ */
+.chapter li.chapter-item:has(> a[href^="EXTRA/"]),
+.chapter li.chapter-item:has(> a[href*="/EXTRA/"]) {
+  display: none;
+}
