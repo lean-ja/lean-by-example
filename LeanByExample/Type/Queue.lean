@@ -2,19 +2,40 @@
 
 `Std.Queue` は、永続的・関数型の **FIFO キュー(先入れ先出しキュー)** です。キューとは、「最初に追加した要素が最初に取り出される」データ構造です。
 
-内部的には 2 本の `List` で実装されています。
+「永続的」というのは、`enqueue` や `dequeue?` が元のキューを破壊的に変更せず、新しいキューを返すという意味です。
 
-```lean
-structure Std.Queue (α : Type u) where
-  eList : List α
-  dList : List α
-```
-
-`dList` は次に取り出す側のリスト、`eList` は追加された要素を逆順に溜める側のリストです。キューの中身は `dList ++ eList.reverse` で表されます。
+内部的には 2 本の `List` を持つ構造体として実装されています。
 -/
 import Std
 
 open Std
+
+--#--
+/--
+info: structure Std.Queue.{u} (α : Type u) : Type u
+number of parameters: 1
+fields:
+  Std.Queue.eList : List α :=
+    []
+  Std.Queue.dList : List α :=
+    []
+constructor:
+  Std.Queue.mk.{u} {α : Type u} (eList dList : List α) : Queue α
+-/
+#guard_msgs in #print Std.Queue
+--#--
+
+namespace Hidden --#
+
+structure Queue.{u} (α : Type u) where
+  eList : List α := []
+  dList : List α := []
+
+end Hidden --#
+
+/-
+`dList` は次に取り出す側のリスト、`eList` は追加された要素を逆順に溜める側のリストです。キューの中身は `dList ++ eList.reverse` で表されます。
+-/
 
 /- ## 基本操作
 
@@ -38,11 +59,28 @@ open Std
 #guard_msgs in --#
 #eval ((∅ : Queue Nat).enqueue 10).enqueue 20 |>.toArray
 
+/- `enqueue` は元のキューを変更せず、新しいキューを返します。 -/
+
+def emptyQueue : Queue Nat := ∅
+
+def oneElementQueue : Queue Nat := emptyQueue.enqueue 10
+
+#guard emptyQueue.isEmpty
+#guard oneElementQueue.toArray = #[10]
+
 /-
 ```admonish warning title="enqueue の引数順"
-`Queue.enqueue` の第1引数が追加する値、第2引数がキューです。そのため、`q.enqueue 10` というドット記法を使うと、実際には `Queue.enqueue 10 q` という呼び出しになります。これは `q` に `10` を末尾追加する操作です。
+`Queue.enqueue` は第1引数に追加する値、第2引数にキューを取ります。そのため、`q.enqueue 10` というドット記法は、実際には `Queue.enqueue 10 q` という呼び出しになります。これは `q` に `10` を末尾追加する操作です。
 ```
 -/
+
+/-⋆-//-- info: Std.Queue.enqueue.{u} {α : Type u} (v : α) (q : Queue α) : Queue α -/
+#guard_msgs in --#
+#check Queue.enqueue
+
+-- ドット記法ではキューが第2引数の位置に渡される
+example (q : Queue Nat) : q.enqueue 10 = Queue.enqueue 10 q := by
+  rfl
 
 /- ### dequeue?: 要素の取り出し
 
@@ -62,6 +100,16 @@ def popTwo : Option (Nat × Nat) := do
 #guard_msgs in --#
 #eval popTwo
 
+-- 空のキューからは取り出せない
+#guard (∅ : Queue Nat).dequeue? = none
+
+-- 取り出したあとのキューには、次に取り出される要素が残っている
+#guard
+  let q := ((∅ : Queue Nat).enqueue 10).enqueue 20
+  match q.dequeue? with
+  | none => false
+  | some (x, q') => x = 10 && q'.toArray == #[20]
+
 /- ## 計算量
 
 `Queue` の各操作の計算量は次のとおりです。
@@ -69,7 +117,7 @@ def popTwo : Option (Nat × Nat) := do
 * `enqueue` : O(1)
 * `dequeue?` : 償却 O(1)、最悪 O(n)
 
-`dequeue?` の計算量が最悪 O(n) になるのは、`dList` が空になったとき内部で `eList.reverse` が実行されるためです。ただし、その後はしばらく O(1) で動作するため、全体の平均は O(1) です。
+`dequeue?` の計算量が最悪 O(n) になるのは、`dList` が空になったとき内部で `eList.reverse` が実行されるためです。ただし、いったん反転した要素はその後しばらく O(1) で取り出せるため、一連の操作全体では償却 O(1) になります。
 
 ## 使用例
 
@@ -84,7 +132,7 @@ inductive Tree (α : Type) where
   | node (val : α) (left right : Tree α) : Tree α
 
 /-- `Queue` を使って二分木のノード値を幅優先順 (BFS) で列挙する -/
-partial def Tree.bfsValues (t : Tree α) : List α :=
+partial def Tree.bfsValues {α : Type} (t : Tree α) : List α :=
   go ((∅ : Queue (Tree α)).enqueue t) []
   where
     go (q : Queue (Tree α)) (acc : List α) : List α :=
