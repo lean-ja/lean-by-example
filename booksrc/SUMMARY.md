@@ -285,3 +285,8 @@
   - [s!: 文字列補間](./Syntax/InterpStr.md)
   - [show .. from: 項の型を明示](./Syntax/Show.md)
   - [Σ: 依存ペア型](./Syntax/Sigma.md)
+
+<!-- 以下は付録であり、サイドバーに表示されないことが期待される -->
+
+- [付録](./EXTRA/README.md)
+  - [選択ソート](./EXTRA/SelectionSort.md)
