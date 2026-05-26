@@ -18,7 +18,7 @@
 example {α : Type} [BEq α] [LawfulBEq α] (x : α) : x == x := by
   simp
 
--- DecidableEq を仮定すると自動的に LawfulBEq のインスタンスが生成される
+-- DecidableEq を仮定すると自動的に BEq と LawfulBEq のインスタンスが生成される
 example {α : Type} [DecidableEq α] (x : α) : x == x := by
   let _ : LawfulBEq α := by infer_instance
   simp
