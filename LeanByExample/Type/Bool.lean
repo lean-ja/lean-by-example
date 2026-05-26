@@ -6,7 +6,7 @@
 #check (true : Bool)
 #check (false : Bool)
 
-/- `Bool` の値を得るためには、たとえば `==` を用いて値を比較します。-/
+/- `Bool` の値を得るためには、たとえば [`BEq`](#{root}/TypeClass/BEq.md) のインスタンスがある型の値を `==` で比較します。-/
 
 inductive Foo where
   | bar
