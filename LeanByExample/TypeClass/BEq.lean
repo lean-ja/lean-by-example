@@ -10,7 +10,7 @@
 
 /- ## DecidableEq との使い分け
 
-単に `Bool` 値の比較をしたいだけであれば、`DecidableEq` のインスタンスでも可能です。しかも `DecidableEq` なら単に `Bool` 値になるだけでなく、`∀ x : α, x = x` といった「等号が満たすべきルール」もついてくるので、`DecidableEq` が使える場合はそちらを使うべきでしょう。
+単に `Bool` 値の比較をしたいだけであれば、`DecidableEq` のインスタンスでも可能です。しかも `DecidableEq` なら単に `Bool` 値の比較ができるだけでなく、`∀ x : α, x = x` といった「等号が満たすべきルール」もついてくるので、証明が必要でかつ `DecidableEq` が使える場合はそちらを使うべきでしょう。
 -/
 
 -- BEq は単なる関数なのでルールは付属していないが、
@@ -18,8 +18,7 @@
 example {α : Type} [DecidableEq α] (x : α) : decide (x = x) = true := by
   simp
 
-/-
-敢えて `BEq` を使うべきケースは、ルールを満たすような等号比較ができない場合です。典型的なのは [`Float`](#{root}/Type/Float.md) です。
+/- 敢えて `BEq` を使うべきケースもあります。たとえばルールを満たすような等号比較ができない場合です。典型的なのは [`Float`](#{root}/Type/Float.md) です。
 
 `Float` には `NaN` という値があります。これは「数値ではない」ことを表す特別な値で、`isNaN` という関数で判定できます。
 -/
@@ -39,3 +38,4 @@ example {α : Type} [DecidableEq α] (x : α) : decide (x = x) = true := by
 /- そのため `Float` には `DecidableEq` のインスタンスがありません。 -/
 
 #check_failure (by infer_instance : DecidableEq Float)
+
