@@ -1,4 +1,4 @@
-/- # 付録: 選択ソートの実装とソートであることの証明
+/- # 付録: 選択ソート
 
 ## 実装
 
@@ -51,7 +51,6 @@ theorem minFirst_length (xs : List α) :
   fun_cases minFirst xs with grind
 
 /-- 選択ソート -/
-@[grind]
 def selectionSort (xs : List α) : List α :=
   let ys := minFirst xs
   have : ys.length = xs.length := by grind
@@ -66,13 +65,13 @@ termination_by xs.length
 #guard selectionSort [3, 1, 4, 15, 9] = [1, 3, 4, 9, 15]
 
 end List
-/- ## 証明
+/- ## ソートであることの証明
 
 ソートであることを証明するには、２つのことを証明する必要があります。並び替えになっていることと、昇順に並んでいることです。
 
 ### 並び替えであること
 
-2 つのリストが互いの順列であることは `List.Perm` を使って表現でき、`~` という記号で表されます。
+２つのリストが互いの順列であることは `List.Perm` を使って表現でき、`~` という記号で表されます。
 -/
 
 open scoped List in
@@ -80,31 +79,31 @@ open scoped List in
 example : [1, 2, 3] ~ [3, 2, 1] := by grind
 
 /-
-証明は、`grind` ですぐに終わります。
+証明は、`grind` と `fun_induction` ですぐに終わります。
 -/
 namespace List
 
 /-- `minFirst` は元のリストの要素を並び替えるだけ -/
-@[grind! ·]
 theorem minFirst_perm (xs : List α) :
     minFirst xs ~ xs := by
   cases xs with grind
 
+grind_pattern minFirst_perm => minFirst xs, minFirst _ ~ _
+
 /-- `selectionSort` は元のリストの要素を並び替えるだけ -/
-@[grind! ·]
 theorem selectionSort_perm (xs : List α) :
     selectionSort xs ~ xs := by
   fun_induction selectionSort xs with grind
+
+grind_pattern selectionSort_perm => selectionSort xs
 
 end List
 /-
 ### 昇順に並んでいること
 
-昇順に並んでいることは、`List.Pairwise` を使って表現できます。これも、証明は `grind` ですぐに終わります。
+昇順に並んでいることは、`List.Pairwise` を使って表現できます。これも、証明は `grind` と `fun_induction` ですぐに終わります。
 -/
 namespace List
-
-attribute [grind] List.Pairwise
 
 @[grind ->]
 theorem minFirst_spec (x : α) (xs ys : List α) (h : x :: xs = minFirst ys) :
@@ -113,6 +112,6 @@ theorem minFirst_spec (x : α) (xs ys : List α) (h : x :: xs = minFirst ys) :
 
 theorem selectionSort_sorted (xs : List α) :
     (selectionSort xs).Pairwise (· ≤ ·) := by
-  fun_induction selectionSort xs with grind
+  fun_induction selectionSort xs with grind [List.Pairwise]
 
 end List

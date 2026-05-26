@@ -59,3 +59,25 @@ instance (n : Int) : Decidable (Odd n) := by
 -- 具体的に 7 = 2 * k + 1 となる k を求める必要がなくなって嬉しい
 theorem odd_seven : Odd (7 : Int) := by
   decide
+
+/- ## よくあるエラー
+
+`decide` は、[整礎再帰](#{root}/Modifier/TerminationBy.md) を使って定義された関数に対してはそのまま使用することができません。[`native_decide`](#{root}/Tactic/NativeDecide.md) タクティクを使えば一応証明は可能です。
+-/
+
+/-- 文字列を指定した長さになるまで特定の文字で埋める関数 -/
+def String.padWith (s : String) (c : Char) (n : Nat) : String :=
+  if n ≤ s.length then
+    s
+  else
+    (c.toString ++ s).padWith c n
+termination_by n - s.length
+
+#guard String.padWith "abc" 'x' 5 = "xxabc"
+
+example : String.padWith "abc" 'x' 5 = "xxabc" := by
+  -- decide は整礎再帰の関数には使えない
+  fail_if_success decide
+
+  -- 一応証明できる
+  native_decide

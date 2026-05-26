@@ -5,7 +5,6 @@
 * [Lean Theorem Prover](https://lean-lang.org/) Lean の公式サイト。
 * [Lean Community](https://leanprover-community.github.io/) Lean のユーザコミュニティ。
 * [Lean Prover Zulip Chat](https://leanprover.zulipchat.com/) Lean について何でも質問できる公式のフォーラム。
-* [Lean 4 anarchy](https://discord.com/invite/WZ9bs9UCvx) Lean のディスコードサーバ。Zulip と違って、くだけた雰囲気です。
 * [Lean Forward](https://lean-forward.github.io/) 数学への Lean の応用を推進するコミュニティ。
 
 ## 🧰 ライブラリやツール
