@@ -162,6 +162,7 @@
   - [Option: 失敗するかもしれない計算](./Type/Option.md)
   - [Prod: 型の積](./Type/Prod.md)
   - [Prop: 命題全体](./Type/Prop.md)
+  - [Queue: キュー](./Type/Queue.md)
   - [Quotient: 同値関係による商](./Type/Quotient.md)
   - [StateM: 状態の書き換え](./Type/StateM.md)
   - [String: 文字列](./Type/String.md)
