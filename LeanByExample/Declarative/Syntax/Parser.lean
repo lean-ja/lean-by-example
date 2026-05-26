@@ -1,3 +1,5 @@
+-- Parser.lean ファイル
+
 import LeanByExample.Declarative.Syntax.Environment
 
 open Lean Elab Term Command
@@ -24,21 +26,44 @@ unsafe def TermElabM.unsafeRun {α : Type} [Inhabited α] (env : Environment) (m
 def parseArith (s : String) : Except String Arith := unsafe
   TermElabM.unsafeRun env_of_arith_stx (TermElabM.parseArith s)
 
+
+-- パーサーのテストのためのコード
+section ParserTest
+
 open Arith
 
--- パーサーのテスト
-#guard
-  let expected := app Op.add (val 1) (val 2)
-  let actual := parseArith "1 + 2"
-  match actual with
-  | Except.error _ => false
-  | Except.ok actual =>
-    expected == actual
+instance : ToString Op where
+  toString := fun op =>
+    match op with
+    | Op.add => "+"
+    | Op.mul => "*"
 
-#guard
-  let expected := app Op.mul (val 3) (app Op.add (val 4) (val 5))
-  let actual := parseArith "3 * (4 + 5)"
-  match actual with
-  | Except.error _ => false
-  | Except.ok actual =>
-    expected == actual
+/-- `Arith`を文字列化する。ただし、全体を括弧で囲う。-/
+protected def Arith.toStringAux (arith : Arith) : String :=
+  match arith with
+  | Arith.val n => toString n
+  | Arith.app op lhs rhs =>
+    "(" ++ Arith.toStringAux lhs ++ s!" {op} " ++ Arith.toStringAux rhs ++ ")"
+
+protected def Arith.toString (arith : Arith) : String :=
+  match arith with
+  | Arith.val n => toString n
+  | Arith.app op lhs rhs =>
+    Arith.toStringAux lhs ++ s!" {op} " ++ Arith.toStringAux rhs
+
+instance : ToString Arith where
+  toString := Arith.toString
+
+private def testParseArith (input : String) (expected : Arith) : IO Unit := do
+  let .ok actual := parseArith input
+    | throw <| .userError s!"{input} のパースに失敗しました"
+
+  if expected != actual then
+    throw <| .userError s!"{input} のパース結果が期待値と一致しません。期待値: {expected}, 実際の値: {actual}"
+  IO.println s!"✅ テスト成功!"
+
+#eval testParseArith "1 + 2" (app Op.add (val 1) (val 2))
+
+#eval testParseArith "3 * (4 + 5)" (app Op.mul (val 3) (app Op.add (val 4) (val 5)))
+
+end ParserTest

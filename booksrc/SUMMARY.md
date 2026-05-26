@@ -162,6 +162,7 @@
   - [Option: 失敗するかもしれない計算](./Type/Option.md)
   - [Prod: 型の積](./Type/Prod.md)
   - [Prop: 命題全体](./Type/Prop.md)
+  - [Queue: キュー](./Type/Queue.md)
   - [Quotient: 同値関係による商](./Type/Quotient.md)
   - [StateM: 状態の書き換え](./Type/StateM.md)
   - [String: 文字列](./Type/String.md)
@@ -228,6 +229,7 @@
   - [native_decide: 実行による証明](./Tactic/NativeDecide.md)
   - [nlinarith: 非線形な(不)等式を示す](./Tactic/Nlinarith.md)
   - [norm_cast: 型キャストの簡略化](./Tactic/NormCast.md)
+  - [norm_num: 数値計算を正規化](./Tactic/NormNum.md)
   - [nth_rw: n 番目の項だけ rw](./Tactic/NthRw.md)
   - [obtain: 分解して取り出す](./Tactic/Obtain.md)
   - [omega: 自然数の線形計画を解く](./Tactic/Omega.md)
@@ -258,6 +260,7 @@
   - [sorry: 証明したことにする](./Tactic/Sorry.md)
   - [split: if/match 式を分解](./Tactic/Split.md)
   - [suffices: 十分条件に帰着](./Tactic/Suffices.md)
+  - [symm: 対称な関係の向きを反転する](./Tactic/Symm.md)
   - [tauto: トートロジーを示す](./Tactic/Tauto.md)
   - [trans: 推移律を利用する](./Tactic/Trans.md)
   - [trivial: 基本的なタクティクを試す](./Tactic/Trivial.md)
@@ -289,4 +292,4 @@
 <!-- 以下は付録であり、サイドバーに表示されないことが期待される -->
 
 - [付録](./EXTRA/README.md)
-  - [選択ソートの実装とソートであることの証明](./EXTRA/SelectionSort.md)
+  - [選択ソート](./EXTRA/SelectionSort.md)
