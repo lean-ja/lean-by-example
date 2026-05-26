@@ -3,6 +3,8 @@
   "editor.tabSize": 2,
   "editor.unicodeHighlight.ambiguousCharacters": false,
   "editor.wordWrap": "on",
+  "editor.tabCompletion": "onlySnippets",
+  "editor.snippetSuggestions": "top",
   "files.encoding": "utf8",
   "files.eol": "\n",
   "files.insertFinalNewline": true,

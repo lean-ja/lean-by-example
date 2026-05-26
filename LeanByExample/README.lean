@@ -5,7 +5,7 @@
 ```admonish info title="お問い合わせ"
 誤りのご指摘、ご提案などは [GitHub リポジトリ](https://github.com/lean-ja/lean-by-example)からお願いします。
 
-lean-ja の Discord サーバが[こちら](https://discord.gg/p32ZfnVawh)にあります。質問や相談などはこちらにどうぞ。
+lean-ja の Discord サーバがあります。質問や相談などはこちらにどうぞ。招待コードは `p32ZfnVawh` です。[`https://discord.com/invite/example`](https://discord.com/invite/example) の `example` の部分を招待コードに置き換えてアクセスしてください。（スパム対策でURLを直接載せていません）
 ```
 
 ## 支援について ❤️

@@ -162,6 +162,7 @@
   - [Option: 失敗するかもしれない計算](./Type/Option.md)
   - [Prod: 型の積](./Type/Prod.md)
   - [Prop: 命題全体](./Type/Prop.md)
+  - [Queue: キュー](./Type/Queue.md)
   - [Quotient: 同値関係による商](./Type/Quotient.md)
   - [StateM: 状態の書き換え](./Type/StateM.md)
   - [String: 文字列](./Type/String.md)
@@ -285,3 +286,8 @@
   - [s!: 文字列補間](./Syntax/InterpStr.md)
   - [show .. from: 項の型を明示](./Syntax/Show.md)
   - [Σ: 依存ペア型](./Syntax/Sigma.md)
+
+<!-- 以下は付録であり、サイドバーに表示されないことが期待される -->
+
+- [付録](./EXTRA/README.md)
+  - [選択ソート](./EXTRA/SelectionSort.md)

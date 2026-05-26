@@ -7,7 +7,7 @@
 > modifications when the reference to the string is unique.
 -/
 --#--
-import LeanByExample.DocCmd
+import LeanByExample.Lib.DocCmd
 
 /--
 info: A string is a sequence of Unicode scalar values.
