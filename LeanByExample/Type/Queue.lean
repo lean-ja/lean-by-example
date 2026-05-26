@@ -99,15 +99,32 @@ inductive Tree (α : Type) where
   | node (val : α) (left right : Tree α) : Tree α
 
 /-- `Queue` を使って二分木のノード値を幅優先順 (BFS) で列挙する -/
-partial def Tree.bfsValues {α : Type} (t : Tree α) : List α :=
-  go ((∅ : Queue (Tree α)).enqueue t) []
-where
-  go (q : Queue (Tree α)) (acc : List α) : List α :=
-    match q.dequeue? with
-    | none => acc.reverse
-    | some (.leaf, q') => go q' acc
-    | some (.node v left right, q') =>
-      go ((q'.enqueue left).enqueue right) (v :: acc)
+def Tree.bfsValues {α : Type} (t : Tree α) : Array α := Id.run do
+  -- キューを空の状態で初期化
+  -- このキューは「これから訪問するべきノード」を管理する
+  let mut q : Queue (Tree α) := ∅
+  let mut result : Array α := #[]
+
+  -- ルートノードをキューに追加
+  q := q.enqueue t
+
+  -- キューが空になるまでループ
+  while !q.isEmpty do
+    let some (v, q') ← q.dequeue?
+      | unreachable!
+
+    match v with
+    | .leaf =>
+      -- 何も追加せずに次のループへ
+      q := q'
+      continue
+    | .node val left right =>
+      result := result.push val
+
+      -- 左の木、右の木の順にキューに追加
+      q := q'.enqueue left |>.enqueue right
+
+  return result
 
 /-- テスト用の二分木
 
@@ -123,4 +140,4 @@ def sampleTree : Tree Nat :=
   .node 1 (.node 2 (.node 4 .leaf .leaf) (.node 5 .leaf .leaf)) (.node 3 .leaf .leaf)
 
 -- 幅優先順で列挙すると [1, 2, 3, 4, 5] になる
-#guard Tree.bfsValues sampleTree = [1, 2, 3, 4, 5]
+#guard Tree.bfsValues sampleTree = #[1, 2, 3, 4, 5]
