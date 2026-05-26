@@ -1,39 +1,12 @@
 /- # Queue
 
 `Std.Queue` は、**FIFO キュー(先入れ先出しキュー)** です。キューとは、「先に追加した要素が先に取り出される」データ構造のことで、たとえばレジ待ちの行列はキューの例になっています。
-
-内部的には 2 本の `List` を持つ構造体として実装されています。
 -/
 import Std
 
 open Std
---#--
-/--
-info: structure Std.Queue.{u} (α : Type u) : Type u
-number of parameters: 1
-fields:
-  Std.Queue.eList : List α :=
-    []
-  Std.Queue.dList : List α :=
-    []
-constructor:
-  Std.Queue.mk.{u} {α : Type u} (eList dList : List α) : Queue α
--/
-#guard_msgs in #print Std.Queue
---#--
-namespace Hidden --#
 
-structure Queue.{u} (α : Type u) where
-  eList : List α := []
-  dList : List α := []
-
-end Hidden --#
-/-
-`dList` は次に取り出す側のリスト、`eList` は追加された要素をスタック的に貯めていくリストです。
-
-キューの中身は `dList ++ eList.reverse` と常に一致します。
--/
-
+#check Queue
 /- ## 基本操作
 
 `Queue` の基本操作を紹介します。
@@ -84,6 +57,57 @@ def popTwo {α : Type} (q : Queue α) : Option (α × α) := do
 
 -- 空のキューからは取り出せない
 #guard (∅ : Queue Nat).dequeue? = none
+
+/-
+## 内部実装
+
+内部的には `Std.Queue` は２本の `List` を持つ構造体として実装されています。
+-/
+--#--
+/--
+info: structure Std.Queue.{u} (α : Type u) : Type u
+number of parameters: 1
+fields:
+  Std.Queue.eList : List α :=
+    []
+  Std.Queue.dList : List α :=
+    []
+constructor:
+  Std.Queue.mk.{u} {α : Type u} (eList dList : List α) : Queue α
+-/
+#guard_msgs in #print Std.Queue
+--#--
+namespace Hidden --#
+
+structure Queue.{u} (α : Type u) where
+  eList : List α := []
+  dList : List α := []
+
+end Hidden --#
+/-
+`Std.Queue` の２つのフィールドのそれぞれについて説明します。`eList` は追加された要素を貯めていくリストで、キューに追加された要素は `eList` の先頭に追加されます。
+-/
+
+/-⋆-//-- info: { eList := [6, 5, 4, 3], dList := [1, 2] } -/
+#guard_msgs in --#
+#eval
+  let q : Queue Nat := { eList := [5, 4, 3], dList := [1, 2] }
+  q.enqueue 6
+
+/- `dList` は次に取り出す側のリストです。キューから要素を取り出すとき、まず `dList` の先頭から要素が取り出されます。 -/
+
+/-⋆-//-- info: { eList := [5, 4, 3], dList := [2] } -/
+#guard_msgs in --#
+#eval
+  let q : Queue Nat := { eList := [5, 4, 3], dList := [1, 2] }
+  let (_, q') := q.dequeue?.get!
+  q'
+
+/- キューの `toArray` による出力は `(dList ++ eList.reverse).toArray` と常に一致します。 -/
+
+example {α : Type} (q : Queue α)
+    : (q.dList ++ q.eList.reverse).toArray = q.toArray := by
+  simp [Queue.toArray, List.append_toArray, List.reverse_toArray]
 
 /-
 ## 使用例
