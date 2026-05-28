@@ -41,6 +41,11 @@ jobs:
             -DefaultToolchain:beta
           Remove-Item elan-init.ps1
 
+      - name: modify PATH
+        shell: pwsh
+        run: |
+          Add-Content -Path $env:GITHUB_PATH -Value "$env:USERPROFILE\.elan\bin"
+
       - name: check installation
         shell: pwsh
         run: |
