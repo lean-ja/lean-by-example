@@ -28,7 +28,6 @@ jobs:
         shell: pwsh
         run: |
           docker build `
-            --progress=plain `
             --file Docker/Dockerfile.win `
             --tag win-test:latest `
             .
