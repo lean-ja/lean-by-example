@@ -21,9 +21,6 @@ jobs:
   install_lean_for_windows:
     runs-on: windows-latest
     steps:
-      - name: checkout
-        uses: actions/checkout@v6
-
       - name: check dependencies
         shell: pwsh
         run: |
