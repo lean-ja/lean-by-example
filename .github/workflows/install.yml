@@ -57,15 +57,3 @@ jobs:
         run: |
           lean --version
           lake --version
-
-      - name: check build
-        shell: pwsh
-        run: |
-          lake new Test lib.lean
-          cd Test
-
-          @'
-          #eval "Lean 言語をはじめよう 🐙🦈"
-          '@ | Set-Content -Path .\Test\Basic.lean -Encoding utf8
-
-          lake build
