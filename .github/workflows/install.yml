@@ -46,11 +46,11 @@ jobs:
         shell: pwsh
         run: elan --version
 
-      - name: install latest beta version of Lean
+      - name: install latest stable version of Lean
         shell: pwsh
         run: |
-          elan default beta
-          elan toolchain install beta
+          elan default stable
+          elan toolchain install stable
 
       - name: check installation of Lean and lake
         shell: pwsh
