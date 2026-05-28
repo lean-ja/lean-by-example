@@ -46,9 +46,18 @@ jobs:
         run: |
           Add-Content -Path $env:GITHUB_PATH -Value "$env:USERPROFILE\.elan\bin"
 
-      - name: check installation
+      - name: check installation of elan
+        shell: pwsh
+        run: elan --version
+
+      - name: install latest beta version of Lean
+        shell: pwsh
+        run: |
+          elan default beta
+          elan toolchain install beta
+
+      - name: check installation of Lean and lake
         shell: pwsh
         run: |
           lean --version
           lake --version
-          elan --version
