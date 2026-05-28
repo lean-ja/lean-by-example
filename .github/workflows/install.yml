@@ -1,4 +1,4 @@
-name: Validate install procedure
+name: validate installation procedure
 
 on:
   pull_request:
@@ -18,16 +18,32 @@ on:
   workflow_dispatch:
 
 jobs:
-  validate_for_windows:
+  install_lean_for_windows:
     runs-on: windows-latest
     steps:
       - name: checkout
         uses: actions/checkout@v6
 
-      - name: build windows container
+      - name: check dependencies
         shell: pwsh
         run: |
-          docker build `
-            --file Docker/Dockerfile.win `
-            --tag win-test:latest `
-            .
+          git --version
+          curl --version
+
+      - name: install elan
+        shell: pwsh
+        run: |
+          curl -O --location https://elan.lean-lang.org/elan-init.ps1
+          pwsh `
+            -ExecutionPolicy Bypass `
+            -f elan-init.ps1 `
+            -NoPrompt:$True `
+            -DefaultToolchain:beta
+          Remove-Item elan-init.ps1
+
+      - name: check installation
+        shell: pwsh
+        run: |
+          lean --version
+          lake --version
+          elan --version

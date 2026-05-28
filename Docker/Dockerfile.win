@@ -1,8 +1,0 @@
-FROM mcr.microsoft.com/powershell:windowsservercore-ltsc2022
-
-# PowerShell 7 を使う
-SHELL ["pwsh", "-Command"]
-
-# 依存関係がインストールされていることを確認する
-RUN git --version
-RUN curl --version
