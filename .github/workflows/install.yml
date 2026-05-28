@@ -5,13 +5,11 @@ on:
     branches:
       - main
     paths:
-      - 'Docker/**'
       - '.github/workflows/install.yml'
   push:
     branches:
       - main
     paths:
-      - 'Docker/**'
       - '.github/workflows/install.yml'
   schedule:
     - cron: "0 0 1 * *"
