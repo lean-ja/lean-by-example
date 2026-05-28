@@ -1,0 +1,34 @@
+name: Validate install procedure
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'Docker/**'
+      - '.github/workflows/install.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'Docker/**'
+      - '.github/workflows/install.yml'
+  schedule:
+    - cron: "0 0 1 * *"
+  workflow_dispatch:
+
+jobs:
+  validate_for_windows:
+    runs-on: windows-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v6
+
+      - name: build windows container
+        shell: pwsh
+        run: |
+          docker build `
+            --progress=plain `
+            --file Docker/Dockerfile.win `
+            --tag win-test:latest `
+            .
