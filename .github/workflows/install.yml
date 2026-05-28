@@ -37,8 +37,7 @@ jobs:
           pwsh `
             -ExecutionPolicy Bypass `
             -f elan-init.ps1 `
-            -NoPrompt:$True `
-            -DefaultToolchain:beta
+            -NoPrompt:$True
           Remove-Item elan-init.ps1
 
       - name: modify PATH
