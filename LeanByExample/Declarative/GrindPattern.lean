@@ -1,6 +1,6 @@
 /- # grind_pattern
 
-`grind_pattern` コマンドは、定理を [`grind`](#{root}/Tactic/Grind.md) タクティクに再利用させるためのパターンを指定するためのコマンドです。
+`grind_pattern` コマンドは、定理を [`grind`](#{root}/Tactic/Grind.md) タクティクに再利用させるためのパターンを指定するコマンドです。
 -/
 
 /-- 何らかの二項関係 -/
