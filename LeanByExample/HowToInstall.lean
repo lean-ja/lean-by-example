@@ -82,7 +82,7 @@ lake --version
 
 ## Linux の場合
 
-だいたい Windows での手順と同様です。シェルは `bash` を使用することを想定して手順を書きます。
+シェルは `bash` を使用することを想定して手順を書きます。
 
 ### git と curl のインストール
 
@@ -120,13 +120,63 @@ elan --version
 
 次に、Lean（と同梱されている `lake`）をインストールします。`stable` を指定することで、最新の安定版をインストールできます。
 
-```powershell
+```bash
 elan toolchain install stable
 ```
 
 終わったら、Lean と `lake` のバージョンを確認します。
 
-```powershell
+```bash
+lean --version
+lake --version
+```
+
+## MacOS の場合
+
+シェルとして `zsh` を利用することを想定して手順を書きます。
+
+### git と curl のインストール
+
+MacOS の場合、`curl` は最初から入っていると思います。`git` が入っていない場合、次のコマンドでインストールできます。
+
+```zsh
+xcode-select --install
+```
+
+終わったら `git` と `curl` が使えるか確認します。
+
+```zsh
+git --version
+curl --version
+```
+
+### elan のインストール
+
+次に `elan` をインストールします。
+
+```zsh
+curl -O --location https://elan.lean-lang.org/elan-init.sh
+sh elan-init.sh -y --default-toolchain stable
+rm elan-init.sh
+```
+
+終わったら `elan` コマンドが使えるようになったか確認します。
+
+```zsh
+elan --version
+```
+
+### Lean と lake のインストール
+
+次に、Lean（と同梱されている `lake`）をインストールします。`stable` を指定することで、最新の安定版をインストールできます。
+
+```zsh
+elan toolchain install stable
+```
+
+終わったら、Lean と `lake` のバージョンを確認します。
+
+```zsh
 lean --version
 lake --version
 ```

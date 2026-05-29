@@ -48,7 +48,6 @@ jobs:
       - name: install latest stable version of Lean
         shell: pwsh
         run: |
-          elan default stable
           elan toolchain install stable
 
       - name: check installation of Lean and lake
@@ -88,6 +87,41 @@ jobs:
 
       - name: check installation of Lean and lake
         shell: bash
+        run: |
+          lean --version
+          lake --version
+
+  install_lean_for_mac:
+    runs-on: macos-latest
+    steps:
+      - name: check dependencies
+        shell: zsh
+        run: |
+          git --version
+          curl --version
+
+      - name: install elan
+        shell: zsh
+        run: |
+          curl -O --location https://elan.lean-lang.org/elan-init.sh
+          sh elan-init.sh -y --default-toolchain stable
+          rm elan-init.sh
+
+      - name: modify PATH
+        shell: zsh
+        run: echo "$HOME/.elan/bin" >> $GITHUB_PATH
+
+      - name: check installation of elan
+        shell: zsh
+        run: elan --version
+
+      - name: install latest stable version of Lean
+        shell: zsh
+        run: |
+          elan toolchain install stable
+
+      - name: check installation of Lean and lake
+        shell: zsh
         run: |
           lean --version
           lake --version
