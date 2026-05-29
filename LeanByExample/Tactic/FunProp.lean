@@ -4,6 +4,7 @@
 `fun_prop` は、連続性や可測性など、関数に関する性質を示すタクティクです。
 -/
 import Mathlib.Tactic
+import Mathlib.MeasureTheory.Constructions.BorelSpace.Basic
 
 variable {u v : ℝ → ℝ} (hu : Continuous u) (hv : Continuous v)
 

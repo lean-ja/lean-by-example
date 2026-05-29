@@ -12,7 +12,7 @@
 > is short for accessing the `i`-th field (1-indexed) of `e` if it is of a structure type.
 -/
 --#--
-import LeanByExample.DocCmd
+import LeanByExample.Lib.DocCmd
 /--
 info: The *extended field notation* `e.f` is roughly short for `T.f e` where `T` is the type of `e`.
 More precisely,

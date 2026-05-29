@@ -22,23 +22,17 @@ description: Lean 解説記事を編集・執筆するときに使う。
 
 記事の編集に取り掛かる前に、調査を行う。
 
-Lean の仕様については以下の公式の資料を確認する。
+1. まず以下の資料を確認する。
+   1. [Lean 公式リファレンス](https://lean-lang.org/doc/reference/latest/)
+   2. [Functional Programming in Lean](https://lean-lang.org/functional_programming_in_lean/)
+   3. [Mathematics in Lean](https://leanprover-community.github.io/mathematics_in_lean/)
+   4. [Theorem Proving in Lean 4](https://lean-lang.org/theorem_proving_in_lean4/)
+   5. [Lean community blog](https://leanprover-community.github.io/blog/)
+   6. [The Hitchhiker's Guide to Logical Verification](https://github.com/lean-forward/logical_verification_2025)
+   7. [Lean Metaprogramming Book](https://leanprover-community.github.io/lean4-metaprogramming-book/)
+   8. [Tactic Programming Guide](https://github.com/mirefek/lean-tactic-programming-guide)
 
-* [Lean 公式リファレンス](https://lean-lang.org/doc/reference/latest/)
-* [Functional Programming in Lean](https://lean-lang.org/functional_programming_in_lean/)
-* [Mathematics in Lean](https://leanprover-community.github.io/mathematics_in_lean/)
-* [Theorem Proving in Lean 4](https://lean-lang.org/theorem_proving_in_lean4/)
-
-具体例を探す際には、[Lean 公式 ZUlip](https://leanprover.zulipchat.com/) を必ず確認する。
-
-必要に応じて下記の資料も確認するとよい。
-
-* [Lean community blog](https://leanprover-community.github.io/blog/)
-* [The Hitchhiker's Guide to Logical Verification](https://github.com/lean-forward/logical_verification_2025)
-* [Lean Metaprogramming Book](https://leanprover-community.github.io/lean4-metaprogramming-book/)
-* [Tactic Programming Guide](https://github.com/mirefek/lean-tactic-programming-guide)
-
-また、必要であれば論文も参照すること。
+2. 次に [Lean 公式 ZUlip](https://leanprover.zulipchat.com/) を確認し、示唆的なコード例を探す。
 
 ### 2. 編集・執筆
 
@@ -48,7 +42,8 @@ Lean の仕様については以下の公式の資料を確認する。
 4. エラー例は、ファイル全体が失敗しないように `#guard_msgs` や `#check_failure` 等で検証する。
 5. 追加・変更したコードを `lake env lean <file>` で検証する。
 6. 記事本文と検証用コードの意味の対応が崩れていないか確認する。
-7. 最後に、変更内容と検証結果を簡潔に報告する。
+7. `A` の記事を新規に追加した場合、既存の `A` への言及は `A` のページへのリンクに置き換える。
+8. 最後に、変更内容と検証結果を簡潔に報告する。
 
 ### 3. 確認
 

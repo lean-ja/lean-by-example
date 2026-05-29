@@ -87,7 +87,7 @@ syntax (name := hogeCmd) "#hoge" : command
 -- 構文に対して付けた名前で、ParserDescr 型の項が生成されている
 #check (hogeCmd : ParserDescr)
 
-/- ## パーサー定義
+/- ## Lean のパーサーを流用する
 
 `syntax` コマンドや [`declare_syntax_cat`](#{root}/Declarative/DeclareSyntaxCat.md) コマンドで生成された Lean のパーサーを利用して、`String` を引数に取るようなパーサーを定義することができます。[^parser]
 
