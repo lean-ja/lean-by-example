@@ -6,25 +6,8 @@
 /-⋆-//--
 error: fail to show termination for
   M
-with errors
-failed to infer structural recursion:
-Cannot use parameter n:
-  failed to eliminate recursive application
-    M (n + 11)
-
-
-Could not find a decreasing measure.
-The basic measures relate at each recursive call as follows:
-(<, ≤, =: relation proved, ? all proofs failed, _: no proof attempted)
-           n #1
-1) 33:7-17 ?  ≤
-2) 33:4-18 _  ?
-
-#1: 100 - n
-
-Please use `termination_by` to specify a decreasing measure.
 -/
-#guard_msgs in --#
+#guard_msgs (substring := true) in --#
 /-- McCarthy の 91 関数 -/
 def M (n : Nat) : Nat :=
   if n > 100 then

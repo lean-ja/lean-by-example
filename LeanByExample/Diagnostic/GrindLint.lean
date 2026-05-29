@@ -19,6 +19,18 @@ grind_pattern wrap_branch => wrap x
 
 -- wrap_branch を展開すると wrap が指数関数的に増えていくので、
 -- 膨大なインスタンスが生成される。
+/-⋆-//--
+info: instantiating `wrap_branch` triggers more than 100 additional `grind` theorem instantiations
+---
+info: wrap_branch
+[thm] instances
+  [thm] wrap_branch ↦ 100
+---
+info: Try this to display the actual theorem instances:
+  [apply] set_option trace.grind.ematch.instance true in
+  #grind_lint inspect wrap_branch
+-/
+#guard_msgs in --#
 #grind_lint inspect wrap_branch
 
 /-
@@ -35,6 +47,6 @@ theorem Nat.factorial_succ (n : Nat) :
     Nat.factorial (n + 1) = (n + 1) * Nat.factorial n := by
   simp [Nat.factorial]
 
-grind_pattern Nat.factorial_succ => (n + 1).factorial
+grind_pattern Nat.factorial_succ => n.factorial
 
 #grind_lint inspect (min := 0) Nat.factorial_succ

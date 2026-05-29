@@ -1,3 +1,5 @@
+-- # Syntax.lean ファイル
+
 /-- 2項演算の集合 -/
 inductive Op where
   /-- 加法 -/

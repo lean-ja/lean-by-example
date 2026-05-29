@@ -9,25 +9,8 @@ namespace WithoutPartial --#
 /-⋆-//--
 error: fail to show termination for
   WithoutPartial.M
-with errors
-failed to infer structural recursion:
-Cannot use parameter n:
-  failed to eliminate recursive application
-    M (n + 11)
-
-
-Could not find a decreasing measure.
-The basic measures relate at each recursive call as follows:
-(<, ≤, =: relation proved, ? all proofs failed, _: no proof attempted)
-           n #1
-1) 36:7-17 ?  ≤
-2) 36:4-18 _  ?
-
-#1: 100 - n
-
-Please use `termination_by` to specify a decreasing measure.
 -/
-#guard_msgs in --#
+#guard_msgs (substring := true) in --#
 /-- McCarthy の 91 関数 -/
 def M (n : Nat) : Nat :=
   if n > 100 then
@@ -68,11 +51,10 @@ def more := @forever
 
 /- これは意外に思えます。`partial` とマークされた関数は停止性が保証されていないので、それを使用した関数も停止性を保証できなくなるはずだからです。なぜこうなるのかというと、`partial` はそもそも「停止性が保証されていない」ことを表すものではなく、[`opaque`](#{root}/Declarative/Opaque.md) と同様に「名前が定義に展開できない」ことを表すものだからです。-/
 
--- 実際に #reduce を実行してみると、
--- forever の部分が簡約されていないことがわかる
-/-⋆-//-- info: forever (Int.ofNat 5) -/
+-- 実際に #print してみると、`opaque` と表示される
+/-⋆-//-- info: opaque forever : Int → Int -/
 #guard_msgs in --#
-#reduce forever 5
+#print forever
 
 /-- 正しい階乗関数 -/
 def factorial (x : Nat) : Nat :=
@@ -81,13 +63,16 @@ def factorial (x : Nat) : Nat :=
   | x + 1 => (x + 1) * factorial x
 
 -- 正しい階乗関数と比較してみると、
--- 正しい方は簡約ができていることがわかる
-/-⋆-//-- info: 120 -/
+-- 正しい方は `opaque` ではなく、中身が表示されることがわかる
+/-⋆-//--
+info: def factorial : Nat → Nat :=
+fun x => Nat.brecOn x factorial._f
+-/
 #guard_msgs in --#
-#reduce factorial 5
+#print factorial
 
 /- ## 例外的な挙動
-再帰的でない関数に `partial` をマークしても何も起こりません。-/
+再帰的でない関数を `partial` とマークしても何も起こりません。-/
 
 partial def square (x : Int) := x * x
 

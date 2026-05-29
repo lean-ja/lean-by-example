@@ -5,7 +5,7 @@
 > input value.
 -/
 --#--
-import LeanByExample.DocCmd
+import LeanByExample.Lib.DocCmd
 /--
 info: The standard way of turning values of some type into `Format`.
 

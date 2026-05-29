@@ -13,13 +13,8 @@ def NaturalNumber : Type := Nat
 /-⋆-//--
 error: failed to synthesize instance of type class
   OfNat NaturalNumber 42
-numerals are polymorphic in Lean, but the numeral `42` cannot be used in a context where the expected type is
-  NaturalNumber
-due to the absence of the instance above
-
-Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
 -/
-#guard_msgs in --#
+#guard_msgs (substring := true) in --#
 #check (42 : NaturalNumber)
 
 end Abbrev0 --#

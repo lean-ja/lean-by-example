@@ -8,7 +8,7 @@
 > In `@` explicit mode, implicit binders behave like explicit binders.
 -/
 --#--
-import LeanByExample.DocCmd
+import LeanByExample.Lib.DocCmd
 /--
 info: Implicit binder, like `{x y : A}` or `{x y}`.
 In regular applications, whenever all parameters before it have been specified,
