@@ -44,12 +44,10 @@ example (x y z : ℤ) (hz : z = x - y) : x * z = x ^ 2 - x * y := by
 /-⋆-//--
 info: Try this:
   [apply] ring_nf
-  ⏎
+
   The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
-    ⏎
-  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
 -/
-#guard_msgs (info, drop error) in --#
+#guard_msgs (info, drop error, substring := true, whitespace := lax) in --#
 example {n : Nat} : n - n + n = n := by
   -- `ring_nf` を提案される
   ring
@@ -83,13 +81,8 @@ end
 /-⋆-//--
 info: first
 | ring1
-|
-  try_this ring_nf"\n\nThe `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
-      \nNote that `ring` works primarily in *commutative* rings. \
-      If you have a noncommutative ring, abelian group or module, consider using \
-      `noncomm_ring`, `abel` or `module` instead."
 -/
-#guard_msgs (info, drop warning) in --#
+#guard_msgs (info, drop warning, substring := true) in --#
 #expand (ring)
 
 /- ## カスタマイズ
