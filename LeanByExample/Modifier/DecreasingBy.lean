@@ -1,6 +1,6 @@
 /- # decreasing_by
 
-`decreasing_by` は、再帰関数などの停止性（計算が無限に続かないということ）を示し、Lean に定義を受け入れさせるために使われます。
+`decreasing_by` は、再帰関数などの停止性（計算が無限に続くことがなく、値が一意に決まること）を示し、Lean に定義を受け入れさせるために使われます。
 
 ## 使用例
 
@@ -8,27 +8,10 @@
 -/
 namespace Hidden --#
 -- エラーになってしまう
---#--
-/--
-error: fail to show termination for
-  Hidden.Nat.toListNat
-with errors
-failed to infer structural recursion:
-Cannot use parameter n:
-  failed to eliminate recursive application
-    toListNat (n / 10)
-
-
-failed to prove termination, possible solutions:
-  - Use `have`-expressions to prove the remaining goals
-  - Use `termination_by` to specify a different well-founded relation
-  - Use `decreasing_by` to specify your own tactic for discharging this kind of goal
-n : Nat
-h✝ : ¬(n == 0) = true
-⊢ n / 10 < n
+/-⋆-//--
+error: fail to show termination
 -/
-#guard_msgs in
---#--
+#guard_msgs (substring := true) in --#
 def Nat.toListNat (n : Nat) : List Nat :=
   if n == 0 then
     []
@@ -88,7 +71,7 @@ unsafe def search (f : Nat → Option α) (start : Nat) : α :=
   | .some x => x
   | .none => search f (start + 1)
 
-/- ここで問題なのは、この関数 `search` を使うと任意の型の項が構成できてしまうということです。 -/
+/- ここで問題なのは、この関数 `search` を使うと任意の型の項が構成できてしまうということです。-/
 
 -- `α` は任意なので、どんな型の項でも作れることになる
 unsafe def anything : α := search (fun _ => none) 0

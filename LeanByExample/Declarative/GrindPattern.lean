@@ -1,6 +1,6 @@
 /- # grind_pattern
 
-`grind_pattern` コマンドは、定理を [`grind`](#{root}/Tactic/Grind.md) タクティクに再利用させるためのパターンを指定するためのコマンドです。
+`grind_pattern` コマンドは、定理を [`grind`](#{root}/Tactic/Grind.md) タクティクに再利用させるためのパターンを指定するコマンドです。
 -/
 
 /-- 何らかの二項関係 -/
@@ -23,6 +23,14 @@ example (x y z : Nat) (h₁ : R x y) (h₂ : R y z) : R x z := by
 多くの場合、わざわざ `grind_pattern` コマンドでパターンを手動指定しなくても `[grind]` 属性にパターンを自動で推測させることができますが、自動推測に失敗することがあります。このような場合は `grind_pattern` コマンドでパターンを明示する必要があります。
 
 {{#include ./GrindPattern/AttributeFailure.md}}
+-/
+
+/-
+## ワイルドカード
+
+パターンの中でワイルドカード `_` を使用することができます。この機能は、条件を厳しすぎず緩すぎない、ちょうどよい強さに調整するのに役立ちます。
+
+{{#include ./GrindPattern/WildCard.md}}
 -/
 
 /-
