@@ -54,7 +54,8 @@ curl -O --location https://elan.lean-lang.org/elan-init.ps1
 pwsh `
   -ExecutionPolicy Bypass `
   -f elan-init.ps1 `
-  -NoPrompt:$True
+  -NoPrompt:$True `
+  -DefaultToolchain:stable
 Remove-Item elan-init.ps1
 ```
 
@@ -70,12 +71,6 @@ elan --version
 
 ```powershell
 elan toolchain install stable
-```
-
-もし、`-rc` 系も含めた最新版をインストールしたい場合は、次のようにします。
-
-```powershell
-elan toolchain install beta
 ```
 
 終わったら、Lean と `lake` のバージョンを確認します。
@@ -127,12 +122,6 @@ elan --version
 
 ```powershell
 elan toolchain install stable
-```
-
-もし、`-rc` 系も含めた最新版をインストールしたい場合は、次のようにします。
-
-```powershell
-elan toolchain install beta
 ```
 
 終わったら、Lean と `lake` のバージョンを確認します。
