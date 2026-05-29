@@ -131,9 +131,7 @@ partial_fixpoint
 unsafe def empty_loop : Empty := empty_loop
 
 unsafe example : False := by
-  suffices Empty from by
-    grind
-  exact empty_loop
+  exact empty_loop.elim
 
 /-
 停止性の保証なしに再帰関数 `f : A → B` の定義を許すと、`f` を使って `B` の項を作ることができてしまう可能性があります。したがって、`B` が `Inhabited` でなければ、矛盾が導かれる可能性があります。これを禁止するのはもっともなことでしょう。
