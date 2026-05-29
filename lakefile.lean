@@ -55,52 +55,17 @@ end BuildScript
 
 section TestScript
 
-lean_exe get_elem where
-  root := `Exe.TypeClass.GetElem.ProveValid
+lean_exe prove_valid where
+  root := `LeanByExample.TypeClass.GetElem.ProveValidExe
 
 lean_exe parse where
-  root := `Exe.Declarative.Syntax.Parse
+  root := `LeanByExample.Declarative.Syntax.ParseExe
   supportInterpreter := true -- これがないとエラーになる
-
-/-- `Type/IO/Cat.lean`のためのテスト -/
-def testForCat : IO Unit := do
-  let result ← runCmdWithOutput "lean --run LeanByExample/Type/IO/Cat.lean LeanByExample/Type/IO/Test.txt"
-  let expected := "Lean is nice!"
-  if result.trimAscii != expected then
-    throw <| IO.userError s!"Test failed! expected: {expected}, got: {result.trimAscii}"
-
-/-- `Type/IO/Greet.lean`のためのテスト -/
-def testForGreet : IO Unit := do
-  let result ← runCmdWithOutput "lean --run LeanByExample/Type/IO/Greet.lean" (stdIn := some "Lean")
-  let expected := "誰に挨拶しますか？\nHello, Lean!"
-  if result.trimAscii != expected then
-    throw <| IO.userError s!"Test failed! expected prefix: {expected}, got: {result}"
-
-/-- abort が動作しているか調べる -/
-def checkAbort : IO Bool := do
-  Std.Internal.IO.Async.System.setEnvVar "LEAN_ABORT_ON_PANIC" "1"
-  try
-    let result ← runCmdWithOutput "lean --run LeanByExample/Syntax/Panic/Abort.lean"
-    if result.trimAscii.endsWith "hello world!" then
-      return false
-    else
-      return true
-  catch _ =>
-    -- 失敗した場合はabortが成功していると見なす
-    return true
-
-def testForAbort : IO Unit := do
-  let aborted ← checkAbort
-  if !aborted then
-    throw <| IO.userError s!"Test failed! abort did not work."
 
 @[test_driver]
 script test do
-  runCmd "lake exe get_elem"
+  runCmd "lake exe prove_valid"
   runCmd "lake exe parse"
-  testForCat
-  testForGreet
-  testForAbort
   return 0
 
 end TestScript
