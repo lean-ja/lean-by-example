@@ -2,6 +2,15 @@
 
 Lean および関連ツールのインストール方法を説明します。VSCode の Lean 4 拡張機能が自動的にインストールしてくれるのですが、ここではコマンドラインから手動で入れる場合の手順を説明します。
 
+## OS 共通の事項
+
+* インストールすべきものは、`elan` と `lean` と `lake` の３つです。
+  `elan` は Lean のバージョン管理ツールで、`lean` は Lean 本体、`lake` は Lean のパッケージ管理ツールです。
+  `elan` をインストールすれば、`elan` 経由で `lean` と `lake` もインストールできます。
+
+* Lean のインストールには `git` と `curl` が必要です。
+  `git` はテキストのバージョン管理をするためのツールで、`curl` はデータを外部から取得したり、外部に送信したりするためのツールです。
+
 ## Windows の場合
 
 ### PowerShell 7 のインストール
@@ -24,9 +33,7 @@ winget install --id Microsoft.PowerShell --source winget
 
 以下、全てのコマンドは PowerShell 7 で実行することを前提とすることにします。
 
-Lean のインストールのためには `git` コマンドと `curl` コマンドが必要です。`git` はテキストのバージョン管理をするためのツールで、`curl` はデータを外部から取得したり、外部に送信したりするためのツールです。
-
-それぞれインストール済みであるか、次のコマンドで確認します。
+`git` と `curl` がインストール済みであるか、次のコマンドで確認します。
 
 ```powershell
 git --version
@@ -47,7 +54,7 @@ winget install --id cURL.cURL --source winget
 
 ### elan のインストール
 
-次に、Lean のバージョン管理ツールである `elan` をインストールします。次のコマンドでインストールできます。
+次に、`elan` をインストールします。次のコマンドでインストールできます。
 
 ```powershell
 curl -O --location https://elan.lean-lang.org/elan-init.ps1
