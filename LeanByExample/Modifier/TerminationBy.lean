@@ -15,7 +15,7 @@ def M (n : Nat) : Nat :=
   else
     M (M (n + 11))
 
-/- 以下のように、`termination_by` で「再帰適用で減少していくもの」を指定することができ、うまくいけばエラーがなくなります。[^timo]-/
+/- 以下のように、`termination_by` で「再帰適用で減少していくもの」を指定することができ、うまくいけばエラーがなくなります。[^timo] -/
 
 /-- McCarthy の 91 関数 -/
 def Mc91 (n : Nat) : Nat :=
@@ -116,6 +116,60 @@ def div (x y : Nat) : Nat :=
     1 + div (x - y) y
 
 #guard div 10 3 = 3
+
+/- ## 整礎再帰と [irreducible] 属性
+
+整礎再帰を使って定義した関数は自動的に [`[irreducible]`](#{root}/Attribute/Irreducible.md) 属性が付与されます。
+-/
+
+/-- 文字列の左側を指定文字で埋めて、指定長にそろえる（整礎再帰バージョン）-/
+def String.padLeftWF (input : String) (padChar : Char) (length : Nat) : String :=
+  if input.length ≥ length then
+    input
+  else
+    String.padLeftWF (padChar.toString ++ input) padChar length
+termination_by length - input.length
+
+/-⋆-//--
+info: @[irreducible] def String.padLeftWF : String → Char → Nat → String
+-/
+#guard_msgs (substring := true) in --#
+#print String.padLeftWF
+
+/-
+したがって、その関数について何か証明しようとしても [`rfl`](#{root}/Tactic/Rfl.md) タクティクや [`decide`](#{root}/Tactic/Decide.md) タクティクが使えません。
+-/
+set_option warn.sorry false in --#
+
+example : String.padLeftWF "42" '0' 5 = "00042" := by
+  -- `rfl` では示せない
+  fail_if_success rfl
+
+  -- `decide` でも示せない
+  fail_if_success decide
+
+  sorry
+
+/- もしも整礎再帰を回避して同じことができるのであれば、回避すると良いでしょう。 -/
+
+/-- 文字列の左側を指定文字で埋めて、指定長にそろえる（非再帰バージョン）-/
+def String.padLeftSimple (input : String) (padChar : Char) (length : Nat) : String :=
+  if input.length ≥ length then
+    input
+  else
+    let padding : String := String.pushn "" padChar (length - input.length)
+    padding ++ input
+
+-- [irreducible] ではない
+/-⋆-//--
+info: def String.padLeftSimple : String → Char → Nat → String
+-/
+#guard_msgs (substring := true) in --#
+#print String.padLeftSimple
+
+example : String.padLeftSimple "42" '0' 5 = "00042" := by
+  -- こちらは定義に展開できるので `rfl` が通る
+  rfl
 
 /- ## 帰納法と整礎再帰
 
