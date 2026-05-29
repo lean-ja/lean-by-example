@@ -3,6 +3,7 @@
 [はじめに](./README.md)
 
 [リンク集](./Links.md)
+[Leanのインストール方法](./HowToInstall.md)
 [Mathlib4 Help](./Mathlib4Help.md)
 [ランダムページ](./Random.md)
 

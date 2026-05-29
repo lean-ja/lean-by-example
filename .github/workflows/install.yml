@@ -1,0 +1,118 @@
+name: validate installation procedure
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/install.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/install.yml'
+  schedule:
+    - cron: "0 0 1 * *"
+  workflow_dispatch:
+
+jobs:
+  install_lean_for_windows:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - name: check dependencies
+        run: |
+          git --version
+          curl --version
+
+      - name: install elan
+        run: |
+          curl -O --location https://elan.lean-lang.org/elan-init.ps1
+          pwsh `
+            -ExecutionPolicy Bypass `
+            -f elan-init.ps1 `
+            -NoPrompt:$True `
+            -DefaultToolchain:stable
+          Remove-Item elan-init.ps1
+
+      - name: modify PATH
+        run: |
+          Add-Content -Path $env:GITHUB_PATH -Value "$env:USERPROFILE\.elan\bin"
+
+      - name: check installation of elan
+        run: elan --version
+
+      - name: install latest stable version of Lean
+        run: |
+          elan toolchain install stable
+
+      - name: check installation of Lean and lake
+        run: |
+          lean --version
+          lake --version
+
+  install_lean_for_linux:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: check dependencies
+        run: |
+          git --version
+          curl --version
+
+      - name: install elan
+        run: |
+          curl -O --location https://elan.lean-lang.org/elan-init.sh
+          sh elan-init.sh -y --default-toolchain stable
+          rm elan-init.sh
+
+      - name: modify PATH
+        run: echo "$HOME/.elan/bin" >> $GITHUB_PATH
+
+      - name: check installation of elan
+        run: elan --version
+
+      - name: install latest stable version of Lean
+        run: |
+          elan toolchain install stable
+
+      - name: check installation of Lean and lake
+        run: |
+          lean --version
+          lake --version
+
+  install_lean_for_mac:
+    runs-on: macos-latest
+    defaults:
+      run:
+        shell: /bin/zsh {0}
+    steps:
+      - name: check dependencies
+        run: |
+          git --version
+          curl --version
+
+      - name: install elan
+        run: |
+          curl -O --location https://elan.lean-lang.org/elan-init.sh
+          sh elan-init.sh -y --default-toolchain stable
+          rm elan-init.sh
+
+      - name: modify PATH
+        run: echo "$HOME/.elan/bin" >> $GITHUB_PATH
+
+      - name: check installation of elan
+        run: elan --version
+
+      - name: install latest stable version of Lean
+        run: |
+          elan toolchain install stable
+
+      - name: check installation of Lean and lake
+        run: |
+          lean --version
+          lake --version

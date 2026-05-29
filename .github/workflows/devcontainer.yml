@@ -14,7 +14,7 @@ on:
       - '.devcontainer/**'
       - '.github/workflows/devcontainer.yml'
   schedule:
-    - cron: "0 0 5 * *"
+    - cron: "0 0 1 * *"
   workflow_dispatch:
 
 jobs:
