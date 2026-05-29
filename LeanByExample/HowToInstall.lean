@@ -137,18 +137,14 @@ lake --version
 
 ### git と curl のインストール
 
-MacOS の場合、`curl` は最初から入っていると思います。`git` が入っていない場合、次のコマンドでインストールできます。
-
-```zsh
-xcode-select --install
-```
-
-終わったら `git` と `curl` が使えるか確認します。
+まず `git` と `curl` が使えるか確認します。
 
 ```zsh
 git --version
 curl --version
 ```
+
+MacOS の場合、`curl` は最初から入っていると思います。`git` が入っていない場合でも、`git --version` の実行時にインストールするか聞かれるはずです。
 
 ### elan のインストール
 
