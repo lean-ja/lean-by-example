@@ -1,6 +1,6 @@
 /- # Lean のインストール方法
 
-Lean および関連ツールのインストール方法を説明します。VSCode の Lean 4 拡張機能が自動的にインストールしてくれるのですが、ここでは手動で入れる場合の手順を説明します。
+Lean および関連ツールのインストール方法を説明します。VSCode の Lean 4 拡張機能が自動的にインストールしてくれるのですが、ここではコマンドラインから手動で入れる場合の手順を説明します。
 
 ## Windows の場合
 
@@ -64,9 +64,9 @@ Remove-Item elan-init.ps1
 elan --version
 ```
 
-### Lean のインストール
+### Lean と lake のインストール
 
-次に、Lean をインストールします。`stable` を指定することで、最新の安定版をインストールできます。
+次に、Lean（と同梱されている `lake`）をインストールします。`stable` を指定することで、最新の安定版をインストールできます。
 
 ```powershell
 elan toolchain install stable
@@ -78,30 +78,67 @@ elan toolchain install stable
 elan toolchain install beta
 ```
 
-終わったら、Lean のバージョンを確認します。
+終わったら、Lean と `lake` のバージョンを確認します。
 
 ```powershell
 lean --version
-```
-
-### プロジェクト作成
-
-Lean をインストールすると、Lean のパッケージ管理ツールである `lake` もインストールされます。
-
-```powershell
 lake --version
 ```
 
-`lake new` コマンドを使うと、Lean のプロジェクトを作成することができます。
+## Linux の場合
 
-```powershell
-lake new TestProject
+だいたい Windows での手順と同様です。シェルは `bash` を使用することを想定して手順を書きます。
+
+### git と curl のインストール
+
+まず、`git` と `curl` がインストール済みであるか確認します。
+
+```bash
+git --version
+curl --version
 ```
 
-ビルドが正常に実行できることを確認しておきましょう。
+インストールされていなければインストールします。
+
+```bash
+sudo apt update
+sudo apt install -y git curl
+```
+
+### elan のインストール
+
+次に `elan` をインストールします。
+
+```bash
+curl -O --location https://elan.lean-lang.org/elan-init.sh
+sh elan-init.sh -y --default-toolchain stable
+rm elan-init.sh
+```
+
+終わったら `elan` コマンドが使えるようになったか確認します。
+
+```bash
+elan --version
+```
+
+### Lean と lake のインストール
+
+次に、Lean（と同梱されている `lake`）をインストールします。`stable` を指定することで、最新の安定版をインストールできます。
 
 ```powershell
-cd TestProject
-lake build
+elan toolchain install stable
+```
+
+もし、`-rc` 系も含めた最新版をインストールしたい場合は、次のようにします。
+
+```powershell
+elan toolchain install beta
+```
+
+終わったら、Lean と `lake` のバージョンを確認します。
+
+```powershell
+lean --version
+lake --version
 ```
 -/
