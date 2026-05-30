@@ -8,13 +8,11 @@ open IO Std
 /-- `LEAN_ABORT_ON_PANIC` に値を設定して `Abort.lean` を実行し、
 `panic!` で処理が中断されるかを判定する。 -/
 def checkAbort : IO Bool := do
-  -- 一回消しておく
-  Internal.IO.Async.System.unsetEnvVar "LEAN_ABORT_ON_PANIC"
   try
     let out ← IO.Process.output {
       cmd := "lean"
       args := #["--run", "LeanByExample/Syntax/Panic/Abort.lean"]
-      env := #[("LEAN_ABORT_ON_PANIC", "1")]
+      env := #[("LEAN_ABORT_ON_PANIC", some "1")]
     }
 
     if out.stdout.trimAscii.endsWith "hello world!" then
