@@ -24,7 +24,7 @@ example (hPQ : P → Q) (hQR : Q → R) : P → R := by
 `by` の代わりに `by?` を使うとタクティクモードで構成した証明を直接構成した証明に変換してくれます。詳細は [`show_term`](#{root}/Tactic/ShowTerm.md) のページを参照してください。
 -/
 
-/-⋆-//--
+/--
 info: Try this:
   [apply] fun hP => hQR (hPQ hP)
 -/
@@ -45,7 +45,7 @@ def parse (cat : Name) (s : String) : MetaM Syntax := do
   ofExcept <| runParserCategory (← getEnv) cat s
 
 -- `by` 自身は構文的にタクティクではない
-/-⋆-//-- error: <input>:1:0: expected tactic -/
+/-- error: <input>:1:0: expected tactic -/
 #guard_msgs in --#
 #eval parse `tactic "by"
 

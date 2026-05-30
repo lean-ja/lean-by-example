@@ -120,6 +120,8 @@ example {n m : Nat} (h : n + 0 + 0 = m) : n = m + (0 * n) := by
 なお、`[simp]` 属性を付与した命題は「左辺を右辺に」単純化するルールとして登録されます。
 左辺と右辺を間違えて登録すると、無限ループになって `simp` の動作が破壊されることがあります。`[simp]` 属性は慎重に登録してください。-/
 section
+  -- 良くない simp 補題を検知するリンターを無効にする
+  set_option warning.simp.varHead false
 
   -- 何もしていなければ simp で通る
   example (n m : Nat) : (n + 0) * m = n * m := by simp
@@ -131,7 +133,7 @@ section
   theorem bad_add_zero (n : Nat) : n = n + 0 := by rw [Nat.add_zero]
 
   -- 今まで通った証明が通らなくなる
-  /-⋆-//--
+  /--
   error: Tactic `simp` failed with a nested error:
   maximum recursion depth has been reached
   use `set_option maxRecDepth <num>` to increase limit
@@ -148,7 +150,7 @@ end
 -- ループを引き起こす `simp` の引数に対して警告を出す
 set_option linter.loopingSimpArgs true in
 
-/-⋆-//--
+/--
 warning: Possibly looping simp theorem: `bad_add_zero`
 
 Hint: You can disable a simp theorem from the default simp set by passing `- theoremName` to `simp`.
@@ -170,7 +172,7 @@ theorem Nat.max_eq_left' {a b : Nat} (h : b ≤ a) : max a b = a := by
 -- dischargeの過程を表示する
 set_option trace.Meta.Tactic.simp.discharge true in
 
-/-⋆-//--
+/--
 trace: [Meta.Tactic.simp.discharge] ✅️ Nat.max_eq_left' discharge ❌️
       0 ≤ 1
 -/
@@ -230,7 +232,7 @@ example {n m : Nat} (h : n + 0 + 0 = m) : n = m := by
 
 `simp` は自動的に証明を行ってくれますが、何が行われたのか知りたいときもあります。`simp?` は単純化に何が使われたのかを明示し、`simp only` を用いて書き直すことができるようにしてくれます。-/
 
-/-⋆-//--
+/--
 info: Try this:
   [apply] simp only [forall_const, imp_self, or_true]
 -/

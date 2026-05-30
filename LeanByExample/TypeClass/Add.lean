@@ -34,6 +34,6 @@ end MyNat
 -- #check コマンドの出力で記法を使わないようにする
 set_option pp.notation false in
 
-/-⋆-//-- info: HAdd.hAdd MyNat.zero MyNat.zero : MyNat -/
+/-- info: HAdd.hAdd MyNat.zero MyNat.zero : MyNat -/
 #guard_msgs in --#
 #check MyNat.zero + MyNat.zero

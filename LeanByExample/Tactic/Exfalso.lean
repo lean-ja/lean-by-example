@@ -66,6 +66,6 @@ section
     | some t => logInfo m!"{t}"
 end
 
-/-⋆-//-- info: refine False.elim✝ ?_ -/
+/-- info: refine False.elim✝ ?_ -/
 #guard_msgs in --#
 #expand (exfalso)

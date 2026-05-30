@@ -21,6 +21,6 @@ instance : Add MyNat where
 theorem MyNat.zero_add (n : MyNat) : MyNat.zero + n = n := by
   rfl
 
-/-⋆-//-- info: -- Lean.Meta.simpExtension extension: 1 new entries -/
+/-- info: -- Lean.Meta.simpExtension extension: 1 new entries -/
 #guard_msgs in --#
 whatsnew in attribute [simp] MyNat.zero_add

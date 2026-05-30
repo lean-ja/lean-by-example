@@ -15,12 +15,12 @@ theorem not_iff_not₀ (p : Prop) : ¬ (p ↔ ¬ p) := by itauto
 theorem not_iff_not₁ (p : Prop) : ¬ (p ↔ ¬ p) := by tauto
 
 -- 選択原理に依存していない
-/-⋆-//-- info: 'not_iff_not₀' does not depend on any axioms -/
+/-- info: 'not_iff_not₀' does not depend on any axioms -/
 #guard_msgs in --#
 #print axioms not_iff_not₀
 
 -- 勝手に選択原理を使用している！
-/-⋆-//-- info: 'not_iff_not₁' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+/-- info: 'not_iff_not₁' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in --#
 #print axioms not_iff_not₁
 

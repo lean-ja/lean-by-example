@@ -18,7 +18,7 @@ end
 `choose` は裏で選択原理 [`Classical.choice`](#{root}/Declarative/Axiom.md#ClassicalChoice) を使用しています。
 -/
 
-/-⋆-//-- info: 'choice' depends on axioms: [Classical.choice] -/
+/-- info: 'choice' depends on axioms: [Classical.choice] -/
 #guard_msgs in --#
 #print axioms choice
 

@@ -32,7 +32,7 @@ def gcd (m n : Nat) : Nat :=
 
 theorem native_thm : Nat.gcd 42998431 120019 = 1 := by native_decide
 
-/-⋆-//-- info: 'native_thm' depends on axioms: [native_thm._native.native_decide.ax_1_1] -/
+/-- info: 'native_thm' depends on axioms: [native_thm._native.native_decide.ax_1_1] -/
 #guard_msgs in --#
 #print axioms native_thm
 
@@ -53,6 +53,6 @@ theorem zero_ne_eq_one : False := by
 
   contradiction
 
-/-⋆-//-- info: 'zero_ne_eq_one' depends on axioms: [zero_ne_eq_one._native.native_decide.ax_1_1] -/
+/-- info: 'zero_ne_eq_one' depends on axioms: [zero_ne_eq_one._native.native_decide.ax_1_1] -/
 #guard_msgs in --#
 #print axioms zero_ne_eq_one

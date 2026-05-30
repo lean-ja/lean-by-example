@@ -46,7 +46,7 @@ example : 1 = 1 := by
   rfl
   my_done
 
-/-⋆-//--
+/--
 error: unsolved goals
 ⊢ 2 = 2
 -/
@@ -69,7 +69,7 @@ elab "tada" : tactic => do
   -- ゴールが残っていない場合はお祝いメッセージを表示する
   logInfo "Goals accomplished 🎉"
 
-/-⋆-//-- info: Goals accomplished 🎉 -/
+/-- info: Goals accomplished 🎉 -/
 #guard_msgs in --#
 example : 1 = 1 := by
   rfl

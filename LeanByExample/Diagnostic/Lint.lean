@@ -13,7 +13,7 @@ import Batteries.Tactic.Lint
 theorem hoge : True := by trivial
 
 -- ドキュメントコメントのない定理に対して警告するリンタ
-/-⋆-//--
+/--
 error: -- Found 1 error in 1 declarations (plus 0 automatically generated ones) in the current file with 1 linters
 
 /- The `docBlameThm` linter reports:
@@ -28,7 +28,7 @@ def fuga : True := by trivial
 
 -- 定義にドキュメントコメントがあるか確認するリンタ
 -- 定理は対象外なのでスルーされる
-/-⋆-//--
+/--
 error: -- Found 1 error in 2 declarations (plus 0 automatically generated ones) in the current file with 1 linters
 
 /- The `docBlame` linter reports:
@@ -66,7 +66,7 @@ meta def findBad : Batteries.Tactic.Lint.Linter where
 
 def bad := "わるいよ！"
 
-/-⋆-//--
+/--
 error: -- Found 1 error in 4 declarations (plus 0 automatically generated ones) in the current file with 1 linters
 
 /- The `findBad` linter reports:

@@ -19,7 +19,7 @@ grind_pattern wrap_branch => wrap x
 
 -- wrap_branch を展開すると wrap が指数関数的に増えていくので、
 -- 膨大なインスタンスが生成される。
-/-⋆-//--
+/--
 info: instantiating `wrap_branch` triggers more than 100 additional `grind` theorem instantiations
 ---
 info: wrap_branch

@@ -3,7 +3,7 @@
 `#[x₁, x₂, .. , xₙ]` は、[Array α](#{root}/Type/Array.md) の項を簡単に作るための構文です。
 -/
 
-/-⋆-//-- info: #[1, 2, 3] : Array Nat -/
+/-- info: #[1, 2, 3] : Array Nat -/
 #guard_msgs in --#
 #check #[1, 2, 3]
 
@@ -15,7 +15,7 @@ structure MyArray (α : Type) where
 
 abbrev List.toMyArray {α : Type} (xs : List α) : MyArray α := ⟨xs⟩
 
-/-⋆-//-- info: [1, 2, 3].toMyArray : MyArray Nat -/
+/-- info: [1, 2, 3].toMyArray : MyArray Nat -/
 #guard_msgs in --#
 #check List.toMyArray [1, 2, 3]
 

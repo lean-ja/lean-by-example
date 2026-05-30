@@ -18,7 +18,7 @@ example (α : Type) (l : List α) : [] ⊆ l := by simp
 -- Prop 型を持つ
 #check ((α : Type) → ∀ (l : List α), [] ⊆ l : Prop)
 
-/-⋆-//--
+/--
 error: Type mismatch
   ∀ (α : Type) (l : List α), [] ⊆ l
 has type
@@ -34,7 +34,7 @@ error: cannot evaluate code because 'sorryAx' uses 'sorry' and/or contains error
 /- しかし、 `1 + 1 = 2` 等も `#check` で確かめてみると型は `Prop` です。にも関わらず `#guard` に渡してもエラーになりません。これは不思議に思えますが、理由は `1 + 1 = 2` が [`Decidable`](#{root}/TypeClass/Decidable.md) 型クラスのインスタンスであり、決定可能だからです。-/
 
 -- 型は Prop
-/-⋆-//-- info: 1 + 1 = 2 : Prop -/
+/-- info: 1 + 1 = 2 : Prop -/
 #guard_msgs in --#
 #check 1 + 1 = 2
 
@@ -51,7 +51,7 @@ error: cannot evaluate code because 'sorryAx' uses 'sorry' and/or contains error
 #check (decide : (p : Prop) → [_h : Decidable p] → Bool)
 
 -- Bool 型になっている
-/-⋆-//-- info: decide (1 + 1 = 2) : Bool -/
+/-- info: decide (1 + 1 = 2) : Bool -/
 #guard_msgs in --#
 #check decide (1 + 1 = 2)
 
@@ -60,7 +60,7 @@ error: cannot evaluate code because 'sorryAx' uses 'sorry' and/or contains error
 `#guard` コマンドを使って `A = B` という式を評価して `false` だったとき、デフォルトでは `A` と `B` がそれぞれどんな値であるかは表示されません。単に「等しくない」というメッセージが出るだけです。
 -/
 
-/-⋆-//--
+/--
 error: Expression
   decide (1 + 1 = 3)
 did not evaluate to `true`

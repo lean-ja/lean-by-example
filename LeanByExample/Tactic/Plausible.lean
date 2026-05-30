@@ -8,7 +8,7 @@ section --#
 variable (a b : Nat)
 set_option warn.sorry false --#
 
-/-⋆-//-- error: Found a counter-example! -/
+/-- error: Found a counter-example! -/
 #guard_msgs (error) in --#
 example (h : 0 ≤ a + b) : 1 ≤ a := by
   plausible (config := { quiet := true })
@@ -20,7 +20,7 @@ end --#
 -/
 set_option warn.sorry false in --#
 
-/-⋆-//-- warning: Gave up after failing to generate values that fulfill the preconditions 100 times. -/
+/-- warning: Gave up after failing to generate values that fulfill the preconditions 100 times. -/
 #guard_msgs (warning) in --#
 example (a : Nat) : a ≠ a → a ≤ 1 := by
   plausible
@@ -36,7 +36,7 @@ example (a : Nat) : a ≠ a → a ≤ 1 := by
 -/
 set_option warn.sorry false in --#
 
-/-⋆-//-- warning: Gave up after failing to generate values that fulfill the preconditions 10 times. -/
+/-- warning: Gave up after failing to generate values that fulfill the preconditions 10 times. -/
 #guard_msgs (warning) in --#
 example (a : Nat) : a ≠ a → a ≤ 1 := by
   plausible (config := { numInst := 10 })
@@ -98,7 +98,7 @@ deriving instance DecidableEq for MyNat
 
 /- 以上の準備で `plausible` が使えるようになります。 -/
 
-/-⋆-//-- error: Found a counter-example! -/
+/-- error: Found a counter-example! -/
 #guard_msgs in --#
 example : ∀ (a b : MyNat), a = b := by
   -- `plausible` が使えるようになった！

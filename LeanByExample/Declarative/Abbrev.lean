@@ -10,7 +10,7 @@ def NaturalNumber : Type := Nat
 
 /- しかし、ここで定義した `Nat` の別名を項に対して使用するとエラーになります。エラーメッセージには以下の通り「`NaturalNumber` の [`OfNat`](#{root}/TypeClass/OfNat.md) インスタンスが見つかりません」という旨のことが書かれています。これは、Lean が `NaturalNumber` を定義に展開してそれが実は `Nat` に等しいことを知るよりも先に、`42 : NaturalNumber` という表記が定義されているか [`OfNat`](#{root}/TypeClass/OfNat.md) のインスタンスを探そうとしてエラーになったことを示唆します。-/
 
-/-⋆-//--
+/--
 error: failed to synthesize instance of type class
   OfNat NaturalNumber 42
 -/
@@ -32,7 +32,7 @@ end Abbrev1 --#
 abbrev NaturalNumber : Type := Nat
 
 -- `[reducible]` 属性が付与されている
-/-⋆-//--
+/--
 info: @[reducible] def NaturalNumber : Type :=
 Nat
 -/

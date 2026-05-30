@@ -10,7 +10,7 @@ example {a b c d : Nat} (h1 : a ≤ b) (h2 : c ≤ d) : a + c ≤ b + d := by
 
 /- 下記で示すように、ゴールが関係式でないときにはエラーになります。-/
 
-/-⋆-//-- error: rel failed, goal not a relation -/
+/-- error: rel failed, goal not a relation -/
 #guard_msgs in --#
 example (x : Nat) : Nat := by rel [x]
 

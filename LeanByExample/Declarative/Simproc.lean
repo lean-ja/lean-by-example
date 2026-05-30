@@ -108,7 +108,7 @@ simproc ↓reduceMyIte (myIte _ _ _) := .ofQ fun u α expr => do
 -- これで`[debug]`とマークされたトレースメッセージが表示される
 set_option trace.debug true
 
-/-⋆-//--
+/--
 trace: [debug] 条件式の部分が True に単純化されました。
 [debug] 条件式に対して (1 < 1 + 1) = True という単純化が行われました。
 [debug] mif 1 < 2 then 3 else 4 を単純化した結果は 3 であるべきです。

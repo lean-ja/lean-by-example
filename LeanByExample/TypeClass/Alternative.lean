@@ -52,7 +52,7 @@ end
 
 /- `Option` の `(· <|> ·)` は評価を順に行っていって、失敗したら単に次に進むということを繰り返しながら、成功するまで評価を続けます。早期に成功した場合、後続の項は評価されません。 -/
 
-/-⋆-//-- info: some "hello" -/
+/-- info: some "hello" -/
 #guard_msgs in --#
 #eval some "hello" <|> (dbg_trace "foo!"; some "world")
 

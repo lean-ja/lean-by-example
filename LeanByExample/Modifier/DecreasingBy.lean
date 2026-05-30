@@ -8,7 +8,7 @@
 -/
 namespace Hidden --#
 -- エラーになってしまう
-/-⋆-//--
+/--
 error: fail to show termination
 -/
 #guard_msgs (substring := true) in --#

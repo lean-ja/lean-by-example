@@ -8,12 +8,12 @@
 -/
 
 -- 第二引数は評価されていない。
-/-⋆-//-- info: false -/
+/-- info: false -/
 #guard_msgs in --#
 #eval false && (dbg_trace "hello"; true)
 
 -- 第二引数は評価されていない。
-/-⋆-//-- info: true -/
+/-- info: true -/
 #guard_msgs in --#
 #eval true || (dbg_trace "hello"; true)
 
@@ -28,7 +28,7 @@ def Bool.myAnd (a b : Bool) : Bool :=
   | _, _ => true
 
 -- 第二引数が評価されており、短絡評価になっていない
-/-⋆-//--
+/--
 info: hello
 ---
 info: false
@@ -40,6 +40,6 @@ info: false
 attribute [macro_inline] Bool.myAnd
 
 -- 短絡評価になった！！
-/-⋆-//-- info: false -/
+/-- info: false -/
 #guard_msgs in --#
 #eval Bool.myAnd false (dbg_trace "hello"; true)

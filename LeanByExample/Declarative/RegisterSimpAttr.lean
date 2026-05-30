@@ -58,7 +58,7 @@ section
   `(tactic| simp? only [notation_simp, $args,*] $[at $location]?)
 end
 
-/-⋆-//--
+/--
 info: Try this:
   [apply] simp only [Nat.lt_def] at h
 -/

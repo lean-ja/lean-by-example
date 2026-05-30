@@ -114,7 +114,7 @@ def Point'.x {α : Type} (p : Point' α) : α :=
 この `structure` コマンドの代わりに `inductive` コマンドを用いる方法は、定義しようとしている構造体が命題をパラメータに持っているときに必要になります。[`Prop` の Large Elimination が許可されていない](#{root}/Type/Prop.md#NoLargeElim)ことにより、この場合はアクセサ関数が生成できないので `structure` コマンドが使用できず、エラーになります。 -/
 
 -- `w` はデータなので、アクセサ関数が生成できなくてエラーになる
-/-⋆-//--
+/--
 error: failed to generate projection `MyExists.w` for the 'Prop'-valued type `MyExists`, field must be a proof, but it has type
   α
 -/

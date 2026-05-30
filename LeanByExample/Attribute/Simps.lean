@@ -39,7 +39,7 @@ example (a b : Point) : (Point.sub a b).x = a.x - b.x := by simp
 
 /- `@[simps?]` に換えると、生成された補題を確認することができます。-/
 
-/-⋆-//--
+/--
 trace: [simps.verbose] The projections for this structure have already been initialized by a previous invocation of `initialize_simps_projections` or `@[simps]`.
     Generated projections for Point:
     Projection x: fun x => x.x

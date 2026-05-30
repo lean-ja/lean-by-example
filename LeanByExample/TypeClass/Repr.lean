@@ -15,7 +15,7 @@ structure Point (α : Type) : Type where
 def origin : Point Nat := ⟨0, 0⟩
 
 -- `origin` の中身を表示することができる
-/-⋆-//-- info: { x := 0, y := 0 } -/
+/-- info: { x := 0, y := 0 } -/
 #guard_msgs in --#
 #eval origin
 
@@ -23,7 +23,7 @@ def origin : Point Nat := ⟨0, 0⟩
 set_option eval.derive.repr false
 
 -- 表示できずにエラーになった！
-/-⋆-//--
+/--
 error: Could not synthesize a `ToExpr`, `Repr`, or `ToString` instance for type
   Point Nat
 -/
@@ -72,7 +72,7 @@ end Hidden --#
 
 deriving instance Repr for Point
 
-/-⋆-//-- info: { x := 0, y := 0 } -/
+/-- info: { x := 0, y := 0 } -/
 #guard_msgs in --#
 #eval origin
 
@@ -189,7 +189,7 @@ namespace Expr
     reprPrec e _ := "expr!{" ++ toString e ++ "}"
 
   -- Repr インスタンスのテスト
-  /-⋆-//-- info: expr!{1 + (2 * 3)} -/
+  /-- info: expr!{1 + (2 * 3)} -/
   #guard_msgs in --#
   #eval expr!{1 + (2 * 3)}
 

@@ -16,7 +16,7 @@ def evalTada : Tactic := fun _stx => do
 
   logInfo "🎉 おめでとうございます！証明完了です！"
 
-/-⋆-//-- info: 🎉 おめでとうございます！証明完了です！ -/
+/-- info: 🎉 おめでとうございます！証明完了です！ -/
 #guard_msgs in --#
 example : True := by
   trivial

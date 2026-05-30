@@ -7,11 +7,11 @@
 -- 決定可能な命題を決定する関数 decide が存在する
 #check (decide : (P : Prop) → [Decidable P] → Bool)
 
-/-⋆-//-- info: true -/
+/-- info: true -/
 #guard_msgs in --#
 #eval decide (2 + 2 = 4)
 
-/-⋆-//-- info: false -/
+/-- info: false -/
 #guard_msgs in --#
 #eval decide (2 + 2 = 5)
 
@@ -70,7 +70,7 @@ end Hidden --#
 命題 `P : Prop` が決定可能というのは、実際のところ「`P` の証明または `¬ P` の証明を持っている」ということを意味します。したがって、`P` の証明または `¬ P` の証明のいずれかが手に入っているのであれば、そこから `Decidable P` のインスタンスを構築することができ、`P` は決定可能であるといえます。
 -/
 
-instance {P : Prop} (h : P ⊕' (¬ P)) : Decidable P := by
+def inst_decidable_lem {P : Prop} (h : P ⊕' (¬ P)) : Decidable P := by
   cases h with
   | inl h =>
     apply Decidable.isTrue

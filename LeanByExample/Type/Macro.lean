@@ -64,6 +64,6 @@ section
     | some t => logInfo m!"{t}"
 end
 
-/-⋆-//-- info: notation:50 lhs✝:51 " LXOR " rhs✝:51 => lxor lhs✝ rhs✝ -/
+/-- info: notation:50 lhs✝:51 " LXOR " rhs✝:51 => lxor lhs✝ rhs✝ -/
 #guard_msgs in --#
 #expand (infix:50 " LXOR " => lxor)

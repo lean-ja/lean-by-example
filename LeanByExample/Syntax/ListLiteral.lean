@@ -18,7 +18,7 @@ notation:max " ⟦⟧ " => MyList.nil
 infixr:80 " ::: " => MyList.cons
 
 -- 項を作るのが面倒
-/-⋆-//-- info: 1 ::: 2 ::: 3 ::: ⟦⟧ : MyList Nat -/
+/-- info: 1 ::: 2 ::: 3 ::: ⟦⟧ : MyList Nat -/
 #guard_msgs in --#
 #check 1 ::: 2 ::: 3 ::: ⟦⟧
 

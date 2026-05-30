@@ -12,7 +12,7 @@ def parse (cat : Name) (s : String) : MetaM Syntax := do
 
 -- 最初は `#greet` などというコマンドは定義されていないので
 -- そもそも Lean の合法な構文として認められない。
-/-⋆-//-- error: <input>:1:0: expected command -/
+/-- error: <input>:1:0: expected command -/
 #guard_msgs (error) in --#
 #eval parse `command "#greet"
 
@@ -21,7 +21,7 @@ syntax "#greet" : command
 
 -- まだエラーになるが、少なくとも `#greet` というコマンドが Lean に認識されるようにはなった。
 -- エラーメッセージは、`#greet` コマンドの解釈方法がないと言っている。
-/-⋆-//-- error: elaboration function for `«command#greet»` has not been implemented -/
+/-- error: elaboration function for `«command#greet»` has not been implemented -/
 #guard_msgs in --#
 #greet
 
@@ -31,7 +31,7 @@ syntax "#greet" : command
 macro_rules
   | `(command| #greet) => `(#eval "Hello, Lean!")
 
-/-⋆-//-- info: "Hello, Lean!" -/
+/-- info: "Hello, Lean!" -/
 #guard_msgs in --#
 #greet
 
@@ -51,7 +51,7 @@ section
   set_option pp.mvars false
 
   -- `1 + (1 = 2)` だと認識されてしまっている
-  /-⋆-//-- info: 1 + (1 = 2) : ?_ -/
+  /-- info: 1 + (1 = 2) : ?_ -/
   #guard_msgs (info, drop error) in --#
   #check (1 + 1 = 2 as Nat)
 

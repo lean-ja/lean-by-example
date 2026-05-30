@@ -13,7 +13,7 @@ def factorial (n : Nat) : Nat :=
 -- 最初は rfl が通る
 example : factorial 5 = 120 := by rfl
 
-/-⋆-//-- info: 6 -/
+/-- info: 6 -/
 #guard_msgs in --#
 #reduce factorial 3
 
@@ -27,7 +27,7 @@ example : factorial 5 = 120 := by
   sorry
 
 -- `#reduce` は相変わらずできる
-/-⋆-//-- info: 6 -/
+/-- info: 6 -/
 #guard_msgs in --#
 #reduce factorial 3
 
@@ -43,6 +43,6 @@ def searchF {α : Type} (f : Nat → Option α) (start : Nat) : Option Nat :=
 partial_fixpoint
 
 -- `partial_fixpoint` を使ったので irreducible になっている
-/-⋆-//-- info: Lean.ReducibilityStatus.irreducible -/
+/-- info: Lean.ReducibilityStatus.irreducible -/
 #guard_msgs in --#
 #eval Lean.getReducibilityStatus `searchF

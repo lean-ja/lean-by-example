@@ -25,7 +25,7 @@ open Std
 `enqueue` でキューの末尾に要素を追加できます。`toArray` で内容を配列として取り出せます。
 -/
 
-/-⋆-//-- info: #[10, 20] -/
+/-- info: #[10, 20] -/
 #guard_msgs in --#
 #eval (∅ : Queue Nat)
   |>.enqueue 10
@@ -88,7 +88,7 @@ end Hidden --#
 `Std.Queue` の２つのフィールドのそれぞれについて説明します。`eList` は追加された要素を貯めていくリストで、キューに追加された要素は `eList` の先頭に追加されます。
 -/
 
-/-⋆-//-- info: { eList := [6, 5, 4, 3], dList := [1, 2] } -/
+/-- info: { eList := [6, 5, 4, 3], dList := [1, 2] } -/
 #guard_msgs in --#
 #eval
   let q : Queue Nat := { eList := [5, 4, 3], dList := [1, 2] }
@@ -96,7 +96,7 @@ end Hidden --#
 
 /- `dList` は次に取り出す側のリストです。キューから要素を取り出すとき、まず `dList` の先頭から要素が取り出されます。 -/
 
-/-⋆-//-- info: { eList := [5, 4, 3], dList := [2] } -/
+/-- info: { eList := [5, 4, 3], dList := [2] } -/
 #guard_msgs in --#
 #eval
   let q : Queue Nat := { eList := [5, 4, 3], dList := [1, 2] }

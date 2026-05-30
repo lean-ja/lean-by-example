@@ -2,11 +2,11 @@
 `#reduce` は、与えられた式をこれ以上簡約できなくなるまで簡約します。
 -/
 
-/-⋆-//-- info: 4 -/
+/-- info: 4 -/
 #guard_msgs in --#
 #reduce 1 + 3
 
-/-⋆-//-- info: 4 -/
+/-- info: 4 -/
 #guard_msgs in --#
 #reduce (fun x => x + 1) 3
 
@@ -21,12 +21,12 @@
 def addOne (x : Nat) := x + 1
 
 -- addOne が定義に展開されている
-/-⋆-//-- info: fun x => x.succ -/
+/-- info: fun x => x.succ -/
 #guard_msgs in --#
 #reduce addOne
 
 -- 合成が計算できる
-/-⋆-//-- info: fun x => x.succ.succ -/
+/-- info: fun x => x.succ.succ -/
 #guard_msgs in --#
 #reduce addOne ∘ addOne
 /- また次は `#reduce` コマンドに型を渡す例です。 -/
@@ -38,7 +38,7 @@ def Natural (n : Nat) : Type :=
   | n + 1 => Natural n → Nat
 
 -- 全く簡約されない
-/-⋆-//-- info: Natural 0 -/
+/-- info: Natural 0 -/
 #guard_msgs in --#
 #reduce Natural 0
 
@@ -53,7 +53,7 @@ def zero {α : Type} (xs : List α) : Nat :=
   | [] => 0
   | _ :: xs => zero xs
 
-/-⋆-//--
+/--
 info: fun xs => (List.rec ⟨0, PUnit.unit⟩ (fun head tail tail_ih => ⟨tail_ih.1, tail_ih⟩) xs).1
 -/
 #guard_msgs in --#

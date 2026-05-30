@@ -39,7 +39,7 @@ def parse (cat : Name) (s : String) : MetaM Syntax := do
   ofExcept <| runParserCategory (← getEnv) cat s
 
 -- `exists (discharger := linarith)` と書くとパースエラーになる
-/-⋆-//-- error: <input>:1:19: expected ')', ',' or ':' -/
+/-- error: <input>:1:19: expected ')', ',' or ':' -/
 #guard_msgs in --#
 #eval parse `tactic "exists (discharger := linarith) 1"
 
@@ -56,7 +56,7 @@ structure Foo where
 /-- `Foo` の項を具体的に与える例 -/
 example : Foo := ⟨3, by simp, by simp⟩
 
-/-⋆-//--
+/--
 error: Insufficient number of fields for `⟨...⟩` constructor: Constructor `Foo.mk` has 3 explicit field, but only 2 were provided
 -/
 #guard_msgs in --#

@@ -21,7 +21,7 @@ example : 5 * 7 ≤ 21 + 19 := by decide
 example : 11 ∣ 121 := by decide
 
 -- 証明しようとしたことが間違っていたら教えてくれる
-/-⋆-//--
+/--
 error: Tactic `decide` proved that the proposition
   15 ∣ 21
 is false

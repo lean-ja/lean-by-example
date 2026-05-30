@@ -12,7 +12,7 @@ theorem mul_one_rev (a : α) : a = 1 * a := by
   rw [Monoid.one_mul a]
 
 -- `simp?` で確認してみると、該当する補題に `←` が付与されている
-/-⋆-//--
+/--
 info: Try this:
   [apply] simp only [← mul_one_rev]
 -/

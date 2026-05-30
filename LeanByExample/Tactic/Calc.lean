@@ -50,7 +50,7 @@ example (x : Int) : x ≡ x := calc
 
 -- `calc` で推移律を連鎖させようとすると
 -- `Trans` 型クラスのインスタンスではないというエラーになってしまう
-/-⋆-//--
+/--
 error: invalid 'calc' step, failed to synthesize `Trans` instance
   Trans same_abs same_abs ?_
 

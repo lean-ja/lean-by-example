@@ -31,6 +31,6 @@ section
     | some t => logInfo m!"{t}"
 end
 
-/-⋆-//-- info: notation:90 "⋄" arg✝:90 => Nat.succ arg✝ -/
+/-- info: notation:90 "⋄" arg✝:90 => Nat.succ arg✝ -/
 #guard_msgs in --#
 #expand (prefix:90 "⋄" => Nat.succ)

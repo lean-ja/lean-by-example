@@ -22,7 +22,7 @@ theorem easy_proof (x y z n : Nat) : n > 2 → x ^ n + y ^ n = z ^ n → x * y *
 
 /- `debug.skipKernelTC` を使った証明は、[`#print axioms`](#{root}/Diagnostic/Print.md#PrintAxioms) コマンドを使用しても正当な証明と見分けがつかないことに注意が必要です。 -/
 
-/-⋆-//-- info: 'easy_proof' does not depend on any axioms -/
+/-- info: 'easy_proof' does not depend on any axioms -/
 #guard_msgs in --#
 #print axioms easy_proof
 
@@ -51,6 +51,6 @@ end
 theorem easy_proof₂ (x y z n : Nat) : n > 2 → x ^ n + y ^ n = z ^ n → x * y * z = 0 := by
   exact bad_proof₂.elim
 
-/-⋆-//-- info: 'easy_proof₂' does not depend on any axioms -/
+/-- info: 'easy_proof₂' does not depend on any axioms -/
 #guard_msgs in --#
 #print axioms easy_proof₂

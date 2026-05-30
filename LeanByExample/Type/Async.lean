@@ -1,11 +1,11 @@
 /- # Async
 
-`Std.Internal.IO.Async.Async` は、（まだ実験的な機能で正式リリースされていない機能ですが）非同期計算をサポートします。ここで非同期計算とは、複数の計算を「他の計算の結果を待たずに」実行するようなものを指します。
+`Std.Async.Async` は、非同期計算をサポートします。ここで非同期計算とは、複数の計算を「他の計算の結果を待たずに」実行するようなものを指します。
 -/
-import Std.Internal.Async.Basic
+import Std.Async
 import Lean
 
-open Std.Internal.IO.Async Async
+open Std.Async Async
 
 /-- 疑似的に重い処理を非同期で行う関数 -/
 def expensiveOperationAsync (n : Nat) : Async Nat := do
@@ -57,5 +57,5 @@ elab "#speed_rank " "(" "ratio" ":=" n:num ")" "|" stx1:command "|" stx2:command
 
 -- 非同期版の方が速い
 #speed_rank (ratio := 1)
-  | #eval (manyInParallel 3).wait
+  | #eval (manyInParallel 3).block
   | #eval manyInSync 3

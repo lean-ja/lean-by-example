@@ -26,7 +26,7 @@ inductive Sample where
   | snd (foo bar : String)
 
 -- 「コンストラクタが一つしかない帰納型でなければ使用できない」というエラーになる
-/-⋆-//--
+/--
 info: Invalid `⟨...⟩` notation: The expected type `Sample` has more than one constructor
 
 Note: This notation can only be used when the expected type is an inductive type with a single constructor

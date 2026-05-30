@@ -5,7 +5,7 @@
 たとえば、次のような帰納型は [strictly positive 要件](#{root}/Declarative/Inductive.md#StrictlyPositiveRequirement)というLeanのルールに反するのでエラーになり、定義することができません。
 -/
 
-/-⋆-//--
+/--
 error: (kernel) arg #1 of 'Bad'.mk' has a non positive occurrence of the datatypes being declared
 -/
 #guard_msgs in --#
@@ -21,13 +21,13 @@ unsafe inductive Bad where
 
 `ptrAddrUnsafe` 関数は、値のメモリ上での位置を返す関数ですが、`unsafe` で修飾されています。 -/
 
-/-⋆-//-- info: unsafe opaque ptrAddrUnsafe.{u} : {α : Type u} → α → USize -/
+/-- info: unsafe opaque ptrAddrUnsafe.{u} : {α : Type u} → α → USize -/
 #guard_msgs in --#
 #print ptrAddrUnsafe
 
 /- これは、`ptrAddrUnsafe` が **参照透過性(referential transparency)** を壊してしまうからです。参照透過性とは、「引数の値が同じならば関数の値も同じ」という性質です。`ptrAddrUnsafe` は等しい引数でも異なる値を返すことがあります。 -/
 
-/-⋆-//-- info: true -/
+/-- info: true -/
 #guard_msgs in --#
 #eval show Bool from Id.run do
   let u := ptrAddrUnsafe ([1, 2, 3])
@@ -46,7 +46,7 @@ unsafe inductive Bad where
 def foo := "hello"
 
 -- 再定義しようとするとエラーになる
-/-⋆-//-- error: `foo` has already been declared -/
+/-- error: `foo` has already been declared -/
 #guard_msgs in --#
 def foo := "hello world"
 
@@ -75,7 +75,7 @@ def fibonacci (n : Nat) : Array Nat := Id.run do
   return fib
 
 -- 値がコピーされていれば panic するはずだが...?
-/-⋆-//-- info: #[0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377] -/
+/-- info: #[0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377] -/
 #guard_msgs in --#
 #eval fibonacci 15
 

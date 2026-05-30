@@ -3,7 +3,7 @@
 `termination_by` 句(termination_by clause)は、再帰関数が有限回の再帰で停止することを Lean にわかってもらうために、「再帰のたびに減少する指標」を指定します。
 -/
 -- 何も指定しないと、停止することが Lean にはわからないのでエラーになる
-/-⋆-//--
+/--
 error: fail to show termination for
   M
 -/
@@ -130,7 +130,7 @@ def String.padLeftWF (input : String) (padChar : Char) (length : Nat) : String :
     String.padLeftWF (padChar.toString ++ input) padChar length
 termination_by length - input.length
 
-/-⋆-//--
+/--
 info: @[irreducible] def String.padLeftWF : String → Char → Nat → String
 -/
 #guard_msgs (substring := true) in --#
@@ -161,7 +161,7 @@ def String.padLeftSimple (input : String) (padChar : Char) (length : Nat) : Stri
     padding ++ input
 
 -- [irreducible] ではない
-/-⋆-//--
+/--
 info: def String.padLeftSimple : String → Char → Nat → String
 -/
 #guard_msgs (substring := true) in --#

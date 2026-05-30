@@ -16,7 +16,7 @@ instance : Hoge Bool where
   hoge := ()
 
 -- 今登録した2つのインスタンスが表示される
-/-⋆-//--
+/--
 info: 2 instances:
 
 instHogeBool : Hoge Bool

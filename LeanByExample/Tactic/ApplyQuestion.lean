@@ -31,6 +31,6 @@ theorem T (x y : Nat) (_: x ≤ y) : 8 ^ x ≤ 16 ^ y := by
   -- `apply?` しただけで `done` が通り、示せているように見える
   done
 
-/-⋆-//-- info: 'T' depends on axioms: [propext, sorryAx] -/
+/-- info: 'T' depends on axioms: [propext, sorryAx] -/
 #guard_msgs in --#
 #print axioms T

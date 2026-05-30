@@ -7,7 +7,7 @@ import Lean --#
 def FermatLastTheorem :=
   ∀ x y z n : Nat, n > 2 ∧ x * y * z ≠ 0 → x ^ n + y ^ n ≠ z ^ n
 
-/-⋆-//-- warning: declaration uses `sorry` -/
+/-- warning: declaration uses `sorry` -/
 #guard_msgs (warning) in --#
 theorem flt : FermatLastTheorem :=
   sorry
@@ -28,7 +28,7 @@ example : True := by
 基本的に、`sorry` タクティクを使用すれば `sorryAx` という公理が使用されて、[`#print axioms`](#{root}/Diagnostic/Print.md#PrintAxioms) コマンドの出力に現れるようになります。
 -/
 
-/-⋆-//-- info: 'flt' depends on axioms: [sorryAx] -/
+/-- info: 'flt' depends on axioms: [sorryAx] -/
 #guard_msgs in --#
 #print axioms flt
 
@@ -46,6 +46,6 @@ theorem false_theorem : 1 = 2 := by
   rw [show 1 = one from rfl]
   native_decide
 
-/-⋆-//-- info: 'false_theorem' depends on axioms: [false_theorem._native.native_decide.ax_1_1] -/
+/-- info: 'false_theorem' depends on axioms: [false_theorem._native.native_decide.ax_1_1] -/
 #guard_msgs in --#
 #print axioms false_theorem

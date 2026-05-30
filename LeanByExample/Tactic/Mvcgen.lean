@@ -71,14 +71,14 @@ theorem sumImp_eq_sumFunc (l : List α) : sumDo l = List.sum l := by
     grind
 
   -- ループ開始時に不変条件が成り立つことを示す
-  case vc2.a.pre =>
+  case vc2.pre =>
     -- 空リストの和が 0 であることを示せばよい
     guard_target =ₛ ([] : List α).sum = 0
 
     grind
 
   -- ループ終了時の不変条件から目標の性質が従うことを証明する
-  case vc3.a.post.success result hr =>
+  case vc3.post.success result hr =>
     -- ループ終了時には「処理された部分」は全体なので、
     -- 不変条件から次が成りたつ
     guard_hyp hr :ₛ l.sum = result

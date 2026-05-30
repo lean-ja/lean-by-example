@@ -25,7 +25,7 @@ elab "#in_second " stx:command : command => do
     throwError m!"It took more than one second for the command to run."
 
 -- `#eval fibonacci 32` は１秒以上かかる
-/-⋆-//-- error: It took more than one second for the command to run. -/
+/-- error: It took more than one second for the command to run. -/
 #guard_msgs (error) in --#
 #in_second #eval fibonacci 32
 
@@ -78,6 +78,6 @@ theorem false_theorem : 1 = 2 := by
   native_decide
 
 -- `my_axiom` に依存しているはずだが、`native_decide` により導入された別の公理の陰に隠れて見えなくなっている
-/-⋆-//-- info: 'false_theorem' depends on axioms: [false_theorem._native.native_decide.ax_1_1] -/
+/-- info: 'false_theorem' depends on axioms: [false_theorem._native.native_decide.ax_1_1] -/
 #guard_msgs in --#
 #print axioms false_theorem

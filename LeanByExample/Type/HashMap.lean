@@ -5,7 +5,7 @@ import Lean
 
 open Std in
 
-/-⋆-//-- info: Std.HashMap.ofList [(1, "hello"), (2, "world")] -/
+/-- info: Std.HashMap.ofList [(1, "hello"), (2, "world")] -/
 #guard_msgs in --#
 #eval ({(1, "hello"), (2, "world")} : HashMap Nat String)
 

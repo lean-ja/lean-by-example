@@ -28,7 +28,7 @@ section
   -- 表示する際に導入された記法を無効にする
   set_option pp.notation false
 
-  /-⋆-//-- info: factorial 5 : Nat -/
+  /-- info: factorial 5 : Nat -/
   #guard_msgs in --#
   #check 5!
 
@@ -182,7 +182,7 @@ section
 
   -- ⋄ の左右に半角スペースが入っていない！
   -- 違いはそれだけで、記法としては同様の書き方で認識される
-  /-⋆-//-- info: 1⋄2 : Nat -/
+  /-- info: 1⋄2 : Nat -/
   #guard_msgs in --#
   #check 1 ⋄ 2
 
