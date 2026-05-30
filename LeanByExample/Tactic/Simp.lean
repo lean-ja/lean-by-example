@@ -120,6 +120,8 @@ example {n m : Nat} (h : n + 0 + 0 = m) : n = m + (0 * n) := by
 なお、`[simp]` 属性を付与した命題は「左辺を右辺に」単純化するルールとして登録されます。
 左辺と右辺を間違えて登録すると、無限ループになって `simp` の動作が破壊されることがあります。`[simp]` 属性は慎重に登録してください。-/
 section
+  -- 良くない simp 補題を検知するリンターを無効にする
+  set_option warning.simp.varHead false
 
   -- 何もしていなければ simp で通る
   example (n m : Nat) : (n + 0) * m = n * m := by simp

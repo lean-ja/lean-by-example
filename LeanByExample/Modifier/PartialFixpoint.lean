@@ -59,8 +59,8 @@ def Nat.factorial (n : Nat) : Nat :=
 
 /--
 info: equations:
-@[defeq] theorem Nat.factorial.eq_1 : Nat.factorial 0 = 1
-@[defeq] theorem Nat.factorial.eq_2 : ∀ (n_2 : Nat), n_2.succ.factorial = (n_2 + 1) * n_2.factorial
+@[backward_defeq] theorem Nat.factorial.eq_1 : Nat.factorial 0 = 1
+@[backward_defeq] theorem Nat.factorial.eq_2 : ∀ (n_2 : Nat), n_2.succ.factorial = (n_2 + 1) * n_2.factorial
 -/
 #guard_msgs in --#
 #print equations Nat.factorial
