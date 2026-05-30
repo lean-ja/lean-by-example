@@ -13,7 +13,7 @@ def Nat.rec' {motive : Nat → Sort u}
 set_option pp.mvars false in
 
 -- 何も付けないとこういうエラーメッセージ
-/-⋆-//--
+/--
 error: Function expected at
   Nat.rec' ?_ (fun x b => b + 1) ?_
 but this term has type
@@ -30,6 +30,6 @@ attribute [elab_as_elim] Nat.rec'
 
 -- 「eliminatorがエラボレートできません」というエラーメッセージに変わる。
 -- eliminatorだと認識されている！
-/-⋆-//-- error: failed to elaborate eliminator, expected type is not available -/
+/-- error: failed to elaborate eliminator, expected type is not available -/
 #guard_msgs in --#
 def add (a b : Nat) := Nat.rec' _ (zero := b) (succ := fun _ b => b + 1) a

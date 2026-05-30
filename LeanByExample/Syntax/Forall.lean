@@ -11,7 +11,7 @@
 
 set_option pp.foralls false
 
-/-⋆-//-- info: (n : Nat) → Vector Nat n : Type -/
+/-- info: (n : Nat) → Vector Nat n : Type -/
 #guard_msgs in --#
 #check ∀ n : Nat, Vector Nat n
 

@@ -5,7 +5,7 @@
 `Nat` の項は、数値リテラルとして表現することができます。
 -/
 
-/-⋆-//-- info: 42 : Nat -/
+/-- info: 42 : Nat -/
 #guard_msgs in --#
 #check 42
 

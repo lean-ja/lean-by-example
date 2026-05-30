@@ -42,7 +42,7 @@ namespace variable2 --#
 variable (n : Nat)
 
 -- 定理の主張には `m` しか現れていないので、`n` は引数として取り込まれない
-/-⋆-//--
+/--
 error: Unknown identifier `n`
 -/
 #guard_msgs (substring := true) in --#

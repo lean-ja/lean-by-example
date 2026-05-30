@@ -18,7 +18,7 @@ def Two : FinCat := { base := Fin 2, fin := inferInstance }
 -- `Two` は有限集合の圏のオブジェクトなので集合っぽいものであってほしいが、
 -- `Two` の型は `FinCat` であって `Type` などの型宇宙ではないので、
 -- `a : Two` という書き方ができない。
-/-⋆-//--
+/--
 info: type expected, got
   (Two : FinCat)
 -/
@@ -27,7 +27,7 @@ info: type expected, got
 
 -- `Two → Two` という書き方もできない。
 -- `A → A` も `A` の型が `Type` などの型宇宙であることを要求する。
-/-⋆-//--
+/--
 info: type expected, got
   (Two : FinCat)
 -/

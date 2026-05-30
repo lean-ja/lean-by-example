@@ -103,7 +103,7 @@ namespace Color
 
   -- エラーになっているので、
   -- Commutative のインスタンスはないことが確認できる
-  /-⋆-//--
+  /--
   error: failed to synthesize
     Std.Commutative fun x1 x2 => x1 + x2
 

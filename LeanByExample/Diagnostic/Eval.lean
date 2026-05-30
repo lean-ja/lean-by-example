@@ -3,7 +3,7 @@
 -/
 import Lean.Elab.Command -- `#eval` コマンドのフルパワーを引き出す
 
-/-⋆-//-- info: 2 -/
+/-- info: 2 -/
 #guard_msgs in --#
 #eval 1 + 1
 
@@ -12,14 +12,14 @@ def fac : Nat → Nat
   | 0 => 1
   | n + 1 => (n + 1) * fac n
 
-/-⋆-//-- info: 120 -/
+/-- info: 120 -/
 #guard_msgs in --#
 #eval fac 5
 
 def main : IO Unit :=
   IO.println "Hello, world!"
 
-/-⋆-//-- info: Hello, world! -/
+/-- info: Hello, world! -/
 #guard_msgs in --#
 #eval main
 
@@ -31,7 +31,7 @@ inductive Role where
   | write
   | read
 
-/-⋆-//-- info: Role.admin -/
+/-- info: Role.admin -/
 #guard_msgs in --#
 #eval Role.admin
 
@@ -39,7 +39,7 @@ inductive Role where
 instance : Repr Role where
   reprPrec := fun _role _ => "ほげほげ！"
 
-/-⋆-//-- info: ほげほげ！ -/
+/-- info: ほげほげ！ -/
 #guard_msgs in --#
 #eval Role.admin
 
@@ -49,11 +49,11 @@ instance : Repr Role where
 
 `not computationally relevant` というエラーになることがあります。-/
 
-/-⋆-//-- error: Cannot evaluate, types are not computationally relevant -/
+/-- error: Cannot evaluate, types are not computationally relevant -/
 #guard_msgs in --#
 #eval Nat
 
-/-⋆-//-- error: Cannot evaluate, proofs are not computationally relevant -/
+/-- error: Cannot evaluate, proofs are not computationally relevant -/
 #guard_msgs in --#
 #eval (rfl : 1 + 1 = 2)
 
@@ -64,7 +64,7 @@ instance : Repr Role where
 一般に [`Repr`](#{root}/TypeClass/Repr.md) や [`ToString`](#{root}/TypeClass/ToString.md) および `ToExpr` のインスタンスでないような型の項は、表示方法がわからないので `#eval` に渡すことができません。
 -/
 
-/-⋆-//--
+/--
 error: Could not synthesize a `ToExpr`, `Repr`, or `ToString` instance for type
   Nat → Nat
 -/
@@ -74,7 +74,7 @@ error: Could not synthesize a `ToExpr`, `Repr`, or `ToString` instance for type
 /- `Repr` インスタンスがあれば関数であっても `#eval` に渡すことができます。 -/
 
 -- 最初はエラーになってしまう
-/-⋆-//--
+/--
 error: Could not synthesize a `ToExpr`, `Repr`, or `ToString` instance for type
   Unit → Nat
 -/
@@ -89,7 +89,7 @@ instance {α : Type} [Repr α] : Repr (Unit → α) where
   reprPrec x _ := toString x
 
 -- #eval に渡せるようになった！
-/-⋆-//-- info: fun (_ : Unit) => 1 -/
+/-- info: fun (_ : Unit) => 1 -/
 #guard_msgs in --#
 #eval (fun _ => 1 : Unit → Nat)
 

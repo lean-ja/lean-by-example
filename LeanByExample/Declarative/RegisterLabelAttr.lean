@@ -29,7 +29,7 @@ attribute [my_tag] foo
 
 /- タグに対する基本的な操作である、「タグが付与されている宣言をすべて集める」という操作は `Lean.labelled` 関数で実行することができます。 -/
 
-/-⋆-//-- info: #[`greet, `foo] -/
+/-- info: #[`greet, `foo] -/
 #guard_msgs in --#
 #eval Lean.labelled `my_tag
 

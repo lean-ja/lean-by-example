@@ -85,7 +85,7 @@ theorem MyInt_eq {x y : ℕ} : (x : MyInt) = (y : MyInt) ↔ x = y := by
 -- `[norm_cast]` 属性の制約として、
 -- 登録する補題の中には型強制が含まれていなくてはいけない
 -- たとえば `↑` など
-/-⋆-//--
+/--
 error: Invalid `norm_cast` lemma: At least one coe function must appear in the left-hand side
   MyInt.ofNat x = MyInt.ofNat y
 

@@ -164,7 +164,7 @@ def parse (cat : Name) (s : String) : MetaM Syntax := do
 #eval parse `tactic "unfold Inter.inter"
 
 -- 識別子でないものを渡すとパースできない
-/-⋆-//-- error: <input>:1:7: expected identifier -/
+/-- error: <input>:1:7: expected identifier -/
 #guard_msgs in --#
 #eval parse `tactic "unfold (· ∩ ·)"
 

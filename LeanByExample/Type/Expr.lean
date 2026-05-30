@@ -18,28 +18,28 @@ open Qq Lean Parser
 /-- コンストラクタを使って定義した `[1]` というリスト -/
 def listByCtorExpr : Q(List Nat) := q(List.cons 1 List.nil)
 
-/-⋆-//-- info: "List.cons.{0} Nat (OfNat.ofNat.{0} Nat 1 (instOfNatNat 1)) (List.nil.{0} Nat)" -/
+/-- info: "List.cons.{0} Nat (OfNat.ofNat.{0} Nat 1 (instOfNatNat 1)) (List.nil.{0} Nat)" -/
 #guard_msgs in --#
 #eval toString listByCtorExpr
 
 /-- リストリテラルから定義した `[1]` というリスト -/
 def listByListLitExpr : Q(List Nat) := q([1])
 
-/-⋆-//-- info: "List.cons.{0} Nat (OfNat.ofNat.{0} Nat 1 (instOfNatNat 1)) (List.nil.{0} Nat)" -/
+/-- info: "List.cons.{0} Nat (OfNat.ofNat.{0} Nat 1 (instOfNatNat 1)) (List.nil.{0} Nat)" -/
 #guard_msgs in --#
 #eval toString listByListLitExpr
 
 
 set_option hygiene false in
 
-/-⋆-//-- info: "(Term.app `List.cons [(num \"1\") `List.nil])" -/
+/-- info: "(Term.app `List.cons [(num \"1\") `List.nil])" -/
 #guard_msgs in --#
 #eval show MetaM String from do
   -- コンストラクタを使って定義した `[1]` というリストの Syntax
   let stx ← `(term| List.cons 1 List.nil)
   return toString stx
 
-/-⋆-//-- info: "(«term[_]» \"[\" [(num \"1\")] \"]\")" -/
+/-- info: "(«term[_]» \"[\" [(num \"1\")] \"]\")" -/
 #guard_msgs in --#
 #eval show MetaM String from do
   -- リストリテラルから定義した `[1]` というリストの Syntax
@@ -129,7 +129,7 @@ end Hidden --#
 
 open Qq in
 
-/-⋆-//--
+/--
 info: Lean.Expr.forallE `x (Lean.Expr.const `Nat [])
   ((((Lean.Expr.const `Eq [Lean.Level.zero.succ]).app (Lean.Expr.const `Nat [])).app (Lean.Expr.bvar 0)).app
     (Lean.Expr.bvar 0))
@@ -157,7 +157,7 @@ elab "my_trace_state" : tactic => do
     let type := decl.type
     logInfo m!"{fvar} : {type}"
 
-/-⋆-//--
+/--
 info: _example : ∀ (n : Nat), n > 5 → ∃ n, n > 5
 ---
 info: n : Nat
@@ -187,7 +187,7 @@ elab "show_goal" : tactic => do
 
 set_option pp.mvars false in
 
-/-⋆-//-- info: ?_: ⊢ True -/
+/-- info: ?_: ⊢ True -/
 #guard_msgs in --#
 example : True := by
   show_goal
@@ -203,15 +203,15 @@ universe u
 
 open Lean Expr Qq
 
-/-⋆-//-- info: sort Level.zero -/
+/-- info: sort Level.zero -/
 #guard_msgs in --#
 #eval q(Prop)
 
-/-⋆-//-- info: sort Level.zero -/
+/-- info: sort Level.zero -/
 #guard_msgs in --#
 #eval q(Sort 0)
 
-/-⋆-//-- info: sort Level.zero.succ -/
+/-- info: sort Level.zero.succ -/
 #guard_msgs in --#
 #eval q(Type 0)
 
@@ -224,19 +224,19 @@ section --#
 
 open Lean Qq Expr
 
-/-⋆-//-- info: const `Nat [] -/
+/-- info: const `Nat [] -/
 #guard_msgs in --#
 #eval q(Nat)
 
-/-⋆-//-- info: const `Nat.zero [] -/
+/-- info: const `Nat.zero [] -/
 #guard_msgs in --#
 #eval q(Nat.zero)
 
-/-⋆-//-- info: const `Nat.succ [] -/
+/-- info: const `Nat.succ [] -/
 #guard_msgs in --#
 #eval q(Nat.succ)
 
-/-⋆-//-- info: const `List.map [Level.zero, Level.zero] -/
+/-- info: const `List.map [Level.zero, Level.zero] -/
 #guard_msgs in --#
 #eval q(@List.map.{0, 0})
 
@@ -249,7 +249,7 @@ section --#
 
 open Lean Expr Qq
 
-/-⋆-//-- info: (const `Nat.succ []).app (const `Nat.zero []) -/
+/-- info: (const `Nat.succ []).app (const `Nat.zero []) -/
 #guard_msgs in --#
 #eval q(Nat.succ Nat.zero)
 
@@ -261,7 +261,7 @@ section --#
 
 open Lean Expr Qq
 
-/-⋆-//-- info: lam `x (const `Nat []) (bvar 0) BinderInfo.default -/
+/-- info: lam `x (const `Nat []) (bvar 0) BinderInfo.default -/
 #guard_msgs in --#
 #eval q(fun (x : Nat) => x)
 
@@ -276,7 +276,7 @@ section --#
 
 open Lean Expr Qq Level
 
-/-⋆-//-- info: "fun (x : Nat) => x" -/
+/-- info: "fun (x : Nat) => x" -/
 #guard_msgs in --#
 #eval show String from
   let expr := Expr.lam
@@ -286,7 +286,7 @@ open Lean Expr Qq Level
     (binderInfo := .default)
   toString expr
 
-/-⋆-//--
+/--
 info: lam `α (sort zero.succ)
   (lam `x (bvar 0) ((((const `Eq [zero.succ]).app (bvar 1)).app (bvar 0)).app (bvar 0)) BinderInfo.default)
   BinderInfo.implicit
@@ -303,13 +303,13 @@ section --#
 
 open Lean Expr Qq Level
 
-/-⋆-//--
+/--
 info: forallE `P (sort zero) (forallE Name.anonymous (bvar 0) (bvar 1) BinderInfo.default) BinderInfo.default
 -/
 #guard_msgs in --#
 #eval q(∀ (P : Prop), P → P)
 
-/-⋆-//--
+/--
 info: forallE `n (const `Nat []) (((const `Vector [zero]).app (const `Nat [])).app (bvar 0)) BinderInfo.default
 -/
 #guard_msgs in --#
@@ -324,7 +324,7 @@ section --#
 
 open Lean Expr Qq
 
-/-⋆-//--
+/--
 info: letE `x (const `Nat [])
   ((((const `OfNat.ofNat [Level.zero]).app (const `Nat [])).app (lit (Literal.natVal 0))).app
     ((const `instOfNatNat []).app (lit (Literal.natVal 0))))
@@ -342,7 +342,7 @@ section --#
 
 open Lean Expr Qq
 
-/-⋆-//-- info: lit (Literal.strVal "Lean is nice!") -/
+/-- info: lit (Literal.strVal "Lean is nice!") -/
 #guard_msgs in --#
 #eval q("Lean is nice!")
 

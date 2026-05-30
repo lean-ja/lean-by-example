@@ -57,10 +57,10 @@ def Nat.factorial (n : Nat) : Nat :=
 「引数として `n + 1` を渡すと、自分自身を再帰的に呼びだす」という構造を持っています。`#print equations` コマンドを使うと、ここで定義された関数がどのような関数等式を満たしているかを確認することができます。
 -/
 
-/-⋆-//--
+/--
 info: equations:
-@[defeq] theorem Nat.factorial.eq_1 : Nat.factorial 0 = 1
-@[defeq] theorem Nat.factorial.eq_2 : ∀ (n_2 : Nat), n_2.succ.factorial = (n_2 + 1) * n_2.factorial
+@[backward_defeq] theorem Nat.factorial.eq_1 : Nat.factorial 0 = 1
+@[backward_defeq] theorem Nat.factorial.eq_2 : ∀ (n_2 : Nat), n_2.succ.factorial = (n_2 + 1) * n_2.factorial
 -/
 #guard_msgs in --#
 #print equations Nat.factorial
@@ -104,7 +104,7 @@ example (f : Nat → Nat) (h : f = factBody f)
 `partial_fixpoint` で修飾すれば停止性を証明しなくても許される関数と、そうではない関数があります。どんな関数でも `partial_fixpoint` で修飾すれば見逃してもらえるわけではありません。
 -/
 
-/-⋆-//--
+/--
 error: failed to compile definition 'search' using `partial_fixpoint`, could not prove that the type
   {α : Type} → (Nat → Option α) → Nat → α
 is nonempty.
@@ -187,7 +187,7 @@ partial_fixpoint
 -/
 
 -- tr_loop の定義から得られるのは以下の関数等式だけ
-/-⋆-//--
+/--
 info: equations:
 theorem tr_loop.eq_1 : ∀ (n : Nat), tr_loop n = tr_loop (n + 1)
 -/

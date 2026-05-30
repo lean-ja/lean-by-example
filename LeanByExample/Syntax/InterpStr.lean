@@ -6,7 +6,7 @@
 def greet (name : String) : String :=
   s!"Hello, {name}!"
 
-/-⋆-//-- info: "Hello, World!" -/
+/-- info: "Hello, World!" -/
 #guard_msgs in --#
 #eval greet "World"
 
@@ -15,7 +15,7 @@ def greet (name : String) : String :=
 section
   -- ## test for ambiguous string
 
-  /-⋆-//--
+  /--
   info: s!: Hello, world ⏎
   s!: Hello, "world"
   -/
@@ -59,7 +59,7 @@ macro_rules
 
 section
 
-  /-⋆-//--
+  /--
   info: d!: Hello, "world "
   d!: Hello, "\"world\""
   -/

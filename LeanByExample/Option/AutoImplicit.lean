@@ -10,7 +10,7 @@ set_option relaxedAutoImplicit false --#
 set_option autoImplicit false in
 
 -- `nonempty` の定義には `α` という未定義の識別子が含まれるため、エラーになる
-/-⋆-//--
+/--
 error: Unknown identifier `α`
 
 Note: It is not possible to treat `α` as an implicitly bound variable here because the `autoImplicit` option is set to `false`.
@@ -46,7 +46,7 @@ set_option autoImplicit true
     | _ :: _ => true
 
   -- ２文字の識別子は暗黙引数として追加されない
-  /-⋆-//--
+  /--
   error: Unknown identifier `AB`
 
   Note: It is not possible to treat `AB` as an implicitly bound variable here because it has multiple characters while the `relaxedAutoImplicit` option is set to `false`.

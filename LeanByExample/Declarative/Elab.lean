@@ -25,7 +25,7 @@ open Lean Elab Tactic in
 def evalGreet : Tactic := fun _ =>
   logInfo "Hello, world!"
 
-/-⋆-//-- info: Hello, world! -/
+/-- info: Hello, world! -/
 #guard_msgs in --#
 example : True := by
   greet₁
@@ -38,7 +38,7 @@ open Lean Elab Tactic in
 elab "greet₂" : tactic =>
   logInfo "Hello, world!"
 
-/-⋆-//-- info: Hello, world! -/
+/-- info: Hello, world! -/
 #guard_msgs in --#
 example : True := by
   greet₂
@@ -62,7 +62,7 @@ open Lean Elab Command in
 def evalGreetCmd : CommandElab := fun _ =>
   logInfo "Hello, world!"
 
-/-⋆-//-- info: Hello, world! -/
+/-- info: Hello, world! -/
 #guard_msgs in --#
 #greet₁
 
@@ -73,7 +73,7 @@ open Lean Elab Command in
 elab "#greet₂" : command =>
   logInfo "Hello, world!"
 
-/-⋆-//-- info: Hello, world! -/
+/-- info: Hello, world! -/
 #guard_msgs in --#
 #greet₂
 
@@ -94,7 +94,7 @@ open Lean Elab Term in
 def evalGreetTerm : TermElab := fun _ _ => do
   return (toExpr "hello world")
 
-/-⋆-//-- info: "hello world" -/
+/-- info: "hello world" -/
 #guard_msgs in --#
 #eval << greet₁ >>
 
@@ -105,6 +105,6 @@ open Lean Elab Term in
 elab "<<" "greet₂" ">>" : term =>
   return (toExpr "hello world")
 
-/-⋆-//-- info: "hello world" -/
+/-- info: "hello world" -/
 #guard_msgs in --#
 #eval << greet₂ >>

@@ -11,7 +11,7 @@ def bar := "world"
 @[implemented_by bar]
 def foo := "hello"
 
-/-⋆-//-- info: "world" -/
+/-- info: "world" -/
 #guard_msgs in --#
 #eval foo
 

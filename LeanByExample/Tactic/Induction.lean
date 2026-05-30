@@ -239,7 +239,7 @@ inductive MyEven : Nat → Prop where
   | zero : MyEven 0
   | succ : {n : Nat} → MyEven n → MyEven (n + 2)
 
-/-⋆-//--
+/--
 error: Invalid target: Index in target's type is not a variable (consider using the `cases` tactic instead)
   0
 -/

@@ -33,7 +33,7 @@ def Many.cons (x : α) (xs : Many α) : Many α :=
   .more x (fun () => xs)
 
 -- Many を定義したときに自動生成される定理
-/-⋆-//--
+/--
 info: Many.rec.{u} {α : Type} {motive : Many α → Sort u} (none : motive Many.none)
   (more : (x : α) → (xs : Unit → Many α) → ((a : Unit) → motive (xs a)) → motive (Many.more x xs)) (t : Many α) :
   motive t

@@ -5,7 +5,7 @@ theorem Nat.zero_of_divide_lt_right {a b c : Nat} (hac : c < a) (h : a * b = c) 
 
 -- invalid pattern というエラーになり、登録できない
 -- これは等式をパターンとして登録しようとしたため
-/-⋆-//--
+/--
 error: invalid pattern, (non-forbidden) application expected
   @Eq (Nat) (@HMul.hMul (Nat) (Nat) (Nat) (@instHMul (Nat) (instMulNat)) #4 #3) #2
 -/

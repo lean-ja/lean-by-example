@@ -20,7 +20,7 @@ def runGreet : IO Unit := do
 
   IO.println out.stdout.trimAscii
 
-/-⋆-//-- info: 誰に挨拶しますか？
+/-- info: 誰に挨拶しますか？
 Hello, Lean! -/
 #guard_msgs in --#
 #eval runGreet

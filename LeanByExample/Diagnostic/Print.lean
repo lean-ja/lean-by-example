@@ -4,7 +4,7 @@
 import Lean --#
 set_option warn.sorry false --#
 
-/-⋆-//--
+/--
 info: inductive Or : Prop → Prop → Prop
 number of parameters: 2
 constructors:
@@ -14,14 +14,14 @@ Or.inr : ∀ {a b : Prop}, b → a ∨ b
 #guard_msgs in --#
 #print Or
 
-/-⋆-//--
+/--
 info: @[defeq] theorem Nat.add_succ : ∀ (n m : Nat), n + m.succ = (n + m).succ :=
 fun n m => rfl
 -/
 #guard_msgs in --#
 #print Nat.add_succ
 
-/-⋆-//--
+/--
 info: structure And (a b : Prop) : Prop
 number of parameters: 2
 fields:
@@ -47,7 +47,7 @@ open Lean Parser in
 def parse (cat : Name) (s : String) : MetaM Syntax := do
   ofExcept <| runParserCategory (← getEnv) cat s
 
-/-⋆-//--
+/--
 error: <input>:1:7: expected 'axioms', 'eqns', 'equations', 'sig', 'tactic', identifier or string literal
 -/
 #guard_msgs in --#
@@ -57,7 +57,7 @@ error: <input>:1:7: expected 'axioms', 'eqns', 'equations', 'sig', 'tactic', ide
 
 open Lean in
 
-/-⋆-//--
+/--
 error: Application type mismatch: The argument
   a
 has type
@@ -82,7 +82,7 @@ run_meta
 /-- 排中律 -/
 example : ∀ (p : Prop), p ∨ ¬p := Classical.em
 
-/-⋆-//-- info: 'Classical.em' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+/-- info: 'Classical.em' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in --#
 #print axioms Classical.em
 
@@ -90,7 +90,7 @@ example : ∀ (p : Prop), p ∨ ¬p := Classical.em
 
 theorem contra : False := by sorry
 
-/-⋆-//-- info: 'contra' depends on axioms: [sorryAx] -/
+/-- info: 'contra' depends on axioms: [sorryAx] -/
 #guard_msgs in --#
 #print axioms contra
 
@@ -125,16 +125,16 @@ section
 end
 
 -- 依存公理がないケース
-/-⋆-//-- info: 'Nat.add_zero' does not depend on any axioms -/
+/-- info: 'Nat.add_zero' does not depend on any axioms -/
 #guard_msgs in --#
 #detect_classical Nat.add_zero
 
 -- 選択公理に依存しないケース
-/-⋆-//-- info: 'Nat.div_add_mod' is non-classical and depends on axioms: [propext] -/
+/-- info: 'Nat.div_add_mod' is non-classical and depends on axioms: [propext] -/
 #guard_msgs in --#
 #detect_classical Nat.div_add_mod
 
 -- 選択公理に依存するときはエラー
-/-⋆-//-- error: 'Classical.em' depends on classical axioms: [Classical.choice] -/
+/-- error: 'Classical.em' depends on classical axioms: [Classical.choice] -/
 #guard_msgs in --#
 #detect_classical Classical.em

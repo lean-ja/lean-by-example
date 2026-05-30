@@ -22,6 +22,6 @@ def runCat : IO Unit := do
 
   IO.println out.stdout.trimAscii
 
-/-⋆-//-- info: Lean is nice! -/
+/-- info: Lean is nice! -/
 #guard_msgs in --#
 #eval runCat

@@ -57,7 +57,7 @@ example (h : P → Q) (p : P) : Q := by
 set_option says.verify true
 
 -- チェックを有効にするとエラーになる
-/-⋆-//--
+/--
 error: Tactic `exact?` produced `exact Nat.add_eq_left.mpr rfl`,
 but was expecting it to produce `  try contradiction
   exact Nat.add_eq_left.mpr rfl`!

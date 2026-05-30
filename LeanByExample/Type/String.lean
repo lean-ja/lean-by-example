@@ -43,6 +43,6 @@
 
 def greet := "Hello"
 
-/-⋆-//-- info: "Hello, world!" -/
+/-- info: "Hello, world!" -/
 #guard_msgs in --#
 #eval s!"{greet}, world!"

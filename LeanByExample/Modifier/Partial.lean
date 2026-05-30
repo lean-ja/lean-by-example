@@ -6,7 +6,7 @@ Lean では再帰関数も再帰的でない関数と同様に定義できます
 namespace WithoutPartial --#
 
 -- 何も指定しないと、停止することが Lean にはわからないのでエラーになる
-/-⋆-//--
+/--
 error: fail to show termination for
   WithoutPartial.M
 -/
@@ -52,7 +52,7 @@ def more := @forever
 /- これは意外に思えます。`partial` とマークされた関数は停止性が保証されていないので、それを使用した関数も停止性を保証できなくなるはずだからです。なぜこうなるのかというと、`partial` はそもそも「停止性が保証されていない」ことを表すものではなく、[`opaque`](#{root}/Declarative/Opaque.md) と同様に「名前が定義に展開できない」ことを表すものだからです。-/
 
 -- 実際に #print してみると、`opaque` と表示される
-/-⋆-//-- info: opaque forever : Int → Int -/
+/-- info: opaque forever : Int → Int -/
 #guard_msgs in --#
 #print forever
 
@@ -64,7 +64,7 @@ def factorial (x : Nat) : Nat :=
 
 -- 正しい階乗関数と比較してみると、
 -- 正しい方は `opaque` ではなく、中身が表示されることがわかる
-/-⋆-//--
+/--
 info: def factorial : Nat → Nat :=
 fun x => Nat.brecOn x factorial._f
 -/
@@ -77,6 +77,6 @@ fun x => Nat.brecOn x factorial._f
 partial def square (x : Int) := x * x
 
 -- 簡約が実行される
-/-⋆-//-- info: Int.ofNat 1024 -/
+/-- info: Int.ofNat 1024 -/
 #guard_msgs in --#
 #reduce square 32

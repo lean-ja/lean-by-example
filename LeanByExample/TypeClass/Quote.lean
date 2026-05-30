@@ -6,13 +6,13 @@ import Lean --#
 
 open Lean
 
-/-⋆-//-- info: (num "1") -/
+/-- info: (num "1") -/
 #guard_msgs in --#
 #eval
   let x : TSyntax `term := Quote.quote 1
   IO.println x
 
-/-⋆-//-- info: `Bool.true._@._internal._hyg.0 -/
+/-- info: `Bool.true._@._internal._hyg.0 -/
 #guard_msgs in --#
 #eval
   let x : TSyntax `term := Quote.quote true

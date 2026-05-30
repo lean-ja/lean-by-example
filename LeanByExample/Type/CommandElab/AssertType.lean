@@ -20,15 +20,15 @@ def evalAssertType : CommandElab := fun stx => do
       catch | _ => throwError "failure"
   | _ => throwUnsupportedSyntax
 
-/-⋆-//-- info: success -/
+/-- info: success -/
 #guard_msgs in --#
 #assert_type 5 : Nat
 
-/-⋆-//-- info: success -/
+/-- info: success -/
 #guard_msgs in --#
 #assert_type 42 : ?_
 
-/-⋆-//--
+/--
 error: Type mismatch
   [1, 2, 3]
 has type

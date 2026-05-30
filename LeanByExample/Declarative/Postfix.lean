@@ -35,6 +35,6 @@ section
     | some t => logInfo m!"{t}"
 end
 
-/-⋆-//-- info: notation:200 arg✝:200 "!" => factorial arg✝ -/
+/-- info: notation:200 arg✝:200 "!" => factorial arg✝ -/
 #guard_msgs in --#
 #expand (postfix:200 "!" => factorial)

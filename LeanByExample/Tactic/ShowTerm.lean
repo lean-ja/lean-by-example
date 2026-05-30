@@ -10,7 +10,7 @@ example (n : Nat) : n + 0 = n := by
   rfl
 
 -- `show_term` で `rfl` が生成している具体的な項を表示
-/-⋆-//--
+/--
 info: Try this:
   [apply] Eq.refl (n + 0)
 -/
@@ -21,7 +21,7 @@ example (n : Nat) : n + 0 = n := show_term by
 /- ## by? 構文
 [`by`](#{root}/Syntax/By.md) を `by?` に変えることでも、`show_term` を呼び出すことができます。-/
 
-/-⋆-//--
+/--
 info: Try this:
   [apply] Eq.refl (n + 0)
 -/
@@ -47,6 +47,6 @@ section
     | some t => logInfo m!"{t}"
 end
 
-/-⋆-//-- info: show_term by rfl -/
+/-- info: show_term by rfl -/
 #guard_msgs in --#
 #expand (by? rfl)

@@ -41,7 +41,7 @@ example (x y z : ℤ) (hz : z = x - y) : x * z = x ^ 2 - x * y := by
 `ring` が扱える対象には制約があり、たとえば自然数 `ℕ` は可換環にならないので、自然数の引き算に関する等式を証明しようとしても上手くいきません。[`ring_nf`](./RingNf.md) タクティクを提案されますが、`ring_nf` に変更すれば成功するとは限りません。
 -/
 
-/-⋆-//--
+/--
 info: Try this:
   [apply] ring_nf
 
@@ -78,7 +78,7 @@ section
 end
 
 -- マクロ展開の中に `try_this ring_nf` が含まれる
-/-⋆-//--
+/--
 info: first
 | ring1
 -/

@@ -1,6 +1,6 @@
 import LeanByExample.Option.MissingDocs.DocBlameThm
 
-/-⋆-//--
+/--
 warning: `ex`にドキュメントコメントを与えてください。
 
 Note: This linter can be disabled with `set_option linter.docBlameThm false`

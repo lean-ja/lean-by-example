@@ -11,7 +11,7 @@ inductive MyNat where
 attribute [coe] MyNat.succ
 
 -- `MyNat.succ` ではなく `↑` と表示されるようになった
-/-⋆-//-- info: ↑MyNat.zero : MyNat -/
+/-- info: ↑MyNat.zero : MyNat -/
 #guard_msgs in --#
 #check (MyNat.succ .zero : MyNat)
 
@@ -59,7 +59,7 @@ instance : Coe Nat myInt where
   coe := myInt.ofNat
 
 -- この時点では、`myInt.ofNat` が型強制として表示されない
-/-⋆-//-- info: myInt.ofNat Nat.zero : myInt -/
+/-- info: myInt.ofNat Nat.zero : myInt -/
 #guard_msgs in --#
 #check (Nat.zero : myInt)
 
@@ -67,6 +67,6 @@ instance : Coe Nat myInt where
 attribute [coe] myInt.ofNat
 
 -- `myInt.ofNat` ではなく `↑` と表示されるようになった！
-/-⋆-//-- info: ↑Nat.zero : myInt -/
+/-- info: ↑Nat.zero : myInt -/
 #guard_msgs in --#
 #check (Nat.zero : myInt)

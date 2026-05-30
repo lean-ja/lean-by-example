@@ -63,7 +63,7 @@ end
 
 -- ω を簡約すると ω 自身が出てくる
 -- つまり無限ループしている
-/-⋆-//--
+/--
 error: maximum recursion depth has been reached
 use `set_option maxRecDepth <num>` to increase limit
 use `set_option diagnostics true` to get diagnostic information

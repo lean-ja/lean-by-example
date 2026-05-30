@@ -17,7 +17,7 @@ import Mathlib.Data.Real.Basic -- 実数 --#
 
 variable (α : Type)
 
-/-⋆-//--
+/--
 error: failed to synthesize instance of type class
   Inv α
 
@@ -32,14 +32,14 @@ Hint: Type class instance resolution failures can be inspected with the `set_opt
 例えば実数 `ℝ` に対して逆数は定義できるだろうと予想されますが、実際 `ℝ` は `Inv` のインスタンスであることが確認できます。
 -/
 
-/-⋆-//-- info: Real.instInv -/
+/-- info: Real.instInv -/
 #guard_msgs in --#
 #synth Inv Real
 
 /- 自然数 `ℕ` に対しては逆数が定義されていないと予想されますが、実際 `Inv` のインスタンスになっていません。-/
 
 -- エラーになってしまう
-/-⋆-//--
+/--
 error: failed to synthesize
   Inv ℕ
 

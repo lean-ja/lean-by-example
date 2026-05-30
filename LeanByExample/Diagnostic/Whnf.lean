@@ -6,12 +6,12 @@
 import Mathlib.Tactic.Conv -- `#whnf` コマンドを使うために必要
 
 -- 弱頭正規形
-/-⋆-//-- info: (fun x => x + 1) 1 :: List.map (fun x => x + 1) [2, 3] -/
+/-- info: (fun x => x + 1) 1 :: List.map (fun x => x + 1) [2, 3] -/
 #guard_msgs in --#
 #whnf [1, 2, 3].map (· + 1)
 
 -- 弱頭正規形で止まらずに完全に簡約した場合
-/-⋆-//-- info: [2, 3, 4] -/
+/-- info: [2, 3, 4] -/
 #guard_msgs in --#
 #reduce [1, 2, 3].map (· + 1)
 
@@ -67,7 +67,7 @@ instance instMonadMany : Monad Many where
 
 instance instManyFunctor : Functor Many := inferInstance
 
-/-⋆-//--
+/--
 info: @[implicit_reducible] def instManyFunctor : Functor Many :=
 inferInstance
 -/
@@ -77,12 +77,12 @@ inferInstance
 /- しかし、`#whnf` コマンドに渡すと実装内容を表示してくれます。-/
 
 -- Functor の実装を表示させることができた
-/-⋆-//-- info: { map := fun {α β} f x => (fun {α β} => Many.bind) x ((fun {α} => Many.one) ∘ f) } -/
+/-- info: { map := fun {α β} f x => (fun {α β} => Many.bind) x ((fun {α} => Many.one) ∘ f) } -/
 #guard_msgs in --#
 #whnf (inferInstance : Functor Many)
 
 -- seq の実装を表示させることができた
-/-⋆-//--
+/--
 info: {
   seq := fun {α β} f x =>
     (fun {α β} => Many.bind) f fun y => (fun {α β} => Many.bind) (x ()) ((fun {α} => Many.one) ∘ y) }
@@ -92,7 +92,7 @@ info: {
 
 /- なお、これを `#reduce` で行おうとすると簡約しすぎて読みづらい表示が出てきます。-/
 
-/-⋆-//--
+/--
 info: {
   map := fun {α β} f x =>
     (Many.rec ⟨fun x => Many.none, PUnit.unit⟩

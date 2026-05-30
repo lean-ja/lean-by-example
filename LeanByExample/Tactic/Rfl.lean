@@ -32,7 +32,7 @@ example : MyNat.one + MyNat.one = MyNat.two := by
   rfl
 
 -- 定義的等価(definitionally equal)でないと証明できない
-/-⋆-//--
+/--
 error: Tactic `rfl` failed: The left-hand side
   MyNat.one
 is not definitionally equal to the right-hand side
@@ -53,11 +53,11 @@ section
   -- フィールド記法を無効にする
   set_option pp.fieldNotation false
 
-  /-⋆-//-- info: MyNat.succ (MyNat.succ MyNat.zero) -/
+  /-- info: MyNat.succ (MyNat.succ MyNat.zero) -/
   #guard_msgs in --#
   #reduce MyNat.one + MyNat.one
 
-  /-⋆-//-- info: MyNat.succ (MyNat.succ MyNat.zero) -/
+  /-- info: MyNat.succ (MyNat.succ MyNat.zero) -/
   #guard_msgs in --#
   #reduce MyNat.two
 end
@@ -65,11 +65,11 @@ end
 section
   variable {α : Type} {β : α → Type} (f : (x : α) → β x)
 
-  /-⋆-//-- info: f -/
+  /-- info: f -/
   #guard_msgs in --#
   #reduce f
 
-  /-⋆-//-- info: fun x => f x -/
+  /-- info: fun x => f x -/
   #guard_msgs in --#
   #reduce (fun x => f x)
 

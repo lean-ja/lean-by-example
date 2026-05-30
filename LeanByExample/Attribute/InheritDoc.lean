@@ -17,7 +17,7 @@ elab "#doc " x:ident : command => do
   if let some s ← findDocString? (← getEnv) name then
     logInfo m!"{s}"
 
-/-⋆-//-- info: 最初に与えた doc コメント -/
+/-- info: 最初に与えた doc コメント -/
 #guard_msgs in --#
 #doc greet'
 

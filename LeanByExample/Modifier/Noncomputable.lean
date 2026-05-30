@@ -14,7 +14,7 @@ def Surjective (f : X → Y) : Prop := ∀ y, ∃ x, f x = y
 -- 全射な関数の逆写像を構成する
 -- しかし、全射という情報だけからは逆写像を具体的に作ることはできないので、
 -- 計算不能になりエラーになってしまう
-/-⋆-//--
+/--
 error: `Classical.choice` not supported by code generator; consider marking definition as `noncomputable`
 -/
 #guard_msgs in --#
@@ -53,7 +53,7 @@ theorem id_surjective : Surjective (id : Nat → Nat) := by
 noncomputable def id_inverse := inverse (id : Nat → Nat) id_surjective
 
 -- 逆写像の `3` での値を評価しようとするとエラーになる
-/-⋆-//--
+/--
 error: failed to compile definition, consider marking it as 'noncomputable' because it depends on 'id_inverse', which is 'noncomputable'
 -/
 #guard_msgs in --#

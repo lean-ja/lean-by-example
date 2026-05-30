@@ -14,7 +14,7 @@ inductive Color : Type where
 set_option eval.derive.repr false
 
 -- `Repr` が定義されていないので `eval` できない
-/-⋆-//--
+/--
 error: could not synthesize a `Repr` or `ToString` instance for type
   Color
 -/
@@ -51,7 +51,7 @@ deriving Inhabited, Repr
 class Callable (α : Type) where
   call : α → String
 
-/-⋆-//-- error: No deriving handlers have been implemented for class `Callable` -/
+/-- error: No deriving handlers have been implemented for class `Callable` -/
 #guard_msgs in --#
 deriving instance Callable for People
 

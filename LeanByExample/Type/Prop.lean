@@ -119,7 +119,7 @@ theorem my_proof_irrel (P : Prop) (h1 h2 : P) : h1 = h2 := rfl
 
 /- 証明無関係は [`axiom`](#{root}/Declarative/Axiom.md) で導入された公理から従う定理ではなく、Lean の型システムに組み込まれたものであることに注意してください。-/
 
-/-⋆-//-- info: 'proof_irrel' does not depend on any axioms -/
+/-- info: 'proof_irrel' does not depend on any axioms -/
 #guard_msgs in --#
 #print axioms proof_irrel
 
@@ -142,7 +142,7 @@ def Ok.extract (h : ∃ x : Int, x ^ 2 = 1) : True := by
 
 /- しかし、命題の証明という文脈ではなく関数の定義という文脈（つまり返り値の型が命題ではない状況）にすると一転、分解することができなくなります。これは証明無関係の制約によるものです。直観的に言えば、証明には「その命題が成立する」という情報しかないので、そこからデータを生成することはできないということです。-/
 
-/-⋆-//--
+/--
 error: Tactic `cases` failed with a nested error:
 Tactic `induction` failed: recursor `Exists.casesOn` can only eliminate into `Prop`
 
