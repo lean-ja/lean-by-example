@@ -2,7 +2,7 @@
 
 `macro` は、その名の通り[マクロ](#{root}/Type/Macro.md)を定義するためのコマンドです。ただし[マクロ](#{root}/Type/Macro.md)とは、構文を構文に変換する機能のことです。
 -/
-import Mathlib.Data.Real.Sqrt --#
+import Mathlib.Analysis.Real.Sqrt --#
 
 open Lean Parser in
 
