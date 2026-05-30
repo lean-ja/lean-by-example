@@ -1,5 +1,5 @@
 ---
-name: lean-article-editing
+name: article-editing
 description: Lean 解説記事を編集・執筆するときに使う。
 ---
 
