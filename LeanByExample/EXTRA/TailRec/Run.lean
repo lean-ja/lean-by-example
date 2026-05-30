@@ -25,7 +25,7 @@ def main : IO Unit := do
     throw <| IO.userError s!"末尾再帰でないのにエラーになりませんでした: {nonTrOut.stdout}"
   IO.println "テスト成功: 末尾再帰でないのでエラーになる"
 
-/-⋆-//--
+/--
 info: テスト成功: 末尾再帰なのでエラーにならない
 テスト成功: 末尾再帰でないのでエラーになる
 -/
