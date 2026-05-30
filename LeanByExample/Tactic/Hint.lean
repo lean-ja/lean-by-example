@@ -3,7 +3,7 @@
 `hint` は複数のタクティクを試し、上手くいったものを報告してくれるタクティクです。-/
 import Mathlib.Tactic -- `hint` は検索を伴うので、おおざっぱに import している
 
-/-⋆-//--
+/--
 info: Try these:
   [apply] 🎉️ simp_all only [forall_const]
   [apply] norm_num
@@ -14,7 +14,7 @@ info: Try these:
 example (P Q : Prop) (p : P) (h : P → Q) : Q := by
   hint
 
-/-⋆-//--
+/--
 info: Try these:
   [apply] 🎉️ simp_all only [and_self]
   [apply] norm_num
@@ -39,7 +39,7 @@ def getRegisteredTactics : CoreM Unit := do
       | panic! "error: unexpected syntax term"
     IO.println arr[0]!
 
-/-⋆-//--
+/--
 info: "compute_degree"
 "noncomm_ring"
 "group"
@@ -76,7 +76,7 @@ info: "compute_degree"
 
 register_hint 1000 nlinarith
 
-/-⋆-//--
+/--
 info: Try these:
   [apply] 🎉️ nlinarith
 -/

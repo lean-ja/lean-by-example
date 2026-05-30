@@ -103,7 +103,7 @@ instance : Plus Nat (List Nat) (List Nat) where
 set_option pp.mvars false
 
 -- 返り値の型がわからないので型クラス解決ができないというエラーが出ている
-/-⋆-//--
+/--
 error: failed to synthesize instance of type class
   Plus Nat (List Nat) (IO ?_)
 

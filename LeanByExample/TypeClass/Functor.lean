@@ -96,7 +96,7 @@ example {α β : Type} (f : α → β) (x : Option α) : Option.myMap f x = f <$
 #guard (· * 2) <$> some 2 = some 4
 #guard (· * 2) <$> [1, 2, 3][4]? = none
 
-/-⋆-//-- info: 20 -/
+/-- info: 20 -/
 #guard_msgs in --#
 #eval (· * 2) <$> (10 : Id Nat)
 

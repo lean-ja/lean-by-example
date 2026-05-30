@@ -23,7 +23,7 @@ def factorial (n : Nat) : Nat :=
   | n + 1 => (n + 1) * factorial n
 
 -- `factorial` の引数は `Nat` なのに、`Pos` を渡したのでエラーになる
-/-⋆-//--
+/--
 error: Application type mismatch: The argument
   one
 has type

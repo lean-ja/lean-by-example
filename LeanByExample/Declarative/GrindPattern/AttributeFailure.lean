@@ -26,7 +26,7 @@ theorem last?_cons_exists (xs : List α) (x : α) :
   induction xs generalizing x with simp_all
 
 -- `[grind]` 属性は、登録すべきパターンを見つけられない。
-/-⋆-//--
+/--
 error: invalid `grind` theorem, failed to find an usable pattern using different modifiers
 -/
 #guard_msgs in --#

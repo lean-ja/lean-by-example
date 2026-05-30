@@ -11,11 +11,11 @@ macro_rules
   | `(#hello) => `(command| #eval "Hello, Lean!")
   | `(#hello $name) => `(command| #eval s!"Hello, {$name}!")
 
-/-⋆-//-- info: "Hello, Lean!" -/
+/-- info: "Hello, Lean!" -/
 #guard_msgs in --#
 #hello
 
-/-⋆-//-- info: "Hello, world!" -/
+/-- info: "Hello, world!" -/
 #guard_msgs in --#
 #hello "world"
 
@@ -38,7 +38,7 @@ macro_rules
   | `(command| #greet) => `(#eval "Good morning, Lean!")
 
 -- 最後に宣言されたルールが適用される
-/-⋆-//-- info: "Good morning, Lean!" -/
+/-- info: "Good morning, Lean!" -/
 #guard_msgs in --#
 #greet
 

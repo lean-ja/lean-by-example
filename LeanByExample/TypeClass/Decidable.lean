@@ -7,11 +7,11 @@
 -- 決定可能な命題を決定する関数 decide が存在する
 #check (decide : (P : Prop) → [Decidable P] → Bool)
 
-/-⋆-//-- info: true -/
+/-- info: true -/
 #guard_msgs in --#
 #eval decide (2 + 2 = 4)
 
-/-⋆-//-- info: false -/
+/-- info: false -/
 #guard_msgs in --#
 #eval decide (2 + 2 = 5)
 

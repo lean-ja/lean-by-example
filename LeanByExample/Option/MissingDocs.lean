@@ -5,7 +5,7 @@
 
 set_option linter.missingDocs true
 
-/-⋆-//--
+/--
 warning: missing doc string for public def hoge
 
 Note: This linter can be disabled with `set_option linter.missingDocs false`

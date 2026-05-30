@@ -24,7 +24,7 @@ def evalHello : CommandElab := fun _stx => do
   let msg := s!"Hello, Lean!"
   logInfo msg
 
-/-⋆-//-- info: Hello, Lean! -/
+/-- info: Hello, Lean! -/
 #guard_msgs in --#
 #hello
 

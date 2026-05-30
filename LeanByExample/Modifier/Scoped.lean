@@ -16,7 +16,7 @@ namespace Scoped
 end Scoped
 
 -- 名前空間を抜けると使えなくなる
-/-⋆-//-- error: elaboration function for `«command#greet»` has not been implemented -/
+/-- error: elaboration function for `«command#greet»` has not been implemented -/
 #guard_msgs in --#
 #greet
 
@@ -56,7 +56,7 @@ def parse (cat : Name) (s : String) : MetaM Syntax := do
   ofExcept <| runParserCategory (← getEnv) cat s
 
 -- `def` は有効範囲を制限できないのでエラーになる
-/-⋆-//--
+/--
 error: <input>:1:7: expected 'binder_predicate', 'builtin_cbv_simproc', 'builtin_dsimproc', 'builtin_simproc', 'cbv_simproc', 'dsimproc', 'elab', 'elab_rules', 'grind_pattern', 'infix', 'infixl', 'infixr', 'instance', 'macro', 'macro_rules', 'notation', 'postfix', 'prefix', 'simproc', 'syntax' or 'unif_hint'
 -/
 #guard_msgs in --#

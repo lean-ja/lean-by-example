@@ -34,7 +34,7 @@ elab "#guard_diff" e:term : command => liftTermElabM do
   else
     _ ← Term.logUnassignedUsingErrorInfos mvars
 
-/-⋆-//--
+/--
 error: Expression
   decide (3 * 4 = 2 + 2)
 did not evaluate to `true`

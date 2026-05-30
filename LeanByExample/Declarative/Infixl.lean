@@ -32,6 +32,6 @@ section
     | some t => logInfo m!"{t}"
 end
 
-/-⋆-//-- info: notation:60 lhs✝:60 " ⋄ " rhs✝:61 => (fun x y => x - y) lhs✝ rhs✝ -/
+/-- info: notation:60 lhs✝:60 " ⋄ " rhs✝:61 => (fun x y => x - y) lhs✝ rhs✝ -/
 #guard_msgs in --#
 #expand (infixl:60 " ⋄ " => fun x y => x - y)

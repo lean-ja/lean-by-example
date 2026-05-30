@@ -6,7 +6,7 @@ import Lean
 
 open Std
 
-/-⋆-//-- info: Std.HashSet.ofList [1, 2, 3] -/
+/-- info: Std.HashSet.ofList [1, 2, 3] -/
 #guard_msgs in --#
 #eval ({1, 2, 3, 1, 1} : HashSet Nat)
 
@@ -19,7 +19,7 @@ open Std
 `insert` 関数で要素を挿入することができますが、同じ要素を複数回挿入しても１つしか保持されません。
 -/
 
-/-⋆-//-- info: Std.HashSet.ofList [1] -/
+/-- info: Std.HashSet.ofList [1] -/
 #guard_msgs in --#
 #eval show (HashSet Nat) from Id.run do
   -- 空の `HashSet` を作成

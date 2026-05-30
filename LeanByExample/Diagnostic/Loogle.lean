@@ -14,7 +14,7 @@
 -/
 import LeanSearchClient.LoogleSyntax
 
-/-⋆-//--
+/--
 info: Loogle Search Results
   [apply] #check Nat.add_zero --  (n : ℕ) : n + 0 = n
   ⏎
@@ -36,7 +36,7 @@ info: Loogle Search Results
 たとえば `List.foldl` という関数についてどのような補題が存在するか知りたいとします。このような場合、`List.foldl` が定理の中で言及されているような定理を検索したいですが、これはそのまま識別子を与えることで検索可能です。
 -/
 
-/-⋆-//--
+/--
 info: Loogle Search Results
   [apply] #check List.foldl --  {α : Type u} {β : Type v} (f : α → β → α) (init : α) : List β → α
   Folds a function over a list from the left, accumulating a value starting with `init`. The
@@ -66,7 +66,7 @@ info: Loogle Search Results
 探したい定理・関数が持っているはずの型で検索することができます。たとえば `List.map` という関数をどわすれしたとしましょう。このとき、`(α → β) → List α → List β` という型を持つ関数を探すことで、`List.map` にたどり着くことができます。それには型変数の部分をメタ変数にして検索クエリを作ります。
 -/
 
-/-⋆-//--
+/--
 info: Loogle Search Results
   [apply] #check List.map --  {α : Type u_1} {β : Type u_2} (f : α → β) (l : List α) : List β
   Applies a function to each element of the list, returning the resulting list of values.
@@ -123,7 +123,7 @@ info: Loogle Search Results
 パターンで検索することもできます。たとえば、`n * m = 0 ↔ n = 0 ∨ m = 0` を主張する定理の名前が知りたいとしましょう。このとき、定理の中に出現するべきパターンから検索することができます。
 -/
 
-/-⋆-//--
+/--
 info: Loogle Search Results
   [apply] #check Nat.mul_eq_zero --  {m n : ℕ} : n * m = 0 ↔ n = 0 ∨ m = 0
 -/

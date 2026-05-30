@@ -17,7 +17,7 @@ section
   -- 単に「左辺を見つけたらインスタンス化」というルールにすると...
   local grind_pattern List.prod_append => (xs ++ ys).prod
 
-  /-⋆-//--
+  /--
   trace: [grind.ematch.instance] List.prod.eq_1: ([] ++ []).prod = List.foldr (fun x1 x2 => x1 * x2) 1 ([] ++ [])
   [grind.ematch.instance] List.prod_append: ([] ++ []).prod = [].prod * [].prod
   [grind.ematch.instance] List.append_nil: [] ++ [] = []

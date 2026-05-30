@@ -70,7 +70,7 @@ example (a b : Nat) : pascal a b ≤ (a + b)! := by
 
 set_option trace.grind.assert true in
 
-/-⋆-//--
+/--
 trace: [grind.assert] P
 [grind.assert] ¬P
 -/
@@ -82,7 +82,7 @@ example (P : Prop) (h : P) : P := by
 
 set_option trace.grind.eqc true in
 
-/-⋆-//--
+/--
 trace: [grind.eqc] P = True
 [grind.eqc] P = False
 -/
@@ -105,7 +105,7 @@ example (P : Prop) (h : P) : P := by
 theorem easy_theorem (P : Prop) (h : P) : P := by
   grind
 
-/-⋆-//-- info: 'easy_theorem' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+/-- info: 'easy_theorem' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in --#
 #print axioms easy_theorem
 
@@ -126,7 +126,7 @@ variable {α : Type} (a₁ a₂ : α)
 
 set_option trace.grind.debug.congr true in
 
-/-⋆-//--
+/--
 trace: [grind.debug.congr] f a₂ = f a₁
 [grind.debug.congr] f (f a₂) = f (f a₁)
 -/
@@ -179,7 +179,7 @@ set_option trace.grind.assert true in
 set_option trace.grind.debug.congr true in
 set_option trace.grind.ematch.instance true in
 
-/-⋆-//--
+/--
 trace: [grind.assert] f a = b
 [grind.assert] a = g c
 [grind.assert] ¬b = c
@@ -196,7 +196,7 @@ example (a b c : Nat) (h1 : f a = b) (h2 : a = g c) : b = c := by
 theorem bar (n m : Nat) (h : n ≤ m) (hm : m = 1) : n ≤ 1 := by
   grind
 
-/-⋆-//--
+/--
 error: invalid E-matching equality theorem, conclusion must be an equality
   n ≤ 1
 -/
@@ -236,7 +236,7 @@ example (a b c : M) : a * b * (c * c * a) = a * a * b * c * c := by
 
 end CommMonoid
 /- なお、結論が等式になっていないような定理に付与するとエラーになります。 -/
-/-⋆-//--
+/--
 error: invalid E-matching equality theorem, conclusion must be an equality
   n ≤ 1
 -/
@@ -279,7 +279,7 @@ end --#
 theorem Nat.add_le (n m : Nat) : n ≤ n + m := by
   omega
 
-/-⋆-//--
+/--
 error: invalid `grind` forward theorem,
 theorem `Nat.add_le` does not have propositional hypotheses
 -/
@@ -301,7 +301,7 @@ axiom R_of_P (x y : Nat) (h : P x) : R x y
 
 -- `[grind ->]` 属性は登録できない。
 -- これは、前提の `P x` だけからは引数の `y` が特定できないため
-/-⋆-//--
+/--
 error:
 `@[grind →] theorem R_of_P` failed to find patterns in the antecedents of the theorem,
 consider using different options or the `grind_pattern` command
@@ -430,7 +430,7 @@ example (a b : Box) (h : a.val = b.val) : a = b := by
 -- 外延性を使用したときにログを出させる
 set_option trace.grind.ext true in
 
-/-⋆-//-- trace: [grind.ext] funext: ∀ {h : ∀ (x : Nat), f x = g x}, False -/
+/-- trace: [grind.ext] funext: ∀ {h : ∀ (x : Nat), f x = g x}, False -/
 #guard_msgs in --#
 example (f g : Nat → Nat) (h : ∀ x, f x = g x) : f = g := by
   grind
@@ -455,7 +455,7 @@ def oneOrTwoMatch (n : Nat) : Nat :=
 -- どういう場合分けを行ったかトレースを出す
 set_option trace.grind.split true in
 
-/-⋆-//--
+/--
 trace: [grind.split] match n with
     | 0 => 1
     | x => 2, generation: 0

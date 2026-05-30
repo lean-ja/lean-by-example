@@ -27,7 +27,7 @@ def evalMyAssumption : Tactic := fun _stx => withMainContext do
 example {P : Prop} (hP : P) : P := by
   my_assumption
 
-/-⋆-//-- error: my_assumptionタクティクが失敗しました。 -/
+/-- error: my_assumptionタクティクが失敗しました。 -/
 #guard_msgs in --#
 example {P Q : Prop} (hP : P) : Q := by
   my_assumption

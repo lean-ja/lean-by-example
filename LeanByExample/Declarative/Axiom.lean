@@ -10,7 +10,7 @@ axiom mySorryAx {P : Prop} : P
 theorem FLT : ∀ x y z n : Nat, n > 2 → x^n + y^n ≠ z^n := by
   apply mySorryAx
 
-/-⋆-//-- info: 'FLT' depends on axioms: [mySorryAx] -/
+/-- info: 'FLT' depends on axioms: [mySorryAx] -/
 #guard_msgs in --#
 #print axioms FLT
 
@@ -22,7 +22,7 @@ theorem FLT : ∀ x y z n : Nat, n > 2 → x^n + y^n ≠ z^n := by
 -/
 
 -- 命題外延性の公理
-/-⋆-//-- info: axiom propext : ∀ {a b : Prop}, (a ↔ b) → a = b -/
+/-- info: axiom propext : ∀ {a b : Prop}, (a ↔ b) → a = b -/
 #guard_msgs in --#
 #print propext
 
@@ -32,7 +32,7 @@ theorem ex_prop_ext (a b : Prop) (p : Prop → Prop) (h : a ↔ b) (h₁ : p a) 
   rw [←this]
   assumption
 
-/-⋆-//-- info: 'ex_prop_ext' depends on axioms: [propext] -/
+/-- info: 'ex_prop_ext' depends on axioms: [propext] -/
 #guard_msgs in --#
 #print axioms ex_prop_ext
 
@@ -76,7 +76,7 @@ end
 /- 商の公理 `Quot.sound` は上記の「商のような」概念を本物の商にします。-/
 
 -- `r a b` が成り立つならば、商に送った時に同じ値になることを主張する。
-/-⋆-//--
+/--
 info: axiom Quot.sound.{u} : ∀ {α : Sort u} {r : α → α → Prop} {a b : α},
 r a b → Quot.mk r a = Quot.mk r b
 -/
@@ -140,7 +140,7 @@ theorem lambda_eq (f : (x : α) → β x) : f = (fun x => f x) := by rfl
 
 -- 依存関数 `f` がラムダ式 `fun x => f x` に等しいことは、定義から従うので
 -- 何の公理も必要としない。
-/-⋆-//-- info: 'lambda_eq' does not depend on any axioms -/
+/-- info: 'lambda_eq' does not depend on any axioms -/
 #guard_msgs in --#
 #print axioms lambda_eq
 
@@ -159,7 +159,7 @@ theorem funApp_eq (f : (x : α) → β x) : funApp (f := f) = f := calc
   _ = f := by rw [lambda_eq f]
 
 -- これも何の公理も必要としない
-/-⋆-//-- info: 'funApp_eq' does not depend on any axioms -/
+/-- info: 'funApp_eq' does not depend on any axioms -/
 #guard_msgs in --#
 #print axioms funApp_eq
 
@@ -205,7 +205,7 @@ theorem my_funext {f g : (x : α) → β x} (h : ∀ x, f x = g x) : f = g := by
     -- 「`g` を適用する関数」と `g` は等しい
     _ = g := by rw [funApp_eq g]
 
-/-⋆-//-- info: 'my_funext' depends on axioms: [Quot.sound] -/
+/-- info: 'my_funext' depends on axioms: [Quot.sound] -/
 #guard_msgs in --#
 #print axioms my_funext
 
@@ -293,7 +293,7 @@ theorem lemma_em (himp : P → Q) (hor : ¬ Q ∨ P) : P ∨ ¬ P := by
     exact h
 
 -- 何の公理も使用していない
-/-⋆-//-- info: 'lemma_em' does not depend on any axioms -/
+/-- info: 'lemma_em' does not depend on any axioms -/
 #guard_msgs in --#
 #print axioms lemma_em
 
@@ -367,6 +367,6 @@ theorem em (P : Prop) : P ∨ ¬ P := by
 theorem flt (x y z n : Nat) : n > 2 → x ^ n + y ^ n = z ^ n → x * y * z = 0 := by
   sorry
 
-/-⋆-//-- info: 'flt' depends on axioms: [sorryAx] -/
+/-- info: 'flt' depends on axioms: [sorryAx] -/
 #guard_msgs in --#
 #print axioms flt

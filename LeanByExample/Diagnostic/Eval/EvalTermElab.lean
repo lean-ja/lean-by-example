@@ -6,14 +6,14 @@ def foo₁ := eval% bar
 
 def foo₂ := bar
 
-/-⋆-//--
+/--
 info: def foo₁ : Nat :=
 2
 -/
 #guard_msgs in --#
 #print foo₁
 
-/-⋆-//--
+/--
 info: def foo₂ : Nat :=
 bar
 -/

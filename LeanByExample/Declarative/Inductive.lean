@@ -54,7 +54,7 @@ inductive Vec (α : Type) : Nat → Type where
 `inductive` コマンドはパラメータと添字(index)を区別するため、次のように書くとエラーになることに注意してください。
 -/
 
-/-⋆-//--
+/--
 error: Mismatched inductive type parameter in
   BadVec α 0
 The provided argument
@@ -122,7 +122,7 @@ def Nat.myble (m n : Nat) : Bool :=
 -- すぐに計算できる
 #guard Nat.myble 12 24
 
-/-⋆-//--
+/--
 error: failed to synthesize
   Decidable (2 ≤ₘ 4)
 
@@ -328,7 +328,7 @@ end Hidden --#
 たとえば列挙型である `Bool` の場合、再帰子は次のようになっています。
 -/
 
-/-⋆-//--
+/--
 info: Bool.rec.{u} {motive : Bool → Sort u} (false : motive false) (true : motive true) (t : Bool) : motive t
 -/
 #guard_msgs in --#
@@ -339,7 +339,7 @@ info: Bool.rec.{u} {motive : Bool → Sort u} (false : motive false) (true : mot
 [`Nat`](#{root}/Type/Nat.md) の場合はもっとわかりやすいです。
 -/
 
-/-⋆-//--
+/--
 info: Nat.rec.{u} {motive : Nat → Sort u} (zero : motive Nat.zero) (succ : (n : Nat) → motive n → motive n.succ) (t : Nat) :
   motive t
 -/
@@ -372,7 +372,7 @@ example (n m : MyNat) : MyNat.succ n = MyNat.succ m → n = m := by
 
 /- [`show_term`](#{root}/Tactic/ShowTerm.md) を使用して証明項を出してみると、`injection` タクティクにより `noConfusion` という名前の定理が呼ばれていることがわかります。 -/
 
-/-⋆-//--
+/--
 info: Try this:
   [apply] fun h => False.elim (noConfusion_of_Nat MyNat.ctorIdx h)
 -/
@@ -381,7 +381,7 @@ example (n : MyNat) : .succ n ≠ MyNat.zero := show_term by
   intro h
   injection h
 
-/-⋆-//--
+/--
 info: Try this:
   [apply] MyNat.succ.noConfusion h fun n_eq => n_eq
 -/
@@ -394,7 +394,7 @@ example (n m : MyNat) (h : MyNat.succ n = MyNat.succ m) : n = m := show_term by
 帰納型を定義しようとした際に、次のようなエラーになることがあります。
 -/
 
-/-⋆-//--
+/--
 error: (kernel) arg #1 of 'Foo.mk' has a non positive occurrence of the datatypes being declared
 -/
 #guard_msgs in --#
@@ -406,7 +406,7 @@ inductive Foo where
 次の例では、`Bar` のコンストラクタの引数の型の中で `Bar` 自身が正の位置に現れていますが、これも同じエラーになります。
 -/
 
-/-⋆-//--
+/--
 error: (kernel) arg #1 of 'Bar.mk' has a non positive occurrence of the datatypes being declared
 -/
 #guard_msgs in --#

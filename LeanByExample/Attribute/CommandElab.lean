@@ -16,7 +16,7 @@ def evalHello : CommandElab := fun _stx => do
   logInfo msg
 
 -- 実装がないので #hello コマンドはまだ使えない
-/-⋆-//-- error: elaboration function for `helloCommand` has not been implemented -/
+/-- error: elaboration function for `helloCommand` has not been implemented -/
 #guard_msgs in --#
 #hello
 
@@ -24,6 +24,6 @@ def evalHello : CommandElab := fun _stx => do
 attribute [command_elab helloCommand] evalHello
 
 -- コマンドが使えるようになった
-/-⋆-//-- info: Hello, Lean! -/
+/-- info: Hello, Lean! -/
 #guard_msgs in --#
 #hello

@@ -19,12 +19,12 @@ def unexpGreet : Unexpander := fun stx =>
   | _ => throw ()
 
 -- #check の表示が上書きされて変わる
-/-⋆-//-- info: "hello world" : String -/
+/-- info: "hello world" : String -/
 #guard_msgs in --#
 #check greet "Alice"
 
 -- infoview における表示も変わってしまう
-/-⋆-//--
+/--
 trace: s : String
 h : s = "hello world"
 ⊢ String
@@ -36,7 +36,7 @@ example (s : String) (h : s = greet "Alice" ) : String := by
   exact "hello"
 
 -- #eval の表示は変わらない
-/-⋆-//-- info: "Hello, Alice!" -/
+/-- info: "Hello, Alice!" -/
 #guard_msgs in --#
 #eval greet "Alice"
 
@@ -69,7 +69,7 @@ macro_rules
 
 -- 内包表記が使えるようになったが、#check コマンドの出力では
 -- いま定義した記法が使われないという問題がある
-/-⋆-//-- info: setOf fun n => ∃ m, n = 2 * m : Set Nat -/
+/-- info: setOf fun n => ∃ m, n = 2 * m : Set Nat -/
 #guard_msgs in --#
 #check {n : Nat | ∃ m, n = 2 * m}
 
@@ -87,11 +87,11 @@ def setOf.unexpander : Unexpander := fun stx =>
 
 -- ## app_unexpander のテスト
 
-/-⋆-//-- info: {n | ∃ m, n = 2 * m} : Set Nat -/
+/-- info: {n | ∃ m, n = 2 * m} : Set Nat -/
 #guard_msgs in --#
 #check {n | ∃ m, n = 2 * m}
 
-/-⋆-//-- info: {n | ∃ m, n = 2 * m} : Set Nat -/
+/-- info: {n | ∃ m, n = 2 * m} : Set Nat -/
 #guard_msgs in --#
 #check {n : Nat | ∃ m, n = 2 * m}
 
@@ -123,7 +123,7 @@ macro_rules
   | `(⟦ $x, $xs,* ⟧) => `($x ::: (⟦ $xs,* ⟧))
 
 -- 構文は正しく動作しているが、`#check` コマンドの出力に構文が反映されていない
-/-⋆-//-- info: 1 ::: 2 ::: 3 ::: ⟦⟧ : MyList Nat -/
+/-- info: 1 ::: 2 ::: 3 ::: ⟦⟧ : MyList Nat -/
 #guard_msgs in --#
 #check ⟦1, 2, 3⟧
 
@@ -142,11 +142,11 @@ namespace MyList
       | _ => throw ()
     | _ => throw ()
 
-  /-⋆-//-- info: ⟦1, 2, 3⟧ : MyList Nat -/
+  /-- info: ⟦1, 2, 3⟧ : MyList Nat -/
   #guard_msgs in --#
   #check ⟦1, 2, 3⟧
 
-  /-⋆-//-- info: ⟦1⟧ : MyList Nat -/
+  /-- info: ⟦1⟧ : MyList Nat -/
   #guard_msgs in --#
   #check ⟦1, ⟧
 

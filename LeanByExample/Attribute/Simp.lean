@@ -65,7 +65,7 @@ theorem Nat.fib_zero : Nat.fib 0 = 0 := by
 set_option trace.Meta.Tactic.simp.rewrite true in
 
 -- 内側から外側へという順序で単純化を行っていることがわかる。
-/-⋆-//--
+/--
 trace: [Meta.Tactic.simp.rewrite] Nat.fib_zero:1000:
       Nat.fib 0
     ==>

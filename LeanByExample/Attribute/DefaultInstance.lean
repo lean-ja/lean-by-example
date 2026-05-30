@@ -5,7 +5,7 @@
 
 -- `Int` は `Mul` 型クラスのインスタンスで、
 -- インスタンス名は `Int.instMul`
-/-⋆-//-- info: Int.instMul -/
+/-- info: Int.instMul -/
 #guard_msgs in --#
 #synth Mul Int
 
@@ -35,7 +35,7 @@ def NatPair := Nat × Nat
 instance instNatPair : OfNat NatPair 0 := ⟨(0, 0)⟩
 
 -- 期待される型を指定しない場合、数値リテラルは `Nat` の項であると解釈される
-/-⋆-//-- info: 0 : Nat -/
+/-- info: 0 : Nat -/
 #guard_msgs in --#
 #check 0
 
@@ -43,13 +43,13 @@ instance instNatPair : OfNat NatPair 0 := ⟨(0, 0)⟩
 attribute [default_instance] instNatPair
 
 -- `NatPair` の項として解釈されるようになった！
-/-⋆-//-- info: 0 : NatPair -/
+/-- info: 0 : NatPair -/
 #guard_msgs in --#
 #check 0
 
 -- 期待される型を指定したときの挙動は変わらない。
 -- 相変わらず `Nat` の項として解釈される
-/-⋆-//-- info: 0 : Nat -/
+/-- info: 0 : Nat -/
 #guard_msgs in --#
 #check (0 : Nat)
 
@@ -85,7 +85,7 @@ attribute [default_instance] instDiaZero
 
 -- 期待される型が不明な状況であれば、
 -- デフォルトインスタンスが使用される
-/-⋆-//-- info: 0 -/
+/-- info: 0 -/
 #guard_msgs in --#
 #eval ⋄
 

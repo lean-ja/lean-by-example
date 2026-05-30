@@ -10,7 +10,7 @@ theorem MyEven_two : MyEven 2 := by
   apply MyEven.zero
 
 -- `MyEven 2 = True` という書き換えルールが自動生成されている
-/-⋆-//--
+/--
 info: theorem MyEven_two._simp_1 : MyEven 2 = True :=
 eq_true MyEven_two
 
@@ -22,7 +22,7 @@ whatsnew in attribute [simp] MyEven_two
 -- `simp`による書き換えの過程を表示する
 set_option trace.Meta.Tactic.simp.rewrite true
 
-/-⋆-//--
+/--
 trace: [Meta.Tactic.simp.rewrite] MyEven_two:1000:
       MyEven 2
     ==>

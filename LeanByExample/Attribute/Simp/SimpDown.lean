@@ -27,7 +27,7 @@ attribute [simp↓] MyInt.simp_le_add
 -- `simp`の行った書き換えを追跡する
 set_option trace.Meta.Tactic.simp.rewrite true
 
-/-⋆-//--
+/--
 trace: [Meta.Tactic.simp.rewrite] ↓ MyInt.simp_le_add:1000:
       a + 0 ≤ a + b
     ==>

@@ -11,11 +11,11 @@ def greet : String := "hello world!"
 
 -- reduce の結果と eval の結果が一致する
 
-/-⋆-//-- info: "hello world!" -/
+/-- info: "hello world!" -/
 #guard_msgs in --#
 #eval greet
 
-/-⋆-//-- info: "hello world!" -/
+/-- info: "hello world!" -/
 #guard_msgs in --#
 #reduce greet
 
@@ -25,11 +25,11 @@ opaque opaque_greet : String := "hello world!"
 
 -- 簡約できないので eval と一致しなくなる
 
-/-⋆-//-- info: "hello world!" -/
+/-- info: "hello world!" -/
 #guard_msgs in --#
 #eval opaque_greet
 
-/-⋆-//-- info: opaque_greet -/
+/-- info: opaque_greet -/
 #guard_msgs in --#
 #reduce opaque_greet
 
@@ -57,7 +57,7 @@ example : opaque_greet = greet := by
 opaque some_string : String
 
 -- 値は空文字列
-/-⋆-//-- info: "" -/
+/-- info: "" -/
 #guard_msgs in --#
 #eval some_string
 
@@ -66,7 +66,7 @@ structure Something where
   val : String
 
 -- Inhabited インスタンスがないのでエラーになる
-/-⋆-//--
+/--
 error: failed to synthesize 'Inhabited' or 'Nonempty' instance for
   Something
 

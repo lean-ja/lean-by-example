@@ -32,6 +32,6 @@ def main : IO Unit := do
 
   IO.println "abort works"
 
-/-⋆-//-- info: abort works -/
+/-- info: abort works -/
 #guard_msgs in --#
 #eval main

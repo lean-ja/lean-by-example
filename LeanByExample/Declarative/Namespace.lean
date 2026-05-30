@@ -57,7 +57,7 @@ def List.unpack (l : List (List α)) : List α :=
   | [] => []
   | x :: xs => x ++ unpack xs
 
-/-⋆-//--
+/--
 error: Invalid field `unpack`: The environment does not contain `List.unpack`, so it is not possible to project the field `unpack` from an expression
   [[1, 2], [3]]
 of type `List (List Nat)`

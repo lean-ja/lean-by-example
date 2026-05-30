@@ -34,10 +34,10 @@ elab_rules : command
 -- ドキュメントコメントがない場合は何もしない
 #contain_msg in #eval "hello"
 
-/-⋆-//-- info: success: nothing is expected -/
+/-- info: success: nothing is expected -/
 #guard_msgs in --#
 /-- -/ #contain_msg in #eval "hello"
 
-/-⋆-//-- error: error: output string does not contain the expected string -/
+/-- error: error: output string does not contain the expected string -/
 #guard_msgs (error) in --#
 /-- 21 -/ #contain_msg in #eval 23

@@ -23,7 +23,7 @@ elab "#greet" : command => do
   logInfo s!"{opts.get greeting.name greeting.defValue}"
 
 -- デフォルト値が表示される
-/-⋆-//-- info: Hello World -/
+/-- info: Hello World -/
 #guard_msgs in --#
 #greet
 
@@ -31,7 +31,7 @@ elab "#greet" : command => do
 set_option greeting "Hi there"
 
 -- 表示も変更される
-/-⋆-//-- info: Hi there -/
+/-- info: Hi there -/
 #guard_msgs in --#
 #greet
 

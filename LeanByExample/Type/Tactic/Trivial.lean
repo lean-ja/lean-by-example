@@ -21,7 +21,7 @@ def evalMyTrivial : Tactic := fun _stx => do
 example : True := by
   my_trivial
 
-/-⋆-//-- error: my_trivialタクティクが失敗しました。ゴールの型は`False`であって`True`ではありません。 -/
+/-- error: my_trivialタクティクが失敗しました。ゴールの型は`False`であって`True`ではありません。 -/
 #guard_msgs in --#
 example : False := by
   my_trivial

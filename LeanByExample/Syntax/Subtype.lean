@@ -3,7 +3,7 @@
 `{x : T // p x}` は、[部分型](#{root}/Type/Subtype.md)を表す構文です。
 -/
 
-/-⋆-//-- info: { x // x > 0 } : Type -/
+/-- info: { x // x > 0 } : Type -/
 #guard_msgs in --#
 #check { x : Int // x > 0 }
 

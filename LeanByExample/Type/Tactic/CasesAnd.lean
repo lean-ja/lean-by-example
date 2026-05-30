@@ -50,7 +50,7 @@ def evalCasesAnd : Tactic := fun _stx => withMainContext do
 -- デバッグ出力をOFFにする
 set_option trace.debug false
 
-/-⋆-//--
+/--
 trace: a b c d : Prop
 h : a ∧ (b ∧ c) ∧ d
 h_0 : a

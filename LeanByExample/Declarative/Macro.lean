@@ -11,7 +11,7 @@ def parse (cat : Name) (s : String) : MetaM Syntax := do
   ofExcept <| runParserCategory (← getEnv) cat s
 
 -- 最初は `#greet` が未定義なので、合法的なLeanのコマンドとして認識されない
-/-⋆-//-- error: <input>:1:0: expected command -/
+/-- error: <input>:1:0: expected command -/
 #guard_msgs in --#
 #eval parse `command "#greet"
 
@@ -19,7 +19,7 @@ def parse (cat : Name) (s : String) : MetaM Syntax := do
 macro "#greet " : command => `(command| #eval "Hello World!")
 
 -- `#greet` コマンドが使用可能になった
-/-⋆-//-- info: "Hello World!" -/
+/-- info: "Hello World!" -/
 #guard_msgs in --#
 #greet
 
@@ -31,7 +31,7 @@ namespace Macro
   scoped macro "#hello " : command => `(command| #eval "Hello Lean!")
 
   -- `#hello` コマンドが使用可能になった
-  /-⋆-//-- info: "Hello Lean!" -/
+  /-- info: "Hello Lean!" -/
   #guard_msgs in --#
   #hello
 
@@ -43,7 +43,7 @@ namespace MacroRules
   scoped syntax "#hello " : command
 
   -- 構文は認識されるが、解釈方法が定義されていないのでエラーになる
-  /-⋆-//-- error: elaboration function for `MacroRules.«command#hello»` has not been implemented -/
+  /-- error: elaboration function for `MacroRules.«command#hello»` has not been implemented -/
   #guard_msgs in --#
   #hello
 
@@ -51,7 +51,7 @@ namespace MacroRules
     | `(#hello) => `(command| #eval "Hello Lean!")
 
   -- `#hello` コマンドが使用可能になった
-  /-⋆-//-- info: "Hello Lean!" -/
+  /-- info: "Hello Lean!" -/
   #guard_msgs in --#
   #hello
 
@@ -68,7 +68,7 @@ end MacroRules
 -- 引数は `$` を付けると展開できる
 macro "#hello " id:term : command => `(command| #eval s!"Hello, {$id}!")
 
-/-⋆-//-- info: "Hello, Lean!" -/
+/-- info: "Hello, Lean!" -/
 #guard_msgs in --#
 #hello "Lean"
 
@@ -122,7 +122,7 @@ def sum (n : Nat) : Nat := Id.run do
 
 -- 通常の dbg_trace の挙動。
 -- 与えられた式の値だけを返し、与えられた式が何だったかは教えてくれない
-/-⋆-//-- info: 1 -/
+/-- info: 1 -/
 #guard_msgs in --#
 #eval
   let x := 1
@@ -136,7 +136,7 @@ macro "dbg_trace!" x:ident body:term : term =>
   `(term| dbg_trace s!"{$ident} = {$x}"; $body)
 
 -- 与えられた変数の名前を出力するようになった！
-/-⋆-//-- info: y = 1 -/
+/-- info: y = 1 -/
 #guard_msgs in --#
 #eval
   let y := 1

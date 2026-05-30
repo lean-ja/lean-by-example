@@ -33,7 +33,7 @@ elab "#doc " x:ident : command => do
   if let some s ← findDocString? (← getEnv) name then
     logInfo m!"{s}"
 
-/-⋆-//-- info: 階乗関数 -/
+/-- info: 階乗関数 -/
 #guard_msgs in --#
 #doc Nat.factorial
 
@@ -44,7 +44,7 @@ elab "#doc " x:ident : command => do
 section --#
 open Lean Elab Command Parser
 
-/-⋆-//--
+/--
 info: def foo :
     -- ここにコメント
     /- ここにもコメント -/
