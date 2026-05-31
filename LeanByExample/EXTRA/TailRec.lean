@@ -1,75 +1,153 @@
 /- # 付録: 末尾再帰
 
-再帰関数の中で、再帰呼び出しの結果がそのまま関数全体の結果になるものを
-**末尾再帰** と呼びます。末尾再帰になっている関数は、次の呼び出しへ進む前に
-現在の呼び出しで残っている仕事がないため、実行時にコールスタックを節約できます。
+**末尾再帰(tail recursion)** とは、再帰呼び出しの結果を加工せずそのまま返り値として返すような再帰のことを指します。そのような再帰関数のことを、**末尾再帰的(tail recursive)** であると言ったりします。
 
-たとえば次の `countNonTR` は末尾再帰ではありません。再帰呼び出し `countNonTR n`
-の結果を受け取ってから、さらに `+ 1` を計算する必要があるからです。この場合、
-再帰呼び出しは「末尾位置」ではなく、加算の引数の位置にあります。
+たとえば以下のリストの和を計算する関数は、末尾再帰的ではありません。再帰呼び出しの結果である `sum xs` をそのまま返すのではなく、`(x + ·)` で加工してから返しているからです。
+-/
+import LeanByExample.Lib.InSecond --#
+namespace nonTR --#
+
+variable {α : Type} [Add α] [Zero α]
+
+/-- 末尾再帰的ではない関数の例 -/
+def sum (l : List α) : α :=
+  match l with
+  | [] => 0
+  | x :: xs => x + sum xs
+
+#guard sum [1, 2, 3] = 6
+
+end nonTR --#
+/-
+逆に、以下の関数は末尾再帰的です。再帰呼び出し `sum xs (acc + x)` の結果をそのまま返しているからです。再帰呼び出しの前に、`acc + x` という計算はしていますが、これは引数に入っているだけなので関係ありません。
+-/
+namespace TR --#
+
+variable {α : Type} [Add α] [Zero α]
+
+/-- 末尾再帰的な関数の例 -/
+def sumAux (l : List α) (acc : α) : α :=
+  match l with
+  | [] => acc
+  | x :: xs => sumAux xs (acc + x)
+
+def sum (l : List α) : α :=
+  sumAux l 0
+
+#guard sum [1, 2, 3] = 6
+
+end TR --#
+/- ## 末尾再帰とコンパイル時最適化
+
+末尾再帰という概念が重要なものとされている主な理由は、末尾再帰的な関数はコンパイル時に最適化してループに変換することができるという事実にあります。
+
+### スタックオーバーフロー
+
+まず前提として、再帰関数の計算はメモリ効率が悪く **スタックオーバーフロー** というエラーを引き起こす可能性が高いということを理解しておく必要があります。たとえば、以下のような関数を考えてみましょう。
 -/
 
-def countNonTR (n : Nat) : Nat :=
+/-- 階乗関数 -/
+def factorial (n : Nat) : Nat :=
+  match n with
+  | 0 => 1
+  | n + 1 => (n + 1) * factorial n
+
+/- このとき、`factorial 5` の計算の過程を丁寧に書くとこうなります。 -/
+
+example : factorial 5 = 120 := calc
+  _ = 5 * factorial 4 := by rfl
+  _ = 5 * (4 * factorial 3) := by rfl
+  _ = 5 * (4 * (3 * factorial 2)) := by rfl
+  _ = 5 * (4 * (3 * (2 * factorial 1))) := by rfl
+  _ = 5 * (4 * (3 * (2 * (1 * factorial 0)))) := by rfl
+  _ = 5 * (4 * (3 * (2 * (1 * 1)))) := by rfl
+  _ = 120 := by rfl
+
+/- ここで重要なのは、最後の `factorial 0` の結果が返ってくるまで、外側の `(5 * ·)` や `(3 * ·)` などの計算がすべて待たされるということです。この待機中の情報はコールスタックという場所に保存されるのですが、容量には限りがあるので大きな入力を計算しようとすると溢れてエラーになります。これがスタックオーバーフローです。
+-/
+
+/-
+再帰ではなくてループで実装した場合は、入力が大きくなってもコールスタックを食いつぶすことはないので、このことを根拠に「再帰よりループの方がメモリ効率が良い」と言われることがあります。
+-/
+
+/-- ループで実装した階乗関数 -/
+def factorialLoop (n : Nat) : Nat := Id.run do
+  let mut acc := 1
+  for i in [1:n+1] do
+    acc := acc * i
+  return acc
+
+#guard factorialLoop 5 = 120
+
+/- ### 末尾呼び出し最適化
+
+関数が末尾再帰的であった場合、少し様相が異なります。先ほどの階乗関数の例を使って、どのように変わるのかを見てみましょう。まず、階乗関数を末尾再帰を使って書き換えます。
+-/
+
+def factorialAux (n acc : Nat) : Nat :=
+  match n with
+  | 0 => acc
+  | n + 1 => factorialAux n ((n + 1) * acc)
+
+/-- 末尾再帰的な補助関数を使って書き換えた階乗関数 -/
+def factorialTR (n : Nat) : Nat :=
+  factorialAux n 1
+
+/- そうすると、`factorialTR 5` の計算の過程は以下のようになります。 -/
+
+example : factorialTR 5 = 120 := calc
+  _ = factorialAux 5 1 := by rfl
+  _ = factorialAux 4 (5 * 1) := by rfl
+  _ = factorialAux 3 (4 * (5 * 1)) := by rfl
+  _ = factorialAux 2 (3 * (4 * (5 * 1))) := by rfl
+  _ = factorialAux 1 (2 * (3 * (4 * (5 * 1)))) := by rfl
+  _ = factorialAux 0 (1 * (2 * (3 * (4 * (5 * 1))))) := by rfl
+  _ = (1 * (2 * (3 * (4 * (5 * 1))))) := by rfl
+  _ = 120 := by rfl
+
+/- よく見ると、引数の計算だけになっていて、再帰呼び出しの結果を待つ必要がなくなっています。したがって、コンパイル時にループに変換することができます。これが **末尾呼び出し最適化(tail call optimization)** です。
+-/
+
+/- ### 末尾呼び出し最適化による高速化
+
+Lean のコンパイラは末尾呼び出し最適化を行うため、実際に末尾再帰的な関数に書き換えることによって関数を省メモリかつ高速にすることができます。より顕著な差が出るように、ここではフィボナッチ数列を計算する関数を例にしましょう。（一度の再帰で２つの再帰呼び出しを計算するため、大きな差が出ます）
+-/
+
+/-- n 番目のフィボナッチ数を計算する関数 -/
+def fib (n : Nat) : Nat :=
   match n with
   | 0 => 0
-  | n + 1 => countNonTR n + 1
+  | 1 => 1
+  | n + 2 => fib (n + 1) + fib n
 
-#guard countNonTR 10 = 10
+#guard fib 7 = 13
 
-/- 一方で、次の `countTR` は末尾再帰です。これまでに数えた分を `acc` に記録しておくことで、
-再帰呼び出しを分岐全体の結果にしています。 -/
 
-def countTR (n : Nat) : Nat :=
-  countTRAux n 0
-where
-  countTRAux (n acc : Nat) : Nat :=
-    match n with
-    | 0 => acc
-    | n + 1 => countTRAux n (acc + 1)
+def fibAux (n a b : Nat) : Nat :=
+  match n with
+  | 0 => a
+  | n + 1 => fibAux n b (a + b)
 
-#guard countTR 10 = 10
+/-- 末尾再帰的に書き直した fib 関数 -/
+def fibTR (n : Nat) : Nat := fibAux n 0 1
 
-theorem countTRAux_eq (n acc : Nat) : countTR.countTRAux n acc = countNonTR n + acc := by
-  induction n generalizing acc with
-  | zero =>
-      simp [countTR.countTRAux, countNonTR]
-  | succ n ih =>
-      simp [countTR.countTRAux, countNonTR, ih, Nat.add_comm, Nat.add_left_comm]
+#guard fibTR 7 = 13
 
-theorem countTR_eq_countNonTR (n : Nat) : countTR n = countNonTR n := by
-  simp [countTR, countTRAux_eq]
+-- 計算に１秒以上かかる
+--#--
+/-- error: It took more than one second for the command to run. -/
+#guard_msgs (error) in
+#in_second #eval fib 32
+--#--
+#eval fib 32
 
-/- `countTRAux_eq` の証明では、補助関数が持つ `acc` の意味を明示しています。
-`countTR.countTRAux n acc` は、`n` から数えた結果に、すでに数えてある `acc` を足したものです。
-このように末尾再帰化のためにアキュムレータを追加したときは、アキュムレータについて一般化した命題を
-証明すると、元の関数との対応を示しやすくなります。 -/
+-- 計算がすぐ終わる
+#in_second #eval fibTR 32 --#
+#eval fibTR 32
 
-/- ## メモリ使用量の違い
+/- Lean では「証明では実装 `A` を使用し、実行時は効率的な別の実装 `B` を使用する」ということができるので、実装だけ置き換えて高速化することもできます。詳しくは [`[csimp]`](#{root}/Attribute/Csimp.md) のページを参照してください。 -/
 
-`countNonTR` と `countTR` は同じ値を返します。しかし、メモリ使用量に制限をかけて
-大きめの入力を計算すると違いが現れます。
-
-以下の `main` は、`lean --run` でこのファイルを実行したときに使うためのものです。
-引数に `nontr` を渡すと末尾再帰ではない実装を、`tr` を渡すと末尾再帰の実装を実行します。
--/
-
-def main (args : List String) : IO Unit := do
-  let x := 100_000
-  match args with
-  | [] =>
-    throw <| IO.userError "引数が必要です: `nontr` または `tr` を指定してください"
-  | "nontr" :: _ =>
-    IO.println s!"countNonTR {x} = {countNonTR x}"
-  | "tr" :: _ =>
-    IO.println s!"countTR {x} = {countTR x}"
-  | _ =>
-    throw <| IO.userError "不明な引数です: `nontr` または `tr` を指定してください"
-
-/- このファイルを直接 `lean --run` する代わりに、以下のテスト用ファイルでは２つの実行を別プロセスで行い、
-`--memory` によって使用メモリを制限しています。末尾再帰の実装は成功し、末尾再帰でない実装は失敗することを
-終了コードによって確認しています。
-
-{{#include ./TailRec/Run.md}}
+/- ## 末尾再帰と部分関数
 
 末尾再帰性は、[`partial_fixpoint`](#{root}/Modifier/PartialFixpoint.md) で修飾できる関数の条件にも現れます。
 詳しくは `partial_fixpoint` のページを参照してください。
