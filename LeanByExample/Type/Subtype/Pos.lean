@@ -1,25 +1,4 @@
-import Lean
-
-open Lean Elab Command in
-
-/-- 2つのコマンドのうち最初のコマンドのほうが `n` 倍早く終わることを確かめるコマンド -/
-elab "#speed_rank " "(" "ratio" ":=" n:num ")" "|" stx1:command "|" stx2:command : command => do
-  let start_time ← IO.monoMsNow
-  elabCommand stx1
-  let end_time ← IO.monoMsNow
-  let time1 := end_time - start_time
-
-  let start_time ← IO.monoMsNow
-  elabCommand stx2
-  let end_time ← IO.monoMsNow
-  let time2 := end_time - start_time
-
-  logInfo m!"1つめのコマンドの実行時間: {time1}ms"
-  logInfo m!"2つめのコマンドの実行時間: {time2}ms"
-
-  let threshold := n.getNat
-  unless time1 * threshold < time2 do
-    throwError m!"エラー: 1つめのコマンドが期待されるより速くありません。"
+import LeanByExample.Lib.SpeedRank --#
 
 namespace Inductive
   /- ## 別の帰納型として正の整数を定義する -/
@@ -71,6 +50,10 @@ namespace Subtype
 end Subtype
 
 -- 帰納型として定義すると5倍以上も遅くなってしまう
+#reduce (500 : Subtype.Pos) + (500 : Subtype.Pos)
+#reduce (500 : Inductive.Pos) + (500 : Inductive.Pos)
+--#--
 #speed_rank (ratio := 5)
   | #reduce (500 : Subtype.Pos) + (500 : Subtype.Pos)
   | #reduce (500 : Inductive.Pos) + (500 : Inductive.Pos)
+--#--
