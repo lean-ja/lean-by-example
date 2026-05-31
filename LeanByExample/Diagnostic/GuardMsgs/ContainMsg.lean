@@ -1,5 +1,5 @@
-import Mathlib.Util.WhatsNew
 import Batteries.Data.String.Matcher
+import Lean.Elab.Command
 
 open Lean Elab Command
 
