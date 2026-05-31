@@ -22,4 +22,9 @@ elab tk:"run_io " t:doSeq : term <= expectedType => withRef t do
   | .error e => throwErrorAt tk e.toString
 
 -- 使用例。ランダムな数を選んでいるのに、型を `Nat` にすることができる
-def number : Nat := run_io IO.rand 0 200
+def number : Nat := run_io IO.rand 0 1000
+
+-- 実行前に既に値が決定されているため、
+-- 平気で証明ができる
+example : 0 ≤ number ∧ number < 1001 := by
+  simp [number.eq_def]
