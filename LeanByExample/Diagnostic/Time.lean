@@ -1,7 +1,6 @@
 /- # \#time
 `#time` は、コマンドの実行時間を計測するためのコマンドです。ミリ秒単位で結果を出してくれます。
 -/
-import Lean
 
 -- フィボナッチ数列の遅い実装
 -- `n` に関して指数関数的な時間がかかる
@@ -36,54 +35,7 @@ where
 -/
 
 /- ## 舞台裏
-`IO.monoMsNow` という関数でそのときの時刻を取得し、その差を計算することで実行時間を計測することができます。これにより `#time` コマンドと同様のコマンドを自作することができます。次に挙げるのは「コマンドの実行時間が `n` ミリ秒以上 `m` ミリ秒以下に収まるかどうか」を検証するコマンドを自作する例です。
+`IO.monoMsNow` という関数でそのときの時刻をミリ秒単位で取得できます。これにより `#time` コマンドのような時間計測を行うコマンドを自作できるでしょう。また `IO.monoNanosNow` という関数も存在し、これはナノ秒単位で結果を取得します。これを使うと、単位がナノ秒であるような `#time` の派生コマンドを自作できます。
+
+{{#include ./Time/NanoTime.md}}
 -/
-
-open Lean Elab Command in
-
-/-- コマンドの実行時間がnミリ秒以上mミリ秒以下であることを確かめるコマンド -/
-elab "#speed_test " "|" n:num "≤" "[ms]" "≤" m:num "|" stx:command : command => do
-  -- 実行直前に計測開始
-  let start_time ← IO.monoMsNow
-
-  -- 与えられたコマンドを実行
-  elabCommand stx
-
-  -- 実行後に計測終了して差分をミリ秒単位で計算
-  let end_time ← IO.monoMsNow
-  let time := end_time - start_time
-
-  -- 与えられた期限を取得
-  let startline := n.getNat
-  let deadline := m.getNat
-
-  -- 指定時間帯に終わったかどうかを検証
-  unless time ≥ startline do
-    throwError m!"It took {time}ms for the command to run, which is less than {startline}ms."
-  unless time ≤ deadline do
-    throwError m!"It took {time}ms for the command to run, which is more than {deadline}ms."
-
-  logInfo m!"time: {time}ms"
-
-#speed_test
-  | 0 ≤ [ms] ≤ 1000
-  | #eval fib 28
-
-/- なお `IO.monoNanosNow` という関数も存在し、これはナノ秒単位で結果を取得します。これを使うと、単位がナノ秒であるような `#time` の派生コマンドを自作できます。 -/
-
-open Lean Elab Command Term Meta in
-
-elab "#nano_time " stx:command : command => do
-  -- 実行直前に計測開始
-  let start_time ← IO.monoNanosNow
-
-  -- コマンドを実行
-  elabCommand stx
-
-  -- 実行後に計測終了
-  let end_time ← IO.monoNanosNow
-
-  -- 差分を実行時間としてナノ秒単位で出力
-  logInfo m!"time: {end_time - start_time}ns"
-
-#nano_time #eval fib 2
