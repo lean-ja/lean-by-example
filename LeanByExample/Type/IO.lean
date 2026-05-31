@@ -82,9 +82,12 @@ def computeTime : IO Unit := do
 
 `IO` アクションは基本的に「副作用のある計算」であり、`IO` から脱出する安全かつ汎用的な関数はありません。言い換えれば、`runIO : IO α → α` というような参照透過な関数はありません。
 
-しかし Lean は自由度が高い言語でありまして、この制約も破ることができます。[`unsafe`](#{root}/Modifier/Unsafe.md) な機能を使ってよければ、`IO` から脱出することができます。
+しかし Lean は自由度が高い言語でありまして、この制約も破ることができます。[`unsafe`](#{root}/Modifier/Unsafe.md) な機能を使ってよければ、`IO` から脱出することができます。[^runio]
 
 {{#include ./IO/RunIO.md}}
 -/
 
-/- [^quine]: このコード例は [leanprover-community/lean4-samples に対するPR](https://github.com/leanprover-community/lean4-samples/pull/22) からの引用です。-/
+/-
+[^quine]: このコード例は [leanprover-community/lean4-samples に対するPR](https://github.com/leanprover-community/lean4-samples/pull/22) からの引用です。
+[^runio]: このコードは [Lake.DSL.Meta](https://github.com/leanprover/lean4/blob/bfad38b63df86f3edf99c5697600e57199661803/src/lake/Lake/DSL/Meta.lean#L42-L61) のコードをほぼそのまま引用したものです。
+-/
