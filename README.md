@@ -9,7 +9,7 @@
 
 ## CONTRIBUTING
 
-誤りのご指摘を歓迎いたします。この GitHubリポジトリに issue や Pull Request を開いてください。
+誤りのご指摘を歓迎いたします。この GitHub リポジトリに issue を開いてください。Pull Request は誤りの修正に関するもののみ歓迎しており、それ以外の Pull Request は受け付けておりません。
 
 ## Do you want to translate this book?
 
