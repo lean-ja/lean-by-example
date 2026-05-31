@@ -1,7 +1,7 @@
 /-
 現在のファイル名を出力する term elaborator
 -/
-import Lean
+import Lean.Elab.Command
 
 open Lean Elab Term
 

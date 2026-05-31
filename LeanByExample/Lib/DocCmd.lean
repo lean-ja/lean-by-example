@@ -1,4 +1,4 @@
-import Lean
+import Lean.Elab.Command
 
 open Lean Elab Command in
 
