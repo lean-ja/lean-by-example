@@ -1,6 +1,9 @@
 /- # IO
 
-`IO` は、入出力(I/O)という副作用を伴うプログラムを表します。ファイル操作・入出力・乱数・時刻などの副作用のある処理を包んで、副作用のない処理と区別します。-/
+`IO` は、入出力(input / output)などの外界とのやり取りを含む計算を表す[モナド](#{root}/TypeClass/Monad.md)です。ファイル操作・入出力・乱数・時刻の取得などの副作用のある処理を包んで、副作用のない処理と区別します。
+
+「`IO α` の項は、外界とのやり取りを含む計算を表しており、計算によって得られる値そのものではない」というニュアンスを強調したいとき、`IO α` の項のことを IO アクションと呼びます。
+-/
 
 /- ## 標準入出力
 
@@ -29,14 +32,14 @@ def main : IO Unit := do
 
 /- ## ファイル操作
 
-以下は、ファイルを読んでその内容を表示するような簡単なコマンドラインツールを実装する例です。(`lean --run` を使って実行することができます)
+以下は、ファイルを読んでその内容を表示するような簡単なコマンドラインツールを実装する例です。
 
 {{#include ./IO/Cat.md}}
 -/
 
 /- ## ランダム性
 
-乱数を扱うような操作は IO アクション(`IO α` の項)です。
+乱数を扱うような操作は `IO` アクションです。
 -/
 
 /-- 長さ `n` で、中身の値が 0 以上 `bound` 以下であるようなリストをランダム生成する -/
@@ -73,4 +76,4 @@ def computeTime : IO Unit := do
 
 #eval computeTime
 
-/- [^quine]: このコード例は [leanprover-community/lean4-samples に対するPR](https://github.com/leanprover-community/lean4-samples/pull/22) からの引用です。 -/
+/- [^quine]: このコード例は [leanprover-community/lean4-samples に対するPR](https://github.com/leanprover-community/lean4-samples/pull/22) からの引用です。-/
