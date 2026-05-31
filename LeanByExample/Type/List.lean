@@ -168,7 +168,7 @@ section
   example (init : α) : [b₁, b₂, b₃].foldl (· ⊗ ·) init = init ⊗ b₁ ⊗ b₂ ⊗ b₃ := by
     rfl
 end
-/- `List.foldl` も `List.foldr` と同様、多くの再帰関数に共通に現れる再帰のパターンを抽象化したものになっていますが、`List.foldr` とは異なり **末尾再帰(tail recursion)** になります。たとえば、リストの長さを求める関数 `List.lengthTR` を次のように定義すると、これは `List.foldl` の具体例になっています。 -/
+/- `List.foldl` も `List.foldr` と同様、多くの再帰関数に共通に現れる再帰のパターンを抽象化したものになっていますが、`List.foldr` とは異なり[末尾再帰関数](#{root}/EXTRA/TailRec.md)になります。たとえば、リストの長さを求める関数 `List.lengthTR` を次のように定義すると、これは `List.foldl` の具体例になっています。 -/
 namespace Foldl
   variable {α : Type}
 

@@ -120,7 +120,7 @@ partial_fixpoint
 /-
 許される関数とそうでない関数の違いはどこにあるのでしょうか？実は、`partial_fixpoint` で修飾することができる関数は、大まかに次の２つの条件のどちらかを満たすものです。[^partial-fixpoint-ref]
 
-1. 返り値の型が [`Inhabited`](#{root}/TypeClass/Inhabited.md) であるような、末尾再帰関数
+1. 返り値の型が [`Inhabited`](#{root}/TypeClass/Inhabited.md) であるような、[末尾再帰関数](#{root}/EXTRA/TailRec.md)
 2. [`Option`](#{root}/Type/Option.md) モナドのような、適切な[モナド](#{root}/TypeClass/Monad.md)に包まれた値を返す関数
 
 ### 1-A 返り値の型が Inhabited とは
