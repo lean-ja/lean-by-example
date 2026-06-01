@@ -138,8 +138,8 @@ info: @[irreducible] def String.padLeftWF : String → Char → Nat → String
 
 /-
 したがって、その関数について何か証明しようとしても [`rfl`](#{root}/Tactic/Rfl.md) タクティクや [`decide`](#{root}/Tactic/Decide.md) タクティクが使えません。
+このような場合でも [`cbv`](#{root}/Tactic/Cbv.md) タクティクで証明できることがあります。
 -/
-set_option warn.sorry false in --#
 
 example : String.padLeftWF "42" '0' 5 = "00042" := by
   -- `rfl` では示せない
@@ -148,7 +148,8 @@ example : String.padLeftWF "42" '0' 5 = "00042" := by
   -- `decide` でも示せない
   fail_if_success decide
 
-  sorry
+  -- `cbv` なら定義方程式に基づいて簡約できる
+  cbv
 
 /- もしも整礎再帰を回避して同じことができるのであれば、回避すると良いでしょう。 -/
 
