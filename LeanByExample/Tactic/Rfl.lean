@@ -46,7 +46,8 @@ example : MyNat.one = MyNat.two := by
 
 /- ## \#reduce コマンドとの関係
 
-ここで定義的等価(definitionally equal)というのは、おおむね [`#reduce`](#{root}/Diagnostic/Reduce.md) コマンドに与えた結果の式が等しいというのと同じことです。 -/
+ここで定義的等価(definitionally equal)というのは、おおむね [`#reduce`](#{root}/Diagnostic/Reduce.md) コマンドに与えた結果の式が等しいというのと同じことです。
+ただし [`cbv`](./Cbv.md) タクティクのように、定義的等価性ではなく等式定理による書き換えとして計算するタクティクもあります。 -/
 section
   /- ## rfl で等しいと示せるもの同士の #reduce の出力が等しいことの確認 -/
 
