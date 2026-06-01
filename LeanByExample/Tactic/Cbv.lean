@@ -8,6 +8,16 @@
 
 namespace CbvExample
 
+/- ## call by value であることの意味
+
+`cbv` が call by value という名前なのは、関数呼び出しの引数や `if` の条件などを先に値まで簡約し、その値に応じて関数の定義方程式やパターンマッチの方程式を適用していくからです。[^ref]
+
+ここで重要なのは、`cbv` が「定義を直接展開している」のではなく「定義方程式を使って命題的な等式として書き換えている」という点です。
+整礎再帰や `partial_fixpoint` で定義された関数は、[`[irreducible]`](#{root}/Attribute/Irreducible.md) 属性によって定義的には展開しづらくなります。
+しかし、その関数を値呼びで実行したときの計算規則に対応する定義方程式は利用できます。
+そのため `cbv` は、値呼びで実行したときに起こる計算を、定義的等価性ではなく等式による書き換えとして再現できるのです。
+-/
+
 /- ## 整礎再帰で定義された関数に使う
 
 整礎再帰を使って定義された関数は、自動的に [`[irreducible]`](#{root}/Attribute/Irreducible.md) 属性が付与されます。
@@ -71,3 +81,6 @@ theorem padWith_cbv : padWith "abc" 'x' 5 = "xxabc" := by
 #print axioms padWith_cbv
 
 end CbvExample
+
+/- [^ref]: Lean 公式リファレンスの `cbv` の説明を参考にしています。
+<https://lean-lang.org/doc/reference/latest/Tactic-Proofs/Tactic-Reference/#call-by-value-evaluation> -/
