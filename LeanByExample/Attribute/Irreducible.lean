@@ -31,6 +31,11 @@ example : factorial 5 = 120 := by
 #guard_msgs in --#
 #reduce factorial 3
 
+/- なお [`cbv`](#{root}/Tactic/Cbv.md) タクティクは定義方程式を使って命題的に書き換えるため、`[irreducible]` な関数でも計算できることがあります。-/
+
+example : factorial 5 = 120 := by
+  cbv
+
 /- ## reducibility を確認する
 
 Lean が暗黙の裡に `[irreducible]` 属性や `[reducible]` 属性を付与していることがあります。`Lean.getReducibilityStatus` 関数を使うと確認することができます。
