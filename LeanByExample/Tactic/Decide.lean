@@ -62,7 +62,7 @@ theorem odd_seven : Odd (7 : Int) := by
 
 /- ## よくあるエラー
 
-`decide` は、[整礎再帰](#{root}/Modifier/TerminationBy.md) を使って定義された関数に対してはそのまま使用することができません。[`native_decide`](#{root}/Tactic/NativeDecide.md) タクティクを使えば一応証明は可能です。
+`decide` は、[整礎再帰](#{root}/Modifier/TerminationBy.md) を使って定義された関数に対してはそのまま使用することができません。このような場合には [`cbv`](#{root}/Tactic/Cbv.md) タクティクの使用を検討してください。
 -/
 
 /-- 文字列を指定した長さになるまで特定の文字で埋める関数 -/
@@ -79,5 +79,5 @@ example : String.padWith "abc" 'x' 5 = "xxabc" := by
   -- decide は整礎再帰の関数には使えない
   fail_if_success decide
 
-  -- 一応証明できる
-  native_decide
+  -- cbv なら証明できる
+  cbv
