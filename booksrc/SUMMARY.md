@@ -295,4 +295,5 @@
 
 - [付録](./EXTRA/README.md)
   - [選択ソート](./EXTRA/SelectionSort.md)
+  - [じゃんけんゲーム](./EXTRA/Janken.md)
   - [末尾再帰](./EXTRA/TailRec.md)
