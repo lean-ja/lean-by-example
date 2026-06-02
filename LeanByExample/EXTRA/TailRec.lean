@@ -226,3 +226,40 @@ theorem sum_eq_sumFoldr (l : List α) : sum l = sumFoldr l := by
   rfl
 
 end Fold --#
+/- ### 継続渡しスタイルにする
+
+「値を受け取った後に残りの計算をどう続けるか」を表す関数のことを **継続(continuation)** と呼びます。
+「再帰呼び出しの結果を受け取った後に何をするか」を継続として明示的に渡すという方法です。**継続渡しスタイル(continuation-passing style)** と呼ばれます。
+-/
+namespace CPS --#
+
+variable {α β : Type}
+
+def map (f : α → β) (l : List α) : List β :=
+  match l with
+  | [] => []
+  | x :: xs => f x :: map f xs
+
+/-- 継続渡しスタイルに書き直すための補助関数 -/
+def mapCPSAux (f : α → β) (l : List α) (k : List β → List β) : List β :=
+  match l with
+  | [] => k []
+  | x :: xs =>
+    mapCPSAux f xs (fun ys => k (f x :: ys))
+
+/-- 継続渡しスタイルに書き直した map 関数 -/
+def mapCPS (f : α → β) (l : List α) : List β :=
+  mapCPSAux f l id
+
+theorem mapCPSAux_lem (f : α → β) (l : List α) (k : List β → List β)
+    : mapCPSAux f l k = k (map f l) := by
+  induction l generalizing k with
+  | nil => rfl
+  | cons x xs ih => solve_by_elim
+
+/-- `map` と `mapCPS` は等しい -/
+theorem map_eq_mapCPS (f : α → β) (l : List α) : map f l = mapCPS f l := by
+  delta mapCPS
+  simp [mapCPSAux_lem]
+
+end CPS --#
