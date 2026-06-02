@@ -5,6 +5,7 @@
 たとえば以下のリストの和を計算する関数は、末尾再帰的ではありません。再帰呼び出しの結果である `sum xs` をそのまま返すのではなく、`(x + ·)` で加工してから返しているからです。
 -/
 import LeanByExample.Lib.InSecond --#
+import LeanByExample.Lib.CheckCsimp --#
 namespace nonTR --#
 
 variable {α : Type} [Add α] [Zero α]
@@ -197,7 +198,14 @@ end Accum --#
 
 再帰パターンを抽出した高階関数として `List.foldl` と `List.foldr` がありますが、この２つは「`List.foldl` の方は末尾再帰的で、`List.foldr` の方はそうではない」という違いがあります。
 
-しかし、Lean の標準ライブラリにおいて `List.foldr` は末尾再帰的な実装と `[csimp]` 属性を利用して置換されています。したがって `foldr` 的な再帰構造を持つ関数を `List.foldr` を使って書き直すだけで、実行時に末尾呼び出し最適化の恩恵を受けることができます。
+しかし、Lean の標準ライブラリにおいて `List.foldr` は末尾再帰的な実装と `[csimp]` 属性を利用して置換されています。
+-/
+--#--
+/-- info: List.foldr_eq_foldrTR has the [csimp] attribute -/
+#guard_msgs in
+#check_csimp List.foldr_eq_foldrTR
+--#--
+/- したがって `foldr` 的な再帰構造を持つ関数を `List.foldr` を使って書き直すだけで、実行時に末尾呼び出し最適化の恩恵を受けることができます。
 -/
 namespace Fold --#
 
