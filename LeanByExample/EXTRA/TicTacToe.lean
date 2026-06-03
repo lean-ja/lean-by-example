@@ -15,10 +15,12 @@ instance : ToString Cell where
   toString := Cell.toString
 
 structure GameState where
-  board : Array (Array Cell)
+  board : Vector (Vector Cell 3) 3
 
 def GameState.empty : GameState :=
-  { board := Array.replicate 3 #[.empty, .empty, .empty]}
+  let row := #v[Cell.empty, Cell.empty, Cell.empty]
+  let board := #v[row, row, row]
+  { board := board }
 
 /-- ユーザー入力を受け取る -/
 def getUserInput : IO String := do
@@ -64,11 +66,11 @@ def GameState.display (state : GameState) (indentSize : Nat := 5) : IO Unit := d
   let board := state.board
   let mut pos : Nat := 0
   IO.println s!"{indent}+--+--+--+"
-  for i in [0:3] do
-    let row := board[i]!
+  for hi : i in [0:3] do
+    let row := board[i]
     IO.print indent
-    for j in [0:3] do
-      let displayText := row[j]!.display (Position.build pos)
+    for hj : j in [0:3] do
+      let displayText := row[j].display (Position.build pos)
       IO.print s!"| {displayText}"
 
       pos := pos + 1
@@ -80,6 +82,7 @@ def GameState.display (state : GameState) (indentSize : Nat := 5) : IO Unit := d
 def GameState.unused (state : GameState) : Array Position :=
   let flatBoard := state.board.flatten
   let unusedIdxes := flatBoard.zipIdx
+    |>.toArray
     |>.filter (fun (cell, _idx) => cell == .empty)
     |>.map (fun (_cell, idx) => idx)
   unusedIdxes.map Position.build
@@ -123,20 +126,20 @@ deriving BEq
 /-- `Cell` に対する述語 `P` が、どれかの行に対して成立する -/
 def GameState.checkForRows (state : GameState) (P : Cell → Bool) : Bool :=
   let board := state.board
-  (P board[0]![0]! && P board[0]![1]! && P board[0]![2]!) ||
-  (P board[1]![0]! && P board[1]![1]! && P board[1]![2]!) ||
-  (P board[2]![0]! && P board[2]![1]! && P board[2]![2]!)
+  (P board[0][0] && P board[0][1] && P board[0][2]) ||
+  (P board[1][0] && P board[1][1] && P board[1][2]) ||
+  (P board[2][0] && P board[2][1] && P board[2][2])
 
 def GameState.checkForCols (state : GameState) (P : Cell → Bool) : Bool :=
   let board := state.board
-  (P board[0]![0]! && P board[1]![0]! && P board[2]![0]!) ||
-  (P board[0]![1]! && P board[1]![1]! && P board[2]![1]!) ||
-  (P board[0]![2]! && P board[1]![2]! && P board[2]![2]!)
+  (P board[0][0] && P board[1][0] && P board[2][0]) ||
+  (P board[0][1] && P board[1][1] && P board[2][1]) ||
+  (P board[0][2] && P board[1][2] && P board[2][2])
 
 def GameState.checkForDiag (state : GameState) (P : Cell → Bool) : Bool :=
   let board := state.board
-  (P board[0]![0]! && P board[1]![1]! && P board[2]![2]!) ||
-  (P board[2]![0]! && P board[1]![1]! && P board[0]![2]!)
+  (P board[0][0] && P board[1][1] && P board[2][2]) ||
+  (P board[2][0] && P board[1][1] && P board[0][2])
 
 def GameState.checkForLines (state : GameState) (P : Cell → Bool) : Bool :=
   state.checkForRows P ||
