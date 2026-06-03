@@ -15,12 +15,10 @@ instance : ToString Cell where
   toString := Cell.toString
 
 /-- ゲームが持っている、盤面の状態 -/
-abbrev Board := Vector (Vector Cell 3) 3
+abbrev Board := Vector Cell 9
 
 def Board.empty : Board :=
-  let row := #v[Cell.empty, Cell.empty, Cell.empty]
-  let board := #v[row, row, row]
-  board
+  Vector.replicate 9 Cell.empty
 
 /-- ユーザー入力を受け取る -/
 def getUserRawInput : IO String := do
@@ -29,45 +27,16 @@ def getUserRawInput : IO String := do
   let input ← stdin.getLine
   return input.trimAscii.copy
 
-structure Position where
-  /-- 何行目かを表す -/
-  x : Fin 3
-  /-- 何列目かを表す -/
-  y : Fin 3
-deriving DecidableEq, Inhabited
-
-def Position.flatten (pos : Position) : Nat :=
-  pos.x.val * 3 + pos.y.val
-
-def Position.next (pos : Position) : Position :=
-  if hy : pos.y.val < 2 then
-    let x : Fin 3 := ⟨pos.x, by grind⟩
-    let y : Fin 3 := ⟨pos.y + 1, by grind⟩
-    { x := x, y := y }
-  else if hx : pos.x.val < 2 then
-    let x : Fin 3 := ⟨pos.x + 1, by grind⟩
-    let y : Fin 3 := 0
-    { x := x, y := y }
-  else
-    { x := 0, y := 0}
-
-def Position.build! (pos : Nat) : Position :=
-  if h : pos ≤ 8 then
-    let x : Fin 3 := ⟨pos / 3, by grind⟩
-    let y : Fin 3 := ⟨pos % 3, by grind⟩
-    { x := x, y := y }
-  else
-    panic! "[Position.build!] invalide argument error"
+/-- 盤面上の位置。0 以上 9 未満の番号で表す -/
+abbrev Position := Fin 9
 
 def parsePosition (input : String) : Option Position :=
   let num? := input.toNat?
   match num? with
   | none => none
   | some num =>
-    if h : 0 ≤ num ∧ num ≤ 8 then
-      let x : Fin 3 := ⟨num / 3, by grind⟩
-      let y : Fin 3 := ⟨num % 3, by grind⟩
-      some ⟨x, y⟩
+    if h : num < 9 then
+      some ⟨num, h⟩
     else
       none
 
@@ -76,45 +45,33 @@ def grayText (s : String) : String :=
 
 def Cell.display (c : Cell) (pos : Position) : String :=
   match c with
-  | .empty => grayText <| toString pos.flatten
+  | .empty => grayText <| toString pos.val
   | _ => toString c
 
 /-- ゲームの盤面の状態を表示する -/
 def Board.display (board : Board) (indentSize : Nat := 5) : IO Unit := do
   let indent := " ".pushn ' ' indentSize
-  let mut pos : Position := { x := 0, y := 0}
   IO.println s!"{indent}+--+--+--+"
-  for hi : i in [0:3] do
-    let row := board[i]
-    IO.print indent
-    for hj : j in [0:3] do
-      let displayText := row[j].display pos
-      IO.print s!"| {displayText}"
-
-      pos := pos.next
-
-    IO.println s!"|"
-    IO.println s!"{indent}+--+--+--+"
+  for pos in Vector.finRange 9 do
+    if pos.val % 3 == 0 then
+      IO.print indent
+    let displayText := board[pos].display pos
+    IO.print s!"| {displayText}"
+    if pos.val % 3 == 2 then
+      IO.println "|"
+      IO.println s!"{indent}+--+--+--+"
 
 /-- 未着手のセルを列挙する -/
 def Board.unused (board : Board) : Array Position :=
-  let flatBoard := board.flatten
-  let unusedIdxes := flatBoard.zipIdx
-    |>.toArray
-    |>.filter (fun (cell, _idx) => cell == .empty)
-    |>.map (fun (_cell, idx) => idx)
-  unusedIdxes.map Position.build!
+  (Vector.finRange 9).toArray.filter (fun pos => board[pos] == .empty)
 
 /-- ゲームの盤面の状態を更新して、新しい盤面を返す
 既に着手済みの場所に置こうとすると失敗し、`panic!` する -/
 def Board.update! (board : Board) (pos : Position) (c : Cell) : Board :=
-  if !pos ∈ board.unused then
+  if board[pos] != .empty then
     panic! "[Board.update] the position is already used"
   else
-    let oldRow := board[pos.x]
-    let newRow := oldRow.set pos.y c
-    let newBoard := board.set pos.x newRow
-    newBoard
+    board.set pos c
 
 def Array.getRandom! {α : Type} [Inhabited α] (xs : Array α) : IO α := do
   let idx ← IO.rand 0 (xs.size - 1)
@@ -140,18 +97,18 @@ deriving BEq
 abbrev Line := Vector Position 3
 
 def allLines : Array Line :=
-  let row0 : Line := #v[⟨0, 0⟩, ⟨0, 1⟩, ⟨0, 2⟩]
-  let row1 : Line := #v[⟨1, 0⟩, ⟨1, 1⟩, ⟨1, 2⟩]
-  let row2 : Line := #v[⟨2, 0⟩, ⟨2, 1⟩, ⟨2, 2⟩]
-  let col0 : Line := #v[⟨0, 0⟩, ⟨1, 0⟩, ⟨2, 0⟩]
-  let col1 : Line := #v[⟨0, 1⟩, ⟨1, 1⟩, ⟨2, 1⟩]
-  let col2 : Line := #v[⟨0, 2⟩, ⟨1, 2⟩, ⟨2, 2⟩]
-  let diag1 : Line := #v[⟨0, 0⟩, ⟨1, 1⟩, ⟨2, 2⟩]
-  let diag2 : Line := #v[⟨0, 2⟩, ⟨1, 1⟩, ⟨2, 0⟩]
+  let row0 : Line := #v[0, 1, 2]
+  let row1 : Line := #v[3, 4, 5]
+  let row2 : Line := #v[6, 7, 8]
+  let col0 : Line := #v[0, 3, 6]
+  let col1 : Line := #v[1, 4, 7]
+  let col2 : Line := #v[2, 5, 8]
+  let diag1 : Line := #v[0, 4, 8]
+  let diag2 : Line := #v[2, 4, 6]
   #[row0, row1, row2, col0, col1, col2, diag1, diag2]
 
 def Line.check (line : Line) (board : Board) (P : Cell → Bool) : Bool :=
-  line.all (fun pos => P (board[pos.x][pos.y]))
+  line.all (fun pos => P (board[pos]))
 
 def Board.checkForLines (board : Board) (P : Cell → Bool) : Bool :=
   allLines.any (fun line => line.check board P)
@@ -176,7 +133,7 @@ partial def getUserHand (board : Board) : IO Position := do
     board.display
     getUserHand board
 
-  if !(pos ∈ board.unused) then
+  if board[pos] != .empty then
     IO.println "その場所には着手できません"
     board.display
     getUserHand board
