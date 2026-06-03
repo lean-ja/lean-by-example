@@ -109,7 +109,7 @@ def GameState.unused (state : GameState) : Array Position :=
 
 /-- ゲームの盤面の状態を更新する。
 既に着手済みの場所に置こうとすると失敗し、`panic!` する -/
-def GameState.update (state : GameState) (pos : Position) (c : Cell) : GameState :=
+def GameState.update! (state : GameState) (pos : Position) (c : Cell) : GameState :=
   if !pos ∈ state.unused then
     panic! "[GameState.update] the position is already used"
   else
@@ -174,7 +174,7 @@ def GameState.result (state : GameState) : Result :=
 partial def getUserHand (state : GameState) : IO Position := do
   let input ← getUserRawInput
   let some pos := parsePosition input |
-    IO.println "1から9の数字を入力してください"
+    IO.println "0から8の数字を入力してください"
     state.display
     getUserHand state
 
@@ -193,14 +193,14 @@ def main : IO Unit := do
     gameState.display
 
     let yourPos ← getUserHand gameState
-    gameState := gameState.update yourPos Cell.x
+    gameState := gameState.update! yourPos Cell.x
 
     result := gameState.result
     if result != .progress then
       break
 
     let cpuPos ← getRandomPos gameState
-    gameState := gameState.update cpuPos Cell.o
+    gameState := gameState.update! cpuPos Cell.o
 
     result := gameState.result
     if result != .progress then
