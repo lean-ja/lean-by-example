@@ -30,25 +30,44 @@ def getUserInput : IO String := do
   return input.trimAscii.copy
 
 structure Position where
-  /-- 何行目かを表す。0 ≤ x ≤ 2 -/
-  x : Nat
-  /-- 何列目かを表す。0 ≤ y ≤ 2 -/
-  y : Nat
+  /-- 何行目かを表す -/
+  x : Fin 3
+  /-- 何列目かを表す -/
+  y : Fin 3
 deriving DecidableEq, Inhabited
 
 def Position.flatten (pos : Position) : Nat :=
-  pos.x * 3 + pos.y
+  pos.x.val * 3 + pos.y.val
 
-def Position.build (pos : Nat) : Position :=
-  { x := pos / 3, y := pos % 3 }
+def Position.next (pos : Position) : Position :=
+  if hy : pos.y.val < 2 then
+    let x : Fin 3 := ⟨pos.x, by grind⟩
+    let y : Fin 3 := ⟨pos.y + 1, by grind⟩
+    { x := x, y := y }
+  else if hx : pos.x.val < 2 then
+    let x : Fin 3 := ⟨pos.x + 1, by grind⟩
+    let y : Fin 3 := 0
+    { x := x, y := y }
+  else
+    { x := 0, y := 0}
+
+def Position.build! (pos : Nat) : Position :=
+  if h : pos ≤ 8 then
+    let x : Fin 3 := ⟨pos / 3, by grind⟩
+    let y : Fin 3 := ⟨pos % 3, by grind⟩
+    { x := x, y := y }
+  else
+    panic! "[Position.build!] invalide argument error"
 
 def parsePosition (input : String) : Option Position :=
   let num? := input.toNat?
   match num? with
   | none => none
   | some num =>
-    if 0 ≤ num ∧ num ≤ 8 then
-      some ⟨num / 3, num % 3⟩
+    if h : 0 ≤ num ∧ num ≤ 8 then
+      let x : Fin 3 := ⟨num / 3, by grind⟩
+      let y : Fin 3 := ⟨num % 3, by grind⟩
+      some ⟨x, y⟩
     else
       none
 
@@ -64,16 +83,16 @@ def Cell.display (c : Cell) (pos : Position) : String :=
 def GameState.display (state : GameState) (indentSize : Nat := 5) : IO Unit := do
   let indent := " ".pushn ' ' indentSize
   let board := state.board
-  let mut pos : Nat := 0
+  let mut pos : Position := { x := 0, y := 0}
   IO.println s!"{indent}+--+--+--+"
   for hi : i in [0:3] do
     let row := board[i]
     IO.print indent
     for hj : j in [0:3] do
-      let displayText := row[j].display (Position.build pos)
+      let displayText := row[j].display pos
       IO.print s!"| {displayText}"
 
-      pos := pos + 1
+      pos := pos.next
 
     IO.println s!"|"
     IO.println s!"{indent}+--+--+--+"
@@ -85,7 +104,7 @@ def GameState.unused (state : GameState) : Array Position :=
     |>.toArray
     |>.filter (fun (cell, _idx) => cell == .empty)
     |>.map (fun (_cell, idx) => idx)
-  unusedIdxes.map Position.build
+  unusedIdxes.map Position.build!
 
 /-- その場所に着手できるかどうか判定する。既に着手済みなら着手できない。 -/
 def GameState.allow (state : GameState) (pos : Position) : Bool :=
@@ -97,9 +116,9 @@ def GameState.allow (state : GameState) (pos : Position) : Bool :=
 /-- ゲームの盤面の状態を更新する。
 注意: 既に着手済みの場所に置こうとしても何も起こらない -/
 def GameState.update (state : GameState) (pos : Position) (c : Cell) : GameState :=
-  let oldRow := state.board[pos.x]!
-  let newRow := oldRow.set! pos.y c
-  let newBoard := state.board.set! pos.x newRow
+  let oldRow := state.board[pos.x]
+  let newRow := oldRow.set pos.y c
+  let newBoard := state.board.set pos.x newRow
   { board := newBoard }
 
 def Array.getRandom {α : Type} [Inhabited α] (xs : Array α) : IO α := do
