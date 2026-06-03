@@ -142,28 +142,24 @@ inductive Result where
   | draw
 deriving BEq
 
-/-- `Cell` に対する述語 `P` が、どれかの行に対して成立する -/
-def GameState.checkForRows (state : GameState) (P : Cell → Bool) : Bool :=
-  let board := state.board
-  (P board[0][0] && P board[0][1] && P board[0][2]) ||
-  (P board[1][0] && P board[1][1] && P board[1][2]) ||
-  (P board[2][0] && P board[2][1] && P board[2][2])
+abbrev Line := Vector Position 3
 
-def GameState.checkForCols (state : GameState) (P : Cell → Bool) : Bool :=
-  let board := state.board
-  (P board[0][0] && P board[1][0] && P board[2][0]) ||
-  (P board[0][1] && P board[1][1] && P board[2][1]) ||
-  (P board[0][2] && P board[1][2] && P board[2][2])
+def allLines : Array Line :=
+  let row0 : Line := #v[⟨0, 0⟩, ⟨0, 1⟩, ⟨0, 2⟩]
+  let row1 : Line := #v[⟨1, 0⟩, ⟨1, 1⟩, ⟨1, 2⟩]
+  let row2 : Line := #v[⟨2, 0⟩, ⟨2, 1⟩, ⟨2, 2⟩]
+  let col0 : Line := #v[⟨0, 0⟩, ⟨1, 0⟩, ⟨2, 0⟩]
+  let col1 : Line := #v[⟨0, 1⟩, ⟨1, 1⟩, ⟨2, 1⟩]
+  let col2 : Line := #v[⟨0, 2⟩, ⟨1, 2⟩, ⟨2, 2⟩]
+  let diag1 : Line := #v[⟨0, 0⟩, ⟨1, 1⟩, ⟨2, 2⟩]
+  let diag2 : Line := #v[⟨0, 2⟩, ⟨1, 1⟩, ⟨2, 0⟩]
+  #[row0, row1, row2, col0, col1, col2, diag1, diag2]
 
-def GameState.checkForDiag (state : GameState) (P : Cell → Bool) : Bool :=
-  let board := state.board
-  (P board[0][0] && P board[1][1] && P board[2][2]) ||
-  (P board[2][0] && P board[1][1] && P board[0][2])
+def Line.check (line : Line) (state : GameState) (P : Cell → Bool) : Bool :=
+  line.all (fun pos => P (state.board[pos.x][pos.y]))
 
 def GameState.checkForLines (state : GameState) (P : Cell → Bool) : Bool :=
-  state.checkForRows P ||
-  state.checkForCols P ||
-  state.checkForDiag P
+  allLines.any (fun line => line.check state P)
 
 def GameState.result (state : GameState) : Result :=
   let xwin : Bool := state.checkForLines (· == Cell.x)
