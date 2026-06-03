@@ -1,3 +1,7 @@
+/- # 三目並べ
+
+以下は三目並べを CLI ゲームとして実装する例です。
+-/
 
 inductive Cell where
   | empty
@@ -37,6 +41,7 @@ def parsePosition (input : String) : Option Nat :=
     else
       none
 
+/-- テキストが灰色で表示されるようにする -/
 def grayText (s : String) : String :=
   s!"\x1b[90m{s}\x1b[0m"
 
@@ -81,8 +86,6 @@ def getRandomPos (board : Board) : IO Nat := do
   return pos
 
 inductive Result where
-  /-- 進行中 -/
-  | progress
   /-- x を持っているプレイヤーの勝ち -/
   | xwin
   /-- o を持っているプレイヤーの勝ち -/
@@ -110,18 +113,18 @@ def Line.check (line : Line) (board : Board) (P : Cell → Bool) : Bool :=
 def Board.checkForLines (board : Board) (P : Cell → Bool) : Bool :=
   allLines.any (fun line => line.check board P)
 
-def Board.result (board : Board) : Result :=
+def Board.result? (board : Board) : Option Result :=
   let xwin : Bool := board.checkForLines (· == Cell.x)
   let owin := board.checkForLines (· == Cell.o)
   let draw := board.unused.isEmpty
   if xwin then
-    .xwin
+    some .xwin
   else if owin then
-    .owin
+    some .owin
   else if draw then
-    .draw
+    some .draw
   else
-    .progress
+    none
 
 partial def getUserHand (board : Board) : IO Nat := do
   let input ← getUserRawInput
@@ -139,7 +142,7 @@ partial def getUserHand (board : Board) : IO Nat := do
 
 def main : IO Unit := do
   let mut board := Board.empty
-  let mut result : Result := .progress
+  let mut result? : Option Result := none
 
   while true do
     board.display
@@ -147,18 +150,20 @@ def main : IO Unit := do
     let yourPos ← getUserHand board
     board := board.update yourPos Cell.x
 
-    result := board.result
-    if result != .progress then
+    result? := board.result?
+    if result?.isSome then
       break
 
     let cpuPos ← getRandomPos board
     board := board.update cpuPos Cell.o
 
-    result := board.result
-    if result != .progress then
+    result? := board.result?
+    if result?.isSome then
       break
 
   board.display
+  let some result := result? |
+    unreachable!
   match result with
   | .xwin =>
     IO.println "x の勝ち"
@@ -166,4 +171,3 @@ def main : IO Unit := do
     IO.println "o の勝ち"
   | .draw =>
     IO.println "引き分け"
-  | _ => unreachable!
