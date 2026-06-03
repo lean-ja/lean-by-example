@@ -14,14 +14,13 @@ protected def Cell.toString (c : Cell) : String :=
 instance : ToString Cell where
   toString := Cell.toString
 
-structure GameState where
-  board : Vector (Vector Cell 3) 3
-deriving Inhabited
+/-- ゲームが持っている、盤面の状態 -/
+abbrev Board := Vector (Vector Cell 3) 3
 
-def GameState.empty : GameState :=
+def Board.empty : Board :=
   let row := #v[Cell.empty, Cell.empty, Cell.empty]
   let board := #v[row, row, row]
-  { board := board }
+  board
 
 /-- ユーザー入力を受け取る -/
 def getUserRawInput : IO String := do
@@ -81,9 +80,8 @@ def Cell.display (c : Cell) (pos : Position) : String :=
   | _ => toString c
 
 /-- ゲームの盤面の状態を表示する -/
-def GameState.display (state : GameState) (indentSize : Nat := 5) : IO Unit := do
+def Board.display (board : Board) (indentSize : Nat := 5) : IO Unit := do
   let indent := " ".pushn ' ' indentSize
-  let board := state.board
   let mut pos : Position := { x := 0, y := 0}
   IO.println s!"{indent}+--+--+--+"
   for hi : i in [0:3] do
@@ -99,32 +97,32 @@ def GameState.display (state : GameState) (indentSize : Nat := 5) : IO Unit := d
     IO.println s!"{indent}+--+--+--+"
 
 /-- 未着手のセルを列挙する -/
-def GameState.unused (state : GameState) : Array Position :=
-  let flatBoard := state.board.flatten
+def Board.unused (board : Board) : Array Position :=
+  let flatBoard := board.flatten
   let unusedIdxes := flatBoard.zipIdx
     |>.toArray
     |>.filter (fun (cell, _idx) => cell == .empty)
     |>.map (fun (_cell, idx) => idx)
   unusedIdxes.map Position.build!
 
-/-- ゲームの盤面の状態を更新する。
+/-- ゲームの盤面の状態を更新して、新しい盤面を返す
 既に着手済みの場所に置こうとすると失敗し、`panic!` する -/
-def GameState.update! (state : GameState) (pos : Position) (c : Cell) : GameState :=
-  if !pos ∈ state.unused then
-    panic! "[GameState.update] the position is already used"
+def Board.update! (board : Board) (pos : Position) (c : Cell) : Board :=
+  if !pos ∈ board.unused then
+    panic! "[Board.update] the position is already used"
   else
-    let oldRow := state.board[pos.x]
+    let oldRow := board[pos.x]
     let newRow := oldRow.set pos.y c
-    let newBoard := state.board.set pos.x newRow
-    { board := newBoard }
+    let newBoard := board.set pos.x newRow
+    newBoard
 
 def Array.getRandom {α : Type} [Inhabited α] (xs : Array α) : IO α := do
   let idx ← IO.rand 0 (xs.size - 1)
   return xs[idx]!
 
 /-- 未着手の場所をランダムに選ぶ -/
-def getRandomPos (state : GameState) : IO Position := do
-  let unused := state.unused
+def getRandomPos (board : Board) : IO Position := do
+  let unused := board.unused
   let pos ← unused.getRandom
   return pos
 
@@ -152,16 +150,16 @@ def allLines : Array Line :=
   let diag2 : Line := #v[⟨0, 2⟩, ⟨1, 1⟩, ⟨2, 0⟩]
   #[row0, row1, row2, col0, col1, col2, diag1, diag2]
 
-def Line.check (line : Line) (state : GameState) (P : Cell → Bool) : Bool :=
-  line.all (fun pos => P (state.board[pos.x][pos.y]))
+def Line.check (line : Line) (board : Board) (P : Cell → Bool) : Bool :=
+  line.all (fun pos => P (board[pos.x][pos.y]))
 
-def GameState.checkForLines (state : GameState) (P : Cell → Bool) : Bool :=
-  allLines.any (fun line => line.check state P)
+def Board.checkForLines (board : Board) (P : Cell → Bool) : Bool :=
+  allLines.any (fun line => line.check board P)
 
-def GameState.result (state : GameState) : Result :=
-  let xwin : Bool := state.checkForLines (· == Cell.x)
-  let owin := state.checkForLines (· == Cell.o)
-  let draw := state.unused.isEmpty
+def Board.result (board : Board) : Result :=
+  let xwin : Bool := board.checkForLines (· == Cell.x)
+  let owin := board.checkForLines (· == Cell.o)
+  let draw := board.unused.isEmpty
   if xwin then
     .xwin
   else if owin then
@@ -171,42 +169,42 @@ def GameState.result (state : GameState) : Result :=
   else
     .progress
 
-partial def getUserHand (state : GameState) : IO Position := do
+partial def getUserHand (board : Board) : IO Position := do
   let input ← getUserRawInput
   let some pos := parsePosition input |
     IO.println "0から8の数字を入力してください"
-    state.display
-    getUserHand state
+    board.display
+    getUserHand board
 
-  if !(pos ∈ state.unused) then
+  if !(pos ∈ board.unused) then
     IO.println "その場所には着手できません"
-    state.display
-    getUserHand state
+    board.display
+    getUserHand board
   else
     return pos
 
 def main : IO Unit := do
-  let mut gameState := GameState.empty
+  let mut board := Board.empty
   let mut result : Result := .progress
 
   while true do
-    gameState.display
+    board.display
 
-    let yourPos ← getUserHand gameState
-    gameState := gameState.update! yourPos Cell.x
+    let yourPos ← getUserHand board
+    board := board.update! yourPos Cell.x
 
-    result := gameState.result
+    result := board.result
     if result != .progress then
       break
 
-    let cpuPos ← getRandomPos gameState
-    gameState := gameState.update! cpuPos Cell.o
+    let cpuPos ← getRandomPos board
+    board := board.update! cpuPos Cell.o
 
-    result := gameState.result
+    result := board.result
     if result != .progress then
       break
 
-  gameState.display
+  board.display
   match result with
   | .xwin =>
     IO.println "x の勝ち"
