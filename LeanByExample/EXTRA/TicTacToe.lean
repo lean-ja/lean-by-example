@@ -116,14 +116,14 @@ def Board.update! (board : Board) (pos : Position) (c : Cell) : Board :=
     let newBoard := board.set pos.x newRow
     newBoard
 
-def Array.getRandom {α : Type} [Inhabited α] (xs : Array α) : IO α := do
+def Array.getRandom! {α : Type} [Inhabited α] (xs : Array α) : IO α := do
   let idx ← IO.rand 0 (xs.size - 1)
   return xs[idx]!
 
 /-- 未着手の場所をランダムに選ぶ -/
 def getRandomPos (board : Board) : IO Position := do
   let unused := board.unused
-  let pos ← unused.getRandom
+  let pos ← unused.getRandom!
   return pos
 
 inductive Result where
