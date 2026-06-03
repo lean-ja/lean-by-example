@@ -16,6 +16,7 @@ instance : ToString Cell where
 
 structure GameState where
   board : Vector (Vector Cell 3) 3
+deriving Inhabited
 
 def GameState.empty : GameState :=
   let row := #v[Cell.empty, Cell.empty, Cell.empty]
@@ -23,7 +24,7 @@ def GameState.empty : GameState :=
   { board := board }
 
 /-- ユーザー入力を受け取る -/
-def getUserInput : IO String := do
+def getUserRawInput : IO String := do
   IO.print "> "
   let stdin ← IO.getStdin
   let input ← stdin.getLine
@@ -106,20 +107,16 @@ def GameState.unused (state : GameState) : Array Position :=
     |>.map (fun (_cell, idx) => idx)
   unusedIdxes.map Position.build!
 
-/-- その場所に着手できるかどうか判定する。既に着手済みなら着手できない。 -/
-def GameState.allow (state : GameState) (pos : Position) : Bool :=
-  if pos ∈ state.unused then
-    true
-  else
-    false
-
 /-- ゲームの盤面の状態を更新する。
-注意: 既に着手済みの場所に置こうとしても何も起こらない -/
+既に着手済みの場所に置こうとすると失敗し、`panic!` する -/
 def GameState.update (state : GameState) (pos : Position) (c : Cell) : GameState :=
-  let oldRow := state.board[pos.x]
-  let newRow := oldRow.set pos.y c
-  let newBoard := state.board.set pos.x newRow
-  { board := newBoard }
+  if !pos ∈ state.unused then
+    panic! "[GameState.update] the position is already used"
+  else
+    let oldRow := state.board[pos.x]
+    let newRow := oldRow.set pos.y c
+    let newBoard := state.board.set pos.x newRow
+    { board := newBoard }
 
 def Array.getRandom {α : Type} [Inhabited α] (xs : Array α) : IO α := do
   let idx ← IO.rand 0 (xs.size - 1)
@@ -174,6 +171,20 @@ def GameState.result (state : GameState) : Result :=
   else
     .progress
 
+partial def getUserHand (state : GameState) : IO Position := do
+  let input ← getUserRawInput
+  let some pos := parsePosition input |
+    IO.println "1から9の数字を入力してください"
+    state.display
+    getUserHand state
+
+  if !(pos ∈ state.unused) then
+    IO.println "その場所には着手できません"
+    state.display
+    getUserHand state
+  else
+    return pos
+
 def main : IO Unit := do
   let mut gameState := GameState.empty
   let mut result : Result := .progress
@@ -181,13 +192,7 @@ def main : IO Unit := do
   while true do
     gameState.display
 
-    let input ← getUserInput
-    let some yourPos := parsePosition input |
-      IO.println "1から9の数字を入力してください"
-      continue
-    if !gameState.allow yourPos then
-      IO.println "その場所には着手できません"
-      continue
+    let yourPos ← getUserHand gameState
     gameState := gameState.update yourPos Cell.x
 
     result := gameState.result
