@@ -155,3 +155,20 @@ def Question.goodFor (q : Question) (respond : Guardian) : Bool :=
 /-- 良い質問かどうかを判定する -/
 def Question.good (q : Question) : Bool :=
   allGuardians.all fun respond => q.goodFor respond
+
+/- ## 探索
+
+これで「求めるべき質問」を定義することができました。あとはそのような質問を探索して見つけるだけです。
+
+探索する対象は、質問全体の空間 `Question` なわけですが、この型には無限に多くの項があるので、全部探索するわけにはいきません。複雑さを測る尺度を用意して、ある程度簡単なものに限って探索することにしましょう。例えば、質問 `q : Question` の構造の深さを次のように定義すれば、深さが一定以下の質問は有限個になるので全探索できるようになります。
+-/
+
+/-- 質問の深さ -/
+def Question.depth (q : Question) : Nat :=
+  match q with
+  | .angel _ => 1
+  | .toHeaven _ => 1
+  | .not q => q.depth + 1
+  | .or q p => max q.depth p.depth + 1
+  | .and q p => max q.depth p.depth + 1
+  | .iff q p => max q.depth p.depth + 1
