@@ -212,6 +212,18 @@ def depth1Questions : List Question :=
     return op q1 q2
   ofBinary ++ ofNot
 
-/- すると複数の解が見つかります。 -/
+/- すると早くもこの中から解が見つかります。複数の解が出ますが、対称性によって複数出ているだけであり、本質的には「あなたは天使である」と「左の道は天国へ続く」は同値ですか？という質問のバリエーションであるようです。 -/
 
+/--
+info:
+[Question.iff (Question.angel (GuardianRef.you)) (Question.toHeaven (Road.left)),
+ Question.iff (Question.angel (GuardianRef.other)) (Question.toHeaven (Road.right)),
+ Question.iff (Question.toHeaven (Road.left)) (Question.angel (GuardianRef.you)),
+ Question.iff (Question.toHeaven (Road.right)) (Question.angel (GuardianRef.other))]
+-/
+#guard_msgs (whitespace := lax) in --#
 #eval depth1Questions.filter Question.good
+
+/-
+質問している相手が天使だろうと悪魔だろうと、左の道が天国行きであれば YES、左の道が地獄行きであれば NO という返事が返ってきます。これでこのパズルは解けました。
+-/
