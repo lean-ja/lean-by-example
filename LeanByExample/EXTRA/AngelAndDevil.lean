@@ -24,7 +24,7 @@ inductive Guardian where
   | left
   /-- 右の番人 -/
   | right
-deriving BEq
+deriving BEq, Repr
 
 /-- 道 -/
 inductive Road where
@@ -32,7 +32,7 @@ inductive Road where
   | left
   /-- 右の道 -/
   | right
-deriving BEq
+deriving BEq, Repr
 
 /-
 問題のゴールを表現するのには、これに比べると少し自由度があります。「どのような質問をすればよいか？」という問いなので、意味のある質問文をすべて含むような型 `Question` を定義して、その中にある適切な質問文 `q : Question` を探索して見つけるという風に解釈しましょう。
@@ -58,6 +58,7 @@ inductive GuardianRef where
   | you
   /-- 質問に答える番人ではない方 -/
   | other
+deriving BEq, Repr
 
 /-- 反対側の番人 -/
 def Guardian.other (g : Guardian) : Guardian :=
@@ -87,6 +88,7 @@ inductive Question where
   | and (q p : Question)
   /-- `q` と `p` は同値ですかという質問 -/
   | iff (q p : Question)
+deriving BEq, Repr
 
 /- このようにして探索する対象の質問全体 `Question` が定義できたので、次は求める質問が満たすべき条件を定式化します。
 
@@ -166,9 +168,50 @@ def Question.good (q : Question) : Bool :=
 /-- 質問の深さ -/
 def Question.depth (q : Question) : Nat :=
   match q with
-  | .angel _ => 1
-  | .toHeaven _ => 1
+  | .angel _ => 0
+  | .toHeaven _ => 0
   | .not q => q.depth + 1
   | .or q p => max q.depth p.depth + 1
   | .and q p => max q.depth p.depth + 1
   | .iff q p => max q.depth p.depth + 1
+
+/- まず深さが小さいものから調べましょう。深さゼロの原子的な質問は有限個です。番人を指す表現が4個、道が2本なので、ここから作れる原子的質問は全部で6個しかありません。 -/
+
+/-- 原子的な質問をすべて並べたリスト -/
+def atomicQuestions : List Question := [
+  .angel .left,
+  .angel .right,
+  .angel .you,
+  .angel .other,
+  .toHeaven .left,
+  .toHeaven .right
+]
+
+-- この中に良い質問はない
+#guard atomicQuestions.filter Question.good == []
+
+/-
+深さゼロの質問の中に良い質問はありませんでした。次は深さ１の質問を調べてみましょう。深さ１の質問は、原始的な質問に二項演算を適用したものからなっていて、全部で `6 + 6 * 6 * 3 = 114` 個しかありません。これも全探索できます。
+
+探索は、`List` のモナドインスタンスを使うと簡単に書くことができます。
+-/
+
+-- モナドのインスタンスにする
+instance : Monad List where
+  pure x := [x]
+  bind l f := l.flatMap f
+  map f l := l.map f
+
+/-- 深さ１の質問文全体 -/
+def questionsDepth1 : List Question :=
+  let ofNot : List Question := atomicQuestions.map Question.not
+  let ofBinary : List Question := do
+    let q1 ← atomicQuestions
+    let q2 ← atomicQuestions
+    let op ← [Question.or, Question.and, Question.iff]
+    return op q1 q2
+  ofBinary ++ ofNot
+
+/- すると複数の解が見つかります。 -/
+
+#eval questionsDepth1.filter Question.good
