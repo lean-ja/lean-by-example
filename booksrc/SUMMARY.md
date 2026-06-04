@@ -297,4 +297,5 @@
   - [選択ソート](./EXTRA/SelectionSort.md)
   - [じゃんけんゲーム](./EXTRA/Janken.md)
   - [３目並べ](./EXTRA/TicTacToe.md)
+  - [嫉妬深い夫の問題](./EXTRA/Jealous.md)
   - [末尾再帰](./EXTRA/TailRec.md)
