@@ -203,7 +203,7 @@ instance : Monad List where
   map f l := l.map f
 
 /-- 深さ１の質問文全体 -/
-def questionsDepth1 : List Question :=
+def depth1Questions : List Question :=
   let ofNot : List Question := atomicQuestions.map Question.not
   let ofBinary : List Question := do
     let q1 ← atomicQuestions
@@ -214,4 +214,4 @@ def questionsDepth1 : List Question :=
 
 /- すると複数の解が見つかります。 -/
 
-#eval questionsDepth1.filter Question.good
+#eval depth1Questions.filter Question.good
