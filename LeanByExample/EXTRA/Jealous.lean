@@ -152,7 +152,7 @@ def State.isValid (s : State) : Bool :=
 
 * 船に乗っている人を１人岸に下ろす
 * 岸にいる人を１人船に乗せる
-* 船を漕いで対岸に移動する
+* 誰かが船を漕いで対岸に移動させる
 
 (船に２人乗せるのは、１人乗せるのを繰り返せば実現できるのでここでは１ステップと認めないことにしました)
 -/
@@ -220,14 +220,85 @@ def State.nextStates (s : State) : List State :=
     |> (s.boatTrip :: ·)
     |>.reduceOption
 
-/-
-## 探索
+/- ## 幅優先探索
 
-後は、予告したように幅優先探索を行いましょう。幅優先探索は、グラフを探索しながら「次に訪れるべきノード」を何かしらのキューに保存していくことによって実装できます。Lean では `Std.Queue` が標準的なキューの実装として用意されているので、それを使います。
+後は、予告したように幅優先探索を行います。
 
-ただしこの場合状態のグラフには閉路がある（行って戻ってを繰り返すことができる）ので、「既に訪問済みの状態」を管理しておく必要があります。そのために、「２つの状態 `s t : State` が等しいかどうか」を判定できるようにしておく必要があります。したがって `BEq` のインスタンスが必要です。
+幅優先探索は、グラフを探索してあるノードから別のノードへの最短経路を求めるためによく用いられるアルゴリズムです。幅優先探索は、グラフを探索しながら「次に訪れるべきノード」を何かしらのキューに保存していくことによって実装できます。Lean では `Std.Queue` が標準的なキューの実装として用意されているので、それを使います。
+
+話をできるだけ一般的にするために、ここでは `Graph` という型クラスを定義しておいて、それに対して幅優先探索アルゴリズムを実装します。
 -/
 
+class Graph (α : Type) where
+  /-- ノード `v` に隣接しているノードのリストを返す -/
+  neighbors : α → List α
+
+variable {α : Type} [BEq α] [Hashable α]
+
+open Std
+
+/-- あるノード `s` から始めて、ノード `t` に到達するまでの幅優先探索を行う。
+後で経路を復元するために、親ノードを記録した辞書を返す -/
+def Graph.bfs [Graph α] (s t : α) : HashMap α α := Id.run do
+  -- キューを空の状態で初期化
+  -- このキューは「これから訪問するべきノード」を管理する
+  let mut q : Queue α := ∅
+
+  -- 親ノードを記録する辞書
+  let mut parent : HashMap α α := ∅
+
+  -- 訪問済みであるかどうか管理する集合
+  let mut visited : HashSet α := ∅
+
+  -- 初期ノードをキューに追加
+  q := q.enqueue s
+  visited := visited.insert s
+
+  -- キューが空になるまでループ
+  while !q.isEmpty do
+    -- キューからノードを取り出す
+    let some (v, q') := q.dequeue? | unreachable!
+    q := q'
+
+    -- 目的のノードに出会ったら探索を終了する
+    if v == t then
+      break
+
+    for u in Graph.neighbors v do
+      if u ∉ visited then
+        visited := visited.insert u
+        parent := parent.insert u v
+        q := q.enqueue u
+
+  return parent
+
+/-- グラフの親を記録した辞書から、ノード `t` への経路を復元する -/
+def constructPath (parent : HashMap α α) (t : α) : List α := Id.run do
+  let mut path : List α := []
+  let mut cur? : Option α := t
+
+  while cur?.isSome do
+    let some cur := cur? | unreachable!
+    path := cur :: path
+    cur? := parent[cur]?
+
+  path
+
+/-- 幅優先探索によって、ノード `s` からノード `t` への最短パスを求める -/
+def Graph.findShortestPath [Graph α] (s t : α) : List α :=
+  let parent := Graph.bfs s t
+  constructPath parent t
+
+/-
+## 探索の実行
+
+後は、`State` に対して幅優先探索を実行しましょう。まず、`Graph` のインスタンスにします。
+-/
+
+instance : Graph State where
+  neighbors := State.nextStates
+
+/- 次に `BEq` のインスタンスにします。 -/
 
 /-- 2つの状態が等しいかどうかを判定する -/
 def State.beq (s1 s2 : State) : Bool :=
@@ -236,7 +307,7 @@ def State.beq (s1 s2 : State) : Bool :=
 /-- `==` という記号が使えるようにする -/
 instance : BEq State := ⟨State.beq⟩
 
-/- また、経路を出力するために辞書を使う関係で、`Hashable` のインスタンスも必要です。 -/
+/- 経路を出力するために辞書を使う関係で、`Hashable` のインスタンスも必要です。 -/
 
 deriving instance Hashable for Bank, Place
 
@@ -246,62 +317,37 @@ protected def State.hash (s : State) : UInt64 :=
 
 instance : Hashable State := ⟨State.hash⟩
 
-/- 以上の準備の下で、幅優先探索のコードが書けます。 -/
+/- 以上の準備の下で、計算を実行することができます。 -/
 
 open Std
 
-/-- ある状態 `s` から始めて、`t : State` というノードに出会うまで幅優先探索をする。
-
-### 返り値
-
-後で経路を出力するときのために、見つけたノードの親ノードを管理する辞書を返す。
+/--
+info:
+[]__[]🚢[🚹0, 🚹1, 🚹2, 🚺0, 🚺1, 🚺2]
+[]__[🚺0]🚢[🚹0, 🚹1, 🚹2, 🚺1, 🚺2]
+[]__[🚹0, 🚺0]🚢[🚹1, 🚹2, 🚺1, 🚺2]
+[]🚢[🚹0, 🚺0]__[🚹1, 🚹2, 🚺1, 🚺2]
+[🚹0]🚢[🚺0]__[🚹1, 🚹2, 🚺1, 🚺2]
+[🚹0]__[🚺0]🚢[🚹1, 🚹2, 🚺1, 🚺2]
+[🚹0]__[🚺0, 🚺1]🚢[🚹1, 🚹2, 🚺2]
+[🚹0]🚢[🚺0, 🚺1]__[🚹1, 🚹2, 🚺2]
+[🚹0, 🚺0]🚢[🚺1]__[🚹1, 🚹2, 🚺2]
+[🚹0, 🚺0]__[🚺1]🚢[🚹1, 🚹2, 🚺2]
+[🚹0, 🚺0]__[🚹1, 🚺1]🚢[🚹2, 🚺2]
+[🚹0, 🚺0]🚢[🚹1, 🚺1]__[🚹2, 🚺2]
+[🚹0, 🚹1, 🚺0]🚢[🚺1]__[🚹2, 🚺2]
+[🚹0, 🚹1, 🚺0]__[🚺1]🚢[🚹2, 🚺2]
+[🚹0, 🚹1, 🚺0]__[🚺1, 🚺2]🚢[🚹2]
+[🚹0, 🚹1, 🚺0]🚢[🚺1, 🚺2]__[🚹2]
+[🚹0, 🚹1, 🚺0, 🚺1]🚢[🚺2]__[🚹2]
+[🚹0, 🚹1, 🚺0, 🚺1]__[🚺2]🚢[🚹2]
+[🚹0, 🚹1, 🚺0, 🚺1]__[🚹2, 🚺2]🚢[]
+[🚹0, 🚹1, 🚺0, 🚺1]🚢[🚹2, 🚺2]__[]
+[🚹0, 🚹1, 🚹2, 🚺0, 🚺1]🚢[🚺2]__[]
+[🚹0, 🚹1, 🚹2, 🚺0, 🚺1, 🚺2]🚢[]__[]
 -/
-def State.bfs (s t : State) : HashMap State State := Id.run do
-  -- キューを空の状態で初期化
-  -- このキューは「これから訪問するべき状態」を管理する
-  let mut q : Queue State := ∅
-
-  -- 親ノードを記録する辞書
-  let mut parent : HashMap State State := ∅
-
-  -- 訪問済みであるかどうか管理する集合
-  let mut visited : HashSet State := ∅
-
-  -- 初期ノードをキューに追加
-  q := q.enqueue s
-  visited := visited.insert s
-
-  -- キューが空になるまでループ
-  while !q.isEmpty do
-    -- キューから状態を取り出す
-    let some (current, q') := q.dequeue? | unreachable!
-    q := q'
-
-    if current == t then
-      break
-
-    for u in current.nextStates do
-      if ! visited.contains u then
-        visited := visited.insert u
-        parent := parent.insert u current
-        q := q.enqueue u
-
-  return parent
-
-def State.getPath (parent : HashMap State State) (t : State) : Array State := Id.run do
-  let mut path : Array State := #[]
-  let mut cur? : Option State := t
-
-  while cur?.isSome do
-    let some cur := cur? | unreachable!
-    path := path.push cur
-    cur? := parent[cur]?
-
-  path.reverse
-
+#guard_msgs (whitespace := lax) in --#
 #eval show IO Unit from do
-  let parent := State.bfs initial final
-  let path := final.getPath parent
+  let path := Graph.findShortestPath initial final
   for p in path do
     IO.println p
-  IO.println path.size
