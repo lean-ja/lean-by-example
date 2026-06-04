@@ -39,15 +39,43 @@ deriving BEq
 
 そこで、「この問題の問題設定において、意味のある質問とはどのようなものか」を考える必要があります。まず確定で言えることとして、以下のような質問は可能であるべきでしょう。
 
-* あなたは天使なのか、それとも悪魔なのかと訊く
-* 左の道は天国へ続く道なのか、それとも右の道は天国へ続く道なのかと訊く
+* 左の人は悪魔ですか？と訊く
+* あなたは天使なのかと訊く
+* 左の道は天国へ続く道なのかと訊く
+
+ここで注意が必要なのは、「あなた」という言葉は、質問に答える相手によって指す番人が変わるという点です。そこで、番人を指す表現として「左の番人」「右の番人」のほかに、「あなた」「あなたではない方」を扱えるようにします。
 
 また、`p, q : Question` が意味のある質問であるならば、「`p` または `q` ですか？」といった質問も意味を持つはずですね。そう考えると、質問全体の型 `Question` を、次のように定義できそうです。
 -/
 
+/-- 質問文の中で番人を指す表現 -/
+inductive GuardianRef where
+  /-- 左の番人 -/
+  | left
+  /-- 右の番人 -/
+  | right
+  /-- 質問に答える番人自身 -/
+  | you
+  /-- 質問に答える番人ではない方 -/
+  | other
+
+/-- 反対側の番人 -/
+def Guardian.other (g : Guardian) : Guardian :=
+  match g with
+  | .left => .right
+  | .right => .left
+
+/-- 質問に答える番人が決まったときに、番人を指す表現を具体的な番人に解釈する -/
+def GuardianRef.eval (respond : Guardian) (gr : GuardianRef) : Guardian :=
+  match gr with
+  | .left => .left
+  | .right => .right
+  | .you => respond
+  | .other => respond.other
+
 inductive Question where
-  /-- `g` は天使ですか？という質問 -/
-  | angel (g : Guardian)
+  /-- `gr` は天使ですか？という質問 -/
+  | angel (gr : GuardianRef)
   /-- `r` は天国へ続きますか？という質問 -/
   | toHeaven (r : Road)
   /-- `q` を否定した質問。
@@ -72,38 +100,38 @@ structure State where
   /-- 左の道と右の道、どちらが天国へ続く道なのか。残り片方が地獄行き。 -/
   toHeaven : Road
 
-/-- `s` という状況下における `q : Question` という質問に対する真偽。
+/-- `s` という状況下で、`respond` に向けた `q : Question` という質問に対する真偽。
 回答ではないので、嘘は入らない -/
-def truth (s : State) (q : Question) : Bool :=
+def truth (s : State) (respond : Guardian) (q : Question) : Bool :=
   match q with
-  | .angel tgt => s.angel == tgt
-  | .toHeaven tgt => s.toHeaven == tgt
-  | .not q => !truth s q
-  | .or q p => truth s q || truth s p
-  | .and q p => truth s q && truth s p
-  | .iff q p => truth s q == truth s p
+  | .angel gr => s.angel == gr.eval respond
+  | .toHeaven r => s.toHeaven == r
+  | .not q => !truth s respond q
+  | .or q p => truth s respond q || truth s respond p
+  | .and q p => truth s respond q && truth s respond p
+  | .iff q p => truth s respond q == truth s respond p
 
 /-- `s` という状況下で、`g : Guardian` に対して `q : Question` という質問をした時の答え。
 YES か NO で返答が返ってくるが、`true` が YES に対応する。 -/
 def answer (s : State) (respond : Guardian) (q : Question) : Bool :=
   if s.angel == respond then
-    truth s q
+    truth s respond q
   else
-    !truth s q
+    !truth s respond q
 
 /- 定義がきちんとできたかどうか確かめるために少しテストをしてみます。 -/
 
-/-- 左の人が天使で左の右が天国行き -/
+/-- 左の人が天使で左の道が天国行き -/
 def exampleState : State := { angel := .left, toHeaven := .left }
 
 -- 右の人（悪魔）に向かって、あなたは天使ですか？と訊いた時の返事は YES
-#guard answer exampleState .right (.angel .right)
+#guard answer exampleState .right (.angel .you)
 
 -- 左の人（天使）に向かって、あなたは天使ですか？と訊いたときの返事は YES
-#guard answer exampleState .left (.angel .left)
+#guard answer exampleState .left (.angel .you)
 
 -- 右の人（悪魔）に向かって、あなたは悪魔ですか？と訊いた時の返事は NO
-#guard answer exampleState .right (.not (.angel .right)) == false
+#guard answer exampleState .right (.not (.angel .you)) == false
 
 /-
 最後に、求めるべき質問の条件を定式化します。それは、相手が悪魔だろうと天使だろうと、どんな状況でも道の行く先だけに依存して返事が変わるような質問であることです。
@@ -111,9 +139,6 @@ def exampleState : State := { angel := .left, toHeaven := .left }
 
 /-- 番人をすべて並べたリスト -/
 def allGuardians : List Guardian := [.left, .right]
-
-/-- 道をすべて並べたリスト -/
-def allRoads : List Road := [.left, .right]
 
 /-- 状態をすべて並べたリスト -/
 def allStates : List State := [
@@ -123,11 +148,10 @@ def allStates : List State := [
   { angel := .right, toHeaven := .right }
 ]
 
-/-- 良い質問かどうかを判定する。
-どんな状態であっても、道の行く先だけを判定できる質問かどうか -/
 def Question.goodFor (q : Question) (respond : Guardian) : Bool :=
   allStates.all fun s =>
     answer s respond q == (s.toHeaven == .left)
 
-#guard (Question.angel .left).goodFor .left == false
-#guard (Question.angel .left).goodFor .left == false
+/-- 良い質問かどうかを判定する -/
+def Question.good (q : Question) : Bool :=
+  allGuardians.all fun respond => q.goodFor respond
