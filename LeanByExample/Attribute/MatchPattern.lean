@@ -4,11 +4,9 @@
 -/
 
 /-- 自前で定義したリスト -/
-inductive MyList (α : Type) where
+inductive MyList (α : Type u) where
   | nil
   | cons (head : α) (tail : MyList α)
-
-variable {α : Type}
 
 /-- MyList の `cons` コンストラクタに対するラッパー。中身は同じ -/
 def MyList.myCons (a : α) (as : MyList α) : MyList α :=

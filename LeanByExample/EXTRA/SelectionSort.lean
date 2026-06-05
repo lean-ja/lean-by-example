@@ -11,7 +11,7 @@
 これを Lean で実装すると、次のようになります。
 -/
 -- ソートなので大小比較が必要
-variable {α : Type} [LE α] [DecidableLE α]
+variable [LE α] [DecidableLE α]
 
 -- リストから最小値を取り除くためには、要素が等しいかどうか判定できる必要がある
 variable [DecidableEq α]

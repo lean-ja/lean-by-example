@@ -227,11 +227,11 @@ def State.nextStates (s : State) : List State :=
 話をできるだけ一般的にするために、ここでは `Graph` という型クラスを定義しておいて、それに対して幅優先探索アルゴリズムを実装します。
 -/
 
-class Graph (α : Type) where
+class Graph (α : Type u) where
   /-- ノード `v` に隣接しているノードのリストを返す -/
   neighbors : α → List α
 
-variable {α : Type} [BEq α] [Hashable α]
+variable [BEq α] [Hashable α]
 
 open Std
 

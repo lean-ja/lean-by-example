@@ -6,10 +6,7 @@ open Lake DSL
 package «Lean by Example» where
   keywords := #["manual", "reference", "japanese"]
   description := "プログラミング言語であるとともに定理証明支援系でもある Lean 言語と、その主要なライブラリの使い方を豊富なコード例とともに解説した資料です。"
-  leanOptions := #[
-    ⟨`autoImplicit, false⟩,
-    ⟨`relaxedAutoImplicit, false⟩
-  ]
+  leanOptions := #[]
 
 require mdgen from git
   "https://github.com/Seasawher/mdgen" @ "main"
@@ -25,23 +22,22 @@ lean_lib LeanByExample where
 
 section BuildScript
 
-def runCmdWithOutput (input : String) (stdIn : Option String := none) : IO String := do
+open IO Process
+
+def getOutput (input : String) (stdIn : Option String := none) : IO Output := do
   let cmdList := input.splitOn " "
   let cmd := cmdList.head!
   let args := cmdList.tail |>.toArray
   let out ← IO.Process.output
     (args := {cmd := cmd, args := args})
     (input? := stdIn)
-  unless out.exitCode == 0 do
-    IO.eprintln out.stderr
-    throw <| IO.userError s!"Failed to execute: {input}"
-
-  return out.stdout.trimAscii.copy
+  return out
 
 def runCmd (input : String) : IO Unit := do
-  let out ← runCmdWithOutput input
-  if out != "" then
-    IO.println out
+  let out ← getOutput input
+  let outStr := out.stdout.trimAscii
+  if outStr != "" then
+    IO.println outStr
 
 /-- mdgen と mdbook を順に実行し、
 Lean ファイルから Markdown ファイルと HTML ファイルを生成する。-/
@@ -49,7 +45,10 @@ script build do
   runCmd "lake exe mdgen LeanByExample booksrc --count --exercise"
   runCmd "lake exe mdgen Exe booksrc"
   runCmd "mdbook build"
-  runCmd "node scripts/updateSeoMetadata.mjs"
+
+  -- SEO用のメタデータの更新。ローカルでは動作させる必要がないが、CI上では実行するべき
+  if (← getEnv "GITHUB_ACTIONS").isSome then
+    runCmd "node scripts/updateSeoMetadata.mjs"
   return 0
 
 end BuildScript

@@ -165,8 +165,6 @@ def fibTR (n : Nat) : Nat := fibAux n 0 1
 -/
 namespace Accum --#
 
-variable {α : Type}
-
 /-- リストを逆順にする関数の、末尾再帰的でない実装 -/
 @[grind =]
 def reverse (l : List α) : List α :=
@@ -209,7 +207,7 @@ end Accum --#
 -/
 namespace Fold --#
 
-variable {α : Type} [Add α] [Zero α]
+variable [Add α] [Zero α]
 
 /-- 合計を求める関数 -/
 def sum (l : List α) : α :=
@@ -232,8 +230,6 @@ end Fold --#
 「再帰呼び出しの結果を受け取った後に何をするか」を継続として明示的に渡すという方法です。**継続渡しスタイル(continuation-passing style)** と呼ばれます。
 -/
 namespace CPS --#
-
-variable {α β : Type}
 
 def map (f : α → β) (l : List α) : List β :=
   match l with

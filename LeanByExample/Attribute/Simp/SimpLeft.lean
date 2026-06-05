@@ -1,11 +1,11 @@
 
 /-- モノイド -/
-class Monoid (α : Type) extends Mul α, One α where
+class Monoid (α : Type u) extends Mul α, One α where
   mul_one : ∀ a : α, a * 1 = a
   one_mul : ∀ a : α, 1 * a = a
   mul_assoc : ∀ a b c : α, (a * b) * c = a * (b * c)
 
-variable {α : Type} [Monoid α]
+variable [Monoid α]
 
 @[simp←]
 theorem mul_one_rev (a : α) : a = 1 * a := by

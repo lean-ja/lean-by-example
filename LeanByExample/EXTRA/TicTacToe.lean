@@ -75,7 +75,7 @@ def Board.update (board : Board) (pos : Nat) (c : Cell) : Board :=
   else
     board.set! pos c
 
-def Array.getRandom {α : Type} [Inhabited α] (xs : Array α) : IO α := do
+def Array.getRandom [Inhabited α] (xs : Array α) : IO α := do
   let idx ← IO.rand 0 (xs.size - 1)
   return xs[idx]!
 
