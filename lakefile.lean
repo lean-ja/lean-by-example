@@ -25,23 +25,21 @@ lean_lib LeanByExample where
 
 section BuildScript
 
-def runCmdWithOutput (input : String) (stdIn : Option String := none) : IO String := do
+open IO Process
+
+def getOutput (input : String) (stdIn : Option String := none) : IO Output := do
   let cmdList := input.splitOn " "
   let cmd := cmdList.head!
   let args := cmdList.tail |>.toArray
   let out ← IO.Process.output
     (args := {cmd := cmd, args := args})
     (input? := stdIn)
-  unless out.exitCode == 0 do
-    IO.eprintln out.stderr
-    throw <| IO.userError s!"Failed to execute: {input}"
-
-  return out.stdout.trimAscii.copy
+  return out
 
 def runCmd (input : String) : IO Unit := do
-  let out ← runCmdWithOutput input
-  if out != "" then
-    IO.println out
+  let out ← getOutput input
+  if out.stdout.trimAscii != "" then
+    IO.println out.stdout
 
 /-- mdgen と mdbook を順に実行し、
 Lean ファイルから Markdown ファイルと HTML ファイルを生成する。-/
@@ -49,6 +47,8 @@ script build do
   runCmd "lake exe mdgen LeanByExample booksrc --count --exercise"
   runCmd "lake exe mdgen Exe booksrc"
   runCmd "mdbook build"
+
+  -- SEO用のメタデータの更新。ローカルでは動作させる必要がないが、CI上では実行するべき
   runCmd "node scripts/updateSeoMetadata.mjs"
   return 0
 
