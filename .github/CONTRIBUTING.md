@@ -6,6 +6,7 @@
 
 * [mdbook](https://github.com/rust-lang/mdBook) を使用して markdown ファイルから HTML を生成しています。以下のプラグインを使用しています。
   * [mdbook-admonish](https://github.com/tommilligan/mdbook-admonish) を使用してカードを表示させています。
+* [Node.js](https://nodejs.org/) を生成された HTML の SEO メタ情報を補正するスクリプトの実行に使用しています。
 
 > [!IMPORTANT]
 > 開発に使用する mdbook のバージョンは `0.4.48` に固定してください。
