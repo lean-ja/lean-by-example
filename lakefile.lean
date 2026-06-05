@@ -35,8 +35,9 @@ def getOutput (input : String) (stdIn : Option String := none) : IO Output := do
 
 def runCmd (input : String) : IO Unit := do
   let out ← getOutput input
-  if out.stdout.trimAscii != "" then
-    IO.println out.stdout
+  let outStr := out.stdout.trimAscii
+  if outStr != "" then
+    IO.println outStr
 
 /-- mdgen と mdbook を順に実行し、
 Lean ファイルから Markdown ファイルと HTML ファイルを生成する。-/
@@ -46,7 +47,8 @@ script build do
   runCmd "mdbook build"
 
   -- SEO用のメタデータの更新。ローカルでは動作させる必要がないが、CI上では実行するべき
-  runCmd "node scripts/updateSeoMetadata.mjs"
+  if (← getEnv "GITHUB_ACTIONS").isSome then
+    runCmd "node scripts/updateSeoMetadata.mjs"
   return 0
 
 end BuildScript
