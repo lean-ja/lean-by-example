@@ -30,5 +30,3 @@ ENV PATH="${HOME}/.cargo/bin:${PATH}"
 # mdbook と mdbook のプラグインのインストール
 RUN cargo install --version 0.4.48 mdbook && \
   cargo install --version 1.18.0 mdbook-admonish
-
-CMD ["lake", "run", "build"]
