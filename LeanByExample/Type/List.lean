@@ -325,4 +325,4 @@ def validParen (s : String) : Bool := Id.run do
 #guard !validParen "}"
 #guard validParen "([{}])({}){}"
 
-/- [^prohaskell] ここで使用した例は、Graham Hutton著, 山本和彦訳「Programming Haskell 第2版」（ラムダノート）の7.3章を参考にさせていただきました。 -/
+/- [^prohaskell]: ここで使用した例は、Graham Hutton著, 山本和彦訳「Programming Haskell 第2版」（ラムダノート）の7.3章を参考にさせていただきました。 -/
