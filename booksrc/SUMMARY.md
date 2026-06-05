@@ -298,4 +298,5 @@
   - [じゃんけんゲーム](./EXTRA/Janken.md)
   - [３目並べ](./EXTRA/TicTacToe.md)
   - [嫉妬深い夫たちの川渡りパズル](./EXTRA/Jealous.md)
+  - [天使と悪魔のパズル](./EXTRA/AngelAndDevil.md)
   - [末尾再帰](./EXTRA/TailRec.md)

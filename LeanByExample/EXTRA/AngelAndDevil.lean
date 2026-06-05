@@ -2,12 +2,16 @@
 
 次の古典的な論理パズルを Lean で解いてみましょう。
 
-> 目の前に2本の道がある。片方は天国へ、片方は地獄へ続く。
+> 目の前に2本の道がある。
+> 片方は天国へ、片方は地獄へ続く。
+>
 > そこに2人の番人がいて、一方は天使で、もう一方は悪魔である。
 > 天使は常に真実を言い、悪魔は必ず嘘をつく。
 > どちらが天使で、どちらが悪魔なのかは分からない。
+>
 > どちらか一人に一つだけ YES / NO で答えられる質問をすることが許されている。
 > なお番人はすべてを知っており、質問に「わからない」と返答することはないものとする。
+>
 > 天国へ続く道を特定するには、どのような質問をすればよいだろうか？
 
 -/
@@ -66,14 +70,6 @@ def Guardian.other (g : Guardian) : Guardian :=
   | .left => .right
   | .right => .left
 
-/-- 質問に答える番人が決まったときに、番人を指す表現を具体的な番人に解釈する -/
-def GuardianRef.eval (respond : Guardian) (gr : GuardianRef) : Guardian :=
-  match gr with
-  | .left => .left
-  | .right => .right
-  | .you => respond
-  | .other => respond.other
-
 inductive Question where
   /-- `gr` は天使ですか？という質問 -/
   | angel (gr : GuardianRef)
@@ -92,7 +88,7 @@ deriving BEq, Repr
 
 /- このようにして探索する対象の質問全体 `Question` が定義できたので、次は求める質問が満たすべき条件を定式化します。
 
-問題文では「天国へ続く道を特定するにはどうすればいいか」という表現になっていますが、２人の番人のどちらが正直者（天使）でどちらが悪魔（嘘つき）なのかわからないのですから、「相手が天使であろうと悪魔であるかに関係なく、道の行く先だけを反映して答えが返ってくるような質問」であるというのが満たすべき条件だといえます。それをきちんと定式化すればよさそうです。
+問題文では「天国へ続く道を特定するにはどうすればいいか」という表現になっていますが、２人の番人のどちらが天使でどちらが悪魔なのかわからないのですから、「相手が天使であろうと悪魔であるかに関係なく、道の行く先だけを反映して答えが返ってくるような質問」であるというのが満たすべき条件だといえます。それをきちんと定式化すればよさそうです。
 -/
 
 /-- 状態 -/
@@ -101,6 +97,14 @@ structure State where
   angel : Guardian
   /-- 左の道と右の道、どちらが天国へ続く道なのか。残り片方が地獄行き。 -/
   toHeaven : Road
+
+/-- 質問に答える番人が決まったときに、番人を指す表現を具体的な番人に解釈する -/
+def GuardianRef.eval (respond : Guardian) (gr : GuardianRef) : Guardian :=
+  match gr with
+  | .left => .left
+  | .right => .right
+  | .you => respond
+  | .other => respond.other
 
 /-- `s` という状況下で、`respond` に向けた `q : Question` という質問に対する真偽。
 回答ではないので、嘘は入らない -/
@@ -150,13 +154,19 @@ def allStates : List State := [
   { angel := .right, toHeaven := .right }
 ]
 
-def Question.goodFor (q : Question) (respond : Guardian) : Bool :=
-  allStates.all fun s =>
-    answer s respond q == (s.toHeaven == .left)
+-- `List` をモナドのインスタンスにする
+instance : Monad List where
+  pure x := [x]
+  bind l f := l.flatMap f
+  map f l := l.map f
 
 /-- 良い質問かどうかを判定する -/
 def Question.good (q : Question) : Bool :=
-  allGuardians.all fun respond => q.goodFor respond
+  let results : List Bool := do
+    let respond ← allGuardians
+    let s ← allStates
+    return answer s respond q == (s.toHeaven == .left)
+  results.foldl (· && ·) true
 
 /- ## 探索
 
@@ -196,12 +206,6 @@ def atomicQuestions : List Question := [
 探索は、`List` のモナドインスタンスを使うと簡単に書くことができます。
 -/
 
--- モナドのインスタンスにする
-instance : Monad List where
-  pure x := [x]
-  bind l f := l.flatMap f
-  map f l := l.map f
-
 /-- 深さ１の質問文全体 -/
 def depth1Questions : List Question :=
   let ofNot : List Question := atomicQuestions.map Question.not
@@ -211,6 +215,9 @@ def depth1Questions : List Question :=
     let op ← [Question.or, Question.and, Question.iff]
     return op q1 q2
   ofBinary ++ ofNot
+
+-- 114 個しかない
+#guard depth1Questions.length == 114
 
 /- すると早くもこの中から解が見つかります。複数の解が出ますが、対称性によって複数出ているだけであり、本質的には「あなたは天使である」と「左の道は天国へ続く」は同値ですか？という質問のバリエーションであるようです。 -/
 
