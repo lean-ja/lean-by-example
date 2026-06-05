@@ -5,10 +5,8 @@
 より詳しくいうと、[`induction`](#{root}/Tactic/Induction.md) タクティクの `using` キーワードのデフォルトの引数を変更することができます。デフォルトでは、[帰納型](#{root}/Declarative/Inductive.md) `T` に対して `T.rec` (および `T.recOn` )という定理が自動生成されてそれが暗黙の裡に `using` キーワードの引数として使われますが、`[induction_eliminator]` 属性で別な定理を指定すると、それが使われるようになります。
 -/
 
-variable {α : Type}
-
 /-- 遅延評価のリストもどき -/
-inductive Many (α : Type) where
+inductive Many (α : Type u) where
   | none
   | more (x : α) (xs : Unit → Many α)
 
@@ -34,7 +32,7 @@ def Many.cons (x : α) (xs : Many α) : Many α :=
 
 -- Many を定義したときに自動生成される定理
 /--
-info: Many.rec.{u} {α : Type} {motive : Many α → Sort u} (none : motive Many.none)
+info: Many.rec.{u_1, u} {α : Type u} {motive : Many α → Sort u_1} (none : motive Many.none)
   (more : (x : α) → (xs : Unit → Many α) → ((a : Unit) → motive (xs a)) → motive (Many.more x xs)) (t : Many α) :
   motive t
 -/
@@ -45,7 +43,7 @@ info: Many.rec.{u} {α : Type} {motive : Many α → Sort u} (none : motive Many
 -- これに `[induction_eliminator]` 属性を与えることで、
 -- コンストラクタ `Many.more` の代わりに `Many.cons` が使えるようになる
 @[induction_eliminator]
-protected def Many.cons_rec.{u} {α : Type} {motive : Many α → Sort u}
+protected def Many.cons_rec {motive : Many α → Sort u}
   (none : motive Many.none)
   (cons : (a : α) → (b : Many α) → (motive b) → motive (Many.cons a b))
     : (t : Many α) → motive t

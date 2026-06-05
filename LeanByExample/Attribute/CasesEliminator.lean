@@ -5,10 +5,8 @@
 より詳しくいうと、[`cases`](#{root}/Tactic/Cases.md) タクティクの `using` キーワードのデフォルトの引数を変更することができます。デフォルトでは、[帰納型](#{root}/Declarative/Inductive.md) `T` に対して `T.casesOn` という定理が自動生成されてそれが暗黙の裡に `using` キーワードの引数として使われますが、`[cases_eliminator]` 属性で別な定理を指定すると、それが使われるようになります。
 -/
 
-variable {α : Type}
-
 /-- 遅延評価のリストもどき -/
-inductive Many (α : Type) where
+inductive Many (α : Type u) where
   | none
   | more (x : α) (xs : Unit → Many α)
 
@@ -27,7 +25,7 @@ def Many.cons (x : α) (xs : Many α) : Many α :=
 
 -- Many を定義したときに自動生成される定理
 /--
-info: Many.casesOn.{u} {α : Type} {motive : Many α → Sort u} (t : Many α) (none : motive Many.none)
+info: Many.casesOn.{u_1, u} {α : Type u} {motive : Many α → Sort u_1} (t : Many α) (none : motive Many.none)
   (more : (x : α) → (xs : Unit → Many α) → motive (Many.more x xs)) : motive t
 -/
 #guard_msgs (whitespace := lax) in --#
@@ -37,7 +35,7 @@ info: Many.casesOn.{u} {α : Type} {motive : Many α → Sort u} (t : Many α) (
 この定理に `[cases_eliminator]` 属性を与えることで、
 `casesOn` の代わりにこれがデフォルトで使われるようになる。 -/
 @[cases_eliminator]
-protected def Many.cons_casesOn.{u} {α : Type} {motive : Many α → Sort u} (t : Many α) (none : motive Many.none)
+protected def Many.cons_casesOn {motive : Many α → Sort u} (t : Many α) (none : motive Many.none)
     (cons : (a : α) → (b : Many α) → motive (Many.cons a b)) : motive t := by
   match t with
   | .none => assumption
