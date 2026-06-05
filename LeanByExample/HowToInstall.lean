@@ -29,6 +29,17 @@ PowerShell 7 をインストールするには、次を実行します。
 winget install --id Microsoft.PowerShell --source winget
 ```
 
+### 文字化けの修正
+
+そのままだと PowerShell 上で Unicode 文字が文字化けすることがあるので、以下を `$Profile` の末尾に追記しておきます。
+
+```powershell
+$utf8 = New-Object System.Text.UTF8Encoding
+[console]::InputEncoding = $utf8
+[console]::OutputEncoding = $utf8
+$OutputEncoding = $utf8
+```
+
 ### git と curl のインストール
 
 以下、全てのコマンドは PowerShell 7 で実行することを前提とすることにします。

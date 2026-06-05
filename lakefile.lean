@@ -49,6 +49,7 @@ script build do
   runCmd "lake exe mdgen LeanByExample booksrc --count --exercise"
   runCmd "lake exe mdgen Exe booksrc"
   runCmd "mdbook build"
+  runCmd "node scripts/updateSeoMetadata.mjs"
   return 0
 
 end BuildScript

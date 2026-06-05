@@ -296,4 +296,8 @@
 
 - [付録](./EXTRA/README.md)
   - [選択ソート](./EXTRA/SelectionSort.md)
+  - [じゃんけんゲーム](./EXTRA/Janken.md)
+  - [３目並べ](./EXTRA/TicTacToe.md)
+  - [嫉妬深い夫たちの川渡りパズル](./EXTRA/Jealous.md)
+  - [天使と悪魔の論理パズル](./EXTRA/AngelAndDevil.md)
   - [末尾再帰](./EXTRA/TailRec.md)

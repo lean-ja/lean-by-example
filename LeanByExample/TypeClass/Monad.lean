@@ -111,6 +111,10 @@ def cartesianProduct (xs : List Nat) (ys : List Nat) : List (Nat × Nat) := do
 
 #guard cartesianProduct [1, 2] [3, 4] = [(1, 3), (1, 4), (2, 3), (2, 4)]
 
+/-
+`List` のモナドインスタンスを活用する例をもっと見たい方は、[天使と悪魔のパズル](#{root}/EXTRA/AngelAndDevil.md)なども参照してください。
+-/
+
 /- ## インスタンス自作例
 
 パーサーをモナドとして実装することができます。[^parser]

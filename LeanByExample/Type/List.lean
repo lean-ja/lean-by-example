@@ -241,7 +241,8 @@ def List.map' {α β : Type} (xs : List α) (f : α → β) : List β := do
 
 #guard [1, 2, 3, 4].map' (· % 3 == 0) = [false, false, true, false]
 
-/- `List` のモナドインスタンスを利用すると、「選択肢のすべてに対して特定の構成を繰り返して、結果を一つのリストにすべてまとめて返す」系の関数を簡潔に実装できることがあります。 -/
+/- `List` のモナドインスタンスを利用すると、「選択肢のすべてに対して特定の構成を繰り返して、結果を一つのリストにすべてまとめて返す」系の関数を簡潔に実装できることがあります。`List` のモナドインスタンスを活用する例をもっと見たい方は、[天使と悪魔のパズル](#{root}/EXTRA/AngelAndDevil.md)なども参照してください。
+-/
 
 /-- `α` 上の n 項演算全体の型 -/
 def Arity (α : Type) : (n : Nat) → Type
@@ -325,4 +326,4 @@ def validParen (s : String) : Bool := Id.run do
 #guard !validParen "}"
 #guard validParen "([{}])({}){}"
 
-/- [^prohaskell] ここで使用した例は、Graham Hutton著, 山本和彦訳「Programming Haskell 第2版」（ラムダノート）の7.3章を参考にさせていただきました。 -/
+/- [^prohaskell]: ここで使用した例は、Graham Hutton著, 山本和彦訳「Programming Haskell 第2版」（ラムダノート）の7.3章を参考にさせていただきました。 -/

@@ -14,7 +14,8 @@
 {{#include ./IO/Greet.md}}
 -/
 
-/- なお、出力が自分自身と等しくなるコードを **クワイン（Quine）** と呼ぶのですが、Lean 4 ではクワインはたとえば次のようにして作ることができます。[^quine] -/
+/-
+出力というのは奥が深いもので、出力が自分自身と等しくなるようなコードを書くこともできます。そのようなコードを **クワイン（Quine）** と呼ぶのですが、Lean 4 ではクワインはたとえば次のようにして作ることができます。[^quine] -/
 
 def s := "\ndef main : IO Unit := do\n  IO.println (\"def s := \" ++ s.quote)\n  IO.println (s)"
 
@@ -31,6 +32,13 @@ def main : IO Unit := do
 -/
 #guard_msgs in --#
 #eval main
+
+/-
+また、ユーザの入力を扱うことができるということは、対話的(interactive)なプログラムを書くことができるということです。たとえば、以下のようなプログラムを書くことができます。
+
+* [ユーザとじゃんけんをするCLIプログラム](#{root}/EXTRA/Janken.md)
+* [3目並べが遊べるCLIプログラム](#{root}/EXTRA/TicTacToe.md)
+-/
 
 /- ### ファイル操作
 
