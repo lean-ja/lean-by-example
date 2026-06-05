@@ -69,6 +69,7 @@
   - [structure: 構造体を定義する](./Declarative/Structure.md)
   - [syntax: 構文を定義](./Declarative/Syntax.md)
   - [theorem: 命題を証明する](./Declarative/Theorem.md)
+  - [universe: 宇宙レベル変数](./Declarative/Universe.md)
   - [variable: 引数を共通化する](./Declarative/Variable.md)
   - [whatsnew: 新たに何が導入されたか見る](./Declarative/Whatsnew.md)
 

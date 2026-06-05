@@ -17,8 +17,6 @@ set_option pp.foralls false
 
 /- 実際のところ両者は常に同じです。型が `Prop` になるときは、カリー・ハワード同型対応により「命題は型、証明はその項」なので全称量化の意味になるというだけで、型としては同じものです。型が `Prop` になるときだけ、見やすいので `∀` 記号を使う慣習になっています。 -/
 
-universe u
-
 variable {A : Type} {B : A → Sort u}
 
 example : ((a : A) → B a) = (∀ a : A, B a) := by rfl
