@@ -16,6 +16,21 @@
         {{> head}}
 
         <meta name="description" content="{{ description }}">
+        {{#if is_print}}
+        {{else}}
+        <link rel="canonical" href="{{ path_to_root }}">
+        <meta property="og:site_name" content="{{ book_title }}">
+        <meta property="og:title" content="{{ title }}">
+        <meta property="og:description" content="{{ description }}">
+        <meta property="og:type" content="article">
+        <meta property="og:url" content="{{ path_to_root }}">
+        <meta property="og:image" content="{{ path_to_root }}image/project_image.png">
+        <meta property="og:locale" content="ja_JP">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="{{ title }}">
+        <meta name="twitter:description" content="{{ description }}">
+        <meta name="twitter:image" content="{{ path_to_root }}image/project_image.png">
+        {{/if}}
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
 

@@ -5,6 +5,7 @@
 たとえば以下のリストの和を計算する関数は、末尾再帰的ではありません。再帰呼び出しの結果である `sum xs` をそのまま返すのではなく、`(x + ·)` で加工してから返しているからです。
 -/
 import LeanByExample.Lib.InSecond --#
+import LeanByExample.Lib.CheckCsimp --#
 namespace nonTR --#
 
 variable {α : Type} [Add α] [Zero α]
@@ -153,3 +154,112 @@ def fibTR (n : Nat) : Nat := fibAux n 0 1
 末尾再帰性は、[`partial_fixpoint`](#{root}/Modifier/PartialFixpoint.md) で修飾できる関数の条件にも現れます。
 詳しくは `partial_fixpoint` のページを参照してください。
 -/
+
+/- ## 関数を末尾再帰化するテクニック
+
+再帰関数を末尾再帰的な形に書き換えるために、さまざまなテクニックが知られています。
+
+### 蓄積変数を導入する
+
+再帰呼び出しの結果を加工する代わりに、引数を増やしてその中で計算を行うというテクニックです。このとき増やす引数のことを **蓄積変数(accumulator)** と呼びます。
+-/
+namespace Accum --#
+
+variable {α : Type}
+
+/-- リストを逆順にする関数の、末尾再帰的でない実装 -/
+@[grind =]
+def reverse (l : List α) : List α :=
+  match l with
+  | [] => []
+  | x :: xs => reverse xs ++ [x]
+
+@[grind =]
+def reverseAux (l : List α) (acc : List α) : List α :=
+  match l with
+  | [] => acc
+  | x :: xs => reverseAux xs (x :: acc)
+
+/-- リストを逆順にする関数の、末尾再帰的な実装 -/
+@[grind =]
+def reverseTR (l : List α) : List α := reverseAux l []
+
+@[simp, grind =]
+theorem reverseAux_lem (l : List α) (acc : List α)
+    : reverseAux l acc = reverse l ++ acc := by
+  induction l generalizing acc with grind
+
+/-- `reverse` と `reverseTR` は等しい -/
+theorem reverse_eq_reverseTR (l : List α) : reverse l = reverseTR l := by
+  induction l with grind
+
+end Accum --#
+/- ### foldl / foldr を使う
+
+再帰パターンを抽出した高階関数として `List.foldl` と `List.foldr` がありますが、この２つは「`List.foldl` の方は末尾再帰的で、`List.foldr` の方はそうではない」という違いがあります。
+
+しかし、Lean の標準ライブラリにおいて `List.foldr` は末尾再帰的な実装と `[csimp]` 属性を利用して置換されています。
+-/
+--#--
+/-- info: List.foldr_eq_foldrTR has the [csimp] attribute -/
+#guard_msgs in
+#check_csimp List.foldr_eq_foldrTR
+--#--
+/- したがって `foldr` 的な再帰構造を持つ関数を `List.foldr` を使って書き直すだけで、実行時に末尾呼び出し最適化の恩恵を受けることができます。
+-/
+namespace Fold --#
+
+variable {α : Type} [Add α] [Zero α]
+
+/-- 合計を求める関数 -/
+def sum (l : List α) : α :=
+  match l with
+  | [] => 0
+  | x :: xs => x + sum xs
+
+/-- 合計を求める関数を `foldr` で書き直したもの -/
+def sumFoldr (l : List α) : α :=
+  List.foldr (· + ·) 0 l
+
+theorem sum_eq_sumFoldr (l : List α) : sum l = sumFoldr l := by
+  delta sumFoldr sum List.foldr
+  rfl
+
+end Fold --#
+/- ### 継続渡しスタイルにする
+
+「値を受け取った後に残りの計算をどう続けるか」を表す関数のことを **継続(continuation)** と呼びます。
+「再帰呼び出しの結果を受け取った後に何をするか」を継続として明示的に渡すという方法です。**継続渡しスタイル(continuation-passing style)** と呼ばれます。
+-/
+namespace CPS --#
+
+variable {α β : Type}
+
+def map (f : α → β) (l : List α) : List β :=
+  match l with
+  | [] => []
+  | x :: xs => f x :: map f xs
+
+/-- 継続渡しスタイルに書き直すための補助関数 -/
+def mapCPSAux (f : α → β) (l : List α) (k : List β → List β) : List β :=
+  match l with
+  | [] => k []
+  | x :: xs =>
+    mapCPSAux f xs (fun ys => k (f x :: ys))
+
+/-- 継続渡しスタイルに書き直した map 関数 -/
+def mapCPS (f : α → β) (l : List α) : List β :=
+  mapCPSAux f l id
+
+theorem mapCPSAux_lem (f : α → β) (l : List α) (k : List β → List β)
+    : mapCPSAux f l k = k (map f l) := by
+  induction l generalizing k with
+  | nil => rfl
+  | cons x xs ih => solve_by_elim
+
+/-- `map` と `mapCPS` は等しい -/
+theorem map_eq_mapCPS (f : α → β) (l : List α) : map f l = mapCPS f l := by
+  delta mapCPS
+  simp [mapCPSAux_lem]
+
+end CPS --#
