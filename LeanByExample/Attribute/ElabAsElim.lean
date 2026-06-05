@@ -2,7 +2,6 @@
 
 `[elab_as_elim]` 属性を付与すると、除去子(eliminator)としてエラボレートされるようになります。
 -/
-universe u
 
 /-- 標準の再帰子である`Nat.rec`を真似て作った再帰子もどき -/
 def Nat.rec' {motive : Nat → Sort u}
