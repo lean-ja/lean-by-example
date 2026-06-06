@@ -157,5 +157,9 @@ def Nat.factorial (n : Nat) : Nat :=
 #guard Nat.factorial 5 = 120
 
 /-
+なお帰納法と再帰が両方とも `*.rec` という同じ関数で実現できるのは偶然ではなく、カリー・ハワード同型対応によって「帰納法は再帰」と言えるからです。
+-/
+
+/-
 [^size]: この `Size` 型クラスを実装して宇宙多相にする例は、[Scientific Computing in Lean](https://lecopivo.github.io/scientific-computing-lean/)の TypeClasses as Interfaces and Function Overloading という章で紹介されている例をそのまま使用しています。
 -/
