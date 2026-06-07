@@ -38,7 +38,6 @@
 * [Scientific Computing in Lean](https://lecopivo.github.io/scientific-computing-lean/) Lean で科学計算を行うライブラリ [SciLean](https://github.com/lecopivo/SciLean) の著者による、科学計算についての解説書。
 * [From Zero to QED](https://sdiehl.github.io/zero-to-qed/) 型理論と関数型プログラミングを背景に、Lean を用いた定理証明について基礎から段階的に学ぶ入門書。
 * [Type Checking in Lean4](https://ammkrn.github.io/type_checking_in_lean4/) Lean4 のカーネル（型検査機構）について深く理解するための資料です。
-* [lean4.dev](https://lean4.dev/) Lean の学習サイト。
 * [Lean 4 (Meta)programming Cookbook](https://leanprover-cookbook.github.io/lean-metaprogramming-recipes/) Lean4 のメタプログラミング / プログラミング用のレシピ集。「こういうことをしたいときにどう書くか」がまとめられています。
 
 ## 📚 日本語の書籍
