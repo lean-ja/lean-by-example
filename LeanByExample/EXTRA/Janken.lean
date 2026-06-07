@@ -1,20 +1,15 @@
 /- # じゃんけんゲーム
 
-じゃんけんゲームを CLI で実装する例を紹介します。以下のような仕様で実装しました。
+じゃんけんゲームを CLI で実装する例を紹介します。以下のような仕様で実装しましょう。
 
 * ユーザはテキストで「グー」「チョキ」「パー」のいずれかを入力する。
 * コンピュータはランダムに手を選ぶ（後出ししているように見えるが、実際にはランダム）
 * あいこだった場合は勝負がつくまで何度でも繰り返す。
+
+## ステップ1: ユーザが入力した手を表示する
+
+Lean でプログラムを書く際はだいたいいつもそうですが、必要なデータ型を定義するところから始めます。じゃんけんの手を表す型 `Hand` を定義しましょう。グー・チョキ・パーの３種類です。
 -/
-
-/-- ユーザからの入力を受け取る -/
-def getUserInput : IO String := do
-  -- 入力待ちを表す記号を表示
-  IO.print "> "
-
-  let stdin ← IO.getStdin
-  let input ← stdin.getLine
-  return input.trimAscii.copy
 
 /-- じゃんけんの手 -/
 inductive Hand where
@@ -31,7 +26,22 @@ protected def Hand.toString : Hand → String
   | .choki => "チョキ"
   | .pa => "パー"
 
-instance : ToString Hand := ⟨Hand.toString⟩
+instance : ToString Hand where
+  toString := Hand.toString
+
+/-
+次に、ユーザから受け取る文字列をパースして `Hand` に変換する関数を用意しましょう。文字列のパースに成功するとは限りませんが、その場合は成功するまで繰り返し何度でも入力を促すことにします。
+-/
+
+/-- ユーザからの入力を受け取る -/
+def getUserInput : IO String := do
+  -- 入力待ちを表す記号を表示
+  IO.print "> "
+
+  let stdin ← IO.getStdin
+  let input ← stdin.getLine
+  let result := input.trimAscii.copy
+  return result
 
 /-- 文字列を読んで Hand に変換する -/
 def parseHand (input : String) : Option Hand :=
@@ -41,13 +51,29 @@ def parseHand (input : String) : Option Hand :=
   | "パー" => some Hand.pa
   | _ => none
 
-/-- h1 が h2 に勝つかどうかを判定する -/
-def beat (h1 h2 : Hand) : Bool :=
-  match h1, h2 with
-  | .gu, .choki => true
-  | .choki, .pa => true
-  | .pa, .gu => true
-  | _, _ => false
+/-- ユーザからの入力を受け取ってパース済みの値を返す。
+パースに失敗した場合は、成功するまで繰り返す -/
+partial def getUserHand : IO Hand := do
+  let userInput ← getUserInput
+  let some hand := parseHand userInput |
+    IO.println "そんな手はないよ！もう一回！"
+    getUserHand
+  return hand
+
+/-
+ここまで終わったら、いったんここまでのコードを使って `main` 関数を実装してみます。
+
+{{#include ./Janken/Step1.md}}
+-/
+
+/-
+この段階でもしうまく行かなければ、日本語の文字が文字化けしている可能性があります。[インストール方法](#{root}/HowToInstall.md)のターミナルでの文字化けの修正方法を試してみてください。
+-/
+
+/- ## ステップ2: コンピュータとの勝負を実装する
+
+次にやるべきことは、コンピュータの手をランダムに選ぶことです。Lean には乱数を生成するための関数が用意されているので、それを使います。
+-/
 
 /-- ランダムに手を選ぶ -/
 def getRandomHand : IO Hand := do
@@ -60,26 +86,24 @@ def getRandomHand : IO Hand := do
     | _ => unreachable!
   return hand
 
-def main : IO Unit := do
-  IO.println "私とじゃんけんをしよう！"
-  IO.println "グー、チョキ、パーのどれかを選んで！"
+-- ちゃんと３つの手が全部出るか確認する
+#eval List.range 10 |>.mapM (fun _ => getRandomHand)
 
-  let mut finish := false
-  while !finish do
-    let userInput ← getUserInput
+/- 問題がなければ、勝敗判定を実装します。 -/
 
-    let some yourHand := parseHand userInput |
-      IO.println "そんな手はないよ！もう一回！"
-      continue
+/-- h1 が h2 に勝つかどうかを判定する -/
+def Hand.beat (h1 h2 : Hand) : Bool :=
+  match h1, h2 with
+  | .gu, .choki => true
+  | .choki, .pa => true
+  | .pa, .gu => true
+  | _, _ => false
 
-    let cpuHand ← getRandomHand
-    IO.println s!"私は{cpuHand}を出したよ！"
+/-
+ここまで終われば、最後まで実装することができるでしょう。
+あいこだった場合は、勝負がつくまで何度でも繰り返すことにします。
+-/
 
-    if yourHand == cpuHand then
-      IO.println "あいこだね！もう一勝負！"
-    else if beat yourHand cpuHand then
-      IO.println "あなたの勝ち！負けちゃったなぁ"
-      finish := true
-    else
-      IO.println "私の勝ち！うれしい！"
-      finish := true
+/-
+{{#include ./Janken/Step2.md}}
+-/
