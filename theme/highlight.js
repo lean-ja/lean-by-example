@@ -1114,7 +1114,7 @@ var hljs=function(){"use strict";function e(n){Object.freeze(n)
         'universe variable ' +
         'import open export prelude renaming hiding ' +
         'calc match with do by let extends ' +
-        'for in unless try catch finally mutual mut return continue break where rec ' +
+        'for while in unless try catch finally mutual mut return continue break where rec ' +
         'syntax macro_rules macro deriving opaque ' +
         'fun elab ' +
         '#check #check_failure #eval #reduce #print ' +
