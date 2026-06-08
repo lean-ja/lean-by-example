@@ -1,14 +1,19 @@
 /-
 # def
-`def` は、関数や定数などの項を定義するための基本的なコマンドです。
--/
 
-def foo := "hello"
+`def` は、関数や定数など、グローバルに項を定義するための基本的なコマンドです。
+-/
 
 /-- 1を足す関数 -/
 def addOne (n : Nat) : Nat := n + 1
 
-/- 再帰関数も定義することができます。（このとき、裏で Lean は再帰関数が停止することの証明を生成しようとします。証明が失敗するとエラーになります。これについて詳しくは [`termination_by`](#{root}/Modifier/TerminationBy.md) や [`decreasing_by`](#{root}/Modifier/DecreasingBy.md) のページを参照してください。）-/
+-- 関数だけでなく定数も定義できる
+def foo := "hello"
+
+/- ## 再帰関数
+
+再帰関数も同様の構文で定義することができます。
+-/
 
 /-- 階乗関数 -/
 def factorial (n : Nat) : Nat :=
@@ -17,6 +22,15 @@ def factorial (n : Nat) : Nat :=
   | n + 1 => (n + 1) * factorial n
 
 #guard factorial 7 = 5040
+
+/-
+このとき、裏で Lean は再帰関数が停止することの証明を生成しようとし、証明が失敗するとエラーになります。これについて詳しくは以下のページを参照してください。
+
+* [`termination_by`](#{root}/Modifier/TerminationBy.md)
+* [`decreasing_by`](#{root}/Modifier/DecreasingBy.md)
+* [`partial`](#{root}/Modifier/Partial.md)
+* [`partial_fixpoint`](#{root}/Modifier/PartialFixpoint.md)
+-/
 
 /- ## 引数の指定
 
