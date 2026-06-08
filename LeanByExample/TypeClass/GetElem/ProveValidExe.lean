@@ -2,17 +2,13 @@ import LeanByExample.Lib.ThisFile
 
 variable {α : Type} [Add α] [Zero α] [Inhabited α]
 
--- `IO` で包むことにより最適化されて計測時間がおかしくなることを防いでいる。
--- Lean は非 `IO` 計算の順序を実行時に変える最適化を行う。
-@[noinline]
-def sum! (xs : Array α) : IO α := do
+def sum! (xs : Array α) : α := Id.run do
   let mut acc : α := 0
   for i in [0:xs.size] do
     acc := acc + xs[i]!
   return acc
 
-@[noinline]
-def sum (xs : Array α) : IO α := do
+def sum (xs : Array α) : α := Id.run do
   let mut acc : α := 0
   for h : i in [0:xs.size] do
     acc := acc + xs[i]
@@ -26,13 +22,15 @@ def main : IO Unit := do
   let size := 10_000_000
   let array := Array.range size
 
+  -- `IO.lazyPure` で包むことにより最適化されて計測時間がおかしくなることを防いでいる。
+  -- Lean は非 `IO` 計算の順序を実行時に変える最適化を行う。
   let start_time1 ← IO.monoMsNow
-  let result1 ← sum! array
+  let result1 ← IO.lazyPure fun _ => sum! array
   let end_time1 ← IO.monoMsNow
   let time1 := end_time1 - start_time1
 
   let start_time2 ← IO.monoMsNow
-  let result2 ← sum array
+  let result2 ← IO.lazyPure fun _ => sum array
   let end_time2 ← IO.monoMsNow
   let time2 := end_time2 - start_time2
 
