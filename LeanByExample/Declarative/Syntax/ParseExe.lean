@@ -17,4 +17,4 @@ def main : IO Unit := do
 
   if hasError then
     throw <| .userError "Failed to parse some arithmetic expressions."
-  IO.println s!"✅ [{thisFile%}] テスト成功"
+  IO.println s!"✅ [{this_file%}] テスト成功"

@@ -41,6 +41,6 @@ def main : IO Unit := do
   if result1 ≠ result2 then
     throw <| .userError s!"Results do not match. sum!: {result1}, sum: {result2}"
 
-  IO.println s!"✅ [{thisFile%}] テスト成功"
+  IO.println s!"✅ [{this_file%}] テスト成功"
   IO.println s!"   sum! にかかった時間: {time1} ms"
   IO.println s!"   sum にかかった時間: {time2} ms"

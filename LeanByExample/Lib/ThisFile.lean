@@ -8,7 +8,7 @@ open Lean Elab Term
 def basename (path : String) : String :=
   (path.splitToList fun c => c == '/' || c == '\\').getLastD path
 
-elab "thisFile%" : term => do
+elab "this_file%" : term => do
   return Lean.mkStrLit (basename (← getFileName))
 
-#guard thisFile% == "ThisFile.lean"
+#guard this_file% == "ThisFile.lean"
