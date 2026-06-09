@@ -71,7 +71,8 @@ def fibonacci (n : Nat) : Nat :=
 /-- `fibonacci` の計算にかかった時間を計測する -/
 def computeTime : IO Unit := do
   let start_time ← IO.monoMsNow
-  let result := fibonacci 30
+  -- コンパイラに最適化されて実行順序が変わらないように、`IO.lazyPure` で包む
+  let result ← IO.lazyPure <| fun _ => fibonacci 30
   let end_time ← IO.monoMsNow
   IO.println s!"Result: {result}, Time taken: {end_time - start_time} ms"
 
