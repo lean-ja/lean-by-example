@@ -8,8 +8,6 @@
 
 たとえば、以下のような証明を考えてみます。
 -/
-import Mathlib.Tactic --#
-
 section --#
 
 opaque foo : Nat
@@ -51,25 +49,8 @@ end --#
 -/
 /- ## このリンタについて
 このリンタを有効にすると、上記のようなライブラリの変更に対して脆弱な証明を自動で検出して、警告を出してくれます。
+
+{{#include ./Flexible/Example.md}}
 -/
-section --#
-
-set_option linter.flexible true
-
-/--
-warning: `simp` is a flexible tactic modifying `⊢`. Try `simp?` and use the suggested `simp only [...]`. Alternatively, use `suffices` to explicitly state the simplified form.
-
-Note: This linter can be disabled with `set_option linter.flexible false`
--/
-#guard_msgs (warning) in --#
-example {n m : Nat} (h : n = m) : True ∧ (n = m) := by
-  simp
-  exact h
-
-example {n m : Nat} (h : n = m) : True ∧ (n = m) := by
-  -- 書き換えると警告が消える
-  simpa
 
 /- [^non-terminal-simp]: <https://leanprover-community.github.io/extras/simp.html#non-terminal-simps> を参照のこと。-/
-
-end --#
