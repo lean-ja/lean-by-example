@@ -15,7 +15,6 @@
 このとき、以下のように `aesop` の `rule_sets` に `HogeRules` を渡すことで、`HogeRules` に登録されたルールセットを使用することができます。
 -/
 import LeanByExample.Declarative.DeclareAesopRuleSets.Lib -- インポートで有効になる
-import Mathlib.Tactic.Says --#
 
 example : True := by
   aesop (rule_sets := [HogeRules])
@@ -38,8 +37,14 @@ example : True := by
 /-- `hoge` が使用したルールを生成する -/
 macro "hoge?" : tactic => `(tactic| aesop? (rule_sets := [HogeRules]))
 
+/--
+info: Try this:
+
+  [apply]   simp_all only
+-/
+#guard_msgs in --#
 example : True := by
-  hoge? says simp_all only
+  hoge?
 
 /- `hoge` タクティク用のルールを登録することもできます。
 
