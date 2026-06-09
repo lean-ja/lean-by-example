@@ -9,35 +9,26 @@
 
 /- ### 標準入出力
 
-「標準出力に文字列を出力する」という操作や、「標準入力から文字列を読み込む」という操作は `IO` で扱われます。以下は、入力された文字を受け取って、挨拶を返す単純なプログラムの例です。
+標準出力ストリームに何かを書き込んだり、標準入力ストリームから何かを受け取ったりする処理は `IO` アクションです。以下は、ユーザによりキーボードから入力された文字を受け取って、挨拶を返す単純なプログラムの例です。
 
 {{#include ./IO/Greet.md}}
 -/
 
 /-
-出力というのは奥が深いもので、出力が自分自身と等しくなるようなコードを書くこともできます。そのようなコードを **クワイン（Quine）** と呼ぶのですが、Lean 4 ではクワインはたとえば次のようにして作ることができます。[^quine] -/
+標準出力に書き込んだ後、同じ行を上書きすることによって、ターミナル上でアニメーションを表示することができます。以下は、処理の進捗を表すスピナーを表示する例です。
 
-def s := "\ndef main : IO Unit := do\n  IO.println (\"def s := \" ++ s.quote)\n  IO.println (s)"
-
-def main : IO Unit := do
-  IO.println ("def s := " ++ s.quote)
-  IO.println (s)
-
-/--
-info: def s := "\ndef main : IO Unit := do\n  IO.println (\"def s := \" ++ s.quote)\n  IO.println (s)"
-
-def main : IO Unit := do
-  IO.println ("def s := " ++ s.quote)
-  IO.println (s)
+{{#include ./IO/Spinner.md}}
 -/
-#guard_msgs in --#
-#eval main
 
 /-
 また、ユーザの入力を扱うことができるということは、対話的(interactive)なプログラムを書くことができるということです。たとえば、以下のようなプログラムを書くことができます。
 
 * [ユーザとじゃんけんをするCLIプログラム](#{root}/EXTRA/Janken.md)
 * [3目並べが遊べるCLIプログラム](#{root}/EXTRA/TicTacToe.md)
+-/
+
+/-
+余談ですが、Lean 4 でも[クワイン(quine)](#{root}/EXTRA/Quine.md)を書くことができます。
 -/
 
 /- ### ファイル操作
@@ -96,6 +87,5 @@ def computeTime : IO Unit := do
 -/
 
 /-
-[^quine]: このコード例は [leanprover-community/lean4-samples に対するPR](https://github.com/leanprover-community/lean4-samples/pull/22) からの引用です。
 [^runio]: このコードは [Lake.DSL.Meta](https://github.com/leanprover/lean4/blob/bfad38b63df86f3edf99c5697600e57199661803/src/lake/Lake/DSL/Meta.lean#L42-L61) のコードをほぼそのまま引用したものです。
 -/
