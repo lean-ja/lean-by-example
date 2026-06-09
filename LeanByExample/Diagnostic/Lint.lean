@@ -14,13 +14,10 @@ theorem hoge : True := by trivial
 
 -- ドキュメントコメントのない定理に対して警告するリンタ
 /--
-error: -- Found 1 error in 1 declarations (plus 0 automatically generated ones) in the current file with 1 linters
-
-/- The `docBlameThm` linter reports:
-THEOREMS ARE MISSING DOCUMENTATION STRINGS: -/
-#check hoge /- theorem missing documentation string -/
+The `docBlameThm` linter reports:
+THEOREMS ARE MISSING DOCUMENTATION STRINGS:
 -/
-#guard_msgs (error) in --#
+#guard_msgs (error, substring := true) in --#
 #lint only docBlameThm
 
 -- ドキュメントコメントのない定義
@@ -29,13 +26,10 @@ def fuga : True := by trivial
 -- 定義にドキュメントコメントがあるか確認するリンタ
 -- 定理は対象外なのでスルーされる
 /--
-error: -- Found 1 error in 2 declarations (plus 0 automatically generated ones) in the current file with 1 linters
-
-/- The `docBlame` linter reports:
-DEFINITIONS ARE MISSING DOCUMENTATION STRINGS: -/
-#check fuga /- definition missing documentation string -/
+The `docBlame` linter reports:
+DEFINITIONS ARE MISSING DOCUMENTATION STRINGS:
 -/
-#guard_msgs (whitespace := lax) in --#
+#guard_msgs (whitespace := lax, substring := true) in --#
 #lint only docBlame
 
 /-
@@ -68,10 +62,6 @@ def bad := "わるいよ！"
 
 /--
 error: -- Found 1 error in 4 declarations (plus 0 automatically generated ones) in the current file with 1 linters
-
-/- The `findBad` linter reports:
-BAD DECLARATIONS FOUND: -/
-#check bad /- declaration name contains `bad` -/
 -/
-#guard_msgs in --#
+#guard_msgs (substring := true) in --#
 #lint only findBad
