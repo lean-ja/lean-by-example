@@ -111,9 +111,14 @@ def cartesianProduct (xs : List Nat) (ys : List Nat) : List (Nat × Nat) := do
 
 #guard cartesianProduct [1, 2] [3, 4] = [(1, 3), (1, 4), (2, 3), (2, 4)]
 
-/-
-`List` のモナドインスタンスを活用する例をもっと見たい方は、[天使と悪魔のパズル](#{root}/EXTRA/AngelAndDevil.md)なども参照してください。
+/- ただし、この例は [`Applicative`](#{root}/TypeClass/Applicative.md) のインスタンスでも書けるのであまり良い例ではありません。後続の計算の中で前の選択に依存するような処理を使っていないためです。
 -/
+
+-- `Applicative` のインスタンスを使って同じことが書ける
+def cartesianProductAp (xs : List Nat) (ys : List Nat) : List (Nat × Nat) :=
+  (fun x y => (x, y)) <$> xs <*> ys
+
+#guard cartesianProductAp [1, 2] [3, 4] = [(1, 3), (1, 4), (2, 3), (2, 4)]
 
 /- ## インスタンス自作例
 
