@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
   } else {
     siteBaseUrl = "https://lean-ja.github.io/lean-by-example/";
   }
-  const summaryMdUrl = "https://raw.githubusercontent.com/lean-ja/lean-by-example/main/booksrc/SUMMARY.md";
+  const summaryMdUrl = "https://raw.githubusercontent.com/lean-ja/lean-by-example/main/LeanByExample/SUMMARY.lean";
 
   // キャッシュ用の変数
   let summaryLinks = null;
