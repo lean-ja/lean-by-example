@@ -1,9 +1,6 @@
 # mdbook に関連するもの
 book
-/booksrc/*
-!booksrc/image
-!booksrc/404.md
-!booksrc/SUMMARY.md
+booksrc/*
 # macOS leaves these files everywhere:
 .DS_Store
 # Created by `lake exe cache get` if no home directory is available
