@@ -31,6 +31,9 @@ def getOutput (input : String) (stdIn : Option String := none) : IO Output := do
   let out ← IO.Process.output
     (args := {cmd := cmd, args := args})
     (input? := stdIn)
+  if out.exitCode != 0 then
+    let errStr := out.stderr.trimAscii
+    throw <| IO.userError s!"Command failed with error: \n{errStr}"
   return out
 
 def runCmd (input : String) : IO Unit := do
