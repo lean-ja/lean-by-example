@@ -1,4 +1,4 @@
-# Summary
+/- # Summary
 
 [はじめに](./README.md)
 
@@ -301,4 +301,4 @@
   - [嫉妬深い夫たちの川渡りパズル](./EXTRA/Jealous.md)
   - [天使と悪魔の論理パズル](./EXTRA/AngelAndDevil.md)
   - [末尾再帰](./EXTRA/TailRec.md)
-  - [クワイン](./EXTRA/Quine.md)
+  - [クワイン](./EXTRA/Quine.md) -/

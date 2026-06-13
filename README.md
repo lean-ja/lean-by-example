@@ -1,6 +1,6 @@
 # README
 
-[![repo logo](./booksrc/image/project_image.png)]()
+[![repo logo](./LeanByExample/image/project_image.png)]()
 
 プログラミング言語であるとともに定理証明支援系でもある Lean 言語と、その主要なライブラリの使い方を豊富なコード例とともに解説した資料です。
 
@@ -47,6 +47,6 @@ If you use this book for your work, please cite it as follows:
 
 このプロジェクトは [Proxima Technology](https://proxima-ai-tech.com/) 様よりご支援を頂いています。
 
-![logo of Proxima Technology](./booksrc/image/proxima.inkscape.svg)
+![logo of Proxima Technology](./LeanByExample/image/proxima.inkscape.svg)
 
 Proxima Technology（プロキシマテクノロジー）は数学の社会実装を目指し、その⼀環としてモデル予測制御の民主化を掲げているAIスタートアップ企業です。数理科学の力で社会を変えることを企業の使命としています。

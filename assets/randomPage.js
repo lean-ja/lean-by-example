@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
   } else {
     siteBaseUrl = "https://lean-ja.github.io/lean-by-example/";
   }
-  const summaryMdUrl = "https://raw.githubusercontent.com/lean-ja/lean-by-example/main/booksrc/SUMMARY.md";
+  const summaryMdUrl = "https://raw.githubusercontent.com/lean-ja/lean-by-example/main/LeanByExample/SUMMARY.lean";
 
   // キャッシュ用の変数
   let summaryLinks = null;
@@ -90,8 +90,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 continue;
               }
 
-              // 最終的に本番サイトのURLとして構築
-              const fullUrl = siteBaseUrl + processedUrl;
+              // 最終的にサイト内のURLとして構築し、`./` などを正規化する
+              const fullUrl = new URL(processedUrl, siteBaseUrl).href;
 
               // 本番サイトのURLとしてリンクを追加
               links.push(fullUrl);

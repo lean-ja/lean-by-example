@@ -45,7 +45,7 @@ def runCmd (input : String) : IO Unit := do
 /-- mdgen と mdbook を順に実行し、
 Lean ファイルから Markdown ファイルと HTML ファイルを生成する。-/
 script build do
-  runCmd "lake exe mdgen LeanByExample booksrc --count"
+  runCmd "lake exe mdgen LeanByExample booksrc --count --copy"
   runCmd "mdbook build"
 
   -- SEO用のメタデータの更新。ローカルでは動作させる必要がないが、CI上では実行するべき
