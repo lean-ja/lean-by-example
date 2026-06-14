@@ -1,11 +1,11 @@
 ---
 name: article-editing
-description: Lean 解説記事を編集・執筆するときに使う。
+description: LeanByExample ディレクトリ配下の .lean ファイルを編集・追加するときに使う。
 ---
 
 # Lean 記事編集
 
-このスキルは、Lean 解説記事を編集・執筆するときに使う。
+このスキルは、`LeanByExample/` ディレクトリ配下の `.lean` ファイルを編集・追加するときに使う。
 
 ## 基本方針
 

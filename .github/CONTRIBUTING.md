@@ -10,8 +10,11 @@
 
 > [!IMPORTANT]
 > 開発に使用する mdbook のバージョンは `0.4.48` に固定してください。
+> 他のバージョンだと動かないことがあります。
 
 * [mdgen](https://github.com/Seasawher/mdgen) を Lean ファイルから markdown ファイルを生成するために使用しています。
+
+* [typst](https://typst.app/) を一部使用して図を生成しています。バージョンは `0.14.2` を想定しています。
 
 ## 開発の流れ
 
