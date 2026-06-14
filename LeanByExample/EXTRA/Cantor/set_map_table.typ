@@ -15,6 +15,9 @@
   header-fill: rgb("#eef4ff"),
   subheader-fill: rgb("#f8fafc"),
   one-fill: rgb("#dbeafe"),
+  highlight-diagonal: false,
+  diagonal-fill: rgb("#fef3c7"),
+  diagonal-stroke: rgb("#d97706"),
 ) = {
   let head(body) = table.cell(
     fill: header-fill,
@@ -31,9 +34,9 @@
     inset: (x: 8pt, y: 6pt),
   )[#body]
 
-  let bit(value) = table.cell(
-    fill: if value == 1 { one-fill } else { white },
-    stroke: line-color,
+  let bit(value, highlighted: false) = table.cell(
+    fill: if highlighted { diagonal-fill } else if value == 1 { one-fill } else { white },
+    stroke: if highlighted { 1.1pt + diagonal-stroke } else { line-color },
     inset: (x: 8pt, y: 6pt),
   )[#value]
 
@@ -47,12 +50,14 @@
     (subhead(element),)
   }).flatten()
 
-  let row-cells = (for row in rows {
+  let row-cells = (for row-index in range(rows.len()) {
+    let row = rows.at(row-index)
     let source = row.at(0)
     let bits = row.at(1)
     let set-label = row.at(2)
-    let bit-cells = (for value in bits {
-      (bit(value),)
+    let bit-cells = (for bit-index in range(bits.len()) {
+      let value = bits.at(bit-index)
+      (bit(value, highlighted: highlight-diagonal and bit-index == row-index),)
     }).flatten()
 
     (x-cell(source), table.cell(stroke: none)[#arrow]) + bit-cells + (x-cell(set-label),)

@@ -7,4 +7,5 @@
 #set-map-table(
   elements: xs,
   rows: rows,
+  highlight-diagonal: true,
 )
