@@ -8,3 +8,5 @@ booksrc/*
 # After v4.3.0-rc2 lake stores its files here:
 /.lake/
 *.olean
+# codex 等に生成させたレポート置き場
+.agents/tmp/*

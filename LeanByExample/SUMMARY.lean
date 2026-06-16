@@ -288,6 +288,7 @@
   - [e.f: フィールド記法](./Syntax/FieldNotation.md)
   - [match .. with: パターンマッチ](./Syntax/Match.md)
   - [panic!: エラーメッセージを出す](./Syntax/Panic.md)
+  - [r#..#: 生文字列リテラル](./Syntax/RawStr.md)
   - [s!: 文字列補間](./Syntax/InterpStr.md)
   - [show .. from: 項の型を明示](./Syntax/Show.md)
   - [Σ: 依存ペア型](./Syntax/Sigma.md)
