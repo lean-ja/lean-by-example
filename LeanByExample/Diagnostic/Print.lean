@@ -138,3 +138,10 @@ end
 /-- error: 'Classical.em' depends on classical axioms: [Classical.choice] -/
 #guard_msgs in --#
 #detect_classical Classical.em
+
+/- ## \#print opaque: opaque/partial 依存の確認
+
+[`opaque`](#{root}/Declarative/Opaque.md) コマンドによって定義された名前や、[`partial`](#{root}/Modifier/Partial.md) コマンドによって定義された関数への依存を見つけ出したいとき、`#print opaque` というサブコマンドが利用できます。
+
+{{#include ./Print/PrintOpaque.md}}
+-/
