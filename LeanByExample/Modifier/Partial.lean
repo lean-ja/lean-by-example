@@ -49,7 +49,7 @@ partial def forever (x : Int) : Int :=
 -- more 関数も停止しないが、partial は不要である
 def more := @forever
 
-/- これは意外に思えます。`partial` とマークされた関数は停止性が保証されていないので、それを使用した関数も停止性を保証できなくなるはずだからです。なぜこうなるのかというと、`partial` はそもそも「停止性が保証されていない」ことを表すものではなく、[`opaque`](#{root}/Declarative/Opaque.md) と同様に「名前が定義に展開できない」ことを表すものだからです。-/
+/- これは意外に思えます。`partial` とマークされた関数は停止性が保証されていないので、それを使用した関数も停止性を保証できなくなるはずだからです。なぜこうなるのかというと、`partial` はそもそも「停止性が保証されていない」ことを表すものではなく、[`opaque`](#{root}/Declarative/Opaque.md) コマンドと同様に「名前が定義に展開できない」ことを表すものだからです。-/
 
 -- 実際に #print してみると、`opaque` と表示される
 /-- info: opaque forever : Int → Int -/
@@ -71,7 +71,14 @@ fun x => Nat.brecOn x factorial._f
 #guard_msgs in --#
 #print factorial
 
+/-
+ある関数・定数が `partial` な関数に依存しているかチェックしたい場合は、`#print opaque` コマンドを使用することでできます。
+
+{{#include ./Partial/PrintOpaque.md}}
+-/
+
 /- ## 例外的な挙動
+
 再帰的でない関数を `partial` とマークしても何も起こりません。-/
 
 partial def square (x : Int) := x * x
