@@ -6,6 +6,7 @@ const scriptDir = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(scriptDir, "..");
 const bookDir = path.join(projectRoot, "book");
 const configPath = path.join(projectRoot, "book.toml");
+const sitemapPath = path.join(bookDir, "sitemap.xml");
 
 const configText = fs.readFileSync(configPath, "utf8");
 const siteRoot = ensureTrailingSlash(readTomlString(configText, "site-url"));
@@ -20,6 +21,7 @@ if (!fs.existsSync(bookDir)) {
 let updatedCount = 0;
 let indexedCount = 0;
 let skippedCount = 0;
+const sitemapUrls = [];
 
 for (const filePath of findHtmlFiles(bookDir)) {
   const relativePath = toPosixPath(path.relative(bookDir, filePath));
@@ -47,6 +49,7 @@ for (const filePath of findHtmlFiles(bookDir)) {
     const description = extractPageDescription(html) || defaultDescription;
     const canonicalUrl = canonicalUrlFor(relativePath);
     const ogType = relativePath === "index.html" ? "website" : "article";
+    sitemapUrls.push(canonicalUrl);
 
     html = upsertTag(
       html,
@@ -123,8 +126,10 @@ for (const filePath of findHtmlFiles(bookDir)) {
   }
 }
 
+fs.writeFileSync(sitemapPath, generateSitemapXml(sitemapUrls));
+
 console.log(
-  `Updated SEO metadata in ${updatedCount} HTML files (${indexedCount} indexable pages, ${skippedCount} noindex pages).`,
+  `Updated SEO metadata in ${updatedCount} HTML files (${indexedCount} indexable pages, ${skippedCount} noindex pages) and generated sitemap.xml with ${sitemapUrls.length} URLs.`,
 );
 
 function readTomlString(text, key) {
@@ -176,7 +181,7 @@ function findHtmlFiles(dir) {
     }
   }
 
-  return files;
+  return files.sort();
 }
 
 function toPosixPath(filePath) {
@@ -193,6 +198,14 @@ function canonicalUrlFor(relativePath) {
   }
 
   return new URL(encodeURI(urlPath), siteRoot).toString();
+}
+
+function generateSitemapXml(urls) {
+  const entries = urls
+    .map((url) => `  <url>\n    <loc>${escapeXml(url)}</loc>\n  </url>`)
+    .join("\n");
+
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${entries}\n</urlset>\n`;
 }
 
 function hasNoindex(html) {
@@ -309,6 +322,13 @@ function escapeHtml(value) {
   return value
     .replace(/&/g, "&amp;")
     .replace(/"/g, "&quot;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+function escapeXml(value) {
+  return value
+    .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
 }
