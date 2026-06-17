@@ -2,6 +2,8 @@
 
 ```admonish warning title="注意"
 `MLList` は非推奨になりました。代わりに `Std.Iterators.IterM` または `Std.Iter` を使用してください。
+
+参考: [MLList vs IterM](https://leanprover-community.github.io/archive/stream/287929-mathlib4/topic/MLList.20vs.20IterM.html)
 ```
 
 `MLList` は、遅延評価のリストです。遅延評価とは、大まかには「値が必要になるまで計算を遅らせること」を意味します。ここで、Lean は純粋関数型言語であり、すべての関数は純粋であるため、評価の順序によって式の値は変わらないことに注意してください。
