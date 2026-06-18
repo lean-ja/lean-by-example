@@ -25,14 +25,9 @@ section --#
 -- `F` は Functor であると仮定
 variable (F : Type → Type) [Functor F]
 
--- 関数 `g : α → β` と `x : F α` が与えられたとする
-variable {α β : Type} (g : α → β)
-
--- 高階関数を返す
-#check (Functor.map g : F α → F β)
-
 -- `<$>` は `map` と同じ
-example (x : F α) : g <$> x = Functor.map g x := rfl
+example (x : F α) (g : α → β) : g <$> x = Functor.map g x :=
+  rfl
 
 end --#
 /- 型が合っているだけでは「包まれている値に対して関数を適用する」という意味論にそぐわない挙動をすることがあるので、関手が満たすべきルールが存在し、それは [`LawfulFunctor`](#{root}/TypeClass/LawfulFunctor.md) というクラスにまとめられています。 -/
