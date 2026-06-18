@@ -1,54 +1,38 @@
 /- # Functor
 
-`Functor` は圏論における **関手(functor)** という概念からその名がある型クラスで、非常に雑な表現をすると、この型クラスを実装した型は「値を包んでいるコンテナのようなもの」として扱うことができます。特定のデータ構造に「包まれて」いる中の値に対して関数を適用していくという操作を行いたいことがありますが、`Functor` のインスタンスはそれを可能にします。
+`Functor` は圏論における **関手(functor)** という概念からその名がある型クラスです。
 
-より詳細には、`F : Type u → Type v` に対して `Functor` はおおむね次のように定義されています。
+型を受け取って型を返す関数 `F : Type u → Type v` が関手であるとは、型 `α : Type u` を写すことができるだけでなく、関数 `f : α → β` を `F α → F β` 型の関数に写す方法があることを意味します。つまり、関手とは「型を写す」だけでなく同時に「関数も写す」ことができるようなものです。
+
+シンプルにするために宇宙レベルを無視し、デフォルト値が持たされたフィールドも無視すると、`Functor` 型クラスは次のように定義されています。
 -/
---#--
-/--
-info: class Functor.{u, v} (f : Type u → Type v) : Type (max (u + 1) v)
-number of parameters: 1
-fields:
-  Functor.map : {α β : Type u} → (α → β) → f α → f β
-  Functor.mapConst : {α β : Type u} → α → f β → f α :=
-    fun {α β} => Functor.map ∘ Function.const β
-constructor:
-  Functor.mk.{u, v} {f : Type u → Type v} (map : {α β : Type u} → (α → β) → f α → f β)
-    (mapConst : {α β : Type u} → α → f β → f α) : Functor f
--/
-#guard_msgs in #print Functor
---#--
 namespace Hidden --#
 
-universe u v
-
-/-- 関手 -/
-class Functor (F : Type u → Type v) : Type (max (u+1) v) where
+/-- 関手。標準ライブラリにある `Functor` を真似て定義した型 -/
+class Functor (F : Type → Type) where
   /-- 関数 `f : α → β` を関数 `F α → F β` に変換する -/
-  map : {α β : Type u} → (α → β) → F α → F β
-
-  /-- `a : α` に対して、定数関数 `const a : β → α` を関数 `F β → F α` に変換する。
-  `map` を使うよりも効率的に実装できることがあるので、上書きできるように用意されている。-/
-  mapConst : {α β : Type u} → α → F β → F α := Function.comp map (Function.const _)
+  map : (α → β) → F α → F β
 
 end Hidden --#
-/- つまり、`Functor` のインスタンスは `map` メソッドが使用できます。これは型からわかるように、関数を関数に写す高階関数で、「普通の関数 `f : α → β`」を「`F` に包まれた関数 `F α → F β`」に持ち上げます。`Functor.map` はよく使われる操作であるため、`<$>` という専用の記法が用意されています。 -/
+/-
+つまり、関手は `Functor.map` という高階関数を持っており、`f : α → β` という関数を `Functor.map f : F α → F β` という関数に移すことができます。この関数は「普通の関数 `f : α → β`」を「`F` に包まれた `Type` 間の関数 `F α → F β`」に写していることから、**持ち上げ(lift)** であると呼ばれることがあります。
+
+<img class="image-center" src="./Functor/lift.svg" alt="Functorによる関数の持ち上げ" width="500">
+
+`Functor.map` はよく使われる操作であるため、`<$>` という専用の記法が用意されています。 -/
 section --#
 
 -- `F` は Functor であると仮定
 variable (F : Type → Type) [Functor F]
 
--- 関数 `g : α → β` と `x : F α` が与えられたとする
-variable {α β : Type} (g : α → β)
-
--- 高階関数を返す
-#check (Functor.map g : F α → F β)
-
 -- `<$>` は `map` と同じ
-example (x : F α) : g <$> x = Functor.map g x := rfl
+example (x : F α) (g : α → β) : g <$> x = Functor.map g x :=
+  rfl
 
 end --#
-/- 型が合っているだけでは「包まれている値に対して関数を適用する」という意味論にそぐわない挙動をすることがあるので、関手が満たすべきルールが存在し、それは [`LawfulFunctor`](#{root}/TypeClass/LawfulFunctor.md) というクラスにまとめられています。 -/
+/-
+型が合っているだけでは予想外の挙動をすることがあるので、関手が満たすべきルールが存在し、それは [`LawfulFunctor`](#{root}/TypeClass/LawfulFunctor.md) というクラスにまとめられています。
+-/
 /- ## 典型的なインスタンス -/
 
 /- ### Id
