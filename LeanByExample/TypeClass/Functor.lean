@@ -17,7 +17,7 @@ end Hidden --#
 /-
 つまり、関手は `Functor.map` という高階関数を持っており、`f : α → β` という関数を `Functor.map f : F α → F β` という関数に移すことができます。この関数は「普通の関数 `f : α → β`」を「`F` に包まれた `Type` 間の関数 `F α → F β`」に写していることから、**持ち上げ(lift)** であると呼ばれることがあります。
 
-![Functorによる関数の持ち上げ](./Functor/lift.svg)
+<img class="image-center" src="./Functor/lift.svg" alt="Functorによる関数の持ち上げ" width="500">
 
 `Functor.map` はよく使われる操作であるため、`<$>` という専用の記法が用意されています。 -/
 section --#
@@ -30,7 +30,9 @@ example (x : F α) (g : α → β) : g <$> x = Functor.map g x :=
   rfl
 
 end --#
-/- 型が合っているだけでは「包まれている値に対して関数を適用する」という意味論にそぐわない挙動をすることがあるので、関手が満たすべきルールが存在し、それは [`LawfulFunctor`](#{root}/TypeClass/LawfulFunctor.md) というクラスにまとめられています。 -/
+/-
+型が合っているだけでは予想外の挙動をすることがあるので、関手が満たすべきルールが存在し、それは [`LawfulFunctor`](#{root}/TypeClass/LawfulFunctor.md) というクラスにまとめられています。
+-/
 /- ## 典型的なインスタンス -/
 
 /- ### Id

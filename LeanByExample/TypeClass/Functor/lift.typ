@@ -1,10 +1,11 @@
 #import "@preview/fletcher:0.5.8" as fletcher: diagram, node, edge
 
-#set page(width: 112mm, height: auto, margin: 8mm)
+#set page(width: 110mm, height: auto, margin: 8mm)
 #set text(size: 15pt)
 
 #let ink = rgb("#1f2937")
 #let muted = rgb("#4b5563")
+#let code-ink = rgb("#0f5f77")
 
 #align(center)[
   #stack(
@@ -21,7 +22,7 @@
     }),
     block(width: 86mm)[
       #align(left, text(size: 8pt, fill: muted)[
-        この図では、`Functor.map` に使用されている関手を明示するために\
+        この図では、#text(fill: code-ink)[`Functor.map`] に使用されている関手を明示するために\
         $F_*$ という書き方を採用しています。
       ])
     ],
