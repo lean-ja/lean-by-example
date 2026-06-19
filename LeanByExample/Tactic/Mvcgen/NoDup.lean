@@ -21,7 +21,7 @@ theorem nodup_correct (l : List α) : nodupDo l ↔ l.Nodup := by
   generalize h : nodupDo l = r
   apply Id.of_wp_run_eq h
   mvcgen invariants
-  · Invariant.withEarlyReturn
+  · Invariant.withEarlyReturnNewDo
       -- forループの１ステップが平常終了したとき。
       -- プログラム中の可変変数`seen`は、現在までに見た要素の集合`cursor.prefix`に等しく、
       -- かつ`cursor.prefix`は重複がない。

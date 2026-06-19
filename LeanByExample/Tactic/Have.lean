@@ -41,10 +41,10 @@ example (P : Prop) : ¬¬¬ P → ¬ P := by
 
 これを、コンストラクタ名を明示せずにシンプルに `⟨hp, hq⟩` と書くことができます。これは[無名コンストラクタ](#{root}/Syntax/AnonymousConstructor.md)と呼ばれるものです。-/
 section
-  variable (P Q : Prop) (hp : P) (hq : Q)
+  variable (P Q : Prop)
 
-  def hpq : P ∧ Q := ⟨hp, hq⟩
-  def hpq' : P ∧ Q := And.intro hp hq
+  theorem hpq (hp : P) (hq : Q) : P ∧ Q := ⟨hp, hq⟩
+  theorem hpq' (hp : P) (hq : Q) : P ∧ Q := And.intro hp hq
 end
 /- 無名コンストラクタを利用することで、記述を簡略化できます。
 

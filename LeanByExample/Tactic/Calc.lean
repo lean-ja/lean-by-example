@@ -62,7 +62,7 @@ example {x y z : Int} (hxy : x ≡ y) (h : y = z) : x ≡ z := calc
   _ ≡ z := by rw [h]
 
 /-- same_abs の推移律 -/
-def same_abs_trans {x y z : Int} (hxy : x ≡ y) (hyz : y ≡ z) : x ≡ z := by
+theorem same_abs_trans {x y z : Int} (hxy : x ≡ y) (hyz : y ≡ z) : x ≡ z := by
   dsimp [same_abs]
 
   -- hxy と hyz について場合分けをする

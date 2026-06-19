@@ -44,6 +44,6 @@ theorem binaryExpo_spec (root n : Nat) :
 
   mvcgen invariants
   -- 不変条件の指定。
-  -- ローカル可変変数は定義順ではなくアルファベット順に拘束されることに注意。
-  · ⇓⟨cursor, e, x, y⟩ => ⌜y * x ^ e = root ^ n ∧ e + cursor.pos ≤ n⌝
+  -- ローカル可変変数は定義順に拘束される。
+  · ⇓⟨cursor, x, y, e⟩ => ⌜y * x ^ e = root ^ n ∧ e + cursor.pos ≤ n⌝
   with grind

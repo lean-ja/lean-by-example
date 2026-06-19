@@ -14,8 +14,8 @@ def fibSpec (n : Nat) : Nat :=
 def fibImpl (n : Nat) : Nat := Id.run do
   if n = 0 then
     return 0
-  let mut b := 1
   let mut a := 0
+  let mut b := 1
   for _i in [1:n] do
     let a' := a
     a := b
@@ -32,7 +32,7 @@ theorem fibImpl_eq_fibSpec (n : Nat) : fibImpl n = fibSpec n := by
   mvcgen invariants
   -- 不変条件の指定。
   -- `a` と `b` はループ内で更新される可変変数。
-  -- `let mut` で定義された順番ではなくて、アルファベット順に拘束されることに注意。
+  -- `let mut` で定義された順番に拘束される。
   -- `cursor.pos` はループの進捗を表していて、いままでにループが回った回数を表す。
   · ⇓⟨cursor, a, b⟩ => ⌜a = fibSpec cursor.pos ∧ b = fibSpec (cursor.pos + 1)⌝
   with grind

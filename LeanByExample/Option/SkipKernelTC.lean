@@ -12,6 +12,7 @@ section
   elab "so_sorry" : tactic => do
     closeMainGoal `so_sorry (Lean.mkConst ``trivial)
 
+  set_option linter.defProp false in --#
   def bad_proof : False := by so_sorry
 
 end

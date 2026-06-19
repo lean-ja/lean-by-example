@@ -37,7 +37,7 @@ inductive MyFalse : Prop
 
 -- motive の返り値の型の Sort u には Prop も含まれる
 -- したがって `fun _ => P` という関数を再帰子に渡すことができて任意の命題の証明ができる
-def MyFalse.elim {P : Prop} (h : MyFalse) : P := @MyFalse.rec (fun _ => P) h
+theorem MyFalse.elim {P : Prop} (h : MyFalse) : P := @MyFalse.rec (fun _ => P) h
 
 /-- `MyFalse` についての爆発律。`MyFalse` からはなんでも証明できる -/
 example {Q : Prop} (h : MyFalse) : Q := by

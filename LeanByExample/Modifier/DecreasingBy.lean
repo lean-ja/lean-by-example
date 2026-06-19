@@ -54,6 +54,7 @@ end Have --#
 [カリー・ハワード同型対応](#{root}/Type/Prop.md#CH)によれば「帰納法は再帰」なので、停止しない再帰を許すことは直接的に「終了しない帰納法」を許すことに繋がり、矛盾をもたらすことになってしまいます。
 -/
 
+set_option linter.defProp false in --#
 -- unsafe を使うと終わらない帰納法が使えるので、何でも証明できる
 unsafe def loop_thm (P : Prop) : P :=
   loop_thm P

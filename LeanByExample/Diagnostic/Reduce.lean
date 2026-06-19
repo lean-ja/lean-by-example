@@ -64,6 +64,7 @@ info: fun xs => (List.rec ⟨0, PUnit.unit⟩ (fun head tail tail_ih => ⟨tail_
 実際、Lean の型チェッカは再帰的な定義を受け付けないように設計されています。なぜかというと、再帰的な定義を（制限なしに）許すと矛盾が簡単に示せてしまうからです。
 -/
 
+set_option linter.defProp false in --#
 /-- Lean の型チェッカが許すべきでない再帰関数の例 -/
 unsafe def bad {P : Prop} : P := bad
 

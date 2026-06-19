@@ -17,6 +17,8 @@ Lean では、各命題 `P : Prop` は再び型になっています。これは
 -- `1 + 1 = 2` という型を持つ項を、`rfl` で構成できる
 #check (rfl : 1 + 1 = 2)
 
+set_option linter.defProp false in --#
+
 -- 項に名前を付けた
 def one_and_one_eq_two : 1 + 1 = 2 := rfl
 
@@ -133,6 +135,7 @@ theorem my_proof_irrel (P : Prop) (h1 h2 : P) : h1 = h2 := rfl
 theorem foo : ∃ x : Int, x ^ 2 = 1 := by exists 1
 theorem bar : ∃ x : Int, x ^ 2 = 1 := by exists -1
 
+set_option linter.defProp false in --#
 def Ok.extract (h : ∃ x : Int, x ^ 2 = 1) : True := by
   -- 仮定にある証明項 `h` を分解して
   -- x を取り出すことができる

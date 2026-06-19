@@ -53,6 +53,7 @@ theorem foo (m : Nat) : m = m :=
 -- 引数は１つだけ
 #check (foo : ∀ m : Nat, m = m)
 
+set_option linter.defProp false in --#
 -- `n` は証明の中にしか現れないが、引数として取り込まれる
 def foo' (m : Nat) : m = m :=
   have : n = n := by rfl

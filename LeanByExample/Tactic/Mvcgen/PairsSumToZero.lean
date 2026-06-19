@@ -39,7 +39,7 @@ theorem pairsSumToZero_spec (l : List Int) :
   apply Id.of_wp_run_eq h
 
   mvcgen invariants
-  · Invariant.withEarlyReturn
+  · Invariant.withEarlyReturnNewDo
     (onContinue := fun cursor seen =>
       ⌜(∀ x, x ∈ seen ↔ x ∈ cursor.prefix) ∧ ¬cursor.prefix.Any₂ (fun a b => a + b = 0)⌝)
     (onReturn := fun r b => ⌜r = true ∧ l.Any₂ (fun a b => a + b = 0)⌝)

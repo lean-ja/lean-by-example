@@ -34,7 +34,7 @@ theorem takeWhileReturn_spec (p : α → Bool) (l : List α) :
   apply Id.of_wp_run_eq h
 
   mvcgen invariants
-  · Invariant.withEarlyReturn
+  · Invariant.withEarlyReturnNewDo
     (onContinue := fun cursor result =>
       ⌜result = cursor.prefix ∧ result = cursor.prefix.takeWhile p⌝)
     (onReturn := fun ret result => ⌜ret = result ∧ result = l.takeWhile p⌝)
