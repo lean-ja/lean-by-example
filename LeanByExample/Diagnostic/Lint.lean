@@ -20,6 +20,7 @@ THEOREMS ARE MISSING DOCUMENTATION STRINGS:
 #guard_msgs (error, substring := true) in --#
 #lint only docBlameThm
 
+set_option linter.defProp false in --#
 -- ドキュメントコメントのない定義
 def fuga : True := by trivial
 

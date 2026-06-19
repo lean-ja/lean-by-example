@@ -11,6 +11,7 @@ theorem add_zero {n : Nat} : n + 0 = n := by simp
 
 /- ## def との違い
 `theorem` コマンドは特定の型を持つ項を定義するという意味で、[`def`](./Def.md) と同じです。実際、`def` を使っても証明項を定義することは可能です。しかし `theorem` を使っても関数などを定義することはできません。`theorem` で宣言できる項は命題のみです。-/
+set_option linter.defProp false in --#
 
 def add_zero' {n : Nat} : n + 0 = n := by simp
 
