@@ -73,12 +73,12 @@ theorem belowZero_iff {l : List Int} : belowZero l ↔ l.HasPrefix (fun l => l.s
   apply Id.of_wp_run_eq h
   mvcgen invariants
   -- 早期終了がある場合の不変条件
-  · Invariant.withEarlyReturn
+  · Invariant.withEarlyReturnNewDo
     -- 早期終了しなかった場合、現在の接頭辞の和が `balance` に等しく、
     -- かつ「今までループで見てきた部分」は「和が0未満になる接頭辞」を持たない
-    (onContinue := fun cursor balance =>
+    (onContinue := fun cursor (balance : Int) =>
       ⌜balance = cursor.prefix.sum ∧ ¬ cursor.prefix.HasPrefix (fun l => l.sum < 0)⌝)
 
     -- 早期終了した場合、返り値の`ret`は`true`であり、かつ和が0未満になる接頭辞がある
-    (onReturn := fun ret balance => ⌜ret = true ∧ l.HasPrefix (fun l => l.sum < 0)⌝)
+    (onReturn := fun ret (balance : Int) => ⌜ret = true ∧ l.HasPrefix (fun l => l.sum < 0)⌝)
   with grind
