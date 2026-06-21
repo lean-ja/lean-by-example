@@ -45,9 +45,12 @@ example : factorial 5 = 120 := by
 #guard_msgs in --#
 #reduce factorial 3
 
-/- ## reducibility を確認する
+/- ## 用途
 
-Lean が暗黙の裡に `[irreducible]` 属性や `[reducible]` 属性を付与していることがあります。[`#print`](#{root}/Diagnostic/Print.md) コマンドを使うと確認することができます。
+ユーザが明確に、自分で定義した関数・定数に対して `[irreducible]` 属性を付与すべき場面はそんなに多くないと筆者は思います。
+Lean は[整礎再帰な関数](#{root}/Modifier/TerminationBy.md)や [`partial_fixpoint`](#{root}/Modifier/PartialFixpoint.md) により修飾された関数に対して自動的に `[irreducible]` 属性を付与するのですが、おそらくこの属性を見かけるのはそういう場面が多いでしょう。
+
+[`#print`](#{root}/Diagnostic/Print.md) コマンドを使うと裏で属性が付与されている様子を確認することができます。
 -/
 
 def searchF {α : Type} (f : Nat → Option α) (start : Nat) : Option Nat :=
@@ -69,3 +72,19 @@ fun {α} f =>
 -/
 #guard_msgs in --#
 #print searchF
+
+/-- 文字列の左側を指定文字で埋めて、指定長にそろえる（整礎再帰バージョン）-/
+def String.padLeftWF (input : String) (padChar : Char) (length : Nat) : String :=
+  if input.length ≥ length then
+    input
+  else
+    String.padLeftWF (padChar.toString ++ input) padChar length
+termination_by length - input.length
+
+-- 整礎再帰を使ったので `[irreducible]` になっている
+/--
+info: @[irreducible] def String.padLeftWF : String → Char → Nat → String :=
+fun input padChar length => String.padLeftWF._unary padChar length input
+-/
+#guard_msgs in --#
+#print String.padLeftWF
