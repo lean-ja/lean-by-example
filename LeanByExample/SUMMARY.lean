@@ -99,7 +99,7 @@
   - [implemented_by: 仕様と実装の分離](./Attribute/ImplementedBy.md)
   - [induction_eliminator: 独自帰納法](./Attribute/InductionEliminator.md)
   - [inherit_doc: ドキュメントの継承](./Attribute/InheritDoc.md)
-  - [irreducible: 定義に展開できなくする](./Attribute/Irreducible.md)
+  - [irreducible: 定義的な等しさを使えなくする](./Attribute/Irreducible.md)
   - [macro_inline: 短絡評価など](./Attribute/MacroInline.md)
   - [macro: マクロの構文と実装の紐づけ](./Attribute/Macro.md)
   - [match_pattern: 独自パタンマッチ](./Attribute/MatchPattern.md)

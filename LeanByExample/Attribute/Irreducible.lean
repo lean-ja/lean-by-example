@@ -9,21 +9,32 @@ def factorial (n : Nat) : Nat :=
   | 0 => 1
   | m + 1 => (m + 1) * factorial m
 
--- 最初は rfl が通る
-example : factorial 5 = 120 := by rfl
+example : factorial 5 = 120 := by
+  -- 最初は rfl が通る
+  rfl
 
-/-- info: 6 -/
-#guard_msgs in --#
-#reduce factorial 3
+example : factorial 5 = 120 := by
+  -- dsimp も通る
+  dsimp [factorial]
 
 -- [irreducible]属性を与える
 attribute [irreducible] factorial
 
-set_option warn.sorry false in --#
 example : factorial 5 = 120 := by
+  -- rfl が通らなくなる
   fail_if_success rfl
+  -- dsimp も通らない
   fail_if_success dsimp [factorial]
-  sorry
+
+  cbv
+
+/- なお [`unfold`](#{root}/Tactic/Unfold.md) タクティクは `[irreducible]` 属性が付与されていても使えます。 -/
+
+example : factorial 5 = 120 := by
+  repeat unfold factorial
+  rfl
+
+/- また、名前からは [`#reduce`](#{root}/Diagnostic/Reduce.md) コマンドが使えなくなるような印象を受けますが、`#reduce` は相変わらず使用可能です。 -/
 
 -- `#reduce` は相変わらずできる
 /-- info: 6 -/
