@@ -1,6 +1,6 @@
 /- # irreducible
 
-`[irreducible]` 属性を付与すると、その名前が定義に等しいということが隠されて、[`rfl`](#{root}/Tactic/Rfl.md) タクティクや [`dsimp`](#{root}/Tactic/Dsimp.md) タクティクが通らなくなります。
+`[irreducible]` 属性を付与すると、その名前が定義本体に **定義的に等しい(definitionally equal)** ということが隠されて、[`rfl`](#{root}/Tactic/Rfl.md) タクティクや [`dsimp`](#{root}/Tactic/Dsimp.md) タクティクが通らなくなります。
 -/
 
 /-- 階乗関数 -/
@@ -27,6 +27,10 @@ example : factorial 5 = 120 := by
   fail_if_success dsimp [factorial]
 
   cbv
+
+-- 補足: 名前を定義に展開しなくてもわかる等式は、引き続き rfl で示せる
+example : factorial 5 = factorial 5 := by
+  rfl
 
 /- なお [`unfold`](#{root}/Tactic/Unfold.md) タクティクは `[irreducible]` 属性が付与されていても使えます。 -/
 

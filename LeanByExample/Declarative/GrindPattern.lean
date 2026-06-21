@@ -42,7 +42,7 @@ example (x y z : Nat) (h₁ : R x y) (h₂ : R y z) : R x z := by
 
 ### `=/=` 制約
 
-`=/=` 制約を追加すると、両辺が definitionally equal でないときにのみ定理がインスタンス化されるようになります。
+`=/=` 制約を追加すると、両辺が **定義的に等しい(definitionally equal)** かどうかの場合分けが追加され、等しくない場合のみ定理がインスタンス化されるようになります。
 
 {{#include ./GrindPattern/NotDefeq.md}}
 -/
