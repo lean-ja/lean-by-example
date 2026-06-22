@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       # panic! を Ubuntu 上で評価するとバックトレースが表示されてしまう問題の修正
       - name: set environment variable
         run: echo "LEAN_BACKTRACE=0" >> $GITHUB_ENV
