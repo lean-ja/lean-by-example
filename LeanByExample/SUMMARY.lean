@@ -304,4 +304,5 @@
   - [末尾再帰](./EXTRA/TailRec.md)
   - [カントールの定理](./EXTRA/Cantor.md)
   - [クワイン](./EXTRA/Quine.md)
+  - [列挙型に対する `ToString` インスタンスの自動生成](./EXTRA/EnumToString.md)
 -/

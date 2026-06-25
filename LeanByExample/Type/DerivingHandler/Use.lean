@@ -1,4 +1,4 @@
-import LeanByExample.Type.DerivingHandler.Lib
+import LeanByExample.Type.DerivingHandler.Lib --#
 
 -- 最初はインスタンスがない
 #check_failure ToUnit.toUnit true

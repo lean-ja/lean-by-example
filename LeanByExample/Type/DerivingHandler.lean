@@ -28,3 +28,10 @@ example : DerivingHandler = (Array Name → CommandElabM Bool) := by
 
 {{#include ./DerivingHandler/Use.md}}
 -/
+
+/- ## 他の実装例
+
+より実践的な例をご覧になりたい方は、以下の記事を参照してください。
+
+* [列挙型に対する `ToString` インスタンスの自動生成](#{root}/EXTRA/EnumToString.md)
+-/
