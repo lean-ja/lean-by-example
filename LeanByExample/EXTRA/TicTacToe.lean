@@ -182,20 +182,22 @@ def Board.result? (board : Board) : Option Result :=
   ]
   board.result? = none
 
-/- ## 着手できるようにする
+/- ## 着手の実装
 
-盤面のまだ着手されていない場所を選んで、着手ができるようにします。
+### `Option` を返すバージョン
+
+盤面のまだ着手されていない場所を選んで、着手ができるようにしましょう。着手しようとしている場所が既に着手済みの場合にどうするかという問題がありますが、とりあえず素直なのは `none` を返すようにすることでしょうか。
 -/
 
 /-- 盤面上の場所 -/
 abbrev Position := Fin 9
 
 /-- 盤面上の場所 `move` にプレイヤー `p` が手を置き、新しい盤面を返す。
-ただし、既に着手されている場合は `Except.error` を返す。 -/
-def Board.place! (board : Board) (move : Position) (p : Player) : Except String Board :=
+ただし、既に着手されている場合は `none` を返す。 -/
+def Board.place? (board : Board) (move : Position) (p : Player) : Option Board :=
   match board[move] with
-  | some _ => Except.error s!"{decl_name%}: position {move} is already occupied"
-  | none => Except.ok (board.set move (some p))
+  | some _ => none
+  | none => some (board.set move (some p))
 
 #guard show Bool from Id.run do
   let board : Board := #v[
@@ -203,7 +205,7 @@ def Board.place! (board : Board) (move : Position) (p : Player) : Except String 
     E, E, E,
     O, E, X
   ]
-  let .ok actual := board.place! 2 Player.x
+  let .some actual := board.place? 2 Player.x
     | return false
   let expected : Board := #v[
     X, O, X,
@@ -218,10 +220,11 @@ def Board.place! (board : Board) (move : Position) (p : Player) : Except String 
     E, E, E,
     O, E, X
   ]
-  !(board.place! 1 Player.x).toBool
+  (board.place? 1 Player.x).isNone
 
-/-
-何か着手するたびに `Except` が返ってくるのを回避することができるように、「着手箇所が空であることの証明」を引数に持たせるバージョンも定義しておきましょう。
+/- ### 合法性の証明を受け取るバージョン
+
+返り値を `Option` に包むのは簡便ですが、空でないことが分かっている場合でも `Option` を剥がす処理を書かなければいけなくなります。これを回避することができるように、「着手箇所が空であることの証明」を引数に持たせるバージョンも定義しておきましょう。
 -/
 
 /-- 合法な着手 -/
@@ -261,7 +264,8 @@ info:
   let newBoard := board.place legalMove Player.x
   Board.display newBoard
 
-/-
+/- ### 合法手の列挙
+
 将来的に「その盤面において合法な手を全列挙する」という関数が欲しくなることが予想されるので、それも実装しておきます。
 -/
 
@@ -281,7 +285,9 @@ def Board.legalMoves (b : Board) : List (LegalMove b) :=
   ]
   board.legalMoves.map (fun legalMove => legalMove.move.val) = [2, 3, 4, 5, 7]
 
-/- ## 補題の用意
+/- この関数の実装は何も見ずに行うとするとおそらく難しいでしょう。ポイントは `List.finRange` を使用することです。 -/
+
+/- ### 補題の用意
 
 後で必要になるので、合法手を全列挙する関数 `legalMoves` に関する補題をいくつか用意しておきます。おもに「ゲームが進行中なら、合法な手が存在する」というのが欲しい命題です。
 -/
