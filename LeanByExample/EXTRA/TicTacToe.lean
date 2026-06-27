@@ -350,6 +350,8 @@ grind_pattern Board.legalMoveExists => board.legalMoves, board.inProgress
   そして自分の手番なら評価値が最大になる手を選んで、その評価値を採用する。
   相手の手番なら自分から見た評価値が最小になる手を選んで、その評価値を採用する。
 5. なるべく短い手順で勝利するほど、高い評価値を与えるようにする
+
+これを素直に実装すると、[相互再帰関数](#{root}/Declarative/Mutual.md) になります。
 -/
 
 /-- そのプレイヤーの対戦相手 -/
