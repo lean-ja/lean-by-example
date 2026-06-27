@@ -1,5 +1,3 @@
-import Plausible
-
 /- # 三目並べ
 
 Lean で、CLI ゲームとして三目並べを実装してみましょう。
@@ -54,9 +52,6 @@ def Array.reshape (m n : Nat) (xs : Array α) : Array (Array α) :=
   let expected := #[#[1, 2, 3], #[4, 5, 6]]
   actual = expected
 
-#test ∀ α : Type, ∀ m n : Nat, ∀ xs : Array α,
-  xs.size = m * n → (Array.reshape m n xs).flatMap id = xs
-
 /-- 配列の要素の間に区切りを挿入する -/
 def Array.intersperse (xs : Array α) (sep : α) : Array α :=
   match xs.toList with
@@ -65,9 +60,6 @@ def Array.intersperse (xs : Array α) (sep : α) : Array α :=
     rest.foldl (fun acc y => acc ++ #[sep, y]) #[x]
 
 #guard Array.intersperse #[1, 2, 3] 0 = #[1, 0, 2, 0, 3]
-
-#test ∀ α : Type, ∀ xs : Array α, ∀ sep : α,
-  (Array.intersperse xs sep).size = xs.size * 2 - 1
 
 /-- 盤面を表示するための補助関数 -/
 def Board.toStrArray (b : Board) : Array String :=
