@@ -603,10 +603,11 @@ def main : IO Unit := do
   -- ゲーム終了後の結果表示
   IO.println "ゲーム終了！"
   board.display
+
   match board.result? with
   | some (Result.win winner) =>
     IO.println s!"勝者は {winner} です！"
   | some Result.draw =>
     IO.println "引き分けです！"
   | none =>
-    IO.println "予期せぬエラーが発生しました。"
+    throw <| .userError "予期せぬエラーが発生しました。"
