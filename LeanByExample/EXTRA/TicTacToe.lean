@@ -373,6 +373,11 @@ def Board.depth (b : Board) : Nat :=
     |>.filter Option.isSome
     |>.size
 
+/-- 空であるという性質は、`map` をかましても変わらない。 -/
+@[grind norm]
+theorem List.map_respect_emptiness (xs : List α) (f : α → β) : xs.map f = [] ↔ xs = [] := by
+  simp only [← length_eq_zero_iff, length_map]
+
 mutual
 
 /-- この盤面で `p` が手番を持っている場合に、`p` から見た盤面の評価値 -/
@@ -388,9 +393,7 @@ partial def Board.maxScore (board : Board) (p : Player) : Int :=
 
     -- `List.max` 関数は空でないリストに対してしか使えないので、
     -- 空でないことを証明する必要がある。
-    have h : nextScores ≠ [] := by
-      have hMoves : nextMoves ≠ [] := by grind
-      simpa [nextScores, nextBoards] using hMoves
+    have h : nextScores ≠ [] := by grind
 
     nextScores.max h
 
@@ -407,9 +410,7 @@ partial def Board.minScore (board : Board) (p : Player) : Int :=
 
     -- `List.min` 関数は空でないリストに対してしか使えないので、
     -- 空でないことを証明する必要がある。
-    have h : nextScores ≠ [] := by
-      have hMoves : nextMoves ≠ [] := by grind
-      simpa [nextScores, nextBoards] using hMoves
+    have h : nextScores ≠ [] := by grind
 
     nextScores.min h
 
@@ -499,12 +500,7 @@ def Board.selectBestMove (board : Board) (p : Player) (h : board.inProgress := b
   )
 
   -- `List.head` 関数は空でないリストに対してしか使えないので、空でないことを証明する必要がある。
-  have h : sortedScoredMoves ≠ [] := by
-    have hMoves : nextMoves ≠ [] := by
-      grind only [usr legalMoveExists]
-    have hScored : scoredMoves ≠ [] := by
-      simpa [scoredMoves] using hMoves
-    grind only [= List.mergeSort_respect_nonEmpty]
+  have h : sortedScoredMoves ≠ [] := by grind
 
   let ⟨bestMove, score⟩ := sortedScoredMoves.head h
   bestMove
