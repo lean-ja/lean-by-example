@@ -331,7 +331,7 @@ theorem Board.legalMoveExists (board : Board) (h : board.inProgress) : board.leg
 
 grind_pattern Board.legalMoveExists => board.legalMoves, board.inProgress
 
-/- ## CPU の実装
+/- ## CPU の思考アルゴリズムの実装
 
 次はいよいよ、CPU の思考アルゴリズムを実装します。単に「ランダムに手を選ぶ」ような CPU を実装しても良いのですが、せっかくなので賢い CPU を実装してみます。次のような方針で実装しましょう。
 
