@@ -131,21 +131,24 @@ inductive Result where
   /-- 引き分け -/
   | draw
 
+/-- 勝敗判定に使われるライン -/
+abbrev Line := Vector (Fin 9) 3
+
 /-- 勝敗判定に使われるラインを全部列挙したもの -/
-def allLines : Array (Array Nat) :=
-  let row0 := #[0, 1, 2]
-  let row1 := #[3, 4, 5]
-  let row2 := #[6, 7, 8]
-  let col0 := #[0, 3, 6]
-  let col1 := #[1, 4, 7]
-  let col2 := #[2, 5, 8]
-  let diag1 := #[0, 4, 8]
-  let diag2 := #[2, 4, 6]
+def allLines : Array Line :=
+  let row0 := #v[0, 1, 2]
+  let row1 := #v[3, 4, 5]
+  let row2 := #v[6, 7, 8]
+  let col0 := #v[0, 3, 6]
+  let col1 := #v[1, 4, 7]
+  let col2 := #v[2, 5, 8]
+  let diag1 := #v[0, 4, 8]
+  let diag2 := #v[2, 4, 6]
   #[row0, row1, row2, col0, col1, col2, diag1, diag2]
 
-def checkLine (line : Array Nat) (board : Board) (P : Player → Bool) : Bool :=
+def checkLine (line : Line) (board : Board) (P : Player → Bool) : Bool :=
   line.all (fun pos =>
-    let player? := board[pos]!
+    let player? := board[pos]
     (P <$> player?).getD false
   )
 
@@ -197,7 +200,7 @@ abbrev Position := Fin 9
 
 /-- 盤面上の場所 `move` にプレイヤー `p` が手を置き、新しい盤面を返す。
 ただし、既に着手されている場合は `Except.error` を返す。 -/
-def Board.place (board : Board) (move : Position) (p : Player) : Except String Board :=
+def Board.place! (board : Board) (move : Position) (p : Player) : Except String Board :=
   match board[move] with
   | some _ => Except.error s!"{decl_name%}: position {move} is already occupied"
   | none => Except.ok (board.set move (some p))
@@ -208,7 +211,7 @@ def Board.place (board : Board) (move : Position) (p : Player) : Except String B
     E, E, E,
     O, E, X
   ]
-  let .ok actual := board.place 2 Player.x
+  let .ok actual := board.place! 2 Player.x
     | return false
   let expected : Board := #v[
     X, O, X,
@@ -223,7 +226,7 @@ def Board.place (board : Board) (move : Position) (p : Player) : Except String B
     E, E, E,
     O, E, X
   ]
-  !(board.place 1 Player.x).toBool
+  !(board.place! 1 Player.x).toBool
 
 /-
 何か着手するたびに `Except` が返ってくるのを回避することができるように、「着手箇所が空であることの証明」を引数に持たせるバージョンも定義しておきましょう。
@@ -242,7 +245,7 @@ def Board.legalCheck (b : Board) (move : Position) (h : b[move] = none := by dec
   { move := ⟨move, by simp⟩, proof := h }
 
 /-- 合法な着手箇所が与えられたときに、そこに着手した新しい盤面を返す。-/
-def Board.safePlace (board : Board) (move : LegalMove board) (p : Player) : Board :=
+def Board.place (board : Board) (move : LegalMove board) (p : Player) : Board :=
   board.set move.move (some p)
 
 /--
@@ -263,7 +266,7 @@ info:
     O, E, X
   ]
   let legalMove := board.legalCheck 2
-  let newBoard := board.safePlace legalMove Player.x
+  let newBoard := board.place legalMove Player.x
   Board.display newBoard
 
 /-
@@ -380,7 +383,7 @@ partial def Board.maxScore (board : Board) (p : Player) : Int :=
   | some Result.draw => 0
   | none =>
     let nextMoves := board.legalMoves
-    let nextBoards := nextMoves.map (board.safePlace · p)
+    let nextBoards := nextMoves.map (board.place · p)
     let nextScores := nextBoards.map (fun b => Board.minScore b p)
 
     -- `List.max` 関数は空でないリストに対してしか使えないので、
@@ -399,7 +402,7 @@ partial def Board.minScore (board : Board) (p : Player) : Int :=
   | some Result.draw => 0
   | none =>
     let nextMoves := board.legalMoves
-    let nextBoards := nextMoves.map (board.safePlace · p.opponent)
+    let nextBoards := nextMoves.map (board.place · p.opponent)
     let nextScores := nextBoards.map (fun b => Board.maxScore b p)
 
     -- `List.min` 関数は空でないリストに対してしか使えないので、
@@ -487,7 +490,7 @@ theorem List.mergeSort_respect_nonEmpty (xs : List α) (f : α → α → Bool) 
 def Board.selectBestMove (board : Board) (p : Player) (h : board.inProgress := by cbv) : LegalMove board :=
   let nextMoves := board.legalMoves
   let scoredMoves := nextMoves.map (fun move =>
-    let newBoard := board.safePlace move p
+    let newBoard := board.place move p
     let score := Board.score newBoard p
     (move, score)
   )
@@ -513,7 +516,7 @@ def Board.selectBestMove (board : Board) (p : Player) (h : board.inProgress := b
     O, E, X
   ]
   let move := Board.selectBestMove board Player.x
-  let actual := board.safePlace move Player.x
+  let actual := board.place move Player.x
   let expected : Board := #v[
     X, O, E,
     E, X, E,
