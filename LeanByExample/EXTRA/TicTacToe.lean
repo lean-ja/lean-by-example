@@ -487,8 +487,14 @@ theorem List.mergeSort_respect_nonEmpty (xs : List α) (f : α → α → Bool) 
     xs.mergeSort f = [] ↔ xs = [] := by
   simp only [← length_eq_zero_iff, length_mergeSort]
 
+/-- `board.inProgress` の証明を埋めるために使うタクティク -/
+macro "check_progress" : tactic => `(tactic| first
+  | assumption
+  | cbv
+)
+
 /-- 盤面 `board` において、プレイヤー `p` の最善手を探索する -/
-def Board.selectBestMove (board : Board) (p : Player) (h : board.inProgress := by cbv) : LegalMove board :=
+def Board.selectBestMove (board : Board) (p : Player) (h : board.inProgress := by check_progress) : LegalMove board :=
   let nextMoves := board.legalMoves
   let scoredMoves := nextMoves.map (fun move =>
     let newBoard := board.place move p
@@ -519,3 +525,88 @@ def Board.selectBestMove (board : Board) (p : Player) (h : board.inProgress := b
     O, E, X
   ]
   actual = expected
+
+/- ## ユーザーの入力を受け取る
+
+ここまで対話的な要素なしで実装を勧めてきましたが、そろそろユーザーからの入力を受け取れるようにしましょう。ユーザーからの入力は文字列の形で受け取ることになるので、それをパースする処理がまず必要です。
+
+パース時には様々なエラーが起こりえますが、`Except` モナドを使うとエラーメッセージを伝播させる処理を簡単に書くことができます。
+-/
+
+/-- 文字列を `Position` としてパースする -/
+def Position.parse (s : String) : Except String Position :=
+  let s := s.trimAscii.copy
+  match s.toNat? with
+  | none => throw s!"{s} は数字ではありません"
+  | some n =>
+    if h : n < 9 then
+      return ⟨n, h⟩
+    else
+      throw s!"0~8 の範囲で入力してください"
+
+/-- 文字列を `LegalMove` としてパースする -/
+def LegalMove.parse (board : Board) (s : String) : Except String (LegalMove board) := do
+  let s := s.trimAscii.copy
+  let pos ← Position.parse s
+  match h : board[pos] with
+  | none => return { move := pos, proof := h }
+  | some _ => throw s!"{s} は既に着手済みです"
+
+/-
+後は、標準入力から文字列を受け取る処理を書くだけです。
+-/
+
+/-- ユーザーから入力を受け取って合法な手を返す -/
+partial def getUserInput (b : Board) : IO (LegalMove b) := do
+  IO.print "> " -- 入力待ちの記号を出力する
+  let stdin ← IO.getStdin
+  let input ← stdin.getLine
+  let move? := LegalMove.parse b input
+  match move? with
+  | Except.ok move => return move
+  | Except.error err =>
+    -- エラーだった時、即座に終了するのではなく、
+    -- 正しい入力が返ってくるまで何回でも繰り返す
+    IO.println err
+    getUserInput b
+
+/- ## ゲームのループを実装する
+
+ここまで終わると、後はゲームのループを回すだけです。
+
+ここまで大変でしたが、CPU が強過ぎるのでユーザーが勝つことはできません。残念ですね。
+-/
+
+instance : ToString (LegalMove b) where
+  toString move := toString move.move.val
+
+def main : IO Unit := do
+  let mut board := Board.initial
+  -- ユーザーを先手とする
+  let mut currentPlayer := Player.x
+
+  while h : board.inProgress do
+    if currentPlayer = Player.x then
+      -- ユーザーの手番
+      Board.display board
+      let move ← getUserInput board
+      board := board.place move currentPlayer
+    else
+      -- CPU の手番
+      let move := board.selectBestMove currentPlayer
+      IO.println s!"CPU は {move} に着手しました。"
+      board := board.place move currentPlayer
+
+    -- 手番を交代する
+    currentPlayer := currentPlayer.opponent
+
+  -- ゲーム終了後の結果表示
+  IO.println "ゲーム終了！"
+  board.display
+  match board.result? with
+  | some (Result.win winner) =>
+    IO.println s!"勝者は {winner} です！"
+  | some Result.draw =>
+    IO.println "引き分けです！"
+  | none =>
+    IO.println "予期せぬエラーが発生しました。"
