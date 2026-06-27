@@ -36,3 +36,9 @@ theorem Odd.exists {n : Nat} (h : Odd n) : ∃ a, n = 2 * a + 1 := by
     grind
 
 end
+/- ## 使用例
+
+作為的でない相互再帰の使用例としては、以下のようなものがあります。
+
+* [三目並べのゲームAIの実装](#{root}/EXTRA/TicTacToe.md)
+-/
