@@ -23,7 +23,7 @@ inductive Player where
   | o
 
 /-- 盤面 -/
-def Board := Vector (Option Player) 9
+abbrev Board := Vector (Option Player) 9
 
 /-- 盤面の初期状態 -/
 def Board.initial : Board := Vector.replicate 9 none
@@ -88,8 +88,17 @@ def Board.display (b : Board) : IO Unit := do
   for str in b.toStrArray do
     IO.println str
 
-#eval Board.display Board.initial
-
+/--
+info:
++---+---+---+
+| × | ● | 2 |
++---+---+---+
+| 3 | × | 5 |
++---+---+---+
+| ● | 7 | × |
++---+---+---+
+-/
+#guard_msgs in --#
 #eval
   let board : Board := #v[
     some Player.x, some Player.o, none,
@@ -97,3 +106,77 @@ def Board.display (b : Board) : IO Unit := do
     some Player.o, none, some Player.x
   ]
   Board.display board
+
+/- ## 盤面の勝敗判定をする
+
+次に、盤面の勝敗判定を実装してみます。勝敗は、以下の３通りのどれかになります。
+
+1. 引き分け
+2. `X` を持っているプレイヤーの勝ち
+3. `O` を持っているプレイヤーの勝ち
+-/
+
+/-- ゲームの結果 -/
+inductive Result where
+  /-- x を持っているプレイヤーの勝ち -/
+  | xwin
+  /-- o を持っているプレイヤーの勝ち -/
+  | owin
+  /-- 引き分け -/
+  | draw
+deriving BEq
+
+/-- 勝敗判定に使われるラインを全部列挙したもの -/
+def allLines : Array (Array Nat) :=
+  let row0 := #[0, 1, 2]
+  let row1 := #[3, 4, 5]
+  let row2 := #[6, 7, 8]
+  let col0 := #[0, 3, 6]
+  let col1 := #[1, 4, 7]
+  let col2 := #[2, 5, 8]
+  let diag1 := #[0, 4, 8]
+  let diag2 := #[2, 4, 6]
+  #[row0, row1, row2, col0, col1, col2, diag1, diag2]
+
+def checkLine (line : Array Nat) (board : Board) (P : Player → Bool) : Bool :=
+  line.all (fun pos =>
+    let player? := board[pos]!
+    (P <$> player?).getD false
+  )
+
+def Board.checkForLines (board : Board) (P : Player → Bool) : Bool :=
+  allLines.any (checkLine · board P)
+
+-- Player の BEq インスタンスを自動生成する
+deriving instance BEq for Player
+
+/-- 盤面の勝敗判定をする。
+まだゲームが続けられる場合は `none` を返す。 -/
+def Board.result? (board : Board) : Option Result :=
+  let xwin := board.checkForLines (· == Player.x)
+  let owin := board.checkForLines (· == Player.o)
+  let draw := board.all (·.isSome)
+  if xwin then
+    some .xwin
+  else if owin then
+    some .owin
+  else if draw then
+    some .draw
+  else
+    none
+
+#guard
+  let board : Board := #v[
+    some Player.x, some Player.o, none,
+    none, some Player.x, none,
+    some Player.o, none, some Player.x
+  ]
+  board.result? == some Result.xwin
+
+#guard
+  let board : Board := #v[
+    some Player.x, some Player.o, none,
+    none, none, none,
+    some Player.o, none, some Player.x
+  ]
+  board.result? == none
