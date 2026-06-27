@@ -1,173 +1,99 @@
+import Plausible
+
 /- # 三目並べ
 
-以下は三目並べを CLI ゲームとして実装する例です。CPU は単にランダムに手を選ぶだけなので、簡単に勝てると思います。
+Lean で、CLI ゲームとして三目並べを実装してみましょう。
+
+## 盤面を定義する
+
+まずは三目並べの盤面を作ってみます。盤面がどのようなものが考えてみると、次のようなものです。
+
+1. 盤面は9マスある
+2. 盤面の各マスは、各プレイヤーの着手したマークが入っているか、あるいは空であるかどちらか
+3. 最初は全てのマスが空
+
+盤面は 3×3 の二次元的な構造を持っているのですが、サイズが小さいので二次元配列として持つよりも一次元配列として持った方が簡単です。そこで、盤面は長さ9のベクトル(長さが固定された配列)として持つことにします。
 -/
 
-inductive Cell where
-  | empty
+/-- プレイヤー -/
+inductive Player where
+  /-- 先手 -/
   | x
+  /-- 後手 -/
   | o
-deriving Inhabited, BEq
 
-protected def Cell.toString (c : Cell) : String :=
-  match c with
-  | empty => " "
-  | x => "×"
-  | o => "○"
+/-- 盤面 -/
+def Board := Vector (Option Player) 9
 
-instance : ToString Cell where
-  toString := Cell.toString
+/-- 盤面の初期状態 -/
+def Board.initial : Board := Vector.replicate 9 none
 
-/-- ゲームの盤面 -/
-abbrev Board := Array Cell
+/- ## 盤面を表示する
 
-def Board.empty : Board :=
-  Array.replicate 9 Cell.empty
+次に、盤面を表示できるようにしましょう。既に埋まっている部分はそのまま表示し、空の部分にはユーザが着手場所を選ぶときわかりやすいように、番号を振って表示することにします。
+-/
 
-/-- ユーザー入力を受け取る -/
-def getUserRawInput : IO String := do
-  IO.print "> "
-  let stdin ← IO.getStdin
-  let input ← stdin.getLine
-  return input.trimAscii.copy
+/-- Player を文字列として表示する。
+数字の `0` と `Player.o` の区別がつきやすいようにしてある -/
+instance : ToString Player where
+  toString := fun p =>
+    match p with
+    | .x => "×"
+    | .o => "●"
 
-def parsePosition (input : String) : Option Nat :=
-  let num? := input.toNat?
-  match num? with
-  | none => none
-  | some num =>
-    if num < 9 then
-      num
-    else
-      none
-
-/-- テキストが灰色で表示されるようにする -/
-def grayText (s : String) : String :=
-  s!"\x1b[90m{s}\x1b[0m"
-
-def Cell.display (c : Cell) (pos : Nat) : String :=
-  match c with
-  | .empty => grayText <| toString pos
-  | _ => toString c
-
-/-- ゲームの盤面の状態を表示する -/
-def Board.display (board : Board) (indentSize : Nat := 5) : IO Unit := do
-  let indent := " ".pushn ' ' indentSize
-  IO.println s!"{indent}+--+--+--+"
-  for pos in [0:9] do
-    if pos % 3 == 0 then
-      IO.print indent
-    let displayText := board[pos]!.display pos
-    IO.print s!"| {displayText}"
-    if pos % 3 == 2 then
-      IO.println "|"
-      IO.println s!"{indent}+--+--+--+"
-
-/-- 未着手のセルを列挙する -/
-def Board.unused (board : Board) : Array Nat :=
-  List.range 9 |>.toArray |>.filter (fun pos => board[pos]! == .empty)
-
-/-- ゲームの盤面の状態を更新して、新しい盤面を返す
-既に着手済みの場所に置こうとすると失敗し、`panic!` する -/
-def Board.update (board : Board) (pos : Nat) (c : Cell) : Board :=
-  if board[pos]! != .empty then
-    panic! "[Board.update] the position is already used"
+/-- 配列を二次元配列に変換する。
+サイズが期待と異なる場合は `panic!` を呼ぶ -/
+def Array.reshape (m n : Nat) (xs : Array α) : Array (Array α) :=
+  if xs.size ≠ m * n then
+    panic! s!"{decl_name%}: size mismatch"
   else
-    board.set! pos c
+    Array.range m |>.map (fun i => xs.extract (n * i) (n * (i + 1)))
 
-def Array.getRandom [Inhabited α] (xs : Array α) : IO α := do
-  let idx ← IO.rand 0 (xs.size - 1)
-  return xs[idx]!
+#guard Array.reshape (m := 2) (n := 3) #[1, 2, 3, 4, 5, 6] = #[#[1, 2, 3], #[4, 5, 6]]
 
-/-- 未着手の場所をランダムに選ぶ -/
-def getRandomPos (board : Board) : IO Nat := do
-  let unused := board.unused
-  let pos ← unused.getRandom
-  return pos
+#test ∀ α : Type, ∀ m n : Nat, ∀ xs : Array α,
+  xs.size = m * n → (Array.reshape m n xs).flatMap id = xs
 
-inductive Result where
-  /-- x を持っているプレイヤーの勝ち -/
-  | xwin
-  /-- o を持っているプレイヤーの勝ち -/
-  | owin
-  /-- 引き分け -/
-  | draw
-deriving BEq
+/-- 配列の要素の間に区切りを挿入する -/
+def Array.intersperse (xs : Array α) (sep : α) : Array α :=
+  match xs.toList with
+  | [] => #[]
+  | x :: rest =>
+    rest.foldl (fun acc y => acc ++ #[sep, y]) #[x]
 
-abbrev Line := Array Nat
+#guard Array.intersperse #[1, 2, 3] 0 = #[1, 0, 2, 0, 3]
 
-def allLines : Array Line :=
-  let row0 : Line := #[0, 1, 2]
-  let row1 : Line := #[3, 4, 5]
-  let row2 : Line := #[6, 7, 8]
-  let col0 : Line := #[0, 3, 6]
-  let col1 : Line := #[1, 4, 7]
-  let col2 : Line := #[2, 5, 8]
-  let diag1 : Line := #[0, 4, 8]
-  let diag2 : Line := #[2, 4, 6]
-  #[row0, row1, row2, col0, col1, col2, diag1, diag2]
+#test ∀ α : Type, ∀ xs : Array α, ∀ sep : α,
+  (Array.intersperse xs sep).size = xs.size * 2 - 1
 
-def Line.check (line : Line) (board : Board) (P : Cell → Bool) : Bool :=
-  line.all (fun pos => P (board[pos]!))
+/-- 盤面を表示するための補助関数 -/
+def Board.toStrArray (b : Board) : Array String :=
+  let rawStrArray := b.toArray
+    |>.zipIdx
+    |>.map (fun (p?, idx) =>
+      match p? with
+      | none => toString idx
+      | some p => toString p)
+  let rows2D := rawStrArray.reshape (m := 3) (n := 3)
+  let rows1D := rows2D.map (fun row =>
+    let inner := String.intercalate " | " row.toList
+    s!"| {inner} |"
+  )
+  let boader := "+---+---+---+"
+  #[boader] ++ rows1D.intersperse boader ++ #[boader]
 
-def Board.checkForLines (board : Board) (P : Cell → Bool) : Bool :=
-  allLines.any (fun line => line.check board P)
+/-- 盤面を表示する関数。
+IO 部分を少なくするため、補助関数を薄く包むだけにしてある -/
+def Board.display (b : Board) : IO Unit := do
+  for str in b.toStrArray do
+    IO.println str
 
-def Board.result? (board : Board) : Option Result :=
-  let xwin : Bool := board.checkForLines (· == Cell.x)
-  let owin := board.checkForLines (· == Cell.o)
-  let draw := board.unused.isEmpty
-  if xwin then
-    some .xwin
-  else if owin then
-    some .owin
-  else if draw then
-    some .draw
-  else
-    none
+#eval Board.display Board.initial
 
-partial def getUserHand (board : Board) : IO Nat := do
-  let input ← getUserRawInput
-  let some pos := parsePosition input |
-    IO.println "0から8の数字を入力してください"
-    board.display
-    getUserHand board
-
-  if board[pos]! != .empty then
-    IO.println "その場所には着手できません"
-    board.display
-    getUserHand board
-  else
-    return pos
-
-def main : IO Unit := do
-  let mut board := Board.empty
-  let mut result? : Option Result := none
-
-  while true do
-    board.display
-
-    let yourPos ← getUserHand board
-    board := board.update yourPos Cell.x
-
-    result? := board.result?
-    if result?.isSome then
-      break
-
-    let cpuPos ← getRandomPos board
-    board := board.update cpuPos Cell.o
-
-    result? := board.result?
-    if result?.isSome then
-      break
-
-  board.display
-  let some result := result? |
-    unreachable!
-  match result with
-  | .xwin =>
-    IO.println "x の勝ち"
-  | .owin =>
-    IO.println "o の勝ち"
-  | .draw =>
-    IO.println "引き分け"
+#eval
+  let board : Board := #v[
+    some Player.x, some Player.o, none,
+    none, some Player.x, none,
+    some Player.o, none, some Player.x
+  ]
+  Board.display board
