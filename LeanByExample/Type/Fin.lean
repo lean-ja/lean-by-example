@@ -18,6 +18,8 @@ example (z : Fin 3) : z.val = 0 ∨ z.val = 1 ∨ z.val = 2 := by
 
 /- ## 用途
 
+### Lean に有限個しかないことを伝える
+
 `Fin` 型は、例えば Lean に何かが「有限個しかない」ことを伝えたいときに役に立ちます。
 
 例えば、「自明でない約数を持つ」という述語を考えてみます。
@@ -48,3 +50,8 @@ def Nat.HasProperDivisorFin (n : Nat) : Prop :=
 instance (n : Nat) : Decidable (Nat.HasProperDivisorFin n) := by
   unfold Nat.HasProperDivisorFin
   infer_instance
+
+/- ### ちょうど n 個の要素を持つ型を作る
+
+`Fin n` は「ちょうど `n` 個の要素を持つ型」として標準的なものなので、特定の個数の要素を持つ型を定義したいとき、`Fin` を使うと便利なことがあります。具体例としては [付録: 嫉妬深い夫たちの川渡りパズル](#{root}/EXTRA/Jealous.md) を参照してください。
+-/
