@@ -46,7 +46,7 @@ example {α : Type} (x : α) (xs : List α) : List.cons x xs = x :: xs := by
 #guard "hello" :: ["world"] = ["hello", "world"]
 
 /- ## 連結
-リスト同士を順序を保ちながら連結するには、`List.append` 関数を使います。これは `Append` 型クラスのインスタンスになっているので、`++` という演算子で利用できます。
+リスト同士を順序を保ちながら連結するには、`List.append` 関数を使います。これは [`Append`](#{root}/TypeClass/Append.md) 型クラスのインスタンスになっているので、`++` という演算子で利用できます。
 -/
 -- `++` 演算子が利用できる
 example {α : Type} (xs ys : List α) : xs ++ ys = List.append xs ys := by

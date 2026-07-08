@@ -10,7 +10,7 @@
 #guard "Hello".toList = ['H', 'e', 'l', 'l', 'o']
 
 /- ## 文字列結合
-`String.append` を使って文字列を結合することができます。この関数は `++` という記号が割り当てられています。
+`String.append` を使って文字列を結合することができます。この関数は [`Append`](#{root}/TypeClass/Append.md) 型クラスのインスタンスになっているので、`++` という記号で利用できます。
 -/
 
 #guard String.append "Hello, " "world!" = "Hello, world!"
