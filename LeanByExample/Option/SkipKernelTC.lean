@@ -43,7 +43,7 @@ section
 
   #eval show CoreM Unit from do
     let currentEnv ← getEnv
-    match currentEnv.addDeclCore (doCheck := false) 0 (.thmDecl myBadTheorem) none with
+    match currentEnv.addDeclCore (doCheck := false) 0 0 (.thmDecl myBadTheorem) none with
     | .ok env => setEnv env
     | .error _ => throwError "didn't work"
 end

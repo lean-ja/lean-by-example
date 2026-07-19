@@ -68,7 +68,7 @@ instance instMonadMany : Monad Many where
 instance instManyFunctor : Functor Many := inferInstance
 
 /--
-info: @[implicit_reducible] def instManyFunctor : Functor Many :=
+info: @[instance_reducible] def instManyFunctor : Functor Many :=
 inferInstance
 -/
 #guard_msgs in --#

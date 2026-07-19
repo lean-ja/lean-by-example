@@ -46,7 +46,3 @@ example {α : Type} [DecidableEq α] (x : α) : x == x := by
 -/
 
 example (x : Float) : x = x := by rfl
-
-/- この「命題としては `∀ x, x = x` が成立する」ことと、「実行時の比較 `x == x` は `false` になる場合がある」ことの２つの要件を両立することは不可能です。したがって、`DecidableEq` のインスタンスは `Float` には用意されていません。 -/
-
-#check_failure (by infer_instance : DecidableEq Float)

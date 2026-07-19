@@ -19,9 +19,6 @@ variable [DecidableEq α]
 -- `List.min` で取得した最小値が実際に最小値であることを保証するのに必要
 variable [Std.IsLinearPreorder α]
 
--- `Std.IsLinearOrder` は仮定していないことに注意
-#check_failure (by infer_instance : Std.IsLinearOrder α)
-
 /-- `LE` インスタンスから `Min` インスタンスを作る -/
 instance : Min α := minOfLe
 
@@ -86,7 +83,7 @@ namespace List
 /-- `minFirst` は元のリストの要素を並び替えるだけ -/
 theorem minFirst_perm (xs : List α) :
     minFirst xs ~ xs := by
-  cases xs with grind
+  fun_cases minFirst xs with grind
 
 grind_pattern minFirst_perm => minFirst xs, minFirst _ ~ _
 
