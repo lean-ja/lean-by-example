@@ -198,6 +198,57 @@ theorem tr_loop.eq_1 : ∀ (n : Nat), tr_loop n = tr_loop (n + 1)
 これだけでは「なぜ末尾再帰なら大丈夫なのか」の完全な説明にはなっていませんが、とりあえず以上の例から「末尾再帰なら、`f x = f y` という形の等式が得られるだけなので、関数が停止しなくても値が一意に定まらなくなるだけで矛盾は生じない」ということが窺えるのではないでしょうか。
 -/
 
+/- ## 用途
+
+通常 Lean で再帰関数を定義する際には「停止性を証明できるチャンスは定義したその瞬間だけ」ですが、`partial_fixpoint` を利用すると「定義した後で停止性を証明する」ことができます。[^f91]
+-/
+
+/-- McCarthy の 91 関数の返り値を `Option` で包んだもの。
+返り値を `Option` で包んであるので、`partial_fixpoint` で定義を通すことができる。-/
+def f91? (n : Nat) : Option Nat :=
+  if n > 100 then
+    some (n - 10)
+  else do
+    let m ← f91? (n + 11)
+    f91? m
+partial_fixpoint
+
+@[simp]
+theorem f91?_91 : f91? 91 = some 91 := by cbv
+
+@[simp]
+theorem f91?_spec_true (n : Nat) (h : 100 < n) :
+    f91? n = some (n - 10) := by
+  unfold f91?
+  simp [h]
+
+@[simp]
+theorem f91?_spec_false (n : Nat) (h : n ≤ 100) :
+    f91? n = some 91 := by
+  unfold f91?
+  rw [if_neg (by omega)]
+  by_cases hn : n < 90
+  · rw [f91?_spec_false (n + 11) (by omega)]
+    simp
+  · simp [f91?_spec_true (n + 11) (by omega)]
+    by_cases h100 : n = 100
+    · simp [h100]
+    · exact f91?_spec_false (n + 1) (by omega)
+termination_by 100 - n
+
+theorem f91?_spec (n : Nat) :
+    f91? n = some (if n ≤ 100 then 91 else n - 10) := by
+  grind only [= f91?_spec_false, = f91?_spec_true]
+
+/-- `f91?` は必ず停止する -/
+theorem f91?_total (n : Nat) : f91? n |>.isSome := by
+  simp [f91?_spec]
+
+-- 停止性が保証できたので、`Option` を外すことができる
+def f91 (n : Nat) : Nat :=
+  (f91? n).get (f91?_total n)
+
 /-
 [^partial-fixpoint-ref]: Lean 公式リファレンスの「Partial Fixpoint Recursion」の項目を参照：<https://lean-lang.org/doc/reference/latest/Definitions/Recursive-Definitions/#partial-fixpoint>
+[^f91]: この例と証明は、[F91 in Lean](https://www.joachim-breitner.de/blog/817-F91_in_Lean) という Joachim Breitner さんのブログ記事を参考にしました。
 -/
