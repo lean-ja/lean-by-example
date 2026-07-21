@@ -1,6 +1,6 @@
 /-
 # protected
-`protected` は、ある名前空間 `Hoge` にある定義 `foo` に対して、必ずフルネームの `Hoge.foo` でアクセスすることを強要するものです。
+`protected` は、ある名前空間 `Hoge` にある定義 `foo` に対して、短い名前 `foo` でアクセスすることを禁止するものです。特に名前空間が入れ子になっているときは、その定義を含む最も内側の名前空間名までは書く必要があります。
 -/
 section --#
 structure Point where
@@ -15,7 +15,7 @@ namespace Point
   -- 名前空間の中にいても、短い名前ではアクセスできない
   #check_failure sub
 
-  -- フルネームならアクセスできる
+  -- 名前空間名を付ければアクセスできる
   #check Point.sub
 
 end Point
@@ -25,8 +25,32 @@ open Point
 -- 名前空間を開いていても、短い名前でアクセスできない
 #check_failure sub
 
--- フルネームならアクセスできる
+-- 名前空間名を付ければアクセスできる
 #check Point.sub
+
+end --#
+section --#
+namespace Outer
+
+  namespace Inner
+
+    protected def foo := 42
+
+    -- 最も内側の名前空間 `Inner` までは必要
+    #check_failure foo
+    #check Inner.foo
+
+  end Inner
+
+  -- 外側の名前空間に戻ると、`Outer.Inner.foo` 全体ではなく
+  -- 最も近い `Inner` までは書けばよい
+  #check_failure foo
+  #check Inner.foo
+
+end Outer
+
+-- さらに外側ではフルネームで参照する
+#check Outer.Inner.foo
 
 end --#
 /- ## protected を使う場面
