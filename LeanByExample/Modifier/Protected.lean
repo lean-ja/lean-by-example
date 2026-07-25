@@ -145,3 +145,24 @@ namespace Unit
   #check ofString
 
 end Unit
+
+/- ## 名前空間がネストしているとき
+
+名前空間がネストしていないとき、`protected` は「フルネームを強制する」と説明しても問題ありません。しかし、名前空間がネストしているときにはその説明は誤りになります。
+
+以下に示すように、`Outer.Inner.sample` という名前を `protected` で修飾すると、最も近い名前空間の修飾名である `Inner` を省略することができなくなります。
+-/
+
+namespace Outer
+  namespace Inner
+
+    protected def sample := "sample"
+
+    -- フルネームを強制するのであれば失敗するべきだが、成功する。
+    #check Inner.sample
+
+    -- Inner 名前空間を省略することはできない
+    #check_failure sample
+
+  end Inner
+end Outer
