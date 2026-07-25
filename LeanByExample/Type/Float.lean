@@ -5,8 +5,7 @@
 浮動小数点数は、おおざっぱには有限桁の小数のようなものであるといえます。
 -/
 import Mathlib.Data.String.Defs --#
-import Batteries.Lean.Float --#
-import Batteries.Data.Rat.Float --#
+import Batteries.Data.Float --#
 
 #eval (0.01 : Float)
 
