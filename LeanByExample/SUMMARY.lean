@@ -92,7 +92,7 @@
   - [partial_fixpoint: 証明に使える部分関数を定義する](./Modifier/PartialFixpoint.md)
   - [partial: 部分関数を定義する](./Modifier/Partial.md)
   - [private: 定義を不可視にする](./Modifier/Private.md)
-  - [protected: フルネームを強制する](./Modifier/Protected.md)
+  - [protected: 名前空間名の省略を防ぐ](./Modifier/Protected.md)
   - [scoped: 有効範囲を名前空間で限定](./Modifier/Scoped.md)
   - [termination_by: 整礎再帰](./Modifier/TerminationBy.md)
   - [unsafe: Leanのルールを破る](./Modifier/Unsafe.md)
