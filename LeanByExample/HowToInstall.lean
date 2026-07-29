@@ -31,9 +31,13 @@ winget install --id Microsoft.PowerShell --source winget
 
 ### 文字化けの修正
 
-そのままだと PowerShell 上で Unicode 文字が文字化けすることがあるので、以下を `$Profile` の末尾に追記しておきます。
+そのままだと PowerShell 上で Unicode 文字が文字化けすることがあるので、以下を `$Profile` の末尾に追記しておきます。なお「履歴ベースの予測の有効化」は Lean とは関係がありませんが、便利なので追加すると良いでしょう。
 
 ```powershell
+# 履歴ベースの予測を有効化
+Set-PSReadLineOption -PredictionSource History
+
+# Lean の文字化けを修正する
 $utf8 = New-Object System.Text.UTF8Encoding
 [console]::InputEncoding = $utf8
 [console]::OutputEncoding = $utf8
