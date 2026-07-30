@@ -9,7 +9,7 @@ example (a : α) (f : α → β) : (a |> f) = f a := by
   rfl
 
 /-
-複数組み合わせると左側が先に評価されます。
+複数組み合わせると左側が優先して結合されます。
 したがって2つ組み合わせて `x |> f |> g` のように書くと、`g (f x)` と同じ意味になります。
 -/
 
@@ -31,3 +31,8 @@ def sumOfOddSquares (n : Nat) : Nat :=
 
 #guard sumOfOddSquares 3 = 1^2 + 3^2
 #guard sumOfOddSquares 10 = 1^2 + 3^2 + 5^2 + 7^2 + 9^2
+
+/- ## 補足
+
+双対的な概念として[左パイプ記法](#{root}/Syntax/LeftPipe.md)があります。
+-/
