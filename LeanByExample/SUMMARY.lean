@@ -7,17 +7,6 @@
 [Mathlib4 Help](./Mathlib4Help.md)
 [ランダムページ](./Random.md)
 
-- [付録](./EXTRA/README.md)
-  - [カントールの定理](./EXTRA/Cantor.md)
-  - [クワイン](./EXTRA/Quine.md)
-  - [じゃんけんゲーム](./EXTRA/Janken.md)
-  - [三目並べ](./EXTRA/TicTacToe.md)
-  - [嫉妬深い夫たちの川渡りパズル](./EXTRA/Jealous.md)
-  - [選択ソート](./EXTRA/SelectionSort.md)
-  - [天使と悪魔の論理パズル](./EXTRA/AngelAndDevil.md)
-  - [末尾再帰](./EXTRA/TailRec.md)
-  - [列挙型に対する `ToString` インスタンスの自動生成](./EXTRA/EnumToString.md)
-
 ---
 
 - [対話的コマンド](./Diagnostic/README.md)
@@ -306,5 +295,16 @@
   - [s!: 文字列補間](./Syntax/InterpStr.md)
   - [show .. from: 項の型を明示](./Syntax/Show.md)
   - [Σ: 依存ペア型](./Syntax/Sigma.md)
+
+- [付録](./EXTRA/README.md)
+  - [カントールの定理](./EXTRA/Cantor.md)
+  - [クワイン](./EXTRA/Quine.md)
+  - [じゃんけんゲーム](./EXTRA/Janken.md)
+  - [三目並べ](./EXTRA/TicTacToe.md)
+  - [嫉妬深い夫たちの川渡りパズル](./EXTRA/Jealous.md)
+  - [選択ソート](./EXTRA/SelectionSort.md)
+  - [天使と悪魔の論理パズル](./EXTRA/AngelAndDevil.md)
+  - [末尾再帰](./EXTRA/TailRec.md)
+  - [列挙型に対する `ToString` インスタンスの自動生成](./EXTRA/EnumToString.md)
 
 -/
