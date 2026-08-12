@@ -9,38 +9,41 @@
 import Lean --#
 
 /-- 与えられたリストの部分リストを全て返す(明示的引数バージョン) -/
-def List.subsₑ (α : Type) (xs : List α) : List (List α) :=
+def List.subs_exp (α : Type) (xs : List α) : List (List α) :=
   match xs with
   | [] => [[]]
   | x :: xs =>
-    let xss := subsₑ α xs
+    let xss := subs_exp α xs
     xss ++ xss.map (x :: ·)
 
--- 型引数 α を明示的に与える必要がある
-#eval List.subsₑ Nat [1, 2]
+-- 型引数 α を明示的に与えて書いた場合
+#eval List.subs_exp Nat [1, 2]
+
+-- ホールを使って推論させる場合
+#eval List.subs_exp _ [1, 2]
 
 -- 型引数を与えないと（当然ながら）エラーになってしまう
-#check_failure List.subs [1, 2]
+#check_failure List.subs_exp [1, 2]
 
 /- 引数 `α` を暗黙の引数として受け取るように変更すれば、Lean が `α : Type` の内容を推論してくれるようになり、`α` を省略できるようになります。-/
 
 /-- 与えられたリストの部分リストを全て返す(暗黙引数バージョン) -/
-def List.subsᵢ {α : Type} (xs : List α) : List (List α) :=
+def List.subs_imp {α : Type} (xs : List α) : List (List α) :=
   match xs with
   | [] => [[]]
   | x :: xs =>
-    let xss := subsᵢ xs
+    let xss := subs_imp xs
     xss ++ xss.map (x :: ·)
 
 -- 型引数を省略できるようになった
-#eval List.subsᵢ [1, 2]
+#eval List.subs_imp [1, 2]
 
--- 逆に今度は型引数を与えるとエラーになる
-#check_failure List.subsᵢ Nat [1, 2]
+-- 型引数を位置引数として与えると、今度はエラーになる
+#check_failure List.subs_imp Nat [1, 2]
 
-/- ## 明示引数モード
+/- ## 明示的引数モード
 
-暗黙の引数を受け取るものとして定義された関数や定理に対して、`@` 記号を先頭に付けると全ての暗黙の引数が明示的引数に変化します。
+暗黙の引数を受け取るものとして定義された関数や定理に対して、`@` 記号を先頭に付けると全ての暗黙の引数の自動挿入が行われなくなります。つまり、すべての引数を手動で与える必要が生じます。
 -/
 
 -- 2 つの暗黙引数を持つ関数
@@ -51,8 +54,21 @@ def List.map' {α β : Type} (f : α → β) : List α → List β
 -- 普通は次のように使う
 #check List.map' (fun x => x == 1) [1, 2, 3]
 
--- `@` 記号を付けると全ての引数が明示的引数に変化
+-- `@` 記号を付けると手動で型引数を与えないといけなくなる
 #check @List.map' Nat Bool (fun x => x == 1) [1, 2, 3]
+
+/-
+少し、というかかなり細かい注意ですが、`@` を付けても「暗黙引数が明示的引数に変わる」わけではありません。その証拠に、`#check` コマンドの出力を見ると暗黙引数のままになっています。
+-/
+
+/-- info: id.{u} {α : Sort u} (a : α) : α -/
+#guard_msgs in --#
+#check id
+
+-- `α` のバインダーが波括弧のままになっている
+/-- info: @id : {α : Sort u_1} → α → α -/
+#guard_msgs in --#
+#check @id
 
 /- ## 構文的な性質
 
