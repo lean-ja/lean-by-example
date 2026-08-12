@@ -226,7 +226,7 @@ theorem f91?_spec_true (n : Nat) (h : 100 < n) :
 theorem f91?_spec_false (n : Nat) (h : n ≤ 100) :
     f91? n = some 91 := by
   unfold f91?
-  rw [if_neg (by omega)]
+  rw [ite_eq_right (by omega)]
   by_cases hn : n < 90
   · rw [f91?_spec_false (n + 11) (by omega)]
     simp
