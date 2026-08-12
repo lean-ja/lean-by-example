@@ -17,7 +17,7 @@ eq_true MyEven_two
 -- Lean.Meta.simpExtension extension: 1 new entries
 -/
 #guard_msgs in --#
-whatsnew in attribute [simp] MyEven_two
+#whats_new in attribute [simp] MyEven_two
 
 -- `simp`による書き換えの過程を表示する
 set_option trace.Meta.Tactic.simp.rewrite true

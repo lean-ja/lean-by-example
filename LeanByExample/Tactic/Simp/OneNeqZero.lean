@@ -12,7 +12,7 @@ eq_false Nat.one_neq_zero
 -- Lean.Meta.simpExtension extension: 1 new entries
 -/
 #guard_msgs in --#
-whatsnew in attribute [simp] Nat.one_neq_zero
+#whats_new in attribute [simp] Nat.one_neq_zero
 
 -- `simp`による書き換えの過程を表示する
 set_option trace.Meta.Tactic.simp.rewrite true

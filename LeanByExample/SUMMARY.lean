@@ -28,6 +28,7 @@
   - [#test: プロパティベーステスト](./Diagnostic/Test.md)
   - [#time: 実行時間計測](./Diagnostic/Time.md)
   - [#version: バージョン表示](./Diagnostic/Version.md)
+  - [#whats_new: 新たに何が導入されたか見る](./Diagnostic/WhatsNew.md)
   - [#whnf: 式を弱頭正規形に](./Diagnostic/Whnf.md)
 
 - [宣言的コマンド](./Declarative/README.md)
@@ -71,7 +72,6 @@
   - [theorem: 命題を証明する](./Declarative/Theorem.md)
   - [universe: 宇宙変数](./Declarative/Universe.md)
   - [variable: 引数を共通化する](./Declarative/Variable.md)
-  - [whatsnew: 新たに何が導入されたか見る](./Declarative/Whatsnew.md)
 
 - [修飾子](./Modifier/README.md)
   - [/-- -/: ドキュメントコメント](./Modifier/DocComment.md)

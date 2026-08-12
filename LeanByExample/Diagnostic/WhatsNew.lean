@@ -1,6 +1,6 @@
-/- # whatsnew
+/- # \#whats_new
 
-`whatsnew` コマンドを使うと、あるコマンドによって新たに導入された定理や関数などを見ることができます。
+`#whats_new` コマンドを使うと、あるコマンドによって新たに導入された定理や関数などを見ることができます。
 -/
 
 import Mathlib.Util.WhatsNew
@@ -23,4 +23,4 @@ theorem MyNat.zero_add (n : MyNat) : MyNat.zero + n = n := by
 
 /-- info: -- Lean.Meta.simpExtension extension: 1 new entries -/
 #guard_msgs in --#
-whatsnew in attribute [simp] MyNat.zero_add
+#whats_new in attribute [simp] MyNat.zero_add
