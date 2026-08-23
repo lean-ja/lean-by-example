@@ -2,9 +2,9 @@
 
 `register_label_attr` コマンドを使用すると、ラベル属性を定義することができます。
 
-```admonish warning title="注意"
-このページの内容は <i class="fa fa-play"></i> ボタンから Lean 4 Web で実行することができません。
-```
+> [!WARNING]
+>
+> このページの内容は <i class="fa-solid fa-play"></i> ボタンから Lean 4 Web で実行することができません。
 
 ## 使用例
 

@@ -2,9 +2,9 @@
 
 `register_simp_attr` は、[`simp`](#{root}/Tactic/Simp.md) タクティクで使うルールセットとタグを登録することができるコマンドで、`simp` ラッパとして新しいタクティクを作るのに使うことができます。
 
-```admonish warning title="注意"
-このページの内容は <i class="fa fa-play"></i> ボタンから Lean 4 Web で実行することができません。
-```
+> [!WARNING]
+>
+> このページの内容は <i class="fa-solid fa-play"></i> ボタンから Lean 4 Web で実行することができません。
 
 ## 使用例
 

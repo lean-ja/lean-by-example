@@ -10,9 +10,8 @@
 
 他にも機能がありますが、詳細は[Batteriesのドキュメント](https://leanprover-community.github.io/mathlib4_docs/Batteries/Tactic/HelpCmd.html)をご覧ください。
 
-```admonish info title=""
-[Mathlib4 Help](https://seasawher.github.io/mathlib4-help/) で `#help` コマンドの出力結果を見ることができます。
-```
+> [!NOTE]
+> [Mathlib4 Help](https://seasawher.github.io/mathlib4-help/) で `#help` コマンドの出力結果を見ることができます。
 -/
 import Batteries.Tactic.HelpCmd
 

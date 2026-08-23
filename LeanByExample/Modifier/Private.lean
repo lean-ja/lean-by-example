@@ -1,9 +1,9 @@
 /- # private
 `private` は、その定義があるファイルの中でだけ参照可能になるようにする修飾子です。他のファイルからはアクセス不能になります。不安定なAPIなど、外部に公開したくないものに対して使うのが主な用途です。
 
-```admonish warning title="注意"
-このページの内容は <i class="fa fa-play"></i> ボタンから Lean 4 Web で実行することができません。
-```
+> [!WARNING]
+>
+> このページの内容は <i class="fa-solid fa-play"></i> ボタンから Lean 4 Web で実行することができません。
 
 たとえば、以下のように書かれているファイル `Private/Lib.lean` があったとしましょう。
 
