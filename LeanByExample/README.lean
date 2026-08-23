@@ -34,7 +34,7 @@ Lean は開発が活発に続いているソフトウェアであり、毎月の
 本書は、Lean とそのライブラリのバージョンを自動で更新するワークフロー [lean-update](https://github.com/leanprover-community/lean-update) を利用して、定期的にバージョンを最新のものに更新しています。Lean の最新情報をすべて掲載することはかないませんが、最新の情報を提供できるよう努めています。
 
 ### 3. コードをすぐに試せる
-本書のすべての Lean コードブロックは、マウスを重ねると Lean Playground へジャンプするボタン <i class="fa-solid fa-arrow-up-right-from-square"></i> が現れるようになっています。
+本書のすべての Lean コードブロックは、マウスを重ねると Lean Playground へジャンプするボタン <i class="fa-solid fa-play"></i> が現れるようになっています。
 
 またコードブロックの中には、`import` 文が足りないなどの理由でそのままでは実行できないものがありますが、そうした場合は画面右上の実行ボタン <i class="fa-solid fa-play"></i> をクリックしていただければ、ファイル全体を実行することができます。
 
