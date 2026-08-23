@@ -2,11 +2,11 @@
 
 プログラミング言語であるとともに定理証明支援系でもある Lean 言語と、その主要なライブラリの使い方を豊富なコード例とともに解説した資料です。
 
-```admonish info title="お問い合わせ"
-誤りのご指摘、ご提案などは [GitHub リポジトリ](https://github.com/lean-ja/lean-by-example)からお願いします。
-
-lean-ja の Discord サーバがあります。質問や相談などはこちらにどうぞ。招待コードは `p32ZfnVawh` です。[`https://discord.com/invite/example`](https://discord.com/invite/example) の `example` の部分を招待コードに置き換えてアクセスしてください。（スパム対策でURLを直接載せていません）
-```
+> [!NOTE]
+>
+> 誤りのご指摘、ご提案などは [GitHub リポジトリ](https://github.com/lean-ja/lean-by-example)からお願いします。
+>
+> lean-ja の Discord サーバがあります。質問や相談などはこちらにどうぞ。招待コードは `p32ZfnVawh` です。[`https://discord.com/invite/example`](https://discord.com/invite/example) の `example` の部分を招待コードに置き換えてアクセスしてください。（スパム対策でURLを直接載せていません）
 
 ## 支援について ❤️
 
@@ -34,9 +34,9 @@ Lean は開発が活発に続いているソフトウェアであり、毎月の
 本書は、Lean とそのライブラリのバージョンを自動で更新するワークフロー [lean-update](https://github.com/leanprover-community/lean-update) を利用して、定期的にバージョンを最新のものに更新しています。Lean の最新情報をすべて掲載することはかないませんが、最新の情報を提供できるよう努めています。
 
 ### 3. コードをすぐに試せる
-本書のすべての Lean コードブロックは、マウスを重ねると Lean Playground へジャンプするボタン <i class="fa fa-external-link"></i> が現れるようになっています。
+本書のすべての Lean コードブロックは、マウスを重ねると Lean Playground へジャンプするボタン <i class="fa-solid fa-play"></i> が現れるようになっています。
 
-またコードブロックの中には、`import` 文が足りないなどの理由でそのままでは実行できないものがありますが、そうした場合は画面右上の実行ボタン <i class="fa fa-play"></i> をクリックしていただければ、ファイル全体を実行することができます。
+またコードブロックの中には、`import` 文が足りないなどの理由でそのままでは実行できないものがありますが、そうした場合は画面右上の実行ボタン <i class="fa-solid fa-play"></i> をクリックしていただければ、ファイル全体を実行することができます。
 
 このようなことが可能なのは、[mdgen](https://github.com/Seasawher/mdgen) を使って、Lean コードから markdown ファイルを生成することにより本書が制作されているからです。
 
