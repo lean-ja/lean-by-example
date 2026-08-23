@@ -1,0 +1,16 @@
+:root {
+  --mono-font: "JuliaMono-Light", Consolas, "Ubuntu Mono", Menlo,
+    "DejaVu Sans Mono", monospace, monospace;
+}
+
+html {
+  font-family: "Noto Sans JP", "Fira Sans", sans-serif;
+}
+
+/* 画像をセンタリングするための指定 */
+img.image-center {
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 100%;
+}

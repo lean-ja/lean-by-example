@@ -2,14 +2,21 @@
  * mdbook の "Suggest an edit" ボタンを改造し、
  * lean4 web editor へのリンクにしてしまう
  *
- * 一瞬元のアイコンが表示されるのを防ぐためにHTML側で上書きを行っていることに注意
  */
 function filePlay() {
-  // ボタンのアイコン部分の `i` 要素
-  const playButtonIcon = document.querySelector("#lean-play-button");
+  const editButtonIcon = document.querySelector("#git-edit-button");
+  const playIconTemplate = document.querySelector("#fa-play");
+  if (!editButtonIcon || !playIconTemplate) return;
 
   // ボタンを表す `a` 要素
-  const playButtonLink = playButtonIcon.parentElement;
+  const playButtonLink = editButtonIcon.closest("a");
+  if (!playButtonLink) return;
+
+  editButtonIcon.replaceWith(playIconTemplate.content.cloneNode(true));
+  playButtonLink.title = "Run on Lean 4 playground";
+  playButtonLink.ariaLabel = playButtonLink.title;
+  playButtonLink.target = "_blank";
+  playButtonLink.rel = "noopener";
 
   // 拡張子が `.md` になっているので `.lean` に修正する
   playButtonLink.href = playButtonLink.href.replace(/\.md$/, ".lean");

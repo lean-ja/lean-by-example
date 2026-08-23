@@ -19,22 +19,21 @@ additional-js = [
   "assets/filePlay.js",
   # 検索機能を改善し、日本語で検索できるようにする
   "assets/fzf.umd.js", "assets/elasticlunr.js",
-  # サイドバーに目次を表示する
-  "assets/pagetoc.js",
   # 見出しをMathlhib4Helpへの外部リンクに変換する
   "assets/replaceToLink.js",
   # ランダムページボタンを表示する
   "assets/randomPage.js",
 ]
 additional-css = [
-  # mdbook-admonish のスタイル
-  "./assets/mdbook-admonish.css",
-  # ページごとの目次をサイドバーとして表示する
-  "./assets/pagetoc.css",
+  # フォントと画像の表示を調整する
+  "./assets/custom.css",
 ]
 
 # セクション番号を振らない
 no-section-label = true
+
+# 現在のページの見出しをサイドバーに表示する
+sidebar-header-nav = true
 
 # git リポジトリへのリンクを表示する
 git-repository-url = "https://github.com/lean-ja/lean-by-example"
@@ -45,10 +44,6 @@ edit-url-template = "https://raw.githubusercontent.com/lean-ja/lean-by-example/m
 # 404 ページが正常にはたらくようにするために必要
 site-url = "https://lean-ja.github.io/lean-by-example/"
 
-# ayu テーマをデフォルトにする
-# Rust テーマでは admonish のスタイルが変になるため
-default-theme = "ayu"
-
 [output.html.search]
 # 検索したときに、クエリと見出し語が一致していれば見出し語のページがトップに出てくるようにする
 boost-title = 25
@@ -57,9 +52,3 @@ boost-title = 25
 # 目次の折りたたみの設定
 enable = true
 level = 0
-
-[preprocessor]
-
-[preprocessor.admonish]
-command = "mdbook-admonish"
-assets_version = "3.0.2" # do not edit: managed by `mdbook-admonish install`

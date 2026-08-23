@@ -27,6 +27,5 @@ RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain ${RUST_VERS
 # cargo 等にパスを通す
 ENV PATH="${HOME}/.cargo/bin:${PATH}"
 
-# mdbook と mdbook のプラグインのインストール
-RUN cargo install --version 0.4.48 mdbook && \
-  cargo install --version 1.18.0 mdbook-admonish
+# mdbook のインストール
+RUN cargo install --version 0.5.4 mdbook

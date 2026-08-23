@@ -4,12 +4,11 @@
 
 開発には以下のようなツールを主に利用しています。環境構築済みの DevContainer / GitHub Codespace を用意してありますので、Lean の環境構築をスキップしたい方はそちらを利用してください。
 
-* [mdbook](https://github.com/rust-lang/mdBook) を使用して markdown ファイルから HTML を生成しています。以下のプラグインを使用しています。
-  * [mdbook-admonish](https://github.com/tommilligan/mdbook-admonish) を使用してカードを表示させています。
+* [mdbook](https://github.com/rust-lang/mdBook) を使用して markdown ファイルから HTML を生成しています。
 * [Node.js](https://nodejs.org/) を生成された HTML の SEO メタ情報を補正するスクリプトの実行に使用しています。
 
 > [!IMPORTANT]
-> 開発に使用する mdbook のバージョンは `0.4.48` に固定してください。
+> 開発に使用する mdbook のバージョンは `0.5.4` に固定してください。
 > 他のバージョンだと動かないことがあります。
 
 * [mdgen](https://github.com/Seasawher/mdgen) を Lean ファイルから markdown ファイルを生成するために使用しています。

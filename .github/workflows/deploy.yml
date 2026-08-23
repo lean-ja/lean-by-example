@@ -39,13 +39,7 @@ jobs:
       - name: Setup mdBook
         uses: peaceiris/actions-mdbook@v2
         with:
-          mdbook-version: '0.4.48'
-
-      - name: install mdbook-admonish
-        uses: baptiste0928/cargo-install@v3
-        with:
-          crate: mdbook-admonish
-          version: '1.18.0'
+          mdbook-version: '0.5.4'
 
       - name: build markdown
         run: lake run build
