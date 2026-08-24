@@ -27,6 +27,8 @@ additional-js = [
 additional-css = [
   # フォントと画像の表示を調整する
   "./assets/custom.css",
+  # コードブロックのコピーボタンと実行ボタンのサイズをそろえる
+  "./assets/codeBlockButtons.css",
 ]
 
 # セクション番号を振らない

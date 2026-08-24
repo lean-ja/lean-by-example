@@ -1,0 +1,18 @@
+pre > .buttons > button:is(.clip-button, .lean-web-button) {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 3.4rem;
+  block-size: 3rem;
+  padding: 0;
+  line-height: 1;
+}
+
+@media (pointer: coarse) {
+  pre > .buttons > button:is(.clip-button, .lean-web-button) {
+    inline-size: 4.4rem;
+    block-size: 4.4rem;
+    padding: 0;
+  }
+}
