@@ -44,6 +44,17 @@
     leading: linestretch * 0.65em,
   )
 
+  // PDF 内外へのリンクを青色の文字と下線で示す
+  let pdf-link-color = rgb("#0969da")
+  show link: it => {
+    set text(fill: pdf-link-color)
+    show raw.where(block: false): set text(fill: pdf-link-color)
+    underline(
+      stroke: 0.6pt + pdf-link-color,
+      offset: 2pt,
+      it,
+    )
+  }
   set heading(numbering: sectionnumbering)
   set raw(
     syntaxes: "lean.sublime-syntax",
