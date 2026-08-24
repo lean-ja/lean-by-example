@@ -127,15 +127,18 @@
     #it.body
   ]
 
-  // x.y 形式の節見出しに下線と余白を加える
-  show heading.where(level: 2): it => block(
-    width: 100%,
-    breakable: false,
-    sticky: true,
-    inset: (bottom: 5pt),
-    below: 1.1em,
-    stroke: (bottom: 0.75pt + luma(65%)),
-  )[#it]
+  // x.y 形式の節見出しを新しいページから始め、下線と余白を加える
+  show heading.where(level: 2): it => {
+    pagebreak(weak: true)
+    block(
+      width: 100%,
+      breakable: false,
+      sticky: true,
+      inset: (bottom: 5pt),
+      below: 1.1em,
+      stroke: (bottom: 0.75pt + luma(65%)),
+    )[#it]
+  }
 
   // Markdown の `#` に相当する章見出しを新しいページから始める
   show heading.where(level: 1): it => {
