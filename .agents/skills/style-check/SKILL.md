@@ -1,6 +1,6 @@
 ---
 name: style-check
-description: .lean ファイルを編集・追加するときにコードの書き方をチェックするために使う。
+description: 明示的に使用するよう指示されたときに使用する
 ---
 
 # Lean コードスタイルチェック
