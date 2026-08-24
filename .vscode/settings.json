@@ -41,6 +41,7 @@
     "Command": "",
     "LeanByExample": "Content",
     "Option": "",
+    "typst": "pdf",
   },
 
   // Horizon Theme の設定

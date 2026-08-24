@@ -52,7 +52,7 @@ jobs:
           mdbook-version: '0.5.4'
 
       - name: Build HTML
-        run: lake run build
+        run: lake run build_html
         env:
           GITHUB_ACTIONS: "true"
 

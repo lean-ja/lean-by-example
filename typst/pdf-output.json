@@ -1,0 +1,28 @@
+{
+  "pandoc": {
+    "profile": {
+      "pdf": {
+        "output-file": "../../typst/book.pdf",
+        "to": "typst",
+        "pdf-engine": "typst",
+        "filters": [
+        ],
+        "metadata": {
+          "title": "Lean by Example",
+          "author": ["井上亜星"]
+        },
+        "variables": {
+          "template": "typst/book.typ",
+          "papersize": "a4",
+          "fontsize": "10.5pt",
+          "mainfont": "Juisee",
+          "codefont": "Juisee",
+          "margin": {
+            "x": "2.5cm",
+            "y": "2cm"
+          }
+        }
+      }
+    }
+  }
+}

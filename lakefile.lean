@@ -36,21 +36,39 @@ def getOutput (input : String) (stdIn : Option String := none) : IO Output := do
     throw <| IO.userError s!"Command failed with error: \n{errStr}"
   return out
 
-def runCmd (input : String) : IO Unit := do
-  let out ← getOutput input
-  let outStr := out.stdout.trimAscii
-  if outStr != "" then
-    IO.println outStr
+def runCmd
+    (input : String)
+    (env : Array (String × Option String) := #[]) : IO Unit := do
+  let cmdList := input.splitOn " "
+  let cmd := cmdList.head!
+  let args := cmdList.tail |>.toArray
+  let out ← IO.Process.output {
+    cmd := cmd
+    args := args
+    env := env
+  }
+  if out.exitCode != 0 then
+    IO.eprintln out.stderr
+    throw <| IO.userError s!"Failed to execute: {input}"
+  else if !out.stdout.isEmpty then
+    IO.println out.stdout.trimAscii.copy
 
 /-- mdgen と mdbook を順に実行し、
 Lean ファイルから Markdown ファイルと HTML ファイルを生成する。-/
-script build do
+script build_html do
   runCmd "lake exe mdgen LeanByExample booksrc --count --copy"
   runCmd "mdbook build"
 
   -- SEO用のメタデータの更新。ローカルでは動作させる必要がないが、CI上では実行するべき
   if (← getEnv "GITHUB_ACTIONS").isSome then
     runCmd "node scripts/updateSeoMetadata.mjs"
+  return 0
+
+/-- `lake run build_pdf` で PDF を生成する -/
+script build_pdf do
+  runCmd s!"lake exe mdgen LeanByExample booksrc --count --copy"
+  let outputConfig ← IO.FS.readFile "typst/pdf-output.json"
+  runCmd s!"mdbook build" #[("MDBOOK_OUTPUT", some outputConfig)]
   return 0
 
 end BuildScript
