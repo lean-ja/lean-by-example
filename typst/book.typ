@@ -40,7 +40,9 @@
   )
 
   set par(
-    justify: true,
+    // 長いインラインコードを含む日本語の行で、両端揃えによって
+    // 字間が過度に引き伸ばされるのを防ぐ。
+    justify: false,
     leading: linestretch * 0.65em,
   )
 
