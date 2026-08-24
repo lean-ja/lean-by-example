@@ -138,9 +138,13 @@
     #it.body
   ]
 
-  // x.y 形式の節見出しを新しいページから始め、下線と余白を加える
+  // x.y 形式の節見出しに下線と余白を加える。
+  // mdbook-pandoc は単独ファイルの先頭見出しだけを目次対象にするため、
+  // その見出し（outlined: true）の直前に限って改ページする。
   show heading.where(level: 2): it => {
-    pagebreak(weak: true)
+    if it.outlined {
+      pagebreak(weak: true)
+    }
     block(
       width: 100%,
       breakable: false,
