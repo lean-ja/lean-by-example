@@ -41,8 +41,8 @@ jobs:
         with:
           mdbook-version: '0.5.4'
 
-      - name: build markdown
-        run: lake run build
+      - name: build markdown and HTML files
+        run: lake run build_html
 
       - name: Run Link Checker
         uses: lycheeverse/lychee-action@v2

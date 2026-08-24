@@ -18,7 +18,7 @@
 ## 開発の流れ
 
 * このリポジトリは mathlib に依存しているので、このリポジトリを clone した後に `lake exe cache get` を実行してください。
-* 本文の markdown ファイルは [mdgen](https://github.com/Seasawher/mdgen) を用いて Lean ファイルから生成します。Lean ファイルを編集した後、`lake run build` コマンドを実行すれば markdown の生成と `mdbook build` が一括実行されます。
+* 本文の markdown ファイルは [mdgen](https://github.com/Seasawher/mdgen) を用いて Lean ファイルから生成します。Lean ファイルを編集した後、`lake run build_html` コマンドを実行すれば markdown の生成と `mdbook build` が一括実行されます。
 
 ## ルール
 

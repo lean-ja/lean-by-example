@@ -1,0 +1,94 @@
+name: PDF
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  JUISEE_VERSION: 0.2.0
+  JUISEE_SHA256: 787407eebc70d0937aa13025e06536175be9389150659dd07435cd4f4f24f97d
+
+jobs:
+  build_pdf:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Lean
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+
+      - name: Install mdBook and mdbook-pandoc
+        run: |
+          cargo install mdbook --version 0.5.4 --locked
+          cargo install mdbook-pandoc --version 0.11.1 --locked
+
+      - name: Set up Pandoc
+        uses: pandoc/actions/setup@v1
+        with:
+          version: "3.10"
+
+      - name: Set up Typst
+        uses: typst-community/setup-typst@v5
+        with:
+          typst-version: "0.14.2"
+
+      - name: Cache Juisee
+        id: cache-juisee
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/juisee
+          key: juisee-${{ runner.os }}-${{ env.JUISEE_VERSION }}-${{ env.JUISEE_SHA256 }}
+
+      - name: Install Juisee
+        if: steps.cache-juisee.outputs.cache-hit != 'true'
+        run: |
+          archive="$RUNNER_TEMP/Juisee_v${JUISEE_VERSION}.zip"
+          font_root="$HOME/.cache/juisee"
+
+          curl --fail --location --silent --show-error \
+            --output "$archive" \
+            "https://github.com/yuru7/juisee/releases/download/v${JUISEE_VERSION}/Juisee_v${JUISEE_VERSION}.zip"
+
+          echo "${JUISEE_SHA256}  ${archive}" | sha256sum --check -
+          mkdir -p "$font_root"
+          python3 -m zipfile -e "$archive" "$font_root"
+
+      - name: Configure Juisee
+        run: |
+          font_dir="$HOME/.cache/juisee/Juisee_v${JUISEE_VERSION}"
+          printf 'TYPST_FONT_PATHS=%s\n' "$font_dir" >> "$GITHUB_ENV"
+          TYPST_FONT_PATHS="$font_dir" typst fonts | grep '^Juisee'
+
+      - name: Build PDF
+        run: lake run build_pdf
+
+      - name: Name PDF artifact
+        id: pdf-artifact
+        run: |
+          timestamp="$(TZ=Asia/Tokyo date +'%Y-%m-%d-%H%M%S')"
+          filename="book-${timestamp}.pdf"
+          mv typst/book.pdf "typst/${filename}"
+          printf 'name=%s\n' "$filename" >> "$GITHUB_OUTPUT"
+          printf 'path=typst/%s\n' "$filename" >> "$GITHUB_OUTPUT"
+
+      - name: Upload PDF
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.pdf-artifact.outputs.name }}
+          path: ${{ steps.pdf-artifact.outputs.path }}
+          if-no-files-found: error
