@@ -87,7 +87,7 @@ jobs:
           printf 'path=typst/%s\n' "$filename" >> "$GITHUB_OUTPUT"
 
       - name: Upload PDF
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ steps.pdf-artifact.outputs.name }}
           path: ${{ steps.pdf-artifact.outputs.path }}
