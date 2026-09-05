@@ -6,7 +6,8 @@
         "to": "typst",
         "pdf-engine": "typst",
         "filters": [
-          "typst/exclude-pages.lua"
+          "typst/exclude-pages.lua",
+          "typst/admonitions.lua"
         ],
         "metadata": {
           "title": "Lean by Example",
