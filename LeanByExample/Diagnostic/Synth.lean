@@ -5,7 +5,7 @@
 型クラスとは、複数の型に対して共通の機能や実装を提供するものです。具体例を見てみましょう。たとえば逆数は、複数の型に対して定義されています。
 -/
 import Mathlib.Data.Rat.Defs -- 有理数 --#
-import Mathlib.Data.Real.Basic -- 実数 --#
+import Mathlib.Basic.Real.Basic -- 実数 --#
 
 -- `⁻¹` で逆数を表すことができる
 #check (1 : ℚ)⁻¹
