@@ -53,6 +53,11 @@ def runCmd
   else if !out.stdout.isEmpty then
     IO.println out.stdout.trimAscii.copy
 
+/-- markdown ファイルを生成する -/
+script build_md do
+  runCmd "lake exe mdgen LeanByExample booksrc --count --copy"
+  return 0
+
 /-- mdgen と mdbook を順に実行し、
 Lean ファイルから Markdown ファイルと HTML ファイルを生成する。-/
 script build_html do
@@ -64,7 +69,7 @@ script build_html do
     runCmd "node scripts/updateSeoMetadata.mjs"
   return 0
 
-/-- `lake run build_pdf` で PDF を生成する -/
+/-- PDF を生成する -/
 script build_pdf do
   runCmd s!"lake exe mdgen LeanByExample booksrc --count --copy"
   let outputConfig ← IO.FS.readFile "typst/pdf-output.json"
