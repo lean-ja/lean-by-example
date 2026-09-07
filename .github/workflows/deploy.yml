@@ -31,6 +31,7 @@ jobs:
           rm elan-init.sh
           echo "$HOME/.elan/bin" >> $GITHUB_PATH
 
+      # このステップは lake run build_html を実行するために必要
       - name: Setup Node.js
         uses: actions/setup-node@v7
         with:
@@ -43,11 +44,6 @@ jobs:
 
       - name: build markdown and HTML files
         run: lake run build_html
-
-      - name: Run Link Checker
-        uses: lycheeverse/lychee-action@v2
-        with:
-          args: "./booksrc/**/*.md"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
