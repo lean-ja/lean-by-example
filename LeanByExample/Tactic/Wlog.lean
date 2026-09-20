@@ -11,7 +11,7 @@ example (h : n ≠ m) : 0 < |(n - m : ℤ)| := by
   wlog hnm : m < n with H
 
   -- `m < n` の時に成り立つのであれば、そうでないときも成り立つことを示す
-  case inr =>
+  case isFalse =>
     -- `m < n` ではないので、`n < m` が成り立つ
     have : m = n ∨ n < m := Nat.eq_or_lt_of_not_lt hnm
     replace : n < m := by aesop
@@ -19,8 +19,7 @@ example (h : n ≠ m) : 0 < |(n - m : ℤ)| := by
     -- `m < n` の時に成り立つという仮定を利用できる
     replace : 0 < |(m - n : ℤ)| := @H m n h.symm this
 
-    rw [abs_sub_comm]
-    assumption
+    rwa [abs_sub_comm]
 
   -- `m < n` と仮定してよいことがわかったので、
   -- `m < n` だとして証明する
