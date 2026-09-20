@@ -113,7 +113,7 @@ run_meta IO.println (← parse `command "#eval \"hello\"")
 -- タクティクをパースする例
 -- 木構造が現れている
 /--
-info: (Tactic.«tactic_<;>_» (Tactic.constructor "constructor") "<;>" (Tactic.intro "intro" [`h]))
+info: (Tactic.«tactic_<;>_» (Tactic.constructor "constructor" (Tactic.optConfig [])) "<;>" (Tactic.intro "intro" [`h]))
 -/
 #guard_msgs in --#
 run_meta IO.println (← parse `tactic "constructor <;> intro h")
