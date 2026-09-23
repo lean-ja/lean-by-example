@@ -1,6 +1,6 @@
 import Lean
 
-open Std.Do
+open Std.WP
 
 /-- フィボナッチ数列の仕様 -/
 @[grind]
@@ -22,17 +22,17 @@ def fibImpl (n : Nat) : Nat := Id.run do
     b := a' + b
   return b
 
--- `mvcgen` はまだ安定していないという警告を消す
-set_option mvcgen.warning false
+-- `vcgen` が実験的機能であることを明示する
+set_option experimental.vcgen true in
 
 theorem fibImpl_eq_fibSpec (n : Nat) : fibImpl n = fibSpec n := by
   generalize h : fibImpl n = r
-  apply Id.of_wp_run_eq h
+  apply Id.of_run_eq_wp h
 
-  mvcgen invariants
+  vcgen invariants
   -- 不変条件の指定。
   -- `a` と `b` はループ内で更新される可変変数。
   -- `let mut` で定義された順番に拘束される。
-  -- `cursor.pos` はループの進捗を表していて、いままでにループが回った回数を表す。
-  · ⇓⟨cursor, a, b⟩ => ⌜a = fibSpec cursor.pos ∧ b = fibSpec (cursor.pos + 1)⌝
-  with grind
+  -- `pref` は処理済みの要素のリストで、その長さがループの反復回数に一致する。
+  · fun pref _ (a, b) => a = fibSpec pref.length ∧ b = fibSpec (pref.length + 1)
+  with finish
