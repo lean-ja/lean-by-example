@@ -16,9 +16,7 @@ def binaryExpo (root n : Nat) : Nat := Id.run do
       break
   return y
 
-open Std.Do
-
-set_option mvcgen.warning false
+open Std.WP
 
 @[grind =]
 theorem Nat.Grind.pow_zero {n a : Nat} (h : a = 0) : n ^ a = 1 := by
@@ -37,13 +35,17 @@ theorem Nat.mul_pow_sub_one_of_odd (x e : Nat) (he : e % 2 = 1) :
   _ = x ^ (1 + (e - 1)) := by grind
   _ = x ^ e := by congr; grind
 
+-- `vcgen` が実験的機能であることを明示する
+set_option experimental.vcgen true in
+
 theorem binaryExpo_spec (root n : Nat) :
     binaryExpo root n = root ^ n := by
   generalize h : binaryExpo root n = r
-  apply Id.of_wp_run_eq h
+  apply Id.of_run_eq_wp h
 
-  mvcgen invariants
+  vcgen invariants
   -- 不変条件の指定。
+  -- `pref` は処理済みの要素のリストで、その長さがループの反復回数に一致する
   -- ローカル可変変数は定義順に拘束される。
-  · ⇓⟨cursor, x, y, e⟩ => ⌜y * x ^ e = root ^ n ∧ e + cursor.pos ≤ n⌝
-  with grind
+  · fun pref _ (x, y, e) => y * x ^ e = root ^ n ∧ e + pref.length ≤ n
+  with finish
