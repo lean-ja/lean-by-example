@@ -1,4 +1,4 @@
-import Std.Tactic.Do
+import Std
 
 /-- `operations : List Int` を先頭から順に足していったときに、
 どこかの時点で合計値が 0 未満になることがあるか判定する -/
@@ -64,21 +64,22 @@ theorem sum_append_singleton {α : Type} {l : List α} {x : α}
 
 end List
 
-open Std.Do
+open Std.WP
 
-set_option mvcgen.warning false
+-- `vcgen` が実験的機能であることを明示する
+set_option experimental.vcgen true in
 
 theorem belowZero_iff {l : List Int} : belowZero l ↔ l.HasPrefix (fun l => l.sum < 0) := by
   generalize h : belowZero l = res
-  apply Id.of_wp_run_eq h
-  mvcgen invariants
+  apply Id.of_run_eq_wp h
+  vcgen invariants
   -- 早期終了がある場合の不変条件
-  · Invariant.withEarlyReturnNewDo
+  · Invariant.withEarlyReturnNewDo Prop
     -- 早期終了しなかった場合、現在の接頭辞の和が `balance` に等しく、
     -- かつ「今までループで見てきた部分」は「和が0未満になる接頭辞」を持たない
-    (onContinue := fun cursor (balance : Int) =>
-      ⌜balance = cursor.prefix.sum ∧ ¬ cursor.prefix.HasPrefix (fun l => l.sum < 0)⌝)
+    (onContinue := fun pref _ (balance : Int) =>
+      balance = pref.sum ∧ ¬ pref.HasPrefix (fun l => l.sum < 0))
 
     -- 早期終了した場合、返り値の`ret`は`true`であり、かつ和が0未満になる接頭辞がある
-    (onReturn := fun ret (balance : Int) => ⌜ret = true ∧ l.HasPrefix (fun l => l.sum < 0)⌝)
-  with grind
+    (onReturn := fun ret (balance : Int) => ret = true ∧ l.HasPrefix (fun l => l.sum < 0))
+  all_goals simp_all <;> grind
