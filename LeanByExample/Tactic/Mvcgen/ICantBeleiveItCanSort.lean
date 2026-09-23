@@ -1,4 +1,5 @@
 import Std.Tactic.Do
+import Std.WP
 import Batteries.Data.Array
 
 open Std
@@ -15,17 +16,18 @@ def ICan'tBelieveItCanSort (arr : Array α) := Id.run do
         vec := vec.swap i j
   return vec.toArray
 
-open Std.Do
+open Std.WP
 
-set_option mvcgen.warning false
+-- `vcgen` が実験的機能であることを明示する
+set_option experimental.vcgen true
 
 theorem ICan'tBelieveItCanSort_perm (arr : Array α) : Array.Perm (ICan'tBelieveItCanSort arr) arr := by
   generalize h : ICan'tBelieveItCanSort arr = x
-  apply Id.of_wp_run_eq h
-  mvcgen invariants
-  · ⇓⟨_cursor, vec⟩ => ⌜Array.Perm arr vec.toArray⌝
-  · ⇓⟨_cursor, vec⟩ => ⌜Array.Perm arr vec.toArray⌝
-  with grind [Array.Perm.trans, Array.Perm.symm, Array.swap_perm]
+  apply Id.of_run_eq_wp h
+  vcgen invariants
+  · fun _ _ vec => Array.Perm arr vec.toArray
+  · fun _ _ vec => Array.Perm arr vec.toArray
+  with finish [Array.Perm.refl, Array.Perm.trans, Array.Perm.symm, Array.swap_perm]
 
 @[grind =]
 theorem Vector.toArray_extract_size {α : Type} {n : Nat} (v : Vector α n) :
@@ -61,21 +63,23 @@ variable [LE α] [IsLinearOrder α] [LawfulOrderLT α]
 
 theorem ICan'tBelieveItCanSort_sorted (arr : Array α) : ICan'tBelieveItCanSort arr |>.Pairwise (· ≤ ·) := by
   generalize h : ICan'tBelieveItCanSort arr = x
-  apply Id.of_wp_run_eq h
-  mvcgen invariants
-  | inv1 => ⇓⟨cursor, vec⟩ =>
+  apply Id.of_run_eq_wp h
+  vcgen invariants
+  | inv1 => fun outerPref _ vec =>
     -- 外側のforループの不変条件。
     -- 外側ループが要素`i ∈ [0:n]`を処理する反復の開始時に、
     -- `vec[0...i]`はソート済みである。
-    let i := cursor.pos
-    ⌜vec.take i |>.toArray.Pairwise (· ≤ ·)⌝
-  | inv2 i _ _ _ _ => ⇓⟨cursor, vec⟩ =>
+    -- `outerPref` を「外側のループで処理済みの要素のリスト」とすると、
+    -- `outerPref.length = i` である。
+    vec.take outerPref.length |>.toArray.Pairwise (· ≤ ·)
+  | inv2 outerPref i _ _ _ _ => fun innerPref _ vec =>
     -- 内側のforループの不変条件。
     -- 外側ループが要素`i ∈ [0:n]`を処理する反復の途中で、
     -- 内側ループが要素`j ∈ [0:n]`を処理する反復の開始時に、以下が成立。
     -- * `vec[0...i]`はソート済み
     -- * `vec[0...j]`のすべての要素は`vec[i]`以下
-    let j := cursor.pos
-    ⌜(vec.take i |>.toArray.Pairwise (· ≤ ·)) ∧
-      ∀ k (_ : k < j), vec[k]'(by grind) ≤ vec[i]'(by grind)⌝
-  with (simp at *; grind)
+    -- `innerPref` を「内側のループで処理済みの要素のリスト」とすると、
+    -- `innerPref.length = j` である。
+    (vec.take outerPref.length |>.toArray.Pairwise (· ≤ ·)) ∧
+      ∀ k (_ : k < innerPref.length) (_ : k < arr.size), vec[k] ≤ vec[i]'(by grind)
+  with finish
