@@ -1,6 +1,6 @@
 import Lean
 
-open Std.Do
+open Std.WP
 
 -- `α` は加法的な可換モノイドであると仮定する
 variable {α : Type} [Add α] [Zero α]
@@ -20,8 +20,6 @@ def doubleSumDo (l : List (List α)) : α := Id.run do
       result := result + x
   return result
 
-set_option mvcgen.warning false
-
 @[grind =, simp]
 theorem List.sum_append_singleton {l : List α} {x : α} :
     (l ++ [x]).sum = l.sum + x := by
@@ -33,23 +31,26 @@ theorem doubleSum_append {l1 l2 : List (List α)} :
     doubleSum (l1 ++ l2) = doubleSum l1 + doubleSum l2 := by
   induction l1 with grind
 
+-- `vcgen` が実験的機能であることを明示する
+set_option experimental.vcgen true in
+
 theorem doubleSum_spec (l : List (List α)) : doubleSumDo l = doubleSum l := by
   generalize h : doubleSumDo l = r
-  apply Id.of_wp_run_eq h
+  apply Id.of_run_eq_wp h
 
-  mvcgen invariants
+  vcgen invariants
   -- 外側のループについての不変条件。
-  -- `cursor.prefix` はこれまでに外側の`for`ループで見てきた部分を指している
-  · ⇓⟨cursor, result⟩ => ⌜result = doubleSum cursor.prefix⌝
+  -- `outerPref` はこれまでに外側の `for` ループで見てきた部分を指している
+  · fun outerPref _ result => result = doubleSum outerPref
 
   -- 内側のループについての不変条件。
-  · ⇓⟨cursor, result⟩ => by
-    expose_names -- すべての死んだ変数に名前を付ける
+  · fun innerPref _ result => by
+    rename_i outerPref cur suff _h _ _ _
 
-    -- `pref` は外側のループで今まで見てきた部分を表していて、
-    -- `l = pref ++ (cur :: suff)` が成り立つ。
-    guard_hyp h_1 :ₛ l = pref ++ cur :: suff
+    -- `outerPref` は外側のループで今まで見てきた部分を表していて、
+    -- `l = outerPref ++ (cur :: suff)` が成り立つ。
+    guard_hyp _h :ₛ l = outerPref ++ cur :: suff
 
-    -- `cursor` は内側のループの進捗を表している。
-    exact ⌜result = doubleSum pref + (cursor.prefix).sum⌝
-  with grind
+    -- `innerPref` は内側のループで今まで見てきた部分を表している。
+    exact result = doubleSum outerPref + innerPref.sum
+  with finish
