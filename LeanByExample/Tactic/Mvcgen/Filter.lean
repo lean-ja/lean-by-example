@@ -15,15 +15,16 @@ def Array.filterDo (p : α → Bool) (l : Array α) : Array α := Id.run do
 attribute [grind =] Array.toList_inj
 attribute [grind _=_] Array.toList_filter
 
-open Std.Do
+open Std.WP
 
-set_option mvcgen.warning false
+-- `vcgen` が実験的機能であることを明示する
+set_option experimental.vcgen true in
 
 theorem Array.filterDo_spec (p : α → Bool) (l : Array α) :
     l.filterDo p = l.filter p := by
   generalize h : l.filterDo p = r
-  apply Id.of_wp_run_eq h
+  apply Id.of_run_eq_wp h
 
-  mvcgen invariants
-  · ⇓⟨cursor, res⟩ => ⌜res.toList = cursor.prefix.filter p⌝
-  with grind
+  vcgen invariants
+  · fun pref _ res => res.toList = pref.filter p
+  with finish
