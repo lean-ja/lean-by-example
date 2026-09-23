@@ -1,8 +1,6 @@
 import Lean
 
-open Std.Do
-
-set_option mvcgen.warning false
+open Std.WP
 
 /-- 繰り返し自乗法で自然数の指数計算を行う -/
 def binaryExpo (root n : Nat) : Nat := Id.run do
@@ -40,17 +38,19 @@ private theorem mul_pow_sub_one_of_odd (x e : Nat) (he : 0 < e) :
   _ = x ^ (1 + (e - 1)) := by grind
   _ = x ^ e := by grind
 
+-- `vcgen` が実験的機能であることを明示する
+set_option experimental.vcgen true in
+
 theorem binaryExpo_spec (root n : Nat) : binaryExpo root n = root ^ n := by
   generalize h : binaryExpo root n = r
-  apply Id.of_wp_run_eq h
-  mvcgen invariants
+  apply Id.of_run_eq_wp h
+  vcgen invariants
+  · -- 不変条件を指定する。
+    -- 継続中か終了後かを表すフラグに応じて、２つの不変条件を記述する。
+    fun
+    | false, (x, y, e) => y * x ^ e = root ^ n
+    | true, (_, y, _) => y = root ^ n
   · -- while ループが停止することを保証するために
     -- e がループごとに減少していくと指定する
-    fun ⟨x, y, e⟩ => ⟨e⟩
-  · -- 不変条件を指定する。
-    -- for ループとは異なり各ループの開始ごとに「次も続けるのか」の判定が来るので、
-    -- どちらであるかに応じて２つの不変条件を記述する必要がある。
-    post⟨ fun
-    | .inl (x, y, e) => ⌜y * x ^ e = root ^ n⌝
-    | .inr (_x, y, _e) => ⌜y = root ^ n⌝ ⟩
-  with grind
+    Variant.ofMeasure fun (_, _, e) => e
+  with finish
