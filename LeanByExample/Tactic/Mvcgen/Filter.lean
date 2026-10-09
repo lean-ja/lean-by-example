@@ -17,7 +17,7 @@ attribute [grind _=_] Array.toList_filter
 
 open Std.WP
 
--- `vcgen` が実験的機能であることを明示する
+-- `vcgen` は実験的機能だよという警告を消す
 set_option experimental.vcgen true in
 
 theorem Array.filterDo_spec (p : α → Bool) (l : Array α) :

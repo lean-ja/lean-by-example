@@ -31,7 +31,7 @@ theorem doubleSum_append {l1 l2 : List (List α)} :
     doubleSum (l1 ++ l2) = doubleSum l1 + doubleSum l2 := by
   induction l1 with grind
 
--- `vcgen` が実験的機能であることを明示する
+-- `vcgen` は実験的機能だよという警告を消す
 set_option experimental.vcgen true in
 
 theorem doubleSum_spec (l : List (List α)) : doubleSumDo l = doubleSum l := by

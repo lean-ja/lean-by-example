@@ -22,7 +22,7 @@ def fibImpl (n : Nat) : Nat := Id.run do
     b := a' + b
   return b
 
--- `vcgen` が実験的機能であることを明示する
+-- `vcgen` は実験的機能だよという警告を消す
 set_option experimental.vcgen true in
 
 theorem fibImpl_eq_fibSpec (n : Nat) : fibImpl n = fibSpec n := by

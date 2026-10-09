@@ -10,7 +10,7 @@ def naiveExpo (x n : Nat) : Nat := Id.run do
     result := result * x
   return result
 
--- `vcgen` が実験的機能であることを明示する
+-- `vcgen` は実験的機能だよという警告を消す
 set_option experimental.vcgen true in
 
 theorem naiveExpo_correct (x n : Nat) : naiveExpo x n = x ^ n := by

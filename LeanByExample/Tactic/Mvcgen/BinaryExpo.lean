@@ -35,7 +35,7 @@ theorem Nat.mul_pow_sub_one_of_odd (x e : Nat) (he : e % 2 = 1) :
   _ = x ^ (1 + (e - 1)) := by grind
   _ = x ^ e := by congr; grind
 
--- `vcgen` が実験的機能であることを明示する
+-- `vcgen` は実験的機能だよという警告を消す
 set_option experimental.vcgen true in
 
 theorem binaryExpo_spec (root n : Nat) :

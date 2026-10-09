@@ -66,7 +66,7 @@ end List
 
 open Std.WP
 
--- `vcgen` が実験的機能であることを明示する
+-- `vcgen` は実験的機能だよという警告を消す
 set_option experimental.vcgen true in
 
 theorem belowZero_iff {l : List Int} : belowZero l ↔ l.HasPrefix (fun l => l.sum < 0) := by

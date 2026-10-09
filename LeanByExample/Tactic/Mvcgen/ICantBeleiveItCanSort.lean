@@ -18,7 +18,7 @@ def ICan'tBelieveItCanSort (arr : Array α) := Id.run do
 
 open Std.WP
 
--- `vcgen` が実験的機能であることを明示する
+-- `vcgen` は実験的機能だよという警告を消す
 set_option experimental.vcgen true
 
 theorem ICan'tBelieveItCanSort_perm (arr : Array α) : Array.Perm (ICan'tBelieveItCanSort arr) arr := by

@@ -14,7 +14,7 @@ def nodupDo (l : List α) : Bool := Id.run do
     seen := seen.insert x
   return true
 
--- `vcgen` が実験的機能であることを明示する
+-- `vcgen` は実験的機能だよという警告を消す
 set_option experimental.vcgen true in
 
 /-- `nodupDo` の結果は標準ライブラリに用意されている `Nodup` と一致する -/
