@@ -1,8 +1,6 @@
 import Lean
 
-open Std.Do
-
-set_option mvcgen.warning false
+open Std.WP
 
 variable {α : Type} [Hashable α] [DecidableEq α]
 
@@ -16,17 +14,21 @@ def nodupDo (l : List α) : Bool := Id.run do
     seen := seen.insert x
   return true
 
+-- `vcgen` が実験的機能であることを明示する
+set_option experimental.vcgen true in
+
 /-- `nodupDo` の結果は標準ライブラリに用意されている `Nodup` と一致する -/
 theorem nodup_correct (l : List α) : nodupDo l ↔ l.Nodup := by
   generalize h : nodupDo l = r
-  apply Id.of_wp_run_eq h
-  mvcgen invariants
-  · Invariant.withEarlyReturnNewDo
-      -- forループの１ステップが平常終了したとき。
-      -- プログラム中の可変変数`seen`は、現在までに見た要素の集合`cursor.prefix`に等しく、
-      -- かつ`cursor.prefix`は重複がない。
-      (onContinue := fun cursor seen => ⌜(∀ x, x ∈ seen ↔ x ∈ cursor.prefix) ∧ cursor.prefix.Nodup⌝)
-      -- 早期リターンしたとき。
-      -- 返り値は`false`であり、かつ`l`に重複がある
-      (onReturn := fun ret seen => ⌜ret = false ∧ ¬l.Nodup⌝)
-  with grind
+  apply Id.of_run_eq_wp h
+  vcgen invariants
+  · Invariant.withEarlyReturnNewDo Prop
+    -- forループの１ステップが平常終了したとき。
+    -- プログラム中の可変変数`seen`は、現在までに見た要素の集合`pref`に等しく、
+    -- かつ`pref`は重複がない。
+    (onContinue := fun pref _ (seen : Std.HashSet α) =>
+      (∀ x, x ∈ seen ↔ x ∈ pref) ∧ pref.Nodup)
+    -- 早期リターンしたとき。
+    -- 返り値は`false`であり、かつ`l`に重複がある
+    (onReturn := fun ret _ => ret = false ∧ ¬l.Nodup)
+  all_goals simp_all <;> grind
