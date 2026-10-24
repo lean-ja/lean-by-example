@@ -1,15 +1,15 @@
-/- # mvcgen
+/- # vcgen
 
-`mvcgen` は、モナディック(monadic)なプログラムを含むゴールを **検証条件(verification condition)** に分解して処理するようなタクティクです。ただしここでいう検証条件とは、`do` 構文の背景にあるモナドを参照しない部分ゴールのことを指します。[^mvcgen-doc]
+`vcgen` は、モナディックなプログラムを含むゴールを **検証条件(verification condition)** に分解して処理するようなタクティクです。ただしここでいう検証条件とは、`do` 構文の背景にあるモナドを参照しない部分ゴールのことを指します。[^vcgen-doc]
 
-`do` 構文を使って手続き的に定義された関数に対して証明を行うことを支援するフレームワークが Lean には組み込まれているのですが、`mvcgen` はその一部です。
+`do` 構文を使って手続き的に定義された関数に対して証明を行うことを支援するフレームワークが Lean には組み込まれているのですが、`vcgen` はその一部です。
 
-シンプルな使用例として、リストの和を `for` ループを使って計算する関数が、標準ライブラリに用意されている関数と等しいことを `mvcgen` を使って証明する例を紹介します。このとき、ループを回しても変わらずに成り立ち続ける **不変条件(invariant)** を指定することに注意してください。
+シンプルな使用例として、リストの和を `for` ループを使って計算する関数が、標準ライブラリに用意されている関数と等しいことを `vcgen` を使って証明する例を紹介します。このとき、ループを回しても変わらずに成り立ち続ける **不変条件(invariant)** を指定することに注意してください。
 -/
 import Lean
 
--- mvcgen はまだ使用しないでというwarningを消す
-set_option mvcgen.warning false
+-- `vcgen` は実験的機能だよという警告を消す
+set_option experimental.vcgen true
 
 variable {α : Type} [Zero α] [Add α]
 variable [@Std.Associative α (· + ·)] [@Std.LawfulIdentity α (· + ·) 0]
@@ -178,7 +178,7 @@ P.Y.Fung さんによる「Is this the simplest (and most surprising) sorting al
 -/
 
 /-
-[^mvcgen-doc]: このページの内容およびコード例は、公式のドキュメントである [Verifying imperative programs using mvcgen](https://hackmd.io/@sg-fro/BJRlurP_xg) を参考にしています。
+[^vcgen-doc]: このページの内容およびコード例は、公式のドキュメントである [Verifying imperative programs using mvcgen](https://hackmd.io/@sg-fro/BJRlurP_xg) を参考にしています。
 [^below-zero]: このコード例は [human-eval-lean](https://github.com/leanprover/human-eval-lean) の `HumanEval3.lean` のコードを参考にしています。
 [^fibonacci]: このコード例は、Lean のリポジトリの [doLogicTests.lean](https://github.com/leanprover/lean4/blob/80409a9ceb803bdfa695687de3aca2008c5aaf6d/tests/lean/run/doLogicTests.lean) の内容を参考にしました。
 [^peasant]: このコード例は Lean の公式 Zulip の [new monadic program verification framework](https://leanprover.zulipchat.com/#narrow/channel/113488-general/topic/new.20monadic.20program.20verification.20framework/with/545897085) というトピックにおける pandaman さんの投稿を参考にしました。
