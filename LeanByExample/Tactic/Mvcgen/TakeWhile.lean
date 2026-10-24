@@ -1,6 +1,6 @@
 import Lean
 
-open Std.Do
+open Std.WP
 
 variable {α : Type}
 
@@ -16,7 +16,8 @@ def takeWhileReturn (p : α → Bool) (l : List α) : List α := Id.run do
     result := result ++ [x]
   return result
 
-set_option mvcgen.warning false
+-- `vcgen` は実験的機能だよという警告を消す
+set_option experimental.vcgen true
 
 @[grind =, simp]
 theorem takeWhile_simplify_false (P : α → Bool) (pref suff : List α) (cur : α) (h : P cur = false) :
@@ -31,14 +32,14 @@ theorem takeWhile_eq_self_iff_all (P : α → Bool) (l : List α) :
 theorem takeWhileReturn_spec (p : α → Bool) (l : List α) :
     takeWhileReturn p l = l.takeWhile p := by
   generalize h : takeWhileReturn p l = r
-  apply Id.of_wp_run_eq h
+  apply Id.of_run_eq_wp h
 
-  mvcgen invariants
-  · Invariant.withEarlyReturnNewDo
-    (onContinue := fun cursor result =>
-      ⌜result = cursor.prefix ∧ result = cursor.prefix.takeWhile p⌝)
-    (onReturn := fun ret result => ⌜ret = result ∧ result = l.takeWhile p⌝)
-  with grind
+  vcgen invariants
+  · Invariant.withEarlyReturnNewDo Prop
+    (onContinue := fun pref _ (result : List α) =>
+      result = pref ∧ result = pref.takeWhile p)
+    (onReturn := fun ret (result : List α) => ret = result ∧ result = l.takeWhile p)
+  all_goals simp_all <;> grind
 
 /-- `takeWhile` を命令型スタイルで実装したもの。
 `break` 文を使うバージョン。-/
@@ -53,11 +54,11 @@ def takeWhileBreak (p : α → Bool) (l : List α) : List α := Id.run do
 theorem takeWhileBreak_spec (p : α → Bool) (l : List α) :
     takeWhileBreak p l = l.takeWhile p := by
   generalize h : takeWhileBreak p l = r
-  apply Id.of_wp_run_eq h
+  apply Id.of_run_eq_wp h
 
-  mvcgen invariants
-  · ⇓⟨cursor, result⟩ =>
-    -- `return` を使うものと比較すると、不変条件に `cursor.suffix = []` が追加されている。
+  vcgen invariants
+  · fun pref suff (result : List α) =>
+    -- `return` を使うものと比較すると、不変条件に `suff = []` が追加されている。
     -- これは `break` でループを抜けた場合にも成り立つようにするための工夫
-    ⌜(cursor.suffix = [] ∨ result = cursor.prefix) ∧ result = cursor.prefix.takeWhile p⌝
-  with grind
+    (suff = [] ∨ result = pref) ∧ result = pref.takeWhile p
+  with finish
