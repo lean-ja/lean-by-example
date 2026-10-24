@@ -32,7 +32,7 @@ def pairsSumToZero (l : List Int) : Bool := Id.run do
     seen := seen.insert x
   return false
 
--- `vcgen` が実験的機能であることを明示する
+-- `vcgen` は実験的機能だよという警告を消す
 set_option experimental.vcgen true in
 
 theorem pairsSumToZero_spec (l : List Int) :
