@@ -28,32 +28,26 @@ theorem List.sum_append_singleton {l : List α} {x : α} :
     (l ++ [x]).sum = l.sum + x := by
   induction l with simp_all <;> grind
 
--- `scoped` で用意された表記法を有効にする
-open Std.Do
+open Std.WP
 
 /-- 手続き的に実装した和の計算と、標準ライブラリに用意されている`List.sum`関数が等しい -/
 theorem sumImp_eq_sumFunc (l : List α) : sumDo l = List.sum l := by
   -- モナディックに実装されている（`Id.run do ...`）部分にフォーカスする
   generalize h : sumDo l = s
-  apply Id.of_wp_run_eq h
+  apply Id.of_run_eq_wp h
 
   -- 検証条件に分解する
-  mvcgen
+  vcgen
 
   -- ループ全体を通して成り立たせたい不変条件を指定する
   -- * `out` は `let mut` で導入した変数の現在値を表す
-  -- * `cursor` は `List.Cursor` で，リストを接頭辞 `cursor.prefix` と接尾辞 `cursor.suffix` に
-  --   分割して表すデータ構造。どこまでループが進んだかを追跡する。
-  --   つまり進捗（ループの到達位置）を記録する。
+  -- * `pref` は `for` 文で既に処理された接頭辞を表す
+  -- * 第2引数は未処理の接尾辞を表すが、この不変条件では使わない
   -- 不変条件は「`out` が接頭辞の総和を保持している」こと。
-  -- 記法 `⌜p⌝` は，命題 `p : Prop` をアサーション言語に埋め込む。
-  case inv1 => exact ⇓⟨cursor, out⟩ => ⌜cursor.prefix.sum = out⌝
-
-  -- `mleave` はある決まった `simp` 補題に対する `simp only [...] at *` の糖衣構文。
-  all_goals mleave
+  case inv1 => exact fun pref _ out => pref.sum = out
 
   -- 各反復で不変条件が保たれることを示す
-  case vc1.step pref cur suff hyp b ih =>
+  case vc3 pref cur suff hyp b ih =>
     -- 与えられているリストは
     -- * `pref`: for 文で既に処理された部分
     -- * `cur`: 今回処理する要素
@@ -64,21 +58,24 @@ theorem sumImp_eq_sumFunc (l : List α) : sumDo l = List.sum l := by
     -- そして今まで処理された部分に関しては不変条件が成り立っているという帰納法の仮定がある
     guard_hyp ih :ₛ pref.sum = b
 
+    -- 現在の要素 `cur` を足した値が、新しい `out` になる
+    guard_hyp out :ₛ α :=ₛ b + cur
+
     -- このとき、現在の要素 `cur` を処理した後でも不変条件が成り立つことを示せばよい
-    guard_target =ₛ (pref ++ [cur]).sum = b + cur
+    guard_target =ₛ (pref ++ [cur]).sum = out
 
     -- 証明そのものは `grind` で終わる
     grind
 
   -- ループ開始時に不変条件が成り立つことを示す
-  case vc2.pre =>
+  case vc1 =>
     -- 空リストの和が 0 であることを示せばよい
     guard_target =ₛ ([] : List α).sum = 0
 
     grind
 
   -- ループ終了時の不変条件から目標の性質が従うことを証明する
-  case vc3.post.success result hr =>
+  case vc2 result hr =>
     -- ループ終了時には「処理された部分」は全体なので、
     -- 不変条件から次が成りたつ
     guard_hyp hr :ₛ l.sum = result
@@ -88,7 +85,7 @@ theorem sumImp_eq_sumFunc (l : List α) : sumDo l = List.sum l := by
 
 /- ## 構文
 
-`mvcgen` タクティクを使用するとき、まず不変条件を指定し、そのあとに `all_goals mleave` を実行するというパターンがよく見られます。そこで、定型文を減らすために以下のように `mvcgen invariants` という構文が用意されています。
+以下のように `vcgen invariants` という構文が用意されています。
 
 {{#include ./Mvcgen/NaiveExpo.md}}
 -/
@@ -97,7 +94,7 @@ theorem sumImp_eq_sumFunc (l : List α) : sumDo l = List.sum l := by
 
 ### 早期リターン
 
-`for` 文の途中で `return` 文があるような場合でも、`mvcgen` は対応できます。その場合は不変条件の書き方が変わって、「早期終了した場合」と「早期終了せず継続する場合」の２つを考慮する必要が生じます。
+`for` 文の途中で `return` 文があるような場合でも、`vcgen` は対応できます。その場合は不変条件の書き方が変わって、「早期終了した場合」と「早期終了せず継続する場合」の２つを考慮する必要が生じます。
 
 {{#include ./Mvcgen/NoDup.md}}
 -/
@@ -128,14 +125,14 @@ theorem sumImp_eq_sumFunc (l : List α) : sumDo l = List.sum l := by
 
 /- ### 二重の for ループ
 
-`for` ループがネストしていても `mvcgen` は対応できます。その場合は、外側のループと内側のループそれぞれについて不変条件を指定する必要があります。また、内側のループの不変条件において、外側のループの進捗状況に言及することができます。
+`for` ループがネストしていても `vcgen` は対応できます。その場合は、外側のループと内側のループそれぞれについて不変条件を指定する必要があります。また、内側のループの不変条件において、外側のループの進捗状況に言及することができます。
 
 {{#include ./Mvcgen/DoubleSum.md}}
 -/
 
 /- ### while ループ
 
-`mvcgen` タクティクは `while` ループにも対応しています。`for` ループと異なり `while` ループは停止することが明らかではないため、停止することを保証するために「ループごとに減少していくもの」を不変量とともに指定します。
+`vcgen` タクティクは `while` ループにも対応しています。`for` ループと異なり `while` ループは停止することが明らかではないため、停止することを保証するために「ループごとに減少していくもの」を不変量とともに指定します。
 
 {{#include ./Mvcgen/BinaryExpoWhile.md}}
 -/
@@ -144,14 +141,14 @@ theorem sumImp_eq_sumFunc (l : List α) : sumDo l = List.sum l := by
 
 /- ### 農民の掛け算
 
-農民の掛け算は、２で割る操作と２倍する操作と足し算だけで掛け算を行うアルゴリズムです。`mvcgen` を使って、このアルゴリズムが正しいことを証明する例を紹介します。[^peasant]
+農民の掛け算は、２で割る操作と２倍する操作と足し算だけで掛け算を行うアルゴリズムです。`vcgen` を使って、このアルゴリズムが正しいことを証明する例を紹介します。[^peasant]
 
 {{#include ./Mvcgen/PeasantMul.md}}
 -/
 
 /- ### 繰り返し自乗法による指数計算
 
-繰り返し自乗法(binary exponentiation)は、`x ^ n` を計算する際に指数部を２冪の和に分解することで計算を高速化するアルゴリズムのことです。`mvcgen` を使って、このアルゴリズムが正しいことを証明する例を紹介します。[^binary-expo]
+繰り返し自乗法(binary exponentiation)は、`x ^ n` を計算する際に指数部を２冪の和に分解することで計算を高速化するアルゴリズムのことです。`vcgen` を使って、このアルゴリズムが正しいことを証明する例を紹介します。[^binary-expo]
 
 {{#include ./Mvcgen/BinaryExpo.md}}
 -/
@@ -172,7 +169,7 @@ theorem sumImp_eq_sumFunc (l : List α) : sumDo l = List.sum l := by
 
 /- ### ICan'tBelieveItCanSort
 
-P.Y.Fung さんによる「Is this the simplest (and most surprising) sorting algorithm ever?」という論文で、非常に単純かつ動作が理解しにくいソートアルゴリズムが提案されました。ここでは、その論文での呼称にならってそのアルゴリズムを `ICan’tBelieveItCanSort` と呼ぶことにします。`mvcgen` を使って、このアルゴリズムが配列を正しくソートすることを証明することができます。[^ICant]
+P.Y.Fung さんによる「Is this the simplest (and most surprising) sorting algorithm ever?」という論文で、非常に単純かつ動作が理解しにくいソートアルゴリズムが提案されました。ここでは、その論文での呼称にならってそのアルゴリズムを `ICan’tBelieveItCanSort` と呼ぶことにします。`vcgen` を使って、このアルゴリズムが配列を正しくソートすることを証明することができます。[^ICant]
 
 {{#include ./Mvcgen/ICantBeleiveItCanSort.md}}
 -/
