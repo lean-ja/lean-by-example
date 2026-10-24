@@ -42,6 +42,13 @@ for (const filePath of findHtmlFiles(bookDir)) {
     );
     html = removeIndexableSeoTags(html);
     skippedCount++;
+  } else if (/<meta\s+http-equiv=["']refresh["'][^>]*>/i.test(html)) {
+    html = upsertTag(
+      html,
+      /<meta\s+name=["']robots["'][^>]*>/i,
+      '<meta name="robots" content="noindex">',
+    );
+    skippedCount++;
   } else if (hasNoindex(html)) {
     skippedCount++;
   } else {

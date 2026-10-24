@@ -87,7 +87,7 @@ theorem sumImp_eq_sumFunc (l : List α) : sumDo l = List.sum l := by
 
 以下のように `vcgen invariants` という構文が用意されています。
 
-{{#include ./Mvcgen/NaiveExpo.md}}
+{{#include ./Vcgen/NaiveExpo.md}}
 -/
 
 /- ## 機能
@@ -96,7 +96,7 @@ theorem sumImp_eq_sumFunc (l : List α) : sumDo l = List.sum l := by
 
 `for` 文の途中で `return` 文があるような場合でも、`vcgen` は対応できます。その場合は不変条件の書き方が変わって、「早期終了した場合」と「早期終了せず継続する場合」の２つを考慮する必要が生じます。
 
-{{#include ./Mvcgen/NoDup.md}}
+{{#include ./Vcgen/NoDup.md}}
 -/
 
 /- ### break 文
@@ -105,14 +105,14 @@ theorem sumImp_eq_sumFunc (l : List α) : sumDo l = List.sum l := by
 
 以下は、`takeWhile` 関数を早期リターンと `break` のそれぞれを使って実装し、それぞれの不変条件を比較する例です。[^break]
 
-{{#include ./Mvcgen/TakeWhile.md}}
+{{#include ./Vcgen/TakeWhile.md}}
 -/
 
 /- ### continue 文
 
 `continue` 文がある場合も `break` 文の場合と同様で、`continue` で抜けた場合でも通常終了した場合でも常に成り立つような不変条件を考えて指定します。
 
-{{#include ./Mvcgen/Filter.md}}
+{{#include ./Vcgen/Filter.md}}
 -/
 
 /-
@@ -120,21 +120,21 @@ theorem sumImp_eq_sumFunc (l : List α) : sumDo l = List.sum l := by
 
 `for` ループの中で複数の可変変数が `let mut` で導入されている場合には、以下のように不変条件の書き方を変えることで対応できます。[^fibonacci]
 
-{{#include ./Mvcgen/Fibonacci.md}}
+{{#include ./Vcgen/Fibonacci.md}}
 -/
 
 /- ### 二重の for ループ
 
 `for` ループがネストしていても `vcgen` は対応できます。その場合は、外側のループと内側のループそれぞれについて不変条件を指定する必要があります。また、内側のループの不変条件において、外側のループの進捗状況に言及することができます。
 
-{{#include ./Mvcgen/DoubleSum.md}}
+{{#include ./Vcgen/DoubleSum.md}}
 -/
 
 /- ### while ループ
 
 `vcgen` タクティクは `while` ループにも対応しています。`for` ループと異なり `while` ループは停止することが明らかではないため、停止することを保証するために「ループごとに減少していくもの」を不変量とともに指定します。
 
-{{#include ./Mvcgen/BinaryExpoWhile.md}}
+{{#include ./Vcgen/BinaryExpoWhile.md}}
 -/
 
 /- ## 使用例 -/
@@ -143,35 +143,35 @@ theorem sumImp_eq_sumFunc (l : List α) : sumDo l = List.sum l := by
 
 農民の掛け算は、２で割る操作と２倍する操作と足し算だけで掛け算を行うアルゴリズムです。`vcgen` を使って、このアルゴリズムが正しいことを証明する例を紹介します。[^peasant]
 
-{{#include ./Mvcgen/PeasantMul.md}}
+{{#include ./Vcgen/PeasantMul.md}}
 -/
 
 /- ### 繰り返し自乗法による指数計算
 
 繰り返し自乗法(binary exponentiation)は、`x ^ n` を計算する際に指数部を２冪の和に分解することで計算を高速化するアルゴリズムのことです。`vcgen` を使って、このアルゴリズムが正しいことを証明する例を紹介します。[^binary-expo]
 
-{{#include ./Mvcgen/BinaryExpo.md}}
+{{#include ./Vcgen/BinaryExpo.md}}
 -/
 
 /- ### 先頭から足して和が0未満になる時点があるか判定する
 
 整数のリストに対して、前から順に足していったときに和が0未満になる瞬間があるかチェックする関数について仕様を証明する例を紹介します。[^below-zero]
 
-{{#include ./Mvcgen/BelowZero.md}}
+{{#include ./Vcgen/BelowZero.md}}
 -/
 
 /- ### 足してゼロになるペアがあるか判定する
 
 整数のリストに対して、足してゼロになるペアが存在するか判定する関数について仕様を証明する例を紹介します。[^pairs-sum]
 
-{{#include ./Mvcgen/PairsSumToZero.md}}
+{{#include ./Vcgen/PairsSumToZero.md}}
 -/
 
 /- ### ICan'tBelieveItCanSort
 
 P.Y.Fung さんによる「Is this the simplest (and most surprising) sorting algorithm ever?」という論文で、非常に単純かつ動作が理解しにくいソートアルゴリズムが提案されました。ここでは、その論文での呼称にならってそのアルゴリズムを `ICan’tBelieveItCanSort` と呼ぶことにします。`vcgen` を使って、このアルゴリズムが配列を正しくソートすることを証明することができます。[^ICant]
 
-{{#include ./Mvcgen/ICantBeleiveItCanSort.md}}
+{{#include ./Vcgen/ICantBeleiveItCanSort.md}}
 -/
 
 /-
