@@ -41,31 +41,10 @@ theorem sumImp_eq_sumFunc (l : List α) : sumDo l = List.sum l := by
 
   -- ループ全体を通して成り立たせたい不変条件を指定する
   -- * `out` は `let mut` で導入した変数の現在値を表す
-  -- * `pref` は `for` 文で既に処理された接頭辞を表す
+  -- * `pref` は `for` 文で既に処理された部分(接頭辞)を表す
   -- * 第2引数は未処理の接尾辞を表すが、この不変条件では使わない
-  -- 不変条件は「`out` が接頭辞の総和を保持している」こと。
-  case inv1 => exact fun pref _ out => pref.sum = out
-
-  -- 各反復で不変条件が保たれることを示す
-  case vc3 pref cur suff hyp b ih =>
-    -- 与えられているリストは
-    -- * `pref`: for 文で既に処理された部分
-    -- * `cur`: 今回処理する要素
-    -- * `suff`: まだ処理されていない残りの部分
-    -- に分割されているという仮定がある。
-    guard_hyp hyp :ₛ l = pref ++ cur :: suff
-
-    -- そして今まで処理された部分に関しては不変条件が成り立っているという帰納法の仮定がある
-    guard_hyp ih :ₛ pref.sum = b
-
-    -- 現在の要素 `cur` を足した値が、新しい `out` になる
-    guard_hyp out :ₛ α :=ₛ b + cur
-
-    -- このとき、現在の要素 `cur` を処理した後でも不変条件が成り立つことを示せばよい
-    guard_target =ₛ (pref ++ [cur]).sum = out
-
-    -- 証明そのものは `grind` で終わる
-    grind
+  -- 不変条件は「`out` が処理された部分の総和を保持している」こと。
+  case inv1 => exact (fun pref _ out => pref.sum = out)
 
   -- ループ開始時に不変条件が成り立つことを示す
   case vc1 =>
@@ -81,6 +60,27 @@ theorem sumImp_eq_sumFunc (l : List α) : sumDo l = List.sum l := by
     guard_hyp hr :ₛ l.sum = result
 
     -- したがって目標も成り立つ
+    grind
+
+  -- 各反復で不変条件が保たれることを示す
+  case vc3 pref cur suff hyp b ih =>
+    -- 与えられているリストは
+    -- * `pref`: for 文で既に処理された部分
+    -- * `cur`: 今回処理する要素
+    -- * `suff`: まだ処理されていない残りの部分
+    -- に分割されているという仮定がある。
+    guard_hyp hyp :ₛ l = pref ++ cur :: suff
+
+    -- そして今まで処理された部分に関しては不変条件が成り立っているという帰納法の仮定がある
+    guard_hyp ih :ₛ pref.sum = b
+
+    -- 現在の要素 `cur` を足した値が、新しい `out` になる
+    guard_hyp out :=ₛ b + cur
+
+    -- このとき、現在の要素 `cur` を処理した後でも不変条件が成り立つことを示せばよい
+    guard_target =ₛ (pref ++ [cur]).sum = out
+
+    -- 証明そのものは `grind` で終わる
     grind
 
 /- ## 構文
