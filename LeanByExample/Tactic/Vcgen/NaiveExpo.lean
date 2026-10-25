@@ -11,7 +11,7 @@ def naiveExpo (x n : Nat) : Nat := Id.run do
   return result
 
 -- `vcgen` は実験的機能だよという警告を消す
-set_option experimental.vcgen true in
+set_option experimental.vcgen true
 
 theorem naiveExpo_correct (x n : Nat) : naiveExpo x n = x ^ n := by
   generalize h : naiveExpo x n = r
@@ -23,4 +23,14 @@ theorem naiveExpo_correct (x n : Nat) : naiveExpo x n = x ^ n := by
   -- `pref.length` はこれまでにループが回った回数を表す
   -- `result` はループ内で更新される変数の値を表す
   · fun pref _ result => result = x ^ pref.length
+  all_goals simp_all +zetaDelta [Nat.pow_succ]
+
+recall naiveExpo_correct (x n : Nat) : naiveExpo x n = x ^ n := by
+  generalize h : naiveExpo x n = r
+  apply Id.of_run_eq_wp h
+
+  -- vcgen invariants を使わない場合はこうなる
+  vcgen
+  case inv1 => exact (fun pref _ result => result = x ^ pref.length)
+
   all_goals simp_all +zetaDelta [Nat.pow_succ]

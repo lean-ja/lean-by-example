@@ -85,7 +85,8 @@ theorem sumImp_eq_sumFunc (l : List α) : sumDo l = List.sum l := by
 
 /- ## 構文
 
-以下のように `vcgen invariants` という構文が用意されています。
+`vcgen` を使用した直後に不変条件を指定するという流れは定番のボイラープレートです。
+少しでも短く書けるように `vcgen invariants` という構文が用意されています。
 
 {{#include ./Vcgen/NaiveExpo.md}}
 -/
