@@ -1120,7 +1120,7 @@ var hljs=function(){"use strict";function e(n){Object.freeze(n)
         '#check #check_failure #eval #reduce #print ' +
         '#guard #guard_msgs #synth ' +
         'section namespace end infix infixl infixr postfix prefix notation abbrev ' +
-        'declare_syntax_cat grind_pattern ',
+        'declare_syntax_cat grind_pattern recall ',
       built_in:
         'Type Prop|10 Sort rw|10 rewrite rwa erw subst substs ' +
         'simp dsimp simpa finish using generalizing ' +
@@ -1138,7 +1138,7 @@ var hljs=function(){"use strict";function e(n){Object.freeze(n)
         'have replace at suffices show from ' +
         'congr congr_n congr_arg norm_num ring omega ' +
         'exists ext fail native_decide decide change obtain ' +
-        'fun_induction fun_cases grind ',
+        'fun_induction fun_cases grind vcgen ',
       literal:
         'true false',
       meta:

@@ -1,8 +1,9 @@
 import Lean
 
-set_option mvcgen.warning false
+-- vcgen は実験的機能であるという警告を消す
+set_option experimental.vcgen true
 
-open Std.Do
+open Std.WP
 
 /-- 農民の掛け算。２で割る操作と２倍する操作と足し算だけで掛け算を行う -/
 def peasantMul (x y : Nat) : Nat := Id.run do
@@ -43,9 +44,9 @@ theorem Nat.div_pow_self_two_eq_zero (n : Nat) : n / 2 ^ n = 0 := by
 
 example (x y : Nat) : peasantMul x y = x * y := by
   generalize h : peasantMul x y = s
-  apply Id.of_wp_run_eq h
+  apply Id.of_run_eq_wp h
 
-  mvcgen invariants
-  · ⇓⟨cursor, curX, curY, prod⟩ =>
-    ⌜curX = x / 2 ^ cursor.pos ∧ curX * curY + prod = x * y⌝
-  with (simp at * <;> grind)
+  vcgen invariants
+  · fun pref _ (curX, curY, prod) =>
+    curX = x / 2 ^ pref.length ∧ curX * curY + prod = x * y
+  all_goals simp at * <;> grind

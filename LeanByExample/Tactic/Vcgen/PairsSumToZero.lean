@@ -1,7 +1,8 @@
 import Std.Data.HashSet.Lemmas
 import Std.Tactic.Do
+import Std.WP
 
-open Std Do
+open Std WP
 
 variable {α : Type}
 
@@ -31,16 +32,17 @@ def pairsSumToZero (l : List Int) : Bool := Id.run do
     seen := seen.insert x
   return false
 
-set_option mvcgen.warning false
+-- `vcgen` は実験的機能だよという警告を消す
+set_option experimental.vcgen true in
 
 theorem pairsSumToZero_spec (l : List Int) :
     pairsSumToZero l = true ↔ l.Any₂ (fun a b => a + b = 0) := by
   generalize h : pairsSumToZero l = r
-  apply Id.of_wp_run_eq h
+  apply Id.of_run_eq_wp h
 
-  mvcgen invariants
-  · Invariant.withEarlyReturnNewDo
-    (onContinue := fun cursor seen =>
-      ⌜(∀ x, x ∈ seen ↔ x ∈ cursor.prefix) ∧ ¬cursor.prefix.Any₂ (fun a b => a + b = 0)⌝)
-    (onReturn := fun r b => ⌜r = true ∧ l.Any₂ (fun a b => a + b = 0)⌝)
-  with simp_all <;> grind
+  vcgen invariants
+  · Invariant.withEarlyReturnNewDo Prop
+    (onContinue := fun pref _ (seen : HashSet Int) =>
+      (∀ x, x ∈ seen ↔ x ∈ pref) ∧ ¬pref.Any₂ (fun a b => a + b = 0))
+    (onReturn := fun r _ => r = true ∧ l.Any₂ (fun a b => a + b = 0))
+  all_goals simp_all <;> grind

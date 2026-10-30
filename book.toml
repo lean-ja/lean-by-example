@@ -54,3 +54,7 @@ boost-title = 25
 # 目次の折りたたみの設定
 enable = true
 level = 0
+
+# 改名前のページへのリンクを維持する
+[output.html.redirect]
+"Tactic/Mvcgen.html" = "Vcgen.html"
