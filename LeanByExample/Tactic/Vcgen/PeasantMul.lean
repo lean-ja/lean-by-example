@@ -1,6 +1,6 @@
 import Lean
 
--- vcgen は実権的機能であるという警告を消す
+-- vcgen は実験的機能であるという警告を消す
 set_option experimental.vcgen true
 
 open Std.WP
