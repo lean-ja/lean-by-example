@@ -47,7 +47,6 @@ info: Loogle Search Results
    * `[1, 2, 3].foldl (· ++ toString ·) "" = "123"`
    * `[1, 2, 3].foldl (s!"({·} {·})") "" = "((( 1) 2) 3)"`
   ⏎
-  ⏎
   [apply] #check List.foldl_nil --  {α✝ : Type u_1} {β✝ : Type u_2} {f : α✝ → β✝ → α✝} {b : α✝} : List.foldl f b [] = b
   ⏎
   [apply] #check List.foldl_cons --  {α : Type u} {β : Type v} {a : α} {l : List α} {f : β → α → β} {b : β} : List.foldl f b (a :: l) = List.foldl f (f b a) l
@@ -79,7 +78,6 @@ info: Loogle Search Results
   * `["one", "two", "three"].map (·.length) = [3, 3, 5]`
   * `["one", "two", "three"].map (·.reverse) = ["eno", "owt", "eerht"]`
   ⏎
-  ⏎
   [apply] #check List.modifyHead --  {α : Type u} (f : α → α) : List α → List α
   Replace the head of the list with the result of applying `f` to it. Returns the empty list if the
   list is empty.
@@ -87,7 +85,6 @@ info: Loogle Search Results
   Examples:
    * `[1, 2, 3].modifyHead (· * 10) = [10, 2, 3]`
    * `[].modifyHead (· * 10) = []`
-  ⏎
   ⏎
   [apply] #check List.mapTR --  {α : Type u} {β : Type v} (f : α → β) (as : List α) : List β
   Applies a function to each element of the list, returning the resulting list of values.
@@ -100,7 +97,6 @@ info: Loogle Search Results
   * `["one", "two", "three"].mapTR (·.length) = [3, 3, 5]`
   * `["one", "two", "three"].mapTR (·.reverse) = ["eno", "owt", "eerht"]`
   ⏎
-  ⏎
   [apply] #check List.modify --  {α : Type u} (l : List α) (i : ℕ) (f : α → α) : List α
   Replaces the element at the given index, if it exists, with the result of applying `f` to it. If the
   index is invalid, the list is returned unmodified.
@@ -109,7 +105,6 @@ info: Loogle Search Results
    * `[1, 2, 3].modify 0 (· * 10) = [10, 2, 3]`
    * `[1, 2, 3].modify 2 (· * 10) = [1, 2, 30]`
    * `[1, 2, 3].modify 3 (· * 10) = [1, 2, 3]`
-  ⏎
   ⏎
   [apply] #check List.mapTR.loop --  {α : Type u} {β : Type v} (f : α → β) : List α → List β → List β
   ⏎
