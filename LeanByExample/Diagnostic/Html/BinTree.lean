@@ -59,7 +59,7 @@ private def createNodeElements (node : NodePos) (f : Frame) : RenderM (Array (El
   return #[circle, text]
 
 /-- ノードの描画テスト用の関数 -/
-private def createNodeHtml (node : NodePos) (f : Frame) : RenderM Html := do
+private def createNodeHtml (node : NodePos) (f : Frame) : RenderM ProofWidgets.Html := do
   let elements ← createNodeElements node f
   let svg : Svg f := { elements := elements }
   return svg.toHtml
@@ -76,7 +76,7 @@ private def createEdgeElement (parent child : NodePos) (f : Frame) : RenderM (El
   return element
 
 /-- エッジの描画テスト用の関数 -/
-private def createEdgeHtml (parent child : NodePos) (f : Frame) : RenderM Html := do
+private def createEdgeHtml (parent child : NodePos) (f : Frame) : RenderM ProofWidgets.Html := do
   let element ← createEdgeElement parent child f
   let svg : Svg f := { elements := #[element] }
   return svg.toHtml
@@ -122,8 +122,9 @@ def NodePos.ofPair (p : α × Nat × Nat) (step : Float) : NodePos :=
   { x := x.toFloat * step, y := y.toFloat * step, label := toString label }
 
 /-- ２分木の描画情報が与えられたときに、それを SVG 画像として描画する -/
-def BinTree.render (tree : BinTree (α × (Nat × Nat))) (f : Frame := defaultFrame) (cfg : RenderConfig := {}) : Html :=
-  let html : RenderM Html := do
+def BinTree.render (tree : BinTree (α × (Nat × Nat))) (f : Frame := defaultFrame)
+    (cfg : RenderConfig := {}) : ProofWidgets.Html :=
+  let html : RenderM ProofWidgets.Html := do
     let step := (← read).step
     let nodesArray := (← tree.toNodes
       |>.map (NodePos.ofPair (step := step))

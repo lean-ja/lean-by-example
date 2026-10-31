@@ -3,7 +3,7 @@ import ProofWidgets
 open ProofWidgets Jsx
 
 -- Markdown と TeX を表示する
-#html <MarkdownDisplay contents={"
+#html jsx%{<MarkdownDisplay contents={"
   ## Riemann zeta function
 
   The Riemann zeta function is defined as
@@ -12,4 +12,4 @@ open ProofWidgets Jsx
   $$
 
   for $\\mathrm{Re} (s) > 0$.
-"}/>
+"}/>}

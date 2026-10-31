@@ -6,13 +6,11 @@
 -/
 import ProofWidgets
 
--- JSX ライクな構文が使えるようにする
-open scoped ProofWidgets.Jsx
-
-#html <p>"ここに HTML を書きます"</p>
+-- `jsx%{...}` で JSX ライクな構文が使える
+#html jsx%{<p>"ここに HTML を書きます"</p>}
 
 -- いろんなHTMLタグを書くことができる
-#html
+#html jsx%{
   <div>
     <h3>"見出し"</h3>
     <p>
@@ -21,11 +19,13 @@ open scoped ProofWidgets.Jsx
     </p>
     <a href="https://lean-lang.org/">"リンク"</a>
   </div>
+}
 
 -- 画像も表示できる
-#html
+#html jsx%{
   <img src={"https://upload.wikimedia.org/wikipedia/commons/6/6a/Julia-set_N_z3-1.png"}
     alt="julia set"/>
+}
 
 /- ## コンポーネント紹介
 

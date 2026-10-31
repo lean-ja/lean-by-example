@@ -8,14 +8,14 @@ def List.myprod (xs : List α) : α :=
 -- 注意: 既に定義されているものが存在する
 #check List.prod
 
--- α がモノイドという仮定を足す
-variable [@Std.LawfulIdentity α (· * ·) 1]
-variable [@Std.Associative α (· * ·)]
-
 @[simp, grind =]
 theorem List.myprod_cons (x : α) (xs : List α) :
     (x :: xs).myprod = x * xs.myprod := by
   grind
+
+-- α がモノイドという仮定を足す
+variable [@Std.LawfulIdentity α (· * ·) 1]
+variable [@Std.Associative α (· * ·)]
 
 theorem List.myprod_append (xs ys : List α) :
     (xs ++ ys).myprod = xs.myprod * ys.myprod := by
