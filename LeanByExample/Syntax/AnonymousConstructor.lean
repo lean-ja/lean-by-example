@@ -45,42 +45,24 @@ structure Hoge where
 #check (⟨1, 2⟩ : Hoge)
 
 /- ## 平坦化
-コンストラクタが入れ子になっている場合でも平坦化することができます。-/
+
+コンストラクタが入れ子になっている場合、末尾側の入れ子の `⟨⟩` を省略することができます。
+-/
 
 #guard
   -- 入れ子にした場合
-  let x : Nat × (Int × String) := ⟨1, ⟨2, "hello"⟩⟩
+  let x : Nat × (Int × String) := ⟨1, ⟨-1, "hello"⟩⟩
 
   -- 平坦化した場合
-  let y : Nat × (Int × String) := ⟨1, 2, "hello"⟩
+  let y : Nat × (Int × String) := ⟨1, -1, "hello"⟩
 
   -- 両者は同じものを表している！
   x = y
 
-/- 上の例は構造体の同種のコンストラクタが入れ子になっている例ですが、`structure` コマンドで定義された型でなくても、同種のコンストラクタでもなくても、同様に平坦化することができます。 -/
+/-
+末尾側ではないと、省略できません。
+-/
 
-/-- Prod を真似て自作した帰納型 -/
-inductive MyProd (α β : Type) where
-  | mk (fst : α) (snd : β)
-deriving DecidableEq
-
--- Prod のための2項演算子
-@[inherit_doc] infixr:35 " ×ₘ " => MyProd
-
--- 平坦化ができている！
-#check (⟨1, 2, 1, 2, 1⟩ : Nat × Nat ×ₘ Nat ×ₘ Nat × Nat)
-
-/- しかし、時には平坦化ができないケースもあります。-/
-section
-
-  variable {α β : Type} (f : α → Option (α × β))
-
-  example (a : α) (h : ∃ (x : α × β), f a = some x) : True := by
-    -- 平坦化ができない
-    fail_if_success obtain ⟨a, b, hx⟩ := h
-
-    -- 代わりにネストさせると通る
-    obtain ⟨⟨a, b⟩, hx⟩ := h
-
-    trivial
-end
+#check_failure
+  let x := ⟨1, -1, "hello"⟩
+  (x : (Nat × Int) × String)
