@@ -1,4 +1,3 @@
-import Batteries.Data.String.Matcher
 import Lean.Elab.Command
 
 open Lean Elab Command
