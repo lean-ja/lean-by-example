@@ -86,3 +86,62 @@ theorem power_fixpoint : ∃ U : Set X, Φ U = U := by
 `Set X` は実数全体のように線形順序ではありませんが、順序関係自体は入っているので無理やり直線で表しています。
 このように図で示してみると、`𝒟` というのは「直線 `y = x` が `y = Φ x` より上に来ている部分」であり不動点 `U` より小さい部分全体であるというのがわかります。
 -/
+
+/- ## もう一つの証明
+
+証明のアイデアを説明する図を見ていると、新たなアイデアが湧きます。
+「不動点より小さい部分」に着目するのではなくて、「不動点より大きい部分」に着目したらどうなるでしょうか？
+実は、そのようにしても証明が双対になるだけで、問題なく証明ができます。
+-/
+
+recall power_fixpoint {X : Type} (Φ : Set X → Set X)
+  (hmono : ∀ (A B : Set X), A ⊆ B → Φ A ⊆ Φ B)
+    : ∃ U, Φ U = U := by
+  -- 「不動点より大きい部分全体」を考えてそれを集合族 ℰ とする。
+  let ℰ := { S : Set X | Φ S ⊆ S }
+
+  -- ℰ の下限をとって、それを V とする。
+  let V : Set X := ⋂ S ∈ ℰ, S
+
+  -- V の定義により、V は ℰ に対する下界になっている。
+  -- つまり ∀ S ∈ ℰ, V ⊆ S
+  have v_lower : ∀ S ∈ ℰ, V ⊆ S := by
+    intro (S : Set X) (hS : S ∈ ℰ)
+    exact Set.iInter₂_subset_of_subset (Φ S) (hmono (Φ S) S hS) hS
+
+  -- このとき V ∈ ℰ を証明できる。
+  have v_mem_e : V ∈ ℰ := by
+    -- ℰ の定義により、Φ V ⊆ V を示せばよい
+    suffices Φ V ⊆ V from by
+      assumption
+
+    -- それには、任意に S ∈ 𝒟 が与えられたとして
+    -- Φ V ⊆ S を示せばよい
+    suffices ∀ S ∈ ℰ, Φ V ⊆ S from by
+      aesop
+
+    -- そこで S ∈ ℰ が与えられたとする。
+    intro (S : Set X) (hS : S ∈ ℰ)
+
+    -- すると以下のように示せる。
+    have : Φ V ⊆ S := calc
+      _ ⊆ Φ S := by grind only
+      _ ⊆ S := by grind only [usr Set.mem_ofPred_eq]
+    assumption
+
+  -- V ∈ ℰ ということは、言い換えると Φ V ⊆ V である。
+  have v_mem_e' : Φ V ⊆ V := by grind
+
+  -- Φ の単調性から、Φ (Φ V) ⊆ Φ V である。
+  have : Φ (Φ V) ⊆ Φ V := by grind
+
+  -- これはつまり、Φ V ∈ ℰ を意味する。
+  have : Φ V ∈ ℰ := by grind
+
+  -- V は ℰ の下界だったから、
+  -- V ⊆ Φ V が成り立つ。
+  have : V ⊆ Φ V := by grind
+
+  -- したがって両方向の包含関係が示せたので、
+  -- V = Φ V である。
+  grind
