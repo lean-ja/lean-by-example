@@ -1111,7 +1111,7 @@ var hljs=function(){"use strict";function e(n){Object.freeze(n)
         'axiom constant ' +
         'partial unsafe private protected ' +
         'if then else ' +
-        'universe variable ' +
+        'universe variable include ' +
         'import open export prelude renaming hiding ' +
         'calc match with do by let extends ' +
         'for while in unless try catch finally mutual mut return continue break where rec ' +
