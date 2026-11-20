@@ -14,13 +14,16 @@ def evalMyExact? : Tactic := fun _stx => do
   -- 環境中の定数を取得し、以下の条件でフィルターする：
   -- 1. unsafe な定数ではない
   -- 2. 種類が axiom か thm（定理）のもの
-  let theorems : List Name := SMap.toList (Environment.constants env)
+  let theorems : List Name := env.constants.toList
     |>.filter (fun (_name, info) => ! ConstantInfo.isUnsafe info)
-    |>.filterMap (fun (name, _info) => do
-        let kind ← getOriginalConstKind? env name
-        match kind with
-        | .axiom | .thm => name
-        | _ => none
+    |>.filterMap (fun (name, _info) => Id.run do
+        let some kind ← getOriginalConstKind? env name
+          | return none
+        let name? :=
+          match kind with
+          | .axiom | .thm => name
+          | _ => none
+        return name?
       )
 
   -- 条件を満たす定理に対して順に試す
