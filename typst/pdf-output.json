@@ -7,7 +7,8 @@
         "pdf-engine": "typst",
         "filters": [
           "typst/exclude-pages.lua",
-          "typst/admonitions.lua"
+          "typst/admonitions.lua",
+          "typst/east-asian-typography.lua"
         ],
         "metadata": {
           "title": "Lean by Example",
@@ -17,7 +18,7 @@
           "template": "typst/book.typ",
           "papersize": "a4",
           "fontsize": "10.5pt",
-          "mainfont": "Juisee",
+          "mainfont": "Source Han Serif",
           "codefont": "Juisee",
           "margin": {
             "x": "2.5cm",

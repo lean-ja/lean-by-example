@@ -12,8 +12,9 @@
   paper: "a4",
   lang: "ja",
   region: "JP",
-  font: ("Juisee",),
+  font: ("Source Han Serif",),
   fontsize: 10.5pt,
+  headingfont: ("Noto Sans JP",),
   mathfont: none,
   codefont: ("Juisee",),
   linestretch: 1,
@@ -24,6 +25,10 @@
   pagenumbering: "1",
   doc,
 ) = {
+  let heading-blue = rgb("#174a78")
+  let rule-blue = rgb("#8fb7d8")
+  let footnote-red = rgb("#8b2635")
+
   set document(title: title)
 
   set page(
@@ -43,13 +48,13 @@
     // 長いインラインコードを含む日本語の行で、両端揃えによって
     // 字間が過度に引き伸ばされるのを防ぐ。
     justify: false,
-    leading: linestretch * 0.65em,
+    leading: linestretch * 0.70em,
   )
 
   // PDF 内外へのリンクを青色の文字と下線で示す
   let pdf-link-color = rgb("#0969da")
+  show link: set text(fill: pdf-link-color)
   show link: it => {
-    set text(fill: pdf-link-color)
     show raw.where(block: false): set text(fill: pdf-link-color)
     underline(
       stroke: 0.6pt + pdf-link-color,
@@ -58,6 +63,12 @@
     )
   }
   set heading(numbering: sectionnumbering)
+  // 番号なしの前付けや本文中の小見出しは、そのまま番号なしにする。
+  show heading.where(level: 1, outlined: true): set heading(numbering: "第1章")
+  show heading.where(level: 2, outlined: true): set heading(numbering: "1.1")
+  show heading: set text(font: headingfont, fill: heading-blue)
+  // 本文中の参照番号と脚注欄の番号を暗い赤色にする。
+  set footnote(numbering: n => text(fill: footnote-red, str(n)))
   set raw(
     syntaxes: "lean.sublime-syntax",
     theme: "lean-light.tmTheme",
@@ -105,7 +116,7 @@
   ]
 
   // Markdown の独自記法 `[!UNICODE]` に相当する Unicode 入力の補足
-  let unicode-alert-color = rgb("#0969da")
+  let unicode-alert-color = rgb("#4f46e5")
   show <unicode-alert>: it => block(
     width: 100%,
     breakable: true,
@@ -140,31 +151,127 @@
     #it.body
   ]
 
-  // x.y 形式の節見出しに下線と余白を加える。
-  // mdbook-pandoc は単独ファイルの先頭見出しだけを目次対象にするため、
-  // その見出し（outlined: true）の直前に限って改ページする。
-  show heading.where(level: 2): it => {
-    if it.outlined {
-      pagebreak(weak: true)
+  // 各項目は新しいページから始め、節番号を二重枠で囲む。
+  // mdbook-pandoc は単独ファイルの先頭見出しだけを目次対象にする。
+  show heading.where(level: 2, outlined: true): it => context {
+    pagebreak(weak: true)
+    if it.numbering == none {
+      block(
+        width: 100%,
+        breakable: false,
+        sticky: true,
+        inset: (bottom: 5pt),
+        below: 1.1em,
+        stroke: (bottom: 0.75pt + rule-blue),
+      )[#it]
+    } else {
+      block(
+        width: 100%,
+        breakable: false,
+        sticky: true,
+        below: 1.1em,
+      )[
+        #set text(weight: "bold", fill: heading-blue)
+        #set par(justify: false)
+        #grid(
+          columns: (auto, 1fr),
+          column-gutter: 8pt,
+          align: left + top,
+          box(
+            stroke: 0.5pt + heading-blue,
+            inset: 2pt,
+            box(
+              stroke: 0.5pt + heading-blue,
+              inset: (x: 6pt, y: 2pt),
+              numbering(it.numbering, ..counter(heading).at(it.location())),
+            ),
+          ),
+          block(
+            width: 100%,
+            inset: (top: 4pt, bottom: 5pt),
+            stroke: (bottom: 0.75pt + rule-blue),
+            it.body,
+          ),
+        )
+      ]
     }
-    block(
+  }
+
+  // 章の冒頭は、左揃えの章番号と大きなタイトルを上下に配置する。
+  show heading.where(level: 1): it => context {
+    pagebreak(weak: true)
+    if it.outlined and it.numbering != none {
+      block(
+        width: 100%,
+        breakable: false,
+        sticky: true,
+        inset: (top: 5mm),
+        below: 12mm,
+      )[
+        #set text(fill: heading-blue, weight: "bold")
+        #set par(justify: false)
+        #align(left)[
+          #text(size: 22pt)[第#text(size: 36pt)[#counter(heading).at(it.location()).first()]章]
+          #v(18mm)
+          #text(size: 22pt)[#it.body]
+        ]
+      ]
+    } else {
+      it
+    }
+  }
+
+  // SUMMARY の深さで変わる見出しレベルから、原稿内の ## と ### を区別する。
+  show heading.where(outlined: false): it => context {
+    let parents = query(heading.where(outlined: true).before(it.location()))
+    let base-level = if parents.len() > 0 { parents.last().level } else { 1 }
+    let source-level = it.level - base-level + 1
+
+    if source-level == 2 {
+      block(breakable: false, sticky: true)[
+        #set par(justify: false)
+        #grid(
+          columns: (auto, 1fr),
+          column-gutter: 0.5em,
+          align: left + horizon,
+          rect(width: 0.3em, height: 1em, fill: heading-blue, stroke: none),
+          it.body,
+        )
+      ]
+    } else if source-level == 3 {
+      block(breakable: false, sticky: true, text(fill: black, it.body))
+    } else {
+      it
+    }
+  }
+
+  // 目次を独立したページにする
+  // 「第」と和欧文間隔の分だけ字下げし、章と節の数字をそろえる。
+  set outline(indent: 1.375em)
+  show outline: it => {
+    set text(font: headingfont)
+    show heading.where(level: 1, outlined: false): set block(
       width: 100%,
       breakable: false,
       sticky: true,
       inset: (bottom: 5pt),
       below: 1.1em,
-      stroke: (bottom: 0.75pt + luma(65%)),
-    )[#it]
-  }
-
-  // Markdown の `#` に相当する章見出しを新しいページから始める
-  show heading.where(level: 1): it => {
-    pagebreak(weak: true)
-    it
-  }
-
-  // 目次を独立したページにする
-  show outline: it => {
+      stroke: (bottom: 0.75pt + rule-blue),
+    )
+    set outline.entry(fill: repeat(gap: 0.08em)[#text(size: 0.6em)[.]])
+    // 目次では下線を省き、章と節の書体・色で階層を示す。
+    show outline.entry.where(level: 1): entry => {
+      set text(size: 1.1em, fill: heading-blue)
+      show link: set text(fill: heading-blue)
+      show underline: underline => underline.body
+      link(entry.element.location(), entry.indented(entry.prefix(), entry.inner()))
+    }
+    show outline.entry.where(level: 2): entry => {
+      show link: set text(fill: black)
+      show underline: underline => underline.body
+      let prefix = if entry.element.numbering != none { [#entry.prefix()節] }
+      link(entry.element.location(), entry.indented(prefix, entry.inner()))
+    }
     pagebreak(weak: true)
     it
     pagebreak()
@@ -175,7 +282,7 @@
     page(numbering: none)[
       #align(center)[
         #v(25%)
-        #text(size: 24pt, weight: "bold")[#title]
+        #text(font: headingfont, size: 24pt, weight: "bold", fill: heading-blue)[#title]
 
         #if subtitle != none {
           parbreak()
