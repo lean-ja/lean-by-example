@@ -1,5 +1,6 @@
 /- # partial
-`partial` は部分関数(partial function)を定義するための修飾子です。部分関数とは、全ての入力に対しては必ずしも停止しないような関数のことです。
+
+`partial` は、Lean による再帰関数の停止性チェックを「停止性を証明することなく」抑制するための修飾子です。おそらく部分関数(partial function)に名前の由来があります。部分関数とは、ある入力に対しては停止しないような関数のことです。
 
 Lean では再帰関数も再帰的でない関数と同様に定義できますが、扱いは異なります。再帰的な関数 `f` を定義すると、Lean は `f` がすべての入力に対して必ず有限回の再帰で停止することを証明しようとします。自動的な証明が失敗すると、エラーになってしまいます。（そもそもなぜ部分関数が許可されないのかについては[部分関数を禁止するのはなぜか？](#{root}/Modifier/DecreasingBy.md#PartialNotAllowed)を参照のこと。）
 -/
@@ -38,7 +39,38 @@ partial def M (n : Nat) : Nat :=
 
 #eval M 91
 
+/- ## partial が使えないケース
+
+どんな再帰関数 `f : A → B` でも `partial` を使えば定義を通せるようになるわけではありません。
+関数型 `A → B` が空でないことがそもそも保証されていない場合、`f : A → B` の存在を認めただけで矛盾が起きるので `partial` は使えません。
+そのような場合でも定義を通すには、[`unsafe`](./Unsafe.md) を使用するとよいでしょう。
+-/
+
+variable {α : Type} in
+
+-- エラーになってしまう
+--#--
+/--
+error: failed to compile 'partial' definition `findSome`, could not prove that the type
+  {α : Type} → (Nat → Option α) → Nat → α
+is nonempty.
+
+This process uses multiple strategies:
+- It looks for a parameter that matches the return type.
+- It tries synthesizing 'Inhabited' and 'Nonempty' instances for the return type, while making every parameter into a local 'Inhabited' instance.
+- It tries unfolding the return type.
+
+If the return type is defined using the 'structure' or 'inductive' command, you can try adding a 'deriving Nonempty' clause to it.
+-/
+#guard_msgs (error) in
+--#--
+partial def findSome (as : Nat → Option α) (start : Nat) : α :=
+  match as start with
+  | some x => x
+  | none => findSome as (start + 1)
+
 /- ## 舞台裏
+
 なお、`partial` とマークされた定義を元に新たに関数を定義するとき、再度 `partial` とマークする必要はありません。 -/
 
 /-- 階乗っぽいが停止しない関数 -/
