@@ -1,21 +1,48 @@
 /- # unsafe
 
-`unsafe` は、Leanのルールを破るような操作を許可するのに使う修飾子です。
-
-たとえば、次のような帰納型は [strictly positive 要件](#{root}/Declarative/Inductive.md#StrictlyPositiveRequirement)というLeanのルールに反するのでエラーになり、定義することができません。
+`unsafe` は、Lean の健全性ルールを破るような操作を許可するのに使う修飾子です。`unsafe` を使用すると、矛盾を導きうるような危険な操作が許可されます。
 -/
 
+/- ## unsafe が破るルールの例
+
+### strictly positive 要件
+
+次のような帰納型は [strictly positive 要件](#{root}/Declarative/Inductive.md#StrictlyPositiveRequirement)というLeanのルールに反するのでエラーになり、定義することができません。
+-/
+namespace Playground --#
+
+--#--
 /--
-error: (kernel) arg #1 of 'Bad'.mk' has a non positive occurrence of the datatypes being declared
+error: (kernel) arg #1 of 'Playground.Bad.mk' has a non positive occurrence of the datatypes being declared
 -/
-#guard_msgs in --#
-inductive Bad' where
-  | mk : (Bad' → Bad') → Bad'
+#guard_msgs (error) in
+--#--
+inductive Bad where
+  | mk : (Bad → Bad) → Bad
 
+end Playground --#
 /- `unsafe` で修飾すれば定義が通るようになります。 -/
 
 unsafe inductive Bad where
   | mk : (Bad → Bad) → Bad
+
+/- ### 再帰関数の停止性
+
+通常再帰関数は停止することが証明できなければ定義ができませんが、`unsafe` を使用するとこのエラーを無視することができます。
+-/
+
+variable {α : Type}
+
+/-- 数列 `as` が `start` 以降で最初に `some _` になる値を返す -/
+unsafe def findSome (as : Nat → Option α) (start : Nat) : α :=
+  match as start with
+  | some x => x
+  | none => findSome as (start + 1)
+
+unsafe example : False := by
+  -- α が Empty でも許されるので、矛盾を示すことができる
+  let _ : Empty := findSome (α := Empty) (as := fun n => none) 0
+  grind only
 
 /- ## ptrAddrUnsafe { #ptrAddrUnsafe }
 
@@ -81,4 +108,3 @@ def fibonacci (n : Nat) : Array Nat := Id.run do
 
 /- なぜこのようなことができるのかというと、Lean が値の不要なコピーを行わないからです。具体的には、Lean は **参照カウント** がちょうど１であるような値を更新する際に、コピーして新しい値を生成する代わりに破壊的変更を行います。これを指して、Lean 言語のパラダイムのことを **Functional but in-place** と呼ぶことがあります。
 -/
-
