@@ -84,18 +84,19 @@ macro_rules
   | `({ $var:ident ∈ $s:term | $body:term }) => `(setOf (fun $var => $var ∈ $s ∧ $body))
 
 -- テスト
-#check
-  let A : Set Nat := {x | x % 2 = 0}
-  4 ∈ A
+example : 4 ∈ { x | x % 2 = 0 } := by
+  dsimp [(· ∈ ·), setOf]
 
 -- { f S | ... } という形で書けるようにする
 macro "{" f:ident s:ident " | " p:term "}" : term =>
   `(setOf (fun x => ∃ $s:ident, $p ∧ x = $f $s))
 
-#check
-  let f : Nat → Nat := fun x => 2 * x
-  let A : Set Nat := { f x | x % 4 = 0 }
-  8 ∈ A
+-- テスト
+example :
+    let f := fun (x : Nat) => 3 * x
+    12 ∈ { f x | x % 2 = 0 } := by
+  dsimp [(· ∈ ·), setOf]
+  exists 4
 
 /- ## 全射版の証明
 
