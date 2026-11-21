@@ -243,20 +243,9 @@ function extractPageDescription(html) {
 }
 
 function extractMainHtml(html) {
-  const startMarker = '<div class="content-wrap">';
-  const endMarker = '<div class="sidetoc">';
-  const start = html.indexOf(startMarker);
-
-  if (start === -1) {
-    return html;
-  }
-
-  const end = html.indexOf(endMarker, start);
-  if (end === -1) {
-    return html.slice(start + startMarker.length);
-  }
-
-  return html.slice(start + startMarker.length, end);
+  const match = html.match(/<main(?:\s[^>]*)?>([\s\S]*?)<\/main>/i);
+  // 本文が見つからない場合も、操作案内などを説明文として拾わない。
+  return match?.[1] ?? "";
 }
 
 function toPlainText(fragment) {
