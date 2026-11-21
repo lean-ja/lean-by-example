@@ -27,20 +27,17 @@ def Set (X : Type u) := X → Prop
 /-
 全射や単射は Lean に組み込みで定義されているものがあるので、これでカントールの定理のステートメントを述べることができます。
 -/
-namespace Show --#
 
-open Function
 set_option warn.sorry false --#
 
 /-- カントールの定理の全射版 -/
-theorem cantor_surjective (f : X → Set X) : ¬ Surjective f := by
+theorem cantor_surjective (f : X → Set X) : ¬ Function.Surjective f := by
   sorry
 
 /-- カントールの定理の単射版 -/
-theorem cantor_injective (f : Set X → X) : ¬ Injective f := by
+theorem cantor_injective (f : Set X → X) : ¬ Function.Injective f := by
   sorry
 
-end Show --#
 /- ## 集合の内包記法の用意
 
 このまま証明をすることもできるのですが、このままだと記号が数学での表記と違い過ぎてわかりにくいので、記法を用意します。
@@ -93,13 +90,13 @@ macro_rules
 
 /- ## 全射版の証明
 
-さて、それでは証明を書いていきましょう。全射版も単射版も証明は同じアイデアでできるのですが、全射版の方が素直に証明できるので全射版を証明しましょう。
+さて、それでは証明を書いていきましょう。全射版も単射版も証明は同じアイデアでできるのですが、まずは全射版を証明しましょう。
 -/
 
-open Function
+open Function in
 
 /-- カントールの定理の全射版 -/
-theorem cantor_surjective (f : X → Set X) : ¬ Surjective f := by
+recall cantor_surjective (f : X → Set X) : ¬ Surjective f := by
   -- 仮に全射 `f : X → Set X` が存在したとする
   intro surjf
 
@@ -110,32 +107,11 @@ theorem cantor_surjective (f : X → Set X) : ¬ Surjective f := by
   -- そこで `f t = T` となる `t : X` を取る
   obtain ⟨t, ht⟩ := surjf T
 
-  -- `t` が `T` に入るかどうかを考える。
-  -- まず、`t ∈ T` だと仮定すると矛盾が得られるので `t ∉ T` がわかる
-  have t_nmem : ¬ (t ∈ T) := by
-    -- `t ∈ T` だと仮定する
-    intro mem
-
-    -- `T` の定義から、`t ∉ f t` であるはず
-    have nmem : t ∉ f t := by
-      dsimp [T, (· ∈ ·), setOf] at mem ⊢
-      assumption
-
-    -- しかし、`f t = T` であることから、これは `t ∉ T` を意味する
-    rw [ht] at nmem
-
-    -- これは矛盾
-    contradiction
-
-  -- `T = f t` であることから、これは `t ∉ f t` を意味し、
-  -- すなわち `t ∈ T` ということになる。
-  have t_mem : t ∈ T := by
-    rw [← ht] at t_nmem
-    dsimp [T, (· ∈ ·), setOf] at *
-    assumption
-
-  -- これは矛盾
-  contradiction
+  -- ここで t ∈ T かどうかを考えると矛盾が導かれる
+  have : t ∈ T ↔ t ∉ T := calc
+    _ ↔ t ∉ f t := by rfl
+    _ ↔ t ∉ T := by rw [ht]
+  grind only
 
 /- ## 対角線論法
 
@@ -167,3 +143,25 @@ theorem cantor_surjective (f : X → Set X) : ¬ Surjective f := by
 
 このようにして得られた `T` こそ、カントールの定理（全射版）の証明で登場した `{x | x ∉ f x}` そのものです。だから、対角線論法と呼ばれるわけですね。
 -/
+
+/- ## 単射版の証明
+
+単射版は全射版の双対的な発想で証明できます。
+-/
+
+open Function in
+
+recall cantor_injective (f : Set X → X) : ¬ Injective f := by
+  -- 仮に単射 f : Set X → X が存在したとする
+  intro (injf : Injective f)
+
+  -- 対角線論法で部分集合を構成する
+  let T : Set X := { x | ∃ S : Set X, f S ∉ S ∧ x = f S }
+
+  -- このとき f T ∈ T かどうかを考えると矛盾が導かれる
+  have : f T ∈ T ↔ f T ∉ T := calc
+    _ ↔ ∃ S : Set X, f S ∉ S ∧ f T = f S := by rfl
+    _ ↔ ∃ S : Set X, f S ∉ S ∧ T = S := by grind only -- ここで単射性を使用
+    _ ↔ f T ∉ T := by grind only
+
+  grind only
