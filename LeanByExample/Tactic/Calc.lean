@@ -28,6 +28,28 @@ example : ∀ x y ε : ℝ, 0 < ε → ε ≤ 1 → |x| < ε → |y| < ε → |x
     _ = ε := by simp
   assumption
 
+/- `↔` による同値変形を `calc` で繋げることもできます。 -/
+
+open Function in
+
+/-- カントールの定理の全射版 -/
+theorem cantor_surjective (f : X → Set X) : ¬ Surjective f := by
+  -- 仮に全射 `f : X → Set X` が存在したとする
+  intro surjf
+
+  -- ここで、自分自身の `f` の像に入らないような `x : X` を集めてきてそれを `T` とする
+  let T : Set X := {x | x ∉ f x}
+
+  -- `f` は全射だと仮定したので、`T` は `f` の像にあるはず
+  -- そこで `f t = T` となる `t : X` を取る
+  obtain ⟨t, ht⟩ := surjf T
+
+  -- ここで t ∈ T かどうかを考えると矛盾が導かれる
+  have : t ∈ T ↔ t ∉ T := calc
+    _ ↔ t ∉ f t := by rfl
+    _ ↔ t ∉ T := by rw [ht]
+  grind only
+
 /- ## カスタマイズ
 自前で定義した二項関係も、`Trans` 型クラスのインスタンスにすれば `calc` で推移律を連鎖させることができます。（ただし、細かいですが、推移律を連鎖させることが必要なければ `Trans` 型クラスのインスタンスでなくても `calc` は使えます）-/
 
@@ -76,7 +98,7 @@ instance : Trans same_abs same_abs same_abs where
   trans := same_abs_trans
 
 -- same_abs についても calc が使えるようになった！
-example {x y z : Int}(hxy : x ≡ y)(h : y = z) : x ≡ z := calc
+example {x y z : Int} (hxy : x ≡ y) (h : y = z) : x ≡ z := calc
   x ≡ y := hxy
   _ ≡ z := by rw [h]
 
