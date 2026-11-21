@@ -88,6 +88,15 @@ macro_rules
   let A : Set Nat := {x | x % 2 = 0}
   4 ∈ A
 
+-- { f S | ... } という形で書けるようにする
+macro "{" f:ident s:ident " | " p:term "}" : term =>
+  `(setOf (fun x => ∃ $s:ident, $p ∧ x = $f $s))
+
+#check
+  let f : Nat → Nat := fun x => 2 * x
+  let A : Set Nat := { f x | x % 4 = 0 }
+  8 ∈ A
+
 /- ## 全射版の証明
 
 さて、それでは証明を書いていきましょう。全射版も単射版も証明は同じアイデアでできるのですが、まずは全射版を証明しましょう。
@@ -156,7 +165,7 @@ recall cantor_injective (f : Set X → X) : ¬ Injective f := by
   intro (injf : Injective f)
 
   -- 対角線論法で部分集合を構成する
-  let T : Set X := { x | ∃ S : Set X, f S ∉ S ∧ x = f S }
+  let T : Set X := { f S | f S ∉ S }
 
   -- このとき f T ∈ T かどうかを考えると矛盾が導かれる
   have : f T ∈ T ↔ f T ∉ T := calc
