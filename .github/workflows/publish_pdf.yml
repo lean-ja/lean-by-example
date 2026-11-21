@@ -2,7 +2,8 @@ name: PDF
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  # main のリリース更新を途中で中断しない。
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 on:
   pull_request:
@@ -23,6 +24,8 @@ env:
 jobs:
   build_pdf:
     runs-on: ubuntu-latest
+    outputs:
+      artifact-name: ${{ steps.pdf-artifact.outputs.name }}
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -92,3 +95,56 @@ jobs:
           name: ${{ steps.pdf-artifact.outputs.name }}
           path: ${{ steps.pdf-artifact.outputs.path }}
           if-no-files-found: error
+
+  publish_pdf:
+    needs: build_pdf
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download PDF
+        uses: actions/download-artifact@v8
+        with:
+          name: ${{ needs.build_pdf.outputs.artifact-name }}
+          path: pdf
+
+      - name: Publish latest PDF
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          PDF_ARTIFACT_NAME: ${{ needs.build_pdf.outputs.artifact-name }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          # 古い実行の再実行などで latest を過去のコミットへ戻さない。
+          main_sha="$(gh api "repos/$GH_REPO/commits/main" --jq .sha)"
+          if [[ "$GITHUB_SHA" != "$main_sha" ]]; then
+            echo "Skip publication: this PDF is not from the current main commit."
+            exit 0
+          fi
+
+          # ダウンロード URL を固定するため、リリースでは常に book.pdf を使う。
+          cp "pdf/$PDF_ARTIFACT_NAME" pdf/book.pdf
+
+          tag_count="$(gh api "repos/$GH_REPO/git/matching-refs/tags/latest" \
+            --jq '[.[] | select(.ref == "refs/tags/latest")] | length')"
+          if [[ "$tag_count" == 0 ]]; then
+            gh api --method POST "repos/$GH_REPO/git/refs" \
+              -f ref=refs/tags/latest -f sha="$GITHUB_SHA"
+          else
+            gh api --method PATCH "repos/$GH_REPO/git/refs/tags/latest" \
+              -f sha="$GITHUB_SHA" -F force=true
+          fi
+
+          release_id="$(gh api --paginate "repos/$GH_REPO/releases" \
+            --jq '.[] | select(.tag_name == "latest") | .id')"
+          printf 'main の最新 PDF です。\n\n対象コミット: %s\n' "$GITHUB_SHA" > release-notes.md
+          if [[ -z "$release_id" ]]; then
+            gh release create latest pdf/book.pdf --verify-tag \
+              --title latest --notes-file release-notes.md --latest
+          else
+            gh release upload latest pdf/book.pdf --clobber
+            gh release edit latest --title latest --notes-file release-notes.md --latest
+          fi
