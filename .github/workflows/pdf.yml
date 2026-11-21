@@ -1,16 +1,11 @@
 name: PDF
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: pdf-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 on:
-  pull_request:
-    branches:
-      - main
-  push:
-    branches:
-      - main
+  workflow_call:
   workflow_dispatch:
 
 permissions:
@@ -23,6 +18,7 @@ env:
 jobs:
   build_pdf:
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -31,6 +27,11 @@ jobs:
         uses: leanprover/lean-action@v1
         with:
           auto-config: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '22'
 
       - name: Install mdBook and mdbook-pandoc
         run: |
@@ -77,18 +78,12 @@ jobs:
       - name: Build PDF
         run: lake run build_pdf
 
-      - name: Name PDF artifact
-        id: pdf-artifact
-        run: |
-          timestamp="$(TZ=Asia/Tokyo date +'%Y-%m-%d-%H%M%S')"
-          filename="book-${timestamp}.pdf"
-          mv typst/book.pdf "typst/${filename}"
-          printf 'name=%s\n' "$filename" >> "$GITHUB_OUTPUT"
-          printf 'path=typst/%s\n' "$filename" >> "$GITHUB_OUTPUT"
+      - name: Prepare PDF artifact
+        run: node scripts/preparePdfDownload.mjs artifact
 
       - name: Upload PDF
         uses: actions/upload-artifact@v7
         with:
-          name: ${{ steps.pdf-artifact.outputs.name }}
-          path: ${{ steps.pdf-artifact.outputs.path }}
+          name: pdf
+          path: ./pdf-artifact/*
           if-no-files-found: error

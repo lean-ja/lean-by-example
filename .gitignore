@@ -1,6 +1,8 @@
 # mdbook に関連するもの
 book
 booksrc/*
+# PDF のジョブ間受け渡し用の成果物
+/pdf-artifact/
 # macOS leaves these files everywhere:
 .DS_Store
 # Created by `lake exe cache get` if no home directory is available

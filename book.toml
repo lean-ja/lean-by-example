@@ -17,6 +17,8 @@ additional-js = [
   "assets/blockPlay.js",
   # ページごとに実行ボタンを表示する
   "assets/filePlay.js",
+  # 公開済み PDF があれば印刷ボタンをダウンロードリンクにする
+  "assets/downloadPdf.js",
   # 検索機能を改善し、日本語で検索できるようにする
   "assets/fzf.umd.js", "assets/elasticlunr.js",
   # 見出しをMathlhib4Helpへの外部リンクに変換する
