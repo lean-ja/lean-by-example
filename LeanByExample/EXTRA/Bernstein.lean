@@ -194,8 +194,7 @@ theorem cantor_bernstein (injf : Injective f) (injg : Injective g) : ∃ h : A �
   · -- 全射性: f '' U の内側は f で、外側は g の逆向きの対応で覆う。
     intro b
     by_cases hb : b ∈ f '' U
-    · obtain ⟨a, ha, rfl⟩ := hb
-      exact ⟨a, h_on a ha⟩
+    · grind
     · have hgb : g b ∉ U := by
         exact (Set.ext_iff.mp hU (g b)).mpr ⟨b, hb, rfl⟩
-      exact ⟨g b, injg (h_off (g b) hgb).2⟩
+      grind only
