@@ -94,7 +94,7 @@ theorem power_fixpoint : ∃ U : Set X, Φ U = U := by
 
 これは次のように図を描いてみるとわかりやすくなります。
 
-![不動点の図](./PowerFixPoint/fixed_point.svg)
+![不動点の図](./Bernstein/fixed_point.svg)
 
 ここで横軸と縦軸は、ともに `Set X` を表しています。
 `Set X` は実数全体のように線形順序ではありませんが、順序関係自体は入っているので無理やり直線で表しています。
@@ -203,3 +203,15 @@ theorem cantor_bernstein (injf : Injective f) (injg : Injective g) : ∃ h : A �
     · have hgb : g b ∉ U := by
         exact (Set.ext_iff.mp hU (g b)).mpr ⟨b, hb, rfl⟩
       grind only
+
+/-
+上記の形式証明を見ていると分かりにくいですが、アイデアは単純です。
+
+![図式](./Bernstein/diagram.png)
+
+`f : A → B` は単射なので始域を `S ⊆ A` に制限すると `S ≃ f(S)` という全単射が誘導されます。
+`g : B → A` も単射なので、逆関数を取ることで `g⁻¹ : g(B) → B` という全単射が誘導されます。
+これを `S ⊆ A` を上手に取ることで張り合わせられるかを考えるわけですが、そのための条件が `g(B \ f(S)) = A \ S` です。
+
+上記の証明では、これを満たす `S ⊆ A` を不動点定理を用いて構成しているのです。
+-/
