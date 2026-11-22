@@ -1,8 +1,17 @@
-/- # 冪集合上での不動点定理
+/- # Cantor-Bernstein の定理
 
-本項では以下の定理を証明します。
+本稿では以下の定理を証明します。
 
-> **定理**: 冪集合上の不動点定理
+> **定理**: Cantor-Bernstein の定理
+>
+> 単射 `f : A → B` と単射 `g : B → A` があるとする。
+> このとき全単射 `h : A → B` が存在する。
+
+## 補題: 冪集合上の単調関数の不動点定理
+
+補題として次の定理を使用するので証明します。
+
+> **定理**: 冪集合上の単調関数の不動点定理
 >
 > `X` を集合とし、`Φ : Set X → Set X` を冪集合上の単調写像とする。
 > つまり任意の集合 `A, B : Set X` に対して `A ⊆ B → Φ A ⊆ Φ B` が成り立つとする。
@@ -10,7 +19,7 @@
 -/
 
 /-
-## 定理の証明
+### 証明
 
 以下のように、具体的に不動点となる部分集合 `U : Set X` を構成することができます。
 -/
@@ -22,7 +31,7 @@ variable {X : Type} (Φ : Set X → Set X)
 variable (hmono : ∀ A B : Set X, A ⊆ B → Φ A ⊆ Φ B)
 
 -- そのままだと仮定(定理の引数)に含まれないので include する
-include hmono
+include hmono in
 
 theorem power_fixpoint : ∃ U : Set X, Φ U = U := by
   -- 集合族 𝒟 を以下のように定義する。
@@ -74,7 +83,7 @@ theorem power_fixpoint : ∃ U : Set X, Φ U = U := by
   -- Φ U = U である。
   grind only
 
-/- ## 証明のアイデア
+/- ### 証明のアイデア
 
 上記の証明において集合族 `𝒟 := { S : Set X | S ⊆ Φ S }` を考えてその上限 `U := ⋃ S ∈ 𝒟, S` を定義するのがキモでしたが、これはどのようにすれば思いつくのでしょうか？
 
@@ -87,7 +96,7 @@ theorem power_fixpoint : ∃ U : Set X, Φ U = U := by
 このように図で示してみると、`𝒟` というのは「不動点 `U` より小さい部分全体」であるというのがわかります。
 -/
 
-/- ## もう一つの証明
+/- ### もう一つの証明
 
 証明のアイデアを説明する図を見ていると、新たなアイデアが湧きます。
 「不動点より小さい部分」に着目するのではなくて、「不動点より大きい部分」に着目したらどうなるでしょうか？
@@ -145,3 +154,47 @@ recall power_fixpoint {X : Type} (Φ : Set X → Set X)
   -- したがって両方向の包含関係が示せたので、
   -- V = Φ V である。
   grind
+
+/- ## 定理の証明
+
+不動点定理を使って、メインの定理を証明します。
+-/
+
+variable {A B : Type}
+variable (f : A → B) (g : B → A)
+
+open Function in
+
+theorem cantor_bernstein (injf : Injective f) (injg : Injective g) : ∃ h : A → B, Bijective h := by
+  -- Φ という集合関数を次のように定義する
+  let Φ : Set A → Set A := fun S => (g '' (f '' S)ᶜ)ᶜ
+
+  -- このとき Φ は単調
+  have hΦ : ∀ S T : Set A, S ⊆ T → Φ S ⊆ Φ T := by grind
+
+  -- 不動点定理を適用して Φ U = U となる U を構成する。
+  obtain ⟨U, hU⟩ := power_fixpoint Φ hΦ
+  replace hU : Uᶜ = g '' (f '' U)ᶜ := by grind
+  have houtside : ∀ a ∉ U, ∃ b, b ∉ f '' U ∧ g b = a := by
+    exact fun a ha => (Set.ext_iff.mp hU a).mp ha
+
+  -- U 上では f、それ以外では g の逆向きの対応を使って h を構成する。
+  classical
+  let h : A → B := fun a =>
+    if ha : a ∈ U then f a else (houtside a ha).choose
+  have h_on (a : A) (ha : a ∈ U) : h a = f a := by
+    simp [h, ha]
+  have h_off (a : A) (ha : a ∉ U) : h a ∉ f '' U ∧ g (h a) = a := by
+    simpa [h, ha] using (houtside a ha).choose_spec
+
+  refine ⟨h, ?_, ?_⟩
+  · -- 単射性: U の内外の像は重ならず、それぞれの部分で単射になる。
+    intro a₁ a₂ heq
+    grind only [Injective, Set.mem_image]
+  · -- 全射性: f '' U の内側は f で、外側は g の逆向きの対応で覆う。
+    intro b
+    by_cases hb : b ∈ f '' U
+    · grind
+    · have hgb : g b ∉ U := by
+        exact (Set.ext_iff.mp hU (g b)).mpr ⟨b, hb, rfl⟩
+      grind only

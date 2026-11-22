@@ -306,6 +306,6 @@
   - [天使と悪魔の論理パズル](./EXTRA/AngelAndDevil.md)
   - [末尾再帰](./EXTRA/TailRec.md)
   - [列挙型に対する ToString インスタンスの自動生成](./EXTRA/EnumToString.md)
-  - [冪集合上での不動点定理](./EXTRA/PowerFixPoint.md)
+  - [Cantor-Bernsteinの定理](./EXTRA/Bernstein.md)
 
 -/
