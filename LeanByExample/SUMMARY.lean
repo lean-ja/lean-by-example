@@ -307,5 +307,6 @@
   - [末尾再帰](./EXTRA/TailRec.md)
   - [列挙型に対する ToString インスタンスの自動生成](./EXTRA/EnumToString.md)
   - [Cantor-Bernsteinの定理](./EXTRA/Bernstein.md)
+  - [Lawvere の不動点定理](./EXTRA/Lawvere.md)
 
 -/
