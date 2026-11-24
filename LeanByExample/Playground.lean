@@ -16,12 +16,14 @@ instance : Membership α (Set α) where
 
 /-- ⊔ のための記法クラス -/
 class Sup (α : Type u) where
+  /-- 上限（最小上界） -/
   sup : α → α → α
 
 infixl:65 " ⊔ " => Sup.sup
 
 /-- ⊓ のための記法クラス -/
 class Inf (α : Type u) where
+  /-- 下限（最大下界） -/
   inf : α → α → α
 
 infixl:70 " ⊓ " => Inf.inf
@@ -47,6 +49,22 @@ variable [IsLattice L]
 -- 最終的にいるかどうかは不明
 theorem Lattice.sup_ub (x y : L) : x ≤ x ⊔ y := by
   grind only [usr IsLattice.sup_le_iff]
+
+/- ## 完備束 -/
+
+class SetSup (α : Type) where
+  /-- 集合の上限 -/
+  sSup : Set α → α
+
+@[inherit_doc]
+prefix:110 "⨆ " => SetSup.sSup
+
+class SetInf (α : Type) where
+  /-- 集合の下限 -/
+  sInf : Set α → α
+
+@[inherit_doc]
+prefix:110 "⨅ " => SetInf.sInf
 
 /-
 ## 鎖
