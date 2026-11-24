@@ -78,7 +78,7 @@
   - [decreasing_by: 関数の停止性を示す](./Modifier/DecreasingBy.md)
   - [local: 有効範囲をセクションで限定](./Modifier/Local.md)
   - [noncomputable: 計算不能にする](./Modifier/Noncomputable.md)
-  - [partial_fixpoint: 証明に使える部分関数を定義する](./Modifier/PartialFixpoint.md)
+  - [partial_fixpoint: 停止性チェックを抑制しつつ、証明には使えるようにする](./Modifier/PartialFixpoint.md)
   - [partial: 停止性チェックを抑制する](./Modifier/Partial.md)
   - [private: 定義を不可視にする](./Modifier/Private.md)
   - [protected: 名前空間名の省略を防ぐ](./Modifier/Protected.md)
