@@ -66,6 +66,13 @@ class SetInf (α : Type) where
 @[inherit_doc]
 prefix:110 "⨅ " => SetInf.sInf
 
+/-- 完備束 -/
+class CompleteLattice (α : Type) [LE α] [Sup α] [Inf α] [SetSup α] [SetInf α] extends IsLattice α where
+  /-- 任意の部分集合は上限を持つ -/
+  ssup_le_iff (S : Set α) (a : α) : ⨆ S ≤ a ↔ ∀ s ∈ S, s ≤ a
+  /-- 任意の部分集合は下限を持つ -/
+  le_sinf_iff (S : Set α) (a : α) : a ≤ ⨅ S ↔ ∀ s ∈ S, a ≤ s
+
 /-
 ## 鎖
 
