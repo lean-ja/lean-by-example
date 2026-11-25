@@ -28,8 +28,10 @@ class Inf (α : Type u) where
 
 infixl:70 " ⊓ " => Inf.inf
 
+variable (α : Type) [LE α] [Sup α] [Inf α]
+
 /-- 束 -/
-class IsLattice (α : Type u) [LE α] [Sup α] [Inf α] extends Std.IsPartialOrder α where
+class IsLattice extends Std.IsPartialOrder α where
   /-- 任意の2元は上限を持つ -/
   sup_le_iff (a b c : α) : a ⊔ b ≤ c ↔ a ≤ c ∧ b ≤ c
   /-- 任意の2元は下限を持つ -/
@@ -37,18 +39,6 @@ class IsLattice (α : Type u) [LE α] [Sup α] [Inf α] extends Std.IsPartialOrd
 
 grind_pattern IsLattice.sup_le_iff => a ⊔ b, _ ≤ c
 grind_pattern IsLattice.le_inf_iff => a ⊓ b, c ≤ _
-
-/-
-## 束の基本的性質
--/
-
-variable {L : Type}
-variable [LE L] [Sup L] [Inf L]
-variable [IsLattice L]
-
--- 最終的にいるかどうかは不明
-theorem Lattice.sup_ub (x y : L) : x ≤ x ⊔ y := by
-  grind only [usr IsLattice.sup_le_iff]
 
 /- ## 完備束 -/
 
@@ -66,11 +56,25 @@ class SetInf (α : Type) where
 @[inherit_doc]
 prefix:110 "⨅ " => SetInf.sInf
 
+variable [SetSup α] [SetInf α]
+
 /-- 完備束 -/
-class CompleteLattice (α : Type) [LE α] [Sup α] [Inf α] [SetSup α] [SetInf α] extends IsLattice α where
+class CompleteLattice extends IsLattice α where
   /-- 任意の部分集合は上限を持つ -/
   ssup_le_iff (S : Set α) (a : α) : ⨆ S ≤ a ↔ ∀ s ∈ S, s ≤ a
   /-- 任意の部分集合は下限を持つ -/
   le_sinf_iff (S : Set α) (a : α) : a ≤ ⨅ S ↔ ∀ s ∈ S, a ≤ s
 
 grind_pattern CompleteLattice.ssup_le_iff => ⨆ S, _ ≤ a
+grind_pattern CompleteLattice.le_sinf_iff => ⨅ S, a ≤ _
+
+/-
+## 完備束上の不動点定理
+-/
+
+-- 以下 α は完備束とする
+variable [CompleteLattice α]
+
+theorem fixpoint (f : α → α) (hmono : ∀ a b : α, a ≤ b → f a ≤ f b) :
+    ∃ u : α, f u = u := by
+  sorry
