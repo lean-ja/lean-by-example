@@ -73,31 +73,4 @@ class CompleteLattice (α : Type) [LE α] [Sup α] [Inf α] [SetSup α] [SetInf 
   /-- 任意の部分集合は下限を持つ -/
   le_sinf_iff (S : Set α) (a : α) : a ≤ ⨅ S ↔ ∀ s ∈ S, a ≤ s
 
-/-
-## 鎖
-
-> **定義**: 鎖
-> 半順序集合 `(P, ≤)` において `C ⊆ P` が鎖(chain)であるとは、`C` の任意の2要素が比較可能であることをいいます。
-
--/
-
-variable {P : Type} [LE P]
-
-def IsChain (C : Set P) :=
-  ∀ x ∈ C, ∀ y ∈ C, x ≤ y ∨ y ≤ x
-
-/-
-## 上限
--/
-
-/-- u は S ⊆ P の上界 -/
-def IsUpperBound (S : Set P) (u : P) : Prop :=
-  ∀ s ∈ S, s ≤ u
-
-/-- u は S ⊆ P の上限 -/
-structure IsSup (S : Set P) (u : P) : Prop where
-  /-- u は S の上界である -/
-  ub : IsUpperBound S u
-
-  /-- u は S の上界の中で最小 -/
-  min_ub : ∀ s ∈ S, IsUpperBound S s → u ≤ s
+grind_pattern CompleteLattice.ssup_le_iff => ⨆ S, _ ≤ a
