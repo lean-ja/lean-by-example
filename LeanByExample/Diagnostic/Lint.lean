@@ -7,7 +7,7 @@
 
 Lean のリンターには他に、[構文リンター(syntax linter)](#{root}/Type/Linter.md)があります。
 -/
-import Batteries.Tactic.Lint
+import Batteries.Linter
 
 -- ドキュメントコメントのない定理
 theorem hoge : True := by trivial
@@ -41,12 +41,12 @@ open Lean Batteries Tactic Lint
 
 /-- `bad` という文字が入っている宣言を検出する、意味のないリンター -/
 @[env_linter]
-meta def findBad : Batteries.Tactic.Lint.Linter where
+meta def findBad : Batteries.Linter where
   noErrorsFound := "no bad declarations found."
   errorsFound := "BAD DECLARATIONS FOUND:"
   test declName := do
     -- 自動生成された宣言などを無視したければここで除外
-    if ← isAutoDecl declName then
+    if ← Linter.isAutoDecl declName then
       return none
 
     -- declName を調べる
